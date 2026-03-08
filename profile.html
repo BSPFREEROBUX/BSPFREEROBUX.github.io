@@ -4,22 +4,57 @@
 <meta charset="UTF-8">
 <title>Profile</title>
 <link rel="stylesheet" href="styles.css">
+
 <style>
+
 .profileCard{
-max-width:600px;
+max-width:650px;
 margin:auto;
 padding:25px;
 border-radius:10px;
 background:rgba(0,0,0,0.25);
 }
-.profileRow{
-margin-top:12px;
-font-size:16px;
-}
-.profileTitle{
-font-size:26px;
+
+.profileName{
+font-size:28px;
 margin-bottom:10px;
 }
+
+.roleIcons{
+font-size:22px;
+margin-left:6px;
+cursor:pointer;
+}
+
+.tooltip{
+position:absolute;
+padding:4px 8px;
+border-radius:5px;
+font-size:12px;
+display:none;
+pointer-events:none;
+}
+
+.staffTip{
+background:#333;
+color:#ccc;
+}
+
+.supportTip{
+background:#ffd700;
+color:#ffd700;
+}
+
+.adminTip{
+background:#3498db;
+color:#3498db;
+}
+
+.row{
+margin-top:14px;
+font-size:16px;
+}
+
 </style>
 </head>
 
@@ -35,11 +70,13 @@ margin-bottom:10px;
 
 <div class="wrapper" style="margin-top:80px">
 
-<div class="profileCard" id="profileBox">
+<div id="profileBox" class="profileCard">
 Loading profile...
 </div>
 
 </div>
+
+<div id="tooltip" class="tooltip"></div>
 
 <script src="theme.js"></script>
 
@@ -53,13 +90,55 @@ return (await r.text()).trim()
 }
 
 function getUsername(){
-const params=new URLSearchParams(window.location.search)
+const params=new URLSearchParams(location.search)
 return params.get("username")
 }
 
 async function safeJson(res){
-const text=await res.text()
-try{return JSON.parse(text)}catch{return null}
+const t=await res.text()
+try{return JSON.parse(t)}catch{return null}
+}
+
+function showTip(text,type,x,y){
+
+const tip=document.getElementById("tooltip")
+
+tip.innerText=text
+
+tip.className="tooltip"
+
+if(type==="staff") tip.classList.add("staffTip")
+if(type==="support") tip.classList.add("supportTip")
+if(type==="admin") tip.classList.add("adminTip")
+
+tip.style.left=x+10+"px"
+tip.style.top=y+10+"px"
+tip.style.display="block"
+
+}
+
+function hideTip(){
+tooltip.style.display="none"
+}
+
+function createRoleIcons(p){
+
+let icons=""
+
+if(p.support || p.admin){
+icons+=`<span class="roleIcons" onmousemove="showTip('Staff Member','staff',event.pageX,event.pageY)" onmouseleave="hideTip()">⚒️</span>`
+}
+
+if(p.support){
+icons+=`<span class="roleIcons" onmousemove="showTip('Support','support',event.pageX,event.pageY)" onmouseleave="hideTip()">🎗️</span>`
+}
+
+if(p.admin){
+icons+=`<span class="roleIcons" onmousemove="showTip('Administrator','admin',event.pageX,event.pageY)" onmouseleave="hideTip()">💎</span>`
+}
+
+return icons
+
 }
 
 async function loadProfile(){
@@ -95,28 +174,34 @@ if(data.linked){
 discord=data.linked.username || data.linked.id
 }
 
-profileBox.innerHTML=`
-<div class="profileTitle">${data.username}</div>
+const icons=createRoleIcons(data.permissions)
 
-<div class="profileRow">
+profileBox.innerHTML=`
+
+<div class="profileName">
+${data.username} ${icons}
+</div>
+
+<div class="row">
 <b>Account Created:</b><br>
 ${new Date(data.created).toLocaleString()}
 </div>
 
-<div class="profileRow">
-<b>Discord Account:</b><br>
+<div class="row">
+<b>Discord:</b><br>
 ${discord}
 </div>
 
-<div class="profileRow">
+<div class="row">
 <b>Quests Completed:</b><br>
 ${data.questsCompleted}
 </div>
 
-<div class="profileRow">
+<div class="row">
 <b>Total Earnings:</b><br>
 ${earningsHTML}
 </div>
+
 `
 
 }
