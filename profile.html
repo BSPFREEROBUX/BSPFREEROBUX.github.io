@@ -55,6 +55,28 @@ margin-top:14px;
 font-size:16px;
 }
 
+.searchBox{
+max-width:650px;
+margin:auto;
+margin-bottom:20px;
+display:flex;
+gap:10px;
+}
+
+.searchBox input{
+flex:1;
+padding:10px;
+border-radius:6px;
+border:none;
+}
+
+.searchBox button{
+padding:10px 16px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -70,8 +92,13 @@ font-size:16px;
 
 <div class="wrapper" style="margin-top:80px">
 
+<div class="searchBox">
+<input id="searchUser" placeholder="Enter username">
+<button onclick="searchProfile()">Search</button>
+</div>
+
 <div id="profileBox" class="profileCard">
-Loading profile...
+Search for a user to view their profile
 </div>
 
 </div>
@@ -141,6 +168,12 @@ return icons
 
 }
 
+async function searchProfile(){
+const username=document.getElementById("searchUser").value.trim()
+if(!username) return
+location.href="profile.html?username="+encodeURIComponent(username)
+}
+
 async function loadProfile(){
 
 backend=await getBackend()
@@ -148,9 +181,11 @@ backend=await getBackend()
 const username=getUsername()
 
 if(!username){
-profileBox.innerHTML="No username provided"
+profileBox.innerHTML="Search for a user to view their profile"
 return
 }
+
+document.getElementById("searchUser").value=username
 
 const r=await fetch(backend+"/profile?username="+encodeURIComponent(username))
 const data=await safeJson(r)
@@ -205,6 +240,10 @@ ${earningsHTML}
 `
 
 }
+
+document.getElementById("searchUser").addEventListener("keypress",e=>{
+if(e.key==="Enter") searchProfile()
+})
 
 loadProfile()
 
