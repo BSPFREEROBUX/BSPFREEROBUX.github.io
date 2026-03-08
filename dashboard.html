@@ -108,29 +108,29 @@ async function init(){
 
     userDisplay.textContent = "Logged in as: " + data.username
 
-if(data.linkedDiscord){
+    if(data.linkedDiscord){
 
-  const discordName = data.linkedDiscord.username || "Unknown User"
+      const discordName = data.linkedDiscord.username || "Unknown User"
 
-  linkCodeBox.innerHTML = `
-    <b>Discord Linked</b><br>
-    Account: ${discordName}<br>
-    ID: ${data.linkedDiscord.id}
-  `
+      linkCodeBox.innerHTML = `
+        <b>Discord Linked</b><br>
+        Account: ${discordName}<br>
+        ID: ${data.linkedDiscord.id}
+      `
 
-} else if(data.linkCode){
+    } else if(data.linkCode){
 
-  linkCodeBox.innerHTML = `
-    <b>Your Link Code</b><br>
-    ${data.linkCode}<br>
-    <small>Use this with /linkdiscord in Discord</small>
-  `
+      linkCodeBox.innerHTML = `
+        <b>Your Link Code</b><br>
+        ${data.linkCode}<br>
+        <small>Use this with /linkdiscord in Discord</small>
+      `
 
-} else {
+    } else {
 
-  linkCodeBox.innerHTML = "<b>No link code found</b>"
+      linkCodeBox.innerHTML = "<b>No link code found</b>"
 
-}
+    }
 
     await loadQuests()
   }
@@ -229,19 +229,19 @@ function updateTimer(seconds){
 }
 
 function openSupportPopup(){
-document.getElementById("supportPopup").style.display="flex"
+  document.getElementById("supportPopup").style.display="flex"
 }
 
 function closeSupportPopup(){
-document.getElementById("supportPopup").style.display="none"
+  document.getElementById("supportPopup").style.display="none"
 }
 
 function openDiscordSupport(){
-window.open("https://discord.gg/YOUR_INVITE","_blank")
+  window.open("https://discord.com/channels/1435017648751513713/1442140583220215949","_blank")
 }
 
 function openWebsiteSupport(){
-location.href="Support.html"
+  location.href="Support.html"
 }
 
 function logout(){
