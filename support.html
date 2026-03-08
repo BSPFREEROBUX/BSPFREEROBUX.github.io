@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Support</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="topbar">
+<div id="userDisplay"></div>
+<div class="icons">
+<span onclick="location.href='dashboard.html'">Dashboard</span>
+<span onclick="logout()">Logout</span>
+</div>
+</div>
+
+<div class="wrapper" style="margin-top:80px">
+
+<h2>Open Ticket</h2>
+
+<div class="quest-card">
+<input id="ticketTitle" placeholder="Title" style="width:100%;margin-bottom:10px">
+<textarea id="ticketReason" placeholder="Reason / Description" style="width:100%;margin-bottom:10px"></textarea>
+<textarea id="ticketInfo" placeholder="More Info" style="width:100%;margin-bottom:10px"></textarea>
+<button onclick="createTicket()">Create Ticket</button>
+</div>
+
+<h2 style="margin-top:30px">Your Tickets</h2>
+<div id="myTickets"></div>
+
+<h2 style="margin-top:30px">All Tickets</h2>
+<div id="allTickets" style="display:none"></div>
+
+</div>
+
+<script>
+let backend=null
+let token=null
+let user=null
+let permissions=null
+
+async function getBackend(){
+const r=await fetch("server.txt")
+return (await r.text()).trim()
+}
+
+async function safeJson(res){
+const t=await res.text()
+try{return JSON.parse(t)}catch{return null}
+}
+
+async function loadPermissions(){
+const r=await fetch("permissions.json")
+permissions=await r.json()
+}
+
+function hasSupport(){
+return permissions.permissions.Support.includes(user.username)||permissions.permissions.Administrator.includes(user.username)
+}
+
+function hasAdmin(){
+return permissions.permissions.Administrator.includes(user.username)
+}
+
+async function init(){
+
+backend=await getBackend()
+token=localStorage.getItem("authToken")
+if(!token) location.href="login.html"
+
+await loadPermissions()
+
+const r=await fetch(backend+"/me",{headers:{Authorization:token}})
+user=await safeJson(r)
+
+if(!user||user.error) location.href="login.html"
+
+userDisplay.textContent="Logged in as: "+user.username
+
+if(hasSupport())
+document.getElementById("allTickets").style.display="block"
+
+loadTickets()
+
+}
+
+async function createTicket(){
+
+const title=document.getElementById("ticketTitle").value.trim()
+const reason=document.getElementById("ticketReason").value.trim()
+const info=document.getElementById("ticketInfo").value.trim()
+
+const r=await fetch(backend+"/support/create",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({title,reason,info})
+})
+
+loadTickets()
+
+}
+
+async function loadTickets(){
+
+const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
+const data=await safeJson(r)
+if(!data) return
+
+renderTickets(data.mine,"myTickets")
+
+if(hasSupport())
+renderTickets(data.all,"allTickets")
+
+}
+
+function renderTickets(list,containerId){
+
+const container=document.getElementById(containerId)
+container.innerHTML=""
+
+if(!list||!list.length){
+container.innerHTML="<p>No tickets</p>"
+return
+}
+
+list.forEach(t=>{
+
+const box=document.createElement("div")
+box.className="quest-card"
+
+let messages=""
+
+t.messages.forEach(m=>{
+
+let attach=""
+
+if(m.attachment){
+attach=`<br><a href="${backend}/uploads/${m.attachment.path}" target="_blank">${m.attachment.name}</a>`
+}
+
+messages+=`
+<div style="margin-bottom:8px">
+<b>${m.author}</b>
+<small>${new Date(m.time).toLocaleString()}</small>
+<br>${m.text||""}
+${attach}
+</div>
+`
+
+})
+
+box.innerHTML=`
+<h3>${t.title}</h3>
+<p>Status: ${t.status}${t.locked?" (Locked)":""}</p>
+
+<div style="max-height:200px;overflow:auto;margin-bottom:10px">
+${messages}
+</div>
+
+<input id="msg_${t.id}" placeholder="Message" style="width:100%;margin-bottom:5px">
+
+<input type="file" id="file_${t.id}" style="margin-bottom:5px">
+
+${hasAdmin()?`<label><input type="checkbox" id="anon_${t.id}"> Anonymous</label><br>`:""}
+
+<button onclick="sendMessage('${t.id}')">Send</button>
+
+${t.status==="open"?`<button onclick="closeTicket('${t.id}')">Close</button>`:""}
+
+${hasSupport()?`<button onclick="lockTicket('${t.id}')">Lock</button>
+<button onclick="unlockTicket('${t.id}')">Unlock</button>`:""}
+`
+
+container.appendChild(box)
+
+})
+
+}
+
+async function sendMessage(id){
+
+const message=document.getElementById("msg_"+id).value
+const file=document.getElementById("file_"+id).files[0]
+const anon=document.getElementById("anon_"+id)
+
+const form=new FormData()
+form.append("ticketId",id)
+form.append("message",message)
+
+if(file) form.append("file",file)
+if(anon&&anon.checked) form.append("anonymous",true)
+
+await fetch(backend+"/support/message",{
+method:"POST",
+headers:{Authorization:token},
+body:form
+})
+
+loadTickets()
+
+}
+
+async function closeTicket(id){
+
+await fetch(backend+"/support/close",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({ticketId:id})
+})
+
+loadTickets()
+
+}
+
+async function lockTicket(id){
+
+await fetch(backend+"/support/lock",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({ticketId:id})
+})
+
+loadTickets()
+
+}
+
+async function unlockTicket(id){
+
+await fetch(backend+"/support/unlock",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({ticketId:id})
+})
+
+loadTickets()
+
+}
+
+function logout(){
+localStorage.removeItem("authToken")
+location.href="login.html"
+}
+
+init()
+</script>
+
+</body>
+</html>
