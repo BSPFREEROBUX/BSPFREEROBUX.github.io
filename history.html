@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Account History</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div id="userDisplay"></div>
+  <div class="icons">
+    <span onclick="location.href='dashboard.html'">Dashboard</span>
+    <span onclick="logout()">Logout</span>
+  </div>
+</div>
+
+<div class="wrapper" style="margin-top:80px">
+
+<h2>Account Statistics</h2>
+<div class="quest-card" id="stats">Loading...</div>
+
+<h2 style="margin-top:30px">Login History</h2>
+<div id="logins"></div>
+
+<h2 style="margin-top:30px">Quest History</h2>
+<div id="history"></div>
+
+</div>
+
+<script>
+
+let backend = null
+
+async function getBackend(){
+  const r = await fetch("server.txt")
+  return (await r.text()).trim()
+}
+
+async function safeJson(res){
+  const text = await res.text()
+  try { return JSON.parse(text) }
+  catch{
+    console.error("Invalid JSON:", text)
+    return null
+  }
+}
+
+async function init(){
+
+  backend = await getBackend()
+
+  const token = localStorage.getItem("authToken")
+  if(!token) return location.href = "login.html"
+
+  try{
+
+    const r = await fetch(backend + "/history",{
+      headers:{ Authorization: token }
+    })
+
+    const data = await safeJson(r)
+    if(!data || data.error){
+      localStorage.removeItem("authToken")
+      return location.href="login.html"
+    }
+
+    userDisplay.textContent = "Logged in as: " + data.username
+
+    renderStats(data)
+    renderLogins(data.logins || [])
+    renderHistory(data.history || [])
+
+  }
+  catch(err){
+    console.error(err)
+    alert("Failed to load history.")
+  }
+
+}
+
+function renderStats(data){
+
+  let earningsHTML = ""
+
+  if(data.earnings){
+    for(const cur in data.earnings){
+      earningsHTML += `${cur}: ${data.earnings[cur]}<br>`
+    }
+  }
+
+  stats.innerHTML = `
+  <b>Account Created:</b> ${data.created || "Unknown"}<br>
+  <b>Discord Linked:</b> ${data.linked ? data.linked.username : "Not Linked"}<br>
+  <b>Total Quests Completed:</b> ${data.questsCompleted || 0}<br><br>
+  <b>Total Earnings:</b><br>
+  ${earningsHTML || "None"}
+  `
+
+}
+
+function renderLogins(list){
+
+  const container = document.getElementById("logins")
+  container.innerHTML = ""
+
+  if(!list.length){
+    container.innerHTML = "<p>No logins recorded.</p>"
+    return
+  }
+
+  list.slice().reverse().forEach(l=>{
+
+    const div = document.createElement("div")
+    div.className = "quest-card"
+
+    div.innerHTML = `
+      <b>Login</b><br>
+      Date: ${l.date}
+    `
+
+    container.appendChild(div)
+
+  })
+
+}
+
+function renderHistory(list){
+
+  const container = document.getElementById("history")
+  container.innerHTML = ""
+
+  if(!list.length){
+    container.innerHTML = "<p>No quest history.</p>"
+    return
+  }
+
+  list.slice().reverse().forEach(q=>{
+
+    const div = document.createElement("div")
+    div.className = "quest-card"
+
+    div.innerHTML = `
+      <h4>${q.title || "Quest"}</h4>
+      <p>Quest ID: ${q.id}</p>
+      <p>Reward: ${q.amount} ${q.currency}</p>
+      <p>Completed: ${q.completedAt}</p>
+    `
+
+    container.appendChild(div)
+
+  })
+
+}
+
+function logout(){
+  localStorage.removeItem("authToken")
+  location.href = "login.html"
+}
+
+init()
+
+</script>
+
+</body>
+</html>

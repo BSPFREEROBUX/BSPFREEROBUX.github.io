@@ -1,0 +1,40 @@
+{
+  "quests": [
+    {
+      "id": 1,
+      "title": "Reach Max Level",
+      "description": "Reach max level on the Discord server. If you need more help or info, open a ticket at https://discord.com/channels/1435017648751513713/1442140583220215949",
+      "reward": {
+        "amount": 40,
+        "currency": "Robux"
+      }
+    },
+    {
+      "id": 2,
+      "title": "InGame Quest 1",
+      "description": "Reach stage 1 in https://www.roblox.com/games/118076856300045/Beta-uhh-yk. If you need help, open a ticket using the Discord link.",
+      "reward": {
+        "amount": 20,
+        "currency": "Robux"
+      }
+    },
+    {
+      "id": 3,
+      "title": "InGame Quest 2",
+      "description": "Reach stage 2 in https://www.roblox.com/games/118076856300045/Beta-uhh-yk. If you need help, open a ticket using the Discord link.",
+      "reward": {
+        "amount": 50,
+        "currency": "Robux"
+      }
+    },
+    {
+      "id": 4,
+      "title": "InGame Quest 3",
+      "description": "Reach stage 3 in https://www.roblox.com/games/118076856300045/Beta-uhh-yk. If you need help, open a ticket using the Discord link.",
+      "reward": {
+        "amount": 100,
+        "currency": "Robux"
+      }
+    }
+  ]
+}

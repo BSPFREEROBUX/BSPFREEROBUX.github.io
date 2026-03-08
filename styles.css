@@ -1,0 +1,180 @@
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:0.3s;
+}
+
+.wrapper{
+width:100%;
+max-width:420px;
+padding:35px;
+border-radius:14px;
+display:flex;
+flex-direction:column;
+position:relative;
+}
+
+h2,h3{
+text-align:center;
+margin-top:0;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:14px;
+outline:none;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:8px;
+border:none;
+font-weight:bold;
+cursor:pointer;
+font-size:14px;
+}
+
+a{
+text-align:center;
+display:block;
+margin-top:15px;
+text-decoration:none;
+font-size:14px;
+}
+
+.light{
+background:#f2f2f2;
+color:#111;
+}
+
+.light .wrapper{
+background:#ffffff;
+box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.light button{
+background:#111;
+color:#fff;
+}
+
+.dark{
+background:#0f0f0f;
+color:#ffffff;
+}
+
+.dark .wrapper{
+background:#1c1c1c;
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+}
+
+.dark input{
+background:#2a2a2a;
+border:1px solid #444;
+color:#fff;
+}
+
+.dark button{
+background:#ffffff;
+color:#111;
+}
+
+.toggle{
+position:fixed;
+top:20px;
+right:20px;
+cursor:pointer;
+padding:8px 14px;
+border-radius:20px;
+background:#888;
+color:#fff;
+font-size:12px;
+user-select:none;
+}
+
+.topbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 25px;
+font-weight:bold;
+}
+
+.icons span{
+margin-left:18px;
+cursor:pointer;
+font-size:18px;
+}
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+display:none;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,0.6);
+z-index:1000;
+}
+
+.modal-content{
+width:100%;
+max-width:350px;
+padding:25px;
+border-radius:14px;
+display:flex;
+flex-direction:column;
+}
+
+.light .modal-content{
+background:#ffffff;
+}
+
+.dark .modal-content{
+background:#1c1c1c;
+}
+
+.section{
+margin:15px 0;
+font-size:14px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.section input[type="checkbox"]{
+width:auto;
+margin-right:10px;
+}
+.quest-card{
+padding:15px;
+margin:10px 0;
+border-radius:10px;
+border:1px solid #ccc;
+}
+.dark .quest-card{
+border:1px solid #444;
+background:#2a2a2a;
+}
+.light .quest-card{
+background:#fafafa;
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div id="userDisplay"></div>
+<div class="icons">
+  <span onclick="location.href='history.html'">History</span>
+  <span onclick="logout()">Logout</span>
+  <span onclick="toggleTheme()">🌓</span>
+</div>
+</div>
+
+<div class="wrapper" style="margin-top:80px">
+
+  <div id="banScreen" style="display:none">
+    <h2>You Are Banned</h2>
+    <p id="banReason"></p>
+    <p>Time Remaining: <span id="banTimer"></span></p>
+  </div>
+
+  <div id="mainContent">
+
+    <h3>Your Discord Link Code</h3>
+    <div class="quest-card" id="linkCodeBox">Loading...</div>
+
+    <h2 style="margin-top:30px">Available Quests</h2>
+    <div id="available"></div>
+
+    <h2 style="margin-top:30px">Completed Quests</h2>
+    <div id="completed"></div>
+
+  </div>
+
+</div>
+
+<script src="theme.js"></script>
+
+<script>
+let backend = null
+let banInterval = null
+
+async function getBackend(){
+  const r = await fetch("server.txt")
+  return (await r.text()).trim()
+}
+
+async function safeJson(res){
+  const text = await res.text()
+  try { return JSON.parse(text) }
+  catch {
+    console.error("Invalid JSON:", text)
+    return null
+  }
+}
+
+async function init(){
+  backend = await getBackend()
+
+  const token = localStorage.getItem("authToken")
+  if(!token) return location.href = "login.html"
+
+  try{
+    const r = await fetch(backend + "/me", {
+      headers: { Authorization: token }
+    })
+
+    const data = await safeJson(r)
+    if(!data || data.error){
+      localStorage.removeItem("authToken")
+      return location.href = "login.html"
+    }
+
+    if(data.banned){
+      showBan(data.reason, data.remaining)
+      return
+    }
+
+    userDisplay.textContent = "Logged in as: " + data.username
+
+if(data.linkedDiscord){
+
+  const discordName = data.linkedDiscord.username || "Unknown User"
+
+  linkCodeBox.innerHTML = `
+    <b>Discord Linked</b><br>
+    Account: ${discordName}<br>
+    ID: ${data.linkedDiscord.id}
+  `
+
+} else if(data.linkCode){
+
+  linkCodeBox.innerHTML = `
+    <b>Your Link Code</b><br>
+    ${data.linkCode}<br>
+    <small>Use this with /linkdiscord in Discord</small>
+  `
+
+} else {
+
+  linkCodeBox.innerHTML = "<b>No link code found</b>"
+
+}
+
+    await loadQuests()
+  }
+  catch(err){
+    console.error(err)
+    alert("Failed to connect to backend.")
+  }
+}
+
+async function loadQuests(){
+  const token = localStorage.getItem("authToken")
+  if(!token) return
+
+  try{
+    const r = await fetch(backend + "/quests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    })
+
+    const data = await safeJson(r)
+    if(!data || data.error) return
+
+    renderQuests(data.available || [], "available", false)
+    renderQuests(data.completed || [], "completed", true)
+  }
+  catch(err){
+    console.error(err)
+  }
+}
+
+function renderQuests(list, containerId, completed){
+  const container = document.getElementById(containerId)
+  container.innerHTML = ""
+
+  if(!Array.isArray(list) || list.length === 0){
+    container.innerHTML = "<p>No quests.</p>"
+    return
+  }
+
+  list.forEach(q=>{
+    const div = document.createElement("div")
+    div.className = "quest-card"
+
+    div.innerHTML = `
+      <h4>${q.title}</h4>
+      <p>${q.description}</p>
+      <p><b>Reward:</b> ${q.reward.amount} ${q.reward.currency}</p>
+      ${completed ? "<span>Completed</span>" : ""}
+    `
+
+    container.appendChild(div)
+  })
+}
+
+function showBan(reason, remaining){
+  mainContent.style.display = "none"
+  banScreen.style.display = "block"
+  banReason.textContent = "Reason: " + reason
+  startCountdown(remaining)
+}
+
+function parseRemaining(str){
+  const parts = str.split(" ")
+  let total = 0
+  parts.forEach(p=>{
+    if(p.endsWith("D")) total += parseInt(p)*86400
+    if(p.endsWith("H")) total += parseInt(p)*3600
+    if(p.endsWith("M") && !p.includes("S")) total += parseInt(p)*60
+    if(p.endsWith("S")) total += parseInt(p)
+  })
+  return total
+}
+
+function startCountdown(str){
+  let seconds = parseRemaining(str)
+  updateTimer(seconds)
+
+  banInterval = setInterval(()=>{
+    seconds--
+    if(seconds <= 0){
+      clearInterval(banInterval)
+      location.reload()
+    }
+    updateTimer(seconds)
+  },1000)
+}
+
+function updateTimer(seconds){
+  const d=Math.floor(seconds/86400); seconds%=86400
+  const h=Math.floor(seconds/3600); seconds%=3600
+  const m=Math.floor(seconds/60); seconds%=60
+  banTimer.textContent=`${d}D ${h}H ${m}M ${seconds}S`
+}
+
+function logout(){
+  localStorage.removeItem("authToken")
+  location.href = "login.html"
+}
+
+init()
+</script>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="toggle" onclick="toggleTheme()">Toggle</div>
+<div class="wrapper">
+<h2>Login</h2>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<a href="signup.html">Create account</a>
+</div>
+<script src="theme.js"></script>
+<script>
+async function getBackend(){
+  const r = await fetch("server.txt")
+  return (await r.text()).trim()
+}
+
+async function login(){
+  try{
+    const base = await getBackend()
+
+    const r = await fetch(base + "/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username.value,
+        password: password.value
+      })
+    })
+
+    const d = await r.json()
+
+    if(d.token){
+      localStorage.setItem("authToken", d.token)
+      location.href = "dashboard.html"
+    }
+    else if(d.banned){
+      alert("Banned: " + d.reason + "\nRemaining: " + d.remaining)
+    }
+    else{
+      alert("Login failed")
+    }
+
+  }catch(err){
+    console.error(err)
+    alert("Network error")
+  }
+}
+</script>
+</body>
+</html>
