@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Profile</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.profileCard{
+max-width:600px;
+margin:auto;
+padding:25px;
+border-radius:10px;
+background:rgba(0,0,0,0.25);
+}
+.profileRow{
+margin-top:12px;
+font-size:16px;
+}
+.profileTitle{
+font-size:26px;
+margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+<div>Profile</div>
+<div class="icons">
+<span onclick="toggleTheme()">🌓</span>
+<span onclick="location.href='dashboard.html'">Dashboard</span>
+</div>
+</div>
+
+<div class="wrapper" style="margin-top:80px">
+
+<div class="profileCard" id="profileBox">
+Loading profile...
+</div>
+
+</div>
+
+<script src="theme.js"></script>
+
+<script>
+
+let backend=null
+
+async function getBackend(){
+const r=await fetch("server.txt")
+return (await r.text()).trim()
+}
+
+function getUsername(){
+const params=new URLSearchParams(window.location.search)
+return params.get("username")
+}
+
+async function safeJson(res){
+const text=await res.text()
+try{return JSON.parse(text)}catch{return null}
+}
+
+async function loadProfile(){
+
+backend=await getBackend()
+
+const username=getUsername()
+
+if(!username){
+profileBox.innerHTML="No username provided"
+return
+}
+
+const r=await fetch(backend+"/profile?username="+encodeURIComponent(username))
+const data=await safeJson(r)
+
+if(!data || data.error){
+profileBox.innerHTML="User not found"
+return
+}
+
+let earningsHTML="None"
+
+if(data.earnings){
+earningsHTML=Object.entries(data.earnings)
+.map(([k,v])=>`${v} ${k}`)
+.join("<br>")
+}
+
+let discord="Not linked"
+
+if(data.linked){
+discord=data.linked.username || data.linked.id
+}
+
+profileBox.innerHTML=`
+<div class="profileTitle">${data.username}</div>
+
+<div class="profileRow">
+<b>Account Created:</b><br>
+${new Date(data.created).toLocaleString()}
+</div>
+
+<div class="profileRow">
+<b>Discord Account:</b><br>
+${discord}
+</div>
+
+<div class="profileRow">
+<b>Quests Completed:</b><br>
+${data.questsCompleted}
+</div>
+
+<div class="profileRow">
+<b>Total Earnings:</b><br>
+${earningsHTML}
+</div>
+`
+
+}
+
+loadProfile()
+
+</script>
+
+</body>
+</html>
