@@ -58,12 +58,12 @@ padding:10px;
 }
 
 .message{
-margin-bottom:12px;
+margin-bottom:14px;
 }
 
 </style>
-
 </head>
+
 <body>
 
 <div class="topbar">
@@ -85,7 +85,7 @@ margin-bottom:12px;
 <h3 id="staffTitle" style="display:none;margin-top:20px">All Tickets</h3>
 <div id="allTickets"></div>
 
-<button style="margin-top:10px;width:100%" onclick="createTicketPrompt()">New Ticket</button>
+<button style="margin-top:10px;width:100%" onclick="createTicket()">New Ticket</button>
 
 </div>
 
@@ -99,7 +99,7 @@ Select a ticket
 
 <div class="chatInput" id="chatInput" style="display:none">
 
-<input id="messageBox" placeholder="Message..." style="width:55%">
+<input id="messageBox" placeholder="Message..." style="width:50%">
 <input type="file" id="fileInput">
 
 <label id="anonBox" style="display:none">
@@ -107,9 +107,10 @@ Select a ticket
 </label>
 
 <button onclick="sendMessage()">Send</button>
+<button onclick="closeTicket()" id="closeBtn">Close Ticket</button>
 
-<button id="lockBtn" onclick="lockTicket()" style="display:none">Lock</button>
-<button id="unlockBtn" onclick="unlockTicket()" style="display:none">Unlock</button>
+<button onclick="lockTicket()" id="lockBtn" style="display:none">Lock</button>
+<button onclick="unlockTicket()" id="unlockBtn" style="display:none">Unlock</button>
 
 </div>
 
@@ -154,7 +155,7 @@ if(!token) location.href="login.html"
 const r=await fetch(backend+"/me",{headers:{Authorization:token}})
 user=await safeJson(r)
 
-if(!user||user.error) location.href="login.html"
+if(!user || user.error) location.href="login.html"
 
 userDisplay.textContent="Logged in as: "+user.username
 
@@ -165,6 +166,11 @@ if(hasAdmin())
 document.getElementById("anonBox").style.display="inline"
 
 loadTickets()
+
+setInterval(()=>{
+loadTickets()
+if(activeTicket) refreshActiveTicket()
+},2000)
 
 }
 
@@ -184,6 +190,15 @@ function renderTicketList(list,containerId){
 
 const container=document.getElementById(containerId)
 container.innerHTML=""
+
+list.sort((a,b)=>{
+
+if(a.status==="open" && b.status==="closed") return -1
+if(a.status==="closed" && b.status==="open") return 1
+
+return new Date(b.createdAt)-new Date(a.createdAt)
+
+})
 
 list.forEach(t=>{
 
@@ -210,15 +225,30 @@ function openTicket(ticket){
 
 activeTicket=ticket
 
-ticketHeader.innerHTML=`${ticket.title} - ${
-ticket.status==="open"
-? '<span class="ticketStatusOpen">OPEN</span>'
-: '<span class="ticketStatusClosed">CLOSED</span>'
-}`
+ticketHeader.innerHTML=`${ticket.title}`
 
 chatInput.style.display="block"
 
 renderMessages(ticket)
+
+updateButtons(ticket)
+
+}
+
+function updateButtons(ticket){
+
+if(ticket.locked && !hasSupport())
+closeBtn.style.display="none"
+else
+closeBtn.style.display="inline"
+
+if(hasSupport()){
+lockBtn.style.display="inline"
+unlockBtn.style.display="inline"
+}else{
+lockBtn.style.display="none"
+unlockBtn.style.display="none"
+}
 
 }
 
@@ -249,6 +279,23 @@ box.scrollTop=box.scrollHeight
 
 }
 
+async function refreshActiveTicket(){
+
+const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
+const data=await safeJson(r)
+
+let all=[...(data.mine||[]),...(data.all||[])]
+
+const updated=all.find(t=>t.id===activeTicket.id)
+
+if(!updated) return
+
+activeTicket=updated
+renderMessages(updated)
+updateButtons(updated)
+
+}
+
 async function sendMessage(){
 
 if(!activeTicket) return
@@ -273,6 +320,21 @@ body:form
 
 messageBox.value=""
 fileInput.value=""
+
+refreshActiveTicket()
+
+}
+
+async function closeTicket(){
+
+await fetch(backend+"/support/close",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({ticketId:activeTicket.id})
+})
 
 loadTickets()
 
@@ -308,7 +370,7 @@ loadTickets()
 
 }
 
-async function createTicketPrompt(){
+async function createTicket(){
 
 const title=prompt("Ticket Title")
 if(!title) return
