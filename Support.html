@@ -4,66 +4,57 @@
 <meta charset="UTF-8">
 <title>Support</title>
 <link rel="stylesheet" href="styles.css">
-
 <style>
-
 .supportLayout{
 display:flex;
 height:calc(100vh - 80px);
 }
-
 .ticketList{
 width:260px;
 border-right:1px solid #444;
 overflow-y:auto;
 padding:10px;
 }
-
 .ticketItem{
 padding:10px;
 border-radius:6px;
 cursor:pointer;
 margin-bottom:6px;
 }
-
 .ticketItem:hover{
 background:rgba(255,255,255,0.05);
 }
-
 .ticketStatusOpen{
 color:#2ecc71;
 font-size:12px;
 }
-
 .ticketStatusClosed{
 color:#e74c3c;
 font-size:12px;
 }
-
+.ticketOwner{
+font-size:11px;
+opacity:0.7;
+}
 .ticketChat{
 flex:1;
 display:flex;
 flex-direction:column;
 }
-
 .chatMessages{
 flex:1;
 overflow-y:auto;
 padding:20px;
 }
-
 .chatInput{
 border-top:1px solid #444;
 padding:10px;
 }
-
 .message{
 margin-bottom:14px;
 }
-
 </style>
 </head>
-
 <body>
 
 <div class="topbar">
@@ -78,7 +69,6 @@ margin-bottom:14px;
 <div class="supportLayout">
 
 <div class="ticketList">
-
 <h3>Your Tickets</h3>
 <div id="myTickets"></div>
 
@@ -86,7 +76,6 @@ margin-bottom:14px;
 <div id="allTickets"></div>
 
 <button style="margin-top:10px;width:100%" onclick="createTicket()">New Ticket</button>
-
 </div>
 
 <div class="ticketChat">
@@ -155,7 +144,7 @@ if(!token) location.href="login.html"
 const r=await fetch(backend+"/me",{headers:{Authorization:token}})
 user=await safeJson(r)
 
-if(!user || user.error) location.href="login.html"
+if(!user||user.error) location.href="login.html"
 
 userDisplay.textContent="Logged in as: "+user.username
 
@@ -192,12 +181,9 @@ const container=document.getElementById(containerId)
 container.innerHTML=""
 
 list.sort((a,b)=>{
-
 if(a.status==="open" && b.status==="closed") return -1
 if(a.status==="closed" && b.status==="open") return 1
-
 return new Date(b.createdAt)-new Date(a.createdAt)
-
 })
 
 list.forEach(t=>{
@@ -211,7 +197,15 @@ const status=t.status==="open"
 ? `<span class="ticketStatusOpen">OPEN</span>`
 : `<span class="ticketStatusClosed">CLOSED</span>`
 
-div.innerHTML=`${t.title}<br>${status}`
+let owner=""
+if(containerId==="allTickets")
+owner=`<div class="ticketOwner">Created by: ${t.owner}</div>`
+
+div.innerHTML=`
+<b>${t.title}</b><br>
+${status}
+${owner}
+`
 
 div.onclick=()=>openTicket(t)
 
@@ -225,7 +219,13 @@ function openTicket(ticket){
 
 activeTicket=ticket
 
-ticketHeader.innerHTML=`${ticket.title}`
+const status=ticket.status==="open"
+? '<span style="color:#2ecc71">OPEN</span>'
+: '<span style="color:#e74c3c">CLOSED</span>'
+
+const lock=ticket.locked?" 🔒":" 🔓"
+
+ticketHeader.innerHTML=`<b>${ticket.title}</b><br>${status}${lock}`
 
 chatInput.style.display="block"
 
@@ -268,7 +268,7 @@ box.innerHTML+=`
 <div class="message">
 <b>${m.author}</b>
 <small>${new Date(m.time).toLocaleString()}</small>
-<br>${m.text || ""}
+<br>${m.text||""}
 ${attach}
 </div>
 `
