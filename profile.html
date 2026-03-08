@@ -55,23 +55,21 @@ margin-top:14px;
 font-size:16px;
 }
 
-.searchBox{
-max-width:650px;
-margin:auto;
-margin-bottom:20px;
+.findUser{
 display:flex;
-gap:10px;
+align-items:center;
+gap:6px;
 }
 
-.searchBox input{
-flex:1;
-padding:10px;
+.findUser input{
+padding:6px 10px;
 border-radius:6px;
 border:none;
+width:150px;
 }
 
-.searchBox button{
-padding:10px 16px;
+.findUser button{
+padding:6px 10px;
 border:none;
 border-radius:6px;
 cursor:pointer;
@@ -83,19 +81,20 @@ cursor:pointer;
 <body>
 
 <div class="topbar">
-<div>Profile</div>
+
+<div class="findUser">
+<input id="searchUser" placeholder="Find user">
+<button onclick="searchProfile()">Find</button>
+</div>
+
 <div class="icons">
 <span onclick="toggleTheme()">🌓</span>
 <span onclick="location.href='dashboard.html'">Dashboard</span>
 </div>
+
 </div>
 
 <div class="wrapper" style="margin-top:80px">
-
-<div class="searchBox">
-<input id="searchUser" placeholder="Enter username">
-<button onclick="searchProfile()">Search</button>
-</div>
 
 <div id="profileBox" class="profileCard">
 Search for a user to view their profile
@@ -168,7 +167,7 @@ return icons
 
 }
 
-async function searchProfile(){
+function searchProfile(){
 const username=document.getElementById("searchUser").value.trim()
 if(!username) return
 location.href="profile.html?username="+encodeURIComponent(username)
