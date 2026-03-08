@@ -8,21 +8,21 @@
 <body>
 
 <div class="topbar">
-<div id="userDisplay"></div>
-<div class="icons">
-<span onclick="location.href='dashboard.html'">Dashboard</span>
-<span onclick="logout()">Logout</span>
-</div>
+  <div id="userDisplay"></div>
+  <div class="icons">
+    <span onclick="location.href='dashboard.html'">Dashboard</span>
+    <span onclick="logout()">Logout</span>
+  </div>
 </div>
 
 <div class="wrapper" style="margin-top:80px">
 
-<h2>Open Ticket</h2>
+<h2>Create Support Ticket</h2>
 
 <div class="quest-card">
-<input id="ticketTitle" placeholder="Title" style="width:100%;margin-bottom:10px">
+<input id="ticketTitle" placeholder="Ticket Title" style="width:100%;margin-bottom:10px">
 <textarea id="ticketReason" placeholder="Reason / Description" style="width:100%;margin-bottom:10px"></textarea>
-<textarea id="ticketInfo" placeholder="More Info" style="width:100%;margin-bottom:10px"></textarea>
+<textarea id="ticketInfo" placeholder="More Information" style="width:100%;margin-bottom:10px"></textarea>
 <button onclick="createTicket()">Create Ticket</button>
 </div>
 
@@ -66,6 +66,7 @@ return permissions.permissions.Administrator.includes(user.username)
 async function init(){
 
 backend=await getBackend()
+
 token=localStorage.getItem("authToken")
 if(!token) location.href="login.html"
 
@@ -82,7 +83,6 @@ if(hasSupport())
 document.getElementById("allTickets").style.display="block"
 
 loadTickets()
-
 }
 
 async function createTicket(){
@@ -91,7 +91,9 @@ const title=document.getElementById("ticketTitle").value.trim()
 const reason=document.getElementById("ticketReason").value.trim()
 const info=document.getElementById("ticketInfo").value.trim()
 
-const r=await fetch(backend+"/support/create",{
+if(!title||!reason) return alert("Fill required fields")
+
+await fetch(backend+"/support/create",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
@@ -101,7 +103,6 @@ body:JSON.stringify({title,reason,info})
 })
 
 loadTickets()
-
 }
 
 async function loadTickets(){
@@ -114,7 +115,6 @@ renderTickets(data.mine,"myTickets")
 
 if(hasSupport())
 renderTickets(data.all,"allTickets")
-
 }
 
 function renderTickets(list,containerId){
@@ -136,18 +136,18 @@ let messages=""
 
 t.messages.forEach(m=>{
 
-let attach=""
+let file=""
 
 if(m.attachment){
-attach=`<br><a href="${backend}/uploads/${m.attachment.path}" target="_blank">${m.attachment.name}</a>`
+file=`<br><a href="${backend}/uploads/${m.attachment.path}" target="_blank">${m.attachment.name}</a>`
 }
 
 messages+=`
-<div style="margin-bottom:8px">
+<div style="margin-bottom:10px">
 <b>${m.author}</b>
 <small>${new Date(m.time).toLocaleString()}</small>
 <br>${m.text||""}
-${attach}
+${file}
 </div>
 `
 
@@ -157,11 +157,11 @@ box.innerHTML=`
 <h3>${t.title}</h3>
 <p>Status: ${t.status}${t.locked?" (Locked)":""}</p>
 
-<div style="max-height:200px;overflow:auto;margin-bottom:10px">
+<div style="max-height:250px;overflow:auto;margin-bottom:10px">
 ${messages}
 </div>
 
-<input id="msg_${t.id}" placeholder="Message" style="width:100%;margin-bottom:5px">
+<input id="msg_${t.id}" placeholder="Message..." style="width:100%;margin-bottom:5px">
 
 <input type="file" id="file_${t.id}" style="margin-bottom:5px">
 
@@ -169,27 +169,29 @@ ${hasAdmin()?`<label><input type="checkbox" id="anon_${t.id}"> Anonymous</label>
 
 <button onclick="sendMessage('${t.id}')">Send</button>
 
-${t.status==="open"?`<button onclick="closeTicket('${t.id}')">Close</button>`:""}
+${t.status==="open"?`<button onclick="closeTicket('${t.id}')">Close Ticket</button>`:""}
 
-${hasSupport()?`<button onclick="lockTicket('${t.id}')">Lock</button>
-<button onclick="unlockTicket('${t.id}')">Unlock</button>`:""}
+${hasSupport()?`
+<button onclick="lockTicket('${t.id}')">Lock</button>
+<button onclick="unlockTicket('${t.id}')">Unlock</button>
+`:""}
 `
 
 container.appendChild(box)
 
 })
-
 }
 
 async function sendMessage(id){
 
-const message=document.getElementById("msg_"+id).value
+const msg=document.getElementById("msg_"+id).value
 const file=document.getElementById("file_"+id).files[0]
 const anon=document.getElementById("anon_"+id)
 
 const form=new FormData()
+
 form.append("ticketId",id)
-form.append("message",message)
+form.append("message",msg)
 
 if(file) form.append("file",file)
 if(anon&&anon.checked) form.append("anonymous",true)
@@ -201,7 +203,6 @@ body:form
 })
 
 loadTickets()
-
 }
 
 async function closeTicket(id){
@@ -216,7 +217,6 @@ body:JSON.stringify({ticketId:id})
 })
 
 loadTickets()
-
 }
 
 async function lockTicket(id){
@@ -231,7 +231,6 @@ body:JSON.stringify({ticketId:id})
 })
 
 loadTickets()
-
 }
 
 async function unlockTicket(id){
@@ -246,7 +245,6 @@ body:JSON.stringify({ticketId:id})
 })
 
 loadTickets()
-
 }
 
 function logout(){
