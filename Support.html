@@ -8,12 +8,12 @@
 <body>
 
 <div class="topbar">
-  <div id="userDisplay"></div>
-  <div class="icons">
-    <span onclick="location.href='dashboard.html'">Dashboard</span>
-    <span onclick="toggleTheme()">🌓</span>
-    <span onclick="logout()">Logout</span>
-  </div>
+<div id="userDisplay"></div>
+<div class="icons">
+<span onclick="location.href='dashboard.html'">Dashboard</span>
+<span onclick="toggleTheme()">🌓</span>
+<span onclick="logout()">Logout</span>
+</div>
 </div>
 
 <div class="wrapper" style="margin-top:80px">
@@ -23,7 +23,7 @@
 <div class="quest-card">
 <input id="ticketTitle" placeholder="Ticket Title" style="width:100%;margin-bottom:10px">
 <textarea id="ticketReason" placeholder="Reason / Description" style="width:100%;margin-bottom:10px"></textarea>
-<textarea id="ticketInfo" placeholder="More Information" style="width:100%;margin-bottom:10px"></textarea>
+<textarea id="ticketInfo" placeholder="More Info" style="width:100%;margin-bottom:10px"></textarea>
 <button onclick="createTicket()">Create Ticket</button>
 </div>
 
@@ -41,7 +41,6 @@
 let backend=null
 let token=null
 let user=null
-let permissions=null
 
 async function getBackend(){
 const r=await fetch("server.txt")
@@ -53,17 +52,12 @@ const t=await res.text()
 try{return JSON.parse(t)}catch{return null}
 }
 
-async function loadPermissions(){
-const r=await fetch("permissions.json")
-permissions=await r.json()
-}
-
 function hasSupport(){
-return permissions.permissions.Support.includes(user.username)||permissions.permissions.Administrator.includes(user.username)
+return user.permissions.support || user.permissions.admin
 }
 
 function hasAdmin(){
-return permissions.permissions.Administrator.includes(user.username)
+return user.permissions.admin
 }
 
 async function init(){
@@ -72,8 +66,6 @@ backend=await getBackend()
 
 token=localStorage.getItem("authToken")
 if(!token) location.href="login.html"
-
-await loadPermissions()
 
 const r=await fetch(backend+"/me",{headers:{Authorization:token}})
 user=await safeJson(r)
@@ -183,6 +175,7 @@ ${hasSupport()?`
 container.appendChild(box)
 
 })
+
 }
 
 async function sendMessage(id){
