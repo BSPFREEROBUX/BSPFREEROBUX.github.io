@@ -11,6 +11,7 @@
   <div id="userDisplay"></div>
 <div class="icons">
   <span onclick="location.href='history.html'">History</span>
+  <span onclick="openSupportPopup()">Support</span>
   <span onclick="logout()">Logout</span>
   <span onclick="toggleTheme()">🌓</span>
 </div>
@@ -37,6 +38,30 @@
 
   </div>
 
+</div>
+
+<div id="supportPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:1000;">
+  <div style="background:#1e1e1e;padding:25px;border-radius:10px;text-align:center;min-width:320px">
+
+    <h2>Support Method</h2>
+
+    <div style="margin-top:20px">
+
+      <button onclick="openDiscordSupport()" style="border:none;background:none;cursor:pointer;margin-right:20px">
+        <img src="discord.png" style="width:120px">
+      </button>
+
+      <button onclick="openWebsiteSupport()" style="border:none;background:none;cursor:pointer">
+        <img src="Web.png" style="width:120px">
+      </button>
+
+    </div>
+
+    <div style="margin-top:20px">
+      <button onclick="closeSupportPopup()">Close</button>
+    </div>
+
+  </div>
 </div>
 
 <script src="theme.js"></script>
@@ -203,6 +228,22 @@ function updateTimer(seconds){
   banTimer.textContent=`${d}D ${h}H ${m}M ${seconds}S`
 }
 
+function openSupportPopup(){
+document.getElementById("supportPopup").style.display="flex"
+}
+
+function closeSupportPopup(){
+document.getElementById("supportPopup").style.display="none"
+}
+
+function openDiscordSupport(){
+window.open("https://discord.gg/YOUR_INVITE","_blank")
+}
+
+function openWebsiteSupport(){
+location.href="Support.html"
+}
+
 function logout(){
   localStorage.removeItem("authToken")
   location.href = "login.html"
@@ -213,6 +254,3 @@ init()
 
 </body>
 </html>
-
-
-
