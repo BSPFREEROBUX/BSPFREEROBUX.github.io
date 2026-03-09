@@ -262,7 +262,7 @@ ticket.messages.forEach(m=>{
 let attach=""
 
 if(m.attachment)
-attach=`<br><a href="${backend}/uploads/${m.attachment.path}" target="_blank">${m.attachment.name}</a>`
+attach=`<br><img src="${backend}/uploads/${m.attachment.path}" style="max-width:300px;border-radius:6px"><br><a href="${backend}/uploads/${m.attachment.path}" target="_blank">${m.attachment.name}</a>`
 
 box.innerHTML+=`
 <div class="message">
