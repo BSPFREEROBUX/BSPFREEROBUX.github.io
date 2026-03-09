@@ -70,7 +70,6 @@ border-bottom:1px solid #444;
 flex:1;
 overflow-y:auto;
 padding:20px;
-width:100%;
 }
 
 .message{
@@ -127,25 +126,33 @@ font-size:14px;
 
 .chatInput{
 border-top:1px solid #444;
-padding:12px;
+padding:6px 10px;
 display:flex;
-flex-direction:column;
+flex-wrap:wrap;
+align-items:center;
 gap:6px;
-width:100%;
 }
 
 #messageBox{
-width:100%;
-padding:10px;
+flex:1 1 100%;
+padding:8px;
 }
 
 #fileInput{
-width:100%;
+flex:1 1 300px;
+}
+
+#anonBox{
+display:flex;
+align-items:center;
+gap:4px;
+font-size:13px;
 }
 
 .chatInput button{
-width:100%;
-padding:10px;
+flex:0 0 auto;
+padding:6px 10px;
+font-size:13px;
 }
 
 </style>
@@ -193,7 +200,6 @@ Select a ticket
 
 <button onclick="sendMessage()">Send</button>
 <button onclick="closeTicket()" id="closeBtn">Close Ticket</button>
-
 <button onclick="lockTicket()" id="lockBtn" style="display:none">Lock</button>
 <button onclick="unlockTicket()" id="unlockBtn" style="display:none">Unlock</button>
 
@@ -328,7 +334,7 @@ const lock=ticket.locked?" 🔒":" 🔓"
 
 ticketHeader.innerHTML=`<b>${ticket.title}</b><br>${status}${lock}`
 
-chatInput.style.display="block"
+chatInput.style.display="flex"
 
 renderMessages(ticket)
 
