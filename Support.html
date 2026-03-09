@@ -328,7 +328,7 @@ box.innerHTML+=`
 <div class="message">
 <b>${m.author}</b>
 <small>${new Date(m.time).toLocaleString()}</small>
-<br>${m.text||""}
+${m.text ? `<div>${m.text}</div>` : ""}
 ${attach}
 </div>
 `
