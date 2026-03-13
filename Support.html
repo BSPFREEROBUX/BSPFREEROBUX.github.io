@@ -512,18 +512,17 @@ box.scrollTop=box.scrollHeight
 
 async function refreshActiveTicket(){
 
-const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
-const data=await safeJson(r)
+const r = await fetch(backend+"/support/list",{headers:{Authorization:token}})
+const data = await safeJson(r)
 
 let all=[...(data.mine||[]),...(data.all||[])]
 
-const updated=all.find(t=>t.id===activeTicket.id)
+const updated = all.find(t=>t.id===activeTicket.id)
 
 if(!updated) return
 
-activeTicket=updated
+activeTicket = updated
 renderMessages(updated)
-updateButtons(updated)
 
 }
 
