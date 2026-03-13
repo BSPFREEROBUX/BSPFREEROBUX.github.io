@@ -31,8 +31,7 @@ font-size:14px;
 .icons{
 display:flex;
 align-items:center;
-gap:16px;
-font-size:14px;
+gap:14px;
 }
 
 .icons span{
@@ -45,6 +44,14 @@ white-space:nowrap;
 opacity:1;
 }
 
+#anonTop{
+display:flex;
+align-items:center;
+gap:6px;
+font-size:12px;
+opacity:.9;
+}
+
 .supportLayout{
 flex:1;
 display:flex;
@@ -54,7 +61,7 @@ overflow:hidden;
 }
 
 .ticketList{
-width:280px;
+width:260px;
 background:#141414;
 border-right:1px solid #2a2a2a;
 overflow-y:auto;
@@ -70,11 +77,12 @@ border-bottom:1px solid #2a2a2a;
 }
 
 .ticketList h3{
-font-size:13px;
+font-size:12px;
 font-weight:600;
-letter-spacing:.5px;
+letter-spacing:.6px;
 margin:16px 0 8px 0;
 opacity:.8;
+text-transform:uppercase;
 }
 
 .ticketItem{
@@ -139,22 +147,27 @@ background:#0f0f10;
 }
 
 #ticketHeader{
-padding:16px;
+padding:14px 18px;
 border-bottom:1px solid #2a2a2a;
 background:#151516;
 font-size:14px;
+display:flex;
+align-items:center;
+justify-content:space-between;
 }
 
 .chatMessages{
 flex:1;
 overflow-y:auto;
-padding:24px;
+padding:22px;
 display:flex;
 flex-direction:column;
-gap:14px;
+gap:12px;
 }
 
 .message{
+display:flex;
+flex-direction:column;
 background:#1a1a1b;
 padding:10px 12px;
 border-radius:8px;
@@ -223,61 +236,104 @@ text-decoration:none;
 font-size:13px;
 }
 
-.resizeBar{
-height:6px;
-background:#151516;
-border-top:1px solid #2a2a2a;
-border-bottom:1px solid #2a2a2a;
-cursor:row-resize;
-}
-
 .chatInput{
 border-top:1px solid #2a2a2a;
 padding:10px;
 display:flex;
-flex-wrap:wrap;
 align-items:center;
-gap:8px;
+gap:10px;
 background:#151516;
-height:auto;
-min-height:60px;
-max-height:180px;
-overflow-y:auto;
 }
 
 #messageBox{
-flex:1 1 100%;
-padding:8px;
-border-radius:6px;
+flex:1;
+padding:10px 12px;
+border-radius:20px;
 border:1px solid #333;
 background:#0f0f10;
 color:white;
 font-size:14px;
 }
 
-#fileInput{
-flex:1 1 240px;
+#messageBox:focus{
+outline:none;
+border-color:#555;
 }
 
-#anonBox{
+.attachBtn{
+width:34px;
+height:34px;
+border-radius:50%;
+border:none;
+background:#2a2a2a;
+color:white;
+cursor:pointer;
 display:flex;
 align-items:center;
-gap:6px;
-font-size:12px;
-opacity:.8;
+justify-content:center;
+font-size:16px;
 }
 
-.chatInput button{
-padding:8px 12px;
-font-size:13px;
+.attachBtn:hover{
+background:#3a3a3a;
+}
+
+.sendBtn{
+width:34px;
+height:34px;
+border-radius:50%;
+border:none;
+background:#5865f2;
+color:white;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:16px;
+}
+
+.sendBtn:hover{
+background:#6d78ff;
+}
+
+.lockBtn,
+.unlockBtn{
+padding:6px 10px;
 border:none;
 border-radius:6px;
 background:#2a2a2a;
 color:white;
 cursor:pointer;
+font-size:12px;
 }
 
-.chatInput button:hover{
+.lockBtn:hover,
+.unlockBtn:hover{
+background:#3a3a3a;
+}
+
+.resizeBar{
+height:5px;
+background:#151516;
+border-top:1px solid #2a2a2a;
+border-bottom:1px solid #2a2a2a;
+cursor:row-resize;
+}
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-track{
+background:#0f0f10;
+}
+
+::-webkit-scrollbar-thumb{
+background:#2a2a2a;
+border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
 background:#3a3a3a;
 }
 
