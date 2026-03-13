@@ -358,7 +358,7 @@ const anonToggle = document.getElementById("anonToggle")
 
 function toggleMenu(btn){
 const menu = btn.nextElementSibling
-menu.style.display = menu.style.display === "block" ? "none" : "block"
+menu.classList.toggle("show")
 }
 
 let backend=null
@@ -503,7 +503,7 @@ attach=`
 <div class="imageMenu">
 <button onclick="toggleMenu(this)">⋮</button>
 <div class="imageDropdown">
-<a href="${backend}/uploads/${m.attachment.path}" download>Download</a>
+<a onclick="downloadImage('${backend}/uploads/${m.attachment.path}')">Download</a>
 </div>
 </div>
 </div>
@@ -567,6 +567,31 @@ messageBox.value=""
 fileInput.value=""
 
 refreshActiveTicket()
+
+}
+
+async function downloadImage(url){
+
+const res = await fetch(url)
+const blob = await res.blob()
+
+const img = await createImageBitmap(blob)
+
+const canvas = document.createElement("canvas")
+canvas.width = img.width
+canvas.height = img.height
+
+const ctx = canvas.getContext("2d")
+ctx.drawImage(img,0,0)
+
+canvas.toBlob((pngBlob)=>{
+
+const a = document.createElement("a")
+a.href = URL.createObjectURL(pngBlob)
+a.download = "image.png"
+a.click()
+
+}, "image/png")
 
 }
 
