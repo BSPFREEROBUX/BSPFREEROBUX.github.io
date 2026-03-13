@@ -466,23 +466,7 @@ chatInput.style.display="flex"
 
 renderMessages(ticket)
 
-  updateButtons(ticket)
 
-}
-
-function updateButtons(ticket){
-
-if(ticket.locked && !hasSupport())
-closeBtn.style.display="none"
-else
-closeBtn.style.display="inline"
-
-if(hasSupport()){
-lockBtn.style.display="inline"
-unlockBtn.style.display="inline"
-}else{
-lockBtn.style.display="none"
-unlockBtn.style.display="none"
 }
 
 }
