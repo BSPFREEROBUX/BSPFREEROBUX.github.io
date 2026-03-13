@@ -503,7 +503,7 @@ attach=`
 <div class="imageMenu">
 <button onclick="toggleMenu(this)">⋮</button>
 <div class="imageDropdown">
-<a onclick="downloadImage('${backend}/uploads/${m.attachment.path}')">Download</a>
+<a href="${backend}/uploads/${m.attachment.path}" download="${m.attachment.name || 'image.png'}">Download</a>
 </div>
 </div>
 </div>
