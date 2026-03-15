@@ -1,0 +1,56 @@
+**Terms of Service**
+
+By creating an account and using this website, you agree to the following Terms of Service.
+
+**Account Storage**
+When you sign up, you agree that your username and password will be stored on our servers. We are not obligated to delete your account if you request deletion. You may open a support ticket to request deletion, and staff may review the request.
+
+**IP Storage and Security**
+Your IP address is stored for security purposes. This allows us to protect our servers and block IP addresses if necessary. If you attempt to spam the servers, send excessive data, attempt to disrupt the service, or perform attacks such as a DDoS attack, your IP may be temporarily or permanently blocked.
+
+**Logging and Anti-Spam**
+All login attempts and certain actions are logged for security and anti-spam purposes. If you attempt to spam or abuse our servers with excessive requests, your access may be restricted.
+
+**Ticket System**
+When using the support ticket system, the assigned support staff member has authority over the ticket. If you believe their decision is incorrect, you may request a review from a Head Support Member or Administrator by stating something such as “I would like a head staff member to review this ticket.” Staff may close tickets at their discretion and may deny requests for free Robux or other rewards.
+
+**Reward Claims**
+To claim Robux or other prizes, your Discord account must be linked to your website account unless otherwise approved by a Head Staff Member or a staff member with permission from a Head Staff Member.
+
+**Alt Accounts**
+Using alternate accounts to gain additional Robux or rewards is not allowed. This includes both Roblox alternate accounts and additional website accounts. If you are found using alt accounts, you may receive a temporary or permanent ban.
+
+**Usernames and Public Profiles**
+You are responsible for your username. If you sign up with a username containing slurs, offensive language, or inappropriate content, your account may be banned or you may be required to change your username if it is discovered. Your account profile may also be publicly visible, including information such as quests completed, sign-up date, rewards earned, and other statistics.
+
+**Account Security**
+You are responsible for keeping your account secure. Any actions performed on your account are considered your responsibility, including actions taken by someone who gains access to your account.
+
+**Service Availability**
+The service may be temporarily unavailable due to maintenance, updates, or unexpected issues. We are not responsible for downtime or interruptions to the service.
+
+**Rewards and Features**
+Rewards such as Robux, quests, giveaways, or other features are not guaranteed and may change, be delayed, or be removed at any time.
+
+**System Abuse and Exploits**
+Attempting to abuse the system, exploit bugs, automate actions, bypass protections, or manipulate rewards is not allowed. Rewards gained through exploits may be removed and may result in a temporary or permanent ban.
+
+**Staff Impersonation**
+Pretending to be a staff member, administrator, or any official representative of the service is not allowed and may result in a ban.
+
+**Activity Logging**
+All actions on the website are logged for security and moderation purposes. These logs are not normally reviewed unless necessary. Messages and actions on the Discord server are also logged.
+
+**User Responsibility and Bans**
+You are responsible for your own actions while using the website and the Discord server. Violating rules or abusing the service may result in a temporary or permanent ban.
+
+**Data and Security Disclaimer**
+We take reasonable steps to protect user data, but absolute security cannot be guaranteed. In the unlikely event that data is leaked or exposed, we are not responsible for any damages.
+
+**Independence from Roblox**
+This service is not affiliated with, endorsed by, or associated with Roblox Corporation.
+
+**Future Changes**
+By continuing to use the service, you agree that these Terms of Service may be updated or changed in the future.
+
+By using this service, you acknowledge and agree to these terms.
