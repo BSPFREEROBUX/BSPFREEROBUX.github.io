@@ -1,0 +1,126 @@
+tos.html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Terms of Service</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div id="userDisplay">Terms of Service</div>
+<div class="icons">
+  <span onclick="location.href='dashboard.html'">Dashboard</span>
+  <span onclick="openSupportPopup()">Support</span>
+  <span onclick="toggleTheme()">🌓</span>
+</div>
+</div>
+
+<div class="wrapper" style="margin-top:80px;max-width:900px">
+
+<h1>Terms of Service</h1>
+
+<div class="quest-card">
+
+<p><b>Account Storage</b><br>
+When you sign up, you agree that your username and password will be stored on our servers. We are not obligated to delete your account if you request deletion. You may open a support ticket to request deletion, and staff may review the request.</p>
+
+<p><b>IP Storage and Security</b><br>
+Your IP address is stored for security purposes. This allows us to protect our servers and block IP addresses if necessary. If you attempt to spam the servers, send excessive data, attempt to disrupt the service, or perform attacks such as a DDoS attack, your IP may be temporarily or permanently blocked.</p>
+
+<p><b>Logging and Anti-Spam</b><br>
+All login attempts and certain actions are logged for security and anti-spam purposes. If you attempt to spam or abuse our servers with excessive requests, your access may be restricted.</p>
+
+<p><b>Ticket System</b><br>
+When using the support ticket system, the assigned support staff member has authority over the ticket. If you believe their decision is incorrect, you may request a review from a Head Support Member or Administrator by stating something such as “I would like a head staff member to review this ticket.” Staff may close tickets at their discretion and may deny requests for free Robux or other rewards.</p>
+
+<p><b>Reward Claims</b><br>
+To claim Robux or other prizes, your Discord account must be linked to your website account unless otherwise approved by a Head Staff Member or a staff member with permission from a Head Staff Member.</p>
+
+<p><b>Alt Accounts</b><br>
+Using alternate accounts to gain additional Robux or rewards is not allowed. This includes both Roblox alternate accounts and additional website accounts. If you are found using alt accounts, you may receive a temporary or permanent ban.</p>
+
+<p><b>Usernames and Public Profiles</b><br>
+You are responsible for your username. If you sign up with a username containing slurs, offensive language, or inappropriate content, your account may be banned or you may be required to change your username if it is discovered. Your account profile may be publicly visible, including information such as quests completed, sign-up date, rewards earned, and other statistics.</p>
+
+<p><b>Account Security</b><br>
+You are responsible for keeping your account secure. Any actions performed on your account are considered your responsibility, including actions taken by someone who gains access to your account.</p>
+
+<p><b>Service Availability</b><br>
+The service may be temporarily unavailable due to maintenance, updates, or unexpected issues. We are not responsible for downtime or interruptions to the service.</p>
+
+<p><b>Rewards and Features</b><br>
+Rewards such as Robux, quests, giveaways, or other features are not guaranteed and may change, be delayed, or be removed at any time.</p>
+
+<p><b>System Abuse and Exploits</b><br>
+Attempting to abuse the system, exploit bugs, automate actions, bypass protections, or manipulate rewards is not allowed. Rewards gained through exploits may be removed and may result in a temporary or permanent ban.</p>
+
+<p><b>Staff Impersonation</b><br>
+Pretending to be a staff member, administrator, or any official representative of the service is not allowed and may result in a ban.</p>
+
+<p><b>Activity Logging</b><br>
+All actions on the website are logged for security and moderation purposes. These logs are not normally reviewed unless necessary. Messages and actions on the Discord server are also logged.</p>
+
+<p><b>User Responsibility and Bans</b><br>
+You are responsible for your own actions while using the website and the Discord server. Violating rules or abusing the service may result in a temporary or permanent ban.</p>
+
+<p><b>Data and Security Disclaimer</b><br>
+We take reasonable steps to protect user data, but absolute security cannot be guaranteed. In the unlikely event that data is leaked or exposed, we are not responsible for any damages.</p>
+
+<p><b>Independence from Roblox</b><br>
+This service is not affiliated with, endorsed by, or associated with Roblox Corporation.</p>
+
+<p><b>Future Changes</b><br>
+By continuing to use the service, you agree that these Terms of Service may be updated or changed in the future.</p>
+
+</div>
+
+</div>
+
+<div id="supportPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:1000;">
+  <div style="background:#1e1e1e;padding:25px;border-radius:10px;text-align:center;min-width:320px">
+
+    <h2>Support Method</h2>
+
+    <div style="margin-top:20px">
+
+      <button onclick="openDiscordSupport()" style="border:none;background:none;cursor:pointer;margin-right:20px">
+        <img src="discord.png" style="width:120px">
+      </button>
+
+      <button onclick="openWebsiteSupport()" style="border:none;background:none;cursor:pointer">
+        <img src="Web.png" style="width:120px">
+      </button>
+
+    </div>
+
+    <div style="margin-top:20px">
+      <button onclick="closeSupportPopup()">Close</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="theme.js"></script>
+
+<script>
+function openSupportPopup(){
+  document.getElementById("supportPopup").style.display="flex"
+}
+
+function closeSupportPopup(){
+  document.getElementById("supportPopup").style.display="none"
+}
+
+function openDiscordSupport(){
+  window.open("https://discord.com/channels/1435017648751513713/1442140583220215949","_blank")
+}
+
+function openWebsiteSupport(){
+  location.href="Support.html"
+}
+</script>
+
+</body>
+</html>
