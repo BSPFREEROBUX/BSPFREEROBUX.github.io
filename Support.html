@@ -8,7 +8,7 @@
 
 body{
 margin:0;
-min-height:100dvh;
+height:100dvh;
 display:flex;
 flex-direction:column;
 background:#0f0f10;
@@ -80,8 +80,9 @@ background:#3a3a3a;
 flex:1;
 display:flex;
 min-height:0;
-height:calc(100dvh - 52px);
+overflow:hidden;
 }
+
 .ticketList{
 width:260px;
 background:#141414;
@@ -89,8 +90,8 @@ border-right:1px solid #2a2a2a;
 overflow-y:auto;
 padding:14px;
 flex-shrink:0;
-min-height:0;
 }
+
 .sidebarUser{
 font-size:13px;
 opacity:.7;
@@ -143,6 +144,7 @@ display:flex;
 flex-direction:column;
 min-width:0;
 min-height:0;
+overflow:hidden;
 }
 
 #ticketHeader{
@@ -159,8 +161,6 @@ padding:20px;
 display:flex;
 flex-direction:column;
 gap:12px;
-min-height:0;
--webkit-overflow-scrolling:touch;
 }
 
 .message{
@@ -169,6 +169,7 @@ padding:10px 12px;
 border-radius:8px;
 max-width:700px;
 border:1px solid #2a2a2a;
+word-break:break-word;
 }
 
 .message b{
@@ -195,9 +196,6 @@ margin-top:6px;
 .chatImage{
 max-width:100%;
 max-height:300px;
-height:auto;
-width:auto;
-object-fit:contain;
 border-radius:8px;
 border:1px solid #333;
 }
@@ -243,13 +241,6 @@ justify-content:center;
 
 .attachBtn:hover{
 background:#3a3a3a;
-}
-
-.resizeBar{
-height:6px;
-cursor:row-resize;
-background:transparent;
-flex-shrink:0;
 }
 
 #messageBox{
@@ -300,29 +291,22 @@ background:#3a3a3a;
 }
 
 @media (max-width: 768px){
-.ticketList{
-display:block;
-width:100%;
-height:40%;
-}
 
 .supportLayout{
-flex:1;
-display:flex;
-min-height:0;
-overflow:hidden;
+flex-direction:column;
 }
 
-.ticketList, .chatMessages{
-height:100%;
+.ticketList{
+width:100%;
+height:35%;
 }
 
-.message{
-max-width:100%;
-word-break:break-word;
+.ticketChat{
+height:65%;
 }
+
 }
-</style>
+
 </style>
 </head>
 <body>
@@ -336,7 +320,7 @@ word-break:break-word;
 
 <div class="ticketControls">
 
-<label class="toggle">
+<label>
 <input type="checkbox" id="anonToggle">
 Anonymous
 </label>
@@ -348,6 +332,7 @@ Anonymous
 </div>
 
 </div>
+
 <div class="supportLayout">
 
 <div class="ticketList">
@@ -360,19 +345,15 @@ Anonymous
 <h3 id="staffTitle" style="display:none;margin-top:20px">All Tickets</h3>
 <div id="allTickets"></div>
 
-<button style="margin-top:10px;width:100%" onclick="createTicket()">New Ticket</button>
+<button onclick="createTicket()">New Ticket</button>
 
 </div>
 
 <div class="ticketChat">
 
-<div id="ticketHeader">
-Select a ticket
-</div>
+<div id="ticketHeader">Select a ticket</div>
 
 <div class="chatMessages" id="chatMessages"></div>
-
-<div class="resizeBar" id="resizeBar"></div>
 
 <div class="chatInput" id="chatInput">
 
@@ -389,20 +370,13 @@ Select a ticket
 
 </div>
 
-</div>
-
 <script src="theme.js"></script>
 
 <script>
 
-  const messageBox = document.getElementById("messageBox")
-const fileInput = document.getElementById("fileInput")
-const anonToggle = document.getElementById("anonToggle")
-
-function toggleMenu(btn){
-const menu = btn.nextElementSibling
-menu.classList.toggle("show")
-}
+const messageBox=document.getElementById("messageBox")
+const fileInput=document.getElementById("fileInput")
+const anonToggle=document.getElementById("anonToggle")
 
 let backend=null
 let token=null
@@ -420,7 +394,7 @@ try{return JSON.parse(t)}catch{return null}
 }
 
 function hasSupport(){
-return user.permissions.support || user.permissions.admin
+return user.permissions.support||user.permissions.admin
 }
 
 function hasAdmin(){
@@ -445,7 +419,7 @@ if(hasSupport())
 document.getElementById("staffTitle").style.display="block"
 
 if(hasAdmin())
-anonToggle.style.display = "inline"
+anonToggle.style.display="inline"
 
 loadTickets()
 
@@ -474,14 +448,14 @@ const container=document.getElementById(containerId)
 container.innerHTML=""
 
 list.sort((a,b)=>{
-if(a.status==="open" && b.status==="closed") return -1
-if(a.status==="closed" && b.status==="open") return 1
+if(a.status==="open"&&b.status==="closed") return -1
+if(a.status==="closed"&&b.status==="open") return 1
 return new Date(b.createdAt)-new Date(a.createdAt)
 })
 
 list.forEach(t=>{
 
-if(!hasSupport() && t.status==="closed") return
+if(!hasSupport()&&t.status==="closed") return
 
 const div=document.createElement("div")
 div.className="ticketItem"
@@ -494,11 +468,7 @@ let owner=""
 if(containerId==="allTickets")
 owner=`<div class="ticketOwner">Created by: ${t.owner}</div>`
 
-div.innerHTML=`
-<b>${t.title}</b><br>
-${status}
-${owner}
-`
+div.innerHTML=`<b>${t.title}</b><br>${status}${owner}`
 
 div.onclick=()=>openTicket(t)
 
@@ -520,8 +490,6 @@ const lock=ticket.locked?" 🔒":" 🔓"
 
 ticketHeader.innerHTML=`<b>${ticket.title}</b><br>${status}${lock}`
 
-chatInput.style.display="flex"
-
 renderMessages(ticket)
 
 }
@@ -530,8 +498,8 @@ function renderMessages(ticket){
 
 const box=document.getElementById("chatMessages")
 
-const nearBottom =
-box.scrollHeight - box.scrollTop - box.clientHeight < 120
+const nearBottom=
+box.scrollHeight-box.scrollTop-box.clientHeight<120
 
 box.innerHTML=""
 
@@ -540,46 +508,41 @@ ticket.messages.forEach(m=>{
 let attach=""
 
 if(m.attachment)
-attach=`
-<div class="imageWrapper">
+attach=`<div class="imageWrapper">
 <img src="${backend}/uploads/${m.attachment.path}" class="chatImage">
 <div class="imageMenu">
-<button onclick="toggleMenu(this)">⋮</button>
+<button onclick="this.nextElementSibling.classList.toggle('show')">⋮</button>
 <div class="imageDropdown">
-<a href="${backend}/uploads/${m.attachment.path}" download="${m.attachment.name || 'image.png'}">Download</a>
+<a href="${backend}/uploads/${m.attachment.path}" download>Download</a>
 </div>
 </div>
-</div>
-`
+</div>`
 
-box.innerHTML+=`
-<div class="message">
+box.innerHTML+=`<div class="message">
 <b>${m.author}</b>
 <small>${new Date(m.time).toLocaleString()}</small>
-${m.text ? `<div>${m.text}</div>` : ""}
+${m.text?`<div>${m.text}</div>`:""}
 ${attach}
-</div>
-`
+</div>`
 
 })
 
-if(nearBottom)
-box.scrollTop=box.scrollHeight
+if(nearBottom) box.scrollTop=box.scrollHeight
 
 }
 
 async function refreshActiveTicket(){
 
-const r = await fetch(backend+"/support/list",{headers:{Authorization:token}})
-const data = await safeJson(r)
+const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
+const data=await safeJson(r)
 
 let all=[...(data.mine||[]),...(data.all||[])]
 
-const updated = all.find(t=>t.id===activeTicket.id)
+const updated=all.find(t=>t.id===activeTicket.id)
 
 if(!updated) return
 
-activeTicket = updated
+activeTicket=updated
 renderMessages(updated)
 
 }
@@ -610,31 +573,6 @@ messageBox.value=""
 fileInput.value=""
 
 refreshActiveTicket()
-
-}
-
-async function downloadImage(url){
-
-const res = await fetch(url)
-const blob = await res.blob()
-
-const img = await createImageBitmap(blob)
-
-const canvas = document.createElement("canvas")
-canvas.width = img.width
-canvas.height = img.height
-
-const ctx = canvas.getContext("2d")
-ctx.drawImage(img,0,0)
-
-canvas.toBlob((pngBlob)=>{
-
-const a = document.createElement("a")
-a.href = URL.createObjectURL(pngBlob)
-a.download = "image.png"
-a.click()
-
-}, "image/png")
 
 }
 
@@ -707,27 +645,6 @@ function logout(){
 localStorage.removeItem("authToken")
 location.href="login.html"
 }
-
-const resizeBar=document.getElementById("resizeBar")
-const chatInput=document.getElementById("chatInput")
-
-let resizing=false
-
-if(window.innerWidth > 768){
-resizeBar.addEventListener("mousedown",()=>{
-resizing=true
-})
-}
-
-document.addEventListener("mousemove",(e)=>{
-if(!resizing) return
-const newHeight=window.innerHeight - e.clientY
-chatInput.style.height=newHeight+"px"
-})
-
-document.addEventListener("mouseup",()=>{
-resizing=false
-})
 
 init()
 
