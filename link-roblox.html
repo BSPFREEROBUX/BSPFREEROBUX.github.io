@@ -3,139 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <title>Link Roblox</title>
-<link rel="stylesheet" href="styles.css">
+<style>
+body{
+margin:0;
+background:#0f0f10;
+color:white;
+font-family:system-ui;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100dvh;
+}
+.card{
+background:#1a1a1b;
+padding:30px;
+border-radius:12px;
+width:350px;
+text-align:center;
+}
+input{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:none;
+margin-top:10px;
+background:#0f0f10;
+color:white;
+}
+button{
+margin-top:15px;
+padding:10px;
+width:100%;
+border:none;
+border-radius:8px;
+background:#5865f2;
+color:white;
+cursor:pointer;
+}
+button:hover{
+background:#6d78ff;
+}
+.code{
+margin-top:15px;
+padding:10px;
+background:#0f0f10;
+border-radius:8px;
+font-weight:bold;
+}
+.status{
+margin-top:10px;
+font-size:14px;
+opacity:.8;
+}
+.success{color:#2ecc71;}
+.error{color:#e74c3c;}
+</style>
 </head>
 <body>
 
-<div class="topbar">
-<div>Roblox Link</div>
-<div class="icons">
-<span onclick="location.href='dashboard.html'">Dashboard</span>
-</div>
-</div>
+<div class="card">
 
-<div class="wrapper" style="margin-top:80px">
+<h2>Link Roblox Account</h2>
 
-<div class="quest-card" id="statusBox">
-Checking login...
-</div>
+<div>Put this in your Roblox bio:</div>
 
-<div style="margin-top:20px;text-align:center">
-<button id="verifyBtn" style="display:none">Verify with Roblox</button>
-</div>
+<div id="codeBox" class="code"></div>
+
+<input id="username" placeholder="Roblox Username">
+
+<button onclick="verify()">Verify</button>
+
+<div id="status" class="status"></div>
 
 </div>
 
 <script>
 
-let backend=null
-let token=null
-let verifyToken=null
+const params = new URLSearchParams(location.search)
+const token = params.get("token")
 
-async function getBackend(){
-const r=await fetch("server.txt")
-return (await r.text()).trim()
-}
+document.getElementById("codeBox").textContent = token
 
-async function safeJson(res){
-const t=await res.text()
-try{return JSON.parse(t)}catch{return null}
-}
+async function verify(){
 
-function getParams(){
-const p=new URLSearchParams(location.search)
-return {
-token:p.get("token")
-}
-}
+const username = document.getElementById("username").value.trim()
+const status = document.getElementById("status")
 
-async function init(){
-
-backend=await getBackend()
-token=localStorage.getItem("authToken")
-
-if(!token){
-statusBox.innerHTML="❌ You must be logged in"
+if(!username){
+status.textContent = "Enter a username"
+status.className="status error"
 return
 }
 
-const me=await fetch(backend+"/me",{headers:{Authorization:token}})
-const data=await safeJson(me)
-
-if(!data || data.error){
-statusBox.innerHTML="❌ Session invalid"
-return
-}
-
-verifyToken=getParams().token
-
-if(!verifyToken){
-statusBox.innerHTML="❌ Invalid link"
-return
-}
-
-statusBox.innerHTML=`
-<b>Logged in as:</b> ${data.username}<br><br>
-Click below to verify your Roblox account
-`
-
-document.getElementById("verifyBtn").style.display="inline-block"
-
-}
-
-document.getElementById("verifyBtn").onclick=async()=>{
-
-statusBox.innerHTML="Waiting for Roblox login..."
-
-const win=window.open("https://www.roblox.com/login","_blank")
-
-setTimeout(async()=>{
+status.textContent = "Verifying..."
+status.className="status"
 
 try{
 
-const res=await fetch("https://users.roblox.com/v1/users/authenticated",{
-credentials:"include"
-})
-
-const rdata=await res.json()
-
-if(!rdata || !rdata.id){
-statusBox.innerHTML="❌ Not logged into Roblox"
-return
-}
-
-const save=await fetch(backend+"/link-roblox",{
+const res = await fetch("/link-roblox",{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-token:verifyToken,
-robloxId:rdata.id,
-username:rdata.name
-})
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({token,username})
 })
 
-const sdata=await safeJson(save)
+const data = await res.json()
 
-if(sdata && sdata.success){
-statusBox.innerHTML=`
-✅ Linked successfully<br>
-Roblox: ${rdata.name}
-`
+if(data.success){
+status.textContent = "Linked successfully"
+status.className="status success"
 }else{
-statusBox.innerHTML="❌ Linking failed"
+if(data.error==="invalid") status.textContent="Invalid link"
+else if(data.error==="expired") status.textContent="Link expired"
+else if(data.error==="nouser") status.textContent="Roblox user not found"
+else if(data.error==="nobio") status.textContent="Put the code in your Roblox bio"
+else if(data.error==="nodiscordlink") status.textContent="Discord not linked to site"
+else status.textContent="Failed"
+status.className="status error"
 }
 
-}catch{
-statusBox.innerHTML="❌ Failed to verify"
+}catch(e){
+status.textContent = "Server error"
+status.className="status error"
 }
 
-},3000)
-
 }
-
-init()
 
 </script>
 
