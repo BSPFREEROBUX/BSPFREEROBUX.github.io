@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Link Roblox</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="topbar">
+<div>Roblox Link</div>
+<div class="icons">
+<span onclick="location.href='dashboard.html'">Dashboard</span>
+</div>
+</div>
+
+<div class="wrapper" style="margin-top:80px">
+
+<div class="quest-card" id="statusBox">
+Checking login...
+</div>
+
+<div style="margin-top:20px;text-align:center">
+<button id="verifyBtn" style="display:none">Verify with Roblox</button>
+</div>
+
+</div>
+
+<script>
+
+let backend=null
+let token=null
+let verifyToken=null
+
+async function getBackend(){
+const r=await fetch("server.txt")
+return (await r.text()).trim()
+}
+
+async function safeJson(res){
+const t=await res.text()
+try{return JSON.parse(t)}catch{return null}
+}
+
+function getParams(){
+const p=new URLSearchParams(location.search)
+return {
+token:p.get("token")
+}
+}
+
+async function init(){
+
+backend=await getBackend()
+token=localStorage.getItem("authToken")
+
+if(!token){
+statusBox.innerHTML="❌ You must be logged in"
+return
+}
+
+const me=await fetch(backend+"/me",{headers:{Authorization:token}})
+const data=await safeJson(me)
+
+if(!data || data.error){
+statusBox.innerHTML="❌ Session invalid"
+return
+}
+
+verifyToken=getParams().token
+
+if(!verifyToken){
+statusBox.innerHTML="❌ Invalid link"
+return
+}
+
+statusBox.innerHTML=`
+<b>Logged in as:</b> ${data.username}<br><br>
+Click below to verify your Roblox account
+`
+
+document.getElementById("verifyBtn").style.display="inline-block"
+
+}
+
+document.getElementById("verifyBtn").onclick=async()=>{
+
+statusBox.innerHTML="Waiting for Roblox login..."
+
+const win=window.open("https://www.roblox.com/login","_blank")
+
+setTimeout(async()=>{
+
+try{
+
+const res=await fetch("https://users.roblox.com/v1/users/authenticated",{
+credentials:"include"
+})
+
+const rdata=await res.json()
+
+if(!rdata || !rdata.id){
+statusBox.innerHTML="❌ Not logged into Roblox"
+return
+}
+
+const save=await fetch(backend+"/link-roblox",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+token:verifyToken,
+robloxId:rdata.id,
+username:rdata.name
+})
+})
+
+const sdata=await safeJson(save)
+
+if(sdata && sdata.success){
+statusBox.innerHTML=`
+✅ Linked successfully<br>
+Roblox: ${rdata.name}
+`
+}else{
+statusBox.innerHTML="❌ Linking failed"
+}
+
+}catch{
+statusBox.innerHTML="❌ Failed to verify"
+}
+
+},3000)
+
+}
+
+init()
+
+</script>
+
+</body>
+</html>
