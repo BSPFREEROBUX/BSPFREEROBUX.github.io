@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Link Roblox</title>
+
 <style>
 body{
 margin:0;
@@ -14,6 +15,7 @@ align-items:center;
 justify-content:center;
 height:100dvh;
 }
+
 .card{
 background:#1a1a1b;
 padding:30px;
@@ -21,6 +23,7 @@ border-radius:12px;
 width:350px;
 text-align:center;
 }
+
 input{
 width:100%;
 padding:10px;
@@ -30,6 +33,7 @@ margin-top:10px;
 background:#0f0f10;
 color:white;
 }
+
 button{
 margin-top:15px;
 padding:10px;
@@ -40,9 +44,11 @@ background:#5865f2;
 color:white;
 cursor:pointer;
 }
+
 button:hover{
 background:#6d78ff;
 }
+
 .code{
 margin-top:15px;
 padding:10px;
@@ -50,14 +56,17 @@ background:#0f0f10;
 border-radius:8px;
 font-weight:bold;
 }
+
 .status{
 margin-top:10px;
 font-size:14px;
 opacity:.8;
 }
+
 .success{color:#2ecc71;}
 .error{color:#e74c3c;}
 </style>
+
 </head>
 <body>
 
@@ -66,8 +75,7 @@ opacity:.8;
 <h2>Link Roblox Account</h2>
 
 <div>Put this in your Roblox bio:</div>
-
-<div id="codeBox" class="code"></div>
+<div id="codeBox" class="code">Loading...</div>
 
 <input id="username" placeholder="Roblox Username">
 
@@ -79,51 +87,61 @@ opacity:.8;
 
 <script>
 
+let backend = null
+
+async function getBackend(){
+  const r = await fetch("server.txt")
+  return (await r.text()).trim()
+}
+
 const params = new URLSearchParams(location.search)
 const token = params.get("token")
 
-document.getElementById("codeBox").textContent = token
+document.getElementById("codeBox").textContent = token || "Invalid link"
 
 async function verify(){
 
-const username = document.getElementById("username").value.trim()
 const status = document.getElementById("status")
+const username = document.getElementById("username").value.trim()
 
 if(!username){
-status.textContent = "Enter a username"
-status.className="status error"
-return
+  status.textContent = "Enter a username"
+  status.className = "status error"
+  return
 }
 
 status.textContent = "Verifying..."
-status.className="status"
+status.className = "status"
 
 try{
 
-const res = await fetch("/link-roblox",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({token,username})
-})
+  if(!backend) backend = await getBackend()
 
-const data = await res.json()
+  const res = await fetch(backend + "/link-roblox",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({token,username})
+  })
 
-if(data.success){
-status.textContent = "Linked successfully"
-status.className="status success"
-}else{
-if(data.error==="invalid") status.textContent="Invalid link"
-else if(data.error==="expired") status.textContent="Link expired"
-else if(data.error==="nouser") status.textContent="Roblox user not found"
-else if(data.error==="nobio") status.textContent="Put the code in your Roblox bio"
-else if(data.error==="nodiscordlink") status.textContent="Discord not linked to site"
-else status.textContent="Failed"
-status.className="status error"
-}
+  const data = await res.json()
 
-}catch(e){
-status.textContent = "Server error"
-status.className="status error"
+  if(data.success){
+    status.textContent = "Linked successfully"
+    status.className = "status success"
+  }else{
+    if(data.error==="invalid") status.textContent="Invalid link"
+    else if(data.error==="expired") status.textContent="Link expired"
+    else if(data.error==="nouser") status.textContent="Roblox user not found"
+    else if(data.error==="nobio") status.textContent="Put the code in your Roblox bio"
+    else if(data.error==="nodiscordlink") status.textContent="Link Discord first"
+    else status.textContent="Failed"
+    status.className = "status error"
+  }
+
+}catch(err){
+  console.error(err)
+  status.textContent = "Backend connection failed"
+  status.className = "status error"
 }
 
 }
