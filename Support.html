@@ -83,15 +83,13 @@ min-height:0;
 height:calc(100dvh - 52px);
 }
 .ticketList{
-position:absolute;
-top:52px;
-left:0;
-bottom:0;
 width:260px;
 background:#141414;
 border-right:1px solid #2a2a2a;
 overflow-y:auto;
 padding:14px;
+flex-shrink:0;
+min-height:0;
 }
 .sidebarUser{
 font-size:13px;
@@ -143,6 +141,7 @@ cursor:pointer;
 flex:1;
 display:flex;
 flex-direction:column;
+min-width:0;
 min-height:0;
 }
 
@@ -195,7 +194,10 @@ margin-top:6px;
 
 .chatImage{
 max-width:100%;
+max-height:300px;
 height:auto;
+width:auto;
+object-fit:contain;
 border-radius:8px;
 border:1px solid #333;
 }
@@ -308,10 +310,17 @@ height:40%;
 .supportLayout{
 flex:1;
 display:flex;
+min-height:0;
+overflow:hidden;
+}
+
+.ticketList, .chatMessages{
+height:100%;
 }
 
 .message{
 max-width:100%;
+word-break:break-word;
 }
 }
 
