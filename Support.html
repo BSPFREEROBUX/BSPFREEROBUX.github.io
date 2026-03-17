@@ -692,9 +692,11 @@ const chatInput=document.getElementById("chatInput")
 
 let resizing=false
 
+if(window.innerWidth > 768){
 resizeBar.addEventListener("mousedown",()=>{
 resizing=true
 })
+}
 
 document.addEventListener("mousemove",(e)=>{
 if(!resizing) return
