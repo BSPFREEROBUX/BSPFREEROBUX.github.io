@@ -1,1 +1,1 @@
-https://signed-gzip-all-biodiversity.trycloudflare.com/
+https://signed-gzip-all-biodiversity.trycloudflare.com
