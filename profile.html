@@ -119,8 +119,19 @@ return (await r.text()).trim()
 async function getMe(){
 const token=localStorage.getItem("token")
 if(!token) return null
-const r=await fetch(backend+"/me",{headers:{Authorization:token}})
-return await r.json()
+
+try{
+const r=await fetch(backend+"/me",{
+headers:{Authorization:token}
+})
+
+const data=await r.json()
+if(data.error) return null
+
+return data
+}catch{
+return null
+}
 }
 
 function getUsername(){
@@ -211,7 +222,8 @@ async function loadProfile(){
 
 backend=await getBackend()
 me=await getMe()
-
+console.log("ME:", me)
+  
 const username=getUsername()
 
 if(!username){
