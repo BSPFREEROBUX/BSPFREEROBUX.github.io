@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Balance</title>
+</head>
+<body>
+
+<h2>Your Balance</h2>
+<div id="bal">Loading...</div>
+
+<button onclick="goSupport()">Payout</button>
+<button onclick="goSupport()">Insert</button>
+
+<script>
+
+let backend=null
+
+async function getBackend(){
+const r=await fetch("server.txt")
+return (await r.text()).trim()
+}
+
+async function load(){
+
+backend=await getBackend()
+
+const token=localStorage.getItem("token")
+
+const r=await fetch(backend+"/balance",{headers:{Authorization:token}})
+const d=await r.json()
+
+document.getElementById("bal").innerText=d.balance
+}
+
+function goSupport(){
+location.href="support.html"
+}
+
+load()
+
+</script>
+
+</body>
+</html>
