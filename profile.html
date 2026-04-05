@@ -241,6 +241,20 @@ if(data.roblox){
 roblox=`${data.roblox.username} (ID: ${data.roblox.id})`
 }
 
+let earningsHTML="None"
+
+if(data.earnings && Object.keys(data.earnings).length){
+earningsHTML=Object.entries(data.earnings)
+.map(([k,v])=>`${v} ${k}`)
+.join("<br>")
+}
+
+let discord="Not linked"
+
+if(data.linked){
+discord=data.linked.username || data.linked.id
+}
+
 profileBox.innerHTML=`
 <div class="profileName">
 ${data.username} ${icons}
@@ -259,6 +273,11 @@ ${new Date(data.created).toLocaleString()}
 </div>
 
 <div class="row">
+<b>Discord:</b><br>
+${discord}
+</div>
+
+<div class="row">
 <b>Roblox:</b><br>
 ${roblox}
 </div>
@@ -266,6 +285,11 @@ ${roblox}
 <div class="row">
 <b>Quests Completed:</b><br>
 ${data.questsCompleted}
+</div>
+
+<div class="row">
+<b>Total Earnings:</b><br>
+${earningsHTML}
 </div>
 `
 }
