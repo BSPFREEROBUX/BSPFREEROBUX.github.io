@@ -89,7 +89,7 @@ async function safeJson(res){
 async function init(){
   backend = await getBackend()
 
-  const token = localStorage.getItem("authToken")
+  const token = const token = localStorage.getItem("token")
   if(!token) return location.href = "login.html"
 
   try{
@@ -99,7 +99,7 @@ async function init(){
 
     const data = await safeJson(r)
     if(!data || data.error){
-      localStorage.removeItem("authToken")
+      localStorage.removeItem("token")
       return location.href = "login.html"
     }
 
@@ -143,7 +143,7 @@ async function init(){
 }
 
 async function loadQuests(){
-  const token = localStorage.getItem("authToken")
+  const token = localStorage.getItem("token")
   if(!token) return
 
   try{
@@ -251,7 +251,7 @@ function openWebsiteSupport(){
 }
 
 function logout(){
-  localStorage.removeItem("authToken")
+  localStorage.removeItem("token")
   location.href = "login.html"
 }
 
