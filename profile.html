@@ -160,7 +160,7 @@ await fetch(backend+"/admin/payout",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
-secret:"43290UWJEGROIFDJEGFO0I34R5EJ0H8FDIGUJU04R5E9TDGHBJFHGB40TER8HDJFIG",
+secret:"43290UWJEGROIFDJEGFO0I34R5EJ0H8FDIGUJU04R5EJ0H8FDIGUJU04R5E9TDGHBJFHGB40TER8HDJFIG",
 username,
 amount,
 reason,
@@ -236,6 +236,11 @@ if(me && me.permissions && me.permissions.admin){
 adminBtn=`<button onclick="payoutPopup('${data.username}')">Payout</button>`
 }
 
+let roblox="Not linked"
+if(data.roblox){
+roblox=`${data.roblox.username} (ID: ${data.roblox.id})`
+}
+
 profileBox.innerHTML=`
 <div class="profileName">
 ${data.username} ${icons}
@@ -244,8 +249,18 @@ ${data.username} ${icons}
 ${adminBtn}
 
 <div class="row">
+<b>Account ID:</b><br>
+${data.id}
+</div>
+
+<div class="row">
 <b>Account Created:</b><br>
 ${new Date(data.created).toLocaleString()}
+</div>
+
+<div class="row">
+<b>Roblox:</b><br>
+${roblox}
 </div>
 
 <div class="row">
