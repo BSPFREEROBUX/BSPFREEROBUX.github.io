@@ -89,7 +89,7 @@ async function safeJson(res){
 async function init(){
   backend = await getBackend()
 
-  localStorage.removeItem("authToken")
+  const token = localStorage.getItem("authToken")
   if(!token) return location.href = "login.html"
 
   try{
