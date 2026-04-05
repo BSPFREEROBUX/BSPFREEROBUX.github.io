@@ -10,11 +10,11 @@
 <div class="topbar">
   <div id="userDisplay"></div>
 <div class="icons">
-  <span onclick="location.href='history.html'">History</span>
+  <span onclick="location.href='history.html'">📜 History</span>
   <span onclick="location.href='balance.html'">💰 Wallet</span>
-  <span onclick="location.href='profile.html?username='+encodeURIComponent(user.username)">👤 Profile</span>
-  <span onclick="openSupportPopup()">Support</span>
-  <span onclick="logout()">Logout</span>
+  <span onclick="goProfile()">👤 Profile</span>
+  <span onclick="openSupportPopup()">🛠 Support</span>
+  <span onclick="logout()">🚪 Logout</span>
   <span onclick="toggleTheme()">🌓</span>
 </div>
 </div>
@@ -164,6 +164,12 @@ async function loadQuests(){
   catch(err){
     console.error(err)
   }
+}
+
+function goProfile(){
+const username=localStorage.getItem("username")
+if(!username) return alert("Not logged in")
+location.href="profile.html?username="+encodeURIComponent(username)
 }
 
 function renderQuests(list, containerId, completed){
