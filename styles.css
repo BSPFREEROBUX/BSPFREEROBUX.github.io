@@ -117,10 +117,26 @@ padding:18px 25px;
 font-weight:bold;
 }
 
+.icons{
+display:flex;
+gap:10px;
+}
+
 .icons span{
-margin-left:18px;
 cursor:pointer;
-font-size:18px;
+opacity:.9;
+padding:6px 10px;
+border:1px solid #333;
+border-radius:8px;
+background:#1a1a1b;
+transition:all 0.15s ease;
+font-size:14px;
+}
+
+.icons span:hover{
+opacity:1;
+background:#222;
+border-color:#555;
 }
 
 .modal{
