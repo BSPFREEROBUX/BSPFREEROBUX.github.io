@@ -34,10 +34,12 @@ async function login(){
 
     const d = await r.json()
 
-    if(d.token){
-      localStorage.setItem("authToken", d.token)
-      location.href = "dashboard.html"
-    }
+if(d.token){
+  localStorage.removeItem("authToken")
+  localStorage.setItem("token", d.token)
+  localStorage.setItem("username", username.value)
+  location.href = "dashboard.html"
+}
     else if(d.banned){
       alert("Banned: " + d.reason + "\nRemaining: " + d.remaining)
     }
