@@ -23,24 +23,33 @@ async function login(){
   try{
     const base = await getBackend()
 
+    if(!base){
+      alert("Backend not found")
+      return
+    }
+
     const r = await fetch(base + "/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: username.value,
-        password: password.value
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
       })
     })
 
+    if(!r.ok){
+      alert("Server error")
+      return
+    }
+
     const d = await r.json()
 
-if(d.token){
-  localStorage.removeItem("authToken")
-  localStorage.setItem("token", d.token)
-  localStorage.setItem("username", username.value)
-  location.href = "dashboard.html"
-}
-    else if(d.banned){
+    if(d && d.token){
+      localStorage.setItem("Token", d.token)
+      localStorage.setItem("username", document.getElementById("username").value)
+      location.href = "dashboard.html"
+    }
+    else if(d && d.banned){
       alert("Banned: " + d.reason + "\nRemaining: " + d.remaining)
     }
     else{
@@ -49,7 +58,7 @@ if(d.token){
 
   }catch(err){
     console.error(err)
-    alert("Network error")
+    alert("Network error or backend offline")
   }
 }
 </script>
