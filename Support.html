@@ -473,7 +473,7 @@ async function init(){
 
 backend=await getBackend()
 
-token=localStorage.getItem("authToken")
+token=localStorage.getItem("Token")
 if(!token) location.href="login.html"
 
 const r=await fetch(backend+"/me",{headers:{Authorization:token}})
