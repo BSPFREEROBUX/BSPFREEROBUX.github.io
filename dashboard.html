@@ -167,9 +167,7 @@ async function loadQuests(){
 }
 
 function goProfile(){
-const username=localStorage.getItem("username")
-if(!username) return alert("Not logged in")
-location.href="profile.html?username="+encodeURIComponent(username)
+location.href="profile.html"
 }
 
 function renderQuests(list, containerId, completed){
