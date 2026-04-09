@@ -166,12 +166,15 @@ async function doPayout(username,type){
 
 const amount=parseInt(document.getElementById("amt").value)
 const reason=document.getElementById("reason").value
+const token=localStorage.getItem("Token")
 
 await fetch(backend+"/admin/payout",{
 method:"POST",
-headers:{"Content-Type":"application/json"},
+headers:{
+"Content-Type":"application/json",
+"Authorization":token
+},
 body:JSON.stringify({
-secret:"43290UWJEGROIFDJEGFO0I34R5EJ0H8FDIGUJU04R5EJ0H8FDIGUJU04R5E9TDGHBJFHGB40TER8HDJFIG",
 username,
 amount,
 reason,
