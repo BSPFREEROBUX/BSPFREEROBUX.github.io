@@ -25,7 +25,7 @@ async function load(){
 
 backend=await getBackend()
 
-const token=localStorage.getItem("token")
+const token=localStorage.getItem("Token")
 
 const r=await fetch(backend+"/balance",{headers:{Authorization:token}})
 const d=await r.json()
