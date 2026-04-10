@@ -4,6 +4,40 @@
 <meta charset="UTF-8">
 <title>Dashboard</title>
 <link rel="stylesheet" href="styles.css">
+<style>
+.stats-container{
+display:flex;
+justify-content:center;
+gap:20px;
+margin-bottom:40px;
+flex-wrap:wrap;
+}
+.stat-box{
+background:#1e1e1e;
+padding:20px;
+border-radius:12px;
+width:260px;
+text-align:center;
+font-size:18px;
+}
+.stat-inner{
+background:#2a2a2a;
+margin-top:10px;
+padding:15px;
+border-radius:8px;
+font-size:22px;
+}
+.stat-btn{
+margin-top:10px;
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#4cafef;
+color:white;
+font-weight:bold;
+}
+</style>
 </head>
 <body>
 
@@ -20,6 +54,23 @@
 </div>
 
 <div class="wrapper" style="margin-top:80px">
+
+<div class="stats-container">
+  <div class="stat-box">
+    Total Free Robux Orders Complete
+    <div class="stat-inner" id="ordersCount">0</div>
+  </div>
+
+  <div class="stat-box">
+    View Proof
+    <button class="stat-btn" onclick="location.href='Proof.html'">View</button>
+  </div>
+
+  <div class="stat-box">
+    Total Robux Given Out
+    <div class="stat-inner" id="robuxCount">0</div>
+  </div>
+</div>
 
   <div id="banScreen" style="display:none">
     <h2>You Are Banned</h2>
@@ -86,8 +137,41 @@ async function safeJson(res){
   }
 }
 
+async function animateValue(el, end){
+  let start = 0
+  let duration = 1500
+  let startTime = null
+
+  function update(timestamp){
+    if(!startTime) startTime = timestamp
+    let progress = timestamp - startTime
+    let value = Math.floor((progress/duration)*end)
+    if(value > end) value = end
+    el.textContent = value.toLocaleString()
+    if(progress < duration){
+      requestAnimationFrame(update)
+    }
+  }
+  requestAnimationFrame(update)
+}
+
+async function loadStats(){
+  try{
+    const robuxRes = await fetch("TotalRobuxGivenOut.txt")
+    const robuxText = await robuxRes.text()
+    const robuxValue = parseInt(robuxText.trim()) || 0
+    animateValue(document.getElementById("robuxCount"), robuxValue)
+
+    const ordersRes = await fetch("TotalFreeRobuxOrdersComplete.txt")
+    const ordersText = await ordersRes.text()
+    const ordersValue = parseInt(ordersText.trim()) || 0
+    animateValue(document.getElementById("ordersCount"), ordersValue)
+  }catch(e){}
+}
+
 async function init(){
   backend = await getBackend()
+  loadStats()
 
   const token = localStorage.getItem("Token")
   if(!token) return location.href = "login.html"
