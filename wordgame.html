@@ -516,42 +516,27 @@ async function refreshCurrentRoom(){
 if(!currentRoom) return
 
 try{
-const r = await fetch(backend + "/room/" + currentRoom, {
-headers: { Authorization: token },
-cache: "no-store"
+const r = await fetch(backend + "/room/" + currentRoom,{
+headers:{Authorization:token},
+cache:"no-store"
 })
+
 const data = await safeJson(r)
+if(!data || data.error) return
 
-if(!data || data.error){
-document.getElementById("startBtn").classList.add("hidden")
-return
-}
+const startBtn=document.getElementById("startBtn")
 
-const startBtn = document.getElementById("startBtn")
-
-if(Array.isArray(data.players) && data.players.length >= 2 && !data.started){
+if(Array.isArray(data.players) && data.players.length>=2 && !data.started){
 startBtn.classList.remove("hidden")
 }else{
 startBtn.classList.add("hidden")
 }
 
-if(data.lastResults){
-const box=document.getElementById("scoreboard")
-box.innerHTML=""
+renderScoreboard(data)
 
-Object.entries(data.lastResults).forEach(([name,res])=>{
-const div=document.createElement("div")
-div.className="score-item"
-div.innerHTML=`<div>${name}</div><div>${res.word || "-"} (${res.points})</div>`
-box.appendChild(div)
-})
-}
-
-if(data.started && data.letters && !roundActive){
+if(data.started){
 startRound(data)
-}
-
-if(!data.started && roundActive){
+}else{
 roundActive=false
 if(roundTimer) clearInterval(roundTimer)
 }
@@ -560,34 +545,40 @@ if(roundTimer) clearInterval(roundTimer)
 }
   
 function renderScoreboard(data){
-  const box = document.getElementById("scoreboard")
-  box.innerHTML = ""
 
-  const players = Array.isArray(data.players) ? data.players : []
-  if(players.length === 0){
-    box.innerHTML = '<div class="status">No players yet.</div>'
-    return
-  }
+const box=document.getElementById("scoreboard")
+box.innerHTML=""
 
-  players.forEach(name => {
-    const item = document.createElement("div")
-    item.className = "score-item"
+if(data.lastResults){
 
-    const left = document.createElement("div")
-    left.className = "score-name"
-    left.textContent = name + (name === data.owner ? " (creator)" : "")
+const title=document.createElement("div")
+title.innerHTML="<b>Last Round Results</b>"
+box.appendChild(title)
 
-    const right = document.createElement("div")
-    right.className = "score-points"
-    const score = data.scores && typeof data.scores[name] === "number" ? data.scores[name] : 0
-    right.textContent = score + " pts"
+Object.entries(data.lastResults).forEach(([name,res])=>{
+const div=document.createElement("div")
+div.className="score-item"
+div.innerHTML=`<div>${name}</div><div>${res.word || "-"} (${res.points})</div>`
+box.appendChild(div)
+})
 
-    item.appendChild(left)
-    item.appendChild(right)
-    box.appendChild(item)
-  })
 }
 
+if(data.scores){
+
+const title=document.createElement("div")
+title.innerHTML="<br><b>Total Scores</b>"
+box.appendChild(title)
+
+Object.entries(data.scores).forEach(([name,score])=>{
+const div=document.createElement("div")
+div.className="score-item"
+div.innerHTML=`<div>${name}</div><div>${score}</div>`
+box.appendChild(div)
+})
+
+}
+}
 async function startGame(){
   if(!currentRoom) return
   try{
@@ -617,36 +608,42 @@ async function startGame(){
   }
 }
 
+let lastLetters=""
+
 function startRound(data){
-roundActive = true
-submittedThisRound = false
+
+if(data.letters === lastLetters) return
+
+lastLetters = data.letters
+
+roundActive=true
+submittedThisRound=false
 
 document.getElementById("gameCard").classList.remove("hidden")
 
 document.querySelector(".grid").style.display="none"
 document.querySelector(".rooms").style.display="none"
 
-document.getElementById("letters").textContent = data.letters || ""
+document.getElementById("letters").textContent=data.letters
 document.getElementById("words").value=""
 
-let time = Number(data.time) || 30
-document.getElementById("timer").textContent = time + "s"
+let time = Number(data.time)||30
 
 clearInterval(roundTimer)
 
-roundTimer = setInterval(()=>{
+roundTimer=setInterval(()=>{
 time--
-if(time < 0) time = 0
+if(time<0) time=0
 
-document.getElementById("timer").textContent = time + "s"
+document.getElementById("timer").textContent=time+"s"
 
-if(time === 0){
+if(time===0){
 clearInterval(roundTimer)
 submitWords()
 }
 },1000)
 }
-
+  
 async function submitWords(){
   if(!currentRoom || submittedThisRound) return
   submittedThisRound = true
