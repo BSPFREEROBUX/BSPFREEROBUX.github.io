@@ -200,6 +200,8 @@ document.getElementById("roomControls").style.display="block"
 listenRoom()
 }
 
+let roomInterval=null
+
 function listenRoom(){
 if(roomInterval) clearInterval(roomInterval)
 
@@ -215,7 +217,7 @@ if(!data || data.error) return
 
 const startBtn=document.getElementById("startBtn")
 
-if(data.owner === data.you && data.players.length >= 2 && !data.started){
+if(data.players && data.players.length >= 2 && !data.started){
 startBtn.style.display="block"
 }else{
 startBtn.style.display="none"
