@@ -106,7 +106,7 @@ align-items:center;
 <h3>Rooms</h3>
 <div id="rooms"></div>
 </div>
-
+<button id="startBtn" onclick="startGame()" style="display:none">Start Game</button>
 <div class="card" id="game" style="display:none">
 <div id="letters"></div>
 <textarea id="words" placeholder="1 word per line (max 10)"></textarea>
@@ -169,6 +169,14 @@ container.appendChild(div)
 })
 }
 
+async function startGame(){
+await fetch(backend+"/start-room",{
+method:"POST",
+headers:{"Content-Type":"application/json","Authorization":token},
+body:JSON.stringify({roomId:currentRoom})
+})
+}
+
 async function createRoom(){
 const name=document.getElementById("roomName").value
 const pass=document.getElementById("roomPass").value
@@ -202,6 +210,14 @@ async function listenRoom(){
 setInterval(async ()=>{
 const r=await fetch(backend+"/room/"+currentRoom)
 const data=await r.json()
+
+const startBtn=document.getElementById("startBtn")
+
+if(data.owner===data.players[0] && data.players.length>=2 && !data.started){
+startBtn.style.display="block"
+}else{
+startBtn.style.display="none"
+}
 
 if(data.started){
 startRound(data)
