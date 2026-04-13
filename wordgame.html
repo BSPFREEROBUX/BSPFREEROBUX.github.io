@@ -5,269 +5,681 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Word Game</title>
 <style>
+:root{
+  --bg:#0e0e0e;
+  --panel:#1d1d1d;
+  --panel2:#242424;
+  --text:#ffffff;
+  --muted:#b6b6b6;
+  --accent:#4cafef;
+  --accent2:#3b8fd1;
+  --border:rgba(255,255,255,.08);
+  --danger:#e05d5d;
+  --good:#44c26a;
+}
+
+*{box-sizing:border-box}
+
 body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0e0e0e;
-color:#fff;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
+
 .topbar{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:10px 15px;
-background:#121212;
-z-index:1000;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#111;
+  border-bottom:1px solid var(--border);
+  padding:14px 16px;
+  font-size:22px;
+  font-weight:700;
 }
+
 .wrapper{
-max-width:900px;
-margin:auto;
-padding:15px;
-margin-top:80px;
+  max-width:1100px;
+  margin:0 auto;
+  padding:18px;
 }
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+
 .card{
-background:#1e1e1e;
-padding:20px;
-border-radius:12px;
-margin-bottom:15px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
 }
+
+.card h2,
+.card h3{
+  margin:0 0 14px 0;
+}
+
+input, textarea{
+  width:100%;
+  border:none;
+  outline:none;
+  background:#f5f5f5;
+  color:#111;
+  border-radius:12px;
+  padding:14px 14px;
+  font-size:16px;
+  margin-bottom:10px;
+}
+
 textarea{
-width:100%;
-height:200px;
-border:none;
-border-radius:10px;
-padding:10px;
-font-size:18px;
-background:#2a2a2a;
-color:white;
-resize:none;
+  min-height:190px;
+  resize:vertical;
+  line-height:1.4;
 }
+
 button{
-margin-top:10px;
-padding:10px;
-border:none;
-border-radius:8px;
-background:#4cafef;
-color:white;
-cursor:pointer;
-width:100%;
+  border:none;
+  outline:none;
+  cursor:pointer;
+  border-radius:12px;
+  padding:14px 16px;
+  font-size:16px;
+  font-weight:700;
+  transition:transform .08s ease, opacity .15s ease, background .15s ease;
 }
-#letters{
-font-size:30px;
-margin-bottom:10px;
-text-align:center;
+
+button:active{transform:scale(.99)}
+button:disabled{opacity:.55;cursor:not-allowed}
+
+.primary{
+  background:var(--accent);
+  color:#fff;
 }
-#timer{
-font-size:22px;
-text-align:center;
-margin-top:10px;
+
+.primary:hover{
+  background:var(--accent2);
 }
+
+.secondary{
+  background:#2c2c2c;
+  color:#fff;
+  border:1px solid var(--border);
+}
+
+.danger{
+  background:var(--danger);
+  color:#fff;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.row > *{
+  flex:1 1 220px;
+}
+
+.small{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.rooms{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+
 .room{
-background:#2a2a2a;
-padding:10px;
-border-radius:8px;
-margin-bottom:10px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.room-info{
+  min-width:0;
+}
+
+.room-title{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:4px;
+  word-break:break-word;
+}
+
+.room-meta{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.room button{
+  width:140px;
+  flex:0 0 140px;
+  margin:0;
+}
+
+.hidden{display:none !important}
+
+#letters{
+  font-size:34px;
+  font-weight:800;
+  letter-spacing:4px;
+  text-align:center;
+  margin:10px 0 8px;
+  word-break:break-word;
+}
+
+#timer{
+  text-align:center;
+  font-size:22px;
+  font-weight:700;
+  margin:6px 0 14px;
+}
+
+.status{
+  background:#181818;
+  border:1px solid var(--border);
+  color:var(--muted);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-top:10px;
+  word-break:break-word;
+}
+
+.scoreboard{
+  display:grid;
+  gap:8px;
+  margin-top:12px;
+}
+
+.score-item{
+  background:#242424;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.score-name{
+  font-weight:700;
+}
+
+.score-points{
+  color:var(--accent);
+  font-weight:800;
+}
+
+@media (min-width:900px){
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
 }
 </style>
 </head>
 <body>
-
-<div class="topbar">
-<div>Word Game</div>
-</div>
+<div class="topbar">Word Game</div>
 
 <div class="wrapper">
+  <div class="grid">
+    <div class="card">
+      <h2>Create Room</h2>
+      <input id="roomName" placeholder="Room Name">
+      <input id="roomPass" placeholder="Password (optional)">
+      <div class="row">
+        <input id="roundTime" type="number" min="5" value="30" placeholder="Time per round">
+        <input id="roundCount" type="number" min="1" value="3" placeholder="Rounds">
+      </div>
+      <button class="primary" onclick="createRoom()">Create</button>
+      <div class="small">Create a room, set the timer, and invite others to join.</div>
+      <div id="createStatus" class="status hidden"></div>
+    </div>
 
-<div class="card">
-<h3>Create Room</h3>
-<input id="roomName" placeholder="Room Name" style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
-<input id="roomPass" placeholder="Password (optional)" style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
-<input id="roundTime" placeholder="Time per round (seconds)" value="30" style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
-<input id="roundCount" placeholder="Rounds" value="3" style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
-<button onclick="createRoom()">Create</button>
-</div>
+    <div class="card">
+      <h2>Current Room</h2>
+      <div id="currentRoomName" class="status">No room selected.</div>
+      <div id="roomControls" class="hidden" style="margin-top:12px;">
+        <div class="row">
+          <button id="startBtn" class="primary hidden" onclick="startGame()">Start Game</button>
+          <button class="secondary" onclick="leaveRoom()">Leave Room</button>
+        </div>
+        <div id="roomStatus" class="status hidden"></div>
+        <div id="scoreboard" class="scoreboard"></div>
+      </div>
+    </div>
+  </div>
 
-<div class="card">
-<h3>Rooms</h3>
-<div id="rooms"></div>
-</div>
+  <div class="card" style="margin-top:16px;">
+    <h2>Rooms</h2>
+    <div id="rooms" class="rooms"></div>
+    <div id="roomsStatus" class="status hidden"></div>
+  </div>
 
-<div class="card" id="roomControls" style="display:none">
-<button id="startBtn" onclick="startGame()" style="display:none">Start Game</button>
-</div>
-
-<div class="card" id="game" style="display:none">
-<div id="letters"></div>
-<textarea id="words" placeholder="1 word per line (max 10)"></textarea>
-<div id="timer"></div>
-</div>
-
+  <div class="card hidden" id="gameCard" style="margin-top:16px;">
+    <h2>Round</h2>
+    <div id="letters"></div>
+    <div id="timer"></div>
+    <textarea id="words" placeholder="Type 1 word per line. Up to 10 lines."></textarea>
+    <button class="primary" onclick="submitWords()">Submit Words</button>
+    <div id="gameStatus" class="status hidden"></div>
+  </div>
 </div>
 
 <script>
-let backend=null
-let token=localStorage.getItem("Token")
-let currentRoom=null
-let interval=null
-let roomInterval=null
-let letters=""
+let backend = null
+let token = localStorage.getItem("Token")
+let currentRoom = null
+let roomPoll = null
+let roomsPoll = null
+let roundTimer = null
+let roundActive = false
+let currentRoundTime = 0
+let submittedThisRound = false
 
 async function getBackend(){
-const r=await fetch("server.txt")
-return (await r.text()).trim()
+  const r = await fetch("server.txt", { cache: "no-store" })
+  return (await r.text()).trim()
+}
+
+function show(el, on){
+  if(!el) return
+  el.classList.toggle("hidden", !on)
+}
+
+function setText(id, text){
+  const el = document.getElementById(id)
+  if(el) el.textContent = text
+}
+
+function safeTrim(v){
+  return String(v ?? "").trim()
+}
+
+async function safeJson(res){
+  const txt = await res.text()
+  try{
+    return JSON.parse(txt)
+  }catch{
+    return null
+  }
+}
+
+async function authCheck(){
+  if(!token){
+    location.href = "login.html"
+    return false
+  }
+
+  const r = await fetch(backend + "/me", {
+    headers: { Authorization: token }
+  })
+
+  const d = await safeJson(r)
+
+  if(!d || d.error){
+    localStorage.removeItem("Token")
+    location.href = "login.html"
+    return false
+  }
+
+  return true
 }
 
 async function init(){
-backend=await getBackend()
-
-if(!token){
-location.href="login.html"
-return
+  try{
+    backend = await getBackend()
+    const ok = await authCheck()
+    if(!ok) return
+    await loadRooms()
+    startRoomsPolling()
+  }catch(e){
+    setText("roomsStatus", "Failed to load backend.")
+    show(document.getElementById("roomsStatus"), true)
+  }
 }
 
-const r=await fetch(backend+"/me",{headers:{Authorization:token}})
-const d=await r.json()
-
-if(!d || d.error){
-localStorage.removeItem("Token")
-location.href="login.html"
-return
+function startRoomsPolling(){
+  if(roomsPoll) clearInterval(roomsPoll)
+  roomsPoll = setInterval(loadRooms, 3000)
 }
 
-loadRooms()
-setInterval(loadRooms,3000)
+function startRoomPolling(){
+  if(roomPoll) clearInterval(roomPoll)
+  roomPoll = setInterval(refreshCurrentRoom, 1000)
 }
 
 async function loadRooms(){
-const r=await fetch(backend+"/rooms")
-const data=await r.json()
+  try{
+    const r = await fetch(backend + "/rooms", { cache: "no-store" })
+    const data = await safeJson(r)
 
-const container=document.getElementById("rooms")
-container.innerHTML=""
+    const container = document.getElementById("rooms")
+    container.innerHTML = ""
 
-data.forEach(room=>{
-const div=document.createElement("div")
-div.className="room"
+    if(!Array.isArray(data) || data.length === 0){
+      container.innerHTML = '<div class="status">No rooms yet.</div>'
+      return
+    }
 
-const info=document.createElement("span")
-info.textContent=room.name+" ("+room.players.length+")"
+    data.forEach(room => {
+      const div = document.createElement("div")
+      div.className = "room"
 
-const btn=document.createElement("button")
-btn.textContent="Join"
-btn.onclick=()=>joinRoom(room)
+      const info = document.createElement("div")
+      info.className = "room-info"
 
-div.appendChild(info)
-div.appendChild(btn)
-container.appendChild(div)
-})
+      const title = document.createElement("div")
+      title.className = "room-title"
+      title.textContent = room.name || "Unnamed Room"
+
+      const meta = document.createElement("div")
+      meta.className = "room-meta"
+      meta.textContent = `${room.players?.length || 0} players${room.hasPassword ? " · Password" : ""}`
+
+      info.appendChild(title)
+      info.appendChild(meta)
+
+      const btn = document.createElement("button")
+      btn.className = "primary"
+      btn.textContent = "Join"
+      btn.onclick = () => joinRoom(room)
+
+      div.appendChild(info)
+      div.appendChild(btn)
+      container.appendChild(div)
+    })
+  }catch(e){
+    setText("roomsStatus", "Could not load rooms.")
+    show(document.getElementById("roomsStatus"), true)
+  }
 }
 
 async function createRoom(){
-const name=document.getElementById("roomName").value
-const pass=document.getElementById("roomPass").value
-const time=parseInt(document.getElementById("roundTime").value)
-const rounds=parseInt(document.getElementById("roundCount").value)
+  const name = safeTrim(document.getElementById("roomName").value)
+  const pass = safeTrim(document.getElementById("roomPass").value)
+  const time = parseInt(document.getElementById("roundTime").value, 10)
+  const rounds = parseInt(document.getElementById("roundCount").value, 10)
 
-await fetch(backend+"/create-room",{
-method:"POST",
-headers:{"Content-Type":"application/json","Authorization":token},
-body:JSON.stringify({name,pass,time,rounds})
-})
+  const status = document.getElementById("createStatus")
+  show(status, true)
+
+  if(!name){
+    status.textContent = "Room name is required."
+    return
+  }
+
+  const body = {
+    name,
+    pass,
+    time: Number.isFinite(time) && time > 0 ? time : 30,
+    rounds: Number.isFinite(rounds) && rounds > 0 ? rounds : 3
+  }
+
+  try{
+    const r = await fetch(backend + "/create-room", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      },
+      body: JSON.stringify(body)
+    })
+
+    const d = await safeJson(r)
+
+    if(!d || d.error){
+      status.textContent = d?.error || "Failed to create room."
+      return
+    }
+
+    status.textContent = "Room created."
+    document.getElementById("roomName").value = ""
+    document.getElementById("roomPass").value = ""
+    await loadRooms()
+  }catch(e){
+    status.textContent = "Failed to create room."
+  }
 }
 
 async function joinRoom(room){
-let pass=""
-if(room.hasPassword){
-pass=prompt("Enter password")
+  let pass = ""
+  if(room.hasPassword){
+    pass = prompt("Enter password") || ""
+  }
+
+  try{
+    const r = await fetch(backend + "/join-room", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      },
+      body: JSON.stringify({
+        roomId: room.id,
+        password: pass
+      })
+    })
+
+    const d = await safeJson(r)
+
+    if(!d || d.error){
+      alert(d?.error === "wrongpass" ? "Wrong password." : "Could not join room.")
+      return
+    }
+
+    currentRoom = room.id
+    roundActive = false
+    submittedThisRound = false
+    document.getElementById("words").value = ""
+    document.getElementById("gameCard").classList.add("hidden")
+    document.getElementById("roomControls").classList.remove("hidden")
+    setText("currentRoomName", room.name || "Room")
+    setText("roomStatus", "Joined room.")
+    show(document.getElementById("roomStatus"), true)
+    startRoomPolling()
+    await refreshCurrentRoom()
+  }catch(e){
+    alert("Could not join room.")
+  }
 }
 
-await fetch(backend+"/join-room",{
-method:"POST",
-headers:{"Content-Type":"application/json","Authorization":token},
-body:JSON.stringify({roomId:room.id,password:pass})
-})
-
-currentRoom=room.id
-document.getElementById("roomControls").style.display="block"
-listenRoom()
+async function leaveRoom(){
+  currentRoom = null
+  roundActive = false
+  submittedThisRound = false
+  if(roomPoll) clearInterval(roomPoll)
+  if(roundTimer) clearInterval(roundTimer)
+  document.getElementById("roomControls").classList.add("hidden")
+  document.getElementById("gameCard").classList.add("hidden")
+  document.getElementById("startBtn").classList.add("hidden")
+  document.getElementById("scoreboard").innerHTML = ""
+  setText("currentRoomName", "No room selected.")
+  setText("gameStatus", "")
+  show(document.getElementById("gameStatus"), false)
+  show(document.getElementById("roomStatus"), false)
 }
 
-let roomInterval=null
+async function refreshCurrentRoom(){
+  if(!currentRoom) return
 
-function listenRoom(){
-if(roomInterval) clearInterval(roomInterval)
+  try{
+    const r = await fetch(backend + "/room/" + currentRoom, {
+      headers: { Authorization: token },
+      cache: "no-store"
+    })
+    const data = await safeJson(r)
 
-roomInterval=setInterval(async ()=>{
-if(!currentRoom) return
+    if(!data || data.error){
+      document.getElementById("startBtn").classList.add("hidden")
+      return
+    }
 
-const r=await fetch(backend+"/room/"+currentRoom,{
-headers:{Authorization:token}
-})
-const data=await r.json()
+    const startBtn = document.getElementById("startBtn")
+    const shouldShowStart = data.owner === data.you && Array.isArray(data.players) && data.players.length >= 2 && !data.started
 
-if(!data || data.error) return
+    if(shouldShowStart){
+      startBtn.classList.remove("hidden")
+    }else{
+      startBtn.classList.add("hidden")
+    }
 
-const startBtn=document.getElementById("startBtn")
+    renderScoreboard(data)
 
-if(data.players && data.players.length >= 2 && !data.started){
-startBtn.style.display="block"
-}else{
-startBtn.style.display="none"
+    if(data.started && !roundActive){
+      startRound(data)
+    }
+
+    if(!data.started && roundActive){
+      roundActive = false
+      if(roundTimer) clearInterval(roundTimer)
+    }
+  }catch(e){}
 }
 
-if(data.started){
-startRound(data)
-}
-},1000)
+function renderScoreboard(data){
+  const box = document.getElementById("scoreboard")
+  box.innerHTML = ""
+
+  const players = Array.isArray(data.players) ? data.players : []
+  if(players.length === 0){
+    box.innerHTML = '<div class="status">No players yet.</div>'
+    return
+  }
+
+  players.forEach(name => {
+    const item = document.createElement("div")
+    item.className = "score-item"
+
+    const left = document.createElement("div")
+    left.className = "score-name"
+    left.textContent = name + (name === data.owner ? " (creator)" : "")
+
+    const right = document.createElement("div")
+    right.className = "score-points"
+    const score = data.scores && typeof data.scores[name] === "number" ? data.scores[name] : 0
+    right.textContent = score + " pts"
+
+    item.appendChild(left)
+    item.appendChild(right)
+    box.appendChild(item)
+  })
 }
 
 async function startGame(){
-await fetch(backend+"/start-room",{
-method:"POST",
-headers:{"Content-Type":"application/json","Authorization":token},
-body:JSON.stringify({roomId:currentRoom})
-})
+  if(!currentRoom) return
+  try{
+    const r = await fetch(backend + "/start-room", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      },
+      body: JSON.stringify({ roomId: currentRoom })
+    })
+    const d = await safeJson(r)
+    const status = document.getElementById("roomStatus")
+    show(status, true)
+
+    if(!d || d.error){
+      status.textContent = d?.error === "need2players" ? "Need at least 2 players." : (d?.error || "Could not start room.")
+      return
+    }
+
+    status.textContent = "Game started."
+    await refreshCurrentRoom()
+  }catch(e){
+    const status = document.getElementById("roomStatus")
+    show(status, true)
+    status.textContent = "Could not start room."
+  }
 }
 
 function startRound(data){
-document.getElementById("game").style.display="block"
-letters=data.letters
-document.getElementById("letters").textContent=letters
+  roundActive = true
+  submittedThisRound = false
 
-let time=data.time
-document.getElementById("timer").textContent=time
+  document.getElementById("gameCard").classList.remove("hidden")
+  document.getElementById("letters").textContent = data.letters || ""
+  document.getElementById("words").value = ""
+  setText("gameStatus", "Round started.")
+  show(document.getElementById("gameStatus"), true)
 
-clearInterval(interval)
-interval=setInterval(()=>{
-time--
-document.getElementById("timer").textContent=time
-if(time<=0){
-clearInterval(interval)
-submitWords()
-}
-},1000)
+  let time = Number(data.time) || 30
+  currentRoundTime = time
+  document.getElementById("timer").textContent = time + "s"
+
+  if(roundTimer) clearInterval(roundTimer)
+
+  roundTimer = setInterval(async ()=>{
+    time--
+    if(time < 0) time = 0
+    document.getElementById("timer").textContent = time + "s"
+
+    if(time <= 0){
+      clearInterval(roundTimer)
+      roundTimer = null
+      if(!submittedThisRound){
+        await submitWords()
+      }
+    }
+  }, 1000)
 }
 
 async function submitWords(){
-const lines=document.getElementById("words").value.split("\n").slice(0,10)
+  if(!currentRoom || submittedThisRound) return
+  submittedThisRound = true
 
-await fetch(backend+"/submit",{
-method:"POST",
-headers:{"Content-Type":"application/json","Authorization":token},
-body:JSON.stringify({roomId:currentRoom,words:lines})
-})
+  const raw = document.getElementById("words").value || ""
+  const words = raw
+    .split("\n")
+    .map(x => x.trim().toLowerCase())
+    .filter(Boolean)
+    .slice(0, 10)
+
+  try{
+    const r = await fetch(backend + "/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      },
+      body: JSON.stringify({
+        roomId: currentRoom,
+        words
+      })
+    })
+
+    const d = await safeJson(r)
+    const status = document.getElementById("gameStatus")
+    show(status, true)
+
+    if(!d || d.error){
+      status.textContent = d?.error || "Could not submit words."
+      return
+    }
+
+    status.textContent = "Words submitted."
+  }catch(e){
+    const status = document.getElementById("gameStatus")
+    show(status, true)
+    status.textContent = "Could not submit words."
+  }
 }
 
 init()
 </script>
-
 </body>
 </html>
