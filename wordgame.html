@@ -117,6 +117,7 @@ let backend=null
 let token=localStorage.getItem("Token")
 let currentRoom=null
 let interval=null
+let roomInterval=null
 let letters=""
 
 async function getBackend(){
@@ -199,12 +200,18 @@ document.getElementById("roomControls").style.display="block"
 listenRoom()
 }
 
-async function listenRoom(){
-setInterval(async ()=>{
+function listenRoom(){
+if(roomInterval) clearInterval(roomInterval)
+
+roomInterval=setInterval(async ()=>{
+if(!currentRoom) return
+
 const r=await fetch(backend+"/room/"+currentRoom,{
 headers:{Authorization:token}
 })
 const data=await r.json()
+
+if(!data || data.error) return
 
 const startBtn=document.getElementById("startBtn")
 
