@@ -513,42 +513,52 @@ async function leaveRoom(){
 }
 
 async function refreshCurrentRoom(){
-  if(!currentRoom) return
+if(!currentRoom) return
 
-  try{
-    const r = await fetch(backend + "/room/" + currentRoom, {
-      headers: { Authorization: token },
-      cache: "no-store"
-    })
-    const data = await safeJson(r)
+try{
+const r = await fetch(backend + "/room/" + currentRoom, {
+headers: { Authorization: token },
+cache: "no-store"
+})
+const data = await safeJson(r)
 
-    if(!data || data.error){
-      document.getElementById("startBtn").classList.add("hidden")
-      return
-    }
-
-    const startBtn = document.getElementById("startBtn")
-    const shouldShowStart = Array.isArray(data.players) && data.players.length >= 2 && !data.started
-
-    if(shouldShowStart){
-      startBtn.classList.remove("hidden")
-    }else{
-      startBtn.classList.add("hidden")
-    }
-
-    renderScoreboard(data)
-
-    if(data.started && !roundActive){
-      startRound(data)
-    }
-
-    if(!data.started && roundActive){
-      roundActive = false
-      if(roundTimer) clearInterval(roundTimer)
-    }
-  }catch(e){}
+if(!data || data.error){
+document.getElementById("startBtn").classList.add("hidden")
+return
 }
 
+const startBtn = document.getElementById("startBtn")
+
+if(Array.isArray(data.players) && data.players.length >= 2 && !data.started){
+startBtn.classList.remove("hidden")
+}else{
+startBtn.classList.add("hidden")
+}
+
+if(data.lastResults){
+const box=document.getElementById("scoreboard")
+box.innerHTML=""
+
+Object.entries(data.lastResults).forEach(([name,res])=>{
+const div=document.createElement("div")
+div.className="score-item"
+div.innerHTML=`<div>${name}</div><div>${res.word || "-"} (${res.points})</div>`
+box.appendChild(div)
+})
+}
+
+if(data.started && data.letters && !roundActive){
+startRound(data)
+}
+
+if(!data.started && roundActive){
+roundActive=false
+if(roundTimer) clearInterval(roundTimer)
+}
+
+}catch(e){}
+}
+  
 function renderScoreboard(data){
   const box = document.getElementById("scoreboard")
   box.innerHTML = ""
@@ -608,34 +618,33 @@ async function startGame(){
 }
 
 function startRound(data){
-  roundActive = true
-  submittedThisRound = false
+roundActive = true
+submittedThisRound = false
 
-  document.getElementById("gameCard").classList.remove("hidden")
-  document.getElementById("letters").textContent = data.letters || ""
-  document.getElementById("words").value = ""
-  setText("gameStatus", "Round started.")
-  show(document.getElementById("gameStatus"), true)
+document.getElementById("gameCard").classList.remove("hidden")
 
-  let time = Number(data.time) || 30
-  currentRoundTime = time
-  document.getElementById("timer").textContent = time + "s"
+document.querySelector(".grid").style.display="none"
+document.querySelector(".rooms").style.display="none"
 
-  if(roundTimer) clearInterval(roundTimer)
+document.getElementById("letters").textContent = data.letters || ""
+document.getElementById("words").value=""
 
-  roundTimer = setInterval(async ()=>{
-    time--
-    if(time < 0) time = 0
-    document.getElementById("timer").textContent = time + "s"
+let time = Number(data.time) || 30
+document.getElementById("timer").textContent = time + "s"
 
-    if(time <= 0){
-      clearInterval(roundTimer)
-      roundTimer = null
-      if(!submittedThisRound){
-        await submitWords()
-      }
-    }
-  }, 1000)
+clearInterval(roundTimer)
+
+roundTimer = setInterval(()=>{
+time--
+if(time < 0) time = 0
+
+document.getElementById("timer").textContent = time + "s"
+
+if(time === 0){
+clearInterval(roundTimer)
+submitWords()
+}
+},1000)
 }
 
 async function submitWords(){
