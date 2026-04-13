@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Game</title>
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0e0e0e;
+color:#fff;
+}
+
+.topbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 15px;
+background:#121212;
+z-index:1000;
+}
+
+.wrapper{
+max-width:900px;
+margin:auto;
+padding:15px;
+margin-top:80px;
+}
+
+.card{
+background:#1e1e1e;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+textarea{
+width:100%;
+height:200px;
+border:none;
+border-radius:10px;
+padding:10px;
+font-size:18px;
+background:#2a2a2a;
+color:white;
+resize:none;
+}
+
+button{
+margin-top:10px;
+padding:10px;
+border:none;
+border-radius:8px;
+background:#4cafef;
+color:white;
+cursor:pointer;
+width:100%;
+}
+
+#letters{
+font-size:30px;
+margin-bottom:10px;
+text-align:center;
+}
+
+#timer{
+font-size:22px;
+text-align:center;
+margin-top:10px;
+}
+
+.room{
+background:#2a2a2a;
+padding:10px;
+border-radius:8px;
+margin-bottom:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div>Word Game</div>
+</div>
+
+<div class="wrapper">
+
+<div class="card">
+<h3>Create Room</h3>
+<input id="roomName" placeholder="Room Name" style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
+<input id="roomPass" placeholder="Password (optional)" style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
+<input id="roundTime" placeholder="Time per round (seconds)" value="30" style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
+<input id="roundCount" placeholder="Rounds" value="3" style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
+<button onclick="createRoom()">Create</button>
+</div>
+
+<div class="card">
+<h3>Rooms</h3>
+<div id="rooms"></div>
+</div>
+
+<div class="card" id="game" style="display:none">
+<div id="letters"></div>
+<textarea id="words" placeholder="1 word per line (max 10)"></textarea>
+<div id="timer"></div>
+</div>
+
+</div>
+
+<script>
+let backend=null
+let token=localStorage.getItem("Token")
+let currentRoom=null
+let interval=null
+let letters=""
+
+async function getBackend(){
+const r=await fetch("server.txt")
+return (await r.text()).trim()
+}
+
+async function init(){
+backend=await getBackend()
+
+if(!token){
+location.href="login.html"
+return
+}
+
+const r=await fetch(backend+"/me",{headers:{Authorization:token}})
+const d=await r.json()
+
+if(!d || d.error){
+localStorage.removeItem("Token")
+location.href="login.html"
+return
+}
+
+loadRooms()
+setInterval(loadRooms,3000)
+}
+
+async function loadRooms(){
+const r=await fetch(backend+"/rooms")
+const data=await r.json()
+
+const container=document.getElementById("rooms")
+container.innerHTML=""
+
+data.forEach(room=>{
+const div=document.createElement("div")
+div.className="room"
+
+const btn=document.createElement("button")
+btn.textContent="Join"
+btn.onclick=()=>joinRoom(room)
+
+div.innerHTML=`<span>${room.name} (${room.players.length})</span>`
+div.appendChild(btn)
+container.appendChild(div)
+})
+}
+
+async function createRoom(){
+const name=document.getElementById("roomName").value
+const pass=document.getElementById("roomPass").value
+const time=parseInt(document.getElementById("roundTime").value)
+const rounds=parseInt(document.getElementById("roundCount").value)
+
+await fetch(backend+"/create-room",{
+method:"POST",
+headers:{"Content-Type":"application/json","Authorization":token},
+body:JSON.stringify({name,pass,time,rounds})
+})
+}
+
+async function joinRoom(room){
+let pass=""
+if(room.hasPassword){
+pass=prompt("Enter password")
+}
+
+await fetch(backend+"/join-room",{
+method:"POST",
+headers:{"Content-Type":"application/json","Authorization":token},
+body:JSON.stringify({roomId:room.id,password:pass})
+})
+
+currentRoom=room.id
+listenRoom()
+}
+
+async function listenRoom(){
+setInterval(async ()=>{
+const r=await fetch(backend+"/room/"+currentRoom)
+const data=await r.json()
+
+if(data.started){
+startRound(data)
+}
+},1000)
+}
+
+function startRound(data){
+document.getElementById("game").style.display="block"
+letters=data.letters
+document.getElementById("letters").textContent=letters
+
+let time=data.time
+document.getElementById("timer").textContent=time
+
+clearInterval(interval)
+interval=setInterval(()=>{
+time--
+document.getElementById("timer").textContent=time
+if(time<=0){
+clearInterval(interval)
+submitWords()
+}
+},1000)
+}
+
+async function submitWords(){
+const lines=document.getElementById("words").value.split("\n").slice(0,10)
+
+await fetch(backend+"/submit",{
+method:"POST",
+headers:{"Content-Type":"application/json","Authorization":token},
+body:JSON.stringify({roomId:currentRoom,words:lines})
+})
+}
+init()
+</script>
+
+</body>
+</html>
