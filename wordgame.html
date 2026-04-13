@@ -512,6 +512,8 @@ async function leaveRoom(){
   show(document.getElementById("roomStatus"), false)
 }
 
+let lastLetters=""
+
 async function refreshCurrentRoom(){
 if(!currentRoom) return
 
@@ -534,9 +536,12 @@ startBtn.classList.add("hidden")
 
 renderScoreboard(data)
 
-if(data.started){
+if(data.started && data.letters && data.letters !== lastLetters){
+lastLetters = data.letters
 startRound(data)
-}else{
+}
+
+if(!data.started && roundActive){
 roundActive=false
 if(roundTimer) clearInterval(roundTimer)
 }
@@ -552,7 +557,7 @@ box.innerHTML=""
 if(data.lastResults){
 
 const title=document.createElement("div")
-title.innerHTML="<b>Last Round Results</b>"
+title.innerHTML="<b>Last Round</b>"
 box.appendChild(title)
 
 Object.entries(data.lastResults).forEach(([name,res])=>{
@@ -561,7 +566,6 @@ div.className="score-item"
 div.innerHTML=`<div>${name}</div><div>${res.word || "-"} (${res.points})</div>`
 box.appendChild(div)
 })
-
 }
 
 if(data.scores){
@@ -576,6 +580,18 @@ div.className="score-item"
 div.innerHTML=`<div>${name}</div><div>${score}</div>`
 box.appendChild(div)
 })
+}
+
+if(data.winner){
+
+const title=document.createElement("div")
+title.innerHTML="<br><b>Winner</b>"
+box.appendChild(title)
+
+const div=document.createElement("div")
+div.className="score-item"
+div.innerHTML=`<div>${data.winner.name}</div><div>${data.winner.points} pts</div>`
+box.appendChild(div)
 
 }
 }
