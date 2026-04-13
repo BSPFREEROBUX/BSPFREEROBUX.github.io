@@ -528,7 +528,7 @@ async function refreshCurrentRoom(){
     }
 
     const startBtn = document.getElementById("startBtn")
-    const shouldShowStart = data.owner === data.you && Array.isArray(data.players) && data.players.length >= 2 && !data.started
+    const shouldShowStart = Array.isArray(data.players) && data.players.length >= 2 && !data.started
 
     if(shouldShowStart){
       startBtn.classList.remove("hidden")
