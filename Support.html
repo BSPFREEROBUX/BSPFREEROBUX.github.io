@@ -712,14 +712,28 @@ async function refreshActiveTicket(){
 if(loadingActive || !activeTicket) return
 loadingActive=true
 try{
-const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
+const r=await fetch(backend+"/support/list",{
+headers:{
+Authorization:token,
+"Cache-Control":"no-cache"
+}
+})
 const data=await safeJson(r)
-if(!data) return
+if(!data){
+loadingActive=false
+return
+}
 const all=[...(Array.isArray(data.mine)?data.mine:[]),...(Array.isArray(data.all)?data.all:[])]
 const updated=all.find(t=>t.id===activeTicket.id)
-if(!updated) return
+if(!updated){
+loadingActive=false
+return
+}
 const signature=buildTicketSignature(updated)
-if(signature===activeTicketSignature) return
+if(signature===activeTicketSignature){
+loadingActive=false
+return
+}
 activeTicket=updated
 activeTicketSignature=signature
 ticketHeader.innerHTML=`<b>${escapeHTML(updated.title)}</b><br>${updated.status==="open" ? '<span style="color:#2ecc71">OPEN</span>' : '<span style="color:#e74c3c">CLOSED</span>'}${updated.locked ? " 🔒" : " 🔓"}`
@@ -727,7 +741,6 @@ renderMessages(updated)
 }catch(e){}
 loadingActive=false
 }
-
 async function sendMessage(){
 if(!activeTicket) return
 const msg=messageBox.value
