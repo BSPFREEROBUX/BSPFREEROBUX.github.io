@@ -186,10 +186,10 @@ margin-top:8px;
 display:flex;
 flex-direction:column;
 gap:8px;
+max-width:100%;
 }
 
 .mediaCard{
-position:relative;
 display:flex;
 flex-direction:column;
 gap:8px;
@@ -270,21 +270,6 @@ font-weight:600;
 }
 
 .attachmentLink:hover{
-background:#3a3a3a;
-}
-
-.attachmentBtn{
-border:none;
-background:#2a2a2a;
-color:white;
-padding:6px 10px;
-border-radius:8px;
-cursor:pointer;
-font-size:12px;
-font-weight:600;
-}
-
-.attachmentBtn:hover{
 background:#3a3a3a;
 }
 
@@ -389,54 +374,6 @@ font-size:16px;
 background:#6d78ff;
 }
 
-.imageDropdown{
-display:none;
-position:absolute;
-right:10px;
-top:10px;
-background:#1e1e1e;
-border:1px solid #444;
-border-radius:8px;
-padding:8px;
-z-index:2;
-min-width:120px;
-box-shadow:0 10px 24px rgba(0,0,0,.35);
-}
-
-.imageDropdown.show{
-display:block;
-}
-
-.imageDropdown a{
-color:#7ab7ff;
-text-decoration:none;
-font-size:13px;
-font-weight:600;
-display:block;
-padding:4px 6px;
-border-radius:6px;
-}
-
-.imageDropdown a:hover{
-background:#2a2a2a;
-}
-
-.imageMenu{
-position:absolute;
-top:8px;
-right:8px;
-z-index:3;
-}
-
-.imageMenu button{
-background:rgba(0,0,0,0.65);
-border:none;
-color:white;
-padding:4px 8px;
-border-radius:6px;
-cursor:pointer;
-}
-
 ::-webkit-scrollbar{
 width:8px;
 height:8px;
@@ -504,9 +441,9 @@ Anonymous
 <div id="ticketHeader">Select a ticket</div>
 <div class="chatMessages" id="chatMessages"></div>
 <div class="previewBar" id="previewBar"></div>
-<div class="chatInput" id="chatInput">
+<div class="chatInput">
 <button class="attachBtn" onclick="fileInput.click()">+</button>
-<input type="file" id="fileInput" style="display:none" accept="image/*,video/*,.mp4,.mov,.webm,.m4v,.avi">
+<input type="file" id="fileInput" style="display:none" accept="image/*,video/*,.mp4,.mov,.webm,.m4v,.avi,.mkv,.ogg,.gif,.png,.jpg,.jpeg,.webp,.bmp,.svg">
 <input id="messageBox" placeholder="Message">
 <button class="sendBtn" onclick="sendMessage()">✈</button>
 </div>
@@ -519,12 +456,20 @@ const messageBox=document.getElementById("messageBox")
 const fileInput=document.getElementById("fileInput")
 const anonToggle=document.getElementById("anonToggle")
 const previewBar=document.getElementById("previewBar")
+const chatMessages=document.getElementById("chatMessages")
+const ticketHeader=document.getElementById("ticketHeader")
+const userDisplay=document.getElementById("userDisplay")
+const staffTitle=document.getElementById("staffTitle")
+
 let backend=null
 let token=null
 let user=null
 let activeTicket=null
 let selectedFile=null
 let selectedFileUrl=null
+let activeTicketSignature=""
+let loadingTickets=false
+let loadingActive=false
 
 function escapeHTML(value){
 return String(value ?? "").replace(/[&<>"']/g,m=>({
@@ -534,12 +479,6 @@ return String(value ?? "").replace(/[&<>"']/g,m=>({
 "\"":"&quot;",
 "'":"&#39;"
 }[m]))
-}
-
-function getFileName(path){
-if(!path) return "file"
-const parts=String(path).split("/")
-return parts[parts.length-1] || "file"
 }
 
 function getExt(name){
@@ -562,6 +501,12 @@ const ext=getExt(name)
 return mime.startsWith("video/") || ["mp4","mov","webm","m4v","avi","mkv","ogg"].includes(ext)
 }
 
+function getFileName(path){
+if(!path) return "file"
+const parts=String(path).split("/")
+return parts[parts.length-1] || "file"
+}
+
 function revokeSelectedUrl(){
 if(selectedFileUrl){
 URL.revokeObjectURL(selectedFileUrl)
@@ -581,17 +526,13 @@ renderPreview()
 function renderPreview(){
 previewBar.innerHTML=""
 if(!selectedFile) return
-const ext=getExt(selectedFile.name)
-const isVideo=selectedFile.type.startsWith("video/") || ["mp4","mov","webm","m4v","avi","mkv","ogg"].includes(ext)
 const item=document.createElement("div")
 item.className="previewItem"
-if(isVideo){
+if(isVideoFile(selectedFile)){
 const video=document.createElement("video")
 video.src=selectedFileUrl
 video.muted=true
 video.playsInline=true
-video.controls=false
-video.autoplay=false
 item.appendChild(video)
 }else{
 const img=document.createElement("img")
@@ -631,28 +572,68 @@ function hasAdmin(){
 return !!(user && user.permissions.admin)
 }
 
+function buildTicketSignature(ticket){
+if(!ticket) return ""
+const parts=[
+ticket.id,
+ticket.title,
+ticket.status,
+ticket.locked ? "1" : "0",
+ticket.updatedAt || "",
+ticket.createdAt || ""
+]
+for(const m of (ticket.messages || [])){
+const a=m.attachment || {}
+parts.push([
+m.id || "",
+m.author || "",
+m.time || "",
+m.text || "",
+a.path || "",
+a.mime || a.type || ""
+].join("|"))
+}
+return parts.join("§")
+}
+
 async function init(){
 backend=await getBackend()
 token=localStorage.getItem("Token")
 if(!token) location.href="login.html"
+
 const r=await fetch(backend+"/me",{headers:{Authorization:token}})
 user=await safeJson(r)
+
 if(!user||user.error) location.href="login.html"
-document.getElementById("userDisplay").textContent="Logged in as: "+user.username
-if(hasSupport()) document.getElementById("staffTitle").style.display="block"
+
+userDisplay.textContent="Logged in as: "+user.username
+
+if(hasSupport()) staffTitle.style.display="block"
 if(hasAdmin()) anonToggle.style.display="inline"
+
 await loadTickets()
+handleHashOpen()
+
 setInterval(()=>{
 loadTickets()
-if(activeTicket) refreshActiveTicket()
 },2000)
+
+setInterval(()=>{
+if(activeTicket) refreshActiveTicket()
+},100)
 }
 
 async function loadTickets(){
+if(loadingTickets) return
+loadingTickets=true
+try{
 const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
 const data=await safeJson(r) || {mine:[],all:[]}
 renderTicketList(Array.isArray(data.mine)?data.mine:[],"myTickets")
 if(hasSupport()) renderTicketList(Array.isArray(data.all)?data.all:[],"allTickets")
+handleHashOpen(data)
+}catch(e){}
+loadingTickets=false
 }
 
 function renderTicketList(list,containerId){
@@ -673,19 +654,28 @@ const status=t.status==="open"
 let owner=""
 if(containerId==="allTickets") owner=`<div class="ticketOwner">Created by: ${escapeHTML(t.owner)}</div>`
 div.innerHTML=`<b>${escapeHTML(t.title)}</b><br>${status}${owner}`
-div.onclick=()=>openTicket(t)
+div.onclick=()=>{
+openTicket(t)
+history.replaceState(null,"","#"+t.id)
+}
 container.appendChild(div)
 })
 }
 
+function handleHashOpen(preloadedData){
+const id=location.hash.replace("#","").trim()
+if(!id) return
+if(activeTicket && activeTicket.id===id) return
+const data=preloadedData || {}
+const all=[...(Array.isArray(data.mine)?data.mine:[]),...(Array.isArray(data.all)?data.all:[])]
+const found=all.find(t=>t.id===id)
+if(found) openTicket(found)
+}
+
 function openTicket(ticket){
-removePreview()
 activeTicket=ticket
-const status=ticket.status==="open"
-? '<span style="color:#2ecc71">OPEN</span>'
-: '<span style="color:#e74c3c">CLOSED</span>'
-const lock=ticket.locked?" 🔒":" 🔓"
-document.getElementById("ticketHeader").innerHTML=`<b>${escapeHTML(ticket.title)}</b><br>${status}${lock}`
+activeTicketSignature=buildTicketSignature(ticket)
+ticketHeader.innerHTML=`<b>${escapeHTML(ticket.title)}</b><br>${ticket.status==="open" ? '<span style="color:#2ecc71">OPEN</span>' : '<span style="color:#e74c3c">CLOSED</span>'}${ticket.locked ? " 🔒" : " 🔓"}`
 renderMessages(ticket)
 }
 
@@ -695,7 +685,7 @@ const path=escapeHTML(att.path || "")
 const url=`${backend}/uploads/${path}`
 const name=escapeHTML(getFileName(att.path || att.name || "file"))
 if(isImageFile(att)){
-return `<div class="attachmentWrap"><div class="mediaCard"><div class="imageMenu"><button type="button" onclick="this.nextElementSibling.classList.toggle('show')">⋮</button><div class="imageDropdown"><a href="${url}" download="${name}">Download</a></div></div><img src="${url}" class="mediaPreview chatImage" alt="${name}"></div></div>`
+return `<div class="attachmentWrap"><div class="mediaCard"><img src="${url}" class="mediaPreview chatImage" alt="${name}"><div class="attachmentActions"><a class="attachmentLink" href="${url}" download="${name}">Download</a></div></div></div>`
 }
 if(isVideoFile(att)){
 return `<div class="attachmentWrap"><div class="mediaCard"><video class="mediaPreview chatVideo" controls playsinline preload="metadata" src="${url}"></video><div class="attachmentActions"><a class="attachmentLink" href="${url}" download="${name}">Download</a></div></div></div>`
@@ -704,41 +694,48 @@ return `<div class="attachmentWrap"><div class="fileCard"><div class="fileInfo">
 }
 
 function renderMessages(ticket){
-const box=document.getElementById("chatMessages")
-const nearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<120
-box.innerHTML=""
+const nearBottom=chatMessages.scrollHeight-chatMessages.scrollTop-chatMessages.clientHeight<120
+chatMessages.innerHTML=""
 ;(ticket.messages || []).forEach(m=>{
 const message=document.createElement("div")
 message.className="message"
 const author=escapeHTML(m.author || "Unknown")
 const time=escapeHTML(new Date(m.time).toLocaleString())
 const text=escapeHTML(m.text || "")
-message.innerHTML=`<b>${author}</b><small>${time}</small>${text?`<div>${text}</div>`:""}${m.attachment ? renderAttachment(m.attachment) : ""}`
-box.appendChild(message)
+message.innerHTML=`<b>${author}</b><small>${time}</small>${text ? `<div>${text}</div>` : ""}${m.attachment ? renderAttachment(m.attachment) : ""}`
+chatMessages.appendChild(message)
 })
-if(nearBottom) box.scrollTop=box.scrollHeight
+if(nearBottom) chatMessages.scrollTop=chatMessages.scrollHeight
 }
 
 async function refreshActiveTicket(){
+if(loadingActive || !activeTicket) return
+loadingActive=true
+try{
 const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
 const data=await safeJson(r)
 if(!data) return
 const all=[...(Array.isArray(data.mine)?data.mine:[]),...(Array.isArray(data.all)?data.all:[])]
 const updated=all.find(t=>t.id===activeTicket.id)
 if(!updated) return
+const signature=buildTicketSignature(updated)
+if(signature===activeTicketSignature) return
 activeTicket=updated
+activeTicketSignature=signature
+ticketHeader.innerHTML=`<b>${escapeHTML(updated.title)}</b><br>${updated.status==="open" ? '<span style="color:#2ecc71">OPEN</span>' : '<span style="color:#e74c3c">CLOSED</span>'}${updated.locked ? " 🔒" : " 🔓"}`
 renderMessages(updated)
+}catch(e){}
+loadingActive=false
 }
 
 async function sendMessage(){
 if(!activeTicket) return
 const msg=messageBox.value
-const anon=anonToggle.checked
 const form=new FormData()
 form.append("ticketId",activeTicket.id)
 form.append("message",msg)
 if(selectedFile) form.append("file",selectedFile)
-if(anon) form.append("anonymous",true)
+if(anonToggle.checked) form.append("anonymous",true)
 await fetch(backend+"/support/message",{
 method:"POST",
 headers:{Authorization:token},
@@ -746,7 +743,7 @@ body:form
 })
 messageBox.value=""
 removePreview()
-refreshActiveTicket()
+await refreshActiveTicket()
 }
 
 async function closeTicket(){
@@ -808,8 +805,13 @@ localStorage.removeItem("Token")
 location.href="login.html"
 }
 
-document.addEventListener("click",e=>{
-if(!e.target.closest(".imageMenu")) document.querySelectorAll(".imageDropdown.show").forEach(d=>d.classList.remove("show"))
+window.addEventListener("hashchange",()=>{
+if(!activeTicket){
+handleHashOpen()
+return
+}
+const id=location.hash.replace("#","").trim()
+if(activeTicket.id!==id) handleHashOpen()
 })
 
 init()
