@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Support</title>
-
 <style>
-
 body{
 margin:0;
 height:100dvh;
@@ -15,59 +13,6 @@ background:#0f0f10;
 color:#e5e5e5;
 font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;
 overflow:hidden;
-}
-
-.imageDropdown{
-display:none;
-position:absolute;
-right:0;
-top:28px;
-background:#1e1e1e;
-border:1px solid #444;
-border-radius:6px;
-padding:6px 10px;
-}
-
-.imageDropdown.show{
-display:block;
-}
-
-.previewBar{
-display:flex;
-gap:8px;
-padding:6px 10px;
-border-top:1px solid #2a2a2a;
-background:#111;
-overflow-x:auto;
-}
-
-.previewItem{
-position:relative;
-width:60px;
-height:60px;
-flex-shrink:0;
-}
-
-.previewItem img{
-width:100%;
-height:100%;
-object-fit:cover;
-border-radius:6px;
-border:1px solid #333;
-}
-
-.previewItem button{
-position:absolute;
-top:-6px;
-right:-6px;
-width:18px;
-height:18px;
-border:none;
-border-radius:50%;
-background:#e74c3c;
-color:white;
-font-size:12px;
-cursor:pointer;
 }
 
 .topbar{
@@ -88,6 +33,7 @@ gap:16px;
 .icons span{
 cursor:pointer;
 opacity:.85;
+user-select:none;
 }
 
 .icons span:hover{
@@ -153,16 +99,21 @@ border-color:#333;
 .ticketStatusOpen{
 color:#2ecc71;
 font-size:11px;
+font-weight:700;
+letter-spacing:.3px;
 }
 
 .ticketStatusClosed{
 color:#e74c3c;
 font-size:11px;
+font-weight:700;
+letter-spacing:.3px;
 }
 
 .ticketOwner{
 font-size:11px;
 opacity:.6;
+margin-top:4px;
 }
 
 .ticketList button{
@@ -174,6 +125,10 @@ border-radius:8px;
 background:#2a2a2a;
 color:white;
 cursor:pointer;
+}
+
+.ticketList button:hover{
+background:#3a3a3a;
 }
 
 .ticketChat{
@@ -223,34 +178,157 @@ margin-left:6px;
 .message div{
 margin-top:4px;
 font-size:14px;
+white-space:pre-wrap;
 }
 
-.imageWrapper{
+.attachmentWrap{
+margin-top:8px;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.mediaCard{
 position:relative;
-display:inline-block;
-margin-top:6px;
+display:flex;
+flex-direction:column;
+gap:8px;
+padding:10px;
+border:1px solid #2a2a2a;
+border-radius:10px;
+background:#121214;
+max-width:100%;
+}
+
+.mediaPreview{
+width:100%;
+max-width:100%;
+border-radius:8px;
+border:1px solid #333;
+background:#000;
 }
 
 .chatImage{
 max-width:100%;
 max-height:300px;
+object-fit:contain;
+}
+
+.chatVideo{
+max-width:100%;
+max-height:360px;
+}
+
+.fileCard{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+padding:10px 12px;
+border:1px solid #2a2a2a;
+border-radius:10px;
+background:#121214;
+max-width:100%;
+}
+
+.fileInfo{
+display:flex;
+flex-direction:column;
+gap:2px;
+min-width:0;
+}
+
+.fileName{
+font-size:13px;
+font-weight:600;
+word-break:break-word;
+}
+
+.fileType{
+font-size:11px;
+opacity:.65;
+}
+
+.attachmentActions{
+display:flex;
+align-items:center;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.attachmentLink{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:6px 10px;
 border-radius:8px;
-border:1px solid #333;
+background:#2a2a2a;
+color:#7ab7ff;
+text-decoration:none;
+font-size:12px;
+font-weight:600;
 }
 
-.imageMenu{
-position:absolute;
-top:6px;
-right:6px;
+.attachmentLink:hover{
+background:#3a3a3a;
 }
 
-.imageMenu button{
-background:rgba(0,0,0,0.6);
+.attachmentBtn{
 border:none;
+background:#2a2a2a;
 color:white;
-padding:4px 8px;
-border-radius:6px;
+padding:6px 10px;
+border-radius:8px;
 cursor:pointer;
+font-size:12px;
+font-weight:600;
+}
+
+.attachmentBtn:hover{
+background:#3a3a3a;
+}
+
+.previewBar{
+display:flex;
+gap:8px;
+padding:6px 10px;
+border-top:1px solid #2a2a2a;
+background:#111;
+overflow-x:auto;
+flex-shrink:0;
+}
+
+.previewItem{
+position:relative;
+width:60px;
+height:60px;
+flex-shrink:0;
+}
+
+.previewItem img,
+.previewItem video{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:6px;
+border:1px solid #333;
+background:#000;
+}
+
+.previewItem button{
+position:absolute;
+top:-6px;
+right:-6px;
+width:18px;
+height:18px;
+border:none;
+border-radius:50%;
+background:#e74c3c;
+color:white;
+font-size:12px;
+cursor:pointer;
+line-height:18px;
+padding:0;
 }
 
 .chatInput{
@@ -311,8 +389,57 @@ font-size:16px;
 background:#6d78ff;
 }
 
+.imageDropdown{
+display:none;
+position:absolute;
+right:10px;
+top:10px;
+background:#1e1e1e;
+border:1px solid #444;
+border-radius:8px;
+padding:8px;
+z-index:2;
+min-width:120px;
+box-shadow:0 10px 24px rgba(0,0,0,.35);
+}
+
+.imageDropdown.show{
+display:block;
+}
+
+.imageDropdown a{
+color:#7ab7ff;
+text-decoration:none;
+font-size:13px;
+font-weight:600;
+display:block;
+padding:4px 6px;
+border-radius:6px;
+}
+
+.imageDropdown a:hover{
+background:#2a2a2a;
+}
+
+.imageMenu{
+position:absolute;
+top:8px;
+right:8px;
+z-index:3;
+}
+
+.imageMenu button{
+background:rgba(0,0,0,0.65);
+border:none;
+color:white;
+padding:4px 8px;
+border-radius:6px;
+cursor:pointer;
+}
+
 ::-webkit-scrollbar{
 width:8px;
+height:8px;
 }
 
 ::-webkit-scrollbar-track{
@@ -329,7 +456,6 @@ background:#3a3a3a;
 }
 
 @media (max-width: 768px){
-
 .supportLayout{
 flex-direction:column;
 }
@@ -342,115 +468,151 @@ height:35%;
 .ticketChat{
 height:65%;
 }
-
 }
-
 </style>
 </head>
 <body>
 
 <div class="topbar">
-
 <div class="icons">
 <span onclick="location.href='dashboard.html'">Dashboard</span>
 <span onclick="logout()">Logout</span>
 </div>
 
 <div class="ticketControls">
-
 <label>
 <input type="checkbox" id="anonToggle">
 Anonymous
 </label>
-
 <button onclick="closeTicket()">Close</button>
 <button onclick="lockTicket()">Lock</button>
 <button onclick="unlockTicket()">Unlock</button>
-
 </div>
-
 </div>
 
 <div class="supportLayout">
-
 <div class="ticketList">
-
 <div class="sidebarUser" id="userDisplay"></div>
-
 <h3>Your Tickets</h3>
 <div id="myTickets"></div>
-
 <h3 id="staffTitle" style="display:none;margin-top:20px">All Tickets</h3>
 <div id="allTickets"></div>
-
 <button onclick="createTicket()">New Ticket</button>
-
 </div>
 
 <div class="ticketChat">
-
 <div id="ticketHeader">Select a ticket</div>
-
 <div class="chatMessages" id="chatMessages"></div>
-
 <div class="previewBar" id="previewBar"></div>
-  
 <div class="chatInput" id="chatInput">
-
 <button class="attachBtn" onclick="fileInput.click()">+</button>
-<input type="file" id="fileInput" style="display:none">
-
+<input type="file" id="fileInput" style="display:none" accept="image/*,video/*,.mp4,.mov,.webm,.m4v,.avi">
 <input id="messageBox" placeholder="Message">
-
 <button class="sendBtn" onclick="sendMessage()">✈</button>
-
 </div>
-
 </div>
-
 </div>
 
 <script src="theme.js"></script>
-
 <script>
-
 const messageBox=document.getElementById("messageBox")
 const fileInput=document.getElementById("fileInput")
 const anonToggle=document.getElementById("anonToggle")
-
+const previewBar=document.getElementById("previewBar")
 let backend=null
 let token=null
 let user=null
 let activeTicket=null
-
 let selectedFile=null
+let selectedFileUrl=null
 
-const previewBar=document.getElementById("previewBar")
+function escapeHTML(value){
+return String(value ?? "").replace(/[&<>"']/g,m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+"\"":"&quot;",
+"'":"&#39;"
+}[m]))
+}
+
+function getFileName(path){
+if(!path) return "file"
+const parts=String(path).split("/")
+return parts[parts.length-1] || "file"
+}
+
+function getExt(name){
+const clean=String(name||"").split("?")[0].toLowerCase()
+const i=clean.lastIndexOf(".")
+return i===-1 ? "" : clean.slice(i+1)
+}
+
+function isImageFile(att){
+const name=getFileName(att?.path || att?.name || "")
+const mime=String(att?.mime || att?.type || "").toLowerCase()
+const ext=getExt(name)
+return mime.startsWith("image/") || ["png","jpg","jpeg","gif","webp","bmp","svg"].includes(ext)
+}
+
+function isVideoFile(att){
+const name=getFileName(att?.path || att?.name || "")
+const mime=String(att?.mime || att?.type || "").toLowerCase()
+const ext=getExt(name)
+return mime.startsWith("video/") || ["mp4","mov","webm","m4v","avi","mkv","ogg"].includes(ext)
+}
+
+function revokeSelectedUrl(){
+if(selectedFileUrl){
+URL.revokeObjectURL(selectedFileUrl)
+selectedFileUrl=null
+}
+}
 
 fileInput.addEventListener("change",()=>{
-
 const file=fileInput.files[0]
 if(!file) return
-
 selectedFile=file
-
-const url=URL.createObjectURL(file)
-
-previewBar.innerHTML=`
-<div class="previewItem">
-<img src="${url}">
-<button onclick="removePreview()">×</button>
-</div>
-`
-
+revokeSelectedUrl()
+selectedFileUrl=URL.createObjectURL(file)
+renderPreview()
 })
+
+function renderPreview(){
+previewBar.innerHTML=""
+if(!selectedFile) return
+const ext=getExt(selectedFile.name)
+const isVideo=selectedFile.type.startsWith("video/") || ["mp4","mov","webm","m4v","avi","mkv","ogg"].includes(ext)
+const item=document.createElement("div")
+item.className="previewItem"
+if(isVideo){
+const video=document.createElement("video")
+video.src=selectedFileUrl
+video.muted=true
+video.playsInline=true
+video.controls=false
+video.autoplay=false
+item.appendChild(video)
+}else{
+const img=document.createElement("img")
+img.src=selectedFileUrl
+item.appendChild(img)
+}
+const btn=document.createElement("button")
+btn.type="button"
+btn.textContent="×"
+btn.onclick=removePreview
+item.appendChild(btn)
+previewBar.appendChild(item)
+}
 
 function removePreview(){
 selectedFile=null
 fileInput.value=""
 previewBar.innerHTML=""
+revokeSelectedUrl()
 }
-  
+
 async function getBackend(){
 const r=await fetch("server.txt")
 return (await r.text()).trim()
@@ -462,190 +624,133 @@ try{return JSON.parse(t)}catch{return null}
 }
 
 function hasSupport(){
-return user.permissions.support||user.permissions.admin
+return !!(user && (user.permissions.support || user.permissions.admin))
 }
 
 function hasAdmin(){
-return user.permissions.admin
+return !!(user && user.permissions.admin)
 }
 
 async function init(){
-
 backend=await getBackend()
-
 token=localStorage.getItem("Token")
 if(!token) location.href="login.html"
-
 const r=await fetch(backend+"/me",{headers:{Authorization:token}})
 user=await safeJson(r)
-
 if(!user||user.error) location.href="login.html"
-
-userDisplay.textContent="Logged in as: "+user.username
-
-if(hasSupport())
-document.getElementById("staffTitle").style.display="block"
-
-if(hasAdmin())
-anonToggle.style.display="inline"
-
-loadTickets()
-
+document.getElementById("userDisplay").textContent="Logged in as: "+user.username
+if(hasSupport()) document.getElementById("staffTitle").style.display="block"
+if(hasAdmin()) anonToggle.style.display="inline"
+await loadTickets()
 setInterval(()=>{
 loadTickets()
 if(activeTicket) refreshActiveTicket()
 },2000)
-
 }
 
 async function loadTickets(){
-
 const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
-const data=await safeJson(r)
-
-renderTicketList(data.mine,"myTickets")
-
-if(hasSupport())
-renderTicketList(data.all,"allTickets")
-
+const data=await safeJson(r) || {mine:[],all:[]}
+renderTicketList(Array.isArray(data.mine)?data.mine:[],"myTickets")
+if(hasSupport()) renderTicketList(Array.isArray(data.all)?data.all:[],"allTickets")
 }
 
 function renderTicketList(list,containerId){
-
 const container=document.getElementById(containerId)
 container.innerHTML=""
-
 list.sort((a,b)=>{
 if(a.status==="open"&&b.status==="closed") return -1
 if(a.status==="closed"&&b.status==="open") return 1
 return new Date(b.createdAt)-new Date(a.createdAt)
 })
-
 list.forEach(t=>{
-
 if(!hasSupport()&&t.status==="closed") return
-
 const div=document.createElement("div")
 div.className="ticketItem"
-
 const status=t.status==="open"
 ? `<span class="ticketStatusOpen">OPEN</span>`
 : `<span class="ticketStatusClosed">CLOSED</span>`
-
 let owner=""
-if(containerId==="allTickets")
-owner=`<div class="ticketOwner">Created by: ${t.owner}</div>`
-
-div.innerHTML=`<b>${t.title}</b><br>${status}${owner}`
-
+if(containerId==="allTickets") owner=`<div class="ticketOwner">Created by: ${escapeHTML(t.owner)}</div>`
+div.innerHTML=`<b>${escapeHTML(t.title)}</b><br>${status}${owner}`
 div.onclick=()=>openTicket(t)
-
 container.appendChild(div)
-
 })
-
 }
 
 function openTicket(ticket){
-
 removePreview()
-  
 activeTicket=ticket
-
 const status=ticket.status==="open"
 ? '<span style="color:#2ecc71">OPEN</span>'
 : '<span style="color:#e74c3c">CLOSED</span>'
-
 const lock=ticket.locked?" 🔒":" 🔓"
-
-ticketHeader.innerHTML=`<b>${ticket.title}</b><br>${status}${lock}`
-
+document.getElementById("ticketHeader").innerHTML=`<b>${escapeHTML(ticket.title)}</b><br>${status}${lock}`
 renderMessages(ticket)
+}
 
+function renderAttachment(att){
+if(!att) return ""
+const path=escapeHTML(att.path || "")
+const url=`${backend}/uploads/${path}`
+const name=escapeHTML(getFileName(att.path || att.name || "file"))
+if(isImageFile(att)){
+return `<div class="attachmentWrap"><div class="mediaCard"><div class="imageMenu"><button type="button" onclick="this.nextElementSibling.classList.toggle('show')">⋮</button><div class="imageDropdown"><a href="${url}" download="${name}">Download</a></div></div><img src="${url}" class="mediaPreview chatImage" alt="${name}"></div></div>`
+}
+if(isVideoFile(att)){
+return `<div class="attachmentWrap"><div class="mediaCard"><video class="mediaPreview chatVideo" controls playsinline preload="metadata" src="${url}"></video><div class="attachmentActions"><a class="attachmentLink" href="${url}" download="${name}">Download</a></div></div></div>`
+}
+return `<div class="attachmentWrap"><div class="fileCard"><div class="fileInfo"><div class="fileName">${name}</div><div class="fileType">Attachment</div></div><div class="attachmentActions"><a class="attachmentLink" href="${url}" download="${name}">Download</a></div></div></div>`
 }
 
 function renderMessages(ticket){
-
 const box=document.getElementById("chatMessages")
-
-const nearBottom=
-box.scrollHeight-box.scrollTop-box.clientHeight<120
-
+const nearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<120
 box.innerHTML=""
-
-ticket.messages.forEach(m=>{
-
-let attach=""
-
-if(m.attachment)
-attach=`<div class="imageWrapper">
-<img src="${backend}/uploads/${m.attachment.path}" class="chatImage">
-<div class="imageMenu">
-<button onclick="this.nextElementSibling.classList.toggle('show')">⋮</button>
-<div class="imageDropdown">
-<a href="${backend}/uploads/${m.attachment.path}" download>Download</a>
-</div>
-</div>
-</div>`
-
-box.innerHTML+=`<div class="message">
-<b>${m.author}</b>
-<small>${new Date(m.time).toLocaleString()}</small>
-${m.text?`<div>${m.text}</div>`:""}
-${attach}
-</div>`
-
+;(ticket.messages || []).forEach(m=>{
+const message=document.createElement("div")
+message.className="message"
+const author=escapeHTML(m.author || "Unknown")
+const time=escapeHTML(new Date(m.time).toLocaleString())
+const text=escapeHTML(m.text || "")
+message.innerHTML=`<b>${author}</b><small>${time}</small>${text?`<div>${text}</div>`:""}${m.attachment ? renderAttachment(m.attachment) : ""}`
+box.appendChild(message)
 })
-
 if(nearBottom) box.scrollTop=box.scrollHeight
-
 }
 
 async function refreshActiveTicket(){
-
 const r=await fetch(backend+"/support/list",{headers:{Authorization:token}})
 const data=await safeJson(r)
-
-let all=[...(data.mine||[]),...(data.all||[])]
-
+if(!data) return
+const all=[...(Array.isArray(data.mine)?data.mine:[]),...(Array.isArray(data.all)?data.all:[])]
 const updated=all.find(t=>t.id===activeTicket.id)
-
 if(!updated) return
-
 activeTicket=updated
 renderMessages(updated)
-
 }
 
 async function sendMessage(){
-
 if(!activeTicket) return
-
 const msg=messageBox.value
 const anon=anonToggle.checked
-
 const form=new FormData()
-
 form.append("ticketId",activeTicket.id)
 form.append("message",msg)
-
 if(selectedFile) form.append("file",selectedFile)
 if(anon) form.append("anonymous",true)
-
 await fetch(backend+"/support/message",{
 method:"POST",
 headers:{Authorization:token},
 body:form
 })
-
 messageBox.value=""
 removePreview()
-
 refreshActiveTicket()
-
 }
-async function closeTicket(){
 
+async function closeTicket(){
+if(!activeTicket) return
 await fetch(backend+"/support/close",{
 method:"POST",
 headers:{
@@ -654,13 +759,11 @@ Authorization:token
 },
 body:JSON.stringify({ticketId:activeTicket.id})
 })
-
 loadTickets()
-
 }
 
 async function lockTicket(){
-
+if(!activeTicket) return
 await fetch(backend+"/support/lock",{
 method:"POST",
 headers:{
@@ -669,13 +772,11 @@ Authorization:token
 },
 body:JSON.stringify({ticketId:activeTicket.id})
 })
-
 loadTickets()
-
 }
 
 async function unlockTicket(){
-
+if(!activeTicket) return
 await fetch(backend+"/support/unlock",{
 method:"POST",
 headers:{
@@ -684,18 +785,13 @@ Authorization:token
 },
 body:JSON.stringify({ticketId:activeTicket.id})
 })
-
 loadTickets()
-
 }
 
 async function createTicket(){
-
 const title=prompt("Ticket Title")
 if(!title) return
-
 const reason=prompt("Reason")
-
 await fetch(backend+"/support/create",{
 method:"POST",
 headers:{
@@ -704,9 +800,7 @@ Authorization:token
 },
 body:JSON.stringify({title,reason})
 })
-
 loadTickets()
-
 }
 
 function logout(){
@@ -714,9 +808,11 @@ localStorage.removeItem("Token")
 location.href="login.html"
 }
 
+document.addEventListener("click",e=>{
+if(!e.target.closest(".imageMenu")) document.querySelectorAll(".imageDropdown.show").forEach(d=>d.classList.remove("show"))
+})
+
 init()
-
 </script>
-
 </body>
 </html>
