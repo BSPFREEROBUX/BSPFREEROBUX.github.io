@@ -714,8 +714,7 @@ loadingActive=true
 try{
 const r=await fetch(backend+"/support/list",{
 headers:{
-Authorization:token,
-"Cache-Control":"no-cache"
+Authorization:token
 }
 })
 const data=await safeJson(r)
