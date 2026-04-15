@@ -3,22 +3,70 @@
 <head>
 <link rel="stylesheet" href="styles.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+.popup-box{
+background:#12121a;
+padding:20px;
+border-radius:10px;
+width:90%;
+max-width:320px;
+text-align:center;
+}
+.popup-box input{
+width:100%;
+margin-top:10px;
+padding:10px;
+border:none;
+border-radius:6px;
+}
+.popup-box button{
+margin-top:10px;
+padding:10px;
+width:100%;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+</style>
 </head>
 <body>
+
 <div class="toggle" onclick="toggleTheme()">Toggle</div>
 
 <div class="wrapper">
 <h2>Login</h2>
 <input id="username" placeholder="Username">
 <input id="password" type="password" placeholder="Password">
-<input id="code" placeholder="2FA Code (if enabled)">
 <button onclick="login()">Login</button>
 <a href="signup.html">Create account</a>
+</div>
+
+<div class="popup" id="twofaPopup">
+  <div class="popup-box">
+    <h3>Enter 2FA Code</h3>
+    <input id="twofaCode" placeholder="Code">
+    <button onclick="submit2FA()">Verify</button>
+  </div>
 </div>
 
 <script src="theme.js"></script>
 
 <script>
+let pendingUser = null
+let backendUrl = null
+
 async function getBackend(){
   const r = await fetch("server.txt")
   return (await r.text()).trim()
@@ -27,6 +75,7 @@ async function getBackend(){
 async function login(){
   try{
     const base = await getBackend()
+    backendUrl = base
 
     if(!base){
       alert("Backend not found")
@@ -35,12 +84,11 @@ async function login(){
 
     const username = document.getElementById("username").value
     const password = document.getElementById("password").value
-    const code = document.getElementById("code").value
 
     const r = await fetch(base + "/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password, code })
+      body: JSON.stringify({ username, password })
     })
 
     if(!r.ok){
@@ -50,6 +98,12 @@ async function login(){
 
     const d = await r.json()
 
+    if(d && d.twofa){
+      pendingUser = d.username || username
+      document.getElementById("twofaPopup").style.display = "flex"
+      return
+    }
+
     if(d && d.token){
       localStorage.setItem("Token", d.token)
       localStorage.setItem("username", username)
@@ -57,9 +111,6 @@ async function login(){
     }
     else if(d && d.banned){
       alert("Banned: " + d.reason + "\nRemaining: " + d.remaining)
-    }
-    else if(d && d.twofa){
-      alert("Enter your 2FA code in the field and login again")
     }
     else{
       alert("Login failed")
@@ -70,6 +121,36 @@ async function login(){
     alert("Network error or backend offline")
   }
 }
+
+async function submit2FA(){
+  try{
+    const code = document.getElementById("twofaCode").value
+
+    const r = await fetch(backendUrl + "/2fa/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: pendingUser,
+        code
+      })
+    })
+
+    const d = await r.json()
+
+    if(d && d.token){
+      localStorage.setItem("Token", d.token)
+      localStorage.setItem("username", pendingUser)
+      location.href = "dashboard.html"
+    }else{
+      alert("Wrong or expired code")
+    }
+
+  }catch(err){
+    console.error(err)
+    alert("2FA request failed")
+  }
+}
 </script>
+
 </body>
 </html>
