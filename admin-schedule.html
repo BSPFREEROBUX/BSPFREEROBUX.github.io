@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Schedule</title>
+</head>
+<body>
+
+<h2>Set Available Time</h2>
+
+<input type="date" id="date">
+<input type="time" id="start">
+<input type="time" id="end">
+<button onclick="setSlot()">Add Slot</button>
+
+<script>
+let backend=null
+let token=localStorage.getItem("Token")
+
+async function init(){
+backend=(await fetch("server.txt").then(r=>r.text())).trim()
+}
+init()
+
+async function setSlot(){
+const date=document.getElementById("date").value
+const start=document.getElementById("start").value
+const end=document.getElementById("end").value
+
+await fetch(backend+"/admin/schedule/set",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({date,start,end})
+})
+
+alert("Added")
+}
+</script>
+
+</body>
+</html>
