@@ -497,9 +497,13 @@ return ticket.messages.some(m=>String(m.text||"").toLowerCase().trim()==="approv
 }
 
 async function loadScheduleUI(ticket){
+const box = document.getElementById("scheduleBox")
+
+box.style.display = "none"
+
 if(!await checkApproval(ticket)) return
 
-document.getElementById("scheduleBox").style.display="block"
+box.style.display = "block"
 
 const dateSelect=document.getElementById("dateSelect")
 dateSelect.innerHTML=""
