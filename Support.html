@@ -440,6 +440,11 @@ Anonymous
 <div class="ticketChat">
 <div id="ticketHeader">Select a ticket</div>
 <div class="chatMessages" id="chatMessages"></div>
+<div id="scheduleBox" style="padding:10px;border-top:1px solid #2a2a2a;display:none">
+<select id="dateSelect"></select>
+<select id="timeSelect"></select>
+<button onclick="bookTime()">Book</button>
+</div>
 <div class="previewBar" id="previewBar"></div>
 <div class="chatInput">
 <button class="attachBtn" onclick="fileInput.click()">+</button>
@@ -485,6 +490,73 @@ function getExt(name){
 const clean=String(name||"").split("?")[0].toLowerCase()
 const i=clean.lastIndexOf(".")
 return i===-1 ? "" : clean.slice(i+1)
+}
+
+async function checkApproval(ticket){
+return ticket.messages.some(m=>String(m.text||"").toLowerCase().trim()==="approve")
+}
+
+async function loadScheduleUI(ticket){
+if(!await checkApproval(ticket)) return
+
+document.getElementById("scheduleBox").style.display="block"
+
+const dateSelect=document.getElementById("dateSelect")
+dateSelect.innerHTML=""
+
+for(let i=0;i<7;i++){
+const d=new Date()
+d.setDate(d.getDate()+i)
+const val=d.toISOString().split("T")[0]
+const opt=document.createElement("option")
+opt.value=val
+opt.textContent=val
+dateSelect.appendChild(opt)
+}
+
+loadTimes()
+}
+
+async function loadTimes(){
+const date=document.getElementById("dateSelect").value
+
+const r=await fetch(backend+"/schedule/available?date="+date,{
+headers:{Authorization:token}
+})
+const data=await r.json()
+
+const timeSelect=document.getElementById("timeSelect")
+timeSelect.innerHTML=""
+
+data.slots.forEach(s=>{
+const opt=document.createElement("option")
+opt.value=JSON.stringify(s)
+opt.textContent=s.start+" - "+s.end
+timeSelect.appendChild(opt)
+})
+}
+
+document.getElementById("dateSelect").addEventListener("change",loadTimes)
+
+async function bookTime(){
+const date=document.getElementById("dateSelect").value
+const slot=JSON.parse(document.getElementById("timeSelect").value)
+
+await fetch(backend+"/schedule/book",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+ticketId:activeTicket.id,
+date,
+start:slot.start,
+end:slot.end
+})
+})
+
+alert("Booked")
 }
 
 function isImageFile(att){
@@ -677,6 +749,7 @@ activeTicket=ticket
 activeTicketSignature=buildTicketSignature(ticket)
 ticketHeader.innerHTML=`<b>${escapeHTML(ticket.title)}</b><br>${ticket.status==="open" ? '<span style="color:#2ecc71">OPEN</span>' : '<span style="color:#e74c3c">CLOSED</span>'}${ticket.locked ? " 🔒" : " 🔓"}`
 renderMessages(ticket)
+loadScheduleUI(ticket)
 }
 
 function renderAttachment(att){
@@ -737,6 +810,7 @@ activeTicket=updated
 activeTicketSignature=signature
 ticketHeader.innerHTML=`<b>${escapeHTML(updated.title)}</b><br>${updated.status==="open" ? '<span style="color:#2ecc71">OPEN</span>' : '<span style="color:#e74c3c">CLOSED</span>'}${updated.locked ? " 🔒" : " 🔓"}`
 renderMessages(updated)
+loadScheduleUI(updated)
 }catch(e){}
 loadingActive=false
 }
