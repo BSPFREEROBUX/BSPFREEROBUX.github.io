@@ -2,17 +2,22 @@
 <html>
 <head>
 <link rel="stylesheet" href="styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="toggle" onclick="toggleTheme()">Toggle</div>
+
 <div class="wrapper">
 <h2>Login</h2>
 <input id="username" placeholder="Username">
 <input id="password" type="password" placeholder="Password">
+<input id="code" placeholder="2FA Code (if enabled)">
 <button onclick="login()">Login</button>
 <a href="signup.html">Create account</a>
 </div>
+
 <script src="theme.js"></script>
+
 <script>
 async function getBackend(){
   const r = await fetch("server.txt")
@@ -28,13 +33,14 @@ async function login(){
       return
     }
 
+    const username = document.getElementById("username").value
+    const password = document.getElementById("password").value
+    const code = document.getElementById("code").value
+
     const r = await fetch(base + "/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: document.getElementById("username").value,
-        password: document.getElementById("password").value
-      })
+      body: JSON.stringify({ username, password, code })
     })
 
     if(!r.ok){
@@ -44,36 +50,16 @@ async function login(){
 
     const d = await r.json()
 
-    if(d && d.twofa){
-      const code = prompt("Enter 2FA code")
-
-      const r2 = await fetch(base + "/2fa/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: d.username,
-          code
-        })
-      })
-
-      const d2 = await r2.json()
-
-      if(d2 && d2.token){
-        localStorage.setItem("Token", d2.token)
-        location.href = "dashboard.html"
-      }else{
-        alert("Wrong or expired code")
-      }
-      return
-    }
-
     if(d && d.token){
       localStorage.setItem("Token", d.token)
-      localStorage.setItem("username", document.getElementById("username").value)
+      localStorage.setItem("username", username)
       location.href = "dashboard.html"
     }
     else if(d && d.banned){
       alert("Banned: " + d.reason + "\nRemaining: " + d.remaining)
+    }
+    else if(d && d.twofa){
+      alert("Enter your 2FA code in the field and login again")
     }
     else{
       alert("Login failed")
