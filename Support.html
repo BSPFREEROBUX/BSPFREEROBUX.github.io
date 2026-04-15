@@ -798,7 +798,21 @@ const message=document.createElement("div")
 message.className="message"
 const author=escapeHTML(m.author || "Unknown")
 const time=escapeHTML(new Date(m.time).toLocaleString())
-const text=escapeHTML(m.text || "")
+let text = m.text || ""
+
+if(text.includes("Successfully booked")){
+const match = text.match(/(\d{2}:\d{2}) - (\d{2}:\d{2}) on (\d{4}-\d{2}-\d{2})/)
+if(match){
+const [,start,end,date] = match
+
+const startLocal = convertToLocal(date,start)
+const endLocal = convertToLocal(date,end)
+
+text = `Successfully booked ${startLocal} - ${endLocal} (your time) on ${date}. Be online the entire time.`
+}
+}
+
+text = escapeHTML(text)
 message.innerHTML=`<b>${author}</b><small>${time}</small>${text ? `<div>${text}</div>` : ""}${m.attachment ? renderAttachment(m.attachment) : ""}`
 chatMessages.appendChild(message)
 })
