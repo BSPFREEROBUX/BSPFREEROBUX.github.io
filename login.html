@@ -44,6 +44,29 @@ async function login(){
 
     const d = await r.json()
 
+    if(d && d.twofa){
+      const code = prompt("Enter 2FA code")
+
+      const r2 = await fetch(base + "/2fa/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: d.username,
+          code
+        })
+      })
+
+      const d2 = await r2.json()
+
+      if(d2 && d2.token){
+        localStorage.setItem("Token", d2.token)
+        location.href = "dashboard.html"
+      }else{
+        alert("Wrong or expired code")
+      }
+      return
+    }
+
     if(d && d.token){
       localStorage.setItem("Token", d.token)
       localStorage.setItem("username", document.getElementById("username").value)
