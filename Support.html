@@ -750,12 +750,11 @@ if(found) openTicket(found)
 
 function openTicket(ticket){
 activeTicket=ticket
-activeTicketSignature=buildTicketSignature(ticket)
+activeTicketSignature=""
 ticketHeader.innerHTML=`<b>${escapeHTML(ticket.title)}</b><br>${ticket.status==="open" ? '<span style="color:#2ecc71">OPEN</span>' : '<span style="color:#e74c3c">CLOSED</span>'}${ticket.locked ? " 🔒" : " 🔓"}`
 renderMessages(ticket)
 loadScheduleUI(ticket)
 }
-
 function renderAttachment(att){
 if(!att) return ""
 const path=escapeHTML(att.path || "")
