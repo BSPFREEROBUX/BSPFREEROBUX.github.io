@@ -122,8 +122,20 @@ cursor:pointer;
 }
 </style>
 </head>
+
+
+  
 <body>
 
+
+<div id="settingsBox" style="display:none;position:fixed;top:60px;right:20px;background:#1e1e1e;padding:15px;border-radius:10px;z-index:999">
+<input id="emailInput" placeholder="Enter email">
+<button onclick="sendCode()">Send Code</button>
+<input id="codeInput" placeholder="Enter code">
+<button onclick="verifyCode()">Verify</button>
+<button onclick="toggle2FA()">Toggle 2FA</button>
+</div>
+  
 <div class="topbar">
 <div id="userDisplay"></div>
 <div class="icons">
@@ -131,10 +143,13 @@ cursor:pointer;
 <span onclick="location.href='balance.html'">💰 Wallet</span>
 <span onclick="goProfile()">👤 Profile</span>
 <span onclick="openSupportPopup()">🛠 Support</span>
+<span onclick="toggleSettings()">⚙ Settings</span>
 <span onclick="logout()">🚪 Logout</span>
 <span onclick="toggleTheme()">🌓</span>
 </div>
 </div>
+
+
 
 <div class="wrapper" style="margin-top:90px">
 
@@ -305,6 +320,55 @@ renderQuests(data.completed || [], "completed", true)
 
 function goProfile(){
 location.href="profile.html"
+}
+
+let settingsOpen=false
+
+function toggleSettings(){
+settingsOpen=!settingsOpen
+document.getElementById("settingsBox").style.display=settingsOpen?"block":"none"
+}
+
+async function sendCode(){
+await fetch(backend+"/2fa/send",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:localStorage.getItem("Token")
+},
+body:JSON.stringify({
+email:document.getElementById("emailInput").value
+})
+})
+alert("Code sent")
+}
+
+async function verifyCode(){
+await fetch(backend+"/2fa/verify",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:localStorage.getItem("Token")
+},
+body:JSON.stringify({
+code:document.getElementById("codeInput").value
+})
+})
+alert("Verified")
+}
+
+async function toggle2FA(){
+await fetch(backend+"/2fa/toggle",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:localStorage.getItem("Token")
+},
+body:JSON.stringify({
+enabled:true
+})
+})
+alert("2FA Enabled")
 }
 
 function renderQuests(list, containerId, completed){
