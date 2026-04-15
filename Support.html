@@ -533,10 +533,31 @@ const timeSelect=document.getElementById("timeSelect")
 timeSelect.innerHTML=""
 
 data.slots.forEach(s=>{
+
+const startLocal = convertToLocal(date, s.start)
+const endLocal = convertToLocal(date, s.end)
+
 const opt=document.createElement("option")
 opt.value=JSON.stringify(s)
-opt.textContent=s.start+" - "+s.end
+opt.textContent=startLocal+" - "+endLocal
 timeSelect.appendChild(opt)
+})
+}
+
+function convertToLocal(date, time){
+const [year,month,day]=date.split("-").map(Number)
+const [hour,minute]=time.split(":").map(Number)
+
+const copenhagenDate = new Date(
+new Date(Date.UTC(year,month-1,day,hour,minute))
+.toLocaleString("en-US",{timeZone:"Europe/Copenhagen"})
+)
+
+const local = new Date(copenhagenDate)
+
+return local.toLocaleTimeString([],{
+hour:"2-digit",
+minute:"2-digit"
 })
 }
 
