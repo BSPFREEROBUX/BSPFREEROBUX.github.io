@@ -185,18 +185,66 @@ if(values.length===0) return
 const max=Math.max(...values,1)
 const stepX=w/(values.length-1||1)
 
-ctx.beginPath()
+// grid lines + labels
+ctx.strokeStyle="#222"
+ctx.fillStyle="#888"
+ctx.font="12px system-ui"
 
+const steps=5
+for(let i=0;i<=steps;i++){
+const y=h-(i/steps)*h
+ctx.beginPath()
+ctx.moveTo(0,y)
+ctx.lineTo(w,y)
+ctx.stroke()
+ctx.fillText(Math.round((max/steps)*i),5,y-2)
+}
+
+// line
+ctx.beginPath()
 values.forEach((v,i)=>{
 const x=i*stepX
 const y=h-(v/max)*h
 if(i===0) ctx.moveTo(x,y)
 else ctx.lineTo(x,y)
 })
-
 ctx.strokeStyle="#4caf50"
 ctx.lineWidth=2
 ctx.stroke()
+
+// hover
+canvas.onmousemove=(e)=>{
+const rect=canvas.getBoundingClientRect()
+const x=e.clientX-rect.left
+
+const i=Math.round(x/stepX)
+if(i<0 || i>=values.length) return
+
+const v=values[i]
+const key=keys[i].split("-")
+const date=new Date(key[0],key[1],key[2],key[3])
+
+renderGraph()
+
+const px=i*stepX
+const py=h-(v/max)*h
+
+ctx.beginPath()
+ctx.arc(px,py,4,0,Math.PI*2)
+ctx.fillStyle="#fff"
+ctx.fill()
+
+ctx.fillStyle="#fff"
+ctx.fillText(
+date.getHours()+":00 - "+v+" visits",
+px+10,
+py-10
+)
+}
+
+canvas.onmouseleave=()=>{
+renderGraph()
+}
 }
 </script>
 
