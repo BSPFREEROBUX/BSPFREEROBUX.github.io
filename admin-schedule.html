@@ -1,19 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Admin Schedule</title>
+<style>
+body{
+margin:0;
+font-family:system-ui,-apple-system,Segoe UI,Roboto;
+background:#0f1115;
+color:#e6e6e6;
+}
+
+.container{
+max-width:900px;
+margin:40px auto;
+padding:20px;
+}
+
+h2{
+margin-bottom:10px;
+}
+
+.card{
+background:#1a1d24;
+padding:20px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,.4);
+margin-bottom:20px;
+}
+
+input{
+background:#0f1115;
+border:1px solid #2a2f3a;
+color:#fff;
+padding:10px;
+border-radius:8px;
+margin-right:10px;
+}
+
+button{
+background:#4caf50;
+border:none;
+padding:10px 16px;
+border-radius:8px;
+color:#fff;
+cursor:pointer;
+font-weight:600;
+}
+
+button:hover{
+opacity:.9;
+}
+
+.slot{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px;
+margin-top:8px;
+border-radius:8px;
+background:#14171d;
+border:1px solid #252a35;
+}
+
+.free{
+color:#4caf50;
+font-weight:600;
+}
+
+.booked{
+color:#ff5252;
+font-weight:600;
+}
+
+.meta{
+font-size:13px;
+opacity:.8;
+margin-top:4px;
+}
+
+a{
+color:#6ea8ff;
+text-decoration:none;
+}
+</style>
 </head>
 <body>
 
-<h2>Set Available Time</h2>
+<div class="container">
 
+<div class="card">
+<h2>Set Available Time</h2>
 <input type="date" id="date">
 <input type="time" id="start">
 <input type="time" id="end">
 <button onclick="setSlot()">Add Slot</button>
+</div>
 
-<h2 style="margin-top:30px">Booked Times</h2>
-<div id="bookedList"></div>
+<div class="card">
+<h2>All Times</h2>
+<div id="list"></div>
+</div>
+
+</div>
 
 <script>
 let backend=null
@@ -21,7 +110,7 @@ let token=localStorage.getItem("Token")
 
 async function init(){
 backend=(await fetch("server.txt").then(r=>r.text())).trim()
-loadBooked()
+loadAll()
 }
 init()
 
@@ -39,26 +128,45 @@ Authorization:token
 body:JSON.stringify({date,start,end})
 })
 
-alert("Added")
+loadAll()
 }
 
-async function loadBooked(){
+async function loadAll(){
 const r=await fetch(backend+"/admin/schedule/all",{
 headers:{Authorization:token}
 })
 const data=await r.json()
 
-const container=document.getElementById("bookedList")
+const container=document.getElementById("list")
 container.innerHTML=""
 
 for(const date in data){
 const day=document.createElement("div")
-day.innerHTML="<b>"+date+"</b>"
+day.innerHTML="<h3>"+date+"</h3>"
 container.appendChild(day)
 
-data[date].forEach(b=>{
+data[date].forEach(slot=>{
 const div=document.createElement("div")
-div.textContent=b.start+" - "+b.end+" | Ticket: "+b.ticketId+" | User: "+b.user
+div.className="slot"
+
+let right=""
+if(slot.user){
+right=`
+<div>
+<div class="booked">Booked</div>
+<div class="meta">${slot.user} • <a href="https://zyphor.cc/support#${slot.ticketId}" target="_blank">${slot.ticketId}</a></div>
+</div>`
+}else{
+right=`<div class="free">Free</div>`
+}
+
+div.innerHTML=`
+<div>
+<div>${slot.start} - ${slot.end}</div>
+</div>
+${right}
+`
+
 container.appendChild(div)
 })
 }
