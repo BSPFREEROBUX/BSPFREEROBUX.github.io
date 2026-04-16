@@ -46,9 +46,24 @@ async function safeJson(res){
   }
 }
 
+async function trackPage(page){
+const token=localStorage.getItem("authToken")
+if(!token) return
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({page})
+})
+}
+
 async function init(){
 
   backend = await getBackend()
+  await trackPage(location.pathname.split("/").pop() + location.search)
 
   const token = localStorage.getItem("Token")
   if(!token) return location.href = "login.html"
