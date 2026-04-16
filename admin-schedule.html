@@ -129,6 +129,7 @@ let token=localStorage.getItem("Token")
 
 async function init(){
 backend=(await fetch("server.txt").then(r=>r.text())).trim()
+await trackPage(location.pathname.split("/").pop() + location.search)
 loadAll()
 }
 init()
@@ -148,6 +149,22 @@ body:JSON.stringify({date,start,end})
 })
 
 loadAll()
+}
+
+async function trackPage(page){
+const tokenLS=localStorage.getItem("Token")
+if(!tokenLS) return
+
+if(!backend) backend=(await fetch("server.txt").then(r=>r.text())).trim()
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:tokenLS
+},
+body:JSON.stringify({page})
+})
 }
 
 async function deleteSlot(date,start,end){
