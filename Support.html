@@ -737,12 +737,12 @@ function renderTicketList(list,containerId){
 const container=document.getElementById(containerId)
 container.innerHTML=""
 list.sort((a,b)=>{
-if(a.status==="open"&&b.status==="closed") return -1
-if(a.status==="closed"&&b.status==="open") return 1
-return new Date(b.createdAt)-new Date(a.createdAt)
+if(a.status !== b.status){
+return a.status === "open" ? -1 : 1
+}
+return new Date(b.createdAt) - new Date(a.createdAt)
 })
 list.forEach(t=>{
-if(!hasSupport()&&t.status==="closed") return
 const div=document.createElement("div")
 div.className="ticketItem"
 const status=t.status==="open"
