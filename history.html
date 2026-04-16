@@ -50,7 +50,7 @@ async function init(){
 
   backend = await getBackend()
 
-  const token = localStorage.getItem("authToken")
+  const token = localStorage.getItem("Token")
   if(!token) return location.href = "login.html"
 
   try{
@@ -61,7 +61,7 @@ async function init(){
 
     const data = await safeJson(r)
     if(!data || data.error){
-      localStorage.removeItem("authToken")
+      localStorage.removeItem("Token")
       return location.href="login.html"
     }
 
@@ -154,7 +154,7 @@ function renderHistory(list){
 }
 
 function logout(){
-  localStorage.removeItem("authToken")
+  localStorage.removeItem("Token")
   location.href = "login.html"
 }
 
