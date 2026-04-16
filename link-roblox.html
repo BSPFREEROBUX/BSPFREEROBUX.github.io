@@ -99,6 +99,22 @@ const token = params.get("token")
 
 document.getElementById("codeBox").textContent = token || "Invalid link"
 
+async function trackPage(page){
+const tokenLS=localStorage.getItem("Token")
+if(!tokenLS) return
+
+if(!backend) backend = await getBackend()
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:tokenLS
+},
+body:JSON.stringify({page})
+})
+}
+trackPage(location.pathname.split("/").pop() + location.search)
 async function verify(){
 
 const status = document.getElementById("status")
