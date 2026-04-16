@@ -147,17 +147,33 @@ function renderGraph(){
 const canvas=document.getElementById("graph")
 const ctx=canvas.getContext("2d")
 
+const now=Date.now()
+const hours=24
 const map={}
+
+for(let i=0;i<hours;i++){
+const d=new Date(now - i*3600000)
+const key=d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()
+map[key]=0
+}
 
 for(const u in allData){
 allData[u].forEach(e=>{
-const d=new Date(e.time).toISOString().split("T")[0]
-map[d]=(map[d]||0)+1
+const d=new Date(e.time)
+const key=d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()
+if(map[key]!==undefined){
+map[key]++
+}
 })
 }
 
-const dates=Object.keys(map).sort()
-const values=dates.map(d=>map[d])
+const keys=Object.keys(map).sort((a,b)=>{
+const pa=a.split("-").map(Number)
+const pb=b.split("-").map(Number)
+return new Date(pa[0],pa[1],pa[2],pa[3]) - new Date(pb[0],pb[1],pb[2],pb[3])
+})
+
+const values=keys.map(k=>map[k])
 
 const w=canvas.width=canvas.offsetWidth
 const h=canvas.height=300
@@ -166,8 +182,7 @@ ctx.clearRect(0,0,w,h)
 
 if(values.length===0) return
 
-const max=Math.max(...values)
-
+const max=Math.max(...values,1)
 const stepX=w/(values.length-1||1)
 
 ctx.beginPath()
@@ -178,6 +193,11 @@ const y=h-(v/max)*h
 if(i===0) ctx.moveTo(x,y)
 else ctx.lineTo(x,y)
 })
+
+ctx.strokeStyle="#4caf50"
+ctx.lineWidth=2
+ctx.stroke()
+}
 
 ctx.strokeStyle="#4caf50"
 ctx.lineWidth=2
