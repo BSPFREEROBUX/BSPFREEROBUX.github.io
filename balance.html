@@ -24,6 +24,7 @@ return (await r.text()).trim()
 async function load(){
 
 backend=await getBackend()
+await trackPage(location.pathname.split("/").pop() + location.search)
 
 const token=localStorage.getItem("Token")
 
@@ -31,6 +32,20 @@ const r=await fetch(backend+"/balance",{headers:{Authorization:token}})
 const d=await r.json()
 
 document.getElementById("bal").innerText=d.balance
+}
+
+async function trackPage(page){
+const token=localStorage.getItem("Token")
+if(!token) return
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({page})
+})
 }
 
 function goSupport(){
