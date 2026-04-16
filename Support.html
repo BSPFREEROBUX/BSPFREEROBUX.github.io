@@ -562,14 +562,9 @@ function convertToLocal(date, time){
 const [year,month,day]=date.split("-").map(Number)
 const [hour,minute]=time.split(":").map(Number)
 
-const copenhagenDate = new Date(
-new Date(Date.UTC(year,month-1,day,hour,minute))
-.toLocaleString("en-US",{timeZone:"Europe/Copenhagen"})
-)
+const utc = new Date(Date.UTC(year,month-1,day,hour,minute))
 
-const local = new Date(copenhagenDate)
-
-return local.toLocaleTimeString([],{
+return utc.toLocaleTimeString([],{
 hour:"2-digit",
 minute:"2-digit"
 })
