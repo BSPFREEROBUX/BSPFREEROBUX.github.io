@@ -546,14 +546,34 @@ const data=await r.json()
 const timeSelect=document.getElementById("timeSelect")
 timeSelect.innerHTML=""
 
+const now = new Date()
+
 data.slots.forEach(s=>{
+
+const startDate = new Date(date+"T"+s.start+":00")
+const endDate = new Date(date+"T"+s.end+":00")
 
 const startLocal = convertToLocal(date, s.start)
 const endLocal = convertToLocal(date, s.end)
 
 const opt=document.createElement("option")
 opt.value=JSON.stringify(s)
-opt.textContent=startLocal+" - "+endLocal
+
+let label = startLocal+" - "+endLocal
+
+if(endDate < now){
+opt.disabled = true
+opt.style.color = "#e74c3c"
+label += " (Expired)"
+}
+
+if(data.booked && data.booked.find(b=>b.start===s.start && b.end===s.end)){
+opt.disabled = true
+opt.style.color = "#e74c3c"
+label += " (Already Booked)"
+}
+
+opt.textContent = label
 timeSelect.appendChild(opt)
 })
 }
