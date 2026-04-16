@@ -275,6 +275,20 @@ requestAnimationFrame(update)
 requestAnimationFrame(update)
 }
 
+async function trackPage(page){
+const token=localStorage.getItem("Token")
+if(!token) return
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({page})
+})
+}
+
 async function loadStats(){
 try{
 const robuxRes = await fetch("TotalRobuxGivenOut.txt")
@@ -338,6 +352,7 @@ renderCL()
 
 async function init(){
 backend = await getBackend()
+await trackPage("dashboard.html")
 loadStats()
 
 
