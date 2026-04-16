@@ -149,9 +149,11 @@ cursor:pointer;
 </div>
 </div>
 
-
-
 <div class="wrapper" style="margin-top:90px">
+
+<div style="display:flex;gap:20px;align-items:flex-start">
+
+<div style="flex:1">
 
 <div class="stats-container">
 <div class="stat-box">
@@ -186,6 +188,26 @@ Total Robux Given Out
 
 <h2 style="margin-top:30px">Completed Quests</h2>
 <div id="completed"></div>
+
+</div>
+
+</div>
+
+<div style="width:300px">
+
+<div class="quest-card" style="height:500px;display:flex;flex-direction:column">
+<h3>Changelog</h3>
+
+<div id="cl_box" style="flex:1;overflow:auto;margin-top:10px"></div>
+
+<div style="display:flex;justify-content:space-between;margin-top:10px">
+<button onclick="prevCL()">⬅</button>
+<button onclick="nextCL()">➡</button>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
@@ -265,9 +287,59 @@ animateValue(document.getElementById("ordersCount"), ordersValue)
 }catch(e){}
 }
 
+let changelogs=[]
+let clIndex=0
+
+async function loadChangelogs(){
+const r=await fetch(backend+"/changelogs")
+changelogs=await r.json()
+
+clIndex=0
+renderCL()
+}
+
+function convertTime(time,fromTZ){
+const d=new Date(time)
+return d.toLocaleString(undefined,{
+timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone
+})
+}
+
+function renderCL(){
+const box=document.getElementById("cl_box")
+
+if(!changelogs.length){
+box.innerHTML="No changelogs"
+return
+}
+
+const cl=changelogs[clIndex]
+
+box.innerHTML=`
+<h4>${cl.title} (${cl.version})</h4>
+<div class="meta">${convertTime(cl.time,cl.timezone)}</div>
+<p style="white-space:pre-wrap">${cl.text}</p>
+`
+}
+
+function prevCL(){
+if(clIndex<changelogs.length-1){
+clIndex++
+renderCL()
+}
+}
+
+function nextCL(){
+if(clIndex>0){
+clIndex--
+renderCL()
+}
+}
+
 async function init(){
 backend = await getBackend()
 loadStats()
+
 
 const token = localStorage.getItem("Token")
 if(!token) return location.href = "login.html"
@@ -296,7 +368,7 @@ linkCodeBox.innerHTML = `<b>Your Link Code</b><br>${data.linkCode}<br><small>Use
 }else{
 linkCodeBox.innerHTML = "<b>No link code found</b>"
 }
-
+await loadChangelogs()
 await loadQuests()
 }catch(err){}
 }
