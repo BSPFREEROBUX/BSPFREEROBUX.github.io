@@ -185,6 +185,20 @@ type
 location.reload()
 }
 
+async function trackPage(page){
+const token=localStorage.getItem("Token")
+if(!token) return
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({page})
+})
+}
+
 function showTip(text,type,x,y){
 const tip=document.getElementById("tooltip")
 tip.innerText=text
@@ -224,6 +238,7 @@ location.href="profile.html?username="+encodeURIComponent(username)
 async function loadProfile(){
 
 backend=await getBackend()
+await trackPage(location.pathname.split("/").pop() + location.search)
 me=await getMe()
 console.log("ME:", me)
   
