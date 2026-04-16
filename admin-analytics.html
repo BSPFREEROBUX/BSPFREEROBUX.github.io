@@ -75,22 +75,36 @@ let allData={}
 
 async function init(){
 backend=(await fetch("server.txt").then(r=>r.text())).trim()
-loadAll()
+await loadAll()
 }
 init()
 
-async function loadAll(){
-const r=await fetch(backend+"/admin/all-page-history",{
+async function safeFetch(url){
+const r=await fetch(url,{
 headers:{Authorization:localStorage.getItem("Token")}
 })
 
-allData=await r.json()
+const text=await r.text()
+
+try{
+return JSON.parse(text)
+}catch{
+console.error("Invalid JSON:",text)
+return null
+}
+}
+
+async function loadAll(){
+const data=await safeFetch(backend+"/admin/all-page-history")
+if(!data) return
+
+allData=data
 
 renderTotals()
 renderGraph()
 }
 
-function loadUser(){
+async function loadUser(){
 const username=document.getElementById("user").value.trim()
 const list=document.getElementById("userList")
 const stats=document.getElementById("userStats")
@@ -98,7 +112,13 @@ const stats=document.getElementById("userStats")
 list.innerHTML=""
 stats.innerHTML=""
 
-const data=allData[username]||[]
+if(!username){
+stats.innerHTML="<b>Type a username</b>"
+return
+}
+
+const data=await safeFetch(backend+"/admin/page-history?username="+encodeURIComponent(username))
+if(!data) return
 
 stats.innerHTML="<b>Total Visits:</b> "+data.length
 
