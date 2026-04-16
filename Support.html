@@ -486,6 +486,20 @@ return String(value ?? "").replace(/[&<>"']/g,m=>({
 }[m]))
 }
 
+async function trackPage(page){
+const token=localStorage.getItem("Token")
+if(!token) return
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({page})
+})
+}
+
 function getExt(name){
 const clean=String(name||"").split("?")[0].toLowerCase()
 const i=clean.lastIndexOf(".")
@@ -697,6 +711,7 @@ async function init(){
 backend=await getBackend()
 token=localStorage.getItem("Token")
 if(!token) location.href="login.html"
+await trackPage(location.pathname.split("/").pop() + location.hash)
 
 const r=await fetch(backend+"/me",{headers:{Authorization:token}})
 user=await safeJson(r)
