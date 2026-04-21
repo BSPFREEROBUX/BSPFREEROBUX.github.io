@@ -82,12 +82,12 @@ background:#4caf50;
 <h2>Total Visits</h2>
 
 <div class="rangeBtns">
-<button onclick="setRange('today')">Today</button>
-<button onclick="setRange('yesterday')">Yesterday</button>
-<button onclick="setRange('week')">Week</button>
-<button onclick="setRange('month')">Month</button>
-<button onclick="setRange('year')">Year</button>
-<button onclick="setRange('all')">All</button>
+<button onclick="setRange(event,'today')">Today</button>
+<button onclick="setRange(event,'yesterday')">Yesterday</button>
+<button onclick="setRange(event,'week')">Week</button>
+<button onclick="setRange(event,'month')">Month</button>
+<button onclick="setRange(event,'year')">Year</button>
+<button onclick="setRange(event,'all')">All</button>
 </div>
 
 <div id="totalStats"></div>
@@ -98,6 +98,7 @@ background:#4caf50;
 let backend=null
 let allData={}
 let currentRange="today"
+let graphPoints=[]
 
 async function init(){
 backend=(await fetch("server.txt").then(r=>r.text())).trim()
@@ -121,54 +122,25 @@ renderTotals()
 renderGraph()
 }
 
-function setRange(r){
+function setRange(e,r){
 currentRange=r
 document.querySelectorAll(".rangeBtns button").forEach(b=>b.classList.remove("active"))
-event.target.classList.add("active")
+e.target.classList.add("active")
 renderTotals()
 renderGraph()
-}
-
-async function loadUser(){
-const username=document.getElementById("user").value.trim()
-const list=document.getElementById("userList")
-const stats=document.getElementById("userStats")
-
-list.innerHTML=""
-stats.innerHTML=""
-
-if(!username){
-stats.innerHTML="<b>Type a username</b>"
-return
-}
-
-const data=await safeFetch(backend+"/admin/page-history?username="+encodeURIComponent(username))
-if(!data) return
-
-stats.innerHTML="<b>Total Visits:</b> "+data.length
-
-data.slice().reverse().forEach(e=>{
-const div=document.createElement("div")
-div.className="entry"
-div.innerHTML=`
-${e.page}<br>
-<small>${new Date(e.time).toLocaleString()}</small>
-`
-list.appendChild(div)
-})
 }
 
 function filterByRange(){
 const now=new Date()
 let start=null
+let end=null
 
 if(currentRange==="today"){
 start=new Date(now.getFullYear(),now.getMonth(),now.getDate())
 }
 else if(currentRange==="yesterday"){
 start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1)
-const end=new Date(now.getFullYear(),now.getMonth(),now.getDate())
-return [start,end]
+end=new Date(now.getFullYear(),now.getMonth(),now.getDate())
 }
 else if(currentRange==="week"){
 start=new Date(now-7*86400000)
@@ -179,11 +151,8 @@ start=new Date(now.getFullYear(),now.getMonth()-1,now.getDate())
 else if(currentRange==="year"){
 start=new Date(now.getFullYear()-1,now.getMonth(),now.getDate())
 }
-else{
-return [null,null]
-}
 
-return [start,null]
+return [start,end]
 }
 
 function renderTotals(){
@@ -193,9 +162,7 @@ let total=0
 for(const u in allData){
 allData[u].forEach(e=>{
 const t=new Date(e.time)
-if((!start || t>=start) && (!end || t<end)){
-total++
-}
+if((!start||t>=start)&&(!end||t<end)) total++
 })
 }
 
@@ -212,8 +179,8 @@ const map={}
 for(const u in allData){
 allData[u].forEach(e=>{
 const d=new Date(e.time)
-if((!start || d>=start) && (!end || d<end)){
-const key=d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()
+if((!start||d>=start)&&(!end||d<end)){
+const key=d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()
 if(!map[key]) map[key]=0
 map[key]++
 }
@@ -223,7 +190,7 @@ map[key]++
 const keys=Object.keys(map).sort((a,b)=>{
 const pa=a.split("-").map(Number)
 const pb=b.split("-").map(Number)
-return new Date(pa[0],pa[1],pa[2],pa[3]) - new Date(pb[0],pb[1],pb[2],pb[3])
+return new Date(pa[0],pa[1],pa[2],pa[3],pa[4]) - new Date(pb[0],pb[1],pb[2],pb[3],pb[4])
 })
 
 const values=keys.map(k=>map[k])
@@ -238,18 +205,69 @@ if(values.length===0) return
 const max=Math.max(...values,1)
 const stepX=w/(values.length-1||1)
 
-ctx.strokeStyle="#4caf50"
-ctx.lineWidth=2
-ctx.beginPath()
+graphPoints=[]
 
+ctx.strokeStyle="#222"
+ctx.fillStyle="#888"
+ctx.font="12px system-ui"
+
+for(let i=0;i<=5;i++){
+const y=h-(i/5)*h
+ctx.beginPath()
+ctx.moveTo(0,y)
+ctx.lineTo(w,y)
+ctx.stroke()
+ctx.fillText(Math.round((max/5)*i),5,y-2)
+}
+
+ctx.beginPath()
 values.forEach((v,i)=>{
 const x=i*stepX
 const y=h-(v/max)*h
+graphPoints.push({x,y,v,key:keys[i]})
 if(i===0) ctx.moveTo(x,y)
 else ctx.lineTo(x,y)
 })
-
+ctx.strokeStyle="#4caf50"
+ctx.lineWidth=2
 ctx.stroke()
+
+canvas.onmousemove=(e)=>{
+const rect=canvas.getBoundingClientRect()
+const x=e.clientX-rect.left
+
+let closest=null
+let dist=Infinity
+
+graphPoints.forEach(p=>{
+const d=Math.abs(p.x-x)
+if(d<dist){
+dist=d
+closest=p
+}
+})
+
+renderGraph()
+
+if(!closest) return
+
+ctx.beginPath()
+ctx.arc(closest.x,closest.y,4,0,Math.PI*2)
+ctx.fillStyle="#fff"
+ctx.fill()
+
+const parts=closest.key.split("-").map(Number)
+const date=new Date(parts[0],parts[1],parts[2],parts[3],parts[4])
+
+ctx.fillStyle="#fff"
+ctx.fillText(
+date.getHours()+":"+String(date.getMinutes()).padStart(2,"0")+" - "+closest.v+" visits",
+closest.x+10,
+closest.y-10
+)
+}
+
+canvas.onmouseleave=()=>renderGraph()
 }
 </script>
 
