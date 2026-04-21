@@ -91,15 +91,15 @@ async function login(){
       body: JSON.stringify({ username, password })
     })
 
-    if(!r.ok){
-      alert("Server error")
-      return
-    }
-
     const d = await r.json()
 
     if(d && d.twofa){
       pendingUser = d.username || username
+
+      if(d.queue){
+        alert("Queued for 2FA\nPosition: "+d.position+"\nETA: "+Math.ceil(d.eta/1000)+"s")
+      }
+
       document.getElementById("twofaPopup").style.display = "flex"
       return
     }
@@ -117,8 +117,7 @@ async function login(){
     }
 
   }catch(err){
-    console.error(err)
-    alert("Network error or backend offline")
+    alert("Network error")
   }
 }
 
@@ -146,8 +145,7 @@ async function submit2FA(){
     }
 
   }catch(err){
-    console.error(err)
-    alert("2FA request failed")
+    alert("2FA failed")
   }
 }
 </script>
