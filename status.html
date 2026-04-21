@@ -8,6 +8,7 @@ body{background:#0e0e0e;color:#fff;font-family:Arial;margin:0;padding:20px}
 .card{background:#1e1e1e;padding:15px;border-radius:10px;margin-bottom:10px}
 .ok{color:#4caf50}
 .fail{color:#f44336}
+.warn{color:#ff9800}
 </style>
 </head>
 <body>
@@ -20,8 +21,21 @@ let backend=null
 let token=null
 
 async function getBackend(){
+try{
 const r=await fetch("server.txt")
 return (await r.text()).trim()
+}catch{
+return null
+}
+}
+
+async function checkBackend(){
+try{
+const res=await fetch(backend+"/changelogs")
+return res.ok
+}catch{
+return false
+}
 }
 
 async function signupStatus(){
@@ -56,20 +70,14 @@ return false
 }
 }
 
-const endpoints=[
-{url:"/me",method:"GET"},
-{url:"/quests",method:"POST",body:{}},
-{url:"/balance",method:"GET"},
-{url:"/history",method:"GET"},
-{url:"/profile?username=Status",method:"GET"},
-{url:"/changelogs",method:"GET"},
-{url:"/support/list",method:"GET"},
-{url:"/schedule/available?date=2026-01-01",method:"GET"},
-{url:"/track/page",method:"POST",body:{page:"status.html"}},
-{url:"/2fa/toggle",method:"POST",body:{enabled:true}}
-]
+async function testEndpoint(name,ep){
+const div=document.createElement("div")
+div.className="card"
+div.textContent=name+" ... testing"
+list.appendChild(div)
 
-async function testEndpoint(ep){
+const start=Date.now()
+
 try{
 const res=await fetch(backend+ep.url,{
 method:ep.method,
@@ -79,9 +87,13 @@ Authorization:token||""
 },
 body:ep.method==="POST"?JSON.stringify(ep.body||{}):undefined
 })
-return res.ok
+
+const time=Date.now()-start
+const ok=res.ok
+
+div.innerHTML=`${name} - <span class="${ok?"ok":"fail"}">${ok?"SUCCESS":"FAILED"}</span> (${res.status}) - ${time}ms`
 }catch{
-return false
+div.innerHTML=`${name} - <span class="fail">FAILED</span>`
 }
 }
 
@@ -90,32 +102,68 @@ backend=await getBackend()
 const list=document.getElementById("list")
 list.innerHTML=""
 
-const signupDiv=document.createElement("div")
-signupDiv.className="card"
-signupDiv.textContent="/signup ... testing"
-list.appendChild(signupDiv)
+if(!backend){
+list.innerHTML=`<div class="card fail">Backend URL not found</div>`
+return
+}
+
+const backendDiv=document.createElement("div")
+backendDiv.className="card"
+backendDiv.textContent="Checking backend..."
+list.appendChild(backendDiv)
+
+const up=await checkBackend()
+
+if(!up){
+backendDiv.innerHTML=`Backend - <span class="fail">OFFLINE</span>`
+return
+}
+
+backendDiv.innerHTML=`Backend - <span class="ok">ONLINE</span>`
 
 await signupStatus()
-signupDiv.innerHTML=`/signup (Status/Status) - <span class="ok">DONE</span>`
 
-const loginDiv=document.createElement("div")
-loginDiv.className="card"
-loginDiv.textContent="/login ... testing"
-list.appendChild(loginDiv)
+await testEndpoint("/login (Status/Status)",{
+url:"/login",
+method:"POST",
+body:{username:"Status",password:"Status"}
+})
 
-const loginOk=await loginTest()
-loginDiv.innerHTML=`/login (Status/Status) - <span class="${loginOk?"ok":"fail"}">${loginOk?"SUCCESS":"FAILED"}</span>`
+const loginRes=await fetch(backend+"/login",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username:"Status",password:"Status"})
+})
 
-for(const ep of endpoints){
-const div=document.createElement("div")
-div.className="card"
-div.textContent=ep.url+" ... testing"
-list.appendChild(div)
-
-const ok=await testEndpoint(ep)
-
-div.innerHTML=`${ep.url} - <span class="${ok?"ok":"fail"}">${ok?"SUCCESS":"FAILED"}</span>`
+const loginData=await loginRes.json()
+if(loginData && loginData.token){
+token=loginData.token
+localStorage.setItem("Token",token)
 }
+
+await testEndpoint("/me",{url:"/me",method:"GET"})
+await testEndpoint("/quests",{url:"/quests",method:"POST",body:{}})
+await testEndpoint("/balance",{url:"/balance",method:"GET"})
+await testEndpoint("/history",{url:"/history",method:"GET"})
+await testEndpoint("/profile",{url:"/profile?username=Status",method:"GET"})
+await testEndpoint("/changelogs",{url:"/changelogs",method:"GET"})
+
+await testEndpoint("/track/page",{url:"/track/page",method:"POST",body:{page:"status.html"}})
+
+await testEndpoint("/support/list",{url:"/support/list",method:"GET"})
+await testEndpoint("/support/create",{url:"/support/create",method:"POST",body:{title:"Status Test",reason:"test"}})
+await testEndpoint("/support/close",{url:"/support/close",method:"POST",body:{ticketId:"invalid"}})
+
+await testEndpoint("/schedule/available",{url:"/schedule/available?date=2026-01-01",method:"GET"})
+await testEndpoint("/schedule/book",{url:"/schedule/book",method:"POST",body:{ticketId:"invalid",date:"2026-01-01",start:"10:00",end:"11:00"}})
+
+await testEndpoint("/2fa/send",{url:"/2fa/send",method:"POST",body:{email:"test@test.com"}})
+await testEndpoint("/2fa/verify",{url:"/2fa/verify",method:"POST",body:{code:"000000"}})
+await testEndpoint("/2fa/toggle",{url:"/2fa/toggle",method:"POST",body:{enabled:true}})
+
+await testEndpoint("/link-discord",{url:"/link-discord",method:"POST",body:{secret:"invalid",username:"Status",discordId:"1",code:"1234"}})
+await testEndpoint("/link-roblox",{url:"/link-roblox",method:"POST",body:{token:"invalid",username:"Status"}})
+
 }
 
 run()
