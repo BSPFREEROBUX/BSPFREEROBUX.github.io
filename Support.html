@@ -579,10 +579,7 @@ timeSelect.appendChild(opt)
 }
 
 function convertToLocal(date, time){
-const [year,month,day]=date.split("-").map(Number)
-const [hour,minute]=time.split(":").map(Number)
-
-const utc = new Date(Date.UTC(year,month-1,day,hour,minute))
+const utc = new Date(`${date}T${time}:00Z`)
 
 return utc.toLocaleTimeString([],{
 hour:"2-digit",
