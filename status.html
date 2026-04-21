@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Status</title>
+<style>
+body{background:#0e0e0e;color:#fff;font-family:Arial;margin:0;padding:20px}
+.card{background:#1e1e1e;padding:15px;border-radius:10px;margin-bottom:10px}
+.ok{color:#4caf50}
+.fail{color:#f44336}
+</style>
+</head>
+<body>
+
+<h2>Full API Status</h2>
+<div id="list"></div>
+
+<script>
+let backend=null
+
+async function getBackend(){
+const r=await fetch("server.txt")
+return (await r.text()).trim()
+}
+
+const endpoints=[
+{url:"/login",method:"POST",body:{username:"test",password:"test"}},
+{url:"/signup",method:"POST",body:{username:"test_"+Date.now(),password:"test"}},
+{url:"/me",method:"GET"},
+{url:"/quests",method:"POST",body:{}},
+{url:"/balance",method:"GET"},
+{url:"/history",method:"GET"},
+{url:"/profile?username=test",method:"GET"},
+{url:"/changelogs",method:"GET"},
+{url:"/support/list",method:"GET"},
+{url:"/schedule/available?date=2026-01-01",method:"GET"},
+{url:"/track/page",method:"POST",body:{page:"status.html"}},
+{url:"/2fa/send",method:"POST",body:{email:"test@test.com"}},
+{url:"/2fa/verify",method:"POST",body:{code:"000000"}},
+{url:"/2fa/toggle",method:"POST",body:{enabled:true}},
+{url:"/support/create",method:"POST",body:{title:"test",reason:"test"}},
+{url:"/support/close",method:"POST",body:{ticketId:"test"}},
+{url:"/support/lock",method:"POST",body:{ticketId:"test"}},
+{url:"/support/unlock",method:"POST",body:{ticketId:"test"}},
+{url:"/schedule/book",method:"POST",body:{ticketId:"test",date:"2026-01-01",start:"10:00",end:"11:00"}},
+{url:"/admin/payout",method:"POST",body:{username:"test",amount:1,reason:"test",type:"add"}}
+]
+
+async function testEndpoint(ep){
+try{
+const res=await fetch(backend+ep.url,{
+method:ep.method,
+headers:{
+"Content-Type":"application/json",
+Authorization:localStorage.getItem("Token")||""
+},
+body:ep.method==="POST"?JSON.stringify(ep.body||{}):undefined
+})
+return res.ok
+}catch{
+return false
+}
+}
+
+async function run(){
+backend=await getBackend()
+const list=document.getElementById("list")
+list.innerHTML=""
+
+for(const ep of endpoints){
+const div=document.createElement("div")
+div.className="card"
+div.textContent=ep.url+" ... testing"
+list.appendChild(div)
+
+const ok=await testEndpoint(ep)
+
+div.innerHTML=`${ep.url} - <span class="${ok?"ok":"fail"}">${ok?"SUCCESS":"FAILED"}</span>`
+}
+}
+
+run()
+</script>
+
+</body>
+</html>
