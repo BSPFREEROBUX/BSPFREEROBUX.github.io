@@ -6,11 +6,16 @@
 <title>Dashboard</title>
 <link rel="stylesheet" href="styles.css">
 <style>
-body{
+*{
+box-sizing:border-box;
+}
+
+html,body{
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#0e0e0e;
 color:#fff;
+overflow-x:hidden;
 }
 
 body.light{
@@ -26,7 +31,7 @@ width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:10px 15px;
+padding:clamp(8px,1.5vw,15px);
 background:#121212;
 z-index:1000;
 flex-wrap:wrap;
@@ -36,35 +41,63 @@ body.light .topbar{
 background:#ffffff;
 }
 
+.icons{
+display:flex;
+flex-wrap:wrap;
+gap:clamp(4px,1vw,10px);
+}
+
 .icons span{
-margin:5px;
 cursor:pointer;
-font-size:14px;
+font-size:clamp(11px,1.2vw,14px);
+padding:clamp(5px,1vw,8px) clamp(8px,1.5vw,12px);
+border-radius:8px;
+background:#1e1e1e;
+}
+
+body.light .icons span{
+background:#e6e6e6;
 }
 
 .wrapper{
-max-width:1100px;
+max-width:1200px;
 margin:auto;
-padding:15px;
+padding:clamp(10px,2vw,20px);
+margin-top:clamp(90px,10vh,130px);
+}
+
+.main-flex{
+display:flex;
+gap:clamp(10px,2vw,20px);
+align-items:flex-start;
+flex-wrap:wrap;
+}
+
+.left{
+flex:1 1 600px;
+min-width:0;
+}
+
+.right{
+flex:1 1 280px;
+max-width:350px;
+width:100%;
 }
 
 .stats-container{
 display:flex;
-justify-content:center;
-gap:15px;
-margin-bottom:30px;
+gap:clamp(10px,2vw,20px);
+margin-bottom:clamp(20px,3vw,30px);
 flex-wrap:wrap;
 }
 
 .stat-box{
 background:#1e1e1e;
-padding:20px;
+padding:clamp(12px,2vw,20px);
 border-radius:12px;
-width:100%;
-max-width:300px;
+flex:1 1 250px;
 text-align:center;
-font-size:16px;
-box-sizing:border-box;
+font-size:clamp(14px,1.5vw,16px);
 }
 
 body.light .stat-box{
@@ -76,9 +109,9 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 .stat-inner{
 background:#2a2a2a;
 margin-top:10px;
-padding:15px;
+padding:clamp(10px,2vw,15px);
 border-radius:8px;
-font-size:22px;
+font-size:clamp(18px,2.5vw,24px);
 }
 
 body.light .stat-inner{
@@ -87,7 +120,7 @@ background:#e6e6e6;
 
 .stat-btn{
 margin-top:10px;
-padding:10px;
+padding:clamp(8px,1.5vw,12px);
 border:none;
 border-radius:8px;
 cursor:pointer;
@@ -95,14 +128,16 @@ background:#4cafef;
 color:white;
 font-weight:bold;
 width:100%;
+font-size:clamp(13px,1.4vw,15px);
 }
 
 .quest-card{
 background:#1e1e1e;
-padding:15px;
+padding:clamp(12px,2vw,16px);
 border-radius:10px;
-margin-bottom:15px;
+margin-bottom:clamp(10px,2vw,15px);
 word-wrap:break-word;
+font-size:clamp(13px,1.4vw,15px);
 }
 
 body.light .quest-card{
@@ -117,8 +152,9 @@ max-width:90%;
 
 button{
 border-radius:8px;
-padding:8px 12px;
+padding:clamp(6px,1.2vw,10px) clamp(10px,2vw,14px);
 cursor:pointer;
+font-size:clamp(12px,1.3vw,14px);
 }
 </style>
 </head>
@@ -149,11 +185,10 @@ cursor:pointer;
 </div>
 </div>
 
-<div class="wrapper" style="margin-top:90px">
+<div class="wrapper">
+<div class="main-flex">
 
-<div style="display:flex;gap:20px;align-items:flex-start">
-
-<div style="flex:1">
+<div class="left">
 
 <div class="stats-container">
 <div class="stat-box">
@@ -193,9 +228,9 @@ Total Robux Given Out
 
 </div>
 
-<div style="width:300px">
+<div class="right">
 
-<div class="quest-card" style="height:500px;display:flex;flex-direction:column">
+<div class="quest-card" style="max-height:clamp(300px,50vh,500px);display:flex;flex-direction:column">
 <h3>Changelog</h3>
 
 <div id="cl_box" style="flex:1;overflow:auto;margin-top:10px"></div>
