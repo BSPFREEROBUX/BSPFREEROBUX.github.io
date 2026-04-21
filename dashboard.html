@@ -417,21 +417,31 @@ document.getElementById("settingsBox").style.display=settingsOpen?"block":"none"
 }
 
 async function sendCode(){
-await fetch(backend+"/2fa/send",{
+const r = await fetch(backend+"/2fa/send",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
 Authorization:localStorage.getItem("Token")
-},
-body:JSON.stringify({
-email:document.getElementById("emailInput").value
+}
 })
-})
+
+const d = await r.json()
+
+if(d.error){
+if(d.error==="daily_limit") return alert("Daily limit reached")
+if(d.error==="cooldown_user") return alert("Wait before requesting again")
+if(d.error==="cooldown_ip") return alert("IP cooldown active")
+}
+
+if(d.queued){
+alert("Queued\nPosition: "+d.position+"\nETA: "+Math.ceil(d.eta/1000)+"s")
+}else{
 alert("Code sent")
+}
 }
 
 async function verifyCode(){
-await fetch(backend+"/2fa/verify",{
+const r = await fetch(backend+"/2fa/verify",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
@@ -441,11 +451,18 @@ body:JSON.stringify({
 code:document.getElementById("codeInput").value
 })
 })
+
+const d = await r.json()
+
+if(d.success){
 alert("Verified")
+}else{
+alert("Invalid or expired code")
+}
 }
 
 async function toggle2FA(){
-await fetch(backend+"/2fa/toggle",{
+const r = await fetch(backend+"/2fa/toggle",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
@@ -455,9 +472,15 @@ body:JSON.stringify({
 enabled:true
 })
 })
+
+const d = await r.json()
+
+if(d.error){
+if(d.error==="noemail") return alert("Add email first")
+}else{
 alert("2FA Enabled")
 }
-
+}
 function renderQuests(list, containerId, completed){
 const container = document.getElementById(containerId)
 container.innerHTML = ""
