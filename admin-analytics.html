@@ -51,6 +51,21 @@ background:#111;
 border-radius:10px;
 margin-top:10px;
 }
+
+.rangeBtns{
+margin-bottom:10px;
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+}
+
+.rangeBtns button{
+background:#2a2a2a;
+}
+
+.rangeBtns button.active{
+background:#4caf50;
+}
 </style>
 </head>
 <body>
@@ -65,6 +80,16 @@ margin-top:10px;
 
 <div class="card">
 <h2>Total Visits</h2>
+
+<div class="rangeBtns">
+<button onclick="setRange('today')">Today</button>
+<button onclick="setRange('yesterday')">Yesterday</button>
+<button onclick="setRange('week')">Week</button>
+<button onclick="setRange('month')">Month</button>
+<button onclick="setRange('year')">Year</button>
+<button onclick="setRange('all')">All</button>
+</div>
+
 <div id="totalStats"></div>
 <canvas id="graph"></canvas>
 </div>
@@ -72,6 +97,7 @@ margin-top:10px;
 <script>
 let backend=null
 let allData={}
+let currentRange="today"
 
 async function init(){
 backend=(await fetch("server.txt").then(r=>r.text())).trim()
@@ -83,23 +109,22 @@ async function safeFetch(url){
 const r=await fetch(url,{
 headers:{Authorization:localStorage.getItem("Token")}
 })
-
 const text=await r.text()
-
-try{
-return JSON.parse(text)
-}catch{
-console.error("Invalid JSON:",text)
-return null
-}
+try{return JSON.parse(text)}catch{return null}
 }
 
 async function loadAll(){
 const data=await safeFetch(backend+"/admin/all-page-history")
 if(!data) return
-
 allData=data
+renderTotals()
+renderGraph()
+}
 
+function setRange(r){
+currentRange=r
+document.querySelectorAll(".rangeBtns button").forEach(b=>b.classList.remove("active"))
+event.target.classList.add("active")
 renderTotals()
 renderGraph()
 }
@@ -133,35 +158,63 @@ list.appendChild(div)
 })
 }
 
+function filterByRange(){
+const now=new Date()
+let start=null
+
+if(currentRange==="today"){
+start=new Date(now.getFullYear(),now.getMonth(),now.getDate())
+}
+else if(currentRange==="yesterday"){
+start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1)
+const end=new Date(now.getFullYear(),now.getMonth(),now.getDate())
+return [start,end]
+}
+else if(currentRange==="week"){
+start=new Date(now-7*86400000)
+}
+else if(currentRange==="month"){
+start=new Date(now.getFullYear(),now.getMonth()-1,now.getDate())
+}
+else if(currentRange==="year"){
+start=new Date(now.getFullYear()-1,now.getMonth(),now.getDate())
+}
+else{
+return [null,null]
+}
+
+return [start,null]
+}
+
 function renderTotals(){
+const [start,end]=filterByRange()
 let total=0
 
 for(const u in allData){
-total+=allData[u].length
+allData[u].forEach(e=>{
+const t=new Date(e.time)
+if((!start || t>=start) && (!end || t<end)){
+total++
+}
+})
 }
 
-document.getElementById("totalStats").innerHTML="<b>Total Visits (All Users):</b> "+total
+document.getElementById("totalStats").innerHTML="<b>Total Visits:</b> "+total
 }
 
 function renderGraph(){
 const canvas=document.getElementById("graph")
 const ctx=canvas.getContext("2d")
 
-const now=Date.now()
-const hours=24
+const [start,end]=filterByRange()
 const map={}
-
-for(let i=0;i<hours;i++){
-const d=new Date(now - i*3600000)
-const key=d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()
-map[key]=0
-}
 
 for(const u in allData){
 allData[u].forEach(e=>{
 const d=new Date(e.time)
+if((!start || d>=start) && (!end || d<end)){
 const key=d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()
-if(map[key]!==undefined){
+if(!map[key]) map[key]=0
 map[key]++
 }
 })
@@ -185,66 +238,18 @@ if(values.length===0) return
 const max=Math.max(...values,1)
 const stepX=w/(values.length-1||1)
 
-// grid lines + labels
-ctx.strokeStyle="#222"
-ctx.fillStyle="#888"
-ctx.font="12px system-ui"
-
-const steps=5
-for(let i=0;i<=steps;i++){
-const y=h-(i/steps)*h
+ctx.strokeStyle="#4caf50"
+ctx.lineWidth=2
 ctx.beginPath()
-ctx.moveTo(0,y)
-ctx.lineTo(w,y)
-ctx.stroke()
-ctx.fillText(Math.round((max/steps)*i),5,y-2)
-}
 
-// line
-ctx.beginPath()
 values.forEach((v,i)=>{
 const x=i*stepX
 const y=h-(v/max)*h
 if(i===0) ctx.moveTo(x,y)
 else ctx.lineTo(x,y)
 })
-ctx.strokeStyle="#4caf50"
-ctx.lineWidth=2
+
 ctx.stroke()
-
-// hover
-canvas.onmousemove=(e)=>{
-const rect=canvas.getBoundingClientRect()
-const x=e.clientX-rect.left
-
-const i=Math.round(x/stepX)
-if(i<0 || i>=values.length) return
-
-const v=values[i]
-const key=keys[i].split("-")
-const date=new Date(key[0],key[1],key[2],key[3])
-
-renderGraph()
-
-const px=i*stepX
-const py=h-(v/max)*h
-
-ctx.beginPath()
-ctx.arc(px,py,4,0,Math.PI*2)
-ctx.fillStyle="#fff"
-ctx.fill()
-
-ctx.fillStyle="#fff"
-ctx.fillText(
-date.getHours()+":00 - "+v+" visits",
-px+10,
-py-10
-)
-}
-
-canvas.onmouseleave=()=>{
-renderGraph()
-}
 }
 </script>
 
