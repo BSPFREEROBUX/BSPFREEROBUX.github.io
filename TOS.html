@@ -27,6 +27,7 @@ html,body{
   font-family:Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
+  overflow-x:hidden;
 }
 
 .topbar{
@@ -72,22 +73,27 @@ html,body{
 }
 
 .wrapper{
-  width:min(1100px, calc(100% - 24px));
-  margin:0 auto;
-  padding:100px 0 40px;
+  width:100%;
+  max-width:100%;
+  margin:0;
+  padding:110px 12px 40px;
 }
 
 .hero{
+  width:100%;
   background:linear-gradient(180deg, rgba(88,101,242,.14), rgba(88,101,242,0));
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px;
+  border-radius:14px;
+  padding:18px;
   margin-bottom:16px;
+  overflow:hidden;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
 }
 
 .hero h1{
   margin:0 0 8px;
-  font-size:26px;
+  font-size:24px;
 }
 
 .hero p{
@@ -104,10 +110,14 @@ html,body{
 }
 
 .meta-card{
+  width:100%;
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:12px;
-  padding:12px;
+  padding:14px;
+  overflow:hidden;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
 }
 
 .meta-card .label{
@@ -118,15 +128,19 @@ html,body{
 
 .meta-card .value{
   font-size:14px;
-  line-height:1.4;
+  line-height:1.5;
 }
 
 .section{
+  width:100%;
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:14px;
   padding:16px;
   margin-bottom:12px;
+  overflow:hidden;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
 }
 
 .section h2{
@@ -136,7 +150,7 @@ html,body{
 
 .section p{
   margin:0 0 10px;
-  line-height:1.6;
+  line-height:1.7;
   font-size:14px;
 }
 
@@ -157,10 +171,14 @@ html,body{
 }
 
 .small-card{
+  width:100%;
   background:var(--panel2);
   border:1px solid var(--border);
   border-radius:12px;
-  padding:12px;
+  padding:14px;
+  overflow:hidden;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
 }
 
 .small-card h3{
@@ -183,37 +201,31 @@ html,body{
 strong{color:var(--text)}
 a{color:var(--accent2)}
 
-/* TABLET */
 @media (min-width:600px){
   .tos-meta{
     grid-template-columns:repeat(2,1fr);
   }
-
   .grid-2{
     grid-template-columns:repeat(2,1fr);
   }
-
   .hero h1{
-    font-size:30px;
+    font-size:28px;
   }
 }
 
-/* DESKTOP */
 @media (min-width:900px){
   .tos-meta{
     grid-template-columns:repeat(3,1fr);
   }
-
   .wrapper{
     width:min(1100px, calc(100% - 32px));
+    margin:0 auto;
   }
-
   .hero{
-    padding:28px;
+    padding:24px;
   }
-
   .hero h1{
-    font-size:34px;
+    font-size:32px;
   }
 }
 </style>
