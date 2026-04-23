@@ -15,8 +15,6 @@
   --border:#2a2a2a;
   --accent:#5865f2;
   --accent2:#7c8cff;
-  --danger:#ff6b6b;
-  --ok:#2ecc71;
 }
 
 *{box-sizing:border-box}
@@ -27,6 +25,7 @@ html,body{
   font-family:Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
+  width:100%;
   overflow-x:hidden;
 }
 
@@ -39,8 +38,7 @@ html,body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:8px;
-  padding:10px 12px;
+  padding:10px 14px;
   background:rgba(18,18,18,.96);
   border-bottom:1px solid var(--border);
   backdrop-filter:blur(8px);
@@ -49,51 +47,47 @@ html,body{
 #userDisplay{
   font-size:16px;
   font-weight:700;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  max-width:45%;
 }
 
 .icons{
   display:flex;
   gap:6px;
-  align-items:center;
-  flex-shrink:0;
 }
 
 .icons span{
-  cursor:pointer;
-  user-select:none;
-  padding:6px 8px;
+  padding:6px 10px;
+  font-size:12px;
   border-radius:8px;
   background:var(--panel);
   border:1px solid var(--border);
-  font-size:12px;
+  cursor:pointer;
 }
 
 .wrapper{
   width:100%;
-  max-width:100%;
   margin:0;
-  padding:110px 12px 40px;
+  padding:90px 14px 40px;
+}
+
+.hero,
+.section,
+.meta-card,
+.small-card{
+  width:100%;
+  max-width:100%;
 }
 
 .hero{
-  width:100%;
   background:linear-gradient(180deg, rgba(88,101,242,.14), rgba(88,101,242,0));
   border:1px solid var(--border);
   border-radius:14px;
-  padding:18px;
+  padding:20px;
   margin-bottom:16px;
-  overflow:hidden;
-  word-wrap:break-word;
-  overflow-wrap:break-word;
 }
 
 .hero h1{
-  margin:0 0 8px;
-  font-size:24px;
+  margin:0 0 10px;
+  font-size:26px;
 }
 
 .hero p{
@@ -105,24 +99,20 @@ html,body{
 .tos-meta{
   display:grid;
   grid-template-columns:1fr;
-  gap:10px;
+  gap:12px;
   margin:16px 0 20px;
 }
 
 .meta-card{
-  width:100%;
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:12px;
-  padding:14px;
-  overflow:hidden;
-  word-wrap:break-word;
-  overflow-wrap:break-word;
+  padding:16px;
 }
 
 .meta-card .label{
+  font-size:12px;
   color:var(--muted);
-  font-size:11px;
   margin-bottom:6px;
 }
 
@@ -132,31 +122,26 @@ html,body{
 }
 
 .section{
-  width:100%;
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:14px;
-  padding:16px;
-  margin-bottom:12px;
-  overflow:hidden;
-  word-wrap:break-word;
-  overflow-wrap:break-word;
+  padding:18px;
+  margin-bottom:14px;
 }
 
 .section h2{
-  margin:0 0 8px;
-  font-size:18px;
+  margin:0 0 10px;
+  font-size:20px;
 }
 
 .section p{
-  margin:0 0 10px;
+  margin:0 0 12px;
   line-height:1.7;
   font-size:14px;
 }
 
 .section ul{
-  margin:0 0 10px 16px;
-  padding:0;
+  margin:0 0 12px 18px;
 }
 
 .section li{
@@ -167,23 +152,19 @@ html,body{
 .grid-2{
   display:grid;
   grid-template-columns:1fr;
-  gap:10px;
+  gap:12px;
 }
 
 .small-card{
-  width:100%;
   background:var(--panel2);
   border:1px solid var(--border);
   border-radius:12px;
-  padding:14px;
-  overflow:hidden;
-  word-wrap:break-word;
-  overflow-wrap:break-word;
+  padding:16px;
 }
 
 .small-card h3{
   margin:0 0 6px;
-  font-size:15px;
+  font-size:16px;
 }
 
 .small-card p{
@@ -194,40 +175,31 @@ html,body{
 
 .footer{
   margin-top:20px;
-  font-size:12px;
+  font-size:13px;
   color:var(--muted);
 }
 
 strong{color:var(--text)}
 a{color:var(--accent2)}
 
-@media (min-width:600px){
-  .tos-meta{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .grid-2{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .hero h1{
-    font-size:28px;
-  }
-}
-
-@media (min-width:900px){
+@media (min-width:700px){
   .tos-meta{
     grid-template-columns:repeat(3,1fr);
   }
+
+  .grid-2{
+    grid-template-columns:repeat(2,1fr);
+  }
+
   .wrapper{
-    width:min(1100px, calc(100% - 32px));
-    margin:0 auto;
+    padding:100px 24px 50px;
   }
-  .hero{
-    padding:24px;
-  }
+
   .hero h1{
     font-size:32px;
   }
 }
+</style>
 </style>
 </head>
 <body>
