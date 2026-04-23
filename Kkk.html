@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Countdown</title>
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0e0e0e;
+  color:white;
+  font-family:Arial, sans-serif;
+  font-size:28px;
+}
+</style>
+</head>
+<body>
+<div id="countdown"></div>
+
+<script>
+const target = new Date("2026-04-23T18:30:00+02:00").getTime();
+
+function update(){
+  const now = performance.timeOrigin + performance.now();
+  let diff = target - now;
+
+  if(diff <= 0){
+    document.getElementById("countdown").innerText = "Time reached";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000*60*60*24));
+  diff %= (1000*60*60*24);
+
+  const hours = Math.floor(diff / (1000*60*60));
+  diff %= (1000*60*60);
+
+  const minutes = Math.floor(diff / (1000*60));
+  diff %= (1000*60);
+
+  const seconds = Math.floor(diff / 1000);
+  diff %= 1000;
+
+  const milliseconds = Math.floor(diff);
+  const microseconds = Math.floor((diff % 1) * 1000);
+  const nanoseconds = Math.floor(((diff % 1) * 1000000) % 1000);
+
+  document.getElementById("countdown").innerText =
+    days+"d "+hours+"h "+minutes+"m "+seconds+"s "+
+    milliseconds+"ms "+microseconds+"µs "+nanoseconds+"ns";
+}
+
+function loop(){
+  update();
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+</body>
+</html>
