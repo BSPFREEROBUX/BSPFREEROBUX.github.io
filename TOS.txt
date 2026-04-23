@@ -1,56 +1,369 @@
-**Terms of Service**
+Terms of Service
 
-By creating an account and using this website, you agree to the following Terms of Service.
+By creating an account, accessing the website, using any page, feature, system, or support channel, you agree to the following Terms of Service. These terms apply to all parts of the service including login, signup, dashboard, profile, history, balance, linking systems, quests, rewards, tickets, Discord support, email support, and any future features.
 
-**Account Storage**
-When you sign up, you agree that your username and password will be stored on our servers. We are not obligated to delete your account if you request deletion. You may open a support ticket to request deletion, and staff may review the request.
 
-**IP Storage and Security**
-Your IP address is stored for security purposes. This allows us to protect our servers and block IP addresses if necessary. If you attempt to spam the servers, send excessive data, attempt to disrupt the service, or perform attacks such as a DDoS attack, your IP may be temporarily or permanently blocked.
+---
 
-**Logging and Anti-Spam**
-All login attempts and certain actions are logged for security and anti-spam purposes. If you attempt to spam or abuse our servers with excessive requests, your access may be restricted.
+1. Acceptance of Terms
 
-**Ticket System**
-When using the support ticket system, the assigned support staff member has authority over the ticket. If you believe their decision is incorrect, you may request a review from a Head Support Member or Administrator by stating something such as “I would like a head staff member to review this ticket.” Staff may close tickets at their discretion and may deny requests for free Robux or other rewards.
+By using the service, you fully agree to these terms. If you do not agree, you must stop using the service immediately. Continued use after updates means you accept the updated terms.
 
-**Reward Claims**
-To claim Robux or other prizes, your Discord account must be linked to your website account unless otherwise approved by a Head Staff Member or a staff member with permission from a Head Staff Member.
 
-**Alt Accounts**
-Using alternate accounts to gain additional Robux or rewards is not allowed. This includes both Roblox alternate accounts and additional website accounts. If you are found using alt accounts, you may receive a temporary or permanent ban.
+---
 
-**Usernames and Public Profiles**
-You are responsible for your username. If you sign up with a username containing slurs, offensive language, or inappropriate content, your account may be banned or you may be required to change your username if it is discovered. Your account profile may also be publicly visible, including information such as quests completed, sign-up date, rewards earned, and other statistics.
+2. Account Responsibility
 
-**Account Security**
-You are responsible for keeping your account secure. Any actions performed on your account are considered your responsibility, including actions taken by someone who gains access to your account.
+You are responsible for your account, including your username, password, linked accounts, and all activity performed on your account.
+You are responsible for remembering your password. There is no guaranteed recovery system.
 
-**Service Availability**
-The service may be temporarily unavailable due to maintenance, updates, or unexpected issues. We are not responsible for downtime or interruptions to the service.
 
-**Rewards and Features**
-Rewards such as Robux, quests, giveaways, or other features are not guaranteed and may change, be delayed, or be removed at any time.
+---
 
-**System Abuse and Exploits**
-Attempting to abuse the system, exploit bugs, automate actions, bypass protections, or manipulate rewards is not allowed. Rewards gained through exploits may be removed and may result in a temporary or permanent ban.
+3. Account Recovery
 
-**Staff Impersonation**
-Pretending to be a staff member, administrator, or any official representative of the service is not allowed and may result in a ban.
+If you forget your username, password, or email, you may contact staff through a Discord ticket.
+Recovery is only possible if your Discord account is linked to the website account.
+Recovery is not guaranteed and may be denied at staff discretion.
 
-**Activity Logging**
-All actions on the website are logged for security and moderation purposes. These logs are not normally reviewed unless necessary. Messages and actions on the Discord server are also logged.
 
-**User Responsibility and Bans**
-You are responsible for your own actions while using the website and the Discord server. Violating rules or abusing the service may result in a temporary or permanent ban.
+---
 
-**Data and Security Disclaimer**
-We take reasonable steps to protect user data, but absolute security cannot be guaranteed. In the unlikely event that data is leaked or exposed, we are not responsible for any damages.
+4. Username Responsibility
 
-**Independence from Roblox**
-This service is not affiliated with, endorsed by, or associated with Roblox Corporation.
+You are responsible for your username.
+Usernames that are offensive, inappropriate, misleading, or impersonate staff may result in forced change or ban.
 
-**Future Changes**
-By continuing to use the service, you agree that these Terms of Service may be updated or changed in the future.
 
-By using this service, you acknowledge and agree to these terms.
+---
+
+5. Email and 2FA Responsibility
+
+If you add an email for 2FA or verification, you are responsible for that email.
+We are not responsible if you lose access to your email or cannot receive verification codes.
+We are not responsible for where your email is stored or how it is handled.
+
+
+---
+
+6. Public Profiles and Visibility
+
+You agree that your account may be searchable.
+Other users and staff may view your profile information including:
+
+Username
+
+User ID
+
+Discord ID
+
+Roblox ID
+
+Join date
+
+Completed quests
+
+Rewards and statistics
+
+Linked accounts
+
+
+
+---
+
+7. Data Display and Delays
+
+Quests, rewards, balances, and statistics may not update instantly.
+They may be delayed or not appear correctly on the dashboard or profile.
+We are not responsible if something does not update immediately or ever visually display correctly.
+
+
+---
+
+8. Quests and Rewards
+
+Rewards, quests, giveaways, and features are not guaranteed.
+They may be changed, delayed, or removed at any time.
+Completion does not guarantee payout unless approved and processed.
+
+
+---
+
+9. Linked Accounts
+
+You are responsible for linking your Discord, Roblox, or other accounts correctly.
+Failure to link accounts properly may prevent recovery, rewards, or support.
+
+
+---
+
+10. Support System
+
+Support may be provided through Discord, website tickets, or email.
+Staff have full authority over tickets.
+Staff may:
+
+Close tickets
+
+Deny requests
+
+Ignore requests
+
+Escalate or reassign tickets
+
+
+You may request a higher staff review, but it is not guaranteed.
+
+
+---
+
+11. Ticket Risks and Leaks
+
+We are not responsible for any leaks, screenshots, or exposure of messages in:
+
+Discord tickets
+
+Website tickets
+
+Email support
+
+Any support communication
+
+
+
+---
+
+12. Staff Authority
+
+Staff decisions are final unless overridden by higher staff.
+Staff may deny any request for any reason allowed by policy.
+
+
+---
+
+13. Logging and Monitoring
+
+All activity may be logged including:
+
+Login attempts
+
+Actions on the website
+
+Support interactions
+
+Discord activity
+
+
+Logs may be reviewed at any time for moderation and security.
+
+
+---
+
+14. IP Storage and Security
+
+Your IP address may be stored for:
+
+Security
+
+Anti-spam
+
+Abuse prevention
+
+
+If you attempt to:
+
+Spam
+
+Exploit
+
+Abuse systems
+
+Attack the service
+
+
+Your IP or account may be blocked.
+
+
+---
+
+15. Account Security
+
+You are responsible for keeping your account secure.
+Any actions performed on your account are considered your responsibility.
+
+
+---
+
+16. Exploits and Abuse
+
+You may not:
+
+Exploit bugs
+
+Automate actions
+
+Bypass protections
+
+Manipulate rewards
+
+
+Any abuse may result in reward removal or ban.
+
+
+---
+
+17. Alternate Accounts
+
+Using alt accounts to gain rewards or bypass restrictions is not allowed.
+This includes:
+
+Website accounts
+
+Roblox accounts
+
+Discord accounts
+
+
+Violations may result in bans.
+
+
+---
+
+18. Prohibited Behavior
+
+You may not:
+
+Impersonate staff
+
+Abuse support systems
+
+Submit false claims
+
+Harass or threaten others
+
+Attempt unauthorized access
+
+
+
+---
+
+19. Bans and Enforcement
+
+You may be banned for violating rules or for any reason deemed necessary by staff.
+Bans may be temporary or permanent.
+Appeals are not guaranteed.
+
+
+---
+
+20. Service Availability
+
+The service may be unavailable at any time due to:
+
+Maintenance
+
+Updates
+
+Errors
+
+
+We are not responsible for downtime or interruptions.
+
+
+---
+
+21. Data and Security Disclaimer
+
+We take reasonable steps to protect data, but security is not guaranteed.
+We are not responsible for:
+
+Data leaks
+
+Unauthorized access
+
+Breaches outside our control
+
+
+
+---
+
+22. Feature Changes
+
+Any feature, page, or system may be changed or removed at any time without notice.
+
+
+---
+
+23. Right to Refuse Service
+
+We may restrict or deny access to any user at any time.
+
+
+---
+
+24. Independence
+
+This service is not affiliated with or endorsed by Roblox.
+
+
+---
+
+25. No Guarantees
+
+We do not guarantee:
+
+Rewards
+
+Support outcomes
+
+Account recovery
+
+Feature availability
+
+
+
+---
+
+26. User Submissions
+
+Anything you submit (messages, files, content) may be stored, reviewed, or used for moderation.
+
+
+---
+
+27. No Liability
+
+We are not responsible for damages, losses, or issues resulting from use of the service.
+
+
+---
+
+28. Enforcement Rights
+
+Failure to enforce a rule does not remove our right to enforce it later.
+
+
+---
+
+29. Changes to Terms
+
+These terms may be updated at any time. Continued use means you accept the changes.
+
+
+---
+
+30. Final Agreement
+
+By using the service, you confirm that you:
+
+Accept all terms
+
+Understand your responsibilities
+
+Agree to staff authority and system rules
+
+
+
+---
+
+Last Updated: 2026-04-23
