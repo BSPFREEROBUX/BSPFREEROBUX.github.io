@@ -550,8 +550,8 @@ const now = new Date()
 
 data.slots.forEach(s=>{
 
-const startDate = new Date(date + "T" + s.start + ":00Z")
-const endDate = new Date(date + "T" + s.end + ":00Z")
+const startDate = new Date(date + "T" + s.start + ":00")
+const endDate = new Date(date + "T" + s.end + ":00")
 
 const startLocal = convertToLocal(date, s.start)
 const endLocal = convertToLocal(date, s.end)
