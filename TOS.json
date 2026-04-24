@@ -1,125 +1,222 @@
 {
   "lastUpdated": "2026-04-23",
+  "meta": {
+    "scope": "Website, dashboard, login, signup, profile, history, balance, support, linking, quests, 2FA, tickets, Discord support, email support, and any future page or feature.",
+    "userResponsibility": "You are responsible for your username, password, linked accounts, activity, and security decisions made on your account.",
+    "staffDiscretion": "Staff may review, deny, close, restrict, or escalate requests and tickets at their discretion."
+  },
+  "hero": {
+    "title": "Terms of Service",
+    "description": "By creating an account, using the website, opening a ticket, linking accounts, completing quests, or accessing any related page, you agree to these Terms of Service and all future updates. These terms apply to every feature, page, support channel, and account-related action connected to the service."
+  },
   "sections": [
     {
       "title": "Acceptance of Terms",
-      "content": "By using the service, you fully agree to these terms. If you do not agree, you must stop using the service immediately. Continued use after updates means you accept the updated terms."
+      "content": [
+        "Using the service means you accept these terms in full. If you do not agree, you must stop using the website, Discord support, email support, and any related tools or features.",
+        "These terms may be updated at any time. Continued use after updates means you accept the updated version."
+      ]
     },
     {
-      "title": "Account Responsibility",
-      "content": "You are responsible for your account, including your username, password, linked accounts, and all activity performed on your account. You are responsible for remembering your password. There is no guaranteed recovery system."
-    },
-    {
-      "title": "Account Recovery",
-      "content": "If you forget your username, password, or email, you may contact staff through a Discord ticket. Recovery is only possible if your Discord account is linked to the website account. Recovery is not guaranteed and may be denied at staff discretion."
+      "title": "Account Creation, Login, and Credentials",
+      "content": [
+        "You are responsible for your username, password, and login credentials.",
+        "There is no guaranteed password recovery.",
+        "Recovery may require linked Discord and staff approval.",
+        "All activity on your account is your responsibility."
+      ]
     },
     {
       "title": "Username Responsibility",
-      "content": "You are responsible for your username. Usernames that are offensive, inappropriate, misleading, or impersonate staff may result in forced change or ban."
+      "content": [
+        "Usernames must not be offensive, misleading, or impersonate staff.",
+        "Usernames may be changed or accounts restricted at any time."
+      ]
     },
     {
       "title": "Email and 2FA Responsibility",
-      "content": "If you add an email for 2FA or verification, you are responsible for that email. We are not responsible if you lose access to your email or cannot receive verification codes. We are not responsible for where your email is stored or how it is handled."
-    },
-    {
-      "title": "Public Profiles and Visibility",
-      "content": "You agree that your account may be searchable. Other users and staff may view your profile information including Username, User ID, Discord ID, Roblox ID, Join date, Completed quests, Rewards and statistics, Linked accounts."
-    },
-    {
-      "title": "Data Display and Delays",
-      "content": "Quests, rewards, balances, and statistics may not update instantly. They may be delayed or not appear correctly on the dashboard or profile. We are not responsible if something does not update immediately or ever visually display correctly."
-    },
-    {
-      "title": "Quests and Rewards",
-      "content": "Rewards, quests, giveaways, and features are not guaranteed. They may be changed, delayed, or removed at any time. Completion does not guarantee payout unless approved and processed."
+      "content": [
+        "You are responsible for your email and 2FA setup.",
+        "We are not responsible for lost email access or missing codes."
+      ]
     },
     {
       "title": "Linked Accounts",
-      "content": "You are responsible for linking your Discord, Roblox, or other accounts correctly. Failure to link accounts properly may prevent recovery, rewards, or support."
+      "content": [
+        "You must correctly link Discord, Roblox, or other accounts.",
+        "Incorrect linking may prevent rewards, recovery, or support."
+      ]
+    },
+    {
+      "title": "Public Profiles",
+      "content": [
+        "Your account may be searchable.",
+        "Profile data such as IDs, stats, and linked accounts may be visible."
+      ]
+    },
+    {
+      "title": "Data Display",
+      "content": [
+        "Stats, rewards, and balances may be delayed or incorrect visually.",
+        "Display does not always reflect backend instantly."
+      ]
+    },
+    {
+      "title": "Quests and Rewards",
+      "content": [
+        "Rewards are not guaranteed.",
+        "Features may change or be removed anytime.",
+        "Completion does not guarantee payout."
+      ]
     },
     {
       "title": "Support System",
-      "content": "Support may be provided through Discord, website tickets, or email. Staff have full authority over tickets. Staff may close tickets, deny requests, ignore requests, escalate or reassign tickets. You may request a higher staff review, but it is not guaranteed."
+      "content": [
+        "Support is provided via Discord, website, or email.",
+        "Staff may close, deny, or ignore tickets.",
+        "Escalation is not guaranteed."
+      ]
     },
     {
-      "title": "Ticket Risks and Leaks",
-      "content": "We are not responsible for any leaks, screenshots, or exposure of messages in Discord tickets, website tickets, email support, or any support communication."
+      "title": "Ticket Risks",
+      "content": [
+        "We are not responsible for leaks, screenshots, or exposure of support messages."
+      ]
     },
     {
       "title": "Staff Authority",
-      "content": "Staff decisions are final unless overridden by higher staff. Staff may deny any request for any reason allowed by policy."
+      "content": [
+        "Staff decisions are final unless overridden."
+      ]
     },
     {
       "title": "Logging and Monitoring",
-      "content": "All activity may be logged including login attempts, actions on the website, support interactions, and Discord activity. Logs may be reviewed at any time for moderation and security."
+      "content": [
+        "Activity may be logged including logins, actions, and support interactions."
+      ]
     },
     {
-      "title": "IP Storage and Security",
-      "content": "Your IP address may be stored for security, anti-spam, and abuse prevention. If you attempt to spam, exploit, abuse systems, or attack the service, your IP or account may be blocked."
+      "title": "IP Storage",
+      "content": [
+        "IP addresses may be stored for security and abuse prevention.",
+        "Abuse may result in blocking or banning."
+      ]
     },
     {
       "title": "Account Security",
-      "content": "You are responsible for keeping your account secure. Any actions performed on your account are considered your responsibility."
+      "content": [
+        "You are responsible for securing your account."
+      ]
     },
     {
       "title": "Exploits and Abuse",
-      "content": "You may not exploit bugs, automate actions, bypass protections, or manipulate rewards. Any abuse may result in reward removal or ban."
+      "content": [
+        "No exploiting, automation, or manipulation.",
+        "Violations may result in bans or reward removal."
+      ]
     },
     {
       "title": "Alternate Accounts",
-      "content": "Using alt accounts to gain rewards or bypass restrictions is not allowed. This includes website accounts, Roblox accounts, and Discord accounts. Violations may result in bans."
+      "content": [
+        "Using alt accounts for advantage is not allowed."
+      ]
     },
     {
       "title": "Prohibited Behavior",
-      "content": "You may not impersonate staff, abuse support systems, submit false claims, harass or threaten others, or attempt unauthorized access."
+      "list": [
+        "Impersonation",
+        "Harassment or threats",
+        "False claims",
+        "Unauthorized access attempts"
+      ]
     },
     {
       "title": "Bans and Enforcement",
-      "content": "You may be banned for violating rules or for any reason deemed necessary by staff. Bans may be temporary or permanent. Appeals are not guaranteed."
+      "content": [
+        "Accounts may be banned for violations or staff decisions.",
+        "Appeals are not guaranteed."
+      ]
     },
     {
       "title": "Service Availability",
-      "content": "The service may be unavailable at any time due to maintenance, updates, or errors. We are not responsible for downtime or interruptions."
+      "content": [
+        "Service may go offline at any time.",
+        "No responsibility for downtime."
+      ]
     },
     {
-      "title": "Data and Security Disclaimer",
-      "content": "We take reasonable steps to protect data, but security is not guaranteed. We are not responsible for data leaks, unauthorized access, or breaches outside our control."
+      "title": "Data Security",
+      "content": [
+        "Security is not guaranteed.",
+        "We are not responsible for breaches."
+      ]
     },
     {
       "title": "Feature Changes",
-      "content": "Any feature, page, or system may be changed or removed at any time without notice."
+      "content": [
+        "Features may change or be removed anytime."
+      ]
     },
     {
       "title": "Right to Refuse Service",
-      "content": "We may restrict or deny access to any user at any time."
+      "content": [
+        "Access may be denied at any time."
+      ]
     },
     {
       "title": "Independence",
-      "content": "This service is not affiliated with or endorsed by Roblox."
+      "content": [
+        "Not affiliated with Roblox."
+      ]
     },
     {
       "title": "No Guarantees",
-      "content": "We do not guarantee rewards, support outcomes, account recovery, or feature availability."
+      "content": [
+        "No guarantees on rewards, recovery, or support outcomes."
+      ]
     },
     {
       "title": "User Submissions",
-      "content": "Anything you submit may be stored, reviewed, or used for moderation."
+      "content": [
+        "Submitted content may be stored and reviewed."
+      ]
     },
     {
       "title": "No Liability",
-      "content": "We are not responsible for damages, losses, or issues resulting from use of the service."
+      "content": [
+        "We are not responsible for damages or losses."
+      ]
     },
     {
       "title": "Enforcement Rights",
-      "content": "Failure to enforce a rule does not remove our right to enforce it later."
+      "content": [
+        "Failure to enforce rules does not waive rights."
+      ]
     },
     {
       "title": "Changes to Terms",
-      "content": "These terms may be updated at any time. Continued use means you accept the changes."
+      "content": [
+        "Terms may be updated anytime."
+      ]
     },
     {
       "title": "Final Agreement",
-      "content": "By using the service, you confirm that you accept all terms, understand your responsibilities, and agree to staff authority and system rules."
+      "content": [
+        "You accept all terms and staff authority."
+      ]
     }
-  ]
+  ],
+  "extras": {
+    "cards": [
+      {
+        "title": "Account Recovery",
+        "content": "Recovery is not guaranteed and may require Discord verification."
+      },
+      {
+        "title": "Support Records",
+        "content": "Support messages may be stored and reviewed."
+      }
+    ],
+    "footer": "This page applies to all current and future features. Continued use means acceptance."
+  }
 }
