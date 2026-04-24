@@ -11,11 +11,10 @@ margin:0;
 font-family:Arial,sans-serif;
 background:#0e0e0e;
 color:#fff;
-overflow-x:hidden;
 }
 body.light{
-background:#f2f2f2;
-color:#111;
+background:#f3f4f6;
+color:#111827;
 }
 .topbar{
 position:fixed;
@@ -25,59 +24,120 @@ width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:clamp(8px,1.5vw,15px);
+padding:12px 16px;
 background:#121212;
 z-index:1000;
 flex-wrap:wrap;
+border-bottom:1px solid #2a2a2a;
 }
 body.light .topbar{
 background:#ffffff;
 }
 .icons{
 display:flex;
+gap:8px;
 flex-wrap:wrap;
-gap:clamp(4px,1vw,10px);
 }
 .icons span{
 cursor:pointer;
-font-size:clamp(11px,1.2vw,14px);
-padding:clamp(5px,1vw,8px) clamp(8px,1.5vw,12px);
-border-radius:8px;
+padding:8px 12px;
+border-radius:10px;
 background:#1e1e1e;
+font-size:13px;
 }
 body.light .icons span{
-background:#e6e6e6;
+background:#e5e7eb;
 }
 .wrapper{
-max-width:1200px;
+width:min(1100px,calc(100% - 20px));
 margin:auto;
-padding:clamp(10px,2vw,20px);
-margin-top:clamp(90px,10vh,130px);
+padding-top:90px;
+padding-bottom:40px;
+}
+.hero{
+background:#171717;
+border:1px solid #2a2a2a;
+border-radius:18px;
+padding:24px;
+margin-bottom:20px;
+}
+body.light .hero{
+background:#ffffff;
+border-color:#e5e7eb;
+}
+.hero h1{
+margin:0 0 10px;
+font-size:clamp(24px,4vw,34px);
+}
+.hero p{
+margin:0;
+opacity:.8;
+line-height:1.7;
+}
+.meta{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:12px;
+margin-bottom:20px;
+}
+.meta-card{
+background:#1e1e1e;
+border:1px solid #2a2a2a;
+border-radius:14px;
+padding:14px;
+}
+body.light .meta-card{
+background:#fff;
+border-color:#e5e7eb;
+}
+.meta-card .label{
+font-size:11px;
+opacity:.6;
+margin-bottom:6px;
+text-transform:uppercase;
+}
+.section{
+background:#1e1e1e;
+border:1px solid #2a2a2a;
+border-radius:16px;
+padding:18px;
+margin-bottom:14px;
+}
+body.light .section{
+background:#fff;
+border-color:#e5e7eb;
+}
+.section h2{
+margin:0 0 10px;
+font-size:20px;
+}
+.section p{
+margin:0 0 10px;
+line-height:1.7;
+}
+.section ul{
+margin:0 0 10px 18px;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:14px;
+margin-top:20px;
 }
 .card{
 background:#1e1e1e;
-padding:clamp(14px,2vw,20px);
-border-radius:12px;
-margin-bottom:clamp(12px,2vw,18px);
-font-size:clamp(13px,1.4vw,15px);
+border:1px solid #2a2a2a;
+border-radius:14px;
+padding:16px;
 }
 body.light .card{
-background:#ffffff;
-color:#111;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-h1{
-font-size:clamp(20px,3vw,28px);
-margin-bottom:20px;
-}
-h2{
-font-size:clamp(16px,2vw,20px);
-margin-bottom:8px;
+background:#fff;
+border-color:#e5e7eb;
 }
 .footer{
-opacity:0.7;
-margin-top:20px;
-font-size:clamp(12px,1.2vw,14px);
+margin-top:25px;
+opacity:.7;
+font-size:13px;
 }
 </style>
 </head>
@@ -86,14 +146,26 @@ font-size:clamp(12px,1.2vw,14px);
 <div class="topbar">
 <div>Terms of Service</div>
 <div class="icons">
+<span onclick="location.href='dashboard.html'">Dashboard</span>
 <span onclick="toggleTheme()">🌓</span>
 </div>
 </div>
 
 <div class="wrapper">
-<h1>Terms of Service</h1>
-<div id="tosContainer"></div>
-<div id="lastUpdated" class="footer"></div>
+
+<div class="hero">
+<h1 id="heroTitle"></h1>
+<p id="heroDesc"></p>
+</div>
+
+<div class="meta" id="metaBox"></div>
+
+<div id="sections"></div>
+
+<div class="grid" id="extras"></div>
+
+<div class="footer" id="footer"></div>
+
 </div>
 
 <script>
@@ -109,17 +181,55 @@ async function loadTOS(){
 const res = await fetch("TOS.json")
 const data = await res.json()
 
-const container = document.getElementById("tosContainer")
-container.innerHTML = ""
+document.getElementById("heroTitle").textContent = data.hero.title
+document.getElementById("heroDesc").textContent = data.hero.description
 
-data.sections.forEach((s,i)=>{
-const div = document.createElement("div")
-div.className = "card"
-div.innerHTML = `<h2>${i+1}. ${s.title}</h2><p>${s.content}</p>`
-container.appendChild(div)
+const metaBox = document.getElementById("metaBox")
+metaBox.innerHTML = ""
+Object.entries(data.meta).forEach(([k,v])=>{
+const div=document.createElement("div")
+div.className="meta-card"
+div.innerHTML=`<div class="label">${k}</div><div>${v}</div>`
+metaBox.appendChild(div)
 })
 
-document.getElementById("lastUpdated").textContent = "Last Updated: " + data.lastUpdated
+const sections = document.getElementById("sections")
+sections.innerHTML = ""
+
+data.sections.forEach((s,i)=>{
+const div=document.createElement("div")
+div.className="section"
+
+let html=`<h2>${i+1}. ${s.title}</h2>`
+
+if(s.content){
+s.content.forEach(c=>{
+html+=`<p>${c}</p>`
+})
+}
+
+if(s.list){
+html+="<ul>"
+s.list.forEach(li=>{
+html+=`<li>${li}</li>`
+})
+html+="</ul>"
+}
+
+div.innerHTML=html
+sections.appendChild(div)
+})
+
+const extras = document.getElementById("extras")
+extras.innerHTML = ""
+data.extras.cards.forEach(c=>{
+const div=document.createElement("div")
+div.className="card"
+div.innerHTML=`<h3>${c.title}</h3><p>${c.content}</p>`
+extras.appendChild(div)
+})
+
+document.getElementById("footer").textContent = data.extras.footer + " | Last Updated: " + data.lastUpdated
 }
 
 loadTOS()
