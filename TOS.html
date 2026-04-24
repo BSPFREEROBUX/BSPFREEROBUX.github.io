@@ -1,503 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Terms of Service</title>
-<link rel="stylesheet" href="styles.css">
 <style>
-:root{
-  --bg:#0e0e0e;
-  --panel:#171717;
-  --panel2:#1e1e1e;
-  --text:#f5f5f5;
-  --muted:#b5b5b5;
-  --border:#2a2a2a;
-  --accent:#5865f2;
-  --accent2:#7c8cff;
-}
-
 *{box-sizing:border-box}
-
 html,body{
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  width:100%;
-  overflow-x:hidden;
+margin:0;
+font-family:Arial,sans-serif;
+background:#0e0e0e;
+color:#fff;
+overflow-x:hidden;
 }
-
+body.light{
+background:#f2f2f2;
+color:#111;
+}
 .topbar{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  z-index:1000;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 14px;
-  background:rgba(18,18,18,.96);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(8px);
+position:fixed;
+top:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:clamp(8px,1.5vw,15px);
+background:#121212;
+z-index:1000;
+flex-wrap:wrap;
 }
-
-#userDisplay{
-  font-size:16px;
-  font-weight:700;
+body.light .topbar{
+background:#ffffff;
 }
-
 .icons{
-  display:flex;
-  gap:6px;
+display:flex;
+flex-wrap:wrap;
+gap:clamp(4px,1vw,10px);
 }
-
 .icons span{
-  padding:6px 10px;
-  font-size:12px;
-  border-radius:8px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  cursor:pointer;
+cursor:pointer;
+font-size:clamp(11px,1.2vw,14px);
+padding:clamp(5px,1vw,8px) clamp(8px,1.5vw,12px);
+border-radius:8px;
+background:#1e1e1e;
 }
-
+body.light .icons span{
+background:#e6e6e6;
+}
 .wrapper{
-  width:100%;
-  max-width:100%;
-  margin:0;
-  padding:100px 16px 50px;
+max-width:1200px;
+margin:auto;
+padding:clamp(10px,2vw,20px);
+margin-top:clamp(90px,10vh,130px);
 }
-
-.hero,
-.section,
-.meta-card,
-.small-card{
-  width:100%;
-  max-width:100%;
+.card{
+background:#1e1e1e;
+padding:clamp(14px,2vw,20px);
+border-radius:12px;
+margin-bottom:clamp(12px,2vw,18px);
+font-size:clamp(13px,1.4vw,15px);
 }
-
-.hero{
-  background:linear-gradient(180deg, rgba(88,101,242,.14), rgba(88,101,242,0));
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px;
-  margin-bottom:16px;
-  overflow:hidden;
+body.light .card{
+background:#ffffff;
+color:#111;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
-
-.hero h1{
-  margin:0 0 10px;
-  font-size:26px;
+h1{
+font-size:clamp(20px,3vw,28px);
+margin-bottom:20px;
 }
-
-.hero p{
-  margin:0;
-  color:var(--muted);
-  line-height:1.6;
+h2{
+font-size:clamp(16px,2vw,20px);
+margin-bottom:8px;
 }
-
-.tos-meta{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-  margin:16px 0 20px;
-}
-
-.meta-card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  overflow:hidden;
-}
-
-.meta-card .label{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-
-.meta-card .value{
-  font-size:14px;
-  line-height:1.5;
-}
-
-.section{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:18px;
-  margin-bottom:14px;
-  display:grid;
-  grid-template-columns:1fr;
-  gap:14px;
-  overflow:hidden;
-}
-
-.section h2{
-  grid-column:1 / -1;
-  margin:0 0 6px;
-  font-size:20px;
-}
-
-.section p,
-.section ul{
-  margin:0;
-}
-
-.section p{
-  white-space:normal;
-  word-break:break-word;
-  line-height:1.7;
-  font-size:14px;
-}
-
-.section ul{
-  padding-left:18px;
-}
-
-.section li{
-  margin-bottom:6px;
-  font-size:14px;
-}
-
-.grid-2{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-}
-
-.small-card{
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  overflow:hidden;
-}
-
-.small-card h3{
-  margin:0 0 6px;
-  font-size:16px;
-}
-
-.small-card p{
-  margin:0;
-  font-size:13px;
-  color:var(--muted);
-}
-
 .footer{
-  margin-top:20px;
-  font-size:13px;
-  color:var(--muted);
+opacity:0.7;
+margin-top:20px;
+font-size:clamp(12px,1.2vw,14px);
 }
-
-strong{color:var(--text)}
-a{color:var(--accent2)}
-
-@media (min-width:700px){
-  .tos-meta{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .grid-2{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .section{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .hero h1{
-    font-size:32px;
-  }
-}
-
-@media (min-width:1000px){
-  .section{
-    grid-template-columns:1fr 1fr 1fr;
-  }
-}
-</style>
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div id="userDisplay">Terms of Service</div>
-  <div class="icons">
-    <span onclick="location.href='dashboard.html'">Dashboard</span>
-    <span onclick="openSupportPopup()">Support</span>
-    <span onclick="toggleTheme()">🌓</span>
-  </div>
+<div>Terms of Service</div>
+<div class="icons">
+<span onclick="toggleTheme()">🌓</span>
+</div>
 </div>
 
 <div class="wrapper">
-  <div class="hero">
-    <h1>Terms of Service</h1>
-    <p>
-      By creating an account, using the website, opening a ticket, linking accounts, completing quests, or accessing any related page, you agree to these Terms of Service and all future updates. These terms apply to every feature, page, support channel, and account-related action connected to the service.
-    </p>
-  </div>
-
-  <div class="tos-meta">
-    <div class="meta-card">
-      <div class="label">Scope</div>
-      <div class="value">Website, dashboard, login, signup, profile, history, balance, support, linking, quests, 2FA, tickets, Discord support, email support, and any future page or feature.</div>
-    </div>
-    <div class="meta-card">
-      <div class="label">User Responsibility</div>
-      <div class="value">You are responsible for your username, password, linked accounts, activity, and security decisions made on your account.</div>
-    </div>
-    <div class="meta-card">
-      <div class="label">Staff Discretion</div>
-      <div class="value">Staff may review, deny, close, restrict, or escalate requests and tickets at their discretion.</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>1. Acceptance of Terms</h2>
-    <p>Using the service means you accept these terms in full. If you do not agree, you must stop using the website, Discord support, email support, and any related tools or features.</p>
-    <p>These terms may be updated at any time. Continued use after updates means you accept the updated version.</p>
-  </div>
-
-  <div class="section">
-    <h2>2. Account Creation, Login, and Credentials</h2>
-    <p>When you create an account, you are responsible for the username, password, and any other login credentials associated with that account. You are responsible for remembering your password. There is no guaranteed password recovery option.</p>
-    <p>If you forget your password, username, or the email attached to the account, you may contact staff through a Discord ticket. Recovery may only be available if your Discord account is linked to the missing website account and staff choose to approve the request. Recovery is never guaranteed.</p>
-    <p>You are responsible for all activity performed on your account, including activity by anyone who gains access to your login details, device, or session.</p>
-  </div>
-
-  <div class="section">
-    <h2>3. Username Responsibility</h2>
-    <p>You are responsible for the username you choose. If you create or use a username that is offensive, inappropriate, misleading, impersonating staff, or otherwise unacceptable, your account may be restricted, renamed, or banned.</p>
-    <p>We may require a username change at any time if a username violates our rules or creates moderation, safety, or support issues.</p>
-  </div>
-
-  <div class="section">
-    <h2>4. Email Responsibility and 2FA</h2>
-    <p>If you add an email address to use two-factor authentication or other account features, you are responsible for the security, access, and control of that email address. We are not responsible for where your email is stored, how your provider handles it, or whether you can access it later.</p>
-    <p>If 2FA or email-based verification is enabled, you are responsible for keeping the associated email available and secure. We are not responsible if you lose access to your email, miss a code, delete the message, or cannot receive it for any reason outside our direct control.</p>
-  </div>
-
-  <div class="section">
-    <h2>5. Linked Accounts and Identity</h2>
-    <p>Some features may require or benefit from linking Discord, Roblox, email, or other supported accounts. If a feature requires linking, you are responsible for completing that process correctly.</p>
-    <p>Where account recovery, profile verification, reward claims, or support actions depend on linked accounts, failure to maintain the correct link may prevent recovery or support resolution.</p>
-    <p>You agree that account identifiers such as website user ID, Discord ID, Roblox ID, linked usernames, join date, profile history, and other visible metadata may be searched, displayed, or reviewed as part of the service.</p>
-  </div>
-
-  <div class="section">
-    <h2>6. Public Profiles and Search Visibility</h2>
-    <p>By using the service, you agree that other users and staff may be able to search up your account and view information that the service exposes, including links, IDs, join date, completed quests, profile data, statistics, and other public or staff-visible fields.</p>
-    <p>Some information may be shown on profile pages, dashboard pages, ticket systems, history pages, or support tools. This visibility is part of the service and may change over time.</p>
-  </div>
-
-  <div class="section">
-    <h2>7. Profile Data, Statistics, and Display Delays</h2>
-    <p>Information such as completed quests, balance, rewards, history, and account statistics may not update instantly. Some counters or dashboard elements may update late, may temporarily disagree with backend records, or may not show immediately after a completed action.</p>
-    <p>You agree that delays, missing refreshes, caching, synchronization issues, and display differences do not automatically mean the underlying record is incorrect.</p>
-    <p>We are not responsible if a quest, reward, history item, or statistic is not reflected instantly or at all on the dashboard, history page, profile page, or other display page.</p>
-  </div>
-
-  <div class="section">
-    <h2>8. Quests, Rewards, and Feature Availability</h2>
-    <p>Quests, rewards, giveaways, balances, tasks, and related features are provided as available and may be changed, delayed, limited, suspended, or removed at any time.</p>
-    <p>No reward, payout, item, or benefit is guaranteed unless explicitly approved by staff and successfully processed according to the current rules of the service.</p>
-    <p>We may change quest requirements, reward amounts, availability windows, completion criteria, or claim rules without prior notice.</p>
-  </div>
-
-  <div class="section">
-    <h2>9. Support Tickets</h2>
-    <p>Support can be handled through Discord tickets, website tickets, email tickets, or any other support method we provide. By opening a ticket, you agree that staff may read, review, archive, route, escalate, or close the ticket at any time.</p>
-    <p>The assigned support member has authority over the ticket unless a higher-ranking staff member overrides the decision. You may request a review by a Head Support Member, Administrator, or other designated staff member, but review is not guaranteed.</p>
-    <p>Staff may deny requests for rewards, account changes, recovery, verification, or any other ticket outcome. Staff may also close tickets if they believe the request is invalid, abusive, repetitive, incomplete, or outside support scope.</p>
-  </div>
-
-  <div class="section">
-    <h2>10. Ticket Discretion, Approvals, and Escalations</h2>
-    <p>Any support member may request additional information before processing a ticket. Tickets may be escalated, reassigned, paused, or closed based on staff judgment.</p>
-    <p>A support decision is final unless a higher-ranking staff member decides otherwise. No user is entitled to a specific outcome, refund, recovery, reward, or reversal.</p>
-    <p>Messages such as approval requests, recovery requests, or evidence submissions may be reviewed by staff and retained for moderation or security purposes.</p>
-  </div>
-
-  <div class="section">
-    <h2>11. No Responsibility for Ticket Leaks or Third-Party Exposure</h2>
-    <p>To the fullest extent permitted by law, we are not responsible for leaks, exposures, screenshots, recordings, reposts, forwards, or unauthorized disclosure involving any ticket, message, attachment, file, email thread, Discord ticket, website ticket, or support conversation.</p>
-    <p>This includes information shared by users, staff, bots, third-party services, compromised accounts, or platform-level issues outside our direct control.</p>
-  </div>
-
-  <div class="section">
-    <h2>12. Discord, Website, and Email Support</h2>
-    <p>Support may be offered through Discord, website forms, or email. Each support channel may have different rules, limits, queue times, visibility, or staff availability.</p>
-    <p>Messages sent through support channels may be logged, routed, reviewed, or archived for moderation, security, and quality control.</p>
-    <p>We are not responsible for delays, message failures, spam filtering, queue congestion, closed inboxes, account restrictions, or outages on third-party platforms.</p>
-  </div>
-
-  <div class="section">
-    <h2>13. IP Storage, Logging, and Abuse Prevention</h2>
-    <p>Your IP address, login attempts, activity, and certain actions may be logged for security, anti-abuse, moderation, diagnostics, and service protection.</p>
-    <p>We may use this information to protect the service, prevent spam, block abusive traffic, detect attacks, enforce bans, or investigate suspicious behavior.</p>
-    <p>If you spam, flood requests, attempt to disrupt the service, automate abuse, or perform malicious actions such as denial-of-service attempts, your access may be limited, blocked, or banned temporarily or permanently.</p>
-  </div>
-
-  <div class="section">
-    <h2>14. Security Monitoring and Audit Records</h2>
-    <p>Website actions, login activity, ticket activity, moderation activity, and other events may be recorded for security and moderation purposes. Not every log is reviewed immediately. Some logs may only be checked when needed.</p>
-    <p>Discord-server actions, staff actions, and related metadata may also be logged or retained as part of our moderation and support operations.</p>
-  </div>
-
-  <div class="section">
-    <h2>15. Account Security</h2>
-    <p>You are responsible for securing your account, device, browser session, connected accounts, and authentication methods. Any action performed through your account is treated as your responsibility.</p>
-    <p>If someone else uses your account, your browser session, or your credentials, the resulting actions may still be treated as your actions for moderation and support purposes.</p>
-  </div>
-
-  <div class="section">
-    <h2>16. Ban Policy and Enforcement</h2>
-    <p>Violations of these terms, abuse of the system, impersonation, exploitation, spam, fraud, repeated rule-breaking, or any behavior staff determine is harmful may result in restrictions, suspension, removal of privileges, or a temporary or permanent ban.</p>
-    <p>You agree that an administrator may ban your account for any reason allowed by law and by the rules of the service, including reasons that are not listed here, provided the decision is made in good faith under our moderation and safety policies.</p>
-    <p>Ban length, appeal eligibility, and reinstatement are solely at staff discretion unless a higher-ranking staff member decides otherwise.</p>
-  </div>
-
-  <div class="section">
-    <h2>17. Exploits, Automation, and Abuse</h2>
-    <p>You may not exploit bugs, automate actions, bypass protections, manipulate rewards, abuse rate limits, spoof activity, script around safeguards, or intentionally trigger broken behavior to gain an advantage.</p>
-    <p>Any rewards or benefits obtained through abuse, fraud, manipulation, or unauthorized automation may be removed. The account may also receive restrictions or a ban.</p>
-  </div>
-
-  <div class="section">
-    <h2>18. Prohibited Conduct</h2>
-    <ul>
-      <li>Impersonating staff, administrators, or official representatives</li>
-      <li>Using slurs, harassment, threats, or abusive conduct</li>
-      <li>Submitting false support claims or false recovery claims</li>
-      <li>Sharing malicious files, spam, or harmful content</li>
-      <li>Attempting to bypass verification, moderation, or reward limits</li>
-      <li>Using alternate accounts to gain rewards, duplicate claims, or evade restrictions</li>
-      <li>Trying to access accounts, tickets, or data that do not belong to you</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>19. Alternate Accounts</h2>
-    <p>Using alternate accounts to gain extra rewards, duplicate claims, evade bans, manipulate queue positions, or bypass eligibility requirements is not allowed.</p>
-    <p>This includes alternate Roblox accounts, alternate website accounts, alternate Discord accounts, or any combination used to gain unfair advantage.</p>
-  </div>
-
-  <div class="section">
-    <h2>20. Independence from Roblox</h2>
-    <p>This service is not affiliated with, endorsed by, sponsored by, or connected to Roblox Corporation unless explicitly stated otherwise in writing.</p>
-    <p>Any references to Roblox, Roblox accounts, Roblox IDs, or Roblox-related features are for user convenience and service functionality only.</p>
-  </div>
-
-  <div class="section">
-    <h2>21. No Guarantee of Availability</h2>
-    <p>The service may be unavailable, slow, partially broken, under maintenance, rate limited, or temporarily offline at any time. We are not responsible for downtime, interruptions, lost progress, delayed updates, or unavailable features.</p>
-    <p>Pages, buttons, support systems, reward flows, authentication systems, and dashboards may change or disappear without notice.</p>
-  </div>
-
-  <div class="section">
-    <h2>22. Data Accuracy and Disclaimers</h2>
-    <p>We try to keep information accurate, but we do not guarantee that every counter, timestamp, profile value, linked record, or status display is always current or complete.</p>
-    <p>Where a system displays information in a preview or summary format, the underlying backend record controls in case of conflict.</p>
-  </div>
-
-  <div class="section">
-    <h2>23. Data Security Limitations</h2>
-    <p>We take reasonable steps to protect data, but no system is perfectly secure. Unauthorized access, service provider issues, account compromise, third-party breaches, or unexpected failures may occur.</p>
-    <p>To the fullest extent permitted by law, we are not responsible for damages, losses, or consequences caused by data exposure, compromise, interception, or unauthorized access outside our reasonable control.</p>
-  </div>
-
-  <div class="section">
-    <h2>24. User Content and Submissions</h2>
-    <p>Any text, messages, attachments, screenshots, links, files, or other material you submit through the service may be stored, reviewed, displayed, forwarded to staff, or used for moderation and support purposes.</p>
-    <p>You are responsible for ensuring that anything you submit does not violate laws, third-party rights, or our rules.</p>
-  </div>
-
-  <div class="section">
-    <h2>25. Right to Modify Features</h2>
-    <p>We may add, remove, rename, limit, or redesign any feature, page, reward, support path, profile field, or workflow at any time. That includes login, signup, dashboard, history, balance, quest tracking, account linking, and support tools.</p>
-    <p>We may also change how pages look, how data is displayed, and how requests are processed without advance notice.</p>
-  </div>
-
-   <div class="section">
-    <h2>26. Right to Refuse Service</h2>
-    <p>We may refuse service, deny access, restrict features, or end an account relationship at any time for abuse prevention, moderation, safety, support integrity, fraud prevention, or any other reason permitted by law and our internal policies.</p>
-    <p>No user has a guaranteed right to continued access, continued rewards, or continued support.</p>
-  </div>
-
-  <div class="section">
-    <h2>27. No Waiver of Rights</h2>
-    <p>If we do not immediately enforce a rule or respond to a violation, that does not mean we waive our right to enforce the rule later. Any failure or delay in enforcement does not give you the right to ignore the terms.</p>
-  </div>
-
-  <div class="section">
-    <h2>28. Severability</h2>
-    <p>If any part of these terms is found unenforceable, the rest of the terms remain in effect to the maximum extent allowed by law.</p>
-  </div>
-
-  <div class="section">
-    <h2>29. Contact and Review Requests</h2>
-    <p>If you need help with account access, recovery, a ticket review, or a support issue, use the official support channels provided by the service. Staff may request proof, linked-account verification, or additional details before reviewing the request.</p>
-    <p>Submitting a request does not guarantee a response, approval, reversal, or recovery.</p>
-  </div>
-
-  <div class="section">
-    <h2>30. Final Agreement</h2>
-    <p>By using the service, you confirm that you understand and accept these terms. You also confirm that you understand staff may enforce these terms, restrict accounts, review logs, and update policies as needed to operate the service.</p>
-    <p class="note">Last updated: 2026-04-23</p>
-  </div>
-
-  <div class="grid-2">
-    <div class="small-card">
-      <h3>Account Recovery</h3>
-      <p>Password, username, and email recovery is not guaranteed. Discord-linked verification may be required before any recovery review is considered.</p>
-    </div>
-    <div class="small-card">
-      <h3>Support Records</h3>
-      <p>Support conversations may be stored, reviewed, escalated, closed, or archived by staff for safety, moderation, and service management.</p>
-    </div>
-  </div>
-
-  <div class="footer">
-    This page is part of the service and applies to all current and future features unless replaced by a newer version. Continued use after any update means you accept the updated terms.
-  </div>
+<h1>Terms of Service</h1>
+<div id="tosContainer"></div>
+<div id="lastUpdated" class="footer"></div>
 </div>
 
-<div id="supportPopup">
-  <div>
-    <h2>Support Method</h2>
-    <div class="support-images">
-      <button onclick="openDiscordSupport()" style="cursor:pointer">
-        <img src="discord.png" alt="Discord">
-      </button>
-      <button onclick="openWebsiteSupport()" style="cursor:pointer">
-        <img src="Web.png" alt="Website">
-      </button>
-    </div>
-    <div style="margin-top:20px">
-      <button onclick="closeSupportPopup()">Close</button>
-    </div>
-  </div>
-</div>
-
-<script src="theme.js"></script>
 <script>
-function openSupportPopup(){
-  document.getElementById("supportPopup").style.display="flex"
+function toggleTheme(){
+document.body.classList.toggle("light")
+localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark")
 }
-function closeSupportPopup(){
-  document.getElementById("supportPopup").style.display="none"
+if(localStorage.getItem("theme")==="light"){
+document.body.classList.add("light")
 }
-function openDiscordSupport(){
-  window.open("https://discord.com/channels/1435017648751513713/1442140583220215949","_blank")
+
+async function loadTOS(){
+const res = await fetch("TOS.json")
+const data = await res.json()
+
+const container = document.getElementById("tosContainer")
+container.innerHTML = ""
+
+data.sections.forEach((s,i)=>{
+const div = document.createElement("div")
+div.className = "card"
+div.innerHTML = `<h2>${i+1}. ${s.title}</h2><p>${s.content}</p>`
+container.appendChild(div)
+})
+
+document.getElementById("lastUpdated").textContent = "Last Updated: " + data.lastUpdated
 }
-function openWebsiteSupport(){
-  location.href="Support.html"
-}
+
+loadTOS()
 </script>
 
 </body>
