@@ -140,6 +140,8 @@ font-weight:700;
 
 .userHistory{
 margin-top:15px;
+max-height:500px;
+overflow:auto;
 }
 
 ::-webkit-scrollbar{
@@ -161,7 +163,9 @@ border-radius:999px;
 <div class="topBar">
 <input id="user" placeholder="Username">
 
-<button onclick="loadUser()">Search</button>
+<button onclick="loadUser()">
+Search
+</button>
 
 <button onclick="generateReset()">
 Generate Password Renew Link
@@ -176,6 +180,7 @@ Generate Password Renew Link
 </div>
 
 <div class="card">
+
 <h2>Total Visits</h2>
 
 <div class="rangeBtns">
@@ -190,22 +195,25 @@ Generate Password Renew Link
 <div id="totalStats" class="statGrid"></div>
 
 <canvas id="graph"></canvas>
+
 </div>
 
 <script>
-let backend=null
+
 let allData={}
 let currentRange="today"
 let graphPoints=[]
 
 async function init(){
-backend=(await fetch("server.txt").then(r=>r.text())).trim()
+
 await loadAll()
+
 }
 
 init()
 
 async function safeFetch(url){
+
 const r=await fetch(url,{
 headers:{
 Authorization:localStorage.getItem("Token")
@@ -219,10 +227,12 @@ return JSON.parse(text)
 }catch{
 return null
 }
+
 }
 
 async function loadAll(){
-const data=await safeFetch(backend+"/admin/all-page-history")
+
+const data=await safeFetch("/admin/all-page-history")
 
 if(!data) return
 
@@ -230,9 +240,11 @@ allData=data
 
 renderTotals()
 renderGraph()
+
 }
 
 function setRange(e,r){
+
 currentRange=r
 
 document.querySelectorAll(".rangeBtns button")
@@ -242,6 +254,7 @@ e.target.classList.add("active")
 
 renderTotals()
 renderGraph()
+
 }
 
 function filterByRange(){
@@ -252,14 +265,17 @@ let start=null
 let end=null
 
 if(currentRange==="today"){
+
 start=new Date(
 now.getFullYear(),
 now.getMonth(),
 now.getDate()
 )
+
 }
 
 else if(currentRange==="yesterday"){
+
 start=new Date(
 now.getFullYear(),
 now.getMonth(),
@@ -271,29 +287,37 @@ now.getFullYear(),
 now.getMonth(),
 now.getDate()
 )
+
 }
 
 else if(currentRange==="week"){
+
 start=new Date(now-7*86400000)
+
 }
 
 else if(currentRange==="month"){
+
 start=new Date(
 now.getFullYear(),
 now.getMonth()-1,
 now.getDate()
 )
+
 }
 
 else if(currentRange==="year"){
+
 start=new Date(
 now.getFullYear()-1,
 now.getMonth(),
 now.getDate()
 )
+
 }
 
 return [start,end]
+
 }
 
 function renderTotals(){
@@ -316,6 +340,7 @@ total++
 }
 
 })
+
 }
 
 document.getElementById("totalStats").innerHTML=`
@@ -331,6 +356,7 @@ document.getElementById("totalStats").innerHTML=`
 </div>
 
 `
+
 }
 
 function renderGraph(){
@@ -511,6 +537,7 @@ textY
 }
 
 canvas.onmouseleave=()=>renderGraph()
+
 }
 
 async function loadUser(){
@@ -520,7 +547,7 @@ const username=document.getElementById("user").value
 if(!username) return
 
 const data=await safeFetch(
-backend+"/admin/page-history?username="+
+"/admin/page-history?username="+
 encodeURIComponent(username)
 )
 
@@ -533,6 +560,7 @@ stats.innerHTML=""
 list.innerHTML="<div class='entry'>No data found</div>"
 
 return
+
 }
 
 stats.innerHTML=`
@@ -577,7 +605,7 @@ const username=document.getElementById("user").value
 if(!username) return
 
 const r=await fetch(
-backend+"/admin/generate-password-reset",
+"/admin/generate-password-reset",
 {
 method:"POST",
 headers:{
@@ -601,6 +629,7 @@ ${data.error}
 `
 
 return
+
 }
 
 document.getElementById("resetLink").innerHTML=`
@@ -618,7 +647,9 @@ ${data.link}
 </div>
 
 `
+
 }
+
 </script>
 
 </body>
