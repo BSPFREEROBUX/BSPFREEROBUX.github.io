@@ -281,7 +281,7 @@ Data leaks
 
 Unauthorized access
 
-Breaches outside our control
+Breaches of any kind
 
 
 
