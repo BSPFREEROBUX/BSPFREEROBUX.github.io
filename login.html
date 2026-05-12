@@ -97,7 +97,12 @@ async function login(){
       pendingUser = d.username || username
 
       if(d.queue){
-        alert("Queued for 2FA\nPosition: "+d.position+"\nETA: "+Math.ceil(d.eta/1000)+"s")
+        alert(
+"Queued for 2FA\n\n"+
+"Position: "+d.position+
+"\nQueue ETA: "+Math.ceil(d.eta/1000)+"s"+
+"\nGlobal Cooldown: "+Math.ceil(d.globalCooldown/1000)+"s"
+)
       }
 
       document.getElementById("twofaPopup").style.display = "flex"
