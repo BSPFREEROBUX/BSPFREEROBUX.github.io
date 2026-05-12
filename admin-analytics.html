@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Analytics</title>
+
 <style>
+*{
+box-sizing:border-box
+}
+
 body{
 margin:0;
 font-family:system-ui;
@@ -17,39 +22,66 @@ background:#1a1a1b;
 padding:20px;
 border-radius:12px;
 margin-bottom:20px;
+border:1px solid #2a2a2a;
+}
+
+h2{
+margin-top:0;
+margin-bottom:16px;
+}
+
+.topBar{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+align-items:center;
 }
 
 input{
-padding:10px;
-border-radius:8px;
+padding:12px;
+border-radius:10px;
 border:none;
-margin-right:10px;
 background:#111;
 color:#fff;
+outline:none;
+min-width:220px;
 }
 
 button{
-padding:10px 14px;
+padding:12px 16px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:#4caf50;
 color:#fff;
 cursor:pointer;
+font-weight:600;
+transition:.15s;
+}
+
+button:hover{
+opacity:.9;
+transform:translateY(-1px);
+}
+
+.secondary{
+background:#2a2a2a;
 }
 
 .entry{
 background:#141414;
-padding:10px;
-border-radius:8px;
+padding:12px;
+border-radius:10px;
 margin-top:10px;
+border:1px solid #222;
 }
 
 canvas{
 width:100%;
 height:300px;
 background:#111;
-border-radius:10px;
+border-radius:12px;
 margin-top:10px;
+border:1px solid #222;
 }
 
 .rangeBtns{
@@ -66,23 +98,88 @@ background:#2a2a2a;
 .rangeBtns button.active{
 background:#4caf50;
 }
+
+#resetLink{
+margin-top:14px;
+word-break:break-all;
+}
+
+#resetLink a{
+color:#4caf50;
+text-decoration:none;
+}
+
+#resetLink a:hover{
+text-decoration:underline;
+}
+
+.statGrid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:12px;
+margin-top:15px;
+}
+
+.stat{
+background:#141414;
+padding:14px;
+border-radius:10px;
+border:1px solid #222;
+}
+
+.statTitle{
+font-size:13px;
+opacity:.7;
+margin-bottom:6px;
+}
+
+.statValue{
+font-size:24px;
+font-weight:700;
+}
+
+.userHistory{
+margin-top:15px;
+}
+
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#2a2a2a;
+border-radius:999px;
+}
 </style>
 </head>
+
 <body>
 
 <div class="card">
-<h2>User History</h2>
+<h2>Admin Analytics</h2>
+
+<div class="topBar">
 <input id="user" placeholder="Username">
+
 <button onclick="loadUser()">Search</button>
-<div id="userStats"></div>
-<div id="userList"></div>
+
+<button onclick="generateReset()">
+Generate Password Renew Link
+</button>
+</div>
+
+<div id="resetLink"></div>
+
+<div id="userStats" class="statGrid"></div>
+
+<div id="userList" class="userHistory"></div>
 </div>
 
 <div class="card">
 <h2>Total Visits</h2>
 
 <div class="rangeBtns">
-<button onclick="setRange(event,'today')">Today</button>
+<button onclick="setRange(event,'today')" class="active">Today</button>
 <button onclick="setRange(event,'yesterday')">Yesterday</button>
 <button onclick="setRange(event,'week')">Week</button>
 <button onclick="setRange(event,'month')">Month</button>
@@ -90,7 +187,8 @@ background:#4caf50;
 <button onclick="setRange(event,'all')">All</button>
 </div>
 
-<div id="totalStats"></div>
+<div id="totalStats" class="statGrid"></div>
+
 <canvas id="graph"></canvas>
 </div>
 
@@ -104,93 +202,179 @@ async function init(){
 backend=(await fetch("server.txt").then(r=>r.text())).trim()
 await loadAll()
 }
+
 init()
 
 async function safeFetch(url){
 const r=await fetch(url,{
-headers:{Authorization:localStorage.getItem("Token")}
+headers:{
+Authorization:localStorage.getItem("Token")
+}
 })
+
 const text=await r.text()
-try{return JSON.parse(text)}catch{return null}
+
+try{
+return JSON.parse(text)
+}catch{
+return null
+}
 }
 
 async function loadAll(){
 const data=await safeFetch(backend+"/admin/all-page-history")
+
 if(!data) return
+
 allData=data
+
 renderTotals()
 renderGraph()
 }
 
 function setRange(e,r){
 currentRange=r
-document.querySelectorAll(".rangeBtns button").forEach(b=>b.classList.remove("active"))
+
+document.querySelectorAll(".rangeBtns button")
+.forEach(b=>b.classList.remove("active"))
+
 e.target.classList.add("active")
+
 renderTotals()
 renderGraph()
 }
 
 function filterByRange(){
+
 const now=new Date()
+
 let start=null
 let end=null
 
 if(currentRange==="today"){
-start=new Date(now.getFullYear(),now.getMonth(),now.getDate())
+start=new Date(
+now.getFullYear(),
+now.getMonth(),
+now.getDate()
+)
 }
+
 else if(currentRange==="yesterday"){
-start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1)
-end=new Date(now.getFullYear(),now.getMonth(),now.getDate())
+start=new Date(
+now.getFullYear(),
+now.getMonth(),
+now.getDate()-1
+)
+
+end=new Date(
+now.getFullYear(),
+now.getMonth(),
+now.getDate()
+)
 }
+
 else if(currentRange==="week"){
 start=new Date(now-7*86400000)
 }
+
 else if(currentRange==="month"){
-start=new Date(now.getFullYear(),now.getMonth()-1,now.getDate())
+start=new Date(
+now.getFullYear(),
+now.getMonth()-1,
+now.getDate()
+)
 }
+
 else if(currentRange==="year"){
-start=new Date(now.getFullYear()-1,now.getMonth(),now.getDate())
+start=new Date(
+now.getFullYear()-1,
+now.getMonth(),
+now.getDate()
+)
 }
 
 return [start,end]
 }
 
 function renderTotals(){
+
 const [start,end]=filterByRange()
+
 let total=0
+let users=0
 
 for(const u in allData){
+
+users++
+
 allData[u].forEach(e=>{
+
 const t=new Date(e.time)
-if((!start||t>=start)&&(!end||t<end)) total++
+
+if((!start||t>=start)&&(!end||t<end)){
+total++
+}
+
 })
 }
 
-document.getElementById("totalStats").innerHTML="<b>Total Visits:</b> "+total
+document.getElementById("totalStats").innerHTML=`
+
+<div class="stat">
+<div class="statTitle">Total Visits</div>
+<div class="statValue">${total}</div>
+</div>
+
+<div class="stat">
+<div class="statTitle">Tracked Users</div>
+<div class="statValue">${users}</div>
+</div>
+
+`
 }
 
 function renderGraph(){
+
 const canvas=document.getElementById("graph")
 const ctx=canvas.getContext("2d")
 
 const [start,end]=filterByRange()
+
 const map={}
 
 for(const u in allData){
+
 allData[u].forEach(e=>{
+
 const d=new Date(e.time)
+
 if((!start||d>=start)&&(!end||d<end)){
-const key=d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()
+
+const key=
+d.getFullYear()+"-"+
+d.getMonth()+"-"+
+d.getDate()+"-"+
+d.getHours()+"-"+
+d.getMinutes()
+
 if(!map[key]) map[key]=0
+
 map[key]++
+
 }
+
 })
+
 }
 
 const keys=Object.keys(map).sort((a,b)=>{
+
 const pa=a.split("-").map(Number)
 const pb=b.split("-").map(Number)
-return new Date(pa[0],pa[1],pa[2],pa[3],pa[4]) - new Date(pb[0],pb[1],pb[2],pb[3],pb[4])
+
+return new Date(pa[0],pa[1],pa[2],pa[3],pa[4]) -
+new Date(pb[0],pb[1],pb[2],pb[3],pb[4])
+
 })
 
 const values=keys.map(k=>map[k])
@@ -203,9 +387,11 @@ ctx.clearRect(0,0,w,h)
 if(values.length===0) return
 
 const max=Math.max(...values,1)
+
 const paddingTop=20
 const paddingBottom=10
 const usableHeight=h-paddingTop-paddingBottom
+
 const stepX=w/(values.length-1||1)
 
 graphPoints=[]
@@ -215,39 +401,73 @@ ctx.fillStyle="#888"
 ctx.font="12px system-ui"
 
 for(let i=0;i<=5;i++){
-const y=paddingTop + usableHeight - (i/5)*usableHeight
+
+const y=
+paddingTop +
+usableHeight -
+(i/5)*usableHeight
+
 ctx.beginPath()
 ctx.moveTo(0,y)
 ctx.lineTo(w,y)
 ctx.stroke()
-ctx.fillText(Math.round((max/5)*i),5,y-2)
+
+ctx.fillText(
+Math.round((max/5)*i),
+5,
+y-2
+)
+
 }
 
 ctx.beginPath()
+
 values.forEach((v,i)=>{
+
 const x=i*stepX
-const y=paddingTop + usableHeight - (v/max)*usableHeight
-graphPoints.push({x,y,v,key:keys[i]})
-if(i===0) ctx.moveTo(x,y)
-else ctx.lineTo(x,y)
+
+const y=
+paddingTop +
+usableHeight -
+(v/max)*usableHeight
+
+graphPoints.push({
+x,
+y,
+v,
+key:keys[i]
 })
+
+if(i===0){
+ctx.moveTo(x,y)
+}else{
+ctx.lineTo(x,y)
+}
+
+})
+
 ctx.strokeStyle="#4caf50"
 ctx.lineWidth=2
 ctx.stroke()
 
 canvas.onmousemove=(e)=>{
+
 const rect=canvas.getBoundingClientRect()
+
 const x=e.clientX-rect.left
 
 let closest=null
 let dist=Infinity
 
 graphPoints.forEach(p=>{
+
 const d=Math.abs(p.x-x)
+
 if(d<dist){
 dist=d
 closest=p
 }
+
 })
 
 renderGraph()
@@ -256,24 +476,148 @@ if(!closest) return
 
 ctx.beginPath()
 ctx.arc(closest.x,closest.y,4,0,Math.PI*2)
+
 ctx.fillStyle="#fff"
 ctx.fill()
 
 const parts=closest.key.split("-").map(Number)
-const date=new Date(parts[0],parts[1],parts[2],parts[3],parts[4])
+
+const date=new Date(
+parts[0],
+parts[1],
+parts[2],
+parts[3],
+parts[4]
+)
 
 let textY=closest.y-10
-if(textY<10) textY=closest.y+15
+
+if(textY<10){
+textY=closest.y+15
+}
 
 ctx.fillStyle="#fff"
+
 ctx.fillText(
-date.getHours()+":"+String(date.getMinutes()).padStart(2,"0")+" - "+closest.v+" visits",
+date.getHours()+":"+
+String(date.getMinutes()).padStart(2,"0")+
+" - "+
+closest.v+
+" visits",
 closest.x+10,
 textY
 )
+
 }
 
 canvas.onmouseleave=()=>renderGraph()
+}
+
+async function loadUser(){
+
+const username=document.getElementById("user").value
+
+if(!username) return
+
+const data=await safeFetch(
+backend+"/admin/page-history?username="+
+encodeURIComponent(username)
+)
+
+const stats=document.getElementById("userStats")
+const list=document.getElementById("userList")
+
+if(!data || data.error){
+
+stats.innerHTML=""
+list.innerHTML="<div class='entry'>No data found</div>"
+
+return
+}
+
+stats.innerHTML=`
+
+<div class="stat">
+<div class="statTitle">Username</div>
+<div class="statValue">${username}</div>
+</div>
+
+<div class="stat">
+<div class="statTitle">Visits</div>
+<div class="statValue">${data.length}</div>
+</div>
+
+`
+
+list.innerHTML=""
+
+data.reverse().forEach(e=>{
+
+const div=document.createElement("div")
+
+div.className="entry"
+
+div.innerHTML=`
+<div><b>Page:</b> ${e.page}</div>
+<div style="margin-top:6px;opacity:.7;">
+${new Date(e.time).toLocaleString()}
+</div>
+`
+
+list.appendChild(div)
+
+})
+
+}
+
+async function generateReset(){
+
+const username=document.getElementById("user").value
+
+if(!username) return
+
+const r=await fetch(
+backend+"/admin/generate-password-reset",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:localStorage.getItem("Token")
+},
+body:JSON.stringify({
+username
+})
+}
+)
+
+const data=await r.json()
+
+if(data.error){
+
+document.getElementById("resetLink").innerHTML=`
+<div class="entry">
+${data.error}
+</div>
+`
+
+return
+}
+
+document.getElementById("resetLink").innerHTML=`
+
+<div class="entry">
+
+<div style="margin-bottom:8px;">
+Password reset link generated
+</div>
+
+<a href="${data.link}" target="_blank">
+${data.link}
+</a>
+
+</div>
+
+`
 }
 </script>
 
