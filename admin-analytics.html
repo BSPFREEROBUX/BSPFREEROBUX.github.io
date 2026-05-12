@@ -105,10 +105,6 @@ color:#4caf50;
 text-decoration:none;
 }
 
-#resetLink a:hover{
-text-decoration:underline;
-}
-
 .statGrid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -270,55 +266,24 @@ let start=null
 let end=null
 
 if(currentRange==="today"){
-
-start=new Date(
-now.getFullYear(),
-now.getMonth(),
-now.getDate()
-)
-
+start=new Date(now.getFullYear(),now.getMonth(),now.getDate())
 }
 
 else if(currentRange==="yesterday"){
-
-start=new Date(
-now.getFullYear(),
-now.getMonth(),
-now.getDate()-1
-)
-
-end=new Date(
-now.getFullYear(),
-now.getMonth(),
-now.getDate()
-)
-
+start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1)
+end=new Date(now.getFullYear(),now.getMonth(),now.getDate())
 }
 
 else if(currentRange==="week"){
-
 start=new Date(now-7*86400000)
-
 }
 
 else if(currentRange==="month"){
-
-start=new Date(
-now.getFullYear(),
-now.getMonth()-1,
-now.getDate()
-)
-
+start=new Date(now.getFullYear(),now.getMonth()-1,now.getDate())
 }
 
 else if(currentRange==="year"){
-
-start=new Date(
-now.getFullYear()-1,
-now.getMonth(),
-now.getDate()
-)
-
+start=new Date(now.getFullYear()-1,now.getMonth(),now.getDate())
 }
 
 return [start,end]
@@ -481,68 +446,6 @@ ctx.strokeStyle="#4caf50"
 ctx.lineWidth=2
 ctx.stroke()
 
-canvas.onmousemove=(e)=>{
-
-const rect=canvas.getBoundingClientRect()
-
-const x=e.clientX-rect.left
-
-let closest=null
-let dist=Infinity
-
-graphPoints.forEach(p=>{
-
-const d=Math.abs(p.x-x)
-
-if(d<dist){
-dist=d
-closest=p
-}
-
-})
-
-renderGraph()
-
-if(!closest) return
-
-ctx.beginPath()
-ctx.arc(closest.x,closest.y,4,0,Math.PI*2)
-
-ctx.fillStyle="#fff"
-ctx.fill()
-
-const parts=closest.key.split("-").map(Number)
-
-const date=new Date(
-parts[0],
-parts[1],
-parts[2],
-parts[3],
-parts[4]
-)
-
-let textY=closest.y-10
-
-if(textY<10){
-textY=closest.y+15
-}
-
-ctx.fillStyle="#fff"
-
-ctx.fillText(
-date.getHours()+":"+
-String(date.getMinutes()).padStart(2,"0")+
-" - "+
-closest.v+
-" visits",
-closest.x+10,
-textY
-)
-
-}
-
-canvas.onmouseleave=()=>renderGraph()
-
 }
 
 async function loadUser(){
@@ -628,9 +531,7 @@ const data=await r.json()
 if(data.error){
 
 document.getElementById("resetLink").innerHTML=`
-<div class="entry">
-${data.error}
-</div>
+<div class="entry">${data.error}</div>
 `
 
 return
