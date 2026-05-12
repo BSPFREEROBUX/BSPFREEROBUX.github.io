@@ -63,10 +63,6 @@ opacity:.9;
 transform:translateY(-1px);
 }
 
-.secondary{
-background:#2a2a2a;
-}
-
 .entry{
 background:#141414;
 padding:12px;
@@ -158,9 +154,11 @@ border-radius:999px;
 <body>
 
 <div class="card">
+
 <h2>Admin Analytics</h2>
 
 <div class="topBar">
+
 <input id="user" placeholder="Username">
 
 <button onclick="loadUser()">
@@ -170,6 +168,7 @@ Search
 <button onclick="generateReset()">
 Generate Password Renew Link
 </button>
+
 </div>
 
 <div id="resetLink"></div>
@@ -177,6 +176,7 @@ Generate Password Renew Link
 <div id="userStats" class="statGrid"></div>
 
 <div id="userList" class="userHistory"></div>
+
 </div>
 
 <div class="card">
@@ -200,11 +200,14 @@ Generate Password Renew Link
 
 <script>
 
+let backend=null
 let allData={}
 let currentRange="today"
 let graphPoints=[]
 
 async function init(){
+
+backend=(await fetch("/server.txt").then(r=>r.text())).trim()
 
 await loadAll()
 
@@ -232,7 +235,9 @@ return null
 
 async function loadAll(){
 
-const data=await safeFetch("/admin/all-page-history")
+const data=await safeFetch(
+backend+"/admin/all-page-history"
+)
 
 if(!data) return
 
@@ -547,7 +552,7 @@ const username=document.getElementById("user").value
 if(!username) return
 
 const data=await safeFetch(
-"/admin/page-history?username="+
+backend+"/admin/page-history?username="+
 encodeURIComponent(username)
 )
 
@@ -605,7 +610,7 @@ const username=document.getElementById("user").value
 if(!username) return
 
 const r=await fetch(
-"/admin/generate-password-reset",
+backend+"/admin/generate-password-reset",
 {
 method:"POST",
 headers:{
