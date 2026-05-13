@@ -29,6 +29,12 @@ async function safeJson(res){
   }
 }
 
+document.addEventListener("keydown",e=>{
+if(e.key==="Enter"){
+signup()
+}
+})
+
 async function signup(){
   try{
     const base = await getBackend()
