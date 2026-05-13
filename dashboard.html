@@ -131,6 +131,38 @@ width:100%;
 font-size:clamp(13px,1.4vw,15px);
 }
 
+.cl-nav{
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-top:14px;
+}
+
+.cl-btn{
+flex:1;
+border:none;
+background:#2a2a2a;
+color:white;
+padding:12px;
+border-radius:10px;
+font-weight:600;
+transition:.15s;
+}
+
+.cl-btn:hover{
+background:#3a3a3a;
+transform:translateY(-1px);
+}
+
+body.light .cl-btn{
+background:#e6e6e6;
+color:#111;
+}
+
+body.light .cl-btn:hover{
+background:#d8d8d8;
+}
+
 .quest-card{
 background:#1e1e1e;
 padding:clamp(12px,2vw,16px);
@@ -235,9 +267,9 @@ Total Robux Given Out
 
 <div id="cl_box" style="flex:1;overflow:auto;margin-top:10px"></div>
 
-<div style="display:flex;justify-content:space-between;margin-top:10px">
-<button onclick="prevCL()">⬅</button>
-<button onclick="nextCL()">➡</button>
+<div class="cl-nav">
+<button class="cl-btn" onclick="nextCL()">← Previous</button>
+<button class="cl-btn" onclick="prevCL()">Next →</button>
 </div>
 
 </div>
