@@ -2,49 +2,139 @@
 <html>
 <head>
 <link rel="stylesheet" href="styles.css">
+<style>
+.tosbox{
+width:100%;
+height:220px;
+overflow-y:auto;
+border:1px solid rgba(255,255,255,0.15);
+border-radius:10px;
+padding:12px;
+margin-top:14px;
+background:rgba(0,0,0,0.25);
+font-size:13px;
+line-height:1.5;
+white-space:pre-wrap;
+box-sizing:border-box;
+}
+
+.tosagree{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:12px;
+font-size:14px;
+opacity:.6;
+pointer-events:none;
+}
+
+.tosagree.enabled{
+opacity:1;
+pointer-events:auto;
+}
+
+.tosagree input{
+width:16px;
+height:16px;
+}
+
+.wrapper{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+</style>
 </head>
 <body>
 <div class="toggle" onclick="toggleTheme()">Toggle</div>
+
 <div class="wrapper">
 <h2>Sign Up</h2>
+
 <input id="username" placeholder="Username">
 <input id="password" type="password" placeholder="Password">
+
+<div id="tosbox" class="tosbox">Loading Terms of Service...</div>
+
+<label id="tosagree" class="tosagree">
+<input type="checkbox" id="agree">
+<span>I have read and agree to the Terms of Service</span>
+</label>
+
 <button onclick="signup()">Sign Up</button>
+
 <a href="login.html">Login instead</a>
 </div>
+
 <script src="theme.js"></script>
+
 <script>
+let tosRead = false
+
 async function getBackend(){
   const r = await fetch("server.txt")
   return (await r.text()).trim()
 }
 
+async function loadTos(){
+  try{
+    const r = await fetch("tos.txt")
+    const text = await r.text()
+    tosbox.textContent = text
+  }catch{
+    tosbox.textContent = "Failed to load Terms of Service."
+  }
+}
+
 async function safeJson(res){
   const text = await res.text()
-  try { return JSON.parse(text) }
-  catch {
+  try{
+    return JSON.parse(text)
+  }catch{
     console.error("Invalid JSON:", text)
     alert("Server error")
     return null
   }
 }
 
+tosbox.addEventListener("scroll",()=>{
+  const nearBottom = tosbox.scrollTop + tosbox.clientHeight >= tosbox.scrollHeight - 10
+
+  if(nearBottom && !tosRead){
+    tosRead = true
+    tosagree.classList.add("enabled")
+  }
+})
+
 document.addEventListener("keydown",e=>{
-if(e.key==="Enter"){
-signup()
-}
+  if(e.key==="Enter"){
+    signup()
+  }
 })
 
 async function signup(){
+  if(!tosRead){
+    alert("You must scroll through the Terms of Service first")
+    return
+  }
+
+  if(!agree.checked){
+    alert("You must agree to the Terms of Service")
+    return
+  }
+
   try{
     const base = await getBackend()
 
     const r = await fetch(base + "/signup", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         username: username.value,
-        password: password.value
+        password: password.value,
+        agreedToTos: true
       })
     })
 
@@ -67,6 +157,8 @@ async function signup(){
     alert("Network error")
   }
 }
+
+loadTos()
 </script>
 </body>
 </html>
