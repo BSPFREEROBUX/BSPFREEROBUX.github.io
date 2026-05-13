@@ -318,7 +318,7 @@ padding:0;
 
 .chatInput{
 display:flex;
-align-items:center;
+align-items:flex-end;
 gap:10px;
 padding:10px;
 border-top:1px solid #2a2a2a;
@@ -346,6 +346,8 @@ background:#3a3a3a;
 
 #messageBox{
 flex:1;
+min-height:40px;
+max-height:150px;
 padding:10px 14px;
 border-radius:20px;
 border:1px solid #333;
@@ -354,6 +356,20 @@ color:white;
 font-size:14px;
 outline:none;
 min-width:0;
+resize:none;
+overflow-y:auto;
+line-height:1.4;
+white-space:pre-wrap;
+}
+
+.messageLink{
+color:#7ab7ff;
+text-decoration:underline;
+font-weight:600;
+}
+
+.messageLink:hover{
+color:#a9d0ff;
 }
 
 .sendBtn{
@@ -458,6 +474,12 @@ Anonymous
 <script src="theme.js"></script>
 <script>
 const messageBox=document.getElementById("messageBox")
+messageBox.addEventListener("keydown",e=>{
+if(e.key==="Enter" && !e.shiftKey){
+e.preventDefault()
+sendMessage()
+}
+})
 const fileInput=document.getElementById("fileInput")
 const anonToggle=document.getElementById("anonToggle")
 const previewBar=document.getElementById("previewBar")
@@ -484,6 +506,23 @@ return String(value ?? "").replace(/[&<>"']/g,m=>({
 "\"":"&quot;",
 "'":"&#39;"
 }[m]))
+}
+
+function formatMessage(text){
+const escaped=escapeHTML(text)
+
+return escaped.replace(
+/((https?:\/\/|www\.)[^\s<]+)/gi,
+url=>{
+let href=url
+
+if(!href.startsWith("http")){
+href="https://"+href
+}
+
+return `<a href="${href}" class="messageLink" target="_blank" onclick="return confirm('Are you sure you want to open this link?')">${url}</a>`
+}
+)
 }
 
 async function trackPage(page){
@@ -839,7 +878,7 @@ text = `Successfully booked ${startLocal} - ${endLocal} (your time) on ${date}. 
 }
 }
 
-text = escapeHTML(text)
+text = formatMessage(text)
 message.innerHTML=`<b>${author}</b><small>${time}</small>${text ? `<div>${text}</div>` : ""}${m.attachment ? renderAttachment(m.attachment) : ""}`
 chatMessages.appendChild(message)
 })
