@@ -404,18 +404,19 @@ box.innerHTML=`
 }
 
 function prevCL(){
+if(clIndex>0){
+clIndex--
+renderCL()
+}
+}
+
+function nextCL(){
 if(clIndex<changelogs.length-1){
 clIndex++
 renderCL()
 }
 }
 
-function nextCL(){
-if(clIndex>0){
-clIndex--
-renderCL()
-}
-}
 
 async function init(){
 backend = await getBackend()
