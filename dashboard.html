@@ -23,6 +23,20 @@ background:#f2f2f2;
 color:#111;
 }
 
+.mouseGlow{
+position:fixed;
+width:300px;
+height:300px;
+border-radius:50%;
+pointer-events:none;
+z-index:0;
+background:radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 35%, rgba(0,0,0,0) 70%);
+transform:translate(-50%,-50%);
+mix-blend-mode:screen;
+filter:blur(25px);
+transition:transform .03s linear;
+}
+
 .topbar{
 position:fixed;
 top:0;
@@ -195,7 +209,7 @@ font-size:clamp(12px,1.3vw,14px);
   
 <body>
 
-
+<div class="mouseGlow" id="mouseGlow"></div>
 <div id="settingsBox" style="display:none;position:fixed;top:60px;right:20px;background:#1e1e1e;padding:15px;border-radius:10px;z-index:999">
 <input id="emailInput" placeholder="Enter email">
 <button onclick="sendCode()">Send Code</button>
@@ -681,6 +695,13 @@ location.href="Support.html"
 function openEmailSupport(){
 window.location.href = "mailto:Zyphor@zyphor.cc"
 }
+
+const mouseGlow=document.getElementById("mouseGlow")
+
+document.addEventListener("mousemove",e=>{
+mouseGlow.style.left=e.clientX+"px"
+mouseGlow.style.top=e.clientY+"px"
+})
 
 document.addEventListener("click",e=>{
 const isButton=e.target.closest("button")
