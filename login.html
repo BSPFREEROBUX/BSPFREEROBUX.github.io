@@ -67,6 +67,18 @@ cursor:pointer;
 let pendingUser = null
 let backendUrl = null
 
+document.addEventListener("keydown",e=>{
+if(e.key==="Enter"){
+const popup=document.getElementById("twofaPopup")
+
+if(popup.style.display==="flex"){
+submit2FA()
+}else{
+login()
+}
+}
+})
+
 async function getBackend(){
   const r = await fetch("server.txt")
   return (await r.text()).trim()
