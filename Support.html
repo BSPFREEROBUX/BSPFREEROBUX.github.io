@@ -592,13 +592,12 @@ data.slots.forEach(s=>{
 const startDate = new Date(date + "T" + s.start + ":00")
 const endDate = new Date(date + "T" + s.end + ":00")
 
-const startLocal = convertToLocal(date, s.start)
-const endLocal = convertToLocal(date, s.end)
+let label = `${date} ${s.start} - ${s.end} Denmark Time (GMT+2)`
 
 const opt=document.createElement("option")
 opt.value=JSON.stringify(s)
 
-let label = `${startLocal.date} ${startLocal.time} - ${endLocal.time}`
+
 
 if(endDate < now){
 opt.disabled = true
@@ -667,7 +666,12 @@ end:slot.end
 })
 })
 
-alert("Booked")
+alert(
+"Booked successfully.\n\n" +
+"All times are shown in Denmark Copenhagen time (GMT+2).\n\n" +
+"Convert your timezone here:\n" +
+"https://greenwichmeantime.com/gmt-converter/"
+)
 }
 
 function isImageFile(att){
