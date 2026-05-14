@@ -598,7 +598,7 @@ const endLocal = convertToLocal(date, s.end)
 const opt=document.createElement("option")
 opt.value=JSON.stringify(s)
 
-let label = startLocal+" - "+endLocal
+let label = `${startLocal.date} ${startLocal.time} - ${endLocal.time}`
 
 if(endDate < now){
 opt.disabled = true
@@ -623,36 +623,29 @@ const userTimezone = localStorage.getItem("userTimezone") || "UTC"
 const [year,month,day] = date.split("-").map(Number)
 const [hour,minute] = time.split(":").map(Number)
 
-const formatter = new Intl.DateTimeFormat("sv-SE",{
+const utcGuess = new Date(Date.UTC(year,month-1,day,hour,minute))
+
+const copenhagenString = utcGuess.toLocaleString("sv-SE",{
 timeZone:"Europe/Copenhagen",
-year:"numeric",
-month:"2-digit",
-day:"2-digit",
-hour:"2-digit",
-minute:"2-digit",
-second:"2-digit",
 hour12:false
 })
 
-const parts = formatter.formatToParts(
-new Date(Date.UTC(year,month-1,day,hour,minute))
-)
+const copenhagenDate = new Date(copenhagenString.replace(" ","T"))
 
-const values = {}
-
-parts.forEach(p=>{
-values[p.type]=p.value
+const localString = copenhagenDate.toLocaleString("sv-SE",{
+timeZone:userTimezone,
+hour12:false
 })
 
-const copenhagenDate = new Date(
-`${values.year}-${values.month}-${values.day}T${values.hour}:${values.minute}:${values.second}`
-)
+const localDate = new Date(localString.replace(" ","T"))
 
-return copenhagenDate.toLocaleTimeString([],{
-timeZone:userTimezone,
+return {
+time: localDate.toLocaleTimeString([],{
 hour:"2-digit",
 minute:"2-digit"
-})
+}),
+date: localDate.toISOString().split("T")[0]
+}
 }
 document.getElementById("dateSelect").addEventListener("change",loadTimes)
 
