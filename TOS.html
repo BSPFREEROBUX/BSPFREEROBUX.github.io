@@ -282,65 +282,130 @@ border-radius:10px;
 <script>
 function toggleTheme(){
 document.body.classList.toggle("light")
-localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark")
+localStorage.setItem(
+"theme",
+document.body.classList.contains("light") ? "light" : "dark"
+)
 }
+
 if(localStorage.getItem("theme")==="light"){
 document.body.classList.add("light")
 }
 
 async function loadTOS(){
+
 const res = await fetch("TOS.json")
 const data = await res.json()
 
-heroTitle.textContent = data.hero.title
-heroDesc.textContent = data.hero.description
-
+const heroTitle = document.getElementById("heroTitle")
+const heroDesc = document.getElementById("heroDesc")
 const metaBox = document.getElementById("metaBox")
-metaBox.innerHTML=""
+const sections = document.getElementById("sections")
+const extras = document.getElementById("extras")
+const footer = document.getElementById("footer")
+
+heroTitle.textContent =
+data.hero?.title || "Terms of Service"
+
+heroDesc.textContent =
+data.hero?.description || ""
+
+metaBox.innerHTML = ""
+
+if(data.meta){
+
 Object.entries(data.meta).forEach(([k,v])=>{
-const div=document.createElement("div")
-div.className="meta-card"
-div.innerHTML=`<div class="label">${k}</div><div class="value">${v}</div>`
+
+const div = document.createElement("div")
+div.className = "meta-card"
+
+div.innerHTML = `
+<div class="label">${k}</div>
+<div class="value">${v}</div>
+`
+
 metaBox.appendChild(div)
+
 })
 
-const sections = document.getElementById("sections")
-sections.innerHTML=""
+}
+
+sections.innerHTML = ""
+
+if(Array.isArray(data.sections)){
 
 data.sections.forEach((s,i)=>{
-const div=document.createElement("div")
-div.className="section"
 
-let html=`<h2><span class="section-number">${i+1}.</span> ${s.title}</h2>`
+const div = document.createElement("div")
+div.className = "section"
 
-if(s.content){
+let html = `
+<h2>
+<span class="section-number">${i+1}.</span>
+${s.title || "Untitled"}
+</h2>
+`
+
+if(Array.isArray(s.content)){
+
 s.content.forEach((c,index)=>{
-html+=`<div class="clause">${i+1}.${index+1} ${c}</div>`
+
+html += `
+<div class="clause">
+${i+1}.${index+1} ${c}
+</div>
+`
+
 })
+
 }
 
-if(s.list){
-html+="<ul>"
+if(Array.isArray(s.list)){
+
+html += "<ul>"
+
 s.list.forEach(li=>{
-html+=`<li>${li}</li>`
+
+html += `<li>${li}</li>`
+
 })
-html+="</ul>"
+
+html += "</ul>"
+
 }
 
-div.innerHTML=html
+div.innerHTML = html
 sections.appendChild(div)
+
 })
 
-const extras = document.getElementById("extras")
-extras.innerHTML=""
+}
+
+extras.innerHTML = ""
+
+if(data.extras?.cards){
+
 data.extras.cards.forEach(c=>{
-const div=document.createElement("div")
-div.className="card"
-div.innerHTML=`<h3>${c.title}</h3><p>${c.content}</p>`
+
+const div = document.createElement("div")
+div.className = "card"
+
+div.innerHTML = `
+<h3>${c.title || ""}</h3>
+<p>${c.content || ""}</p>
+`
+
 extras.appendChild(div)
+
 })
 
-footer.textContent = data.extras.footer + " | Last Updated: " + data.lastUpdated
+}
+
+footer.textContent =
+(data.extras?.footer || "Terms of Service") +
+" | Last Updated: " +
+(data.lastUpdated || "Unknown")
+
 }
 
 loadTOS()
