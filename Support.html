@@ -617,15 +617,31 @@ timeSelect.appendChild(opt)
 })
 }
 
-function convertToLocal(date, time){
-const utc = new Date(`${date}T${time}:00Z`)
+function convertToLocal(date,time){
+const userTimezone = localStorage.getItem("userTimezone") || "UTC"
 
-return utc.toLocaleTimeString([],{
+const parts = time.split(":")
+const year = Number(date.split("-")[0])
+const month = Number(date.split("-")[1]) - 1
+const day = Number(date.split("-")[2])
+const hour = Number(parts[0])
+const minute = Number(parts[1])
+
+const dkDate = new Date(
+new Date(
+Date.UTC(year,month,day,hour,minute)
+).toLocaleString("en-US",{timeZone:"Europe/Copenhagen"})
+)
+
+const local = new Date(
+dkDate.toLocaleString("en-US",{timeZone:userTimezone})
+)
+
+return local.toLocaleTimeString([],{
 hour:"2-digit",
 minute:"2-digit"
 })
 }
-
 document.getElementById("dateSelect").addEventListener("change",loadTimes)
 
 async function bookTime(){
