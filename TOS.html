@@ -5,19 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Terms of Service</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-html,body{
+html{
+scroll-behavior:smooth;
+}
+
+body{
 font-family:'Inter',sans-serif;
 background:#07070a;
 color:#e5e7eb;
+overflow-x:hidden;
 }
 
 body.light{
-background:#f9fafb;
+background:#f8fafc;
 color:#111827;
 }
 
@@ -27,102 +36,128 @@ top:0;
 left:0;
 width:100%;
 display:flex;
-justify-content:space-between;
 align-items:center;
-padding:14px 20px;
-background:rgba(10,10,12,.85);
-backdrop-filter:blur(12px);
-border-bottom:1px solid #1f1f23;
+justify-content:space-between;
+padding:16px 26px;
+background:rgba(7,7,10,.82);
+backdrop-filter:blur(18px);
+border-bottom:1px solid rgba(255,255,255,.06);
 z-index:1000;
 }
 
 body.light .topbar{
-background:rgba(255,255,255,.85);
+background:rgba(255,255,255,.82);
 border-color:#e5e7eb;
 }
 
-.icons{
+.brand{
+font-size:15px;
+font-weight:700;
+letter-spacing:.08em;
+text-transform:uppercase;
+}
+
+.actions{
 display:flex;
 gap:10px;
 }
 
-.icons span{
-cursor:pointer;
-padding:8px 14px;
-border-radius:12px;
+.btn{
+padding:10px 16px;
+border-radius:14px;
 background:#111114;
-border:1px solid #1f1f23;
+border:1px solid #23232a;
+cursor:pointer;
 font-size:13px;
+font-weight:600;
 transition:.2s;
+user-select:none;
 }
 
-.icons span:hover{
-transform:translateY(-1px);
-background:#1a1a1f;
+.btn:hover{
+transform:translateY(-2px);
+background:#1a1a21;
 }
 
-body.light .icons span{
-background:#f3f4f6;
+body.light .btn{
+background:#ffffff;
 border-color:#e5e7eb;
 }
 
 .wrapper{
-width:min(1050px,calc(100% - 24px));
+width:min(1150px,calc(100% - 30px));
 margin:auto;
 padding-top:110px;
-padding-bottom:60px;
+padding-bottom:70px;
 }
 
 .hero{
-padding:32px;
-border-radius:20px;
-background:linear-gradient(180deg, rgba(99,102,241,.18), rgba(99,102,241,0));
-border:1px solid #1f1f23;
-margin-bottom:26px;
 position:relative;
 overflow:hidden;
+padding:42px;
+border-radius:28px;
+background:
+linear-gradient(180deg,rgba(99,102,241,.22),rgba(99,102,241,0)),
+linear-gradient(135deg,#111114,#0b0b0e);
+border:1px solid rgba(255,255,255,.06);
+margin-bottom:28px;
+}
+
+body.light .hero{
+background:
+linear-gradient(180deg,rgba(99,102,241,.12),rgba(99,102,241,0)),
+linear-gradient(135deg,#ffffff,#f3f4f6);
+border-color:#e5e7eb;
 }
 
 .hero::after{
 content:"";
 position:absolute;
-top:-50%;
-left:-50%;
-width:200%;
-height:200%;
-background:radial-gradient(circle at center, rgba(99,102,241,.08), transparent 60%);
+top:-30%;
+right:-10%;
+width:420px;
+height:420px;
+border-radius:50%;
+background:radial-gradient(circle,rgba(99,102,241,.22),transparent 70%);
+pointer-events:none;
 }
 
 .hero h1{
-font-size:34px;
-font-weight:700;
-margin-bottom:10px;
-letter-spacing:-0.5px;
+font-size:44px;
+font-weight:800;
+letter-spacing:-1.4px;
+margin-bottom:14px;
+position:relative;
+z-index:1;
 }
 
 .hero p{
-opacity:.8;
-line-height:1.7;
-max-width:800px;
+max-width:860px;
+line-height:1.8;
+opacity:.82;
+font-size:15px;
+position:relative;
+z-index:1;
 }
 
 .meta{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:14px;
-margin-bottom:30px;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:18px;
+margin-bottom:32px;
 }
 
 .meta-card{
-background:#0f0f12;
-border:1px solid #1f1f23;
-border-radius:16px;
-padding:18px;
+padding:20px;
+border-radius:22px;
+background:#0f0f13;
+border:1px solid rgba(255,255,255,.06);
 transition:.2s;
 }
 
 .meta-card:hover{
 transform:translateY(-2px);
+border-color:rgba(99,102,241,.35);
 }
 
 body.light .meta-card{
@@ -130,30 +165,34 @@ background:#ffffff;
 border-color:#e5e7eb;
 }
 
-.meta-card .label{
+.label{
 font-size:11px;
+font-weight:700;
 text-transform:uppercase;
-opacity:.6;
-margin-bottom:8px;
-letter-spacing:.1em;
+letter-spacing:.12em;
+opacity:.5;
+margin-bottom:10px;
 }
 
-.meta-card .value{
+.value{
 font-size:14px;
-line-height:1.6;
+line-height:1.75;
 }
 
 .section{
-background:#0f0f12;
-border:1px solid #1f1f23;
-border-radius:18px;
-padding:22px;
-margin-bottom:18px;
-transition:.2s;
+position:relative;
+padding:28px;
+border-radius:24px;
+background:#0f0f13;
+border:1px solid rgba(255,255,255,.06);
+margin-bottom:22px;
+overflow:hidden;
+transition:.25s;
 }
 
 .section:hover{
-border-color:#2a2a30;
+border-color:rgba(99,102,241,.28);
+transform:translateY(-2px);
 }
 
 body.light .section{
@@ -161,93 +200,103 @@ background:#ffffff;
 border-color:#e5e7eb;
 }
 
+.section::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:4px;
+height:100%;
+background:linear-gradient(180deg,#6366f1,transparent);
+opacity:.9;
+}
+
 .section h2{
-font-size:18px;
-font-weight:600;
-margin-bottom:14px;
 display:flex;
-gap:8px;
 align-items:center;
+gap:12px;
+font-size:22px;
+font-weight:700;
+margin-bottom:20px;
+letter-spacing:-0.4px;
 }
 
 .section-number{
-color:#6366f1;
-font-weight:700;
+color:#818cf8;
+font-weight:800;
 }
 
 .clause{
-font-size:14px;
-line-height:1.75;
-margin-bottom:10px;
-padding-left:10px;
-border-left:2px solid rgba(99,102,241,.4);
-}
-
-.clause:hover{
-border-color:#6366f1;
-}
-
-ul{
-margin-left:20px;
-margin-top:10px;
-}
-
-li{
-margin-bottom:8px;
-line-height:1.7;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:16px;
-margin-top:28px;
-}
-
-.card{
-background:#0f0f12;
-border:1px solid #1f1f23;
+padding:14px 16px;
+margin-bottom:12px;
 border-radius:16px;
-padding:18px;
+background:rgba(255,255,255,.02);
+border:1px solid rgba(255,255,255,.04);
+line-height:1.8;
+font-size:14px;
 transition:.2s;
 }
 
-.card:hover{
-transform:translateY(-2px);
-border-color:#2a2a30;
+.clause:hover{
+background:rgba(99,102,241,.08);
+border-color:rgba(99,102,241,.25);
+transform:translateX(2px);
 }
 
-body.light .card{
-background:#ffffff;
+body.light .clause{
+background:#f8fafc;
 border-color:#e5e7eb;
 }
 
-.card h3{
-margin-bottom:8px;
-font-size:16px;
-}
-
-.card p{
-font-size:14px;
-opacity:.85;
-line-height:1.6;
-}
-
 .footer{
-margin-top:34px;
-padding-top:16px;
-border-top:1px solid #1f1f23;
+margin-top:36px;
+padding-top:24px;
+border-top:1px solid rgba(255,255,255,.06);
+opacity:.65;
 font-size:13px;
-opacity:.6;
-line-height:1.7;
+line-height:1.8;
+text-align:center;
+}
+
+body.light .footer{
+border-color:#e5e7eb;
 }
 
 ::-webkit-scrollbar{
-width:8px;
+width:9px;
 }
+
 ::-webkit-scrollbar-thumb{
-background:#2a2a30;
-border-radius:10px;
+background:#2a2a34;
+border-radius:999px;
+}
+
+@media(max-width:700px){
+
+.hero{
+padding:28px;
+}
+
+.hero h1{
+font-size:32px;
+}
+
+.section{
+padding:22px;
+}
+
+.section h2{
+font-size:18px;
+}
+
+.clause{
+padding:12px;
+font-size:13px;
+}
+
+.topbar{
+padding:14px 18px;
+}
 }
 </style>
 </head>
@@ -255,10 +304,16 @@ border-radius:10px;
 <body>
 
 <div class="topbar">
-<div>Terms</div>
-<div class="icons">
-<span onclick="location.href='dashboard.html'">Dashboard</span>
-<span onclick="toggleTheme()">🌓</span>
+<div class="brand">Terms</div>
+
+<div class="actions">
+<div class="btn" onclick="location.href='dashboard.html'">
+Dashboard
+</div>
+
+<div class="btn" onclick="toggleTheme()">
+🌓
+</div>
 </div>
 </div>
 
@@ -273,8 +328,6 @@ border-radius:10px;
 
 <div id="sections"></div>
 
-<div class="grid" id="extras"></div>
-
 <div class="footer" id="footer"></div>
 
 </div>
@@ -282,9 +335,12 @@ border-radius:10px;
 <script>
 function toggleTheme(){
 document.body.classList.toggle("light")
+
 localStorage.setItem(
 "theme",
-document.body.classList.contains("light") ? "light" : "dark"
+document.body.classList.contains("light")
+? "light"
+: "dark"
 )
 }
 
@@ -293,19 +349,19 @@ document.body.classList.add("light")
 }
 
 async function loadTOS(){
+
 const res = await fetch("tos.txt")
 const text = await res.text()
 
 const lines = text
 .split("\n")
-.map(l=>l.trim())
-.filter(l=>l.length)
+.map(x=>x.trim())
+.filter(Boolean)
 
 const heroTitle = document.getElementById("heroTitle")
 const heroDesc = document.getElementById("heroDesc")
 const metaBox = document.getElementById("metaBox")
 const sections = document.getElementById("sections")
-const extras = document.getElementById("extras")
 const footer = document.getElementById("footer")
 
 heroTitle.textContent = lines[0] || "Terms of Service"
@@ -313,21 +369,23 @@ heroDesc.textContent = lines[1] || ""
 
 metaBox.innerHTML = ""
 sections.innerHTML = ""
-extras.innerHTML = ""
 
 let i = 2
 
 while(i < lines.length && !/^\d+\.$/.test(lines[i])){
-const key = lines[i]
-const value = lines[i+1] || ""
 
-const div = document.createElement("div")
-div.className = "meta-card"
-div.innerHTML = `
+const key = lines[i]
+const value = lines[i + 1] || ""
+
+const card = document.createElement("div")
+card.className = "meta-card"
+
+card.innerHTML = `
 <div class="label">${key}</div>
 <div class="value">${value}</div>
 `
-metaBox.appendChild(div)
+
+metaBox.appendChild(card)
 
 i += 2
 }
@@ -336,15 +394,15 @@ while(i < lines.length){
 
 if(/^\d+\.$/.test(lines[i])){
 
-const sectionNumber = lines[i].replace(".","")
-const title = lines[i+1] || "Untitled"
+const number = lines[i].replace(".","")
+const title = lines[i + 1] || "Untitled"
 
 const section = document.createElement("div")
 section.className = "section"
 
 let html = `
 <h2>
-<span class="section-number">${sectionNumber}.</span>
+<span class="section-number">${number}.</span>
 ${title}
 </h2>
 `
@@ -356,13 +414,7 @@ i < lines.length &&
 !/^\d+\.$/.test(lines[i])
 ){
 
-const line = lines[i]
-
-if(new RegExp(`^${sectionNumber}\\.\\d+`).test(line)){
-html += `<div class="clause">${line}</div>`
-}else{
-html += `<div class="clause">${line}</div>`
-}
+html += `<div class="clause">${lines[i]}</div>`
 
 i++
 }
@@ -376,7 +428,7 @@ i++
 }
 
 footer.textContent =
-"Terms of Service | Last Updated: " +
+"Terms of Service • Last Updated " +
 new Date().toISOString().split("T")[0]
 }
 
