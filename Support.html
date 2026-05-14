@@ -616,36 +616,6 @@ timeSelect.appendChild(opt)
 })
 }
 
-function convertToLocal(date,time){
-const userTimezone = localStorage.getItem("userTimezone") || "UTC"
-
-const [year,month,day] = date.split("-").map(Number)
-const [hour,minute] = time.split(":").map(Number)
-
-const utcGuess = new Date(Date.UTC(year,month-1,day,hour,minute))
-
-const copenhagenString = utcGuess.toLocaleString("sv-SE",{
-timeZone:"Europe/Copenhagen",
-hour12:false
-})
-
-const copenhagenDate = new Date(copenhagenString.replace(" ","T"))
-
-const localString = copenhagenDate.toLocaleString("sv-SE",{
-timeZone:userTimezone,
-hour12:false
-})
-
-const localDate = new Date(localString.replace(" ","T"))
-
-return {
-time: localDate.toLocaleTimeString([],{
-hour:"2-digit",
-minute:"2-digit"
-}),
-date: localDate.toISOString().split("T")[0]
-}
-}
 document.getElementById("dateSelect").addEventListener("change",loadTimes)
 
 async function bookTime(){
@@ -892,15 +862,7 @@ const time=escapeHTML(new Date(m.time).toLocaleString())
 let text = m.text || ""
 
 if(text.includes("Successfully booked")){
-const match = text.match(/(\d{2}:\d{2}) - (\d{2}:\d{2}) on (\d{4}-\d{2}-\d{2})/)
-if(match){
-const [,start,end,date] = match
-
-const startLocal = convertToLocal(date,start)
-const endLocal = convertToLocal(date,end)
-
-text = `Successfully booked ${startLocal} - ${endLocal} (your time) on ${date}. Be online the entire time.`
-}
+text += "\n\nConvert timezone here:\nhttps://greenwichmeantime.com/gmt-converter/"
 }
 
 text = formatMessage(text)
