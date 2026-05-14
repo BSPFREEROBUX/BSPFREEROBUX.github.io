@@ -185,36 +185,96 @@ alert("Select a file")
 return
 }
 
+const file=input.files[0]
+
 const fd=new FormData()
 
-fd.append("file",input.files[0])
+fd.append("file",file)
 
-const r=await fetch(backend+"/cloud/upload",{
-method:"POST",
-headers:{
-Authorization:localStorage.getItem("Token")
-},
-body:fd
-})
+const progressBox=document.createElement("div")
 
-const d=await safeJson(r)
+progressBox.className="file"
 
-if(d?.success){
+progressBox.innerHTML=`
+<h3>${file.name}</h3>
 
-alert("Uploaded")
+<div style="width:100%;height:24px;background:#2a2a2a;border-radius:10px;overflow:hidden;margin-top:15px">
+<div id="uploadBar" style="height:100%;width:0%;background:#4cafef;transition:.15s"></div>
+</div>
+
+<p id="uploadPercent" style="margin-top:10px">
+0%
+</p>
+`
+
+document.getElementById("files").prepend(progressBox)
+
+const xhr=new XMLHttpRequest()
+
+xhr.open(
+"POST",
+backend+"/cloud/upload"
+)
+
+xhr.setRequestHeader(
+"Authorization",
+localStorage.getItem("Token")
+)
+
+xhr.upload.onprogress=(e)=>{
+
+if(!e.lengthComputable)
+return
+
+const percent=Math.floor(
+(e.loaded/e.total)*100
+)
+
+document.getElementById("uploadBar").style.width=percent+"%"
+
+document.getElementById("uploadPercent").textContent=percent+"%"
+
+}
+
+xhr.onload=()=>{
+
+try{
+
+const d=JSON.parse(xhr.responseText)
+
+if(d.success){
+
+document.getElementById("uploadBar").style.width="100%"
+
+document.getElementById("uploadPercent").textContent="Upload Complete"
 
 input.value=""
 
+setTimeout(()=>{
 loadFiles()
+},700)
 
 }else{
 
-alert(d?.error || "Failed")
+alert(d.error || "Upload failed")
+
+}
+
+}catch{
+
+alert("Upload failed")
 
 }
 
 }
 
+xhr.onerror=()=>{
+alert("Upload failed")
+}
+
+xhr.send(fd)
+
+}
 async function loadFiles(){
 
 const r=await fetch(backend+"/cloud/list",{
