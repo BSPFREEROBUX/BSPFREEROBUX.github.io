@@ -209,13 +209,29 @@ font-size:clamp(12px,1.3vw,14px);
   
 <body>
 
-<div class="mouseGlow" id="mouseGlow"></div>
 <div id="settingsBox" style="display:none;position:fixed;top:60px;right:20px;background:#1e1e1e;padding:15px;border-radius:10px;z-index:999">
 <input id="emailInput" placeholder="Enter email">
 <button onclick="sendCode()">Send Code</button>
+
 <input id="codeInput" placeholder="Enter code">
 <button onclick="verifyCode()">Verify</button>
+
 <button onclick="toggle2FA()">Toggle 2FA</button>
+
+<hr style="margin:10px 0">
+
+<select id="timezoneSelect">
+<option value="UTC">UTC</option>
+<option value="Europe/Copenhagen">Denmark</option>
+<option value="America/New_York">New York</option>
+<option value="America/Chicago">Chicago</option>
+<option value="America/Los_Angeles">Los Angeles</option>
+<option value="Europe/London">London</option>
+<option value="Asia/Tokyo">Tokyo</option>
+<option value="Australia/Sydney">Sydney</option>
+</select>
+
+<button onclick="saveTimezone()">Save GMT</button>
 </div>
   
 <div class="topbar">
@@ -390,6 +406,19 @@ const ordersValue = parseInt((await ordersRes.text()).trim()) || 0
 animateValue(document.getElementById("ordersCount"), ordersValue)
 }catch(e){}
 }
+
+function saveTimezone(){
+const tz=document.getElementById("timezoneSelect").value
+localStorage.setItem("userTimezone",tz)
+alert("Timezone saved")
+}
+
+window.addEventListener("load",()=>{
+const saved=localStorage.getItem("userTimezone")
+if(saved){
+document.getElementById("timezoneSelect").value=saved
+}
+})
 
 let changelogs=[]
 let clIndex=0
