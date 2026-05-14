@@ -934,7 +934,7 @@
       "Data may be anonymized, aggregated, transformed, processed, or analyzed for operational, analytical, security, moderation, business, or development purposes."
     ]
   },
-  {
+{
   "title": "Jurisdiction and Interpretation",
   "content": [
     "These Terms shall be interpreted to the maximum extent permitted by applicable law.",
@@ -942,18 +942,18 @@
     "Any ambiguity in interpretation shall not be construed against the service or its operators."
   ]
 }
+],
+"extras": {
+  "cards": [
+    {
+      "title": "Account Recovery",
+      "content": "Account recovery is not guaranteed and is subject to verification and staff discretion."
+    },
+    {
+      "title": "Support Records",
+      "content": "Support interactions may be logged, stored, and reviewed for moderation and operational purposes."
+    }
   ],
-  "extras": {
-    "cards": [
-      {
-        "title": "Account Recovery",
-        "content": "Account recovery is not guaranteed and is subject to verification and staff discretion."
-      },
-      {
-        "title": "Support Records",
-        "content": "Support interactions may be logged, stored, and reviewed for moderation and operational purposes."
-      }
-    ],
-    "footer": "These Terms apply to all current and future features. Continued use constitutes full acceptance of all provisions."
-  }
+  "footer": "These Terms apply to all current and future features. Continued use constitutes full acceptance of all provisions."
+}
 }
