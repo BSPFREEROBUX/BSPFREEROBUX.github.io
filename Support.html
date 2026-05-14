@@ -862,9 +862,8 @@ const time=escapeHTML(new Date(m.time).toLocaleString())
 let text = m.text || ""
 
 if(text.includes("Successfully booked")){
-text += "\n\nConvert timezone here:\nhttps://greenwichmeantime.com/gmt-converter/"
+text += "\n\nConvert from Danish GMT+2 time to your timezone here:\nhttps://greenwichmeantime.com/gmt-converter/"
 }
-
 text = formatMessage(text)
 message.innerHTML=`<b>${author}</b><small>${time}</small>${text ? `<div>${text}</div>` : ""}${m.attachment ? renderAttachment(m.attachment) : ""}`
 chatMessages.appendChild(message)
