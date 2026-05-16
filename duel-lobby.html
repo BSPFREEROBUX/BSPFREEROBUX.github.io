@@ -298,10 +298,30 @@ Lobby Code: <span id="code"></span>
 </div>
 
 <script>
-const token=localStorage.getItem("Token")
+let API=""
+let token=localStorage.getItem("token")
 
 if(!token){
 location.href="/login.html"
+}
+
+async function loadAPI(){
+
+try{
+
+const txt=await fetch("./server.txt?"+Date.now())
+.then(r=>r.text())
+
+API=txt.trim()
+
+if(!API.startsWith("http")){
+throw new Error("invalid")
+}
+
+}catch{
+
+API=location.origin
+}
 }
 
 let currentLobby=null
@@ -309,25 +329,58 @@ let selectedGame="tictactoe"
 let myUsername=""
 let polling=null
 
-fetch("/me",{
-headers:{
-Authorization:token
+async function api(path,options={}){
+
+const headers=options.headers || {}
+
+headers.Authorization=token
+
+if(!headers["Content-Type"] && options.method){
+headers["Content-Type"]="application/json"
 }
+
+const res=await fetch(API+path,{
+...options,
+headers
 })
-.then(r=>r.json())
-.then(data=>{
-if(data.error){
+
+const text=await res.text()
+
+try{
+return JSON.parse(text)
+}catch{
+console.error(text)
+return {error:"invalidjson"}
+}
+}
+
+async function start(){
+
+await loadAPI()
+
+const meData=await api("/me")
+
+if(meData.error){
+
+localStorage.removeItem("token")
+
 location.href="/login.html"
+
 return
 }
 
-myUsername=data.username
-document.getElementById("me").innerText="Logged in as "+data.username
+myUsername=meData.username
+
+document.getElementById("me").innerText=
+"Logged in as "+meData.username
 
 loadHistory()
-})
+}
+
+start()
 
 document.querySelectorAll(".gameBtn").forEach(btn=>{
+
 btn.onclick=()=>{
 
 document.querySelectorAll(".gameBtn").forEach(x=>{
@@ -342,24 +395,20 @@ selectedGame=btn.dataset.game
 
 document.getElementById("createLobby").onclick=async()=>{
 
-const r=await fetch("/games/create",{
+const data=await api("/games/create",{
 method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
 body:JSON.stringify({
 game:selectedGame
 })
 })
-
-const data=await r.json()
 
 if(data.success){
 
 currentLobby=data.code
 
 document.getElementById("lobby").style.display="block"
+
+document.getElementById("winner").innerText=""
 
 startPolling()
 }
@@ -371,24 +420,20 @@ const code=document.getElementById("joinCode").value.trim()
 
 if(!code) return
 
-const r=await fetch("/games/join",{
+const data=await api("/games/join",{
 method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
 body:JSON.stringify({
 code
 })
 })
-
-const data=await r.json()
 
 if(data.success){
 
 currentLobby=code
 
 document.getElementById("lobby").style.display="block"
+
+document.getElementById("winner").innerText=""
 
 startPolling()
 }
@@ -398,12 +443,8 @@ document.getElementById("readyBtn").onclick=async()=>{
 
 if(!currentLobby) return
 
-await fetch("/games/ready",{
+await api("/games/ready",{
 method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
 body:JSON.stringify({
 code:currentLobby
 })
@@ -425,36 +466,44 @@ async function updateLobby(){
 
 if(!currentLobby) return
 
-const r=await fetch("/games/lobby?code="+currentLobby,{
-headers:{
-Authorization:token
-}
-})
-
-const data=await r.json()
+const data=await api(
+"/games/lobby?code="+currentLobby
+)
 
 if(data.error) return
 
 document.getElementById("code").innerText=data.code
 
-document.getElementById("hostName").innerText=data.host || "Waiting..."
-document.getElementById("guestName").innerText=data.guest || "Waiting..."
+document.getElementById("hostName").innerText=
+data.host || "Waiting..."
 
-document.getElementById("hostReady").innerText=data.hostReady ? "READY" : "NOT READY"
-document.getElementById("guestReady").innerText=data.guestReady ? "READY" : "NOT READY"
+document.getElementById("guestName").innerText=
+data.guest || "Waiting..."
+
+document.getElementById("hostReady").innerText=
+data.hostReady ? "READY" : "NOT READY"
+
+document.getElementById("guestReady").innerText=
+data.guestReady ? "READY" : "NOT READY"
 
 if(data.hostStats){
+
 document.getElementById("hostStats").innerHTML=
 "Win Streak: "+data.hostStats.winStreak+"<br>"+
+"Best Streak: "+data.hostStats.bestWinStreak+"<br>"+
 "Games Played: "+data.hostStats.gamesPlayed+"<br>"+
-"Wins: "+data.hostStats.wins
+"Wins: "+data.hostStats.wins+"<br>"+
+"Losses: "+data.hostStats.losses
 }
 
 if(data.guestStats){
+
 document.getElementById("guestStats").innerHTML=
 "Win Streak: "+data.guestStats.winStreak+"<br>"+
+"Best Streak: "+data.guestStats.bestWinStreak+"<br>"+
 "Games Played: "+data.guestStats.gamesPlayed+"<br>"+
-"Wins: "+data.guestStats.wins
+"Wins: "+data.guestStats.wins+"<br>"+
+"Losses: "+data.guestStats.losses
 }
 
 document.getElementById("turnText").innerText=
@@ -467,10 +516,16 @@ renderBoard(data)
 if(data.winner){
 
 if(data.winner==="draw"){
-document.getElementById("winner").innerText="Draw"
-}else{
+
 document.getElementById("winner").innerText=
-(data.winner==="X" ? data.host : data.guest)+" won"
+"Draw"
+
+}else{
+
+document.getElementById("winner").innerText=
+(data.winner==="X"
+? data.host
+: data.guest)+" won"
 }
 }
 }
@@ -481,7 +536,12 @@ const board=document.getElementById("board")
 
 board.innerHTML=""
 
-board.className="board "+(data.game==="connect4" ? "connect4" : "tictactoe")
+board.className=
+"board "+(
+data.game==="connect4"
+? "connect4"
+: "tictactoe"
+)
 
 if(data.game==="tictactoe"){
 
@@ -522,12 +582,8 @@ async function move(index,column){
 
 if(!currentLobby) return
 
-await fetch("/games/move",{
+await api("/games/move",{
 method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
 body:JSON.stringify({
 code:currentLobby,
 index,
@@ -538,13 +594,9 @@ column
 
 async function loadHistory(){
 
-const r=await fetch("/games/history",{
-headers:{
-Authorization:token
-}
-})
+const data=await api("/games/history")
 
-const data=await r.json()
+if(!data.games) return
 
 const history=document.getElementById("history")
 
