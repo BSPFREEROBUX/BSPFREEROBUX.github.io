@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Leaderboards</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0f1117;
+color:white;
+font-family:Arial,Helvetica,sans-serif;
+padding:16px;
+}
+
+.container{
+max-width:1800px;
+margin:auto;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:18px;
+flex-wrap:wrap;
+gap:12px;
+}
+
+.title{
+font-size:36px;
+font-weight:700;
+}
+
+.games{
+display:flex;
+gap:10px;
+}
+
+.gameBtn{
+padding:14px 18px;
+border-radius:14px;
+background:#111827;
+border:2px solid transparent;
+cursor:pointer;
+font-weight:700;
+}
+
+.gameBtn.active{
+border-color:#3b82f6;
+background:#172554;
+}
+
+.row{
+display:flex;
+gap:16px;
+flex-wrap:wrap;
+}
+
+.panel{
+background:#181c25;
+border:1px solid #2f3747;
+border-radius:18px;
+padding:18px;
+flex:1;
+min-width:320px;
+}
+
+.panelTitle{
+font-size:21px;
+font-weight:700;
+margin-bottom:14px;
+}
+
+.entry{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px;
+border-radius:14px;
+background:#111827;
+margin-bottom:10px;
+border:1px solid #2f3747;
+}
+
+.rank{
+width:60px;
+font-weight:700;
+font-size:18px;
+}
+
+.name{
+flex:1;
+font-weight:700;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.value{
+font-weight:700;
+font-size:18px;
+}
+
+.yourRank{
+margin-top:14px;
+padding:14px;
+border-radius:14px;
+background:#172554;
+border:1px solid #3b82f6;
+font-weight:700;
+line-height:1.7;
+}
+
+@media(max-width:900px){
+
+.row{
+flex-direction:column;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="top">
+
+<div class="title">
+Leaderboards
+</div>
+
+<div class="games">
+
+<div class="gameBtn active" data-game="tictactoe">
+Tic Tac Toe
+</div>
+
+<div class="gameBtn" data-game="connect4">
+Connect 4
+</div>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="panel">
+<div class="panelTitle">Most Played</div>
+<div id="played"></div>
+<div class="yourRank" id="playedRank"></div>
+</div>
+
+<div class="panel">
+<div class="panelTitle">Most Wins</div>
+<div id="wins"></div>
+<div class="yourRank" id="winsRank"></div>
+</div>
+
+<div class="panel">
+<div class="panelTitle">Most Losses</div>
+<div id="losses"></div>
+<div class="yourRank" id="lossesRank"></div>
+</div>
+
+<div class="panel">
+<div class="panelTitle">Current Win Streak</div>
+<div id="streak"></div>
+<div class="yourRank" id="streakRank"></div>
+</div>
+
+<div class="panel">
+<div class="panelTitle">Highest Win Streak Ever</div>
+<div id="bestStreak"></div>
+<div class="yourRank" id="bestStreakRank"></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+let API=""
+let currentGame="tictactoe"
+
+const token=localStorage.getItem("Token")
+
+if(!token){
+location.href="/login.html"
+}
+
+async function loadAPI(){
+
+try{
+
+const txt=await fetch("./server.txt?"+Date.now())
+.then(r=>r.text())
+
+API=txt.trim()
+
+}catch{
+
+API=location.origin
+}
+}
+
+async function api(path){
+
+const res=await fetch(API+path,{
+headers:{
+Authorization:token
+}
+})
+
+return await res.json()
+}
+
+document.querySelectorAll(".gameBtn").forEach(btn=>{
+
+btn.onclick=()=>{
+
+document.querySelectorAll(".gameBtn")
+.forEach(x=>x.classList.remove("active"))
+
+btn.classList.add("active")
+
+currentGame=btn.dataset.game
+
+loadBoard()
+}
+})
+
+async function loadBoard(){
+
+const data=await api(
+"/games/leaderboard?game="+currentGame
+)
+
+render("played",data.playedTop,"gamesPlayed")
+render("wins",data.winsTop,"wins")
+render("losses",data.lossesTop,"losses")
+render("streak",data.streakTop,"winStreak")
+render("bestStreak",data.bestStreakTop,"bestWinStreak")
+
+document.getElementById("playedRank").innerText=
+"Your Rank: #"+data.yourRanks.played
+
+document.getElementById("winsRank").innerText=
+"Your Rank: #"+data.yourRanks.wins
+
+document.getElementById("lossesRank").innerText=
+"Your Rank: #"+data.yourRanks.losses
+
+document.getElementById("streakRank").innerText=
+"Your Rank: #"+data.yourRanks.streak
+
+document.getElementById("bestStreakRank").innerText=
+"Your Rank: #"+data.yourRanks.bestStreak
+}
+
+function render(id,list,key){
+
+const container=document.getElementById(id)
+
+container.innerHTML=""
+
+list.forEach((user,index)=>{
+
+const div=document.createElement("div")
+
+div.className="entry"
+
+div.innerHTML=
+"<div class='rank'>#"+(index+1)+"</div>"+
+"<div class='name'>"+user.username+"</div>"+
+"<div class='value'>"+user[key]+"</div>"
+
+container.appendChild(div)
+})
+}
+
+async function start(){
+
+await loadAPI()
+
+loadBoard()
+}
+
+start()
+</script>
+
+</body>
+</html>
