@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Games</title>
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+background:#0f1117;
+color:white;
+font-family:Arial,Helvetica,sans-serif;
+min-height:100vh;
+padding:20px;
+display:flex;
+justify-content:center;
+}
+
+.container{
+width:100%;
+max-width:1200px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.title{
+font-size:32px;
+font-weight:700;
+}
+
+.user{
+font-size:15px;
+opacity:.8;
+}
+
+.row{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.panel{
+background:#181c25;
+border:1px solid #252b38;
+border-radius:16px;
+padding:20px;
+flex:1;
+min-width:300px;
+}
+
+.sectionTitle{
+font-size:22px;
+margin-bottom:16px;
+font-weight:700;
+}
+
+.btn{
+background:#3b82f6;
+border:none;
+padding:12px 16px;
+border-radius:12px;
+color:white;
+font-size:15px;
+cursor:pointer;
+width:100%;
+margin-top:10px;
+}
+
+.btn:hover{
+opacity:.9;
+}
+
+input{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:none;
+background:#0f131a;
+color:white;
+margin-top:10px;
+outline:none;
+}
+
+.games{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.gameBtn{
+flex:1;
+padding:16px;
+border-radius:12px;
+background:#0f131a;
+border:1px solid #252b38;
+cursor:pointer;
+text-align:center;
+}
+
+.gameBtn.active{
+border-color:#3b82f6;
+background:#172033;
+}
+
+.lobby{
+margin-top:20px;
+display:none;
+}
+
+.code{
+font-size:24px;
+font-weight:700;
+margin-bottom:12px;
+}
+
+.players{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.player{
+flex:1;
+background:#10141c;
+padding:16px;
+border-radius:12px;
+border:1px solid #252b38;
+}
+
+.player h3{
+margin-bottom:10px;
+}
+
+.ready{
+margin-top:10px;
+font-weight:700;
+}
+
+.board{
+display:grid;
+gap:8px;
+margin-top:20px;
+}
+
+.tictactoe{
+grid-template-columns:repeat(3,100px);
+}
+
+.connect4{
+grid-template-columns:repeat(7,70px);
+}
+
+.cell{
+width:100px;
+height:100px;
+background:#0d1118;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:42px;
+cursor:pointer;
+border:1px solid #252b38;
+}
+
+.connect4 .cell{
+width:70px;
+height:70px;
+border-radius:50%;
+font-size:28px;
+}
+
+.info{
+margin-top:15px;
+font-size:16px;
+}
+
+.winner{
+font-size:24px;
+font-weight:700;
+margin-top:20px;
+}
+
+.history{
+margin-top:20px;
+max-height:300px;
+overflow:auto;
+}
+
+.historyItem{
+padding:12px;
+background:#10141c;
+border-radius:12px;
+margin-bottom:10px;
+border:1px solid #252b38;
+}
+
+@media(max-width:700px){
+.tictactoe{
+grid-template-columns:repeat(3,1fr);
+}
+
+.cell{
+width:100%;
+aspect-ratio:1/1;
+}
+
+.connect4{
+grid-template-columns:repeat(7,1fr);
+}
+
+.connect4 .cell{
+width:100%;
+aspect-ratio:1/1;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="top">
+<div>
+<div class="title">Games</div>
+<div class="user" id="me"></div>
+</div>
+</div>
+
+<div class="row">
+
+<div class="panel">
+<div class="sectionTitle">Create Lobby</div>
+
+<div class="games">
+<div class="gameBtn active" data-game="tictactoe">Tic Tac Toe</div>
+<div class="gameBtn" data-game="connect4">Connect 4</div>
+</div>
+
+<button class="btn" id="createLobby">Create Lobby</button>
+
+<input type="text" id="joinCode" placeholder="Lobby Code">
+
+<button class="btn" id="joinLobby">Join Lobby</button>
+
+<div class="lobby" id="lobby">
+
+<div class="code">
+Lobby Code: <span id="code"></span>
+</div>
+
+<div class="players">
+
+<div class="player">
+<h3 id="hostName"></h3>
+<div id="hostStats"></div>
+<div class="ready" id="hostReady"></div>
+</div>
+
+<div class="player">
+<h3 id="guestName"></h3>
+<div id="guestStats"></div>
+<div class="ready" id="guestReady"></div>
+</div>
+
+</div>
+
+<button class="btn" id="readyBtn">Ready</button>
+
+<div class="info" id="turnText"></div>
+
+<div class="board tictactoe" id="board"></div>
+
+<div class="winner" id="winner"></div>
+
+</div>
+</div>
+
+<div class="panel">
+<div class="sectionTitle">Match History</div>
+<div class="history" id="history"></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+const token=localStorage.getItem("token")
+
+if(!token){
+location.href="/login.html"
+}
+
+let currentLobby=null
+let selectedGame="tictactoe"
+let myUsername=""
+let polling=null
+
+fetch("/me",{
+headers:{
+Authorization:token
+}
+})
+.then(r=>r.json())
+.then(data=>{
+if(data.error){
+location.href="/login.html"
+return
+}
+
+myUsername=data.username
+document.getElementById("me").innerText="Logged in as "+data.username
+
+loadHistory()
+})
+
+document.querySelectorAll(".gameBtn").forEach(btn=>{
+btn.onclick=()=>{
+
+document.querySelectorAll(".gameBtn").forEach(x=>{
+x.classList.remove("active")
+})
+
+btn.classList.add("active")
+
+selectedGame=btn.dataset.game
+}
+})
+
+document.getElementById("createLobby").onclick=async()=>{
+
+const r=await fetch("/games/create",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+game:selectedGame
+})
+})
+
+const data=await r.json()
+
+if(data.success){
+
+currentLobby=data.code
+
+document.getElementById("lobby").style.display="block"
+
+startPolling()
+}
+}
+
+document.getElementById("joinLobby").onclick=async()=>{
+
+const code=document.getElementById("joinCode").value.trim()
+
+if(!code) return
+
+const r=await fetch("/games/join",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+code
+})
+})
+
+const data=await r.json()
+
+if(data.success){
+
+currentLobby=code
+
+document.getElementById("lobby").style.display="block"
+
+startPolling()
+}
+}
+
+document.getElementById("readyBtn").onclick=async()=>{
+
+if(!currentLobby) return
+
+await fetch("/games/ready",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+code:currentLobby
+})
+})
+}
+
+function startPolling(){
+
+if(polling){
+clearInterval(polling)
+}
+
+updateLobby()
+
+polling=setInterval(updateLobby,1000)
+}
+
+async function updateLobby(){
+
+if(!currentLobby) return
+
+const r=await fetch("/games/lobby?code="+currentLobby,{
+headers:{
+Authorization:token
+}
+})
+
+const data=await r.json()
+
+if(data.error) return
+
+document.getElementById("code").innerText=data.code
+
+document.getElementById("hostName").innerText=data.host || "Waiting..."
+document.getElementById("guestName").innerText=data.guest || "Waiting..."
+
+document.getElementById("hostReady").innerText=data.hostReady ? "READY" : "NOT READY"
+document.getElementById("guestReady").innerText=data.guestReady ? "READY" : "NOT READY"
+
+if(data.hostStats){
+document.getElementById("hostStats").innerHTML=
+"Win Streak: "+data.hostStats.winStreak+"<br>"+
+"Games Played: "+data.hostStats.gamesPlayed+"<br>"+
+"Wins: "+data.hostStats.wins
+}
+
+if(data.guestStats){
+document.getElementById("guestStats").innerHTML=
+"Win Streak: "+data.guestStats.winStreak+"<br>"+
+"Games Played: "+data.guestStats.gamesPlayed+"<br>"+
+"Wins: "+data.guestStats.wins
+}
+
+document.getElementById("turnText").innerText=
+data.started
+? "Turn: "+(data.turn==="X" ? data.host : data.guest)
+: "Waiting for both players to ready"
+
+renderBoard(data)
+
+if(data.winner){
+
+if(data.winner==="draw"){
+document.getElementById("winner").innerText="Draw"
+}else{
+document.getElementById("winner").innerText=
+(data.winner==="X" ? data.host : data.guest)+" won"
+}
+}
+}
+
+function renderBoard(data){
+
+const board=document.getElementById("board")
+
+board.innerHTML=""
+
+board.className="board "+(data.game==="connect4" ? "connect4" : "tictactoe")
+
+if(data.game==="tictactoe"){
+
+data.board.forEach((cell,index)=>{
+
+const div=document.createElement("div")
+
+div.className="cell"
+
+div.innerText=cell || ""
+
+div.onclick=()=>move(index)
+
+board.appendChild(div)
+})
+
+}else{
+
+for(let r=0;r<data.board.length;r++){
+
+for(let c=0;c<data.board[r].length;c++){
+
+const div=document.createElement("div")
+
+div.className="cell"
+
+div.innerText=data.board[r][c] || ""
+
+div.onclick=()=>move(null,c)
+
+board.appendChild(div)
+}
+}
+}
+}
+
+async function move(index,column){
+
+if(!currentLobby) return
+
+await fetch("/games/move",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+code:currentLobby,
+index,
+column
+})
+})
+}
+
+async function loadHistory(){
+
+const r=await fetch("/games/history",{
+headers:{
+Authorization:token
+}
+})
+
+const data=await r.json()
+
+const history=document.getElementById("history")
+
+history.innerHTML=""
+
+data.games.forEach(game=>{
+
+const div=document.createElement("div")
+
+div.className="historyItem"
+
+div.innerHTML=
+"<b>"+game.game+"</b><br>"+
+game.host+" vs "+game.guest+"<br>"+
+"Winner: "+game.winner+"<br>"+
+new Date(game.endedAt).toLocaleString()
+
+history.appendChild(div)
+})
+}
+</script>
+</body>
+</html>
