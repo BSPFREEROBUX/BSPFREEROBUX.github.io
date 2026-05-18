@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Zyphor Store</title>
+
+<style>
+
+body{
+margin:0;
+background:#0f1117;
+font-family:Arial;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+}
+
+.bg{
+position:absolute;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top left,#5865f233,transparent 30%),
+radial-gradient(circle at bottom right,#00b0ff22,transparent 30%);
+z-index:0;
+}
+
+.store{
+position:relative;
+z-index:1;
+width:420px;
+background:#171c25;
+border:1px solid #2d3445;
+border-radius:24px;
+padding:35px;
+box-shadow:0 0 60px rgba(0,0,0,.45);
+}
+
+.logo{
+font-size:38px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.sub{
+opacity:.7;
+margin-bottom:30px;
+}
+
+.card{
+background:#202734;
+border-radius:18px;
+padding:28px;
+}
+
+.rank{
+font-size:30px;
+font-weight:bold;
+}
+
+.desc{
+margin-top:12px;
+opacity:.8;
+line-height:1.6;
+}
+
+.features{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+opacity:.9;
+}
+
+.feature{
+background:#161b24;
+padding:12px;
+border-radius:10px;
+}
+
+.price{
+margin-top:25px;
+font-size:45px;
+font-weight:bold;
+}
+
+button{
+width:100%;
+margin-top:25px;
+padding:16px;
+border:none;
+border-radius:14px;
+background:#5865f2;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{
+transform:scale(1.02);
+opacity:.92;
+}
+
+.status{
+margin-top:18px;
+text-align:center;
+opacity:.8;
+font-size:14px;
+min-height:20px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="store">
+
+<div class="logo">
+Zyphor
+</div>
+
+<div class="sub">
+Official Store
+</div>
+
+<div class="card">
+
+<div class="rank">
+VIP Rank
+</div>
+
+<div class="desc">
+Permanent VIP permissions linked directly to your Zyphor account.
+Can only be purchased once.
+</div>
+
+<div class="features">
+
+<div class="feature">
+✓ VIP permissions
+</div>
+
+<div class="feature">
+✓ Permanent access
+</div>
+
+<div class="feature">
+✓ Instant automatic delivery
+</div>
+
+</div>
+
+<div class="price">
+$3
+</div>
+
+<button onclick="buyVIP()">
+Buy VIP
+</button>
+
+<div class="status" id="status"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let BACKEND=""
+
+async function loadBackend(){
+
+const txt=await fetch("/server.txt").then(r=>r.text())
+
+BACKEND=txt.trim()
+
+}
+
+async function checkLogin(){
+
+const token=localStorage.getItem("token")
+
+if(!token){
+
+location.href="/login.html"
+return null
+
+}
+
+const me=await fetch(BACKEND+"/me",{
+headers:{
+Authorization:token
+}
+}).then(r=>r.json())
+
+if(me.error){
+
+localStorage.removeItem("token")
+
+location.href="/login.html"
+
+return null
+
+}
+
+return me
+
+}
+
+async function buyVIP(){
+
+const status=document.getElementById("status")
+
+status.innerText="Checking account..."
+
+try{
+
+const me=await checkLogin()
+
+if(!me) return
+
+if(me.permissions && me.permissions.vip){
+
+status.innerText="You already own VIP."
+return
+
+}
+
+status.innerText="Creating checkout..."
+
+const res=await fetch(
+BACKEND+"/create-vip-checkout",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("token")
+}
+}
+)
+
+const data=await res.json()
+
+if(data.error){
+
+status.innerText=data.error
+return
+
+}
+
+if(data.url){
+
+status.innerText="Redirecting..."
+
+window.location.href=data.url
+
+}else{
+
+status.innerText="Failed to create checkout."
+
+}
+
+}catch(err){
+
+console.error(err)
+
+status.innerText="Server error."
+
+}
+
+}
+
+async function init(){
+
+await loadBackend()
+
+await checkLogin()
+
+}
+
+init()
+
+</script>
+
+</body>
+</html>
