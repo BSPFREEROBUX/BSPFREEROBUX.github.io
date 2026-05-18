@@ -933,6 +933,96 @@
       "Data may be anonymized, aggregated, transformed, processed, or analyzed for operational, analytical, security, moderation, business, or development purposes."
     ]
   },
+  {
+    "title": "Purchases and Digital Transactions",
+    "content": [
+      "All purchases, upgrades, subscriptions, digital unlocks, premium access benefits, cosmetic systems, VIP systems, and virtual features are provided on an as-available basis without guarantees of uninterrupted availability.",
+      "Digital purchases do not grant ownership rights over the service, systems, accounts, interfaces, rewards, virtual items, or platform infrastructure.",
+      "We reserve the right to modify, remove, disable, replace, limit, reset, migrate, or discontinue any purchased feature, system, cosmetic, reward, or premium benefit at any time without notice.",
+      "Purchase availability, pricing, discounts, bundles, subscription structures, supported currencies, and supported payment methods may change at any time without notice.",
+      "We reserve the right to refuse, cancel, limit, review, or revoke purchases or transactions at our sole discretion for operational, moderation, legal, fraud prevention, abuse prevention, payment, or security reasons."
+    ]
+  },
+  {
+    "title": "No Refund Policy",
+    "content": [
+      "All purchases, subscriptions, upgrades, VIP access, cosmetic systems, premium themes, virtual balances, promotional unlocks, and digital benefits are final and non-refundable unless explicitly stated otherwise.",
+      "We are not obligated to provide refunds, reimbursements, replacements, compensation, credits, or partial refunds for dissatisfaction, feature removal, downtime, restrictions, bans, layout changes, redesigns, unsupported devices, compatibility issues, or discontinued functionality.",
+      "Chargebacks, payment reversals, fraudulent disputes, unauthorized claims, or abuse of refund systems may result in immediate restrictions, permanent bans, revocation of purchased benefits, debt recovery actions, or cross-platform enforcement."
+    ]
+  },
+  {
+    "title": "PayPal Transactions",
+    "content": [
+      "Payments processed through PayPal or related payment processors are subject to third-party processing systems, provider limitations, verification requirements, regional restrictions, disputes, delays, outages, and independent provider policies.",
+      "We are not responsible for failed transactions, delayed processing, frozen funds, verification holds, payment disputes, account limitations, processor downtime, unauthorized access, or payment provider errors.",
+      "Users are solely responsible for ensuring payment information, billing details, linked payment accounts, and transaction details are accurate before submitting payment."
+    ]
+  },
+  {
+    "title": "Cryptocurrency Transactions",
+    "content": [
+      "Cryptocurrency transactions are processed entirely at the user's own risk.",
+      "Blockchain transactions may be irreversible, delayed, permanently lost, rejected, incorrectly routed, or inaccessible due to wallet errors, unsupported networks, incorrect addresses, exchange failures, insufficient confirmations, blockchain congestion, user mistakes, or provider outages.",
+      "We are not responsible for exchange rate fluctuations, gas fees, network congestion, failed transfers, wallet incompatibility, delayed confirmations, blockchain forks, unsupported assets, or permanent loss of cryptocurrency.",
+      "Users are solely responsible for verifying wallet addresses, supported currencies, network compatibility, and payment instructions before sending cryptocurrency transactions."
+    ]
+  },
+  {
+    "title": "Subscriptions and Recurring Billing",
+    "content": [
+      "Subscriptions, recurring memberships, automatic renewals, premium access systems, or recurring payment features may renew automatically unless cancelled where applicable.",
+      "Users are responsible for managing cancellations, payment methods, recurring billing permissions, and subscription settings.",
+      "We are not responsible for recurring charges caused by user failure to cancel subscriptions, expired payment methods, billing provider issues, or delayed cancellation processing."
+    ]
+  },
+  {
+    "title": "VIP Access and Premium Systems",
+    "content": [
+      "VIP systems, premium dashboards, exclusive themes, cosmetic layouts, upgraded interfaces, premium tools, premium commands, premium effects, and related features may be modified, redesigned, replaced, disabled, restricted, or removed at any time without notice.",
+      "VIP access may depend on account standing, verification systems, linked accounts, anti-abuse systems, operational requirements, risk analysis systems, moderation decisions, or payment verification.",
+      "We reserve the right to revoke, suspend, limit, or terminate VIP access or premium systems at any time for security, moderation, operational, abuse prevention, legal, payment, or discretionary reasons."
+    ]
+  },
+  {
+    "title": "Virtual Items and Digital Content",
+    "content": [
+      "Virtual items, premium cosmetics, digital unlocks, account upgrades, rewards, balances, statistics, themes, badges, or premium content have no real-world monetary value unless explicitly required by law.",
+      "Digital content may be changed, corrected, reset, revoked, removed, migrated, deprecated, or discontinued at any time without notice or compensation.",
+      "Users acknowledge that digital purchases do not constitute financial investments, securities, assets, or transferable ownership rights."
+    ]
+  },
+  {
+    "title": "Fraud Prevention and Payment Security",
+    "content": [
+      "Transactions, purchases, subscriptions, and payment activity may be reviewed automatically or manually for fraud prevention, abuse prevention, anti-money laundering, risk analysis, or security purposes.",
+      "Accounts, purchases, devices, sessions, payment methods, IP addresses, or linked entities may be restricted, delayed, flagged, challenged, limited, or suspended if suspicious activity is detected.",
+      "We reserve the right to deny, cancel, reverse, limit, hold, or investigate transactions without prior notice."
+    ]
+  },
+  {
+    "title": "Store Availability and Errors",
+    "content": [
+      "Store systems, checkout systems, pricing displays, discount systems, promotional systems, purchase confirmations, and payment integrations may contain delays, inaccuracies, synchronization issues, temporary inconsistencies, visual bugs, or availability interruptions.",
+      "We are not responsible for pricing inaccuracies, temporary store outages, expired discounts, duplicate charges caused by provider issues, synchronization delays, visual display inconsistencies, or temporary failures during checkout.",
+      "We reserve the right to correct pricing mistakes, transaction errors, promotional inaccuracies, duplicated rewards, or unintended purchases at any time."
+    ]
+  },
+  {
+    "title": "Regional Restrictions and Compliance",
+    "content": [
+      "Purchases, subscriptions, payment methods, cryptocurrency support, premium systems, rewards, or monetization features may be unavailable, limited, or restricted in certain jurisdictions, regions, devices, or environments.",
+      "Users are solely responsible for complying with local laws, tax obligations, payment restrictions, financial regulations, export laws, and regional requirements related to purchases or transactions.",
+      "We reserve the right to block, restrict, or disable purchases or premium functionality in specific regions or environments at any time."
+    ]
+  },
+  {
+    "title": "Future Monetization Systems",
+    "content": [
+      "Future monetization systems including advertisements, subscriptions, premium tiers, cosmetic systems, battle passes, unlock systems, marketplace systems, premium integrations, paid APIs, or additional payment functionality automatically fall under these Terms upon release.",
+      "Future paid systems may introduce additional rules, restrictions, requirements, verification systems, eligibility conditions, or payment limitations at any time."
+    ]
+  },
 {
   "title": "Jurisdiction and Interpretation",
   "content": [
