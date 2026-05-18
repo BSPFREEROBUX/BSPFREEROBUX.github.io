@@ -119,12 +119,12 @@ justify-content:flex-end;
 gap:8px;
 flex-wrap:nowrap;
 overflow-x:auto;
-flex:1;
-min-width:0;
+flex:none;
+margin-left:auto;
+max-width:calc(100% - 220px);
 scrollbar-width:none;
 padding-bottom:2px;
 }
-
 .icons::-webkit-scrollbar{
 display:none;
 }
@@ -481,8 +481,16 @@ gap:10px;
 }
 
 #userDisplay{
-font-size:13px;
-max-width:120px;
+display:flex;
+align-items:center;
+white-space:nowrap;
+flex-shrink:0;
+width:max-content;
+min-width:max-content;
+font-size:15px;
+font-weight:700;
+position:relative;
+z-index:2;
 }
 
 .icons{
