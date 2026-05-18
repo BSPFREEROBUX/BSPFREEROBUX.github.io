@@ -83,37 +83,75 @@ margin-top:clamp(90px,10vh,130px);
 .vipName{
 position:relative;
 display:inline-block;
-padding-top:12px;
+padding-top:18px;
+color:#ffd54a;
+font-weight:bold;
 }
 
 .vipName::before{
-content:"👑";
+content:"";
 position:absolute;
-top:-14px;
+top:-2px;
 left:50%;
-transform:translateX(-50%) rotate(-8deg);
-font-size:20px;
-filter:drop-shadow(0 0 8px #ffd700aa);
-animation:vipSwing 2.5s ease-in-out infinite;
+width:2px;
+height:18px;
+background:linear-gradient(to bottom,#d6d6d6,#888);
+transform:translateX(-50%);
+z-index:1;
+}
+
+.vipName::after{
+content:"";
+position:absolute;
+left:50%;
+top:-18px;
+width:18px;
+height:14px;
+background:#ffd700;
+transform:
+translateX(-50%)
+rotate(-8deg);
+clip-path:polygon(
+0% 100%,
+0% 45%,
+18% 0%,
+35% 40%,
+50% 8%,
+65% 40%,
+82% 0%,
+100% 45%,
+100% 100%
+);
+border:2px solid #ffea8a;
+box-shadow:
+0 0 10px #ffd70088,
+0 2px 8px rgba(0,0,0,.35);
 transform-origin:top center;
+animation:vipSwing 2.8s ease-in-out infinite;
+z-index:2;
 }
 
 @keyframes vipSwing{
 
 0%{
-transform:translateX(-50%) rotate(-8deg);
+transform:
+translateX(-50%)
+rotate(-8deg);
 }
 
 50%{
-transform:translateX(-50%) rotate(8deg);
+transform:
+translateX(-50%)
+rotate(8deg);
 }
 
 100%{
-transform:translateX(-50%) rotate(-8deg);
+transform:
+translateX(-50%)
+rotate(-8deg);
 }
 
 }
-
 .main-flex{
 display:flex;
 gap:clamp(10px,2vw,20px);
