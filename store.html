@@ -368,19 +368,13 @@ buyBtn.disabled=false
 
 debug("Buy button enabled")
 
-buyBtn.addEventListener("click",()=>{
+buyBtn.onclick=()=>{
 
 debug("Buy button clicked")
 
 status.innerText="Opening checkout..."
 
-setTimeout(()=>{
-
-debug("If nothing opened, Komerza embed failed")
-
-},3000)
-
-})
+}
 
 }
 
