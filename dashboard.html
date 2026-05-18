@@ -80,6 +80,40 @@ padding:clamp(10px,2vw,20px);
 margin-top:clamp(90px,10vh,130px);
 }
 
+.vipName{
+position:relative;
+display:inline-block;
+padding-top:12px;
+}
+
+.vipName::before{
+content:"👑";
+position:absolute;
+top:-14px;
+left:50%;
+transform:translateX(-50%) rotate(-8deg);
+font-size:20px;
+filter:drop-shadow(0 0 8px #ffd700aa);
+animation:vipSwing 2.5s ease-in-out infinite;
+transform-origin:top center;
+}
+
+@keyframes vipSwing{
+
+0%{
+transform:translateX(-50%) rotate(-8deg);
+}
+
+50%{
+transform:translateX(-50%) rotate(8deg);
+}
+
+100%{
+transform:translateX(-50%) rotate(-8deg);
+}
+
+}
+
 .main-flex{
 display:flex;
 gap:clamp(10px,2vw,20px);
@@ -500,7 +534,17 @@ showBan(data.reason, data.remaining)
 return
 }
 
-userDisplay.textContent = "Logged in as: " + data.username
+if(data.permissions && data.permissions.vip){
+
+userDisplay.innerHTML=
+`Logged in as: <span class="vipName">${data.username}</span>`
+
+}else{
+
+userDisplay.textContent=
+"Logged in as: " + data.username
+
+}
 
 if(data.linkedDiscord){
 const discordName = data.linkedDiscord.username || "Unknown User"
