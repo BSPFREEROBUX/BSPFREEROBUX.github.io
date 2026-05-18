@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard</title>
-<link rel="stylesheet" href="styles.css">
+<link id="themeStylesheet" rel="stylesheet" href="styles.css">
 <style>
 *{
 box-sizing:border-box;
@@ -282,6 +282,7 @@ font-size:clamp(12px,1.3vw,14px);
 <body>
 
 <div id="settingsBox" style="display:none;position:fixed;top:60px;right:20px;background:#1e1e1e;padding:15px;border-radius:10px;z-index:999">
+
 <input id="emailInput" placeholder="Enter email">
 <button onclick="sendCode()">Send Code</button>
 
@@ -305,8 +306,35 @@ font-size:clamp(12px,1.3vw,14px);
 </select>
 
 <button onclick="saveTimezone()">Save GMT</button>
+
+<hr style="margin:10px 0">
+
+<div id="vipThemeBox" style="display:none">
+
+<div style="margin-bottom:8px;font-weight:bold">
+VIP Theme
 </div>
-  
+
+<select id="vipThemeSelect">
+<option value="styles.css">
+Default Theme
+</option>
+
+<option value="Vip1style.css">
+Modern VIP Theme
+</option>
+</select>
+
+<button
+onclick="saveVipTheme()"
+style="margin-top:8px;width:100%"
+>
+Load Theme
+</button>
+
+</div>
+
+</div>
 <div class="topbar">
 <div id="userDisplay"></div>
 <div class="icons">
@@ -468,6 +496,33 @@ body:JSON.stringify({page})
 })
 }
 
+function applySavedTheme(){
+
+const saved=localStorage.getItem("siteTheme")
+
+if(saved){
+
+document.getElementById("themeStylesheet").href=saved
+
+}
+
+}
+
+function saveVipTheme(){
+
+const selected=
+document.getElementById("vipThemeSelect").value
+
+localStorage.setItem(
+"siteTheme",
+selected
+)
+
+document.getElementById("themeStylesheet").href=
+selected
+
+}
+
 async function loadStats(){
 try{
 const robuxRes = await fetch("TotalRobuxGivenOut.txt")
@@ -550,6 +605,7 @@ renderCL()
 
 
 async function init(){
+applySavedTheme()
 backend = await getBackend()
 await trackPage("dashboard.html")
 loadStats()
@@ -573,6 +629,7 @@ return
 }
 
 if(data.permissions && data.permissions.vip){
+document.getElementById("vipThemeBox").style.display="block"
 
 userDisplay.innerHTML=
 `Logged in as: <span class="vipName">${data.username}</span>`
@@ -787,6 +844,8 @@ const h=Math.floor(seconds/3600); seconds%=3600
 const m=Math.floor(seconds/60); seconds%=60
 banTimer.textContent=`${d}D ${h}H ${m}M ${seconds}S`
 }
+
+
 
 function openSupportPopup(){
 document.getElementById("supportPopup").style.display="flex"
