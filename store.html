@@ -188,10 +188,6 @@ $3
 <button
 id="buyBtn"
 class="buy-btn"
-data-kmrza-product-id="e4ec9c04-e3a4-4bd5-be7d-41b4ce82c90c"
-data-kmrza-variant-id="1ac7a839-ff08-4aed-8eb7-b6ff898d738b"
-data-kmrza-quantity="1"
-data-kmrza-theme="dark"
 disabled
 >
 Buy VIP
@@ -370,13 +366,56 @@ debug("Buy button enabled")
 
 buyBtn.onclick=()=>{
 
-debug("Buy button clicked")
+debug("Opening Komerza checkout...")
 
 status.innerText="Opening checkout..."
 
+try{
+
+window.Komerza.open({
+items:[
+{
+productId:"e4ec9c04-e3a4-4bd5-be7d-41b4ce82c90c",
+variantId:"1ac7a839-ff08-4aed-8eb7-b6ff898d738b",
+quantity:1
+}
+],
+theme:"dark",
+email:me.email || "",
+metadata:{
+username:me.username
+}
+})
+
+debug("Komerza.open called successfully")
+
+}catch(err){
+
+console.error(err)
+
+debug("Checkout error: "+err.message)
+
+status.innerText="Failed to open checkout."
+
 }
 
 }
+
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+debug("DOM loaded")
+
+if(window.Komerza){
+
+debug("Calling Komerza.init()")
+
+window.Komerza.init()
+
+}
+
+})
 
 init()
 
