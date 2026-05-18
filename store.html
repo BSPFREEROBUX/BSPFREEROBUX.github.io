@@ -122,6 +122,20 @@ opacity:.8;
 font-size:14px;
 min-height:20px;
 line-height:1.5;
+word-break:break-word;
+}
+
+.debug{
+margin-top:15px;
+background:#11151d;
+padding:12px;
+border-radius:10px;
+font-size:12px;
+font-family:monospace;
+max-height:160px;
+overflow:auto;
+white-space:pre-wrap;
+opacity:.85;
 }
 
 </style>
@@ -185,6 +199,8 @@ Buy VIP
 
 <div class="status" id="status"></div>
 
+<div class="debug" id="debug"></div>
+
 </div>
 
 </div>
@@ -193,25 +209,44 @@ Buy VIP
 
 let BACKEND=""
 
+function debug(msg){
+
+console.log(msg)
+
+document.getElementById("debug").innerText +=
+msg + "\n"
+
+}
+
 async function loadBackend(){
+
+debug("Loading backend...")
 
 const txt=await fetch("/server.txt").then(r=>r.text())
 
 BACKEND=txt.trim()
 
+debug("Backend: "+BACKEND)
+
 }
 
 async function checkLogin(){
 
+debug("Checking login...")
+
 const token=localStorage.getItem("Token")
 
 if(!token){
+
+debug("No token found")
 
 location.href="/login.html"
 
 return null
 
 }
+
+debug("Token found")
 
 const me=await fetch(
 BACKEND+"/me",
@@ -222,7 +257,11 @@ Authorization:token
 }
 ).then(r=>r.json())
 
+debug("Me response: "+JSON.stringify(me))
+
 if(me.error){
+
+debug("Login invalid")
 
 localStorage.removeItem("Token")
 
@@ -242,6 +281,8 @@ const token=localStorage.getItem("Token")
 
 if(!token) return
 
+debug("Tracking page: "+page)
+
 await fetch(BACKEND+"/track/page",{
 method:"POST",
 headers:{
@@ -250,6 +291,37 @@ Authorization:token
 },
 body:JSON.stringify({page})
 })
+
+}
+
+async function waitForKomerza(){
+
+debug("Waiting for Komerza embed...")
+
+let tries=0
+
+while(
+typeof window.Komerza === "undefined" &&
+tries < 100
+){
+
+tries++
+
+await new Promise(r=>setTimeout(r,100))
+
+}
+
+if(typeof window.Komerza === "undefined"){
+
+debug("Komerza embed failed to load")
+
+return false
+
+}
+
+debug("Komerza embed loaded")
+
+return true
 
 }
 
@@ -276,15 +348,37 @@ status.innerText="You already own VIP."
 
 buyBtn.disabled=true
 
+debug("User already owns VIP")
+
+return
+
+}
+
+const loaded=await waitForKomerza()
+
+if(!loaded){
+
+status.innerText="Checkout failed to load."
+
 return
 
 }
 
 buyBtn.disabled=false
 
+debug("Buy button enabled")
+
 buyBtn.addEventListener("click",()=>{
 
+debug("Buy button clicked")
+
 status.innerText="Opening checkout..."
+
+setTimeout(()=>{
+
+debug("If nothing opened, Komerza embed failed")
+
+},3000)
 
 })
 
