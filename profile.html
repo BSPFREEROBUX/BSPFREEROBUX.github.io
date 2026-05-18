@@ -24,6 +24,11 @@ margin-bottom:10px;
 font-size:22px;
 margin-left:6px;
 cursor:pointer;
+transition:.2s;
+}
+
+.roleIcons:hover{
+transform:scale(1.15);
 }
 
 .tooltip{
@@ -33,21 +38,28 @@ border-radius:5px;
 font-size:12px;
 display:none;
 pointer-events:none;
+z-index:9999;
+font-weight:bold;
 }
 
 .staffTip{
-background:#333;
-color:#ccc;
+background:#2b2d31;
+color:#c9d1d9;
 }
 
 .supportTip{
-background:#ffd700;
+background:#57f287;
 color:#000;
 }
 
 .adminTip{
 background:#3498db;
 color:#fff;
+}
+
+.vipTip{
+background:#ffd700;
+color:#000;
 }
 
 .row{
@@ -121,16 +133,21 @@ const token=localStorage.getItem("Token")
 if(!token) return null
 
 try{
+
 const r=await fetch(backend+"/me",{
 headers:{Authorization:token}
 })
 
 const data=await r.json()
+
 if(data.error) return null
 
 return data
+
 }catch{
+
 return null
+
 }
 }
 
@@ -141,7 +158,11 @@ return params.get("username")
 
 async function safeJson(res){
 const t=await res.text()
-try{return JSON.parse(t)}catch{return null}
+try{
+return JSON.parse(t)
+}catch{
+return null
+}
 }
 
 function payoutPopup(username){
@@ -160,6 +181,7 @@ document.body.insertAdjacentHTML("beforeend",`
 </div>
 
 `)
+
 }
 
 async function doPayout(username,type){
@@ -183,10 +205,13 @@ type
 })
 
 location.reload()
+
 }
 
 async function trackPage(page){
+
 const token=localStorage.getItem("Token")
+
 if(!token) return
 
 await fetch(backend+"/track/page",{
@@ -197,95 +222,193 @@ Authorization:token
 },
 body:JSON.stringify({page})
 })
+
 }
 
 function showTip(text,type,x,y){
+
 const tip=document.getElementById("tooltip")
+
 tip.innerText=text
+
 tip.className="tooltip"
+
 if(type==="staff") tip.classList.add("staffTip")
 if(type==="support") tip.classList.add("supportTip")
 if(type==="admin") tip.classList.add("adminTip")
+if(type==="vip") tip.classList.add("vipTip")
+
 tip.style.left=x+10+"px"
 tip.style.top=y+10+"px"
 tip.style.display="block"
+
 }
 
 function hideTip(){
+
 document.getElementById("tooltip").style.display="none"
+
 }
 
 function createRoleIcons(p){
+
 let icons=""
+
 if(p.support || p.admin){
-icons+=`<span class="roleIcons" onmousemove="showTip('Staff Member','staff',event.pageX,event.pageY)" onmouseleave="hideTip()">⚒️</span>`
+icons+=`
+<span
+class="roleIcons"
+style="color:#8b949e"
+onmousemove="showTip('Staff Member','staff',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+⚒️
+</span>
+`
 }
+
 if(p.support){
-icons+=`<span class="roleIcons" onmousemove="showTip('Support','support',event.pageX,event.pageY)" onmouseleave="hideTip()">🎗️</span>`
+icons+=`
+<span
+class="roleIcons"
+style="
+color:#57f287;
+text-shadow:0 0 10px #57f28788;
+"
+onmousemove="showTip('Support','support',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+🛡️
+</span>
+`
 }
+
 if(p.admin){
-icons+=`<span class="roleIcons" onmousemove="showTip('Administrator','admin',event.pageX,event.pageY)" onmouseleave="hideTip()">💎</span>`
+icons+=`
+<span
+class="roleIcons"
+style="
+color:#3498db;
+text-shadow:0 0 10px #3498db88;
+"
+onmousemove="showTip('Administrator','admin',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+💎
+</span>
+`
 }
+
+if(p.vip){
+icons+=`
+<span
+class="roleIcons"
+style="
+color:#ffd700;
+text-shadow:0 0 12px #ffd700aa;
+"
+onmousemove="showTip('VIP','vip',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+👑
+</span>
+`
+}
+
 return icons
+
 }
 
 function searchProfile(){
+
 const username=document.getElementById("searchUser").value.trim()
+
 if(!username) return
+
 location.href="profile.html?username="+encodeURIComponent(username)
+
 }
 
 async function loadProfile(){
 
 backend=await getBackend()
-await trackPage(location.pathname.split("/").pop() + location.search)
+
+await trackPage(
+location.pathname.split("/").pop() + location.search
+)
+
 me=await getMe()
-console.log("ME:", me)
-  
+
+console.log("ME:",me)
+
 const username=getUsername()
 
 if(!username){
+
 profileBox.innerHTML="Search for a user to view their profile"
+
 return
+
 }
 
 document.getElementById("searchUser").value=username
 
-const r=await fetch(backend+"/profile?username="+encodeURIComponent(username))
+const r=await fetch(
+backend+"/profile?username="+encodeURIComponent(username)
+)
+
 const data=await safeJson(r)
 
 if(!data || data.error){
+
 profileBox.innerHTML="User not found"
+
 return
+
 }
 
 const icons=createRoleIcons(data.permissions)
 
 let adminBtn=""
+
 if(me && me.permissions && me.permissions.admin){
-adminBtn=`<button onclick="payoutPopup('${data.username}')">Payout</button>`
+
+adminBtn=`
+<button onclick="payoutPopup('${data.username}')">
+Payout
+</button>
+`
+
 }
 
 let roblox="Not linked"
+
 if(data.roblox){
+
 roblox=`${data.roblox.username} (ID: ${data.roblox.id})`
+
 }
 
 let earningsHTML="None"
 
 if(data.earnings && Object.keys(data.earnings).length){
+
 earningsHTML=Object.entries(data.earnings)
 .map(([k,v])=>`${v} ${k}`)
 .join("<br>")
+
 }
 
 let discord="Not linked"
 
 if(data.linked){
+
 discord=data.linked.username || data.linked.id
+
 }
 
 profileBox.innerHTML=`
+
 <div class="profileName">
 ${data.username} ${icons}
 </div>
@@ -321,11 +444,19 @@ ${data.questsCompleted}
 <b>Total Earnings:</b><br>
 ${earningsHTML}
 </div>
+
 `
+
 }
 
 document.getElementById("searchUser").addEventListener("keypress",e=>{
-if(e.key==="Enter") searchProfile()
+
+if(e.key==="Enter"){
+
+searchProfile()
+
+}
+
 })
 
 loadProfile()
