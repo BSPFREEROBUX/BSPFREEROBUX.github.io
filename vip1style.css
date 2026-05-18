@@ -81,9 +81,9 @@ width:calc(100% - 20px);
 max-width:1650px;
 display:flex;
 align-items:center;
-justify-content:flex-start;
-gap:18px;
-padding:12px 14px;
+justify-content:space-between;
+gap:16px;
+padding:12px 16px;
 background:rgba(17,21,29,.94);
 backdrop-filter:blur(18px);
 border:1px solid rgba(255,255,255,.05);
@@ -102,10 +102,14 @@ background:rgba(255,255,255,.92);
 display:flex;
 align-items:center;
 white-space:nowrap;
-flex-shrink:0;
-min-width:max-content;
+flex:0 0 auto;
+max-width:260px;
+overflow:hidden;
+text-overflow:ellipsis;
 font-size:15px;
 font-weight:700;
+position:relative;
+z-index:2;
 }
 
 .icons{
@@ -115,7 +119,7 @@ justify-content:flex-end;
 gap:8px;
 flex-wrap:nowrap;
 overflow-x:auto;
-margin-left:auto;
+flex:1;
 min-width:0;
 scrollbar-width:none;
 padding-bottom:2px;
@@ -466,23 +470,24 @@ width:100%;
 @media (max-width:900px){
 
 body{
-padding-top:130px;
+padding-top:120px;
 }
 
 .topbar{
-flex-direction:column;
-align-items:flex-start;
-padding:12px;
+flex-direction:row;
+align-items:center;
+padding:10px 12px;
 gap:10px;
 }
 
 #userDisplay{
-font-size:14px;
+font-size:13px;
+max-width:120px;
 }
 
 .icons{
-width:100%;
-justify-content:flex-start;
+flex:1;
+justify-content:flex-end;
 overflow-x:auto;
 padding-bottom:4px;
 }
@@ -496,7 +501,7 @@ grid-template-columns:1fr;
 }
 
 #settingsBox{
-top:125px!important;
+top:110px!important;
 right:10px!important;
 width:calc(100vw - 20px);
 }
@@ -523,8 +528,8 @@ font-size:24px;
 }
 
 .icons span{
-font-size:13px;
-padding:9px 12px;
+font-size:12px;
+padding:8px 10px;
 }
 
 button,
@@ -537,6 +542,11 @@ height:40px;
 #settingsBox select{
 height:40px;
 font-size:13px;
+}
+
+#userDisplay{
+max-width:90px;
+font-size:12px;
 }
 
 }
