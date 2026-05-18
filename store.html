@@ -121,20 +121,6 @@ text-align:center;
 opacity:.8;
 font-size:14px;
 min-height:20px;
-line-height:1.5;
-}
-
-.link-btn{
-width:100%;
-margin-top:15px;
-padding:14px;
-border:none;
-border-radius:12px;
-background:#2d3445;
-color:white;
-font-size:15px;
-cursor:pointer;
-display:none;
 }
 
 </style>
@@ -195,14 +181,6 @@ data-kmrza-theme="auto"
 Buy VIP
 </button>
 
-<button
-id="emailBtn"
-class="link-btn"
-onclick="location.href='/account.html'"
->
-Link Email
-</button>
-
 <div class="status" id="status"></div>
 
 </div>
@@ -260,7 +238,6 @@ async function init(){
 
 const status=document.getElementById("status")
 const buyBtn=document.getElementById("buyBtn")
-const emailBtn=document.getElementById("emailBtn")
 
 await loadBackend()
 
@@ -275,18 +252,6 @@ if(me.permissions && me.permissions.vip){
 status.innerText="You already own VIP."
 
 buyBtn.disabled=true
-
-return
-
-}
-
-if(!me.email){
-
-status.innerText="You must link an email before purchasing VIP."
-
-buyBtn.disabled=true
-
-emailBtn.style.display="block"
 
 return
 
