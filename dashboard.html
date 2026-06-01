@@ -281,6 +281,22 @@ font-size:clamp(12px,1.3vw,14px);
   
 <body>
 
+<div id="notificationBox" style="
+display:none;
+position:fixed;
+top:70px;
+right:20px;
+width:350px;
+max-height:400px;
+overflow:auto;
+background:#1e1e1e;
+border-radius:10px;
+padding:10px;
+z-index:9999;
+">
+<div id="notificationList"></div>
+</div>
+  
 <div id="settingsBox" style="display:none;position:fixed;top:60px;right:20px;background:#1e1e1e;padding:15px;border-radius:10px;z-index:999">
 
 <input id="emailInput" placeholder="Enter email">
@@ -338,6 +354,18 @@ Load Theme
 <div class="topbar">
 <div id="userDisplay"></div>
 <div class="icons">
+<span id="notificationBell" onclick="toggleNotifications()">
+🔔
+<span id="notificationBadge" style="
+display:none;
+background:red;
+color:white;
+border-radius:999px;
+padding:2px 6px;
+font-size:11px;
+margin-left:4px;
+">0</span>
+</span>
 <span onclick="location.href='history.html'">📜 Login History</span>
 <span onclick="location.href='balance.html'">💰 Wallet</span>
 <span onclick="goProfile()">👤 Profile</span>
@@ -448,6 +476,7 @@ let banInterval = null
 const pageFlipSound = new Audio("Sounds/PageFlip.mp3")
 const logoutSound = new Audio("Sounds/LogOut.mp3")
 const clickSound = new Audio("Sounds/Click.mp3")
+const notificationSound = new Audio("Sounds/Notification.mp3")
 
 clickSound.volume = 0.5
 
@@ -559,6 +588,80 @@ clIndex=0
 renderCL()
 }
 
+let lastUnread = 0
+
+function toggleNotifications(){
+
+const box=document.getElementById("notificationBox")
+
+box.style.display=
+box.style.display==="block"
+? "none"
+: "block"
+
+}
+
+async function loadNotifications(){
+
+const token=localStorage.getItem("Token")
+
+if(!token) return
+
+const r=await fetch(
+backend+"/notifications",
+{
+headers:{
+Authorization:token
+}
+})
+
+const data=await r.json()
+
+const badge=
+document.getElementById("notificationBadge")
+
+if(data.unread>0){
+
+badge.style.display="inline-block"
+badge.textContent=data.unread
+
+}else{
+
+badge.style.display="none"
+
+}
+
+if(
+lastUnread!==0 &&
+data.unread>lastUnread
+){
+
+notificationSound.currentTime=0
+notificationSound.play()
+
+}
+
+lastUnread=data.unread
+
+document.getElementById(
+"notificationList"
+).innerHTML=
+
+data.notifications.map(n=>`
+<div
+style="
+padding:10px;
+border-bottom:1px solid #333;
+cursor:pointer;
+"
+onclick="
+location.href='Support.html#${n.ticketId}'
+">
+${n.message}
+</div>
+`).join("")
+}
+  
 function convertTime(time,fromTZ){
 const d=new Date(time)
 return d.toLocaleString(undefined,{
@@ -609,6 +712,13 @@ applySavedTheme()
 backend = await getBackend()
 await trackPage("dashboard.html")
 loadStats()
+
+await loadNotifications()
+
+setInterval(
+loadNotifications,
+5000
+)
 
 
 const token = localStorage.getItem("Token")
