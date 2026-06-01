@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DMS</title>
+<style>
+*{
+box-sizing:border-box;
+}
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+background:#0f0f10;
+color:#f4f4f4;
+overflow:hidden;
+}
+
+body{
+display:flex;
+flex-direction:column;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+padding:12px 16px;
+background:#151516;
+border-bottom:1px solid #2a2a2a;
+flex-shrink:0;
+}
+
+.topbar .left,
+.topbar .right{
+display:flex;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.btn,
+.iconBtn,
+.smallBtn{
+border:none;
+border-radius:10px;
+background:#2a2a2a;
+color:#fff;
+cursor:pointer;
+}
+
+.btn:hover,
+.iconBtn:hover,
+.smallBtn:hover{
+background:#383838;
+}
+
+.iconBtn{
+padding:10px 12px;
+}
+
+.smallBtn{
+padding:7px 10px;
+font-size:12px;
+}
+
+.layout{
+flex:1;
+display:grid;
+grid-template-columns:320px 1fr;
+min-height:0;
+}
+
+.sidebar{
+display:flex;
+flex-direction:column;
+min-height:0;
+border-right:1px solid #2a2a2a;
+background:#111112;
+}
+
+.section{
+padding:14px;
+border-bottom:1px solid #242424;
+}
+
+.section h3{
+margin:0 0 10px 0;
+font-size:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+
+.badge{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:22px;
+height:22px;
+padding:0 7px;
+border-radius:999px;
+background:#e53935;
+color:#fff;
+font-size:12px;
+font-weight:700;
+}
+
+.searchRow{
+display:flex;
+gap:8px;
+}
+
+input,textarea{
+width:100%;
+border:1px solid #333;
+border-radius:10px;
+background:#0d0d0e;
+color:#fff;
+outline:none;
+}
+
+input{
+padding:11px 12px;
+}
+
+textarea{
+resize:none;
+}
+
+.list{
+display:flex;
+flex-direction:column;
+gap:8px;
+max-height:250px;
+overflow:auto;
+padding-right:4px;
+}
+
+.item{
+padding:10px 12px;
+border:1px solid #2a2a2a;
+border-radius:12px;
+background:#171718;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+cursor:pointer;
+}
+
+.item:hover{
+background:#202021;
+}
+
+.item.active{
+border-color:#5b78ff;
+background:#1a1d2f;
+}
+
+.itemMain{
+min-width:0;
+display:flex;
+flex-direction:column;
+gap:3px;
+}
+
+.itemTitle{
+font-weight:700;
+font-size:14px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.itemSub{
+font-size:12px;
+opacity:.68;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.itemActions{
+display:flex;
+align-items:center;
+gap:6px;
+flex-shrink:0;
+}
+
+.main{
+display:flex;
+flex-direction:column;
+min-height:0;
+}
+
+.chatHeader{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+padding:14px 16px;
+border-bottom:1px solid #242424;
+background:#131314;
+flex-shrink:0;
+}
+
+.chatHeaderTitle{
+display:flex;
+flex-direction:column;
+gap:4px;
+min-width:0;
+}
+
+.chatHeaderTitle strong{
+font-size:16px;
+}
+
+.chatHeaderTitle span{
+font-size:12px;
+opacity:.65;
+}
+
+.chatMessages{
+flex:1;
+overflow:auto;
+padding:18px;
+display:flex;
+flex-direction:column;
+gap:10px;
+background:#0f0f10;
+}
+
+.msg{
+max-width:min(720px,85%);
+padding:10px 12px;
+border-radius:14px;
+border:1px solid #2a2a2a;
+background:#171718;
+word-break:break-word;
+}
+
+.msg.me{
+align-self:flex-end;
+background:#1e2744;
+border-color:#30406d;
+}
+
+.msgHead{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:12px;
+opacity:.8;
+margin-bottom:6px;
+}
+
+.msgTime{
+opacity:.55;
+font-size:11px;
+}
+
+.chatComposer{
+display:flex;
+gap:10px;
+padding:12px;
+border-top:1px solid #242424;
+background:#131314;
+flex-shrink:0;
+}
+
+.chatComposer textarea{
+height:46px;
+padding:12px;
+line-height:1.35;
+}
+
+.chatComposer .btn{
+padding:0 16px;
+min-width:92px;
+}
+
+.empty{
+padding:18px;
+opacity:.7;
+}
+
+@media (max-width: 900px){
+.layout{
+grid-template-columns:1fr;
+grid-template-rows:260px 1fr;
+}
+
+.sidebar{
+border-right:none;
+border-bottom:1px solid #2a2a2a;
+}
+
+.list{
+max-height:120px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div class="left">
+<button class="iconBtn" onclick="location.href='dashboard.html'">Dashboard</button>
+<button class="iconBtn" onclick="location.href='Support.html'">Support</button>
+</div>
+<div class="right">
+<span id="statusText"></span>
+<button class="iconBtn" onclick="logout()">Logout</button>
+</div>
+</div>
+
+<div class="layout">
+<div class="sidebar">
+<div class="section">
+<h3>Find a user</h3>
+<div class="searchRow">
+<input id="searchUser" placeholder="Type a username">
+<button class="btn" onclick="openFromSearch()">Chat</button>
+</div>
+</div>
+
+<div class="section">
+<h3>Friend Requests <span class="badge" id="requestCount">0</span></h3>
+<div class="list" id="requestList"></div>
+</div>
+
+<div class="section" style="flex:1;min-height:0">
+<h3>Friends <span class="badge" id="friendCount">0</span></h3>
+<div class="list" id="friendList"></div>
+</div>
+</div>
+
+<div class="main">
+<div class="chatHeader">
+<div class="chatHeaderTitle">
+<strong id="chatTitle">Select a friend</strong>
+<span id="chatSub">Private messages</span>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="smallBtn" id="unfriendBtn" onclick="unfriendActive()" disabled>Unfriend</button>
+<button class="smallBtn" onclick="refreshState()">Refresh</button>
+</div>
+</div>
+
+<div class="chatMessages" id="chatMessages">
+<div class="empty">Pick a friend to open the chat.</div>
+</div>
+
+<div class="chatComposer">
+<textarea id="messageBox" placeholder="Message" disabled></textarea>
+<button class="btn" id="sendBtn" onclick="sendMessage()" disabled>Send</button>
+</div>
+</div>
+</div>
+
+<script>
+let backend=null
+let token=null
+let myName=""
+let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
+let activeFriend=""
+let activeChatId=""
+let lastUnreadTotal=0
+let firstStateLoad=true
+
+const requestCount=document.getElementById("requestCount")
+const friendCount=document.getElementById("friendCount")
+const requestList=document.getElementById("requestList")
+const friendList=document.getElementById("friendList")
+const chatMessages=document.getElementById("chatMessages")
+const chatTitle=document.getElementById("chatTitle")
+const chatSub=document.getElementById("chatSub")
+const messageBox=document.getElementById("messageBox")
+const sendBtn=document.getElementById("sendBtn")
+const unfriendBtn=document.getElementById("unfriendBtn")
+const statusText=document.getElementById("statusText")
+
+const notificationSound=new Audio("Sounds/Notification.mp3")
+notificationSound.preload="auto"
+
+messageBox.addEventListener("keydown",e=>{
+if(e.key==="Enter" && !e.shiftKey){
+e.preventDefault()
+sendMessage()
+}
+})
+
+document.getElementById("searchUser").addEventListener("keydown",e=>{
+if(e.key==="Enter"){
+e.preventDefault()
+openFromSearch()
+}
+})
+
+function escapeHTML(value){
+return String(value ?? "").replace(/[&<>"']/g,m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+"\"":"&quot;",
+"'":"&#39;"
+}[m]))
+}
+
+function formatTime(time){
+try{
+return new Date(time).toLocaleString()
+}catch{
+return ""
+}
+}
+
+async function getBackend(){
+const r=await fetch("server.txt")
+return (await r.text()).trim()
+}
+
+async function safeJson(res){
+const t=await res.text()
+try{return JSON.parse(t)}catch{return null}
+}
+
+async function api(path,options={}){
+return fetch(backend+path,{
+headers:{
+Authorization:token,
+...(options.headers||{})
+},
+...options
+})
+}
+
+function playSound(){
+notificationSound.currentTime=0
+notificationSound.play().catch(()=>{})
+}
+
+function getChatSummary(friend){
+return state.chats.find(c=>c.with===friend) || {unread:0,lastMessage:"",lastAuthor:""}
+}
+
+function renderRequests(){
+requestCount.textContent=String(state.incomingRequests.length)
+requestList.innerHTML=""
+
+if(!state.incomingRequests.length){
+requestList.innerHTML='<div class="empty">No requests.</div>'
+return
+}
+
+state.incomingRequests.forEach(r=>{
+const row=document.createElement("div")
+row.className="item"
+row.innerHTML=`
+<div class="itemMain">
+<div class="itemTitle">${escapeHTML(r.from)}</div>
+<div class="itemSub">Wants to add you</div>
+</div>
+<div class="itemActions">
+<button class="smallBtn" data-accept>Accept</button>
+<button class="smallBtn" data-decline>Decline</button>
+</div>
+`
+row.querySelector("[data-accept]").onclick=async e=>{
+e.stopPropagation()
+await acceptRequest(r.id,r.from)
+}
+row.querySelector("[data-decline]").onclick=async e=>{
+e.stopPropagation()
+await declineRequest(r.id)
+}
+requestList.appendChild(row)
+})
+}
+
+function renderFriends(){
+friendCount.textContent=String(state.friends.length)
+friendList.innerHTML=""
+
+if(!state.friends.length){
+friendList.innerHTML='<div class="empty">No friends yet.</div>'
+return
+}
+
+const sorted=[...state.friends].sort((a,b)=>{
+const aa=getChatSummary(a)
+const bb=getChatSummary(b)
+if((bb.unread||0)!==(aa.unread||0)) return (bb.unread||0)-(aa.unread||0)
+return a.localeCompare(b)
+})
+
+sorted.forEach(friend=>{
+const summary=getChatSummary(friend)
+const row=document.createElement("div")
+row.className="item"+(activeFriend===friend ? " active" : "")
+row.innerHTML=`
+<div class="itemMain">
+<div class="itemTitle">${escapeHTML(friend)}</div>
+<div class="itemSub">${escapeHTML(summary.lastAuthor ? `${summary.lastAuthor}: ${summary.lastMessage}` : "No messages yet")}</div>
+</div>
+<div class="itemActions">
+${summary.unread>0 ? `<span class="badge">${summary.unread}</span>` : ""}
+</div>
+`
+row.onclick=()=>openChat(friend)
+friendList.appendChild(row)
+})
+}
+
+function renderActiveChat(chat){
+if(!chat){
+chatTitle.textContent="Select a friend"
+chatSub.textContent="Private messages"
+chatMessages.innerHTML='<div class="empty">Pick a friend to open the chat.</div>'
+messageBox.disabled=true
+sendBtn.disabled=true
+unfriendBtn.disabled=true
+messageBox.value=""
+activeChatId=""
+return
+}
+
+chatTitle.textContent=chat.with
+chatSub.textContent=`${chat.messages.length} messages`
+messageBox.disabled=false
+sendBtn.disabled=false
+unfriendBtn.disabled=false
+
+if(!chat.messages.length){
+chatMessages.innerHTML='<div class="empty">No messages yet.</div>'
+return
+}
+
+chatMessages.innerHTML=chat.messages.map(m=>{
+const me=m.author===myName
+return `
+<div class="msg ${me ? "me" : ""}">
+<div class="msgHead">
+<strong>${escapeHTML(m.author)}</strong>
+<span class="msgTime">${escapeHTML(formatTime(m.time))}</span>
+</div>
+<div>${escapeHTML(m.text)}</div>
+</div>
+`
+}).join("")
+chatMessages.scrollTop=chatMessages.scrollHeight
+}
+
+async function refreshState(){
+const r=await api("/dms/state")
+const data=await safeJson(r)
+
+if(!data || data.error){
+if(data && data.error==="unauthorized") location.href="login.html"
+return
+}
+
+state=data
+statusText.textContent=`Logged in as ${myName}`
+
+const totalUnread=(state.unreadMessages||0)+(state.unreadRequests||0)
+if(!firstStateLoad && totalUnread>lastUnreadTotal){
+playSound()
+}
+firstStateLoad=false
+lastUnreadTotal=totalUnread
+
+renderRequests()
+renderFriends()
+
+if(activeFriend){
+await refreshActiveChat(false)
+}else{
+renderActiveChat(null)
+}
+}
+
+async function refreshActiveChat(markSeenNow=true){
+if(!activeFriend) return
+
+const r=await api("/dms/chat?with="+encodeURIComponent(activeFriend))
+const data=await safeJson(r)
+
+if(!data){
+return
+}
+
+if(data.error==="notfriends"){
+renderActiveChat(null)
+activeFriend=""
+activeChatId=""
+await refreshState()
+return
+}
+
+if(data.error){
+return
+}
+
+activeChatId=data.chat.id
+renderActiveChat(data.chat)
+
+if(markSeenNow){
+await api("/dms/seen",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({chatId:activeChatId})
+})
+}
+}
+
+async function openChat(friend){
+const r=await api("/dms/chat?with="+encodeURIComponent(friend))
+const data=await safeJson(r)
+
+if(data && data.error==="notfound"){
+alert("User not found")
+return
+}
+
+if(data && data.error==="notfriends"){
+if(confirm("Send a friend request to "+friend+"?")){
+await requestFriend(friend)
+}
+return
+}
+
+if(data && data.error){
+alert(data.error)
+return
+}
+
+activeFriend=friend
+activeChatId=data.chat.id
+location.hash=encodeURIComponent(friend)
+renderActiveChat(data.chat)
+await api("/dms/seen",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({chatId:activeChatId})
+})
+await refreshState()
+}
+
+async function openFromSearch(){
+const name=document.getElementById("searchUser").value.trim()
+if(!name) return
+await openChat(name)
+}
+
+async function requestFriend(username){
+const r=await api("/friends/request",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username})
+})
+const data=await safeJson(r)
+if(!data) return
+if(data.error==="notfound") alert("User not found")
+else if(data.error==="self") alert("You cannot add yourself")
+else if(data.error==="friends") alert("Already friends")
+else if(data.error==="pending") alert("Friend request already exists")
+await refreshState()
+}
+
+async function acceptRequest(requestId,from){
+const r=await api("/friends/accept",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({requestId})
+})
+const data=await safeJson(r)
+if(!data || data.error) return
+await refreshState()
+await openChat(from)
+}
+
+async function declineRequest(requestId){
+await api("/friends/decline",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({requestId})
+})
+await refreshState()
+}
+
+async function sendMessage(){
+if(!activeChatId) return
+const text=messageBox.value.trim()
+if(!text) return
+const r=await api("/dms/send",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+chatId:activeChatId,
+message:text
+})
+})
+const data=await safeJson(r)
+if(data && data.error){
+if(data.error==="notfriends") alert("You are no longer friends")
+return
+}
+messageBox.value=""
+await refreshActiveChat(false)
+await refreshState()
+}
+
+async function unfriendActive(){
+if(!activeFriend) return
+if(!confirm("Unfriend "+activeFriend+"?")) return
+await api("/friends/remove",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username:activeFriend})
+})
+activeFriend=""
+activeChatId=""
+location.hash=""
+renderActiveChat(null)
+await refreshState()
+}
+
+function logout(){
+localStorage.removeItem("Token")
+location.href="login.html"
+}
+
+async function init(){
+backend=await getBackend()
+token=localStorage.getItem("Token")
+if(!token){
+location.href="login.html"
+return
+}
+
+const meRes=await api("/me")
+const me=await safeJson(meRes)
+
+if(!me || me.error){
+location.href="login.html"
+return
+}
+
+myName=me.username
+statusText.textContent=`Logged in as ${myName}`
+
+if(location.hash){
+const wanted=decodeURIComponent(location.hash.slice(1))
+if(wanted) activeFriend=wanted
+}
+
+await refreshState()
+
+setInterval(refreshState,2500)
+
+window.addEventListener("hashchange",()=>{
+const wanted=decodeURIComponent(location.hash.slice(1))
+if(wanted && wanted!==activeFriend){
+openChat(wanted)
+}
+})
+}
+
+init()
+</script>
+</body>
+</html>
