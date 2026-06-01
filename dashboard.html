@@ -631,13 +631,11 @@ badge.style.display="none"
 
 }
 
-if(
-lastUnread!==0 &&
-data.unread>lastUnread
-){
+if(data.unread > lastUnread){
 
 notificationSound.currentTime=0
-notificationSound.play()
+
+notificationSound.play().catch(()=>{})
 
 }
 
