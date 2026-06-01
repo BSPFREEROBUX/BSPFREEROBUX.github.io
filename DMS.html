@@ -434,12 +434,18 @@ try{return JSON.parse(t)}catch{return null}
 }
 
 async function api(path,options={}){
+const liveToken=localStorage.getItem("Token")
+if(!liveToken){
+location.href="login.html"
+throw new Error("unauthorized")
+}
+
+const headers=new Headers(options.headers||{})
+headers.set("Authorization",liveToken)
+
 return fetch(backend+path,{
-headers:{
-Authorization:token,
-...(options.headers||{})
-},
-...options
+...options,
+headers
 })
 }
 
@@ -708,12 +714,22 @@ method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username})
 })
+
 const data=await safeJson(r)
+
 if(!data) return
+
+if(data.error==="unauthorized"){
+location.href="login.html"
+return
+}
+
 if(data.error==="notfound") alert("User not found")
 else if(data.error==="self") alert("You cannot add yourself")
 else if(data.error==="friends") alert("Already friends")
 else if(data.error==="pending") alert("Friend request already exists")
+else if(data.success) alert("Friend request sent")
+
 await refreshState()
 }
 
