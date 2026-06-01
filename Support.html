@@ -770,6 +770,25 @@ if(hasSupport()) staffTitle.style.display="block"
 if(hasAdmin()) anonToggle.style.display="inline"
 
 await loadTickets()
+
+if(location.hash){
+
+const id=location.hash.substring(1)
+
+setTimeout(()=>{
+
+const ticket=document.querySelector(
+`[data-ticket="${id}"]`
+)
+
+if(ticket){
+ticket.click()
+}
+
+},500)
+
+}
+
 handleHashOpen()
 
 setInterval(()=>{
@@ -797,26 +816,60 @@ loadingTickets=false
 function renderTicketList(list,containerId){
 const container=document.getElementById(containerId)
 container.innerHTML=""
+
 list.sort((a,b)=>{
 if(a.status !== b.status){
 return a.status === "open" ? -1 : 1
 }
 return new Date(b.createdAt) - new Date(a.createdAt)
 })
+
 list.forEach(t=>{
+
+const unread=t.unread||0
+
 const div=document.createElement("div")
 div.className="ticketItem"
+div.dataset.ticket=t.id
+
 const status=t.status==="open"
 ? `<span class="ticketStatusOpen">OPEN</span>`
 : `<span class="ticketStatusClosed">CLOSED</span>`
+
 let owner=""
-if(containerId==="allTickets") owner=`<div class="ticketOwner">Created by: ${escapeHTML(t.owner)}</div>`
-div.innerHTML=`<b>${escapeHTML(t.title)}</b><br>${status}${owner}`
+
+if(containerId==="allTickets"){
+owner=`<div class="ticketOwner">Created by: ${escapeHTML(t.owner)}</div>`
+}
+
+div.innerHTML=`
+<b>${escapeHTML(t.title)}</b>
+
+${unread>0?`
+<span style="
+background:red;
+color:white;
+border-radius:999px;
+padding:2px 6px;
+font-size:11px;
+float:right;
+">
+${unread}
+</span>
+`:''}
+
+<br>
+${status}
+${owner}
+`
+
 div.onclick=()=>{
 openTicket(t)
 history.replaceState(null,"","#"+t.id)
 }
+
 container.appendChild(div)
+
 })
 }
 
@@ -832,6 +885,18 @@ if(found) openTicket(found)
 
 function openTicket(ticket){
 activeTicket=ticket
+await fetch(
+backend+"/notifications/seen",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+ticketId:ticket.id
+})
+})
 activeTicketSignature=""
 ticketHeader.innerHTML=`<b>${escapeHTML(ticket.title)}</b><br>${ticket.status==="open" ? '<span style="color:#2ecc71">OPEN</span>' : '<span style="color:#e74c3c">CLOSED</span>'}${ticket.locked ? " 🔒" : " 🔓"}`
 renderMessages(ticket)
