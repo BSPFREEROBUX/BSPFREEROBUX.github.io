@@ -114,6 +114,7 @@ font-weight:700;
 .searchRow{
 display:flex;
 gap:8px;
+flex-wrap:wrap;
 }
 
 input,textarea{
@@ -327,6 +328,7 @@ max-height:120px;
 <div class="searchRow">
 <input id="searchUser" placeholder="Type a username">
 <button class="btn" onclick="openFromSearch()">Chat</button>
+<button class="btn" onclick="addFriendFromSearch()">Add Friend</button>
 </div>
 </div>
 
@@ -630,9 +632,7 @@ return
 }
 
 if(data && data.error==="notfriends"){
-if(confirm("Send a friend request to "+friend+"?")){
-await requestFriend(friend)
-}
+alert("You need to be friends first")
 return
 }
 
@@ -657,6 +657,49 @@ async function openFromSearch(){
 const name=document.getElementById("searchUser").value.trim()
 if(!name) return
 await openChat(name)
+}
+
+async function addFriendFromSearch(){
+const name=document.getElementById("searchUser").value.trim()
+if(!name){
+alert("Enter a username")
+return
+}
+
+const r=await api("/friends/request",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+username:name
+})
+})
+
+const data=await safeJson(r)
+
+if(!data){
+alert("Server error")
+return
+}
+
+if(data.success){
+alert("Friend request sent")
+await refreshState()
+return
+}
+
+if(data.error==="notfound"){
+alert("User not found")
+}else if(data.error==="self"){
+alert("You cannot add yourself")
+}else if(data.error==="friends"){
+alert("You are already friends")
+}else if(data.error==="pending"){
+alert("Friend request already exists")
+}else{
+alert(data.error)
+}
 }
 
 async function requestFriend(username){
