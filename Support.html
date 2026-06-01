@@ -883,7 +883,7 @@ const found=all.find(t=>t.id===id)
 if(found) openTicket(found)
 }
 
-function openTicket(ticket){
+async function openTicket(ticket){
 activeTicket=ticket
 await fetch(
 backend+"/notifications/seen",
