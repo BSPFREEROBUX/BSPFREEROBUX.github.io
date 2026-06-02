@@ -606,48 +606,90 @@ box.style.display==="block"
 async function loadNotifications(){
 
 const token=localStorage.getItem("Token")
-
 if(!token) return
 
-const r=await fetch(
-backend+"/notifications",
-{
-headers:{
-Authorization:token
-}
+let notifications=[]
+let unread=0
+
+try{
+
+const r=await fetch(backend+"/notifications",{
+headers:{Authorization:token}
 })
 
 const data=await r.json()
 
-const badge=
-document.getElementById("notificationBadge")
+if(Array.isArray(data.notifications)){
+notifications.push(...data.notifications.map(n=>({
+type:"support",
+message:n.message,
+ticketId:n.ticketId
+})))
+}
 
-if(data.unread>0){
+unread+=data.unread||0
 
+}catch{}
+
+try{
+
+const r=await fetch(backend+"/dms/state",{
+headers:{Authorization:token}
+})
+
+const data=await r.json()
+
+if(Array.isArray(data.incomingRequests)){
+
+data.incomingRequests.forEach(req=>{
+notifications.push({
+type:"friend",
+message:`Friend request from ${req.from}`
+})
+})
+
+unread+=data.incomingRequests.length
+}
+
+if(Array.isArray(data.chats)){
+
+data.chats.forEach(chat=>{
+
+if(chat.unread>0){
+
+notifications.push({
+type:"dm",
+message:`${chat.unread} unread message${chat.unread===1?"":"s"} from ${chat.with}`
+})
+
+unread+=chat.unread
+
+}
+
+})
+
+}
+
+}catch{}
+
+const badge=document.getElementById("notificationBadge")
+
+if(unread>0){
 badge.style.display="inline-block"
-badge.textContent=data.unread
-
+badge.textContent=unread
 }else{
-
 badge.style.display="none"
-
 }
 
-if(data.unread > lastUnread){
-
+if(unread>lastUnread){
 notificationSound.currentTime=0
-
 notificationSound.play().catch(()=>{})
-
 }
 
-lastUnread=data.unread
+lastUnread=unread
 
-document.getElementById(
-"notificationList"
-).innerHTML=
-
-data.notifications.map(n=>`
+document.getElementById("notificationList").innerHTML=
+notifications.map(n=>`
 <div
 style="
 padding:10px;
@@ -655,11 +697,14 @@ border-bottom:1px solid #333;
 cursor:pointer;
 "
 onclick="
-location.href='Support.html#${n.ticketId}'
-">
+${n.type==='support'
+?`location.href='Support.html#${n.ticketId}'`
+:`location.href='DMS.html'`}
+"
+>
 ${n.message}
 </div>
-`).join("")
+`).join("") || "<div style='padding:10px'>No notifications</div>"
 }
   
 function convertTime(time,fromTZ){
