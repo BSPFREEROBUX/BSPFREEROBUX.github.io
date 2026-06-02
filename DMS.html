@@ -405,6 +405,21 @@ openFromSearch()
 }
 })
 
+async function trackPage(page){
+const token=localStorage.getItem("token")
+if(!token) return
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({page})
+})
+}
+
+
 function escapeHTML(value){
 return String(value ?? "").replace(/[&<>"']/g,m=>({
 "&":"&amp;",
@@ -792,13 +807,14 @@ await refreshState()
 }
 
 function logout(){
-localStorage.removeItem("Token")
+localStorage.removeItem("token")
 location.href="login.html"
 }
 
 async function init(){
 backend=await getBackend()
-token=localStorage.getItem("Token")
+token=localStorage.getItem("token")
+await trackPage("DMS.html")
 if(!token){
 location.href="login.html"
 return
