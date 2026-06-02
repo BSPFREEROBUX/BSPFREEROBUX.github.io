@@ -1008,6 +1008,48 @@
       "We reserve the right to correct pricing mistakes, transaction errors, promotional inaccuracies, duplicated rewards, or unintended purchases at any time."
     ]
   },
+    {
+    "title": "Desktop Application",
+    "content": [
+      "The Zyphor Desktop Application is provided on an as-available basis and may contain bugs, unfinished features, compatibility issues, or unexpected behavior.",
+      "The Desktop Application may run in the system tray, start automatically with the operating system, remain active after the window is closed, and use native operating system notifications where supported.",
+      "Users are responsible for securing the devices on which the Desktop Application is installed. We are not responsible for unauthorized access caused by shared devices, unattended sessions, operating system settings, or user configuration.",
+      "We reserve the right to modify, disable, restrict, or discontinue the Desktop Application or any desktop-specific functionality at any time without notice."
+    ]
+  },
+  {
+    "title": "Downloads and Version History",
+    "content": [
+      "Download pages, installers, archived versions, version history entries, and previous releases are provided for convenience only.",
+      "We do not guarantee the availability, integrity, compatibility, or continued hosting of any specific version, installer, patch, or archived download.",
+      "Older versions may contain known bugs, missing features, security risks, or compatibility issues, and are used entirely at the user's own risk."
+    ]
+  },
+  {
+    "title": "Platform Selection and Mobile Status Pages",
+    "content": [
+      "Platform selection pages, device-specific download options, and status pages are provided for convenience and may change at any time without notice.",
+      "Android, Windows, and any future platform-specific pages may display development status, availability, or progress information that is not guaranteed to remain current or accurate.",
+      "We are not responsible for delays, inaccuracies, or changes in the status of any platform-specific application, download, or support page."
+    ]
+  },
+  {
+    "title": "Mobile Compatibility",
+    "content": [
+      "Mobile support, responsive layouts, and touch-based interactions are provided on an as-available basis and may vary by device, browser, and screen size.",
+      "We are not responsible for layout issues, display differences, touch problems, chat rendering issues, or usability limitations on smaller screens or mobile browsers.",
+      "Mobile-specific improvements may be added, changed, limited, or removed at any time without notice."
+    ]
+  },
+  {
+    "title": "Notifications, DMs, and Social Messaging",
+    "content": [
+      "Notification systems, unread counters, support alerts, direct messages, friend requests, and related messaging features may be delayed, incomplete, duplicated, or unavailable at any time.",
+      "Messages, conversations, notifications, read receipts, and related records may be stored, processed, synchronized, or displayed with delays or inconsistencies across devices and pages.",
+      "We are not responsible for missed notifications, incorrect unread counts, failed delivery, sync errors, or message history issues caused by client behavior, network issues, or system delays.",
+      "Messaging and notification features may be modified, restricted, or discontinued at any time without notice."
+    ]
+  },
   {
     "title": "Regional Restrictions and Compliance",
     "content": [
