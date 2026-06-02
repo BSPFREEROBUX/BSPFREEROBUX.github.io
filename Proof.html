@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Proof</title>
+<style>
+body{
+background:#0e0e0e;
+color:white;
+font-family:Arial,sans-serif;
+margin:0;
+padding:20px;
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+#videos{
+display:flex;
+flex-direction:column;
+gap:20px;
+max-width:1000px;
+margin:auto;
+}
+
+.videoCard{
+background:#1a1a1a;
+padding:15px;
+border-radius:12px;
+}
+
+video{
+width:100%;
+border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<h1>Proof List</h1>
+
+<div id="videos"></div>
+
+<script>
+const container=document.getElementById("videos")
+
+async function exists(url){
+try{
+const r=await fetch(url,{method:"HEAD"})
+return r.ok
+}catch{
+return false
+}
+}
+
+async function loadVideos(){
+
+for(let i=1;i<=10000;i++){
+
+const path=`Videos/Proof/${i}.mp4`
+
+const found=await exists(path)
+
+if(!found) break
+
+const card=document.createElement("div")
+card.className="videoCard"
+
+card.innerHTML=`
+<h3>Proof #${i}</h3>
+<video controls preload="metadata">
+<source src="${path}" type="video/mp4">
+</video>
+`
+
+container.appendChild(card)
+}
+
+}
+
+loadVideos()
+</script>
+
+</body>
+</html>
