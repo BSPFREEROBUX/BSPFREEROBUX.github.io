@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Profile</title>
-<link rel="stylesheet" href="styles.css">
+<link id="themeStylesheet" rel="stylesheet" href="styles.css">
+
 
 <style>
 
@@ -128,6 +129,22 @@ const r=await fetch("server.txt")
 return (await r.text()).trim()
 }
 
+function applySavedTheme(){
+
+const saved=localStorage.getItem("siteTheme")
+
+if(saved){
+
+const theme=document.getElementById("themeStylesheet")
+
+if(theme){
+theme.href=saved
+}
+
+}
+
+}
+  
 async function getMe(){
 const token=localStorage.getItem("Token")
 if(!token) return null
@@ -164,6 +181,8 @@ return JSON.parse(t)
 return null
 }
 }
+
+
 
 function payoutPopup(username){
 
@@ -331,6 +350,7 @@ location.href="profile.html?username="+encodeURIComponent(username)
 
 async function loadProfile(){
 
+applySavedTheme()
 backend=await getBackend()
 
 await trackPage(
