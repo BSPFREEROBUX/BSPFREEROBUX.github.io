@@ -441,38 +441,113 @@ Total Robux Given Out
 
 </div>
 
-<div id="supportPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:1000;">
-<div style="background:#1e1e1e;padding:25px;border-radius:10px;text-align:center;min-width:280px">
-
-<h2>Support Method</h2>
-
-<div style="
-margin-top:20px;
-display:flex;
-flex-direction:column;
+<div id="supportPopup" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.65);
 align-items:center;
-gap:30px;
+justify-content:center;
+z-index:1000;
 ">
 
-<button onclick="openDiscordSupport()" style="border:none;background:none;cursor:pointer;padding:0">
-<img src="discord.png" style="width:100px;display:block">
+<div style="
+background:#1e1e1e;
+padding:30px;
+border-radius:12px;
+text-align:center;
+width:520px;
+max-width:90vw;
+">
+
+<h2 style="margin:0 0 30px 0;">Support Method</h2>
+
+<div style="
+display:flex;
+justify-content:center;
+align-items:center;
+gap:50px;
+margin-bottom:35px;
+">
+
+<button onclick="openDiscordSupport()" style="
+border:none;
+background:none;
+padding:0;
+cursor:pointer;
+width:100px;
+height:100px;
+display:flex;
+align-items:center;
+justify-content:center;
+">
+<img src="discord.png" style="
+width:100px;
+height:100px;
+object-fit:contain;
+display:block;
+">
 </button>
 
-<button onclick="openWebsiteSupport()" style="border:none;background:none;cursor:pointer;padding:0">
-<img src="Web.png" style="width:100px;display:block">
+<button onclick="openWebsiteSupport()" style="
+border:none;
+background:none;
+padding:0;
+cursor:pointer;
+width:100px;
+height:100px;
+display:flex;
+align-items:center;
+justify-content:center;
+">
+<img src="Web.png" style="
+width:100px;
+height:100px;
+object-fit:contain;
+display:block;
+">
 </button>
 
-<button onclick="openEmailSupport()" style="border:none;background:none;cursor:pointer;padding:0">
-<img src="email.png" style="width:100px;display:block">
+<button onclick="openEmailSupport()" style="
+border:none;
+background:none;
+padding:0;
+cursor:pointer;
+width:100px;
+height:100px;
+display:flex;
+align-items:center;
+justify-content:center;
+">
+<img src="email.png" style="
+width:100px;
+height:100px;
+object-fit:contain;
+display:block;
+">
 </button>
 
 </div>
 
-<div style="margin-top:20px">
-<button onclick="closeSupportPopup()">Close</button>
-</div>
+<button onclick="closeSupportPopup()" style="
+width:100%;
+height:48px;
+border:none;
+border-radius:10px;
+background:#e5e5e5;
+color:#000;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+">
+Close
+</button>
 
 </div>
+
 </div>
 
 <script src="theme.js"></script>
