@@ -406,7 +406,7 @@ openFromSearch()
 })
 
 async function trackPage(page){
-const token=localStorage.getItem("token")
+const token=localStorage.getItem("Token")
 if(!token) return
 
 await fetch(backend+"/track/page",{
@@ -807,13 +807,13 @@ await refreshState()
 }
 
 function logout(){
-localStorage.removeItem("token")
+localStorage.removeItem("Token")
 location.href="login.html"
 }
 
 async function init(){
 backend=await getBackend()
-token=localStorage.getItem("token")
+token=localStorage.getItem("Token")
 await trackPage("DMS.html")
 if(!token){
 location.href="login.html"
