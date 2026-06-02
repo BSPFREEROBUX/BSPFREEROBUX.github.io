@@ -263,7 +263,7 @@ width:8px;
 }
 
 #settingsBox::-webkit-scrollbar-track{
-background:#1a1a1a;
+background:#141414;
 border-radius:10px;
 }
 
@@ -325,11 +325,11 @@ padding:15px;
 border-radius:10px;
 z-index:999;
 width:320px;
-height:calc(100vh - 100px);
+max-height:calc(100vh - 80px);
 overflow-y:auto;
 overflow-x:hidden;
+box-sizing:border-box;
 ">
-
 <input id="emailInput" placeholder="Enter email">
 <button onclick="sendCode()">Send Code</button>
 
@@ -353,34 +353,23 @@ overflow-x:hidden;
 <option value="Australia/Sydney">Sydney</option>
 <option value="Asia/Kolkata">India</option>
 </select>
-  
+
 <button onclick="saveTimezone()">Save GMT</button>
 
 <hr style="margin:10px 0">
 
 <div id="vipThemeBox" style="display:none">
-
-<div style="margin-bottom:8px;font-weight:bold">
-VIP Theme
-</div>
+<div style="margin-bottom:8px;font-weight:bold">VIP Theme</div>
 
 <select id="vipThemeSelect">
-<option value="styles.css">
-Default Theme
-</option>
-
-<option value="Vip1style.css">
-Modern VIP Theme
-</option>
+<option value="styles.css">Default Theme</option>
+<option value="Vip1style.css">Modern VIP Theme</option>
 </select>
 
-<button
-onclick="saveVipTheme()"
-style="margin-top:8px;width:100%"
->
+<button onclick="saveVipTheme()" style="margin-top:8px;width:100%">
 Load Theme
 </button>
-
+</div>
 </div>
 
 </div>
