@@ -258,6 +258,24 @@ word-wrap:break-word;
 font-size:clamp(13px,1.4vw,15px);
 }
 
+#settingsBox::-webkit-scrollbar{
+width:8px;
+}
+
+#settingsBox::-webkit-scrollbar-track{
+background:#1a1a1a;
+border-radius:10px;
+}
+
+#settingsBox::-webkit-scrollbar-thumb{
+background:#555;
+border-radius:10px;
+}
+
+#settingsBox::-webkit-scrollbar-thumb:hover{
+background:#777;
+}
+
 body.light .quest-card{
 background:#ffffff;
 color:#111;
@@ -297,7 +315,20 @@ z-index:9999;
 <div id="notificationList"></div>
 </div>
   
-<div id="settingsBox" style="display:none;position:fixed;top:60px;right:20px;background:#1e1e1e;padding:15px;border-radius:10px;z-index:999">
+<div id="settingsBox" style="
+display:none;
+position:fixed;
+top:60px;
+right:20px;
+background:#1e1e1e;
+padding:15px;
+border-radius:10px;
+z-index:999;
+width:320px;
+max-height:80vh;
+overflow-y:auto;
+overflow-x:hidden;
+">
 
 <input id="emailInput" placeholder="Enter email">
 <button onclick="sendCode()">Send Code</button>
