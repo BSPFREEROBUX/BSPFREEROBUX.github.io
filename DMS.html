@@ -958,7 +958,17 @@ if(wanted) activeFriend=wanted
 
 await refreshState()
 
-setInterval(refreshState,2500)
+setInterval(async ()=>{
+    await refreshState()
+
+    if(activeChatId){
+        await api("/dms/seen",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({chatId:activeChatId})
+        })
+    }
+},2500)
 
 window.addEventListener("hashchange",()=>{
 const wanted=decodeURIComponent(location.hash.slice(1))
