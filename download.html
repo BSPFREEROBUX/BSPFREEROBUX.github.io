@@ -103,99 +103,9 @@ opacity:.7;
 font-size:14px;
 }
 
-.versions{
-margin-top:35px;
-padding-top:25px;
-border-top:1px solid #2a2a2a;
-text-align:left;
-}
-
-.version{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 0;
-border-bottom:1px solid #2a2a2a;
-gap:15px;
-}
-
-.version:last-child{
-border-bottom:none;
-}
-
-.versionInfo{
-display:flex;
-flex-direction:column;
-gap:4px;
-}
-
-.versionName{
-font-weight:bold;
-}
-
-.versionDate{
-font-size:13px;
-opacity:.7;
-}
-
-.versionBtn{
-padding:10px 16px;
-background:#2a2a2a;
-color:white;
-text-decoration:none;
-border-radius:8px;
-}
-
-.versionBtn:hover{
-background:#383838;
-}
-
-.popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.8);
-display:none;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
-
-.popupCard{
-background:#18181b;
-padding:30px;
-border-radius:16px;
-max-width:400px;
-width:100%;
-text-align:center;
-border:1px solid #2a2a2a;
-}
-
-.popupCard button{
-margin-top:15px;
-padding:10px 20px;
-background:#5865F2;
-border:none;
-border-radius:10px;
-color:white;
-cursor:pointer;
-}
-
 @media(max-width:600px){
-
 .platform{
 width:100%;
-}
-
-.version{
-flex-direction:column;
-align-items:flex-start;
-}
-
-.versionBtn{
-width:100%;
-text-align:center;
-}
-
 }
 </style>
 </head>
@@ -204,6 +114,7 @@ text-align:center;
 <div id="platformSelect" class="platformSelect">
 
 <h1>Select Your Platform</h1>
+
 <div class="subtitle">
 Choose the platform you want to download Zyphor for.
 </div>
@@ -222,7 +133,7 @@ Download the Zyphor Desktop App.
 <div class="platformIcon">🤖</div>
 <div class="platformTitle">Android</div>
 <div class="platformDesc">
-Android app coming soon.
+Download the Zyphor Android App.
 </div>
 </div>
 
@@ -232,117 +143,103 @@ Android app coming soon.
 
 <div id="downloadPage" class="downloadPage">
 
-<h1>Download Zyphor</h1>
+<h1 id="title"></h1>
 
-<p>
-Install the official Zyphor Desktop App for Windows.
-</p>
+<p id="description"></p>
 
-<button id="downloadBtn" class="downloadBtn">
-Download Zyphor 1.0.2
-</button>
+<button id="downloadBtn" class="downloadBtn"></button>
 
 <div id="status" class="status">
 Preparing download...
 </div>
 
-<div class="versions">
-
-<h2>Older Versions</h2>
-
-<div class="version">
-<div class="versionInfo">
-<div class="versionName">Zyphor 1.0.1</div>
-<div class="versionDate">Released 2/6/2026</div>
-</div>
-<a id="v101" class="versionBtn">Download</a>
-</div>
-
-<div class="version">
-<div class="versionInfo">
-<div class="versionName">Zyphor 1.0.0</div>
-<div class="versionDate">Released 2/6/2026</div>
-</div>
-<a id="v100" class="versionBtn">Download</a>
-</div>
-
-</div>
-
-</div>
-
-<div id="androidPopup" class="popup">
-<div class="popupCard">
-<h2>Android App</h2>
-<p>
-The Android version of Zyphor is currently in development and is not available yet.
-</p>
-<button onclick="closePopup()">
-Close
-</button>
-</div>
 </div>
 
 <script>
 let latestUrl=""
 
 function showWindows(){
-
 document.getElementById("platformSelect").style.display="none"
 document.getElementById("downloadPage").style.display="block"
-
+setup("windows")
 }
 
 function showAndroid(){
-
-document.getElementById("androidPopup").style.display="flex"
-
+document.getElementById("platformSelect").style.display="none"
+document.getElementById("downloadPage").style.display="block"
+setup("android")
 }
 
-function closePopup(){
-
-document.getElementById("androidPopup").style.display="none"
-
-}
-
-async function setupDownload(){
+async function setup(platform){
 
 try{
 
-const backend=await fetch("server.txt")
-.then(r=>r.text())
-
+const backend=await fetch("server.txt").then(r=>r.text())
 const base=backend.trim()
 
-latestUrl=
-base+"/uploads/Zyphor%20Setup%201.0.2.exe"
+if(platform==="windows"){
 
-document.getElementById("v101").href=
-base+"/uploads/Zyphor%20Setup%201.0.1.exe"
+document.getElementById("title").textContent="Download Zyphor"
+document.getElementById("description").textContent="Install the official Zyphor Desktop App for Windows."
+document.getElementById("downloadBtn").textContent="Download Zyphor 1.0.2"
 
-document.getElementById("v100").href=
-base+"/uploads/Zyphor%20Setup%201.0.0.exe"
+latestUrl=base+"/uploads/Zyphor%20Setup%201.0.2.exe"
 
-document.getElementById("status").textContent=
-"Ready to download"
+}else{
+
+document.getElementById("title").textContent="Download Zyphor"
+document.getElementById("description").textContent="Install the official Zyphor Android App."
+document.getElementById("downloadBtn").textContent="Download Zyphor V1.0.0"
+
+latestUrl=base+"/uploads/ZyphorV1.0.0SV1.12.3.apk"
+
+}
+
+document.getElementById("status").textContent="Ready to download"
 
 }catch{
 
-document.getElementById("status").textContent=
-"Download unavailable"
+document.getElementById("status").textContent="Download unavailable"
 
 }
 
 }
 
-document.getElementById("downloadBtn").onclick=()=>{
+document.getElementById("downloadBtn").onclick=async()=>{
 
-if(!latestUrl) return
+if(!latestUrl)return
 
-window.location.href=latestUrl
+const status=document.getElementById("status")
+status.textContent="Downloading..."
+
+try{
+
+const response=await fetch(latestUrl)
+
+if(!response.ok)throw new Error()
+
+const blob=await response.blob()
+
+const url=URL.createObjectURL(blob)
+
+const a=document.createElement("a")
+a.href=url
+a.download=latestUrl.split("/").pop()
+document.body.appendChild(a)
+a.click()
+a.remove()
+
+URL.revokeObjectURL(url)
+
+status.textContent="Download started"
+
+}catch{
+
+status.textContent="Download failed"
 
 }
 
-setupDownload()
+}
 </script>
 
 </body>
