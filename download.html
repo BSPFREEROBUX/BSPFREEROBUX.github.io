@@ -103,9 +103,33 @@ opacity:.7;
 font-size:14px;
 }
 
+.notice{
+display:none;
+margin-top:30px;
+padding:20px;
+background:#222226;
+border:1px solid #333;
+border-left:4px solid #5865F2;
+border-radius:12px;
+text-align:left;
+}
+
+.notice h3{
+margin:0 0 10px;
+}
+
+.notice p{
+margin:0;
+opacity:.85;
+line-height:1.6;
+}
+
 @media(max-width:600px){
+
 .platform{
 width:100%;
+}
+
 }
 </style>
 </head>
@@ -153,6 +177,18 @@ Download the Zyphor Android App.
 Preparing download...
 </div>
 
+<div id="notice" class="notice">
+
+<h3>About Zyphor V1.0.0</h3>
+
+<p>
+Zyphor V1.0.0 was built using <b>AppMySite</b> as a temporary solution to make the Android app available as soon as possible. While it provides the core Zyphor experience, it is <b>not</b> the final version of the app.
+<br><br>
+The official native Zyphor application is currently being developed by <b>Team Vaprix</b>. Future releases will be built entirely by Team Vaprix and will feature a redesigned interface, significantly improved performance, additional features, and a much better overall experience.
+</p>
+
+</div>
+
 </div>
 
 <script>
@@ -177,6 +213,8 @@ try{
 const backend=await fetch("server.txt").then(r=>r.text())
 const base=backend.trim()
 
+const notice=document.getElementById("notice")
+
 if(platform==="windows"){
 
 document.getElementById("title").textContent="Download Zyphor"
@@ -185,6 +223,8 @@ document.getElementById("downloadBtn").textContent="Download Zyphor 1.0.2"
 
 latestUrl=base+"/uploads/Zyphor%20Setup%201.0.2.exe"
 
+notice.style.display="none"
+
 }else{
 
 document.getElementById("title").textContent="Download Zyphor"
@@ -192,6 +232,8 @@ document.getElementById("description").textContent="Install the official Zyphor 
 document.getElementById("downloadBtn").textContent="Download Zyphor V1.0.0"
 
 latestUrl=base+"/uploads/ZyphorV1.0.0SV1.12.3.apk"
+
+notice.style.display="block"
 
 }
 
@@ -225,6 +267,7 @@ const url=URL.createObjectURL(blob)
 const a=document.createElement("a")
 a.href=url
 a.download=latestUrl.split("/").pop()
+
 document.body.appendChild(a)
 a.click()
 a.remove()
