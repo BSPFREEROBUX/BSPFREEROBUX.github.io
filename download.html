@@ -1,53 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Download Zyphor</title>
 <style>
-body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;background:#0f0f10;font-family:Arial,sans-serif;color:#fff;padding:20px}
-.platformSelect,.downloadPage{background:#18181b;padding:30px;border-radius:16px;text-align:center;max-width:800px;width:100%;border:1px solid #2a2a2a}
-.platforms{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
-.platform{width:220px;padding:25px;background:#222226;border:1px solid #333;border-radius:14px;cursor:pointer;transition:.2s}
-.platform:hover{transform:translateY(-3px);border-color:#5865F2}
-.platformIcon{font-size:70px;margin-bottom:15px}
-.platformTitle{font-size:22px;font-weight:bold;margin-bottom:8px}
-.platformDesc{font-size:14px;opacity:.7}
+body{margin:0;background:#0f0f10;color:#fff;font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.card{background:#18181b;border:1px solid #2a2a2a;border-radius:16px;padding:30px;max-width:850px;width:100%}
+.platforms{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+.platform{background:#222226;border:1px solid #333;border-radius:14px;padding:24px;width:220px;text-align:center;cursor:pointer;transition:.2s}
+.platform:hover{border-color:#5865F2;transform:translateY(-3px)}
+.icon{font-size:64px}
 .downloadPage{display:none}
-.downloadBtn,.versionBtn{display:block;width:100%;padding:14px;background:#5865F2;color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:12px}
-.versionBtn{background:#222226;border:1px solid #333;text-align:left}
+.versionBtn{width:100%;background:#222226;border:1px solid #333;color:#fff;border-radius:12px;padding:16px;text-align:left;margin-top:12px;cursor:pointer}
 .versionBtn:hover{border-color:#5865F2}
-.status{margin-top:15px;opacity:.7}
-.notice{display:none;margin-top:30px;padding:20px;background:#222226;border:1px solid #333;border-left:4px solid #5865F2;border-radius:12px;text-align:left}
-.latest{color:#6df56d;font-size:14px}
-.meta{opacity:.75;font-size:14px;margin-top:5px}
+.latest{color:#70ff83;font-size:13px;font-weight:bold}
+.meta{opacity:.75;font-size:14px;margin-top:4px}
+.notice{display:none;margin-top:24px;background:#222226;border-left:4px solid #5865F2;padding:18px;border-radius:10px}
+.status{margin-top:16px;opacity:.75}
 </style>
 </head>
 <body>
 
-<div id="platformSelect" class="platformSelect">
+<div id="select" class="card">
 <h1>Select Your Platform</h1>
 <p>Choose the platform you want to download Zyphor.</p>
 <div class="platforms">
-<div class="platform" onclick="showWindows()">
-<div class="platformIcon">💻</div>
-<div class="platformTitle">Windows</div>
-<div class="platformDesc">Download the Zyphor Desktop App.</div>
-</div>
-<div class="platform" onclick="showAndroid()">
-<div class="platformIcon">🤖</div>
-<div class="platformTitle">Android</div>
-<div class="platformDesc">Download the Zyphor Android App.</div>
-</div>
+<div class="platform" onclick="showPlatform('windows')"><div class="icon">💻</div><h2>Windows</h2><p>Desktop App</p></div>
+<div class="platform" onclick="showPlatform('android')"><div class="icon">🤖</div><h2>Android</h2><p>Android App</p></div>
 </div>
 </div>
 
-<div id="downloadPage" class="downloadPage">
+<div id="page" class="card downloadPage">
 <h1 id="title"></h1>
-<p id="description"></p>
-<div id="versionList"></div>
-<button id="downloadBtn" class="downloadBtn" style="display:none"></button>
-<div id="status" class="status">Preparing download...</div>
+<p id="desc"></p>
+<div id="versions"></div>
+<div id="status" class="status">Preparing...</div>
 
 <div id="notice" class="notice">
 <h3>About Zyphor V1.0.0</h3>
@@ -56,58 +44,45 @@ body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:c
 </div>
 
 <script>
-function showWindows(){
-platformSelect.style.display="none";
-downloadPage.style.display="block";
-setup("windows");
-}
-function showAndroid(){
-platformSelect.style.display="none";
-downloadPage.style.display="block";
-setup("android");
-}
-function openDownload(url){
-status.textContent="Opening download...";
-const w=window.open(url,"_blank");
-if(!w){status.textContent="Please allow pop-ups.";return;}
-setTimeout(()=>{window.focus();status.textContent="Download started";},500);
-}
-async function setup(platform){
-try{
+async function showPlatform(type){
+select.style.display="none";
+page.style.display="block";
 const base=(await fetch("server.txt").then(r=>r.text())).trim();
-versionList.innerHTML="";
+versions.innerHTML="";
 notice.style.display="none";
-downloadBtn.style.display="none";
 
-if(platform==="windows"){
-title.textContent="Download Zyphor";
-description.textContent="Choose a Windows version.";
-
-const versions=[
-{name:"Zyphor 1.0.2",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 16:01 CPH",latest:true,url:base+"/uploads/Zyphor_Setup_1.0.2.exe"},
-{name:"Zyphor 1.0.1",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 15:51 CPH",latest:false,url:base+"/uploads/Zyphor_Setup_1.0.1.exe"},
-{name:"Zyphor 1.0.0",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 15:40 CPH",latest:false,url:base+"/uploads/Zyphor_Setup_1.0.0.exe"}
-];
-
-versions.forEach(v=>{
+function add(v){
 const b=document.createElement("button");
 b.className="versionBtn";
 b.innerHTML="<div style='font-size:18px;font-weight:bold'>"+v.name+(v.latest?" <span class='latest'>Latest</span>":"")+"</div><div class='meta'>"+v.size+"</div><div class='meta'>"+v.released+"</div>";
-b.onclick=()=>openDownload(v.url);
-versionList.appendChild(b);
-});
+b.onclick=()=>window.open(v.url,"_blank");
+versions.appendChild(b);
+}
+
+if(type==="windows"){
+title.textContent="Download Zyphor";
+desc.textContent="Choose a Windows version.";
+
+[
+{name:"Zyphor 1.0.2",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 16:01 CPH",latest:true,url:base+"/uploads/Zyphor%20Setup%201.0.2.exe"},
+{name:"Zyphor 1.0.1",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 15:51 CPH",latest:false,url:base+"/uploads/Zyphor%20Setup%201.0.1.exe"},
+{name:"Zyphor 1.0.0",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 15:40 CPH",latest:false,url:base+"/uploads/Zyphor%20Setup%201.0.0.exe"}
+].forEach(add);
+
+notice.style.display="block";
 }else{
 title.textContent="Download Zyphor";
-description.textContent="Install the official Zyphor Android App.";
-downloadBtn.style.display="block";
-downloadBtn.textContent="Download Zyphor V1.0.0";
-downloadBtn.onclick=()=>openDownload(base+"/uploads/ZyphorV1.0.0SV1.12.3.apk");
+desc.textContent="Choose an Android version.";
+
+[
+{name:"Zyphor V1.0.1",size:"93.21 MiB",released:"Released: Jul 2, 2026 • 19:06 (CPH)",latest:true,url:base+"/uploads/ZyphorV1.0.1VS1.12.3.apk"},
+{name:"Zyphor V1.0.0",size:"93.21 MiB",released:"Released: Jul 2, 2026 • 18:00 (CPH)",latest:false,url:base+"/uploads/ZyphorV1.0.0SV1.12.3.apk"}
+].forEach(add);
+
 notice.style.display="block";
 }
-status.textContent="Ready to download";
-}catch{
-status.textContent="Download unavailable";
-}
+
+status.textContent="Ready to download.";
 }
 </script>
 
