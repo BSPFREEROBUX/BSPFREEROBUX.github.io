@@ -97,6 +97,29 @@ transition:.2s;
 transform:scale(1.03);
 }
 
+.versionList{
+margin-top:20px;
+}
+
+.versionBtn{
+display:block;
+width:100%;
+padding:14px;
+margin-bottom:12px;
+background:#222226;
+border:1px solid #333;
+border-radius:10px;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:.2s;
+}
+
+.versionBtn:hover{
+border-color:#5865F2;
+transform:translateY(-2px);
+}
+
 .status{
 margin-top:15px;
 opacity:.7;
@@ -125,11 +148,9 @@ line-height:1.6;
 }
 
 @media(max-width:600px){
-
 .platform{
 width:100%;
 }
-
 }
 </style>
 </head>
@@ -173,6 +194,8 @@ Download the Zyphor Android App.
 
 <button id="downloadBtn" class="downloadBtn"></button>
 
+<div id="versionList" class="versionList"></div>
+
 <div id="status" class="status">
 Preparing download...
 </div>
@@ -206,6 +229,24 @@ document.getElementById("downloadPage").style.display="block"
 setup("android")
 }
 
+function openDownload(url){
+const status=document.getElementById("status")
+
+status.textContent="Opening download..."
+
+const downloadWindow=window.open(url,"_blank")
+
+if(!downloadWindow){
+status.textContent="Please allow pop-ups to download."
+return
+}
+
+setTimeout(()=>{
+window.focus()
+status.textContent="Download started"
+},500)
+}
+
 async function setup(platform){
 
 try{
@@ -214,26 +255,65 @@ const backend=await fetch("server.txt").then(r=>r.text())
 const base=backend.trim()
 
 const notice=document.getElementById("notice")
+const downloadBtn=document.getElementById("downloadBtn")
+const versionList=document.getElementById("versionList")
+
+versionList.innerHTML=""
 
 if(platform==="windows"){
 
 document.getElementById("title").textContent="Download Zyphor"
-document.getElementById("description").textContent="Install the official Zyphor Desktop App for Windows."
-document.getElementById("downloadBtn").textContent="Download Zyphor 1.0.2"
+document.getElementById("description").textContent="Choose a Windows version to download."
 
-latestUrl=base+"/uploads/Zyphor%20Setup%201.0.2.exe"
+downloadBtn.style.display="none"
 
 notice.style.display="none"
+
+const versions=[
+{
+name:"Zyphor 1.0.2 (Latest)",
+url:base+"/uploads/Zyphor%20Setup%201.0.2.exe"
+},
+{
+name:"Zyphor 1.0.1",
+url:base+"/uploads/Zyphor%20Setup%201.0.1.exe"
+},
+{
+name:"Zyphor 1.0.0",
+url:base+"/uploads/Zyphor%20Setup%201.0.0.exe"
+}
+]
+
+versions.forEach(version=>{
+
+const button=document.createElement("button")
+
+button.className="versionBtn"
+button.textContent=version.name
+
+button.onclick=()=>{
+openDownload(version.url)
+}
+
+versionList.appendChild(button)
+
+})
 
 }else{
 
 document.getElementById("title").textContent="Download Zyphor"
 document.getElementById("description").textContent="Install the official Zyphor Android App."
-document.getElementById("downloadBtn").textContent="Download Zyphor V1.0.0"
+
+downloadBtn.style.display="inline-block"
+downloadBtn.textContent="Download Zyphor V1.0.0"
 
 latestUrl=base+"/uploads/ZyphorV1.0.0SV1.12.3.apk"
 
 notice.style.display="block"
+
+downloadBtn.onclick=()=>{
+openDownload(latestUrl)
+}
 
 }
 
@@ -244,34 +324,6 @@ document.getElementById("status").textContent="Ready to download"
 document.getElementById("status").textContent="Download unavailable"
 
 }
-
-}
-
-document.getElementById("downloadBtn").onclick=()=>{
-
-if(!latestUrl)return
-
-const status=document.getElementById("status")
-
-status.textContent="Opening download..."
-
-const downloadWindow=window.open(latestUrl,"_blank")
-
-if(!downloadWindow){
-
-status.textContent="Please allow pop-ups to download."
-
-return
-
-}
-
-setTimeout(()=>{
-
-window.focus()
-
-status.textContent="Download started"
-
-},500)
 
 }
 </script>
