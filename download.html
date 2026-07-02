@@ -247,40 +247,31 @@ document.getElementById("status").textContent="Download unavailable"
 
 }
 
-document.getElementById("downloadBtn").onclick=async()=>{
+document.getElementById("downloadBtn").onclick=()=>{
 
 if(!latestUrl)return
 
 const status=document.getElementById("status")
-status.textContent="Downloading..."
 
-try{
+status.textContent="Opening download..."
 
-const response=await fetch(latestUrl)
+const downloadWindow=window.open(latestUrl,"_blank")
 
-if(!response.ok)throw new Error()
+if(!downloadWindow){
 
-const blob=await response.blob()
+status.textContent="Please allow pop-ups to download."
 
-const url=URL.createObjectURL(blob)
+return
 
-const a=document.createElement("a")
-a.href=url
-a.download=latestUrl.split("/").pop()
+}
 
-document.body.appendChild(a)
-a.click()
-a.remove()
+setTimeout(()=>{
 
-URL.revokeObjectURL(url)
+window.focus()
 
 status.textContent="Download started"
 
-}catch{
-
-status.textContent="Download failed"
-
-}
+},500)
 
 }
 </script>
