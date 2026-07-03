@@ -694,7 +694,7 @@ return `
 <span class="msgTime">${escapeHTML(formatTime(m.time))}</span>
 </div>
 <div>${escapeHTML(m.text)}</div>
-${me && (() => {
+${me ? (() => {
 const other = chat.users.find(u => u !== myName)
 const readTime = chat.lastRead?.[other]
 
@@ -703,17 +703,18 @@ return `<div style="font-size:11px;opacity:.6;margin-top:4px">✓ Read</div>`
 }
 
 return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
-})()}
+})() : ""}
 </div>
 `
 }).join("")
+
 const nearBottom =
 chatMessages.scrollHeight -
 chatMessages.scrollTop -
 chatMessages.clientHeight < 150
 
 if(nearBottom){
-    chatMessages.scrollTop = chatMessages.scrollHeight
+chatMessages.scrollTop = chatMessages.scrollHeight
 }
 }
 
