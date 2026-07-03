@@ -517,7 +517,7 @@ requestAnimationFrame(update)
 }
 
 async function trackPage(page){
-const token=localStorage.getItem("token")
+const token=localStorage.getItem("Token")
 if(!token) return
 
 await fetch(backend+"/track/page",{
@@ -608,7 +608,7 @@ box.style.display==="block"
 
 async function loadNotifications(){
 
-const token=localStorage.getItem("token")
+const token=localStorage.getItem("Token")
 if(!token) return
 
 let notifications=[]
@@ -769,7 +769,7 @@ loadNotifications,
 )
 
 
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("Token")
 if(!token) return location.href = "login.html"
 
 try{
@@ -813,7 +813,7 @@ await loadQuests()
 }
 
 async function loadQuests(){
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("Token")
 if(!token) return
 
 try{
@@ -853,7 +853,7 @@ const save=await fetch(backend+"/account/add-email",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
-Authorization:localStorage.getItem("token")
+Authorization:localStorage.getItem("Token")
 },
 body:JSON.stringify({
 email
@@ -887,7 +887,7 @@ const r=await fetch(backend+"/account/verify-email",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
-Authorization:localStorage.getItem("token")
+Authorization:localStorage.getItem("Token")
 },
 body:JSON.stringify({
 code:document.getElementById("codeInput").value
@@ -923,7 +923,7 @@ const r=await fetch(backend+"/2fa/toggle",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
-Authorization:localStorage.getItem("token")
+Authorization:localStorage.getItem("Token")
 },
 body:JSON.stringify({
 enabled:true
