@@ -802,6 +802,18 @@ return
 activeFriend=friend
 activeChatId=data.chat.id
 location.hash=encodeURIComponent(friend)
+
+await api("/dms/activity",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+chatId:activeChatId,
+active:true
+})
+})
+
 renderActiveChat(data.chat)
 await api("/dms/seen",{
 method:"POST",
@@ -947,6 +959,45 @@ function logout(){
 localStorage.removeItem("Token")
 location.href="login.html"
 }
+
+window.addEventListener("beforeunload",()=>{
+
+if(!activeChatId) return
+
+navigator.sendBeacon(
+backend+"/dms/activity",
+new Blob([
+JSON.stringify({
+chatId:activeChatId,
+active:false,
+token:localStorage.getItem("Token")
+})
+],{
+type:"application/json"
+})
+)
+
+})
+
+
+document.addEventListener("visibilitychange",()=>{
+
+if(!activeChatId) return
+
+
+api("/dms/activity",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+chatId:activeChatId,
+active:!document.hidden
+})
+})
+
+
+})
 
 async function init(){
 backend=await getBackend()
