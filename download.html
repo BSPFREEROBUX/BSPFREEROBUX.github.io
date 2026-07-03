@@ -3,88 +3,423 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>Download Zyphor</title>
+
 <style>
-body{margin:0;background:#0f0f10;color:#fff;font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
-.card{background:#18181b;border:1px solid #2a2a2a;border-radius:16px;padding:30px;max-width:850px;width:100%}
-.platforms{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
-.platform{background:#222226;border:1px solid #333;border-radius:14px;padding:24px;width:220px;text-align:center;cursor:pointer;transition:.2s}
-.platform:hover{border-color:#5865F2;transform:translateY(-3px)}
-.icon{font-size:64px}
-.downloadPage{display:none}
-.versionBtn{width:100%;background:#222226;border:1px solid #333;color:#fff;border-radius:12px;padding:16px;text-align:left;margin-top:12px;cursor:pointer}
-.versionBtn:hover{border-color:#5865F2}
-.latest{color:#70ff83;font-size:13px;font-weight:bold}
-.meta{opacity:.75;font-size:14px;margin-top:4px}
-.notice{display:none;margin-top:24px;background:#222226;border-left:4px solid #5865F2;padding:18px;border-radius:10px}
-.status{margin-top:16px;opacity:.75}
+
+body{
+margin:0;
+background:#0f0f10;
+color:#fff;
+font-family:Arial,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
+
+.card{
+background:#18181b;
+border:1px solid #2a2a2a;
+border-radius:16px;
+padding:30px;
+max-width:850px;
+width:100%;
+}
+
+.topBtns{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.backBtn{
+background:#222226;
+border:1px solid #333;
+color:#fff;
+border-radius:10px;
+padding:12px 18px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.backBtn:hover{
+border-color:#5865F2;
+}
+
+.platforms{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.platform{
+background:#222226;
+border:1px solid #333;
+border-radius:14px;
+padding:24px;
+width:220px;
+text-align:center;
+cursor:pointer;
+transition:.2s;
+}
+
+.platform:hover{
+border-color:#5865F2;
+transform:translateY(-3px);
+}
+
+.icon{
+font-size:64px;
+}
+
+.downloadPage{
+display:none;
+}
+
+.versionBtn{
+width:100%;
+background:#222226;
+border:1px solid #333;
+color:#fff;
+border-radius:12px;
+padding:16px;
+text-align:left;
+margin-top:12px;
+cursor:pointer;
+}
+
+.versionBtn:hover{
+border-color:#5865F2;
+}
+
+.latest{
+color:#70ff83;
+font-size:13px;
+font-weight:bold;
+}
+
+.meta{
+opacity:.75;
+font-size:14px;
+margin-top:4px;
+}
+
+.notice{
+display:none;
+margin-top:24px;
+background:#222226;
+border-left:4px solid #5865F2;
+padding:18px;
+border-radius:10px;
+}
+
+.status{
+margin-top:16px;
+opacity:.75;
+}
+
 </style>
+
 </head>
+
 <body>
 
+
 <div id="select" class="card">
+
+<div class="topBtns">
+
+<button class="backBtn" onclick="location.href='dashboard.html'">
+← Dashboard
+</button>
+
+</div>
+
+
 <h1>Select Your Platform</h1>
-<p>Choose the platform you want to download Zyphor.</p>
+
+<p>
+Choose the platform you want to download Zyphor.
+</p>
+
+
 <div class="platforms">
-<div class="platform" onclick="showPlatform('windows')"><div class="icon">💻</div><h2>Windows</h2><p>Desktop App</p></div>
-<div class="platform" onclick="showPlatform('android')"><div class="icon">🤖</div><h2>Android</h2><p>Android App</p></div>
+
+
+<div class="platform" onclick="showPlatform('windows')">
+
+<div class="icon">💻</div>
+
+<h2>Windows</h2>
+
+<p>Desktop App</p>
+
 </div>
+
+
+<div class="platform" onclick="showPlatform('android')">
+
+<div class="icon">🤖</div>
+
+<h2>Android</h2>
+
+<p>Android App</p>
+
 </div>
+
+
+</div>
+
+
+</div>
+
+
 
 <div id="page" class="card downloadPage">
+
+
+<div class="topBtns">
+
+
+<button class="backBtn" onclick="backSelect()">
+← Platforms
+</button>
+
+
+<button class="backBtn" onclick="location.href='dashboard.html'">
+Dashboard
+</button>
+
+
+</div>
+
+
+
 <h1 id="title"></h1>
+
 <p id="desc"></p>
+
+
 <div id="versions"></div>
-<div id="status" class="status">Preparing...</div>
+
+
+<div id="status" class="status">
+Preparing...
+</div>
+
 
 <div id="notice" class="notice">
-<h3>About Zyphor V1.0.0</h3>
-<p>Zyphor V1.0.0 was built using <b>AppMySite</b> as a temporary solution. The official native app by <b>Team Vaprix</b> is currently in development.</p>
+
+<h3>Zyphor Android V1.0.2</h3>
+
+<p>
+Zyphor Android V1.0.2 is the first official native Android Studio release by
+<b>Team Vaprix</b>.
+Includes native notifications and mobile support.
+</p>
+
+
 </div>
+
+
 </div>
+
+
 
 <script>
+
+
 async function showPlatform(type){
-select.style.display="none";
-page.style.display="block";
-const base=(await fetch("server.txt").then(r=>r.text())).trim();
-versions.innerHTML="";
-notice.style.display="none";
+
+
+select.style.display="none"
+
+page.style.display="block"
+
+
+const base =
+(await fetch("server.txt").then(r=>r.text())).trim()
+
+
+versions.innerHTML=""
+
+notice.style.display="none"
+
+
 
 function add(v){
-const b=document.createElement("button");
-b.className="versionBtn";
-b.innerHTML="<div style='font-size:18px;font-weight:bold'>"+v.name+(v.latest?" <span class='latest'>Latest</span>":"")+"</div><div class='meta'>"+v.size+"</div><div class='meta'>"+v.released+"</div>";
-b.onclick=()=>window.open(v.url,"_blank");
-versions.appendChild(b);
+
+
+const b=document.createElement("button")
+
+
+b.className="versionBtn"
+
+
+b.innerHTML=`
+
+<div style="font-size:18px;font-weight:bold">
+
+${v.name}
+
+${v.latest ? "<span class='latest'>Latest</span>" : ""}
+
+</div>
+
+<div class="meta">
+
+${v.size}
+
+</div>
+
+<div class="meta">
+
+${v.released}
+
+</div>
+
+`
+
+
+b.onclick=()=>{
+
+window.open(v.url,"_blank")
+
 }
+
+
+versions.appendChild(b)
+
+
+}
+
+
+
 
 if(type==="windows"){
-title.textContent="Download Zyphor";
-desc.textContent="Choose a Windows version.";
+
+
+title.textContent="Download Zyphor"
+
+desc.textContent="Choose a Windows version."
+
 
 [
-{name:"Zyphor 1.0.2",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 16:01 CPH",latest:true,url:base+"/uploads/Zyphor%20Setup%201.0.2.exe"},
-{name:"Zyphor 1.0.1",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 15:51 CPH",latest:false,url:base+"/uploads/Zyphor%20Setup%201.0.1.exe"},
-{name:"Zyphor 1.0.0",size:"92.2 MiB",released:"Released: Jun 2, 2026 • 15:40 CPH",latest:false,url:base+"/uploads/Zyphor%20Setup%201.0.0.exe"}
-].forEach(add);
 
-notice.style.display="block";
+{
+name:"Zyphor 1.0.2",
+size:"92.2 MiB",
+released:"Released: Jun 2, 2026 • 16:01 CPH",
+latest:true,
+url:base+"/uploads/Zyphor%20Setup%201.0.2.exe"
+},
+
+
+{
+name:"Zyphor 1.0.1",
+size:"92.2 MiB",
+released:"Released: Jun 2, 2026 • 15:51 CPH",
+latest:false,
+url:base+"/uploads/Zyphor%20Setup%201.0.1.exe"
+},
+
+
+{
+name:"Zyphor 1.0.0",
+size:"92.2 MiB",
+released:"Released: Jun 2, 2026 • 15:40 CPH",
+latest:false,
+url:base+"/uploads/Zyphor%20Setup%201.0.0.exe"
+}
+
+
+].forEach(add)
+
+
+
 }else{
-title.textContent="Download Zyphor";
-desc.textContent="Choose an Android version.";
+
+
+title.textContent="Download Zyphor"
+
+desc.textContent="Choose an Android version."
+
 
 [
-{name:"Zyphor V1.0.1",size:"93.21 MiB",released:"Released: Jul 2, 2026 • 19:06 (CPH)",latest:true,url:base+"/uploads/ZyphorV1.0.1VS1.12.3.apk"},
-{name:"Zyphor V1.0.0",size:"93.21 MiB",released:"Released: Jul 2, 2026 • 18:00 (CPH)",latest:false,url:base+"/uploads/ZyphorV1.0.0SV1.12.3.apk"}
-].forEach(add);
 
-notice.style.display="block";
+
+{
+name:"Zyphor V1.0.2",
+size:"93.21 MiB",
+released:"Released: Jul 3, 2026 • 18:36 CPH • Official Android Studio Release",
+latest:true,
+url:base+"/uploads/ZyphorV1.0.2VS1.12.3.apk"
+},
+
+
+{
+name:"Zyphor V1.0.1",
+size:"93.21 MiB",
+released:"Released: Jul 2, 2026 • 19:06 CPH",
+latest:false,
+url:base+"/uploads/ZyphorV1.0.1VS1.12.3.apk"
+},
+
+
+{
+name:"Zyphor V1.0.0",
+size:"93.21 MiB",
+released:"Released: Jul 2, 2026 • 18:00 CPH",
+latest:false,
+url:base+"/uploads/ZyphorV1.0.0SV1.12.3.apk"
 }
 
-status.textContent="Ready to download.";
+
+].forEach(add)
+
+
+notice.style.display="block"
+
+
 }
+
+
+
+status.textContent="Ready to download."
+
+
+}
+
+
+
+function backSelect(){
+
+
+page.style.display="none"
+
+
+select.style.display="block"
+
+
+versions.innerHTML=""
+
+
+status.textContent="Preparing..."
+
+
+notice.style.display="none"
+
+
+}
+
+
+
 </script>
+
 
 </body>
 </html>
