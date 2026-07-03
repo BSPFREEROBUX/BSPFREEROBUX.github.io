@@ -1065,6 +1065,51 @@
       "Future paid systems may introduce additional rules, restrictions, requirements, verification systems, eligibility conditions, or payment limitations at any time."
     ]
   },
+  {
+  "title": "Native Mobile Application and Push Notifications",
+  "content": [
+    "The Zyphor mobile application is provided on an as-is and as-available basis and may depend on device settings, operating system behavior, third-party services, and network availability.",
+    "Mobile notifications, including but not limited to direct messages, alerts, updates, reminders, and account notifications, are provided for convenience only and are not guaranteed to be delivered instantly, correctly, or at all.",
+    "Push notifications may fail, be delayed, duplicated, blocked, hidden, or restricted due to device settings, battery optimization, permissions, internet connection, operating system limitations, Firebase Cloud Messaging availability, or third-party provider issues.",
+    "We are not responsible for missed messages, missed alerts, delayed notifications, failed delivery, incorrect notification content, or consequences caused by relying on notifications.",
+    "Users are responsible for enabling notification permissions, maintaining device compatibility, and configuring their device settings correctly."
+  ]
+},
+{
+  "title": "Mobile Device Registration and Tokens",
+  "content": [
+    "The mobile application may register device identifiers, notification tokens, session information, or similar technical data required for application functionality.",
+    "Device tokens may be stored, updated, removed, or invalidated automatically for security, compatibility, notification delivery, or operational purposes.",
+    "Changing devices, reinstalling the application, clearing data, logging out, or modifying system settings may remove or reset mobile functionality.",
+    "We are not responsible for lost notification access, invalid device sessions, or issues caused by device changes."
+  ]
+},
+{
+  "title": "Mobile Application Updates and Versions",
+  "content": [
+    "The mobile application may receive updates, patches, redesigns, security changes, or functionality modifications at any time.",
+    "Older application versions may stop working, lose compatibility, contain missing features, or become unsupported without notice.",
+    "Users are responsible for installing updates when required.",
+    "We are not responsible for issues caused by outdated, modified, unofficial, or unsupported application versions."
+  ]
+},
+{
+  "title": "Application Permissions",
+  "content": [
+    "Certain application features may require permissions including but not limited to notifications, internet access, storage access, or future device capabilities.",
+    "Denying or removing permissions may limit or disable application functionality.",
+    "Granting permissions does not guarantee that related features will always function correctly.",
+    "Users may manage application permissions through their device settings where supported."
+  ]
+},
+{
+  "title": "Application Availability and Compatibility",
+  "content": [
+    "The mobile application may not function on all devices, Android versions, manufacturers, custom operating systems, emulators, modified devices, or restricted environments.",
+    "Performance, battery usage, loading behavior, notification delivery, and appearance may vary between devices.",
+    "We are not responsible for crashes, compatibility issues, installation failures, device-specific problems, or operating system restrictions."
+  ]
+},
 {
   "title": "Jurisdiction and Interpretation",
   "content": [
