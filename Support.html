@@ -30,6 +30,76 @@ display:flex;
 gap:16px;
 }
 
+.ticketPopup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.ticketBox{
+width:90%;
+max-width:420px;
+background:#18181b;
+border:1px solid #333;
+border-radius:16px;
+padding:24px;
+box-shadow:0 20px 60px #000;
+}
+
+.ticketBox h2{
+margin-top:0;
+}
+
+.ticketInput{
+width:100%;
+box-sizing:border-box;
+background:#0f0f10;
+border:1px solid #333;
+color:white;
+border-radius:10px;
+padding:12px;
+margin-top:10px;
+font-size:15px;
+outline:none;
+}
+
+.ticketInput:focus{
+border-color:#5865f2;
+}
+
+.ticketReason{
+height:120px;
+resize:none;
+}
+
+.ticketActions{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
+.ticketActions button{
+flex:1;
+border:none;
+padding:12px;
+border-radius:10px;
+cursor:pointer;
+color:white;
+font-weight:bold;
+}
+
+.createBtn{
+background:#5865f2;
+}
+
+.cancelBtn{
+background:#333;
+}
+
 .icons span{
 cursor:pointer;
 opacity:.85;
@@ -437,42 +507,133 @@ height:65%;
 <input type="checkbox" id="anonToggle">
 Anonymous
 </label>
+
 <button onclick="closeTicket()">Close</button>
 <button onclick="lockTicket()">Lock</button>
 <button onclick="unlockTicket()">Unlock</button>
+
 </div>
 </div>
+
 
 <div class="supportLayout">
+
 <div class="ticketList">
+
 <div class="sidebarUser" id="userDisplay"></div>
+
 <h3>Your Tickets</h3>
+
 <div id="myTickets"></div>
-<h3 id="staffTitle" style="display:none;margin-top:20px">All Tickets</h3>
+
+<h3 id="staffTitle" style="display:none;margin-top:20px">
+All Tickets
+</h3>
+
 <div id="allTickets"></div>
-<button onclick="createTicket()">New Ticket</button>
+
+<button onclick="createTicket()">
+New Ticket
+</button>
+
 </div>
+
 
 <div class="ticketChat">
-<div id="ticketHeader">Select a ticket</div>
-<div class="chatMessages" id="chatMessages"></div>
-<div id="scheduleBox" style="padding:10px;border-top:1px solid #2a2a2a;display:none">
-<select id="dateSelect"></select>
-<select id="timeSelect"></select>
-<button onclick="bookTime()">Book</button>
-</div>
-<div class="previewBar" id="previewBar"></div>
-<div class="chatInput">
-<button class="attachBtn" onclick="fileInput.click()">+</button>
-<input type="file" id="fileInput" style="display:none" accept="image/*,video/*,.mp4,.mov,.webm,.m4v,.avi,.mkv,.ogg,.gif,.png,.jpg,.jpeg,.webp,.bmp,.svg">
-<textarea id="messageBox" placeholder="Message"></textarea>
-<button class="sendBtn" onclick="sendMessage()">✈</button>
-</div>
-</div>
+
+<div id="ticketHeader">
+Select a ticket
 </div>
 
+<div class="chatMessages" id="chatMessages"></div>
+
+
+<div id="scheduleBox" style="padding:10px;border-top:1px solid #2a2a2a;display:none">
+
+<select id="dateSelect"></select>
+
+<select id="timeSelect"></select>
+
+<button onclick="bookTime()">
+Book
+</button>
+
+</div>
+
+
+<div class="previewBar" id="previewBar"></div>
+
+
+<div class="chatInput">
+
+<button class="attachBtn" onclick="fileInput.click()">
++
+</button>
+
+<input 
+type="file" 
+id="fileInput" 
+style="display:none" 
+accept="image/*,video/*,.mp4,.mov,.webm,.m4v,.avi,.mkv,.ogg,.gif,.png,.jpg,.jpeg,.webp,.bmp,.svg">
+
+<textarea id="messageBox" placeholder="Message"></textarea>
+
+<button class="sendBtn" onclick="sendMessage()">
+✈
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div id="ticketPopup" class="ticketPopup">
+
+<div class="ticketBox">
+
+<h2>Create Ticket</h2>
+
+<input
+id="ticketTitleInput"
+class="ticketInput"
+placeholder="Ticket title">
+
+
+<textarea
+id="ticketReasonInput"
+class="ticketInput ticketReason"
+placeholder="Explain your issue"></textarea>
+
+
+<div class="ticketActions">
+
+
+<button class="cancelBtn" onclick="closeTicketPopup()">
+Cancel
+</button>
+
+
+<button class="createBtn" onclick="submitTicket()">
+Create Ticket
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
 <script src="theme.js"></script>
+
 <script>
+
 const messageBox=document.getElementById("messageBox")
 messageBox.addEventListener("keydown",e=>{
 if(e.key==="Enter" && !e.shiftKey){
@@ -1026,19 +1187,69 @@ body:JSON.stringify({ticketId:activeTicket.id})
 loadTickets()
 }
 
-async function createTicket(){
-const title=prompt("Ticket Title")
-if(!title) return
-const reason=prompt("Reason")
+function createTicket(){
+
+ticketPopup.style.display="flex"
+
+}
+
+
+function closeTicketPopup(){
+
+ticketPopup.style.display="none"
+
+ticketTitleInput.value=""
+
+ticketReasonInput.value=""
+
+}
+
+
+async function submitTicket(){
+
+
+const title=ticketTitleInput.value.trim()
+
+const reason=ticketReasonInput.value.trim()
+
+
+if(!title || !reason){
+
+alert("Please enter a title and reason")
+
+return
+
+}
+
+
 await fetch(backend+"/support/create",{
+
 method:"POST",
+
 headers:{
+
 "Content-Type":"application/json",
+
 Authorization:token
+
 },
-body:JSON.stringify({title,reason})
+
+body:JSON.stringify({
+
+title:title,
+
+reason:reason
+
 })
+
+})
+
+
+closeTicketPopup()
+
 loadTickets()
+
+
 }
 
 function logout(){
