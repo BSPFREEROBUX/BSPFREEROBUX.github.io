@@ -1,419 +1,358 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CHAOS EVOLUTION</title>
+<meta charset="UTF-8">
+<title>ULTIMATE WIN</title>
+
 <style>
-body{
+html,body{
 margin:0;
-width:100vw;
-height:100vh;
-overflow:hidden;
-background:#050505;
-font-family:Arial;
-color:white;
-user-select:none;
-}
-
-#world{
-position:absolute;
-width:100%;
 height:100%;
-transition:.2s;
+overflow:hidden;
+font-family:Impact,Arial;
+background:#000;
+color:white;
+cursor:pointer;
 }
 
-#hud{
-position:fixed;
-top:10px;
-left:10px;
-z-index:99999;
-background:#000a;
-padding:15px;
-border-radius:15px;
-font-size:18px;
+body{
+animation:bg 5s infinite;
 }
 
-.obj{
+@keyframes bg{
+0%{background:#ff0055}
+20%{background:#5500ff}
+40%{background:#00ffee}
+60%{background:#00ff44}
+80%{background:#ffaa00}
+100%{background:#ff0055}
+}
+
+.center{
 position:absolute;
-padding:15px;
-border-radius:20px;
-background:#222;
-box-shadow:0 0 20px white;
-animation:float 2s infinite alternate;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+z-index:100;
+animation:shake .15s infinite;
 }
 
-.rain{
-position:absolute;
+h1{
+font-size:80px;
+text-shadow:
+0 0 20px white,
+0 0 60px gold,
+0 0 120px yellow;
+animation:rainbow .8s infinite,zoom 1s infinite;
+}
+
+h2{
 font-size:40px;
-animation:fall 5s linear forwards;
+animation:spinText 5s infinite linear;
 }
 
-.portal{
+button{
+font-size:40px;
+padding:25px 70px;
+border:0;
+border-radius:50px;
+background:gold;
+box-shadow:0 0 80px yellow;
+animation:pulse .3s infinite;
+}
+
+@keyframes shake{
+0%{translate:5px}
+50%{translate:-5px}
+}
+
+@keyframes zoom{
+50%{scale:1.2}
+}
+
+@keyframes pulse{
+50%{scale:1.3}
+}
+
+@keyframes rainbow{
+0%{color:red}
+20%{color:yellow}
+40%{color:lime}
+60%{color:cyan}
+80%{color:violet}
+100%{color:red}
+}
+
+@keyframes spinText{
+100%{rotate:360deg}
+}
+
+.item{
 position:absolute;
-width:150px;
-height:150px;
-border-radius:50%;
-border:20px solid purple;
-animation:spin 1s linear infinite;
+pointer-events:none;
 }
 
-.wave{
-position:absolute;
-width:50px;
-height:50px;
-border-radius:50%;
-border:5px solid white;
-animation:boom 2s forwards;
-}
-
-.glitch{
-animation:glitch .1s infinite;
-}
-
-@keyframes float{
-100%{transform:translateY(-80px) rotate(20deg)}
+.confetti{
+width:15px;
+height:15px;
+animation:fall linear infinite;
 }
 
 @keyframes fall{
-100%{top:120vh}
-}
-
-@keyframes spin{
-100%{transform:rotate(360deg)}
-}
-
-@keyframes boom{
 100%{
-scale:8;
+transform:translateY(120vh) rotate(1500deg);
+}
+}
+
+.float{
+font-size:45px;
+animation:float 5s linear infinite;
+}
+
+@keyframes float{
+from{
+top:110%;
+}
+to{
+top:-20%;
+rotate:720deg;
+}
+}
+
+.laser{
+position:absolute;
+height:5px;
+width:200%;
+background:white;
+box-shadow:0 0 30px white;
+animation:laser 3s infinite;
+}
+
+@keyframes laser{
+100%{
+rotate:360deg;
+}
+}
+
+.explode{
+width:10px;
+height:10px;
+border-radius:50%;
+animation:explode 1s forwards;
+}
+
+@keyframes explode{
+100%{
+box-shadow:
+100px 0 red,
+-100px 0 blue,
+0 100px lime,
+0 -100px yellow,
+80px 80px pink,
+-80px -80px cyan;
 opacity:0;
 }
 }
 
-@keyframes glitch{
-0%{transform:translate(5px,0)}
-50%{transform:translate(-5px,5px)}
-100%{transform:translate(0)}
+.popup{
+position:absolute;
+font-size:35px;
+padding:15px;
+background:#0008;
+border:3px solid white;
+border-radius:20px;
+animation:pop 2s forwards;
 }
+
+@keyframes pop{
+50%{scale:2}
+100%{
+opacity:0;
+rotate:360deg;
+}
+}
+
+.ring{
+position:absolute;
+border:5px solid white;
+border-radius:50%;
+animation:ring 1.5s forwards;
+}
+
+@keyframes ring{
+100%{
+width:400px;
+height:400px;
+opacity:0;
+}
+}
+
+.screenflash{
+position:absolute;
+inset:0;
+background:white;
+z-index:99;
+pointer-events:none;
+animation:flash 3s infinite;
+}
+
+@keyframes flash{
+5%{opacity:.5}
+10%{opacity:0}
+}
+
 </style>
 </head>
 
+
 <body>
 
-<div id="world"></div>
+<div class="screenflash"></div>
 
-<div id="hud">
-CHAOS LEVEL:
-<span id="level">0</span>
-<br>
-PHASE:
-<span id="phase">NORMAL</span>
+<div class="center">
+<h1>🎉 YOU WON 🎉</h1>
+<h1>💎 1,000,000 ROBUX 💎</h1>
+<h2>OPEN A TICKET TO CLAIM</h2>
+<button>🎁 CLAIM NOW 🎁</button>
 </div>
 
 
 <script>
 
-let chaos=0
-
-
-let sounds=[
-"https://www.myinstants.com/media/sounds/vine-boom.mp3",
-"https://www.myinstants.com/media/sounds/windows-xp-error.mp3",
-"https://www.myinstants.com/media/sounds/bruh.mp3"
-]
-
-
-function playSound(){
-
-let a=new Audio(
-sounds[Math.floor(Math.random()*sounds.length)]
-)
-
-a.volume=.3
-
-a.play().catch(()=>{})
-
-}
-
-
 let emojis=[
-"💀","🔥","🥔","👽","🤡",
-"🐸","💣","🚀","🦆"
-]
+"💎","💰","🪙","🎁",
+"🎉","🔥","⭐","🚀",
+"👑","✨","🌈","🏆"
+];
+
+let colors=[
+"red",
+"blue",
+"yellow",
+"lime",
+"cyan",
+"pink",
+"orange",
+"purple"
+];
 
 
-let texts=[
-"REALITY ERROR",
-"POTATO AI ONLINE",
-"DUCK HACKING",
-"SYSTEM MELTING",
-"GRAVITY FAILED",
-"TIME BROKEN",
-"CHAOS.EXE"
-]
-
-
-function r(a,b){
-return Math.random()*(b-a)+a
+for(let i=0;i<800;i++){
+let e=document.createElement("div");
+e.className="item confetti";
+e.style.background=colors[Math.floor(Math.random()*colors.length)];
+e.style.left=Math.random()*100+"%";
+e.style.animationDuration=Math.random()*4+1+"s";
+e.style.animationDelay=Math.random()*5+"s";
+document.body.appendChild(e);
 }
 
 
-function color(){
-
-return `rgb(${r(0,255)},${r(0,255)},${r(0,255)})`
-
+for(let i=0;i<200;i++){
+let e=document.createElement("div");
+e.className="item float";
+e.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+e.style.left=Math.random()*100+"%";
+e.style.animationDelay=Math.random()*5+"s";
+document.body.appendChild(e);
 }
 
 
-function spawn(){
-
-let x=document.createElement("div")
-
-x.className="obj"
-
-x.innerHTML=
-texts[Math.floor(r(0,texts.length))]
-
-x.style.left=r(0,innerWidth)+"px"
-x.style.top=r(0,innerHeight)+"px"
-
-x.style.background=color()
-
-world.append(x)
-
-setTimeout(()=>x.remove(),4000)
-
+for(let i=0;i<15;i++){
+let l=document.createElement("div");
+l.className="laser";
+l.style.top=Math.random()*100+"%";
+document.body.appendChild(l);
 }
-
-
-function rain(){
-
-let x=document.createElement("div")
-
-x.className="rain"
-
-x.innerHTML=
-emojis[Math.floor(r(0,emojis.length))]
-
-x.style.left=r(0,innerWidth)+"px"
-
-world.append(x)
-
-setTimeout(()=>x.remove(),5000)
-
-}
-
-
-function shake(){
-
-world.style.transform=
-`translate(${r(-chaos/3,chaos/3)}px,${r(-chaos/3,chaos/3)}px)`
-
-setTimeout(()=>world.style.transform="",200)
-
-}
-
-
-function distort(){
-
-let effects=[
-`blur(${chaos/30}px)`,
-`hue-rotate(${chaos*10}deg)`,
-`contrast(${1+chaos/20})`,
-`saturate(${chaos/5})`,
-"invert(1)"
-]
-
-world.style.filter=
-effects[Math.floor(r(0,effects.length))]
-
-setTimeout(()=>{
-world.style.filter=""
-},600)
-
-}
-
-
-function portal(){
-
-let x=document.createElement("div")
-
-x.className="portal"
-
-x.style.left=r(0,innerWidth)+"px"
-x.style.top=r(0,innerHeight)+"px"
-
-world.append(x)
-
-setTimeout(()=>x.remove(),4000)
-
-}
-
-
-function wave(){
-
-let x=document.createElement("div")
-
-x.className="wave"
-
-x.style.left=r(0,innerWidth)+"px"
-x.style.top=r(0,innerHeight)+"px"
-
-world.append(x)
-
-setTimeout(()=>x.remove(),2000)
-
-}
-
-
-function gravity(){
-
-document.querySelectorAll(".obj").forEach(x=>{
-
-x.style.top=innerHeight+"px"
-
-})
-
-}
-
-
-function flip(){
-
-world.style.scale="-1 1"
-
-setTimeout(()=>world.style.scale="1",1000)
-
-}
-
-
-function rotate(){
-
-world.style.rotate=r(-30,30)+"deg"
-
-setTimeout(()=>world.style.rotate="0deg",800)
-
-}
-
-
-function flash(){
-
-document.body.style.background=color()
-
-setTimeout(()=>{
-document.body.style.background="#050505"
-},200)
-
-}
-
-
-function glitch(){
-
-world.classList.add("glitch")
-
-setTimeout(()=>{
-world.classList.remove("glitch")
-},1000)
-
-}
-
-
-function clone(){
-
-let c=world.cloneNode(true)
-
-c.style.opacity=.3
-
-document.body.append(c)
-
-setTimeout(()=>c.remove(),1000)
-
-}
-
-
-function phaseCheck(){
-
-if(chaos<30){
-phase.innerHTML="NORMAL"
-}
-
-else if(chaos<80){
-phase.innerHTML="WEIRD"
-}
-
-else if(chaos<150){
-phase.innerHTML="BROKEN"
-}
-
-else{
-phase.innerHTML="REALITY COLLAPSE"
-}
-
-}
-
-
-let effects=[
-spawn,
-rain,
-shake,
-distort,
-portal,
-wave,
-gravity,
-flip,
-rotate,
-flash,
-glitch,
-clone,
-playSound
-]
 
 
 setInterval(()=>{
 
-chaos++
+let e=document.createElement("div");
+e.className="item explode";
+e.style.left=Math.random()*100+"%";
+e.style.top=Math.random()*100+"%";
+e.style.background=colors[Math.floor(Math.random()*colors.length)];
+document.body.appendChild(e);
 
-level.innerHTML=chaos
+setTimeout(()=>{
+e.remove();
+},1000);
 
-phaseCheck()
+},80);
 
 
-let amount=1+Math.floor(chaos/25)
 
-for(let i=0;i<amount;i++){
+setInterval(()=>{
 
-effects[
-Math.floor(r(0,effects.length))
-]()
+let p=document.createElement("div");
 
-}
+p.className="popup";
 
-},700)
+p.innerHTML=[
+"🎊 MEGA WIN 🎊",
+"💎 +1M ROBUX 💎",
+"🔥 LEGENDARY 🔥",
+"👑 JACKPOT 👑",
+"🎁 CLAIM NOW 🎁"
+][Math.floor(Math.random()*5)];
+
+p.style.left=Math.random()*80+"%";
+p.style.top=Math.random()*80+"%";
+
+document.body.appendChild(p);
+
+setTimeout(()=>{
+p.remove();
+},2000);
+
+},350);
+
+
+
+setInterval(()=>{
+
+let r=document.createElement("div");
+
+r.className="ring";
+
+r.style.left=Math.random()*100+"%";
+r.style.top=Math.random()*100+"%";
+
+document.body.appendChild(r);
+
+setTimeout(()=>{
+r.remove();
+},1500);
+
+},200);
+
 
 
 document.onclick=()=>{
 
-chaos+=10
+for(let i=0;i<50;i++){
 
-playSound()
+let boom=document.createElement("div");
 
-for(let i=0;i<20;i++){
+boom.className="item float";
 
-effects[
-Math.floor(r(0,effects.length))
-]()
+boom.innerHTML="💎";
 
-}
+boom.style.left=Math.random()*100+"%";
 
-}
+boom.style.top=Math.random()*100+"%";
 
+document.body.appendChild(boom);
 
-document.onmousemove=()=>{
-
-if(chaos>50){
-
-wave()
+setTimeout(()=>{
+boom.remove();
+},3000);
 
 }
 
-}
+};
 
 
 </script>
