@@ -1,452 +1,396 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
-<title>ULTIMATE PARTY</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payout History</title>
+
+<link id="themeStylesheet" rel="stylesheet" href="styles.css">
 
 <style>
-html,body{
-margin:0;
-width:100%;
-height:100%;
-overflow:hidden;
-font-family:Impact,Arial;
-background:#000;
-color:white;
+
+*{
+box-sizing:border-box;
 }
 
 body{
-animation:bg 3s infinite,hue 2s infinite;
+margin:0;
+background:#0e0e0e;
+color:white;
+font-family:Arial,sans-serif;
+min-height:100vh;
 }
 
-@keyframes hue{
-100%{filter:hue-rotate(360deg)}
+body.light{
+background:#f2f2f2;
+color:#111;
 }
 
-@keyframes bg{
-0%{background:#ff0044}
-25%{background:#001eff}
-50%{background:#00ff88}
-75%{background:#ffaa00}
-100%{background:#ff0044}
+.topbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:#121212;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:10;
 }
 
-.main{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
+body.light .topbar{
+background:white;
+}
+
+.wrapper{
+max-width:900px;
+margin:auto;
+padding:100px 20px 20px;
+}
+
+.card{
+background:#1e1e1e;
+padding:20px;
+border-radius:15px;
+margin-bottom:15px;
+animation:show .3s ease;
+}
+
+body.light .card{
+background:white;
+box-shadow:0 2px 8px #0002;
+}
+
+@keyframes show{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.amount{
+font-size:32px;
+font-weight:bold;
+color:#22c55e;
+}
+
+.reason{
+margin-top:10px;
+font-size:17px;
+}
+
+.time{
+margin-top:15px;
+opacity:.6;
+font-size:13px;
+}
+
+.empty{
 text-align:center;
-z-index:999;
-animation:shake .08s infinite;
+font-size:25px;
+opacity:.5;
+margin-top:100px;
 }
 
-h1{
-font-size:90px;
-animation:
-pulse .5s infinite,
-color .5s infinite;
-text-shadow:
-0 0 20px white,
-0 0 80px yellow;
+.vipName{
+position:relative;
+display:inline-block;
+padding-top:18px;
+color:#ffd54a;
+font-weight:bold;
 }
 
-h2{
-font-size:45px;
+.vipName::before{
+content:"";
+position:absolute;
+top:-2px;
+left:50%;
+width:2px;
+height:18px;
+background:linear-gradient(to bottom,#ddd,#777);
+transform:translateX(-50%);
+}
+
+.vipName::after{
+content:"";
+position:absolute;
+top:-18px;
+left:50%;
+width:18px;
+height:14px;
+background:#ffd700;
+transform:translateX(-50%) rotate(-8deg);
+clip-path:polygon(
+0% 100%,
+0% 45%,
+18% 0%,
+35% 40%,
+50% 8%,
+65% 40%,
+82% 0%,
+100% 45%,
+100% 100%
+);
+animation:swing 2.5s infinite;
+}
+
+@keyframes swing{
+
+50%{
+transform:translateX(-50%) rotate(8deg);
+}
+
 }
 
 button{
-font-size:40px;
+background:#2563eb;
+color:white;
 border:0;
-padding:25px 80px;
-border-radius:50px;
-background:gold;
-box-shadow:0 0 80px gold;
-animation:pulse .4s infinite;
-}
-
-@keyframes pulse{
-50%{scale:1.25}
-}
-
-@keyframes shake{
-25%{translate:10px}
-50%{translate:-10px}
-}
-
-@keyframes color{
-0%{color:red}
-25%{color:yellow}
-50%{color:cyan}
-75%{color:lime}
-100%{color:red}
-}
-
-
-.obj{
-position:absolute;
-pointer-events:none;
-}
-
-
-.rain{
-font-size:45px;
-animation:rain linear infinite;
-}
-
-@keyframes rain{
-from{
-top:-100px;
-rotate:0deg;
-}
-to{
-top:120%;
-rotate:1000deg;
-}
-}
-
-
-.ball{
-width:30px;
-height:30px;
-border-radius:50%;
-animation:bounce 3s infinite;
-}
-
-@keyframes bounce{
-50%{
-transform:translateY(500px);
-}
-}
-
-
-.portal{
-border-radius:50%;
-border:8px solid white;
-animation:portal 2s forwards;
-}
-
-@keyframes portal{
-100%{
-width:800px;
-height:800px;
-opacity:0;
-rotate:720deg;
-}
-}
-
-
-.wave{
-position:absolute;
-width:200%;
-height:50px;
-background:white;
-animation:wave 3s infinite;
-opacity:.5;
-}
-
-@keyframes wave{
-100%{
-rotate:360deg;
-}
-}
-
-
-.bubble{
-border-radius:50%;
-background:#ffffff66;
-animation:bubble 6s linear infinite;
-}
-
-@keyframes bubble{
-from{
-bottom:-100px;
-}
-to{
-bottom:120%;
-}
-}
-
-
-.text{
-font-size:35px;
-animation:text 2s forwards;
-}
-
-@keyframes text{
-100%{
-scale:3;
-opacity:0;
-rotate:360deg;
-}
-}
-
-
-.comet{
-font-size:60px;
-animation:comet 2s linear forwards;
-}
-
-@keyframes comet{
-100%{
-translate:1500px 900px;
-rotate:1000deg;
-}
-}
-
-
-.eye{
-position:absolute;
-inset:0;
-background:
-radial-gradient(circle,transparent 20%,black 70%);
-animation:eye 5s infinite;
-pointer-events:none;
-}
-
-@keyframes eye{
-50%{
-scale:2;
-opacity:.2;
-}
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<div class="eye"></div>
 
-<div class="main">
+<div class="topbar">
 
-<h1>🎉 YOU WON 🎉</h1>
+<div id="userDisplay">
+Loading...
+</div>
 
-<h1>
-💎 1,000,000 ROBUX 💎
-</h1>
+<div>
 
-<h2>
-OPEN A TICKET TO CLAIM
-</h2>
+<button onclick="location.href='dashboard.html'">
+Dashboard
+</button>
 
-<button>
-🎁 CLAIM 🎁
+<button onclick="toggleTheme()">
+🌓
 </button>
 
 </div>
 
+</div>
+
+
+
+<div class="wrapper">
+
+<h1>💵 Payout History</h1>
+
+<div id="list"></div>
+
+</div>
+
+
+
+<script src="theme.js"></script>
+
 
 <script>
 
-let emojis=[
-"💎",
-"💰",
-"🎁",
-"🎉",
-"🔥",
-"⭐",
-"🚀",
-"👑",
-"🤑",
-"🌈",
-"⚡",
-"🏆"
-];
-
-
-let colors=[
-"red",
-"blue",
-"lime",
-"yellow",
-"cyan",
-"orange",
-"pink"
-];
+let backend=""
 
 
 
-for(let i=0;i<400;i++){
+function applySavedTheme(){
 
-let x=document.createElement("div");
+let saved=localStorage.getItem("siteTheme")
 
-x.className="obj rain";
+if(saved){
 
-x.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+document.getElementById("themeStylesheet").href=saved
 
-x.style.left=Math.random()*100+"%";
-
-x.style.animationDuration=
-Math.random()*4+2+"s";
-
-document.body.appendChild(x);
+}
 
 }
 
 
 
-for(let i=0;i<80;i++){
+async function getBackend(){
 
-let b=document.createElement("div");
+let r=await fetch("server.txt")
 
-b.className="obj ball";
-
-b.style.left=Math.random()*100+"%";
-
-b.style.background=
-colors[Math.floor(Math.random()*colors.length)];
-
-document.body.appendChild(b);
+backend=(await r.text()).trim()
 
 }
 
 
 
-for(let i=0;i<20;i++){
+async function loadUser(){
 
-let w=document.createElement("div");
+let token=localStorage.getItem("Token")
 
-w.className="wave";
+if(!token){
 
-w.style.top=Math.random()*100+"%";
+location.href="login.html"
 
-document.body.appendChild(w);
+return
+
+}
+
+
+let r=await fetch(backend+"/me",{
+
+headers:{
+Authorization:token
+}
+
+})
+
+
+let d=await r.json()
+
+
+if(d.error){
+
+localStorage.removeItem("Token")
+
+location.href="login.html"
+
+return
 
 }
 
 
 
-setInterval(()=>{
+if(d.permissions && d.permissions.vip){
 
-let p=document.createElement("div");
+userDisplay.innerHTML=
+`Logged in as: <span class="vipName">${d.username}</span>`
 
-p.className="obj portal";
+}else{
 
-p.style.left=Math.random()*100+"%";
-
-p.style.top=Math.random()*100+"%";
-
-document.body.appendChild(p);
-
-setTimeout(()=>{
-p.remove()
-},2000);
-
-},500);
-
-
-
-
-setInterval(()=>{
-
-let b=document.createElement("div");
-
-b.className="obj bubble";
-
-let size=Math.random()*100+20;
-
-b.style.width=size+"px";
-
-b.style.height=size+"px";
-
-b.style.left=Math.random()*100+"%";
-
-document.body.appendChild(b);
-
-setTimeout(()=>{
-b.remove()
-},6000)
-
-},100);
-
-
-
-
-setInterval(()=>{
-
-let t=document.createElement("div");
-
-t.className="obj text";
-
-t.innerHTML=[
-"🎊 HUGE WIN",
-"💎 RICH",
-"🔥 INSANE",
-"👑 LEGENDARY",
-"🎁 OPEN TICKET",
-"🚀 WOW"
-][Math.floor(Math.random()*6)];
-
-t.style.left=Math.random()*80+"%";
-
-t.style.top=Math.random()*80+"%";
-
-document.body.appendChild(t);
-
-
-setTimeout(()=>{
-t.remove()
-},2000);
-
-
-},300);
-
-
-
-
-setInterval(()=>{
-
-let c=document.createElement("div");
-
-c.className="obj comet";
-
-c.innerHTML="☄️";
-
-c.style.left="-100px";
-
-c.style.top=Math.random()*100+"%";
-
-document.body.appendChild(c);
-
-
-setTimeout(()=>{
-c.remove()
-},2000);
-
-
-},400);
-
-
-
-
-document.onclick=e=>{
-
-for(let i=0;i<100;i++){
-
-let x=document.createElement("div");
-
-x.className="obj text";
-
-x.innerHTML="💎";
-
-x.style.left=e.clientX+"px";
-
-x.style.top=e.clientY+"px";
-
-document.body.appendChild(x);
-
-
-setTimeout(()=>{
-x.remove()
-},2000)
+userDisplay.textContent=
+"Logged in as: "+d.username
 
 }
 
 }
+
+
+
+async function loadPayouts(){
+
+
+let token=localStorage.getItem("Token")
+
+
+let r=await fetch(backend+"/payout/history",{
+
+headers:{
+Authorization:token
+}
+
+})
+
+
+let d=await r.json()
+
+
+list.innerHTML=""
+
+
+if(!d.history || d.history.length===0){
+
+
+list.innerHTML=
+`
+<div class="empty">
+
+No payouts yet
+
+</div>
+`
+
+return
+
+}
+
+
+
+d.history.forEach(p=>{
+
+
+let div=document.createElement("div")
+
+
+div.className="card"
+
+
+div.innerHTML=
+
+`
+
+<div class="amount">
+
+${p.amount} ${p.currency}
+
+</div>
+
+
+<div class="reason">
+
+${p.reason}
+
+</div>
+
+
+<div class="time">
+
+${p.time}
+
+</div>
+
+
+`
+
+
+list.appendChild(div)
+
+
+})
+
+
+}
+
+
+
+async function init(){
+
+applySavedTheme()
+
+await getBackend()
+
+await loadUser()
+
+await loadPayouts()
+
+}
+
+
+init()
 
 
 </script>
+
 
 </body>
 </html>
