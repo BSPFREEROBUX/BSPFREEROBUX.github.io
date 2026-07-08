@@ -1,380 +1,419 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CHAOS LAB</title>
-
+<title>CHAOS EVOLUTION</title>
 <style>
 body{
 margin:0;
 width:100vw;
 height:100vh;
 overflow:hidden;
-background:#090909;
+background:#050505;
 font-family:Arial;
 color:white;
 user-select:none;
 }
 
-#scene{
+#world{
 position:absolute;
 width:100%;
 height:100%;
-transition:.3s;
+transition:.2s;
 }
 
 #hud{
 position:fixed;
 top:10px;
 left:10px;
-z-index:9999;
-background:#0009;
-padding:12px;
-border-radius:10px;
+z-index:99999;
+background:#000a;
+padding:15px;
+border-radius:15px;
+font-size:18px;
 }
 
-.card{
+.obj{
 position:absolute;
 padding:15px;
 border-radius:20px;
 background:#222;
 box-shadow:0 0 20px white;
-animation:float 3s infinite alternate;
-}
-
-.bubble{
-position:absolute;
-border-radius:50%;
-animation:grow 2s forwards;
-}
-
-.fake{
-position:absolute;
-background:#eee;
-color:#111;
-width:260px;
-padding:15px;
-border-radius:10px;
+animation:float 2s infinite alternate;
 }
 
 .rain{
 position:absolute;
-font-size:30px;
-animation:fall 5s linear forwards;
-}
-
-.star{
-position:absolute;
 font-size:40px;
-animation:spin 2s linear infinite;
-}
-
-.eye{
-position:absolute;
-font-size:60px;
-}
-
-.snake{
-position:absolute;
-height:10px;
-background:white;
-border-radius:10px;
+animation:fall 5s linear forwards;
 }
 
 .portal{
 position:absolute;
-width:120px;
-height:120px;
+width:150px;
+height:150px;
 border-radius:50%;
-border:15px solid purple;
+border:20px solid purple;
 animation:spin 1s linear infinite;
 }
 
 .wave{
 position:absolute;
-width:200px;
-height:200px;
-border:5px solid cyan;
+width:50px;
+height:50px;
 border-radius:50%;
-animation:grow 2s forwards;
+border:5px solid white;
+animation:boom 2s forwards;
+}
+
+.glitch{
+animation:glitch .1s infinite;
 }
 
 @keyframes float{
-100%{transform:translateY(-50px)}
+100%{transform:translateY(-80px) rotate(20deg)}
 }
 
 @keyframes fall{
-100%{top:110vh}
+100%{top:120vh}
 }
 
 @keyframes spin{
 100%{transform:rotate(360deg)}
 }
 
-@keyframes grow{
+@keyframes boom{
 100%{
-transform:scale(4);
+scale:8;
 opacity:0;
 }
 }
 
+@keyframes glitch{
+0%{transform:translate(5px,0)}
+50%{transform:translate(-5px,5px)}
+100%{transform:translate(0)}
+}
 </style>
 </head>
 
 <body>
 
-<div id="scene"></div>
+<div id="world"></div>
 
 <div id="hud">
 CHAOS LEVEL:
-<span id="score">0</span>
+<span id="level">0</span>
+<br>
+PHASE:
+<span id="phase">NORMAL</span>
 </div>
+
 
 <script>
 
 let chaos=0
 
-let things=[
-"💀","🤡","🗿","🔥","🥔",
-"👽","🚀","🐸","🦆","💣"
+
+let sounds=[
+"https://www.myinstants.com/media/sounds/vine-boom.mp3",
+"https://www.myinstants.com/media/sounds/windows-xp-error.mp3",
+"https://www.myinstants.com/media/sounds/bruh.mp3"
 ]
+
+
+function playSound(){
+
+let a=new Audio(
+sounds[Math.floor(Math.random()*sounds.length)]
+)
+
+a.volume=.3
+
+a.play().catch(()=>{})
+
+}
+
+
+let emojis=[
+"💀","🔥","🥔","👽","🤡",
+"🐸","💣","🚀","🦆"
+]
+
+
+let texts=[
+"REALITY ERROR",
+"POTATO AI ONLINE",
+"DUCK HACKING",
+"SYSTEM MELTING",
+"GRAVITY FAILED",
+"TIME BROKEN",
+"CHAOS.EXE"
+]
+
 
 function r(a,b){
 return Math.random()*(b-a)+a
 }
 
+
 function color(){
+
 return `rgb(${r(0,255)},${r(0,255)},${r(0,255)})`
+
 }
 
 
-function randomText(){
+function spawn(){
+
 let x=document.createElement("div")
-x.className="card"
-x.innerHTML=[
-"potato mode",
-"duck invasion",
-"AI toaster",
-"banana system",
-"reality error"
-][Math.floor(r(0,5))]
+
+x.className="obj"
+
+x.innerHTML=
+texts[Math.floor(r(0,texts.length))]
+
 x.style.left=r(0,innerWidth)+"px"
 x.style.top=r(0,innerHeight)+"px"
-scene.append(x)
-setTimeout(()=>x.remove(),4000)
-}
 
-
-function emojiRain(){
-let x=document.createElement("div")
-x.className="rain"
-x.innerHTML=things[Math.floor(r(0,things.length))]
-x.style.left=r(0,innerWidth)+"px"
-x.style.top="-50px"
-scene.append(x)
-setTimeout(()=>x.remove(),5000)
-}
-
-
-function bubble(){
-let x=document.createElement("div")
-x.className="bubble"
 x.style.background=color()
-x.style.width="50px"
-x.style.height="50px"
-x.style.left=r(0,innerWidth)+"px"
-x.style.top=r(0,innerHeight)+"px"
-scene.append(x)
-setTimeout(()=>x.remove(),2000)
+
+world.append(x)
+
+setTimeout(()=>x.remove(),4000)
+
 }
 
 
-function fakeWindow(){
+function rain(){
+
 let x=document.createElement("div")
-x.className="fake"
-x.innerHTML="System confused 🤔"
+
+x.className="rain"
+
+x.innerHTML=
+emojis[Math.floor(r(0,emojis.length))]
+
 x.style.left=r(0,innerWidth)+"px"
-x.style.top=r(0,innerHeight)+"px"
-scene.append(x)
-setTimeout(()=>x.remove(),3000)
-}
 
+world.append(x)
 
-function screenEffect(){
-let effects=[
-"blur(3px)",
-"contrast(3)",
-"hue-rotate(180deg)",
-"invert(1)",
-"grayscale(1)",
-"saturate(5)"
-]
+setTimeout(()=>x.remove(),5000)
 
-scene.style.filter=
-effects[Math.floor(r(0,effects.length))]
-
-setTimeout(()=>{
-scene.style.filter=""
-},600)
 }
 
 
 function shake(){
-scene.style.transform=
-`translate(${r(-20,20)}px,${r(-20,20)}px)`
 
-setTimeout(()=>{
-scene.style.transform=""
-},200)
+world.style.transform=
+`translate(${r(-chaos/3,chaos/3)}px,${r(-chaos/3,chaos/3)}px)`
+
+setTimeout(()=>world.style.transform="",200)
+
 }
 
 
-function rotateWorld(){
-scene.style.transform=
-`rotate(${r(-10,10)}deg)`
+function distort(){
+
+let effects=[
+`blur(${chaos/30}px)`,
+`hue-rotate(${chaos*10}deg)`,
+`contrast(${1+chaos/20})`,
+`saturate(${chaos/5})`,
+"invert(1)"
+]
+
+world.style.filter=
+effects[Math.floor(r(0,effects.length))]
 
 setTimeout(()=>{
-scene.style.transform=""
+world.style.filter=""
 },600)
-}
 
-
-function flash(){
-document.body.style.background=color()
-
-setTimeout(()=>{
-document.body.style.background="#090909"
-},300)
-}
-
-
-function eye(){
-let x=document.createElement("div")
-x.className="eye"
-x.innerHTML="👁"
-x.style.left=r(0,innerWidth)+"px"
-x.style.top=r(0,innerHeight)+"px"
-scene.append(x)
-setTimeout(()=>x.remove(),3000)
-}
-
-
-function snake(){
-let x=document.createElement("div")
-x.className="snake"
-x.style.width=r(100,500)+"px"
-x.style.left=r(0,innerWidth)+"px"
-x.style.top=r(0,innerHeight)+"px"
-scene.append(x)
-setTimeout(()=>x.remove(),3000)
 }
 
 
 function portal(){
+
 let x=document.createElement("div")
+
 x.className="portal"
+
 x.style.left=r(0,innerWidth)+"px"
 x.style.top=r(0,innerHeight)+"px"
-scene.append(x)
+
+world.append(x)
+
 setTimeout(()=>x.remove(),4000)
+
 }
 
 
 function wave(){
+
 let x=document.createElement("div")
+
 x.className="wave"
+
 x.style.left=r(0,innerWidth)+"px"
 x.style.top=r(0,innerHeight)+"px"
-scene.append(x)
+
+world.append(x)
+
 setTimeout(()=>x.remove(),2000)
+
 }
 
 
 function gravity(){
-document.querySelectorAll(".card").forEach(x=>{
+
+document.querySelectorAll(".obj").forEach(x=>{
+
 x.style.top=innerHeight+"px"
+
 })
+
 }
 
 
-function resizeStuff(){
-document.body.style.scale=r(.9,1.1)
+function flip(){
+
+world.style.scale="-1 1"
+
+setTimeout(()=>world.style.scale="1",1000)
+
+}
+
+
+function rotate(){
+
+world.style.rotate=r(-30,30)+"deg"
+
+setTimeout(()=>world.style.rotate="0deg",800)
+
+}
+
+
+function flash(){
+
+document.body.style.background=color()
 
 setTimeout(()=>{
-document.body.style.scale=1
-},500)
+document.body.style.background="#050505"
+},200)
+
 }
 
 
-function titleSpam(){
-document.title=[
-"HELP",
-"REALITY BROKEN",
-"POTATO OS",
-"ERROR"
-][Math.floor(r(0,4))]
-}
+function glitch(){
 
-
-function mirror(){
-scene.style.scale="-1 1"
+world.classList.add("glitch")
 
 setTimeout(()=>{
-scene.style.scale="1"
-},800)
+world.classList.remove("glitch")
+},1000)
+
 }
 
 
-function cursorBomb(e){
-for(let i=0;i<10;i++){
-bubble()
-}
+function clone(){
+
+let c=world.cloneNode(true)
+
+c.style.opacity=.3
+
+document.body.append(c)
+
+setTimeout(()=>c.remove(),1000)
+
 }
 
 
-let events=[
-randomText,
-emojiRain,
-bubble,
-fakeWindow,
-screenEffect,
+function phaseCheck(){
+
+if(chaos<30){
+phase.innerHTML="NORMAL"
+}
+
+else if(chaos<80){
+phase.innerHTML="WEIRD"
+}
+
+else if(chaos<150){
+phase.innerHTML="BROKEN"
+}
+
+else{
+phase.innerHTML="REALITY COLLAPSE"
+}
+
+}
+
+
+let effects=[
+spawn,
+rain,
 shake,
-rotateWorld,
-flash,
-eye,
-snake,
+distort,
 portal,
 wave,
 gravity,
-resizeStuff,
-titleSpam,
-mirror
+flip,
+rotate,
+flash,
+glitch,
+clone,
+playSound
 ]
 
 
 setInterval(()=>{
 
-for(let i=0;i<3;i++){
+chaos++
 
-events[Math.floor(r(0,events.length))]()
+level.innerHTML=chaos
+
+phaseCheck()
+
+
+let amount=1+Math.floor(chaos/25)
+
+for(let i=0;i<amount;i++){
+
+effects[
+Math.floor(r(0,effects.length))
+]()
 
 }
 
-chaos++
-score.innerHTML=chaos
-
-},500)
+},700)
 
 
-document.onclick=e=>{
+document.onclick=()=>{
+
+chaos+=10
+
+playSound()
 
 for(let i=0;i<20;i++){
-events[Math.floor(r(0,events.length))]()
-}
+
+effects[
+Math.floor(r(0,effects.length))
+]()
 
 }
 
+}
 
-document.onmousemove=cursorBomb
+
+document.onmousemove=()=>{
+
+if(chaos>50){
+
+wave()
+
+}
+
+}
 
 
 </script>
