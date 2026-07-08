@@ -867,16 +867,14 @@ const d=await r.json()
 
 console.log("LOOTLABS:",d)
 
-if(d.success && d.url){
+if(d.url){
 
-window.open(
-d.url,
-"_blank"
-)
+window.open(d.url,"_blank")
 
 }else{
 
-alert(JSON.stringify(d,null,2))
+console.log(d)
+alert("No LootLabs URL returned. Check server console.")
 
 }
 
