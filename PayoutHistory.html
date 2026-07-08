@@ -1,1 +1,180 @@
-Suck Balls
+<!DOCTYPE html>
+<html>
+<head>
+<title>Random Stupid Stuff</title>
+<style>
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+background:#050505;
+color:white;
+font-family:Arial,sans-serif;
+cursor:crosshair;
+}
+
+h1{
+text-align:center;
+font-size:50px;
+animation:spin 3s infinite linear;
+}
+
+.box{
+position:absolute;
+padding:20px;
+border-radius:20px;
+background:linear-gradient(45deg,red,blue,purple);
+animation:float 5s infinite alternate;
+}
+
+button{
+position:absolute;
+font-size:25px;
+padding:15px;
+border:0;
+border-radius:20px;
+background:lime;
+cursor:pointer;
+}
+
+#face{
+font-size:100px;
+position:absolute;
+}
+
+#counter{
+position:fixed;
+bottom:10px;
+left:10px;
+font-size:25px;
+}
+
+@keyframes spin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+
+@keyframes float{
+from{transform:translateY(0)}
+to{transform:translateY(200px)}
+}
+</style>
+</head>
+
+<body>
+
+<h1>WELCOME TO CHAOS</h1>
+
+<div id="face">🗿</div>
+
+<div id="counter">
+Chaos Level: 0
+</div>
+
+<audio id="sound">
+<source src="https://www.myinstants.com/media/sounds/vine-boom.mp3">
+</audio>
+
+<script>
+let chaos = 0
+
+let stupidTexts = [
+"why is there a potato here",
+"your fridge is watching",
+"banana.exe stopped working",
+"404 brain not found",
+"free air download",
+"click for nothing",
+"loading sandwich...",
+"fish can fly now",
+"your keyboard blinked",
+"emotional support rock",
+"grandma entered creative mode",
+"installing more RAM...",
+"NPC detected",
+"the cheese escaped"
+]
+
+function random(min,max){
+return Math.random()*(max-min)+min
+}
+
+function makeThing(){
+let d=document.createElement("div")
+d.className="box"
+d.innerHTML=stupidTexts[Math.floor(Math.random()*stupidTexts.length)]
+d.style.left=random(0,innerWidth-200)+"px"
+d.style.top=random(0,innerHeight-100)+"px"
+d.style.fontSize=random(15,40)+"px"
+document.body.appendChild(d)
+
+setTimeout(()=>{
+d.remove()
+},5000)
+}
+
+function makeButton(){
+let b=document.createElement("button")
+b.innerHTML="DON'T CLICK"
+b.style.left=random(0,innerWidth-150)+"px"
+b.style.top=random(0,innerHeight-80)+"px"
+
+b.onclick=function(){
+chaos+=10
+counter.innerHTML="Chaos Level: "+chaos
+document.body.style.background=
+`rgb(${random(0,255)},${random(0,255)},${random(0,255)})`
+
+for(let i=0;i<10;i++){
+makeThing()
+}
+
+try{
+sound.play()
+}catch(e){}
+}
+
+document.body.appendChild(b)
+
+setTimeout(()=>{
+b.remove()
+},4000)
+}
+
+setInterval(makeThing,300)
+setInterval(makeButton,2000)
+
+document.onmousemove=e=>{
+face.style.left=e.clientX+"px"
+face.style.top=e.clientY+"px"
+}
+
+document.onclick=()=>{
+let emojis=["💀","🤡","🐸","🥔","🦆","🔥","🍞","👽","🧀"]
+let x=document.createElement("div")
+x.innerHTML=emojis[Math.floor(Math.random()*emojis.length)]
+x.style.position="absolute"
+x.style.left=Math.random()*innerWidth+"px"
+x.style.top=Math.random()*innerHeight+"px"
+x.style.fontSize="80px"
+document.body.appendChild(x)
+
+setTimeout(()=>{
+x.remove()
+},2000)
+}
+
+setInterval(()=>{
+document.title=[
+"HELP",
+"CHAOS",
+"WHY",
+"POTATO MODE",
+"ERROR 999"
+][Math.floor(Math.random()*5)]
+},500)
+
+</script>
+
+</body>
+</html>
