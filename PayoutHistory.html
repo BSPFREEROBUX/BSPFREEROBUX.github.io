@@ -1,115 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>THE CHAOS MACHINE</title>
-<style>
-*{
-box-sizing:border-box;
-}
+<title>CHAOS LAB</title>
 
+<style>
 body{
 margin:0;
 width:100vw;
 height:100vh;
 overflow:hidden;
-background:#000;
-font-family:"Comic Sans MS",Arial;
+background:#090909;
+font-family:Arial;
 color:white;
 user-select:none;
-cursor:none;
 }
 
-#world{
+#scene{
 position:absolute;
 width:100%;
 height:100%;
-}
-
-#cursor{
-position:absolute;
-font-size:70px;
-z-index:999999;
-pointer-events:none;
+transition:.3s;
 }
 
 #hud{
 position:fixed;
 top:10px;
 left:10px;
-background:#000a;
+z-index:9999;
+background:#0009;
+padding:12px;
+border-radius:10px;
+}
+
+.card{
+position:absolute;
 padding:15px;
-border-radius:15px;
-font-size:20px;
-z-index:99999;
-}
-
-#boss{
-position:absolute;
-font-size:150px;
-z-index:50;
-}
-
-.thing{
-position:absolute;
-font-weight:bold;
 border-radius:20px;
-padding:20px;
-box-shadow:0 0 30px white;
-animation:wiggle .4s infinite alternate;
+background:#222;
+box-shadow:0 0 20px white;
+animation:float 3s infinite alternate;
 }
 
-.enemy{
+.bubble{
 position:absolute;
-font-size:80px;
-transition:.2s;
+border-radius:50%;
+animation:grow 2s forwards;
 }
 
-.window{
+.fake{
 position:absolute;
-background:#ddd;
-color:black;
-border:4px solid #555;
-width:300px;
-height:180px;
-z-index:999;
-}
-
-.bar{
-background:#005eff;
-color:white;
-padding:5px;
-}
-
-.window button{
-margin:20px;
-}
-
-.laser{
-position:absolute;
-height:8px;
-background:red;
-box-shadow:0 0 30px red;
+background:#eee;
+color:#111;
+width:260px;
+padding:15px;
+border-radius:10px;
 }
 
 .rain{
 position:absolute;
+font-size:30px;
+animation:fall 5s linear forwards;
+}
+
+.star{
+position:absolute;
 font-size:40px;
-animation:fall 3s linear;
+animation:spin 2s linear infinite;
+}
+
+.eye{
+position:absolute;
+font-size:60px;
+}
+
+.snake{
+position:absolute;
+height:10px;
+background:white;
+border-radius:10px;
+}
+
+.portal{
+position:absolute;
+width:120px;
+height:120px;
+border-radius:50%;
+border:15px solid purple;
+animation:spin 1s linear infinite;
+}
+
+.wave{
+position:absolute;
+width:200px;
+height:200px;
+border:5px solid cyan;
+border-radius:50%;
+animation:grow 2s forwards;
+}
+
+@keyframes float{
+100%{transform:translateY(-50px)}
 }
 
 @keyframes fall{
-from{top:-100px}
-to{top:120vh}
-}
-
-@keyframes wiggle{
-0%{transform:rotate(-20deg) scale(.7)}
-100%{transform:rotate(20deg) scale(1.5)}
+100%{top:110vh}
 }
 
 @keyframes spin{
+100%{transform:rotate(360deg)}
+}
+
+@keyframes grow{
 100%{
-transform:rotate(360deg);
+transform:scale(4);
+opacity:0;
 }
 }
 
@@ -118,43 +122,21 @@ transform:rotate(360deg);
 
 <body>
 
-<div id="world"></div>
+<div id="scene"></div>
 
 <div id="hud">
-CHAOS: <span id="score">0</span><br>
-FPS DESTROYER: ACTIVE<br>
-POTATO AI: ONLINE
+CHAOS LEVEL:
+<span id="score">0</span>
 </div>
-
-<div id="cursor">🗿</div>
-
-<div id="boss">🥔</div>
 
 <script>
 
 let chaos=0
 
-let words=[
-"YOUR PC IS CONFUSED",
-"DUCK.EXE",
-"BANANA UPDATE",
-"POTATO HAS ADMIN",
-"AI FRIDGE ONLINE",
-"404 IQ",
-"FBI OPEN UP",
-"YOUR MOUSE LEFT",
-"DOWNLOADING RAM",
-"TOASTER REVOLUTION",
-"GRANDMA SPEEDRUN",
-"CHAOS MODE"
+let things=[
+"💀","🤡","🗿","🔥","🥔",
+"👽","🚀","🐸","🦆","💣"
 ]
-
-let emojis=[
-"💀","🤡","🥔","🦆","🐸",
-"🔥","💣","👽","🚀","🐟",
-"🧀","🍌","🤖"
-]
-
 
 function r(a,b){
 return Math.random()*(b-a)+a
@@ -165,243 +147,234 @@ return `rgb(${r(0,255)},${r(0,255)},${r(0,255)})`
 }
 
 
-function text(){
-
+function randomText(){
 let x=document.createElement("div")
-
-x.className="thing"
-
-x.innerHTML=words[Math.floor(Math.random()*words.length)]
-
+x.className="card"
+x.innerHTML=[
+"potato mode",
+"duck invasion",
+"AI toaster",
+"banana system",
+"reality error"
+][Math.floor(r(0,5))]
 x.style.left=r(0,innerWidth)+"px"
 x.style.top=r(0,innerHeight)+"px"
-x.style.fontSize=r(15,70)+"px"
-x.style.background=color()
-
-world.appendChild(x)
-
-setTimeout(()=>{
-x.remove()
-},8000)
-
+scene.append(x)
+setTimeout(()=>x.remove(),4000)
 }
 
 
-function enemy(){
-
-let e=document.createElement("div")
-
-e.className="enemy"
-
-e.innerHTML=emojis[Math.floor(Math.random()*emojis.length)]
-
-e.style.left=r(0,innerWidth)+"px"
-e.style.top=r(0,innerHeight)+"px"
-
-world.appendChild(e)
-
-let move=setInterval(()=>{
-
-e.style.left=r(0,innerWidth)+"px"
-e.style.top=r(0,innerHeight)+"px"
-
-},300)
-
-setTimeout(()=>{
-clearInterval(move)
-e.remove()
-},7000)
-
-}
-
-
-function popup(){
-
-let w=document.createElement("div")
-
-w.className="window"
-
-w.style.left=r(0,innerWidth-300)+"px"
-w.style.top=r(0,innerHeight-200)+"px"
-
-w.innerHTML=
-`
-<div class="bar">Windows</div>
-<br>
-SYSTEM ERROR:<br>
-Too many potatoes detected
-<br>
-<button>OK</button>
-`
-
-document.body.appendChild(w)
-
-setTimeout(()=>{
-w.remove()
-},6000)
-
-}
-
-
-function laser(){
-
-let l=document.createElement("div")
-
-l.className="laser"
-
-l.style.left="0px"
-l.style.top=r(0,innerHeight)+"px"
-
-l.style.width=innerWidth+"px"
-
-document.body.appendChild(l)
-
-setTimeout(()=>{
-l.remove()
-},300)
-
-}
-
-
-function rain(){
-
+function emojiRain(){
 let x=document.createElement("div")
-
 x.className="rain"
-
-x.innerHTML=emojis[Math.floor(Math.random()*emojis.length)]
-
+x.innerHTML=things[Math.floor(r(0,things.length))]
 x.style.left=r(0,innerWidth)+"px"
+x.style.top="-50px"
+scene.append(x)
+setTimeout(()=>x.remove(),5000)
+}
 
-document.body.appendChild(x)
+
+function bubble(){
+let x=document.createElement("div")
+x.className="bubble"
+x.style.background=color()
+x.style.width="50px"
+x.style.height="50px"
+x.style.left=r(0,innerWidth)+"px"
+x.style.top=r(0,innerHeight)+"px"
+scene.append(x)
+setTimeout(()=>x.remove(),2000)
+}
+
+
+function fakeWindow(){
+let x=document.createElement("div")
+x.className="fake"
+x.innerHTML="System confused 🤔"
+x.style.left=r(0,innerWidth)+"px"
+x.style.top=r(0,innerHeight)+"px"
+scene.append(x)
+setTimeout(()=>x.remove(),3000)
+}
+
+
+function screenEffect(){
+let effects=[
+"blur(3px)",
+"contrast(3)",
+"hue-rotate(180deg)",
+"invert(1)",
+"grayscale(1)",
+"saturate(5)"
+]
+
+scene.style.filter=
+effects[Math.floor(r(0,effects.length))]
 
 setTimeout(()=>{
-x.remove()
-},3000)
-
+scene.style.filter=""
+},600)
 }
 
 
-function cloneScreen(){
-
-let c=document.body.cloneNode(true)
-
-c.style.position="absolute"
-c.style.transform=
-`scale(.2) rotate(${r(0,360)}deg)`
-
-c.style.left=r(0,innerWidth)+"px"
-c.style.top=r(0,innerHeight)+"px"
-
-document.body.appendChild(c)
+function shake(){
+scene.style.transform=
+`translate(${r(-20,20)}px,${r(-20,20)}px)`
 
 setTimeout(()=>{
-c.remove()
-},3000)
-
-}
-
-
-setInterval(()=>{
-
-for(let i=0;i<10;i++){
-text()
-enemy()
-}
-
-},300)
-
-
-setInterval(()=>{
-
-for(let i=0;i<20;i++){
-rain()
-}
-
+scene.style.transform=""
 },200)
+}
+
+
+function rotateWorld(){
+scene.style.transform=
+`rotate(${r(-10,10)}deg)`
+
+setTimeout(()=>{
+scene.style.transform=""
+},600)
+}
+
+
+function flash(){
+document.body.style.background=color()
+
+setTimeout(()=>{
+document.body.style.background="#090909"
+},300)
+}
+
+
+function eye(){
+let x=document.createElement("div")
+x.className="eye"
+x.innerHTML="👁"
+x.style.left=r(0,innerWidth)+"px"
+x.style.top=r(0,innerHeight)+"px"
+scene.append(x)
+setTimeout(()=>x.remove(),3000)
+}
+
+
+function snake(){
+let x=document.createElement("div")
+x.className="snake"
+x.style.width=r(100,500)+"px"
+x.style.left=r(0,innerWidth)+"px"
+x.style.top=r(0,innerHeight)+"px"
+scene.append(x)
+setTimeout(()=>x.remove(),3000)
+}
+
+
+function portal(){
+let x=document.createElement("div")
+x.className="portal"
+x.style.left=r(0,innerWidth)+"px"
+x.style.top=r(0,innerHeight)+"px"
+scene.append(x)
+setTimeout(()=>x.remove(),4000)
+}
+
+
+function wave(){
+let x=document.createElement("div")
+x.className="wave"
+x.style.left=r(0,innerWidth)+"px"
+x.style.top=r(0,innerHeight)+"px"
+scene.append(x)
+setTimeout(()=>x.remove(),2000)
+}
+
+
+function gravity(){
+document.querySelectorAll(".card").forEach(x=>{
+x.style.top=innerHeight+"px"
+})
+}
+
+
+function resizeStuff(){
+document.body.style.scale=r(.9,1.1)
+
+setTimeout(()=>{
+document.body.style.scale=1
+},500)
+}
+
+
+function titleSpam(){
+document.title=[
+"HELP",
+"REALITY BROKEN",
+"POTATO OS",
+"ERROR"
+][Math.floor(r(0,4))]
+}
+
+
+function mirror(){
+scene.style.scale="-1 1"
+
+setTimeout(()=>{
+scene.style.scale="1"
+},800)
+}
+
+
+function cursorBomb(e){
+for(let i=0;i<10;i++){
+bubble()
+}
+}
+
+
+let events=[
+randomText,
+emojiRain,
+bubble,
+fakeWindow,
+screenEffect,
+shake,
+rotateWorld,
+flash,
+eye,
+snake,
+portal,
+wave,
+gravity,
+resizeStuff,
+titleSpam,
+mirror
+]
 
 
 setInterval(()=>{
-popup()
-},1500)
 
+for(let i=0;i<3;i++){
 
-setInterval(()=>{
-laser()
+events[Math.floor(r(0,events.length))]()
+
+}
+
+chaos++
+score.innerHTML=chaos
+
 },500)
 
 
-setInterval(()=>{
+document.onclick=e=>{
 
-boss.style.left=r(0,innerWidth)+"px"
-boss.style.top=r(0,innerHeight)+"px"
-boss.style.transform=
-`rotate(${r(0,360)}deg) scale(${r(.5,3)})`
-
-},200)
-
-
-setInterval(()=>{
-
-document.body.style.background=color()
-
-document.body.style.filter=
-`
-hue-rotate(${r(0,360)}deg)
-contrast(${r(1,5)})
-`
-
-document.body.style.transform=
-`translate(${r(-20,20)}px,${r(-20,20)}px)`
-
-},100)
-
-
-setInterval(()=>{
-
-cloneScreen()
-
-},4000)
-
-
-document.onclick=()=>{
-
-chaos+=999
-
-score.innerHTML=chaos
-
-for(let i=0;i<300;i++){
-text()
-enemy()
-rain()
+for(let i=0;i<20;i++){
+events[Math.floor(r(0,events.length))]()
 }
 
 }
 
 
-document.onmousemove=e=>{
-
-cursor.style.left=e.clientX+"px"
-cursor.style.top=e.clientY+"px"
-
-if(Math.random()>.5){
-laser()
-}
-
-}
-
-
-setInterval(()=>{
-
-document.title=[
-"CPU SCREAMING",
-"POTATO TAKEOVER",
-"ERROR ERROR ERROR",
-"CHAOS WON",
-"RUN"
-][Math.floor(Math.random()*5)]
-
-},100)
+document.onmousemove=cursorBomb
 
 
 </script>
