@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CHAOS OVERLOAD</title>
+<title>THE CHAOS MACHINE</title>
 <style>
 *{
 box-sizing:border-box;
@@ -13,249 +13,290 @@ width:100vw;
 height:100vh;
 overflow:hidden;
 background:#000;
+font-family:"Comic Sans MS",Arial;
 color:white;
-font-family:Comic Sans MS,Arial;
-cursor:none;
 user-select:none;
+cursor:none;
 }
 
-#title{
-position:fixed;
-top:20px;
+#world{
+position:absolute;
 width:100%;
-text-align:center;
-font-size:60px;
-z-index:99999;
-animation:spin .7s infinite linear, rainbow 1s infinite;
+height:100%;
 }
 
-.thing{
-position:absolute;
-padding:15px;
-border-radius:20px;
-font-weight:bold;
-animation:move 1s infinite alternate;
-box-shadow:0 0 30px white;
-}
-
-.explosion{
-position:absolute;
-font-size:80px;
-animation:boom 1s forwards;
-}
-
-.fakeError{
-position:absolute;
-background:white;
-color:black;
-padding:20px;
-border:5px solid red;
-font-size:25px;
-z-index:5000;
-}
-
-button{
-position:absolute;
-font-size:30px;
-border:0;
-border-radius:30px;
-padding:20px;
-background:lime;
-box-shadow:0 0 30px lime;
-}
-
-#mouse{
+#cursor{
 position:absolute;
 font-size:70px;
 z-index:999999;
 pointer-events:none;
 }
 
-#stats{
+#hud{
 position:fixed;
+top:10px;
 left:10px;
-bottom:10px;
-font-size:25px;
-z-index:999999;
-background:#0008;
-padding:10px;
+background:#000a;
+padding:15px;
+border-radius:15px;
+font-size:20px;
+z-index:99999;
+}
+
+#boss{
+position:absolute;
+font-size:150px;
+z-index:50;
+}
+
+.thing{
+position:absolute;
+font-weight:bold;
+border-radius:20px;
+padding:20px;
+box-shadow:0 0 30px white;
+animation:wiggle .4s infinite alternate;
+}
+
+.enemy{
+position:absolute;
+font-size:80px;
+transition:.2s;
+}
+
+.window{
+position:absolute;
+background:#ddd;
+color:black;
+border:4px solid #555;
+width:300px;
+height:180px;
+z-index:999;
+}
+
+.bar{
+background:#005eff;
+color:white;
+padding:5px;
+}
+
+.window button{
+margin:20px;
+}
+
+.laser{
+position:absolute;
+height:8px;
+background:red;
+box-shadow:0 0 30px red;
+}
+
+.rain{
+position:absolute;
+font-size:40px;
+animation:fall 3s linear;
+}
+
+@keyframes fall{
+from{top:-100px}
+to{top:120vh}
+}
+
+@keyframes wiggle{
+0%{transform:rotate(-20deg) scale(.7)}
+100%{transform:rotate(20deg) scale(1.5)}
 }
 
 @keyframes spin{
-100%{transform:rotate(360deg)}
-}
-
-@keyframes rainbow{
-0%{color:red}
-20%{color:yellow}
-40%{color:lime}
-60%{color:cyan}
-80%{color:purple}
-100%{color:red}
-}
-
-@keyframes move{
-from{
-transform:translate(-100px,-100px) rotate(0deg) scale(.5);
-}
-to{
-transform:translate(100px,100px) rotate(720deg) scale(2);
+100%{
+transform:rotate(360deg);
 }
 }
 
-@keyframes boom{
-to{
-transform:scale(5) rotate(720deg);
-opacity:0;
-}
-}
 </style>
 </head>
 
 <body>
 
-<div id="title">💀 CHAOS OVERLOAD 💀</div>
-<div id="mouse">🗿</div>
-<div id="stats">Chaos: 0</div>
+<div id="world"></div>
+
+<div id="hud">
+CHAOS: <span id="score">0</span><br>
+FPS DESTROYER: ACTIVE<br>
+POTATO AI: ONLINE
+</div>
+
+<div id="cursor">🗿</div>
+
+<div id="boss">🥔</div>
 
 <script>
 
 let chaos=0
 
 let words=[
-"potato.exe failed",
-"duck invasion",
-"your toaster is angry",
-"banana update installed",
-"free minecraft diamonds",
-"grandma unlocked admin",
-"NPC FOUND",
-"your chair disconnected",
-"water needs charging",
-"installing more internet",
-"cheese escaped prison",
-"fish bought shoes",
-"keyboard needs therapy",
-"ERROR 69420",
-"AI potato activated",
-"microwave joined chat",
-"spoon detected",
-"floor is loading",
-"air subscription expired",
-"clown mode enabled",
-"dog downloaded RAM"
+"YOUR PC IS CONFUSED",
+"DUCK.EXE",
+"BANANA UPDATE",
+"POTATO HAS ADMIN",
+"AI FRIDGE ONLINE",
+"404 IQ",
+"FBI OPEN UP",
+"YOUR MOUSE LEFT",
+"DOWNLOADING RAM",
+"TOASTER REVOLUTION",
+"GRANDMA SPEEDRUN",
+"CHAOS MODE"
 ]
 
 let emojis=[
-"💀","🤡","🗿","🥔","🐸",
-"🦆","🔥","👽","🚀","🍞",
-"🧀","🐟","💣","👾","🤖",
-"🌈","🍌","🐒"
+"💀","🤡","🥔","🦆","🐸",
+"🔥","💣","👽","🚀","🐟",
+"🧀","🍌","🤖"
 ]
+
 
 function r(a,b){
 return Math.random()*(b-a)+a
 }
 
-function randomColor(){
+function color(){
 return `rgb(${r(0,255)},${r(0,255)},${r(0,255)})`
 }
 
-function spawnText(){
-let d=document.createElement("div")
 
-d.className="thing"
+function text(){
 
-d.innerHTML=
-words[Math.floor(Math.random()*words.length)]
+let x=document.createElement("div")
 
-d.style.left=r(0,innerWidth)+"px"
-d.style.top=r(0,innerHeight)+"px"
-d.style.fontSize=r(15,80)+"px"
+x.className="thing"
 
-d.style.background=
-`linear-gradient(45deg,${randomColor()},${randomColor()})`
+x.innerHTML=words[Math.floor(Math.random()*words.length)]
 
-d.style.transform=
-`rotate(${r(0,360)}deg)`
+x.style.left=r(0,innerWidth)+"px"
+x.style.top=r(0,innerHeight)+"px"
+x.style.fontSize=r(15,70)+"px"
+x.style.background=color()
 
-document.body.appendChild(d)
+world.appendChild(x)
 
 setTimeout(()=>{
-d.remove()
-},10000)
+x.remove()
+},8000)
+
 }
 
-function spawnEmoji(){
+
+function enemy(){
 
 let e=document.createElement("div")
 
-e.className="explosion"
+e.className="enemy"
 
-e.innerHTML=
-emojis[Math.floor(Math.random()*emojis.length)]
+e.innerHTML=emojis[Math.floor(Math.random()*emojis.length)]
 
 e.style.left=r(0,innerWidth)+"px"
 e.style.top=r(0,innerHeight)+"px"
 
-document.body.appendChild(e)
+world.appendChild(e)
+
+let move=setInterval(()=>{
+
+e.style.left=r(0,innerWidth)+"px"
+e.style.top=r(0,innerHeight)+"px"
+
+},300)
 
 setTimeout(()=>{
+clearInterval(move)
 e.remove()
-},2000)
+},7000)
 
 }
 
 
-function fakeError(){
+function popup(){
+
+let w=document.createElement("div")
+
+w.className="window"
+
+w.style.left=r(0,innerWidth-300)+"px"
+w.style.top=r(0,innerHeight-200)+"px"
+
+w.innerHTML=
+`
+<div class="bar">Windows</div>
+<br>
+SYSTEM ERROR:<br>
+Too many potatoes detected
+<br>
+<button>OK</button>
+`
+
+document.body.appendChild(w)
+
+setTimeout(()=>{
+w.remove()
+},6000)
+
+}
+
+
+function laser(){
+
+let l=document.createElement("div")
+
+l.className="laser"
+
+l.style.left="0px"
+l.style.top=r(0,innerHeight)+"px"
+
+l.style.width=innerWidth+"px"
+
+document.body.appendChild(l)
+
+setTimeout(()=>{
+l.remove()
+},300)
+
+}
+
+
+function rain(){
 
 let x=document.createElement("div")
 
-x.className="fakeError"
+x.className="rain"
 
-x.innerHTML=
-"WINDOWS ERROR<br>Reason: Too much potato"
+x.innerHTML=emojis[Math.floor(Math.random()*emojis.length)]
 
-x.style.left=r(0,innerWidth-300)+"px"
-x.style.top=r(0,innerHeight-200)+"px"
+x.style.left=r(0,innerWidth)+"px"
 
 document.body.appendChild(x)
 
 setTimeout(()=>{
 x.remove()
-},4000)
+},3000)
 
 }
 
 
-function chaosButton(){
+function cloneScreen(){
 
-let b=document.createElement("button")
+let c=document.body.cloneNode(true)
 
-b.innerHTML="DO NOT PRESS"
+c.style.position="absolute"
+c.style.transform=
+`scale(.2) rotate(${r(0,360)}deg)`
 
-b.style.left=r(0,innerWidth)+"px"
-b.style.top=r(0,innerHeight)+"px"
+c.style.left=r(0,innerWidth)+"px"
+c.style.top=r(0,innerHeight)+"px"
 
-b.onclick=()=>{
-
-chaos+=999
-
-stats.innerHTML="Chaos: "+chaos
-
-for(let i=0;i<300;i++){
-spawnText()
-spawnEmoji()
-}
-
-document.body.style.background=randomColor()
-
-}
-
-document.body.appendChild(b)
+document.body.appendChild(c)
 
 setTimeout(()=>{
-b.remove()
+c.remove()
 },3000)
 
 }
@@ -263,8 +304,9 @@ b.remove()
 
 setInterval(()=>{
 
-for(let i=0;i<50;i++){
-spawnText()
+for(let i=0;i<10;i++){
+text()
+enemy()
 }
 
 },300)
@@ -272,66 +314,78 @@ spawnText()
 
 setInterval(()=>{
 
-for(let i=0;i<30;i++){
-spawnEmoji()
+for(let i=0;i<20;i++){
+rain()
 }
 
-},400)
+},200)
 
 
 setInterval(()=>{
-
-for(let i=0;i<5;i++){
-chaosButton()
-}
-
-},1000)
-
-
-setInterval(()=>{
-
-fakeError()
-
+popup()
 },1500)
 
 
 setInterval(()=>{
+laser()
+},500)
+
+
+setInterval(()=>{
+
+boss.style.left=r(0,innerWidth)+"px"
+boss.style.top=r(0,innerHeight)+"px"
+boss.style.transform=
+`rotate(${r(0,360)}deg) scale(${r(.5,3)})`
+
+},200)
+
+
+setInterval(()=>{
+
+document.body.style.background=color()
 
 document.body.style.filter=
-`hue-rotate(${r(0,360)}deg)`
+`
+hue-rotate(${r(0,360)}deg)
+contrast(${r(1,5)})
+`
 
-document.title=[
-"HELP",
-"CPU MELTING",
-"POTATO VIRUS",
-"WHAT IS HAPPENING",
-"CHAOS LEVEL MAX"
-][Math.floor(Math.random()*5)]
+document.body.style.transform=
+`translate(${r(-20,20)}px,${r(-20,20)}px)`
 
 },100)
 
 
-document.onmousemove=e=>{
+setInterval(()=>{
 
-mouse.style.left=e.clientX+"px"
-mouse.style.top=e.clientY+"px"
+cloneScreen()
 
-for(let i=0;i<10;i++){
-spawnEmoji()
-}
-
-}
+},4000)
 
 
 document.onclick=()=>{
 
-chaos++
+chaos+=999
 
-stats.innerHTML="Chaos: "+chaos
+score.innerHTML=chaos
 
-for(let i=0;i<500;i++){
-spawnText()
-spawnEmoji()
+for(let i=0;i<300;i++){
+text()
+enemy()
+rain()
+}
+
+}
+
+
+document.onmousemove=e=>{
+
+cursor.style.left=e.clientX+"px"
+cursor.style.top=e.clientY+"px"
+
+if(Math.random()>.5){
+laser()
 }
 
 }
@@ -339,13 +393,15 @@ spawnEmoji()
 
 setInterval(()=>{
 
-let shakeX=r(-20,20)
-let shakeY=r(-20,20)
+document.title=[
+"CPU SCREAMING",
+"POTATO TAKEOVER",
+"ERROR ERROR ERROR",
+"CHAOS WON",
+"RUN"
+][Math.floor(Math.random()*5)]
 
-document.body.style.transform=
-`translate(${shakeX}px,${shakeY}px)`
-
-},50)
+},100)
 
 
 </script>
