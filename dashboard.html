@@ -414,6 +414,21 @@ Total Robux Given Out
 <div class="quest-card" id="linkCodeBox">Loading...</div>
 
 <h2 style="margin-top:30px">Available Quests</h2>
+
+<div class="quest-card">
+
+<h3>LootLabs Quest</h3>
+
+<p id="lootlabsProgress">
+Loading...
+</p>
+
+<button id="lootlabsBtn" onclick="startLootlabs()">
+Do Quest
+</button>
+
+</div>
+
 <div id="available"></div>
 
 <h2 style="margin-top:30px">Completed Quests</h2>
@@ -810,9 +825,56 @@ linkCodeBox.innerHTML = "<b>No link code found</b>"
 }
 await loadChangelogs()
 await loadQuests()
+await loadLootlabs()
 }catch(err){}
 }
 
+async function loadLootlabs(){
+
+const r=await fetch(backend+"/lootlabs/status",{
+headers:{
+Authorization:localStorage.getItem("Token")
+}
+})
+
+const d=await r.json()
+
+if(d.completed){
+
+lootlabsProgress.innerHTML="Completed 3/3"
+lootlabsBtn.disabled=true
+lootlabsBtn.innerHTML="Completed"
+
+}else{
+
+lootlabsProgress.innerHTML=d.progress+"/3 Completed"
+
+}
+
+}
+
+
+async function startLootlabs(){
+
+const r=await fetch(backend+"/lootlabs/start",{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token")
+}
+})
+
+const d=await r.json()
+
+if(d.success){
+
+window.open(
+d.url,
+"_blank"
+)
+
+}
+
+}
 async function loadQuests(){
 const token = localStorage.getItem("Token")
 if(!token) return
