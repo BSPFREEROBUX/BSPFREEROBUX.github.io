@@ -865,12 +865,18 @@ Authorization:localStorage.getItem("Token")
 
 const d=await r.json()
 
-if(d.success){
+console.log("LOOTLABS:",d)
+
+if(d.success && d.url){
 
 window.open(
 d.url,
 "_blank"
 )
+
+}else{
+
+alert(JSON.stringify(d,null,2))
 
 }
 
