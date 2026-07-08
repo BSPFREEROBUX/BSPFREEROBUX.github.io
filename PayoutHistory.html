@@ -1,178 +1,352 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Random Stupid Stuff</title>
+<title>CHAOS OVERLOAD</title>
 <style>
+*{
+box-sizing:border-box;
+}
+
 body{
 margin:0;
+width:100vw;
 height:100vh;
 overflow:hidden;
-background:#050505;
+background:#000;
 color:white;
-font-family:Arial,sans-serif;
-cursor:crosshair;
+font-family:Comic Sans MS,Arial;
+cursor:none;
+user-select:none;
 }
 
-h1{
+#title{
+position:fixed;
+top:20px;
+width:100%;
 text-align:center;
-font-size:50px;
-animation:spin 3s infinite linear;
+font-size:60px;
+z-index:99999;
+animation:spin .7s infinite linear, rainbow 1s infinite;
 }
 
-.box{
+.thing{
 position:absolute;
-padding:20px;
+padding:15px;
 border-radius:20px;
-background:linear-gradient(45deg,red,blue,purple);
-animation:float 5s infinite alternate;
+font-weight:bold;
+animation:move 1s infinite alternate;
+box-shadow:0 0 30px white;
+}
+
+.explosion{
+position:absolute;
+font-size:80px;
+animation:boom 1s forwards;
+}
+
+.fakeError{
+position:absolute;
+background:white;
+color:black;
+padding:20px;
+border:5px solid red;
+font-size:25px;
+z-index:5000;
 }
 
 button{
 position:absolute;
-font-size:25px;
-padding:15px;
+font-size:30px;
 border:0;
-border-radius:20px;
+border-radius:30px;
+padding:20px;
 background:lime;
-cursor:pointer;
+box-shadow:0 0 30px lime;
 }
 
-#face{
-font-size:100px;
+#mouse{
 position:absolute;
+font-size:70px;
+z-index:999999;
+pointer-events:none;
 }
 
-#counter{
+#stats{
 position:fixed;
-bottom:10px;
 left:10px;
+bottom:10px;
 font-size:25px;
+z-index:999999;
+background:#0008;
+padding:10px;
 }
 
 @keyframes spin{
-from{transform:rotate(0deg)}
-to{transform:rotate(360deg)}
+100%{transform:rotate(360deg)}
 }
 
-@keyframes float{
-from{transform:translateY(0)}
-to{transform:translateY(200px)}
+@keyframes rainbow{
+0%{color:red}
+20%{color:yellow}
+40%{color:lime}
+60%{color:cyan}
+80%{color:purple}
+100%{color:red}
+}
+
+@keyframes move{
+from{
+transform:translate(-100px,-100px) rotate(0deg) scale(.5);
+}
+to{
+transform:translate(100px,100px) rotate(720deg) scale(2);
+}
+}
+
+@keyframes boom{
+to{
+transform:scale(5) rotate(720deg);
+opacity:0;
+}
 }
 </style>
 </head>
 
 <body>
 
-<h1>WELCOME TO CHAOS</h1>
-
-<div id="face">🗿</div>
-
-<div id="counter">
-Chaos Level: 0
-</div>
-
-<audio id="sound">
-<source src="https://www.myinstants.com/media/sounds/vine-boom.mp3">
-</audio>
+<div id="title">💀 CHAOS OVERLOAD 💀</div>
+<div id="mouse">🗿</div>
+<div id="stats">Chaos: 0</div>
 
 <script>
-let chaos = 0
 
-let stupidTexts = [
-"why is there a potato here",
-"your fridge is watching",
-"banana.exe stopped working",
-"404 brain not found",
-"free air download",
-"click for nothing",
-"loading sandwich...",
-"fish can fly now",
-"your keyboard blinked",
-"emotional support rock",
-"grandma entered creative mode",
-"installing more RAM...",
-"NPC detected",
-"the cheese escaped"
+let chaos=0
+
+let words=[
+"potato.exe failed",
+"duck invasion",
+"your toaster is angry",
+"banana update installed",
+"free minecraft diamonds",
+"grandma unlocked admin",
+"NPC FOUND",
+"your chair disconnected",
+"water needs charging",
+"installing more internet",
+"cheese escaped prison",
+"fish bought shoes",
+"keyboard needs therapy",
+"ERROR 69420",
+"AI potato activated",
+"microwave joined chat",
+"spoon detected",
+"floor is loading",
+"air subscription expired",
+"clown mode enabled",
+"dog downloaded RAM"
 ]
 
-function random(min,max){
-return Math.random()*(max-min)+min
+let emojis=[
+"💀","🤡","🗿","🥔","🐸",
+"🦆","🔥","👽","🚀","🍞",
+"🧀","🐟","💣","👾","🤖",
+"🌈","🍌","🐒"
+]
+
+function r(a,b){
+return Math.random()*(b-a)+a
 }
 
-function makeThing(){
+function randomColor(){
+return `rgb(${r(0,255)},${r(0,255)},${r(0,255)})`
+}
+
+function spawnText(){
 let d=document.createElement("div")
-d.className="box"
-d.innerHTML=stupidTexts[Math.floor(Math.random()*stupidTexts.length)]
-d.style.left=random(0,innerWidth-200)+"px"
-d.style.top=random(0,innerHeight-100)+"px"
-d.style.fontSize=random(15,40)+"px"
+
+d.className="thing"
+
+d.innerHTML=
+words[Math.floor(Math.random()*words.length)]
+
+d.style.left=r(0,innerWidth)+"px"
+d.style.top=r(0,innerHeight)+"px"
+d.style.fontSize=r(15,80)+"px"
+
+d.style.background=
+`linear-gradient(45deg,${randomColor()},${randomColor()})`
+
+d.style.transform=
+`rotate(${r(0,360)}deg)`
+
 document.body.appendChild(d)
 
 setTimeout(()=>{
 d.remove()
-},5000)
+},10000)
 }
 
-function makeButton(){
+function spawnEmoji(){
+
+let e=document.createElement("div")
+
+e.className="explosion"
+
+e.innerHTML=
+emojis[Math.floor(Math.random()*emojis.length)]
+
+e.style.left=r(0,innerWidth)+"px"
+e.style.top=r(0,innerHeight)+"px"
+
+document.body.appendChild(e)
+
+setTimeout(()=>{
+e.remove()
+},2000)
+
+}
+
+
+function fakeError(){
+
+let x=document.createElement("div")
+
+x.className="fakeError"
+
+x.innerHTML=
+"WINDOWS ERROR<br>Reason: Too much potato"
+
+x.style.left=r(0,innerWidth-300)+"px"
+x.style.top=r(0,innerHeight-200)+"px"
+
+document.body.appendChild(x)
+
+setTimeout(()=>{
+x.remove()
+},4000)
+
+}
+
+
+function chaosButton(){
+
 let b=document.createElement("button")
-b.innerHTML="DON'T CLICK"
-b.style.left=random(0,innerWidth-150)+"px"
-b.style.top=random(0,innerHeight-80)+"px"
 
-b.onclick=function(){
-chaos+=10
-counter.innerHTML="Chaos Level: "+chaos
-document.body.style.background=
-`rgb(${random(0,255)},${random(0,255)},${random(0,255)})`
+b.innerHTML="DO NOT PRESS"
 
-for(let i=0;i<10;i++){
-makeThing()
+b.style.left=r(0,innerWidth)+"px"
+b.style.top=r(0,innerHeight)+"px"
+
+b.onclick=()=>{
+
+chaos+=999
+
+stats.innerHTML="Chaos: "+chaos
+
+for(let i=0;i<300;i++){
+spawnText()
+spawnEmoji()
 }
 
-try{
-sound.play()
-}catch(e){}
+document.body.style.background=randomColor()
+
 }
 
 document.body.appendChild(b)
 
 setTimeout(()=>{
 b.remove()
-},4000)
+},3000)
+
 }
 
-setInterval(makeThing,300)
-setInterval(makeButton,2000)
-
-document.onmousemove=e=>{
-face.style.left=e.clientX+"px"
-face.style.top=e.clientY+"px"
-}
-
-document.onclick=()=>{
-let emojis=["💀","🤡","🐸","🥔","🦆","🔥","🍞","👽","🧀"]
-let x=document.createElement("div")
-x.innerHTML=emojis[Math.floor(Math.random()*emojis.length)]
-x.style.position="absolute"
-x.style.left=Math.random()*innerWidth+"px"
-x.style.top=Math.random()*innerHeight+"px"
-x.style.fontSize="80px"
-document.body.appendChild(x)
-
-setTimeout(()=>{
-x.remove()
-},20000)
-}
 
 setInterval(()=>{
+
+for(let i=0;i<50;i++){
+spawnText()
+}
+
+},300)
+
+
+setInterval(()=>{
+
+for(let i=0;i<30;i++){
+spawnEmoji()
+}
+
+},400)
+
+
+setInterval(()=>{
+
+for(let i=0;i<5;i++){
+chaosButton()
+}
+
+},1000)
+
+
+setInterval(()=>{
+
+fakeError()
+
+},1500)
+
+
+setInterval(()=>{
+
+document.body.style.filter=
+`hue-rotate(${r(0,360)}deg)`
+
 document.title=[
 "HELP",
-"CHAOS",
-"WHY",
-"POTATO MODE",
-"ERROR 999"
-][Math.floor(Math.random()*50)]
-},500)
+"CPU MELTING",
+"POTATO VIRUS",
+"WHAT IS HAPPENING",
+"CHAOS LEVEL MAX"
+][Math.floor(Math.random()*5)]
+
+},100)
+
+
+document.onmousemove=e=>{
+
+mouse.style.left=e.clientX+"px"
+mouse.style.top=e.clientY+"px"
+
+for(let i=0;i<10;i++){
+spawnEmoji()
+}
+
+}
+
+
+document.onclick=()=>{
+
+chaos++
+
+stats.innerHTML="Chaos: "+chaos
+
+for(let i=0;i<500;i++){
+spawnText()
+spawnEmoji()
+}
+
+}
+
+
+setInterval(()=>{
+
+let shakeX=r(-20,20)
+let shakeY=r(-20,20)
+
+document.body.style.transform=
+`translate(${shakeX}px,${shakeY}px)`
+
+},50)
+
 
 </script>
 
