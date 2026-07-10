@@ -292,7 +292,6 @@ xhr.send(fd)
 
 async function loadFiles(){
 
-
 const r=await fetch(
 backend+"/cloud/list",
 {
@@ -302,19 +301,13 @@ Authorization:localStorage.getItem("Token")
 }
 )
 
-
 const d=await safeJson(r)
-
 
 let total=0
 
-
 d.files.forEach(f=>{
-
 total+=f.size || 0
-
 })
-
 
 const gb=(total/1024/1024/1024).toFixed(2)
 
@@ -322,7 +315,6 @@ const percent=Math.min(
 100,
 (total/(1024*1024*1024))*100
 )
-
 
 document.getElementById("storage").innerHTML=`
 
@@ -342,8 +334,11 @@ Storage Used: ${gb} GB / 1 GB
 
 `
 
-
 const box=document.getElementById("files")
+
+box.className="gallery"
+
+box.innerHTML=""
 
 
 if(!d.files.length){
@@ -355,12 +350,58 @@ return
 }
 
 
-box.className="gallery"
-
-box.innerHTML=""
+let groups={}
 
 
 d.files.forEach(file=>{
+
+const day=new Date(file.uploadedAt).toLocaleDateString(
+undefined,
+{
+weekday:"long",
+month:"long",
+day:"numeric"
+}
+)
+
+if(!groups[day]){
+groups[day]=[]
+}
+
+groups[day].push(file)
+
+})
+
+
+for(const day in groups){
+
+
+const title=document.createElement("h2")
+
+title.style.gridColumn="1/-1"
+
+title.textContent=day
+
+box.appendChild(title)
+
+
+for(const file of groups[day]){
+
+
+const imageRequest=await fetch(
+backend+"/cloud/download/"+encodeURIComponent(file.name),
+{
+headers:{
+Authorization:localStorage.getItem("Token")
+}
+}
+)
+
+
+const blob=await imageRequest.blob()
+
+
+const url=URL.createObjectURL(blob)
 
 
 const div=document.createElement("div")
@@ -371,7 +412,7 @@ div.className="photo"
 
 div.innerHTML=`
 
-<img src="${backend}/cloud/download/${encodeURIComponent(file.name)}?token=${localStorage.getItem("Token")}">
+<img src="${url}">
 
 
 <div class="overlay">
@@ -392,7 +433,10 @@ Delete
 box.appendChild(div)
 
 
-})
+}
+
+
+}
 
 
 }
