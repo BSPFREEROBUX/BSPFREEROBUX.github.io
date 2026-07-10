@@ -386,23 +386,6 @@ margin-left:4px;
 
 <div class="left">
 
-<div class="stats-container">
-<div class="stat-box">
-Total Free Robux Orders Complete
-<div class="stat-inner" id="ordersCount">0</div>
-</div>
-
-<div class="stat-box">
-View Proof
-<button class="stat-btn" onclick="location.href='Proof.html'">View</button>
-</div>
-
-<div class="stat-box">
-Total Robux Given Out
-<div class="stat-inner" id="robuxCount">0</div>
-</div>
-</div>
-
 <div id="banScreen" style="display:none">
 <h2>You Are Banned</h2>
 <p id="banReason"></p>
@@ -413,13 +396,6 @@ Total Robux Given Out
 
 <h3>Your Discord Link Code</h3>
 <div class="quest-card" id="linkCodeBox">Loading...</div>
-
-<h2 style="margin-top:30px">Available Quests</h2>
-
-<div id="available"></div>
-
-<h2 style="margin-top:30px">Completed Quests</h2>
-<div id="completed"></div>
 
 </div>
 
@@ -558,18 +534,6 @@ selected
 document.getElementById("themeStylesheet").href=
 selected
 
-}
-
-async function loadStats(){
-try{
-const robuxRes = await fetch("TotalRobuxGivenOut.txt")
-const robuxValue = parseInt((await robuxRes.text()).trim()) || 0
-animateValue(document.getElementById("robuxCount"), robuxValue)
-
-const ordersRes = await fetch("TotalFreeRobuxOrdersComplete.txt")
-const ordersValue = parseInt((await ordersRes.text()).trim()) || 0
-animateValue(document.getElementById("ordersCount"), ordersValue)
-}catch(e){}
 }
 
 function saveTimezone(){
@@ -811,80 +775,7 @@ linkCodeBox.innerHTML = `<b>Your Link Code</b><br>${data.linkCode}<br><small>Use
 linkCodeBox.innerHTML = "<b>No link code found</b>"
 }
 await loadChangelogs()
-await loadQuests()
-await loadLootlabs()
 }catch(err){}
-}
-
-async function loadLootlabs(){
-
-const r=await fetch(backend+"/lootlabs/status",{
-headers:{
-Authorization:localStorage.getItem("Token")
-}
-})
-
-const d=await r.json()
-
-if(d.completed){
-
-lootlabsProgress.innerHTML="Completed 3/3"
-lootlabsBtn.disabled=true
-lootlabsBtn.innerHTML="Completed"
-
-}else{
-
-lootlabsProgress.innerHTML=d.progress+"/3 Completed"
-
-}
-
-}
-
-
-async function startLootlabs(){
-
-const r=await fetch(backend+"/lootlabs/start",{
-method:"POST",
-headers:{
-Authorization:localStorage.getItem("Token")
-}
-})
-
-const d=await r.json()
-
-console.log("LOOTLABS:",d)
-
-if(d.url){
-
-window.open(d.url,"_blank")
-
-}else{
-
-console.log(d)
-alert("No LootLabs URL returned. Check server console.")
-
-}
-
-}
-async function loadQuests(){
-const token = localStorage.getItem("Token")
-if(!token) return
-
-try{
-const r = await fetch(backend + "/quests", {
-method: "POST",
-headers: { "Content-Type": "application/json", "Authorization": token }
-})
-const data = await safeJson(r)
-if(!data || data.error) return
-
-renderQuests(data.available || [], "available", false)
-renderQuests(data.completed || [], "completed", true)
-}catch(err){}
-}
-
-function goProfile(){
-location.href="profile.html"
 }
 
 let settingsOpen=false
