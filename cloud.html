@@ -22,56 +22,91 @@ padding:25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:30px;
-flex-wrap:wrap;
-gap:10px;
+margin-bottom:25px;
 }
 
 .card{
-background:#1b1b1b;
+background:#181818;
 padding:20px;
-border-radius:14px;
-margin-bottom:15px;
-word-break:break-word;
+border-radius:16px;
+margin-bottom:20px;
 }
 
 button{
 border:none;
-padding:10px 14px;
+padding:10px 15px;
 border-radius:10px;
-cursor:pointer;
 background:#4cafef;
 color:white;
 font-weight:bold;
-margin-top:10px;
+cursor:pointer;
 }
 
 input{
 width:100%;
 padding:12px;
-border:none;
+border:0;
 border-radius:10px;
-margin-top:10px;
 background:#262626;
 color:white;
 }
 
-.file{
-background:#242424;
-padding:15px;
-border-radius:12px;
-margin-top:15px;
+.storage{
+margin-bottom:20px;
 }
 
-.row{
+.bar{
+height:18px;
+background:#2a2a2a;
+border-radius:20px;
+overflow:hidden;
+}
+
+.fill{
+height:100%;
+background:#4cafef;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+gap:8px;
+}
+
+.photo{
+position:relative;
+height:250px;
+background:#222;
+overflow:hidden;
+border-radius:5px;
+}
+
+.photo img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.photo:hover .overlay{
+opacity:1;
+}
+
+.overlay{
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.55);
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+opacity:0;
+transition:.2s;
+}
+
+.uploadBox{
 display:flex;
 gap:10px;
-flex-wrap:wrap;
-margin-top:10px;
-}
-
-h1,h2,h3,p{
-margin-top:0;
 }
 </style>
 </head>
@@ -79,20 +114,23 @@ margin-top:0;
 <body>
 
 <div class="top">
-<h1>☁ Cloud Storage</h1>
 
-<div>
+<h1>☁ Photos</h1>
+
 <button onclick="location.href='dashboard.html'">
 Back
 </button>
+
 </div>
-</div>
+
 
 <div class="card">
 
-<h2>Upload File</h2>
+<h2>Upload Image</h2>
 
-<input type="file" id="file">
+<div class="uploadBox">
+
+<input type="file" id="file" accept=".png,.jpg,.jpeg">
 
 <button onclick="uploadFile()">
 Upload
@@ -100,9 +138,12 @@ Upload
 
 </div>
 
+</div>
+
+
 <div class="card">
 
-<h2>Your Files</h2>
+<div id="storage"></div>
 
 <div id="files">
 Loading...
@@ -110,36 +151,35 @@ Loading...
 
 </div>
 
-<div class="card" id="adminPanel" style="display:none">
-
-<h2>Administrator Panel</h2>
-
-<input id="adminUser" placeholder="Username">
-
-<button onclick="loadAdminFiles()">
-View User Cloud
-</button>
-
-<div id="adminFiles"></div>
-
-</div>
 
 <script>
+
 let backend=null
-let me=null
+
 
 async function getBackend(){
+
 const r=await fetch("server.txt")
+
 return (await r.text()).trim()
+
 }
 
+
 async function safeJson(r){
+
 try{
+
 return await r.json()
+
 }catch{
+
 return null
+
 }
+
 }
+
 
 async function init(){
 
@@ -148,163 +188,133 @@ backend=await getBackend()
 const token=localStorage.getItem("Token")
 
 if(!token){
+
 location.href="login.html"
+
 return
+
 }
 
+
 const r=await fetch(backend+"/me",{
+
 headers:{
 Authorization:token
 }
+
 })
+
 
 const d=await safeJson(r)
 
+
 if(!d || d.error){
+
 localStorage.removeItem("Token")
+
 location.href="login.html"
+
 return
+
 }
 
-me=d
-
-if(d.permissions?.admin){
-document.getElementById("adminPanel").style.display="block"
-}
 
 loadFiles()
 
 }
 
+
 async function uploadFile(){
 
 const input=document.getElementById("file")
 
+
 if(!input.files.length){
-alert("Select a file")
+
+alert("Select image")
+
 return
+
 }
 
+
 const file=input.files[0]
+
+
+if(
+![
+"image/png",
+"image/jpeg",
+"image/jpg"
+].includes(file.type)
+){
+
+alert("Only PNG JPG JPEG allowed")
+
+return
+
+}
+
 
 const fd=new FormData()
 
 fd.append("file",file)
 
-const progressBox=document.createElement("div")
-
-progressBox.className="file"
-
-progressBox.innerHTML=`
-<h3>${file.name}</h3>
-
-<div style="width:100%;height:24px;background:#2a2a2a;border-radius:10px;overflow:hidden;margin-top:15px">
-<div id="uploadBar" style="height:100%;width:0%;background:#4cafef;transition:.15s"></div>
-</div>
-
-<p id="uploadPercent" style="margin-top:10px">
-0%
-</p>
-`
-
-document.getElementById("files").prepend(progressBox)
 
 const xhr=new XMLHttpRequest()
+
 
 xhr.open(
 "POST",
 backend+"/cloud/upload"
 )
 
+
 xhr.setRequestHeader(
 "Authorization",
 localStorage.getItem("Token")
 )
 
-xhr.upload.onprogress=(e)=>{
-
-if(!e.lengthComputable)
-return
-
-const percent=Math.floor(
-(e.loaded/e.total)*100
-)
-
-document.getElementById("uploadBar").style.width=percent+"%"
-
-document.getElementById("uploadPercent").textContent=percent+"%"
-
-}
 
 xhr.onload=()=>{
 
-try{
-
-const d=JSON.parse(xhr.responseText)
-
-if(d.success){
-
-document.getElementById("uploadBar").style.width="100%"
-
-document.getElementById("uploadPercent").textContent="Upload Complete"
-
 input.value=""
 
-setTimeout(()=>{
 loadFiles()
-},700)
-
-}else{
-
-if(d.error==="storagefull"){
-
-const remaining=(
-d.remaining/1024/1024
-).toFixed(2)
-
-return alert(
-"Storage limit reached.\nRemaining: "+
-remaining+" MB"
-)
 
 }
 
-alert(d.error || "Upload failed")
-
-}
-
-}catch{
-
-alert("Upload failed")
-
-}
-
-}
-
-xhr.onerror=()=>{
-alert("Upload failed")
-}
 
 xhr.send(fd)
 
 }
+
+
 async function loadFiles(){
 
-const r=await fetch(backend+"/cloud/list",{
+
+const r=await fetch(
+backend+"/cloud/list",
+{
 headers:{
 Authorization:localStorage.getItem("Token")
 }
-})
+}
+)
+
 
 const d=await safeJson(r)
 
-const box=document.getElementById("files")
 
 let total=0
 
+
 d.files.forEach(f=>{
+
 total+=f.size || 0
+
 })
+
 
 const gb=(total/1024/1024/1024).toFixed(2)
 
@@ -313,54 +323,58 @@ const percent=Math.min(
 (total/(1024*1024*1024))*100
 )
 
-box.innerHTML=`
-<div class="file">
+
+document.getElementById("storage").innerHTML=`
+
+<div class="storage">
 
 <h3>
-Storage Used: ${gb} GB / 1.00 GB
+Storage Used: ${gb} GB / 1 GB
 </h3>
 
-<div style="width:100%;height:24px;background:#2a2a2a;border-radius:10px;overflow:hidden;margin-top:10px">
+<div class="bar">
 
-<div style="
-height:100%;
-width:${percent}%;
-background:${percent>90 ? "#ff4d4d" : "#4cafef"};
-transition:.2s
-"></div>
+<div class="fill" style="width:${percent}%"></div>
 
 </div>
 
 </div>
+
 `
-  
-if(!d?.files?.length){
 
-box.innerHTML="<p>No files uploaded.</p>"
+
+const box=document.getElementById("files")
+
+
+if(!d.files.length){
+
+box.innerHTML="No images"
+
 return
 
 }
 
-box.innerHTML+= ""
+
+box.className="gallery"
+
+box.innerHTML=""
+
 
 d.files.forEach(file=>{
 
+
 const div=document.createElement("div")
 
-div.className="file"
+
+div.className="photo"
+
 
 div.innerHTML=`
-<h3>${file.name}</h3>
 
-<p>
-${(file.size/1024/1024).toFixed(2)} MB
-</p>
+<img src="${backend}/cloud/download/${encodeURIComponent(file.name)}?token=${localStorage.getItem("Token")}">
 
-<p>
-${new Date(file.uploadedAt).toLocaleString()}
-</p>
 
-<div class="row">
+<div class="overlay">
 
 <button onclick="downloadFile('${encodeURIComponent(file.name)}')">
 Download
@@ -371,15 +385,21 @@ Delete
 </button>
 
 </div>
+
 `
+
 
 box.appendChild(div)
 
+
 })
+
 
 }
 
+
 async function downloadFile(name){
+
 
 const r=await fetch(
 backend+"/cloud/download/"+name,
@@ -390,33 +410,36 @@ Authorization:localStorage.getItem("Token")
 }
 )
 
-if(!r.ok){
-return alert("Download failed")
-}
 
 const blob=await r.blob()
 
+
 const url=URL.createObjectURL(blob)
 
+
 const a=document.createElement("a")
+
 
 a.href=url
 
 a.download=decodeURIComponent(name)
 
-document.body.appendChild(a)
 
 a.click()
 
-a.remove()
 
 URL.revokeObjectURL(url)
 
+
 }
+
 
 async function deleteFile(name){
 
-const r=await fetch(backend+"/cloud/delete",{
+
+await fetch(
+backend+"/cloud/delete",
+{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
@@ -425,121 +448,18 @@ Authorization:localStorage.getItem("Token")
 body:JSON.stringify({
 name
 })
-})
+}
+)
 
-const d=await safeJson(r)
-
-if(d?.success){
 
 loadFiles()
 
-}else{
-
-alert(d?.error || "Failed")
 
 }
 
-}
-
-async function loadAdminFiles(){
-
-const username=document.getElementById("adminUser").value.trim()
-
-if(!username){
-alert("Enter username")
-return
-}
-
-const r=await fetch(
-backend+"/admin/cloud/"+encodeURIComponent(username),
-{
-headers:{
-Authorization:localStorage.getItem("Token")
-}
-}
-)
-
-if(r.status===403){
-return alert("No permission")
-}
-
-const d=await safeJson(r)
-
-const box=document.getElementById("adminFiles")
-
-if(!d?.files?.length){
-
-box.innerHTML="<p>No files.</p>"
-return
-
-}
-
-box.innerHTML=""
-
-d.files.forEach(file=>{
-
-const div=document.createElement("div")
-
-div.className="file"
-
-div.innerHTML=`
-<h3>${file.name}</h3>
-
-<p>
-${(file.size/1024/1024).toFixed(2)} MB
-</p>
-
-<div class="row">
-
-<button onclick="adminDownload('${username}','${encodeURIComponent(file.name)}')">
-Download
-</button>
-
-</div>
-`
-
-box.appendChild(div)
-
-})
-
-}
-
-async function adminDownload(username,name){
-
-const r=await fetch(
-backend+"/admin/cloud/"+encodeURIComponent(username)+"/download/"+name,
-{
-headers:{
-Authorization:localStorage.getItem("Token")
-}
-}
-)
-
-if(!r.ok){
-return alert("Download failed")
-}
-
-const blob=await r.blob()
-
-const url=URL.createObjectURL(blob)
-
-const a=document.createElement("a")
-
-a.href=url
-
-a.download=decodeURIComponent(name)
-
-document.body.appendChild(a)
-
-a.click()
-
-a.remove()
-
-URL.revokeObjectURL(url)
-
-}
 
 init()
+
 </script>
 
 </body>
