@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Staff Guidelines</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
+}
+
+body{
+min-height:100vh;
+background:
+radial-gradient(circle at top,#253d72 0%,transparent 35%),
+linear-gradient(135deg,#060914,#111827);
+color:white;
+padding:30px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+width:100%;
+max-width:1100px;
+}
+
+.header{
+text-align:center;
+margin-bottom:35px;
+}
+
+.header h1{
+font-size:45px;
+background:linear-gradient(90deg,#58a6ff,#b76cff);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.header p{
+margin-top:10px;
+color:#aeb8d6;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.12);
+border-radius:22px;
+padding:25px;
+cursor:pointer;
+transition:.25s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+border-color:#58a6ff;
+}
+
+.card.active{
+background:#58a6ff22;
+border-color:#58a6ff;
+}
+
+.icon{
+font-size:36px;
+margin-bottom:15px;
+}
+
+.card p{
+color:#b8c2dd;
+margin-top:8px;
+}
+
+.panel{
+display:none;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.12);
+border-radius:25px;
+padding:35px;
+}
+
+.panel.active{
+display:block;
+}
+
+.tag{
+display:inline-block;
+padding:7px 15px;
+border-radius:20px;
+background:#58a6ff22;
+border:1px solid #58a6ff55;
+color:#58a6ff;
+margin-bottom:15px;
+}
+
+.panel h2{
+font-size:32px;
+margin-bottom:25px;
+}
+
+.section{
+margin-bottom:25px;
+}
+
+.section h3{
+color:#58a6ff;
+margin-bottom:10px;
+}
+
+ul{
+padding-left:20px;
+}
+
+li{
+margin-bottom:10px;
+color:#d8dff5;
+}
+
+.notice{
+padding:15px;
+border-radius:15px;
+background:#ff575720;
+border:1px solid #ff575760;
+color:#ffa6a6;
+margin-top:15px;
+}
+
+.good{
+padding:15px;
+border-radius:15px;
+background:#57ff8a20;
+border:1px solid #57ff8a60;
+color:#adffc8;
+margin-top:15px;
+}
+
+.permission{
+background:#5865f222;
+border:1px solid #5865f260;
+padding:18px;
+border-radius:18px;
+margin-bottom:15px;
+}
+
+.permission h4{
+color:#91a5ff;
+margin-bottom:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>Staff Guidelines</h1>
+
+<p>Select your staff role and follow the correct procedures.</p>
+
+</div>
+
+
+<div class="cards">
+
+<div class="card active" onclick="openRole('mod',this)">
+<div class="icon">🛡️</div>
+<h2>Moderator</h2>
+<p>Handles moderation reports, warnings and rule enforcement.</p>
+</div>
+
+
+<div class="card" onclick="openRole('support',this)">
+<div class="icon">🎧</div>
+<h2>Support</h2>
+<p>Handles tickets and user support.</p>
+</div>
+
+
+<div class="card" onclick="openRole('head',this)">
+<div class="icon">⭐</div>
+<h2>Head Mod / Head Support</h2>
+<p>Supervises moderators and support members.</p>
+</div>
+
+</div>
+
+
+
+
+
+<div id="mod" class="panel active">
+
+<span class="tag">Moderator</span>
+
+<h2>🛡️ Moderator Guidelines</h2>
+
+
+<div class="section">
+
+<h3>Moderation Logs</h3>
+
+<ul>
+<li>Review messages flagged by the moderation bot.</li>
+<li>The bot will ping staff when a message needs checking.</li>
+<li>Always check context before taking action.</li>
+<li>If the message breaks the rules, delete/remove it.</li>
+</ul>
+
+</div>
+
+
+<div class="section">
+
+<h3>Warnings & Punishments</h3>
+
+<ul>
+<li>Use <b>/warn</b> for rule violations.</li>
+<li>Use <b>/timeout</b> for more serious situations.</li>
+<li>Make sure punishments match the severity.</li>
+<li>Keep evidence for serious cases.</li>
+</ul>
+
+</div>
+
+
+<div class="section">
+
+<h3>Permissions</h3>
+
+
+<div class="permission">
+
+<h4>Discord</h4>
+
+<ul>
+<li>Warn users.</li>
+<li>Timeout users.</li>
+<li>Delete messages.</li>
+</ul>
+
+</div>
+
+
+<div class="permission">
+
+<h4>Website</h4>
+
+<ul>
+<li>No special moderation permissions currently.</li>
+<li>Cannot delete website messages.</li>
+<li>Website chat moderation requests must go to Head Mod / Head Support.</li>
+<li>Head Mod / Head Support forwards serious issues to Admins or Owners.</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="notice">
+
+Moderators cannot kick or ban users.
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div id="support" class="panel">
+
+<span class="tag">Support</span>
+
+<h2>🎧 Support Guidelines</h2>
+
+
+<div class="section">
+
+<h3>Tickets</h3>
+
+<ul>
+<li>Help users with questions, issues and reports.</li>
+<li>Handle tickets professionally and respectfully.</li>
+<li>Collect information before escalating issues.</li>
+<li>Stay focused on helping users.</li>
+</ul>
+
+</div>
+
+
+<div class="section">
+
+<h3>Moderation Situations</h3>
+
+<ul>
+<li>If rule breaking happens inside a ticket, contact Head Mod / Head Support.</li>
+<li>If rule breaking happens in general chat, contact a Moderator.</li>
+<li>Support does not handle moderation punishments.</li>
+</ul>
+
+</div>
+
+
+<div class="section">
+
+<h3>Permissions</h3>
+
+
+<div class="permission">
+
+<h4>Discord</h4>
+
+<ul>
+<li>View tickets.</li>
+<li>Close tickets.</li>
+<li>Lock tickets.</li>
+<li>Unlock tickets.</li>
+<li>Cannot view closed tickets.</li>
+</ul>
+
+</div>
+
+
+<div class="permission">
+
+<h4>Website</h4>
+
+<ul>
+<li>View tickets.</li>
+<li>Close tickets.</li>
+<li>Lock tickets.</li>
+<li>Unlock tickets.</li>
+<li>Cannot view closed tickets.</li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div id="head" class="panel">
+
+<span class="tag">Supervisor</span>
+
+<h2>⭐ Head Mod / Head Support Guidelines</h2>
+
+
+<div class="section">
+
+<h3>Staff Supervision</h3>
+
+<ul>
+<li>Watch over Moderators and Support members.</li>
+<li>Review staff choices and confirm they are correct.</li>
+<li>Correct staff members if a mistake is made.</li>
+<li>Guide staff so situations are handled properly.</li>
+<li>Make sure everyone follows the staff guidelines.</li>
+</ul>
+
+</div>
+
+
+<div class="section">
+
+<h3>Permissions</h3>
+
+
+<div class="permission">
+
+<h4>Discord</h4>
+
+<ul>
+<li>All Moderator permissions.</li>
+<li>All Support permissions.</li>
+<li>Warn users.</li>
+<li>Timeout users.</li>
+<li>Delete messages.</li>
+<li>Manage tickets.</li>
+<li>Cannot view closed tickets.</li>
+</ul>
+
+</div>
+
+
+<div class="permission">
+
+<h4>Website</h4>
+
+<ul>
+<li>View tickets.</li>
+<li>Close tickets.</li>
+<li>Lock tickets.</li>
+<li>Unlock tickets.</li>
+<li>Warn users.</li>
+<li>Timeout users.</li>
+<li>Cannot delete website messages.</li>
+<li>Cannot view closed tickets.</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h3>Escalations</h3>
+
+<ul>
+<li>Review reports sent by Moderators or Support.</li>
+<li>Check evidence before escalating.</li>
+<li>If a kick or ban is needed, contact an Administrator or Owner.</li>
+<li>Explain the situation and provide proof.</li>
+</ul>
+
+</div>
+
+
+<div class="notice">
+
+Head Mod / Head Support cannot kick or ban users directly.
+
+</div>
+
+
+<div class="good">
+
+Your responsibility is supervising staff, improving decisions and keeping moderation fair.
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+function openRole(role,button){
+
+document.querySelectorAll(".panel").forEach(panel=>{
+panel.classList.remove("active")
+})
+
+document.querySelectorAll(".card").forEach(card=>{
+card.classList.remove("active")
+})
+
+document.getElementById(role).classList.add("active")
+
+button.classList.add("active")
+
+}
+
+</script>
+
+
+</body>
+</html>
