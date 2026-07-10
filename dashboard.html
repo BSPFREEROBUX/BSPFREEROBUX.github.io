@@ -890,59 +890,6 @@ alert("2FA Enabled")
 }
 
 }
-function renderQuests(list, containerId, completed){
-
-const container=document.getElementById(containerId)
-
-container.innerHTML=""
-
-if(!Array.isArray(list)||list.length===0){
-
-container.innerHTML="<p>No quests.</p>"
-
-return
-
-}
-
-list.forEach(q=>{
-
-const div=document.createElement("div")
-
-div.className="quest-card"
-
-let extra=""
-
-if(q.type==="lootlabs"&&!completed){
-
-extra=`
-<p><b>Progress:</b> ${q.progress||0}/${q.required}</p>
-
-<button onclick="startLootlabs()">
-Do Quest
-</button>
-`
-
-}
-
-div.innerHTML=`
-<h4>${q.title}</h4>
-
-<p>${q.description}</p>
-
-<p>
-<b>Reward:</b> ${q.reward.amount} ${q.reward.currency}
-</p>
-
-${extra}
-
-${completed?"<span>Completed</span>":""}
-`
-
-container.appendChild(div)
-
-})
-
-}
 
 function showBan(reason, remaining){
 mainContent.style.display = "none"
