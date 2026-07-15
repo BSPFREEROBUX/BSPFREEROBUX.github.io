@@ -676,6 +676,13 @@ ${n.message}
 </div>
 `).join("") || "<div style='padding:10px'>No notifications</div>"
 }
+
+function goProfile() {
+    const username = localStorage.getItem("username");
+    if (!username) return;
+
+    window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
+}  
   
 function convertTime(time,fromTZ){
 const d=new Date(time)
