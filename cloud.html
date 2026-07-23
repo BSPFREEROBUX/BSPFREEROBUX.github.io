@@ -289,7 +289,30 @@ d.files.forEach(file => {
     box.appendChild(div);
 });
 
-// TODO: render the search results
+}
+
+async function removeTag(name, tag){
+
+    const r = await fetch(backend + "/cloud/tags/remove",{
+        method:"POST",
+        headers:{
+            Authorization:localStorage.getItem("Token"),
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            files:[name],
+            tags:[tag]
+        })
+    });
+
+    const d = await r.json();
+
+    if(d.error){
+        alert(d.error);
+        return;
+    }
+
+    loadFiles();
 
 }
 
@@ -515,7 +538,22 @@ color:white;
 
 <br>
 
-🏷 ${file.tags && file.tags.length ? file.tags.join(", ") : "None"}
+🏷 ${
+file.tags && file.tags.length
+?
+file.tags.map(tag => `
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px;">
+    <span>${tag}</span>
+    <button
+        style="padding:2px 6px;font-size:11px;background:#d9534f;"
+        onclick="event.stopPropagation();removeTag('${file.name}','${tag}')">
+        ❌
+    </button>
+</div>
+`).join("")
+:
+"None"
+}
 
 <br>
 
