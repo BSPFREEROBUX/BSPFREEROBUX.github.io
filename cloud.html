@@ -251,18 +251,23 @@ loadFiles()
 
 }
 
+let currentSearch = 0;
+
 async function searchFiles(){
+
+const searchId = ++currentSearch;
 
 const query = document.getElementById("search").value.trim();
 
 const box = document.getElementById("files");
-box.className = "gallery";
-box.innerHTML = "";
 
 if(!query){
     await loadFiles();
     return;
 }
+
+box.className = "gallery";
+box.innerHTML = "";
 
 const r = await fetch(
 backend + "/cloud/search",
@@ -278,12 +283,16 @@ body:JSON.stringify({query})
 
 const d = await r.json();
 
+if(searchId !== currentSearch) return;
+
 if(!d || !d.files){
     alert("Search failed");
     return;
 }
 
 for(const file of d.files){
+
+    if(searchId !== currentSearch) return;
 
     const imageRequest = await fetch(
         backend + "/cloud/download/" + encodeURIComponent(file.name),
@@ -295,6 +304,9 @@ for(const file of d.files){
     );
 
     const blob = await imageRequest.blob();
+
+    if(searchId !== currentSearch) return;
+
     const url = URL.createObjectURL(blob);
 
     const div = document.createElement("div");
