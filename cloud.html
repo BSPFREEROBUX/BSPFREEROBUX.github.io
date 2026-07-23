@@ -633,30 +633,90 @@ loadFiles();
 
 async function editTags(name){
 
-const tags=prompt("Tags (comma separated):")
+    const r = await fetch(
+        backend + "/cloud/list",
+        {
+            headers:{
+                Authorization:localStorage.getItem("Token")
+            }
+        }
+    );
 
-if(tags===null)
-return
+    const d = await r.json();
 
-await fetch(
-backend+"/cloud/tags/add",
-{
-method:"POST",
-headers:{
-Authorization:localStorage.getItem("Token"),
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-    files:[name],
-    tags:tags.split(",").map(x=>x.trim())
-})
+    const file = d.files.find(f => f.name === name);
+
+    if(!file){
+        alert("File not found");
+        return;
+    }
+
+    let message = "Current Tags:\n\n";
+
+    if(file.tags.length){
+
+        file.tags.forEach((tag,i)=>{
+            message += (i+1)+". "+tag+"\n";
+        });
+
+    }else{
+
+        message += "None\n";
+
+    }
+
+    message += "\nType:\n";
+    message += "+tag   to add\n";
+    message += "-tag   to remove";
+
+    const input = prompt(message);
+
+    if(input===null || !input.trim())
+        return;
+
+    if(input.startsWith("+")){
+
+        await fetch(
+            backend+"/cloud/tags/add",
+            {
+                method:"POST",
+                headers:{
+                    Authorization:localStorage.getItem("Token"),
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    files:[name],
+                    tags:[input.substring(1).trim()]
+                })
+            }
+        );
+
+    }else if(input.startsWith("-")){
+
+        await fetch(
+            backend+"/cloud/tags/remove",
+            {
+                method:"POST",
+                headers:{
+                    Authorization:localStorage.getItem("Token"),
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    files:[name],
+                    tags:[input.substring(1).trim()]
+                })
+            }
+        );
+
+    }else{
+
+        alert("Use +tag or -tag");
+
+    }
+
+    loadFiles();
+
 }
-)
-
-loadFiles()
-
-}
-
 function getSelectedFiles(){
 
 return [...document.querySelectorAll(".selectFile:checked")]
