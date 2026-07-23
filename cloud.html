@@ -104,6 +104,12 @@ opacity:0;
 transition:.2s;
 }
 
+.selectFile{
+width:auto;
+padding:0;
+margin:0;
+}
+
 .uploadBox{
 display:flex;
 gap:10px;
@@ -142,24 +148,12 @@ Upload
 
 <div class="card">
 
-<button onclick="selectAll()">
-Select All
-</button>
-
 <button onclick="favoriteSelected()">
 ⭐ Favorite
 </button>
 
 <button onclick="addTags()">
 🏷 Tags
-</button>
-
-<button onclick="setAlbum()">
-📁 Album
-</button>
-
-<button onclick="setDescription()">
-📝 Description
 </button>
 
 <button onclick="deleteSelected()">
@@ -278,7 +272,22 @@ body:JSON.stringify({query})
 }
 )
 
-const d=await r.json()
+const d = await r.json();
+
+if (!d || !d.files) {
+    alert("Search failed");
+    return;
+}
+
+const box = document.getElementById("files");
+box.innerHTML = "";
+
+d.files.forEach(file => {
+    const div = document.createElement("div");
+    div.className = "photo";
+    div.innerHTML = `<div style="padding:20px">${file.name}</div>`;
+    box.appendChild(div);
+});
 
 // TODO: render the search results
 
@@ -500,11 +509,6 @@ color:white;
 
 <br>
 
-<button onclick="toggleFavorite('${file.name}')">
-
-${file.favorite ? "⭐" : "☆"}
-
-</button>
 <br>
 
 📁 ${file.album || "None"}
@@ -541,14 +545,6 @@ Delete
 
 <button onclick="editTags('${file.name}')">
 🏷 Tags
-</button>
-
-<button onclick="editAlbum('${file.name}')">
-📁 Album
-</button>
-
-<button onclick="editDescription('${file.name}')">
-📝 Description
 </button>
 
 <button onclick="toggleFavorite('${file.name}')">
@@ -794,8 +790,11 @@ loadFiles()
 
 function selectAll(){
 
-document.querySelectorAll(".selectFile")
-.forEach(x=>x.checked=true)
+const boxes=document.querySelectorAll(".selectFile");
+
+const allChecked=[...boxes].every(x=>x.checked);
+
+boxes.forEach(x=>x.checked=!allChecked);
 
 }
 
