@@ -480,8 +480,27 @@ height:24px;
 </div>
 
 <div class="chatComposer">
-<textarea id="messageBox" placeholder="Message" disabled></textarea>
-<button class="btn" id="sendBtn" onclick="sendMessage()" disabled>Send</button>
+
+<input
+type="file"
+id="imagePicker"
+accept="image/png,image/jpeg,image/jpg"
+multiple
+disabled>
+
+<textarea
+id="messageBox"
+placeholder="Message"
+disabled></textarea>
+
+<button
+class="btn"
+id="sendBtn"
+onclick="sendMessage()"
+disabled>
+Send
+</button>
+
 </div>
 </div>
 </div>
@@ -492,7 +511,6 @@ let token=null
 let myName=""
 let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
 let activeFriend=""
-let activeChatId=""
 let lastUnreadTotal=0
 let firstStateLoad=true
 
@@ -505,6 +523,7 @@ const chatTitle=document.getElementById("chatTitle")
 const chatSub=document.getElementById("chatSub")
 const messageBox=document.getElementById("messageBox")
 const sendBtn=document.getElementById("sendBtn")
+const imagePicker=document.getElementById("imagePicker")
 const unfriendBtn=document.getElementById("unfriendBtn")
 const statusText=document.getElementById("statusText")
 
@@ -668,9 +687,9 @@ chatSub.textContent="Private messages"
 chatMessages.innerHTML='<div class="empty">Pick a friend to open the chat.</div>'
 messageBox.disabled=true
 sendBtn.disabled=true
+imagePicker.disabled=true
 unfriendBtn.disabled=true
 messageBox.value=""
-activeChatId=""
 return
 }
 
@@ -678,6 +697,7 @@ chatTitle.textContent=chat.with
 chatSub.textContent=`${chat.messages.length} messages`
 messageBox.disabled=false
 sendBtn.disabled=false
+imagePicker.disabled=false
 unfriendBtn.disabled=false
 
 if(!chat.messages.length){
@@ -694,6 +714,22 @@ return `
 <span class="msgTime">${escapeHTML(formatTime(m.time))}</span>
 </div>
 <div>${escapeHTML(m.text)}</div>
+
+${
+(m.images||[]).map(img=>`
+<img
+src="${backend}${img.url}"
+style="
+max-width:300px;
+max-height:300px;
+display:block;
+margin-top:8px;
+border-radius:10px;
+cursor:pointer;
+"
+onclick="window.open('${backend}${img.url}','_blank')">
+`).join("")
+}
 ${me ? (() => {
 const other = chat.users.find(u => u !== myName)
 const readTime = chat.lastRead?.[other]
@@ -760,7 +796,6 @@ return
 if(data.error==="notfriends"){
 renderActiveChat(null)
 activeFriend=""
-activeChatId=""
 await refreshState()
 return
 }
@@ -769,14 +804,13 @@ if(data.error){
 return
 }
 
-activeChatId=data.chat.id
 renderActiveChat(data.chat)
 
 if(markSeenNow){
 await api("/dms/seen",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chatId:activeChatId})
+body:JSON.stringify({chatId:activeFriend})
 })
 }
 }
@@ -801,7 +835,6 @@ return
 }
 
 activeFriend=friend
-activeChatId=data.chat.id
 location.hash=encodeURIComponent(friend)
 
 await api("/dms/activity",{
@@ -810,7 +843,7 @@ headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-chatId:activeChatId,
+chatId:activeFriend,
 active:true
 })
 })
@@ -819,7 +852,7 @@ renderActiveChat(data.chat)
 await api("/dms/seen",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chatId:activeChatId})
+body:JSON.stringify({chatId:activeFriend})
 })
 await refreshState()
 }
@@ -920,25 +953,44 @@ await refreshState()
 }
 
 async function sendMessage(){
-if(!activeChatId) return
+
+if(!activeFriend) return
+
 const text=messageBox.value.trim()
-if(!text) return
-const r=await api("/dms/send",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-chatId:activeChatId,
-message:text
-})
-})
-const data=await safeJson(r)
-if(data && data.error){
-if(data.error==="notfriends") alert("You are no longer friends")
+if(
+!text &&
+imagePicker.files.length===0
+){
 return
 }
+
+const form=new FormData()
+
+form.append("chatId",activeFriend)
+form.append("message",text)
+
+for(const file of imagePicker.files){
+form.append("images",file)
+}
+
+const r=await api("/dms/send",{
+method:"POST",
+body:form
+})
+
+const data=await safeJson(r)
+
+if(data && data.error){
+alert(data.error)
+return
+}
+
 messageBox.value=""
+imagePicker.value=""
+
 await refreshActiveChat(false)
 await refreshState()
+
 }
 
 async function unfriendActive(){
@@ -950,7 +1002,6 @@ headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username:activeFriend})
 })
 activeFriend=""
-activeChatId=""
 location.hash=""
 renderActiveChat(null)
 await refreshState()
@@ -963,13 +1014,13 @@ location.href="login.html"
 
 window.addEventListener("beforeunload",()=>{
 
-if(!activeChatId) return
+if(!activeFriend) return
 
 navigator.sendBeacon(
 backend+"/dms/activity",
 new Blob([
 JSON.stringify({
-chatId:activeChatId,
+chatId:activeFriend,
 active:false,
 token:localStorage.getItem("Token")
 })
@@ -983,7 +1034,7 @@ type:"application/json"
 
 document.addEventListener("visibilitychange",()=>{
 
-if(!activeChatId) return
+if(!activeFriend) return
 
 
 api("/dms/activity",{
@@ -992,7 +1043,7 @@ headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-chatId:activeChatId,
+chatId:activeFriend,
 active:!document.hidden
 })
 })
@@ -1030,11 +1081,11 @@ await refreshState()
 setInterval(async ()=>{
     await refreshState()
 
-    if(activeChatId){
+    if(activeFriend){
         await api("/dms/seen",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({chatId:activeChatId})
+            body:JSON.stringify({chatId:activeFriend})
         })
     }
 },2500)
