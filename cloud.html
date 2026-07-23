@@ -276,12 +276,16 @@ localStorage.getItem("Token")
 )
 
 
-xhr.onload=()=>{
+xhr.onload = () => {
+    const d = JSON.parse(xhr.responseText || "{}")
 
-input.value=""
+    if (!xhr.status.toString().startsWith("2") || d.error) {
+        alert(d.error || "Upload failed")
+        return
+    }
 
-loadFiles()
-
+    input.value = ""
+    loadFiles()
 }
 
 
