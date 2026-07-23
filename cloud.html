@@ -547,7 +547,7 @@ Delete
 🏷 Tags
 </button>
 
-<button onclick="toggleFavorite('${file.name}')">
+<button onclick="toggleFavorite('${file.name}', ${file.favorite})">
 ${file.favorite ? "⭐" : "☆"}
 </button>
 
@@ -565,21 +565,31 @@ box.appendChild(div);
 
 }
 
-async function toggleFavorite(name){
+async function toggleFavorite(name, currentFavorite){
 
-await fetch(
-backend+"/cloud/favorite",
+const r = await fetch(
+backend + "/cloud/favorite",
 {
 method:"POST",
 headers:{
 Authorization:localStorage.getItem("Token"),
 "Content-Type":"application/json"
 },
-body:JSON.stringify({name})
+body:JSON.stringify({
+name,
+favorite: !currentFavorite
+})
 }
-)
+);
 
-loadFiles()
+const d = await r.json();
+
+if(d.error){
+alert(d.error);
+return;
+}
+
+loadFiles();
 
 }
 
@@ -599,8 +609,8 @@ Authorization:localStorage.getItem("Token"),
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-name,
-tags:tags.split(",").map(x=>x.trim())
+    files:[name],
+    tags:tags.split(",").map(x=>x.trim())
 })
 }
 )
