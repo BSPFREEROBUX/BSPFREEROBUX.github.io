@@ -484,9 +484,16 @@ height:24px;
 <input
 type="file"
 id="imagePicker"
-accept="image/png,image/jpeg,image/jpg"
+accept="image/*"
 multiple
-disabled>
+hidden>
+
+<label
+for="imagePicker"
+class="btn"
+id="attachBtn">
+📷 Attach
+</label>
 
 <textarea
 id="messageBox"
@@ -526,6 +533,7 @@ const sendBtn=document.getElementById("sendBtn")
 const imagePicker=document.getElementById("imagePicker")
 const unfriendBtn=document.getElementById("unfriendBtn")
 const statusText=document.getElementById("statusText")
+const attachBtn = document.getElementById("attachBtn");
 
 const notificationSound=new Audio("Sounds/Notification.mp3")
 notificationSound.preload="auto"
@@ -681,23 +689,34 @@ friendList.appendChild(row)
 }
 
 function renderActiveChat(chat){
+
 if(!chat){
 chatTitle.textContent="Select a friend"
 chatSub.textContent="Private messages"
 chatMessages.innerHTML='<div class="empty">Pick a friend to open the chat.</div>'
+
 messageBox.disabled=true
 sendBtn.disabled=true
 imagePicker.disabled=true
+attachBtn.style.pointerEvents="none"
+attachBtn.style.opacity="0.5"
+
 unfriendBtn.disabled=true
 messageBox.value=""
+imagePicker.value=""
+
 return
 }
 
 chatTitle.textContent=chat.with
 chatSub.textContent=`${chat.messages.length} messages`
+
 messageBox.disabled=false
 sendBtn.disabled=false
 imagePicker.disabled=false
+attachBtn.style.pointerEvents="auto"
+attachBtn.style.opacity="1"
+
 unfriendBtn.disabled=false
 
 if(!chat.messages.length){
