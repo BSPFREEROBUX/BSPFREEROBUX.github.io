@@ -140,8 +140,42 @@ Upload
 
 </div>
 
+<div class="card">
+
+<button onclick="selectAll()">
+Select All
+</button>
+
+<button onclick="favoriteSelected()">
+⭐ Favorite
+</button>
+
+<button onclick="addTags()">
+🏷 Tags
+</button>
+
+<button onclick="setAlbum()">
+📁 Album
+</button>
+
+<button onclick="setDescription()">
+📝 Description
+</button>
+
+<button onclick="deleteSelected()">
+🗑 Delete
+</button>
+
+</div>
 
 <div class="card">
+
+<input
+id="search"
+placeholder="Search filename, tags, albums or description..."
+oninput="searchFiles()">
+
+<br><br>
 
 <div id="storage"></div>
 
@@ -220,6 +254,33 @@ return
 
 
 loadFiles()
+
+}
+
+async function searchFiles(){
+
+const query=document.getElementById("search").value
+
+if(!query.trim()){
+    loadFiles()
+    return
+}
+
+const r=await fetch(
+backend+"/cloud/search",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token"),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({query})
+}
+)
+
+const d=await r.json()
+
+// TODO: render the search results
 
 }
 
@@ -393,34 +454,82 @@ box.appendChild(title)
 for(const file of groups[day]){
 
 
-const imageRequest=await fetch(
-backend+"/cloud/download/"+encodeURIComponent(file.name),
-{
-headers:{
-Authorization:localStorage.getItem("Token")
-}
-}
-)
+const imageRequest = await fetch(
+    backend + "/cloud/download/" + encodeURIComponent(file.name),
+    {
+        headers: {
+            Authorization: localStorage.getItem("Token")
+        }
+    }
+);
 
+const blob = await imageRequest.blob();
+const url = URL.createObjectURL(blob);
 
-const blob=await imageRequest.blob()
+const div = document.createElement("div");
+div.className = "photo";
 
+div.innerHTML = `
 
-const url=URL.createObjectURL(blob)
-
-
-const div=document.createElement("div")
-
-
-div.className="photo"
-
-
-div.innerHTML=`
+<input
+class="selectFile"
+type="checkbox"
+value="${file.name}"
+style="
+position:absolute;
+top:8px;
+left:8px;
+z-index:10;
+">
 
 <img src="${url}">
 
-
 <div class="overlay">
+
+<div style="
+position:absolute;
+top:10px;
+left:10px;
+right:10px;
+font-size:13px;
+line-height:18px;
+color:white;
+">
+
+<b>${file.name}</b>
+
+<br>
+
+<button onclick="toggleFavorite('${file.name}')">
+
+${file.favorite ? "⭐" : "☆"}
+
+</button>
+<br>
+
+📁 ${file.album || "None"}
+
+<br>
+
+🏷 ${file.tags && file.tags.length ? file.tags.join(", ") : "None"}
+
+<br>
+
+📝 ${file.description || ""}
+
+</div>
+
+<div style="
+position:absolute;
+bottom:10px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:6px;
+transform:translateX(-50%);
+">
 
 <button onclick="downloadFile('${encodeURIComponent(file.name)}')">
 Download
@@ -430,22 +539,265 @@ Download
 Delete
 </button>
 
+<button onclick="editTags('${file.name}')">
+🏷 Tags
+</button>
+
+<button onclick="editAlbum('${file.name}')">
+📁 Album
+</button>
+
+<button onclick="editDescription('${file.name}')">
+📝 Description
+</button>
+
+<button onclick="toggleFavorite('${file.name}')">
+${file.favorite ? "⭐" : "☆"}
+</button>
+
 </div>
 
-`
+</div>
 
+`;
 
-box.appendChild(div)
-
-
-}
-
+box.appendChild(div);
 
 }
 
+}
 
 }
 
+async function toggleFavorite(name){
+
+await fetch(
+backend+"/cloud/favorite",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token"),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({name})
+}
+)
+
+loadFiles()
+
+}
+
+async function editTags(name){
+
+const tags=prompt("Tags (comma separated):")
+
+if(tags===null)
+return
+
+await fetch(
+backend+"/cloud/tags/add",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token"),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name,
+tags:tags.split(",").map(x=>x.trim())
+})
+}
+)
+
+loadFiles()
+
+}
+
+async function editAlbum(name){
+
+const album=prompt("Album name")
+
+if(album===null)
+return
+
+await fetch(
+backend+"/cloud/album",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token"),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name,
+album
+})
+}
+)
+
+loadFiles()
+
+}
+
+async function editDescription(name){
+
+const description=prompt("Description")
+
+if(description===null)
+return
+
+await fetch(
+backend+"/cloud/description",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token"),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name,
+description
+})
+}
+)
+
+loadFiles()
+
+}
+
+function getSelectedFiles(){
+
+return [...document.querySelectorAll(".selectFile:checked")]
+.map(x=>x.value)
+
+}
+
+async function deleteSelected(){
+
+const files=getSelectedFiles()
+
+for(const name of files){
+
+await deleteFile(name)
+
+}
+
+}
+
+async function addTags(){
+
+const files=getSelectedFiles()
+
+const tags=prompt("Tags")
+
+if(tags===null)
+return
+
+for(const name of files){
+
+await fetch(
+backend+"/cloud/tags/add",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token"),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name,
+tags:tags.split(",")
+})
+}
+)
+
+}
+
+loadFiles()
+
+}
+
+async function setAlbum(){
+
+const files=getSelectedFiles()
+
+const album=prompt("Album")
+
+if(album===null)
+return
+
+for(const name of files){
+
+await fetch(
+backend+"/cloud/album",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token"),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name,
+album
+})
+}
+)
+
+}
+
+loadFiles()
+
+}
+
+async function favoriteSelected(){
+
+const files=getSelectedFiles()
+
+for(const name of files){
+
+await toggleFavorite(name)
+
+}
+
+}
+
+async function setDescription(){
+
+const files=getSelectedFiles()
+
+const description=prompt("Description")
+
+if(description===null)
+return
+
+for(const name of files){
+
+await fetch(
+backend+"/cloud/description",
+{
+method:"POST",
+headers:{
+Authorization:localStorage.getItem("Token"),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name,
+description
+})
+}
+)
+
+}
+
+loadFiles()
+
+}
+
+function selectAll(){
+
+document.querySelectorAll(".selectFile")
+.forEach(x=>x.checked=true)
+
+}
 
 async function downloadFile(name){
 
