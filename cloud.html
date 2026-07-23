@@ -280,14 +280,106 @@ if (!d || !d.files) {
 }
 
 const box = document.getElementById("files");
+
+box.className = "gallery";
 box.innerHTML = "";
 
-d.files.forEach(file => {
+for (const file of d.files) {
+
+    const imageRequest = await fetch(
+        backend + "/cloud/download/" + encodeURIComponent(file.name),
+        {
+            headers: {
+                Authorization: localStorage.getItem("Token")
+            }
+        }
+    );
+
+    const blob = await imageRequest.blob();
+    const url = URL.createObjectURL(blob);
+
     const div = document.createElement("div");
     div.className = "photo";
-    div.innerHTML = `<div style="padding:20px">${file.name}</div>`;
+
+    div.innerHTML = `
+
+<input
+class="selectFile"
+type="checkbox"
+value="${file.name}"
+style="
+position:absolute;
+top:8px;
+left:8px;
+z-index:10;
+">
+
+<img src="${url}">
+
+<div class="overlay">
+
+<div style="
+position:absolute;
+top:10px;
+left:10px;
+right:10px;
+font-size:13px;
+line-height:18px;
+color:white;
+">
+
+<b>${file.name}</b>
+
+<br><br>
+
+📁 ${file.album || "None"}
+
+<br>
+
+🏷 ${file.tags && file.tags.length ? file.tags.join(", ") : "None"}
+
+<br>
+
+📝 ${file.description || ""}
+
+</div>
+
+<div style="
+position:absolute;
+bottom:10px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:6px;
+">
+
+<button onclick="downloadFile('${encodeURIComponent(file.name)}')">
+Download
+</button>
+
+<button onclick="deleteFile('${file.name}')">
+Delete
+</button>
+
+<button onclick="editTags('${file.name}')">
+🏷 Tags
+</button>
+
+<button onclick="toggleFavorite('${file.name}', ${file.favorite})">
+${file.favorite ? "⭐" : "☆"}
+</button>
+
+</div>
+
+</div>
+
+`;
+
     box.appendChild(div);
-});
+
+}
 
 }
 
