@@ -253,18 +253,19 @@ loadFiles()
 
 async function searchFiles(){
 
-const query=document.getElementById("search").value
+const query = document.getElementById("search").value.trim();
 
 const box = document.getElementById("files");
+box.className = "gallery";
 box.innerHTML = "";
 
-if(!query.trim()){
+if(!query){
     await loadFiles();
     return;
 }
 
-const r=await fetch(
-backend+"/cloud/search",
+const r = await fetch(
+backend + "/cloud/search",
 {
 method:"POST",
 headers:{
@@ -273,27 +274,22 @@ Authorization:localStorage.getItem("Token"),
 },
 body:JSON.stringify({query})
 }
-)
+);
 
 const d = await r.json();
 
-if (!d || !d.files) {
+if(!d || !d.files){
     alert("Search failed");
     return;
 }
 
-const box = document.getElementById("files");
-
-box.className = "gallery";
-box.innerHTML = "";
-
-for (const file of d.files) {
+for(const file of d.files){
 
     const imageRequest = await fetch(
         backend + "/cloud/download/" + encodeURIComponent(file.name),
         {
-            headers: {
-                Authorization: localStorage.getItem("Token")
+            headers:{
+                Authorization:localStorage.getItem("Token")
             }
         }
     );
