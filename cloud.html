@@ -609,58 +609,6 @@ loadFiles()
 
 }
 
-async function editAlbum(name){
-
-const album=prompt("Album name")
-
-if(album===null)
-return
-
-await fetch(
-backend+"/cloud/album",
-{
-method:"POST",
-headers:{
-Authorization:localStorage.getItem("Token"),
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-name,
-album
-})
-}
-)
-
-loadFiles()
-
-}
-
-async function editDescription(name){
-
-const description=prompt("Description")
-
-if(description===null)
-return
-
-await fetch(
-backend+"/cloud/description",
-{
-method:"POST",
-headers:{
-Authorization:localStorage.getItem("Token"),
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-name,
-description
-})
-}
-)
-
-loadFiles()
-
-}
-
 function getSelectedFiles(){
 
 return [...document.querySelectorAll(".selectFile:checked")]
@@ -702,38 +650,6 @@ Authorization:localStorage.getItem("Token"),
 body:JSON.stringify({
 name,
 tags:tags.split(",")
-})
-}
-)
-
-}
-
-loadFiles()
-
-}
-
-async function setAlbum(){
-
-const files=getSelectedFiles()
-
-const album=prompt("Album")
-
-if(album===null)
-return
-
-for(const name of files){
-
-await fetch(
-backend+"/cloud/album",
-{
-method:"POST",
-headers:{
-Authorization:localStorage.getItem("Token"),
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-name,
-album
 })
 }
 )
