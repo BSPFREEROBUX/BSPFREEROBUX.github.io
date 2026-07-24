@@ -207,6 +207,7 @@ flex-shrink:0;
     overflow:hidden;
 }
 
+
 .chatHeader{
 display:flex;
 justify-content:space-between;
@@ -235,15 +236,10 @@ opacity:.65;
 }
 
 .chatMessages{
-    flex:1;
-    overflow:auto;
-    padding:18px;
-    padding-bottom:100px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    background:#0f0f10;
+    flex:1 1 auto;
     min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 
 .msg{
@@ -281,7 +277,7 @@ font-size:11px;
     padding:12px;
     border-top:1px solid #242424;
     background:#131314;
-    flex-shrink:0;
+    flex:0 0 auto;
 }
     
 .chatComposer textarea{
@@ -1178,6 +1174,8 @@ unfriendBtn.disabled=true
 messageBox.value=""
 imagePicker.value=""
 
+chatMessages.scrollTop=0
+
 return
 }
 
@@ -1201,6 +1199,7 @@ unfriendBtn.disabled=false
 
 if(!chat.messages.length){
 chatMessages.innerHTML='<div class="empty">No messages yet.</div>'
+chatMessages.scrollTop=0
 return
 }
 
@@ -1210,12 +1209,19 @@ if(phoneMode){
     phoneMessages.innerHTML="";
 }
 
-const previousScrollTop = chatMessages.scrollTop;
-const previousScrollHeight = chatMessages.scrollHeight;
-const wasNearBottom =
-previousScrollHeight -
-previousScrollTop -
-chatMessages.clientHeight <= 150;
+const previousScrollTop=chatMessages.scrollTop;
+const previousScrollHeight=chatMessages.scrollHeight;
+
+const openingChat=
+chatTitle.textContent!==chat.with;
+
+const shouldStickToBottom=
+openingChat ||
+(
+previousScrollHeight-
+previousScrollTop-
+chatMessages.clientHeight<=150
+);
 
 chatMessages.innerHTML=chat.messages.map(m=>{
 const me=m.author===myName
@@ -1256,13 +1262,15 @@ return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
 `
 }).join("")
 
-if (wasNearBottom) {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-} else {
-    chatMessages.scrollTop =
-        previousScrollTop +
-        (chatMessages.scrollHeight - previousScrollHeight);
-}
+requestAnimationFrame(() => {
+    if (shouldStickToBottom) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    } else {
+        chatMessages.scrollTop =
+            previousScrollTop +
+            (chatMessages.scrollHeight - previousScrollHeight);
+    }
+});
 
 if(phoneMode){
 
