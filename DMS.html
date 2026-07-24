@@ -1365,9 +1365,24 @@ renderRequests()
 renderFriends()
 
 if(activeFriend){
-await refreshActiveChat(false)
+    const wasNearBottom =
+        chatMessages.scrollHeight -
+        chatMessages.scrollTop -
+        chatMessages.clientHeight <= 150;
+
+    const oldTop = chatMessages.scrollTop;
+    const oldHeight = chatMessages.scrollHeight;
+
+    await refreshActiveChat(false);
+
+    if (wasNearBottom) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    } else {
+        chatMessages.scrollTop =
+            oldTop + (chatMessages.scrollHeight - oldHeight);
+    }
 }else{
-renderActiveChat(null)
+    renderActiveChat(null)
 }
 }
 
