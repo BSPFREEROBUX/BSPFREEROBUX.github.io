@@ -760,9 +760,9 @@ async function editTags(button,name){
 
     let message = "Current Tags:\n\n";
 
-    if(updatedFile.tags.length){
+    if(file.tags.length){
 
-        updatedFile.tags.forEach((tag,i)=>{
+        File.tags.forEach((tag,i)=>{
             message += (i+1)+". "+tag+"\n";
         });
 
