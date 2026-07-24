@@ -72,11 +72,10 @@ font-size:12px;
 }
 
 .layout{
-    flex:1;
-    display:grid;
-    grid-template-columns:320px 1fr;
-    min-height:0;
-    overflow:hidden;
+flex:1;
+display:grid;
+grid-template-columns:320px 1fr;
+min-height:0;
 }
 
 .sidebar{
@@ -200,13 +199,10 @@ flex-shrink:0;
 }
 
 .main{
-    display:flex;
-    flex-direction:column;
-    min-height:0;
-    height:100%;
-    overflow:hidden;
+display:flex;
+flex-direction:column;
+min-height:0;
 }
-
 
 .chatHeader{
 display:flex;
@@ -236,10 +232,15 @@ opacity:.65;
 }
 
 .chatMessages{
-    flex:1 1 auto;
+    flex:1;
+    overflow:auto;
+    padding:18px;
+    padding-bottom:100px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    background:#0f0f10;
     min-height:0;
-    overflow-y:auto;
-    overflow-x:hidden;
 }
 
 .msg{
@@ -272,14 +273,14 @@ font-size:11px;
 }
 
 .chatComposer{
-    display:flex;
-    gap:10px;
-    padding:12px;
-    border-top:1px solid #242424;
-    background:#131314;
-    flex:0 0 auto;
+display:flex;
+gap:10px;
+padding:12px;
+border-top:1px solid #242424;
+background:#131314;
+flex-shrink:0;
 }
-    
+
 .chatComposer textarea{
 height:46px;
 padding:12px;
@@ -877,10 +878,6 @@ const friendCount=document.getElementById("friendCount")
 const requestList=document.getElementById("requestList")
 const friendList=document.getElementById("friendList")
 const chatMessages=document.getElementById("chatMessages")
-chatMessages.addEventListener("wheel", e => {
-    e.stopPropagation();
-    chatMessages.scrollTop += e.deltaY;
-}, { passive: true });
 const chatTitle=document.getElementById("chatTitle")
 const chatSub=document.getElementById("chatSub")
 const messageBox=document.getElementById("messageBox")
@@ -1174,8 +1171,6 @@ unfriendBtn.disabled=true
 messageBox.value=""
 imagePicker.value=""
 
-chatMessages.scrollTop=0
-
 return
 }
 
@@ -1199,7 +1194,6 @@ unfriendBtn.disabled=false
 
 if(!chat.messages.length){
 chatMessages.innerHTML='<div class="empty">No messages yet.</div>'
-chatMessages.scrollTop=0
 return
 }
 
@@ -1208,20 +1202,6 @@ const phoneMessages=document.getElementById("phoneMessages");
 if(phoneMode){
     phoneMessages.innerHTML="";
 }
-
-const previousScrollTop=chatMessages.scrollTop;
-const previousScrollHeight=chatMessages.scrollHeight;
-
-const openingChat=
-chatTitle.textContent!==chat.with;
-
-const shouldStickToBottom=
-openingChat ||
-(
-previousScrollHeight-
-previousScrollTop-
-chatMessages.clientHeight<=150
-);
 
 chatMessages.innerHTML=chat.messages.map(m=>{
 const me=m.author===myName
@@ -1261,16 +1241,6 @@ return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
 </div>
 `
 }).join("")
-
-requestAnimationFrame(() => {
-    if (shouldStickToBottom) {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    } else {
-        chatMessages.scrollTop =
-            previousScrollTop +
-            (chatMessages.scrollHeight - previousScrollHeight);
-    }
-});
 
 if(phoneMode){
 
@@ -1341,6 +1311,15 @@ ${
     phoneMessages.scrollTop=phoneMessages.scrollHeight;
 
 }
+
+const nearBottom =
+chatMessages.scrollHeight -
+chatMessages.scrollTop -
+chatMessages.clientHeight < 150
+
+if(nearBottom){
+chatMessages.scrollTop = chatMessages.scrollHeight
+}
 }
 
 async function refreshState(){
@@ -1366,9 +1345,9 @@ renderRequests()
 renderFriends()
 
 if(activeFriend){
-    await refreshActiveChat(false)
+await refreshActiveChat(false)
 }else{
-    renderActiveChat(null)
+renderActiveChat(null)
 }
 }
 
@@ -1451,10 +1430,6 @@ active:true
 })
 
 renderActiveChat(data.chat)
-
-requestAnimationFrame(() => {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-});
 await api("/dms/seen",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
