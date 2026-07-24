@@ -425,10 +425,290 @@ font-size:13px;
 min-width:24px;
 height:24px;
 }
+
+/* PHONE LAYOUT */
+
+#phoneLayout{
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:#111214;
+    color:white;
+}
+
+.phoneHeader{
+    height:60px;
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    font-size:22px;
+    font-weight:bold;
+    border-bottom:1px solid #2c2c2c;
+}
+
+#phoneFriends{
+    flex:1;
+    overflow-y:auto;
+}
+
+.phoneFriend{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px;
+    cursor:pointer;
+    border-bottom:1px solid #222;
+}
+
+.phoneFriend:hover{
+    background:#1b1d20;
+}
+
+.phoneAvatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:#5865F2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.phoneInfo{
+    flex:1;
+    min-width:0;
+}
+
+.phoneName{
+    font-size:16px;
+    font-weight:bold;
+}
+
+.phoneLast{
+    color:#9fa3aa;
+    font-size:13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.phoneUnread{
+    background:#f23f43;
+    min-width:22px;
+    height:22px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.phoneChatHeader{
+    height:60px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:0 14px;
+    border-bottom:1px solid #2a2a2a;
+}
+
+.phoneBackButton{
+    background:none;
+    border:none;
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+}
+
+#phoneChatTitle{
+    font-size:18px;
+    font-weight:bold;
+}
+
+#phoneMessages{
+    flex:1;
+    overflow-y:auto;
+    padding:16px;
+}
+
+.phoneComposer{
+    display:flex;
+    gap:10px;
+    padding:12px;
+    border-top:1px solid #2a2a2a;
+}
+
+.phoneComposer textarea{
+    flex:1;
+    height:45px;
+    resize:none;
+}
+
+.phoneComposer button{
+    width:90px;
+}
+
+.phoneAttachButton{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:#2b2d31;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+}
+
+.phoneSendButton{
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:50%;
+    background:#5865F2;
+    color:white;
+    cursor:pointer;
+    flex-shrink:0;
+}
+
+.phoneImage{
+    max-width:220px;
+    max-height:220px;
+    display:block;
+    margin-top:8px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.phoneRead{
+    margin-top:6px;
+    font-size:11px;
+    opacity:.65;
+    text-align:right;
+}
+
+.phoneSent{
+    opacity:.4;
+}
+
+.phoneMsg{
+    display:flex;
+    margin-bottom:14px;
+}
+
+.phoneThem{
+    justify-content:flex-start;
+}
+
+.phoneMe{
+    justify-content:flex-end;
+}
+
+.phoneMsgTop{
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+}
+
+.phoneAvatarSmall{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#5865F2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    font-weight:bold;
+    flex-shrink:0;
+}
+
+.phoneBubble{
+    background:#2b2d31;
+    padding:10px 14px;
+    border-radius:18px;
+    max-width:75vw;
+}
+
+.phoneMe .phoneBubble{
+    background:#5865F2;
+}
+
+.phoneSender{
+    margin-bottom:6px;
+    font-size:12px;
+    opacity:.85;
+}
+
+.phoneHeader{
+    height:auto;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.phoneHeaderTop{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.phoneSearch{
+    display:flex;
+    gap:8px;
+}
+
+.phoneSearch input{
+    flex:1;
+}
+
+.phoneSearch button{
+    border:none;
+    border-radius:10px;
+    background:#5865F2;
+    color:white;
+    padding:0 16px;
+    cursor:pointer;
+}
+
+.phoneRequestsButton{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 14px;
+    border:none;
+    border-radius:12px;
+    background:#2b2d31;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+}
+
+#phoneRequestCount{
+    background:#f23f43;
+    border-radius:999px;
+    min-width:22px;
+    padding:3px 8px;
+    text-align:center;
+}
+
+#phoneRequestList{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:10px;
+}
+/* PHONE LAYOUT END */
 }
 </style>
 </head>
 <body>
+
+<div id="desktopLayout">
 
 <div class="topbar">
 <div class="left">
@@ -520,6 +800,7 @@ let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
 let activeFriend=""
 let lastUnreadTotal=0
 let firstStateLoad=true
+const phoneMode = localStorage.getItem("Phone") === "1";
 
 const requestCount=document.getElementById("requestCount")
 const friendCount=document.getElementById("friendCount")
@@ -652,11 +933,79 @@ await declineRequest(r.id)
 }
 requestList.appendChild(row)
 })
+const mobileList=document.getElementById("phoneRequestList");
+const mobileCount=document.getElementById("phoneRequestCount");
+
+if(phoneMode && mobileList && mobileCount){
+
+    mobileCount.textContent=state.incomingRequests.length;
+
+    mobileList.innerHTML="";
+
+    state.incomingRequests.forEach(r=>{
+
+        const div=document.createElement("div");
+
+        div.className="phoneFriend";
+
+        div.innerHTML=`
+            <div class="phoneAvatar">
+                ${r.from.charAt(0).toUpperCase()}
+            </div>
+
+            <div class="phoneInfo">
+                <div class="phoneName">
+                    ${escapeHTML(r.from)}
+                </div>
+
+                <div class="phoneLast">
+                    Friend request
+                </div>
+            </div>
+
+            <button
+                class="smallBtn"
+                onclick="acceptRequest('${r.id}','${r.from}')">
+                ✓
+            </button>
+
+            <button
+                class="smallBtn"
+                onclick="declineRequest('${r.id}')">
+                ✕
+            </button>
+        `;
+
+        mobileList.appendChild(div);
+
+    });
+
+}
+
+}
+
+function togglePhoneRequests(){
+
+    const list=document.getElementById("phoneRequestList");
+
+    if(!list) return;
+
+    list.style.display =
+        list.style.display==="flex"
+        ? "none"
+        : "flex";
+
 }
 
 function renderFriends(){
 friendCount.textContent=String(state.friends.length)
 friendList.innerHTML=""
+
+const phoneFriends = document.getElementById("phoneFriends");
+
+if(phoneMode){
+    phoneFriends.innerHTML = "";
+}
 
 if(!state.friends.length){
 friendList.innerHTML='<div class="empty">No friends yet.</div>'
@@ -685,7 +1034,45 @@ ${summary.unread>0 ? `<span class="badge">${summary.unread}</span>` : ""}
 `
 row.onclick=()=>openChat(friend)
 friendList.appendChild(row)
+
+if(phoneMode){
+
+    const mobile=document.createElement("div");
+    mobile.className="phoneFriend";
+
+    mobile.innerHTML=`
+        <div class="phoneAvatar">
+            ${friend.charAt(0).toUpperCase()}
+        </div>
+
+        <div class="phoneInfo">
+            <div class="phoneName">${escapeHTML(friend)}</div>
+            <div class="phoneLast">
+                ${escapeHTML(summary.lastAuthor ? `${summary.lastAuthor}: ${summary.lastMessage}` : "No messages yet")}
+            </div>
+        </div>
+
+        ${
+            summary.unread>0
+            ? `<div class="phoneUnread">${summary.unread}</div>`
+            : ""
+        }
+    `;
+
+    mobile.onclick=()=>openChat(friend);
+
+    phoneFriends.appendChild(mobile);
+
+}
+
 })
+}
+
+function closePhoneChat(){
+
+    document.getElementById("phoneChat").style.display="none";
+    document.getElementById("phoneFriends").style.display="block";
+
 }
 
 function renderActiveChat(chat){
@@ -697,6 +1084,14 @@ chatMessages.innerHTML='<div class="empty">Pick a friend to open the chat.</div>
 
 messageBox.disabled=true
 sendBtn.disabled=true
+
+const phoneBox=document.getElementById("phoneMessageBox");
+
+if(phoneMode){
+    phoneBox.disabled=true;
+    phoneBox.value="";
+}
+
 imagePicker.disabled=true
 attachBtn.style.pointerEvents="none"
 attachBtn.style.opacity="0.5"
@@ -713,6 +1108,13 @@ chatSub.textContent=`${chat.messages.length} messages`
 
 messageBox.disabled=false
 sendBtn.disabled=false
+
+const phoneBox=document.getElementById("phoneMessageBox");
+
+if(phoneMode){
+    phoneBox.disabled=false;
+}
+
 imagePicker.disabled=false
 attachBtn.style.pointerEvents="auto"
 attachBtn.style.opacity="1"
@@ -722,6 +1124,12 @@ unfriendBtn.disabled=false
 if(!chat.messages.length){
 chatMessages.innerHTML='<div class="empty">No messages yet.</div>'
 return
+}
+
+const phoneMessages=document.getElementById("phoneMessages");
+
+if(phoneMode){
+    phoneMessages.innerHTML="";
 }
 
 chatMessages.innerHTML=chat.messages.map(m=>{
@@ -762,6 +1170,76 @@ return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
 </div>
 `
 }).join("")
+
+if(phoneMode){
+
+    chat.messages.forEach(m=>{
+
+        const div=document.createElement("div");
+
+        div.className =
+    "phoneMsg " +
+    (m.author===myName ? "phoneMe" : "phoneThem");
+
+        div.innerHTML=`
+<div class="phoneMsgTop">
+
+    ${
+        m.author===myName
+        ? ""
+        : `<div class="phoneAvatarSmall">
+                ${m.author.charAt(0).toUpperCase()}
+           </div>`
+    }
+
+    <div class="phoneBubble">
+
+        <div class="phoneSender">
+
+            <strong>${escapeHTML(m.author)}</strong>
+
+            <span class="msgTime">
+                ${escapeHTML(formatTime(m.time))}
+            </span>
+
+        </div>
+
+            <div>${escapeHTML(m.text)}</div>
+
+${
+    (m.images||[]).map(img=>`
+        <img
+            src="${backend}${img.url}"
+            class="phoneImage"
+            onclick="window.open('${backend}${img.url}','_blank')">
+    `).join("")
+}
+
+${
+    m.author===myName
+    ? (()=>{
+
+        const other=chat.users.find(u=>u!==myName);
+        const readTime=chat.lastRead?.[other];
+
+        if(readTime && new Date(readTime)>=new Date(m.time)){
+            return `<div class="phoneRead">✓ Read</div>`;
+        }
+
+        return `<div class="phoneRead phoneSent">✓ Sent</div>`;
+
+    })()
+    : ""
+}
+        `;
+
+        phoneMessages.appendChild(div);
+
+    });
+
+    phoneMessages.scrollTop=phoneMessages.scrollHeight;
+
+}
 
 const nearBottom =
 chatMessages.scrollHeight -
@@ -854,6 +1332,19 @@ return
 }
 
 activeFriend=friend
+
+if(phoneMode){
+
+    document.getElementById("phoneFriends").style.display="none";
+
+    document.getElementById("phoneChat").style.display="flex";
+
+    document.getElementById("phoneChat").style.flexDirection="column";
+
+    document.getElementById("phoneChatTitle").textContent=friend;
+
+}
+
 location.hash=encodeURIComponent(friend)
 
 await api("/dms/activity",{
@@ -925,6 +1416,26 @@ alert(data.error)
 }
 }
 
+async function openPhoneSearch(){
+
+    const input=document.getElementById("phoneSearchUser");
+
+    document.getElementById("searchUser").value=input.value;
+
+    await openFromSearch();
+
+}
+
+async function addPhoneFriend(){
+
+    const input=document.getElementById("phoneSearchUser");
+
+    document.getElementById("searchUser").value=input.value;
+
+    await addFriendFromSearch();
+
+}
+
 async function requestFriend(username){
 const r=await api("/friends/request",{
 method:"POST",
@@ -969,6 +1480,22 @@ headers:{"Content-Type":"application/json"},
 body:JSON.stringify({requestId})
 })
 await refreshState()
+}
+
+async function sendPhoneMessage(){
+
+    const box=document.getElementById("phoneMessageBox");
+    const phonePicker=document.getElementById("phoneImagePicker");
+
+    messageBox.value=box.value;
+
+    imagePicker.files=phonePicker.files;
+
+    await sendMessage();
+
+    box.value="";
+    phonePicker.value="";
+
 }
 
 async function sendMessage(){
@@ -1090,6 +1617,11 @@ return
 myName=me.username
 statusText.textContent=`Logged in as ${myName}`
 
+if(phoneMode){
+    document.getElementById("desktopLayout").style.display="none";
+    document.getElementById("phoneLayout").style.display="block";
+}
+
 if(location.hash){
 const wanted=decodeURIComponent(location.hash.slice(1))
 if(wanted) activeFriend=wanted
@@ -1119,5 +1651,102 @@ openChat(wanted)
 
 init()
 </script>
+
+</div>
+
+<div id="phoneLayout" style="display:none">
+
+<div class="phoneHeader">
+
+    <div class="phoneHeaderTop">
+        <span>Messages</span>
+    </div>
+
+    <div class="phoneSearch">
+
+        <input
+            id="phoneSearchUser"
+            placeholder="Search username">
+
+        <button onclick="openPhoneSearch()">
+            Open
+        </button>
+
+        <button onclick="addPhoneFriend()">
+            +
+        </button>
+
+    </div>
+
+    <button
+        class="phoneRequestsButton"
+        onclick="togglePhoneRequests()">
+
+        Friend Requests
+        <span id="phoneRequestCount">0</span>
+
+    </button>
+
+    <div
+        id="phoneRequestList"
+        style="display:none">
+    </div>
+
+</div>
+
+    <div id="phoneFriends"></div>
+
+    <div id="phoneChat" style="display:none">
+
+    <div class="phoneChatHeader">
+
+        <button class="phoneBackButton" onclick="closePhoneChat()">
+            ←
+        </button>
+
+        <div id="phoneChatTitle">
+            Chat
+        </div>
+
+    </div>
+
+    <div id="phoneMessages"></div>
+
+<div class="phoneComposer">
+
+    <input
+        type="file"
+        id="phoneImagePicker"
+        accept="image/*"
+        multiple
+        hidden>
+
+    <label
+        for="phoneImagePicker"
+        class="phoneAttachButton">
+
+        📷
+
+    </label>
+
+    <textarea
+        id="phoneMessageBox"
+        placeholder="Message">
+    </textarea>
+
+    <button
+        class="phoneSendButton"
+        onclick="sendPhoneMessage()">
+
+        ➤
+
+    </button>
+
+</div>
+
+</div>
+
+</div>
+
 </body>
 </html>
