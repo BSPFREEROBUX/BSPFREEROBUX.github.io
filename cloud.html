@@ -369,7 +369,9 @@ Delete
 🏷 Tags
 </button>
 
-<button onclick="toggleFavorite('${file.name}', ${file.favorite})">
+<button
+class="favoriteButton"
+onclick="toggleFavorite(this,'${file.name}',${file.favorite})">
 ${file.favorite ? "⭐" : "☆"}
 </button>
 
@@ -678,7 +680,9 @@ Delete
 🏷 Tags
 </button>
 
-<button onclick="toggleFavorite('${file.name}', ${file.favorite})">
+<button
+class="favoriteButton"
+onclick="toggleFavorite(this,'${file.name}',${file.favorite})">
 ${file.favorite ? "⭐" : "☆"}
 </button>
 
@@ -696,10 +700,12 @@ box.appendChild(div);
 
 }
 
-async function toggleFavorite(name, currentFavorite){
+async function toggleFavorite(button,name,currentFavorite){
 
-const r = await fetch(
-backend + "/cloud/favorite",
+const newFavorite=!currentFavorite;
+
+const r=await fetch(
+backend+"/cloud/favorite",
 {
 method:"POST",
 headers:{
@@ -708,19 +714,23 @@ Authorization:localStorage.getItem("Token"),
 },
 body:JSON.stringify({
 name,
-favorite: !currentFavorite
+favorite:newFavorite
 })
 }
 );
 
-const d = await r.json();
+const d=await r.json();
 
 if(d.error){
 alert(d.error);
 return;
 }
 
-loadFiles();
+button.textContent=newFavorite?"⭐":"☆";
+button.setAttribute(
+"onclick",
+`toggleFavorite(this,'${name}',${newFavorite})`
+);
 
 }
 
