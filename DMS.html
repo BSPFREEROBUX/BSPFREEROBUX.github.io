@@ -881,6 +881,10 @@ const friendCount=document.getElementById("friendCount")
 const requestList=document.getElementById("requestList")
 const friendList=document.getElementById("friendList")
 const chatMessages=document.getElementById("chatMessages")
+chatMessages.addEventListener("wheel", e => {
+    e.stopPropagation();
+    chatMessages.scrollTop += e.deltaY;
+}, { passive: true });
 const chatTitle=document.getElementById("chatTitle")
 const chatSub=document.getElementById("chatSub")
 const messageBox=document.getElementById("messageBox")
@@ -1439,6 +1443,10 @@ active:true
 })
 
 renderActiveChat(data.chat)
+
+requestAnimationFrame(() => {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
 await api("/dms/seen",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
