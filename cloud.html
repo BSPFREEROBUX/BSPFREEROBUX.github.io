@@ -339,7 +339,7 @@ color:white;
 <br>
 
 <div class="tagsContainer">
-🏷 ${file.tags && file.tags.length ? file.tags.join(", ") : "None"}
+🏷 ${updatedFile.tags && updatedFile.tags.length ? updatedFile.tags.join(", ") : "None"}
 </div>
 
 <br>
@@ -637,9 +637,9 @@ color:white;
 
 <div class="tagsContainer">
 🏷 ${
-file.tags && file.tags.length
+updatedFile.tags && updatedFile.tags.length
 ?
-file.tags.map(tag => `
+updatedFile.tags.map(tag => `
 <div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px;">
     <span>${tag}</span>
     <button
@@ -760,9 +760,9 @@ async function editTags(button,name){
 
     let message = "Current Tags:\n\n";
 
-    if(file.tags.length){
+    if(updatedFile.tags.length){
 
-        file.tags.forEach((tag,i)=>{
+        updatedFile.tags.forEach((tag,i)=>{
             message += (i+1)+". "+tag+"\n";
         });
 
@@ -835,13 +835,13 @@ Authorization:localStorage.getItem("Token")
 
 const d2=await r2.json();
 
-const file=d2.files.find(f=>f.name===name);
+const updatedFile = d2.files.find(f => f.name === name);
 
-if(file){
+if(updatedFile){
 tagsContainer.innerHTML=`🏷 ${
-file.tags.length
+updatedFile.tags.length
 ?
-file.tags.map(tag=>`
+updatedFile.tags.map(tag=>`
 <div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px;">
 <span>${tag}</span>
 <button
