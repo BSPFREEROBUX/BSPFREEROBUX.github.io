@@ -637,9 +637,9 @@ color:white;
 
 <div class="tagsContainer">
 🏷 ${
-updatedFile.tags && updatedFile.tags.length
+file.tags && file.tags.length
 ?
-updatedFile.tags.map(tag => `
+file.tags.map(tag => `
 <div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px;">
     <span>${tag}</span>
     <button
