@@ -1230,11 +1230,6 @@ cursor:pointer;
 "
 onclick="window.open('${backend}${img.url}','_blank')">
 `).join("")
-if (wasNearBottom) {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-} else {
-    chatMessages.scrollTop = previousScroll;
-}
 }
 ${me ? (() => {
 const other = chat.users.find(u => u !== myName)
