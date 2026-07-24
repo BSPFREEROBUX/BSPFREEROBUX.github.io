@@ -338,7 +338,9 @@ color:white;
 
 <br>
 
+<div class="tagsContainer">
 🏷 ${file.tags && file.tags.length ? file.tags.join(", ") : "None"}
+</div>
 
 <br>
 
@@ -365,7 +367,7 @@ Download
 Delete
 </button>
 
-<button onclick="editTags('${file.name}')">
+<button onclick="editTags(this,'${file.name}')">
 🏷 Tags
 </button>
 
@@ -633,6 +635,7 @@ color:white;
 
 <br>
 
+<div class="tagsContainer">
 🏷 ${
 file.tags && file.tags.length
 ?
@@ -649,6 +652,7 @@ file.tags.map(tag => `
 :
 "None"
 }
+</div>
 
 <br>
 
@@ -676,7 +680,7 @@ Download
 Delete
 </button>
 
-<button onclick="editTags('${file.name}')">
+<button onclick="editTags(this,'${file.name}')">
 🏷 Tags
 </button>
 
@@ -734,7 +738,7 @@ button.setAttribute(
 
 }
 
-async function editTags(name){
+async function editTags(button,name){
 
     const r = await fetch(
         backend + "/cloud/list",
@@ -817,9 +821,43 @@ async function editTags(name){
 
     }
 
-    loadFiles();
+    const card=button.closest(".photo");
+const tagsContainer=card.querySelector(".tagsContainer");
+
+const r2=await fetch(
+backend+"/cloud/list",
+{
+headers:{
+Authorization:localStorage.getItem("Token")
+}
+}
+);
+
+const d2=await r2.json();
+
+const file=d2.files.find(f=>f.name===name);
+
+if(file){
+tagsContainer.innerHTML=`🏷 ${
+file.tags.length
+?
+file.tags.map(tag=>`
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px;">
+<span>${tag}</span>
+<button
+style="padding:2px 6px;font-size:11px;background:#d9534f;"
+onclick="event.stopPropagation();removeTag('${name}','${tag}')">
+❌
+</button>
+</div>
+`).join("")
+:
+"None"
+}`;
+}
 
 }
+    
 function getSelectedFiles(){
 
 return [...document.querySelectorAll(".selectFile:checked")]
