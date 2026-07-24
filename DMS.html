@@ -692,6 +692,24 @@ height:24px;
 }
 
 .phoneHeaderTop{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.phoneNavButton{
+    border:none;
+    border-radius:10px;
+    background:#2b2d31;
+    color:white;
+    padding:8px 14px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.phoneHeaderTop span{
+    flex:1;
+    text-align:center;
     font-size:22px;
     font-weight:bold;
 }
@@ -1707,95 +1725,111 @@ init()
 
 <div id="phoneLayout" style="display:none">
 
-<div class="phoneHeader">
+    <div class="phoneHeader">
 
-    <div class="phoneHeaderTop">
-        <span>Messages</span>
-    </div>
+        <div class="phoneHeaderTop">
 
-    <div class="phoneSearch">
+            <button
+                class="phoneNavButton"
+                onclick="location.href='dashboard.html'">
 
-        <input
-            id="phoneSearchUser"
-            placeholder="Search username">
+                Dashboard
 
-        <button onclick="openPhoneSearch()">
-            Open
+            </button>
+
+            <span>Messages</span>
+
+            <button
+                class="phoneNavButton"
+                onclick="location.href='Support.html'">
+
+                Support
+
+            </button>
+
+        </div>
+
+        <div class="phoneSearch">
+
+            <input
+                id="phoneSearchUser"
+                placeholder="Search username">
+
+            <button onclick="addPhoneFriend()">
+                +
+            </button>
+
+        </div>
+
+        <button
+            class="phoneRequestsButton"
+            onclick="togglePhoneRequests()">
+
+            Friend Requests
+            <span id="phoneRequestCount">0</span>
+
         </button>
 
-        <button onclick="addPhoneFriend()">
-            +
-        </button>
+        <div
+            id="phoneRequestList"
+            style="display:none">
+        </div>
 
     </div>
-
-    <button
-        class="phoneRequestsButton"
-        onclick="togglePhoneRequests()">
-
-        Friend Requests
-        <span id="phoneRequestCount">0</span>
-
-    </button>
-
-    <div
-        id="phoneRequestList"
-        style="display:none">
-    </div>
-
-</div>
 
     <div id="phoneFriends"></div>
 
     <div id="phoneChat" style="display:none">
 
-    <div class="phoneChatHeader">
+        <div class="phoneChatHeader">
 
-        <button class="phoneBackButton" onclick="closePhoneChat()">
-            ←
-        </button>
+            <button
+                class="phoneBackButton"
+                onclick="closePhoneChat()">
+                ←
+            </button>
 
-        <div id="phoneChatTitle">
-            Chat
+            <div id="phoneChatTitle">
+                Chat
+            </div>
+
+        </div>
+
+        <div id="phoneMessages"></div>
+
+        <div class="phoneComposer">
+
+            <input
+                type="file"
+                id="phoneImagePicker"
+                accept="image/*"
+                multiple
+                hidden>
+
+            <label
+                for="phoneImagePicker"
+                class="phoneAttachButton">
+
+                📷
+
+            </label>
+
+            <textarea
+                id="phoneMessageBox"
+                placeholder="Message">
+            </textarea>
+
+            <button
+                class="phoneSendButton"
+                onclick="sendPhoneMessage()">
+
+                ➤
+
+            </button>
+
         </div>
 
     </div>
-
-    <div id="phoneMessages"></div>
-
-<div class="phoneComposer">
-
-    <input
-        type="file"
-        id="phoneImagePicker"
-        accept="image/*"
-        multiple
-        hidden>
-
-    <label
-        for="phoneImagePicker"
-        class="phoneAttachButton">
-
-        📷
-
-    </label>
-
-    <textarea
-        id="phoneMessageBox"
-        placeholder="Message">
-    </textarea>
-
-    <button
-        class="phoneSendButton"
-        onclick="sendPhoneMessage()">
-
-        ➤
-
-    </button>
-
-</div>
-
-</div>
 
 </div>
 
