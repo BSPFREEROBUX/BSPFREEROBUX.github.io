@@ -1329,17 +1329,6 @@ ${
     phoneMessages.scrollTop=phoneMessages.scrollHeight;
 
 }
-
-const wasNearBottom =
-chatMessages.scrollHeight -
-chatMessages.scrollTop -
-chatMessages.clientHeight <= 150
-
-requestAnimationFrame(() => {
-    if (wasNearBottom) {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-});
 }
 
 async function refreshState(){
@@ -1365,22 +1354,7 @@ renderRequests()
 renderFriends()
 
 if(activeFriend){
-    const wasNearBottom =
-        chatMessages.scrollHeight -
-        chatMessages.scrollTop -
-        chatMessages.clientHeight <= 150;
-
-    const oldTop = chatMessages.scrollTop;
-    const oldHeight = chatMessages.scrollHeight;
-
-    await refreshActiveChat(false);
-
-    if (wasNearBottom) {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    } else {
-        chatMessages.scrollTop =
-            oldTop + (chatMessages.scrollHeight - oldHeight);
-    }
+    await refreshActiveChat(false)
 }else{
     renderActiveChat(null)
 }
