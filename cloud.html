@@ -762,7 +762,7 @@ async function editTags(button,name){
 
     if(file.tags.length){
 
-        File.tags.forEach((tag,i)=>{
+        file.tags.forEach((tag,i)=>{
             message += (i+1)+". "+tag+"\n";
         });
 
