@@ -121,6 +121,12 @@ height:16px;
 
 <button onclick="login()">Login</button>
 
+<div style="margin-top:10px">
+    <a href="#" onclick="showSessionPopup();return false;" style="font-size:12px;opacity:.7">
+        Login with Session ID
+    </a>
+</div>
+  
 <a href="forgot-password.html">Forgot Password?</a>
 <br>
 <a href="signup.html">Create account</a>
@@ -132,6 +138,25 @@ height:16px;
     <input id="twofaCode" placeholder="Code">
     <button onclick="submit2FA()">Verify</button>
   </div>
+</div>
+
+<div class="popup" id="sessionPopup">
+    <div class="popup-box">
+        <h3>Login with Session ID</h3>
+
+        <input
+            id="sessionIdInput"
+            placeholder="Enter Session ID">
+
+        <button onclick="loginWithSession()">
+            Login
+        </button>
+
+        <button
+            onclick="document.getElementById('sessionPopup').style.display='none'">
+            Cancel
+        </button>
+    </div>
 </div>
 
 <script src="theme.js"></script>
@@ -267,6 +292,32 @@ async function login(){
   }catch(err){
     alert("Network error")
   }
+}
+
+function showSessionPopup(){
+
+    document.getElementById("sessionPopup").style.display="flex"
+
+    document.getElementById("sessionIdInput").focus()
+
+}
+
+async function loginWithSession(){
+
+    const sessionId=document.getElementById("sessionIdInput").value.trim()
+
+    if(!sessionId){
+
+        alert("Enter a Session ID")
+
+        return
+
+    }
+
+    localStorage.setItem("Token",sessionId)
+
+    location.href="dashboard.html"
+
 }
 
 async function submit2FA(){
