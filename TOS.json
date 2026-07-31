@@ -1094,6 +1094,173 @@
   ]
 },
 {
+  "title": "Service Integrity and Protection",
+  "content": [
+    "Users may not copy, clone, imitate, reproduce, mirror, or create derivative works of Zyphor, its systems, interfaces, layouts, branding, APIs, backend logic, security systems, or functionality without prior written permission.",
+    "Attempting to bypass, disable, interfere with, probe, benchmark, reverse engineer, decompile, inspect, or analyze any part of the service for unauthorized purposes is strictly prohibited.",
+    "Automated data collection including scraping, crawling, indexing, mirroring, mass downloading, or similar activities is prohibited unless explicitly authorized.",
+    "Attempts to identify security vulnerabilities for unauthorized purposes, exploit implementation details, or interfere with platform integrity may result in immediate enforcement and legal action where applicable."
+  ]
+},
+{
+  "title": "Confidential Information",
+  "content": [
+    "Internal tools, dashboards, administrative systems, moderation interfaces, backend APIs, unpublished features, source code, infrastructure details, security implementations, and operational information are confidential.",
+    "Unauthorized disclosure, publication, redistribution, sale, or sharing of confidential information is strictly prohibited."
+  ]
+},
+{
+  "title": "Impersonation and Misrepresentation",
+  "content": [
+    "Users may not falsely represent themselves as Zyphor staff, developers, partners, affiliates, or official representatives.",
+    "Users may not falsely claim endorsements, partnerships, ownership, employment, or authorization from Zyphor."
+  ]
+},
+{
+  "title": "Abuse of Reports and Support",
+  "content": [
+    "False reports, fraudulent support requests, fabricated evidence, spam tickets, or attempts to manipulate moderation decisions may result in restrictions or permanent account termination.",
+    "Repeated abuse of support resources may result in delayed responses, ticket limitations, or loss of support access."
+  ]
+},
+{
+  "title": "Security Research",
+  "content": [
+    "Security testing is only permitted with prior written authorization.",
+    "Unauthorized vulnerability scanning, penetration testing, packet analysis, traffic interception, fuzzing, or exploit development targeting Zyphor is prohibited."
+  ]
+},
+{
+  "title": "API and Backend Usage",
+  "content": [
+    "Public or private APIs may only be used as intended.",
+    "Excessive requests, automated abuse, bypassing authentication, or attempting to access undocumented endpoints may result in immediate suspension."
+  ]
+},
+{
+  "title": "Reservation of Future Rights",
+  "content": [
+    "Zyphor reserves all rights not expressly granted within these Terms.",
+    "Future products, applications, APIs, services, integrations, branding, intellectual property, and platform expansions shall automatically be protected under these Terms."
+  ]
+},
+{
+  "title": "Legal Remedies",
+  "content": [
+    "Nothing within these Terms limits Zyphor's ability to seek injunctive relief, damages, account restrictions, or any other remedies available under applicable law for violations of these Terms.",
+    "Violations involving fraud, abuse, intellectual property infringement, unauthorized access, or malicious interference may be referred to appropriate authorities where permitted by law."
+  ]
+},
+{
+  "title": "Evidence Preservation",
+  "content": [
+    "We reserve the right to preserve logs, uploaded files, messages, metadata, device information, network information, and other relevant records for investigation, moderation, security, legal compliance, or dispute resolution.",
+    "Evidence may be retained after account termination where reasonably necessary."
+  ]
+},
+{
+  "title": "Desktop Application Behavior",
+  "content": [
+    "The Zyphor Desktop Application may continue running in the system tray after its main window is closed unless fully exited by the user.",
+    "The application may automatically start with the operating system if enabled by the user or application settings.",
+    "Background operation is required for certain features including notifications, synchronization, and future functionality.",
+    "Users are responsible for configuring startup behavior and notification settings on their device."
+  ]
+},
+{
+  "title": "Desktop Notifications",
+  "content": [
+    "Desktop notifications are provided for convenience only and are not guaranteed to be delivered instantly, correctly, or at all.",
+    "Notification delivery depends on operating system settings, notification permissions, internet connectivity, background execution, battery optimization, and third-party operating system behavior.",
+    "We are not responsible for delayed, duplicated, blocked, missing, or incorrect desktop notifications.",
+    "Notification previews may display usernames, message previews, support updates, or other account activity depending on user settings and operating system behavior."
+  ]
+},
+{
+  "title": "Mobile Application",
+  "content": [
+    "The Zyphor Android application is provided on an 'as is' and 'as available' basis.",
+    "Application functionality may vary depending on Android version, manufacturer, device model, operating system modifications, battery optimization, permissions, and hardware capabilities.",
+    "Older application versions may become unsupported or lose functionality without notice.",
+    "Users are responsible for installing official updates to maintain compatibility and security."
+  ]
+},
+{
+  "title": "Push Notifications",
+  "content": [
+    "Push notifications rely on third-party notification providers and operating system services.",
+    "Notifications may be delayed, blocked, duplicated, throttled, or never delivered due to internet connectivity, battery optimization, notification permissions, provider outages, or operating system restrictions.",
+    "We are not responsible for missed direct messages, support notifications, friend requests, or account alerts resulting from notification delivery failures.",
+    "Notification content may differ between devices or operating system versions."
+  ]
+},
+{
+  "title": "Device Registration",
+  "content": [
+    "Desktop and mobile applications may register devices, notification tokens, session identifiers, installation identifiers, or similar technical information required for authentication, synchronization, security, and notification delivery.",
+    "Registered devices may automatically expire, be removed, replaced, or invalidated for operational or security reasons."
+  ]
+},
+{
+  "title": "Application Permissions",
+  "content": [
+    "Certain application features require operating system permissions including notifications, storage access, internet connectivity, or future permissions.",
+    "Denying, revoking, or restricting permissions may disable or limit application functionality.",
+    "We are not responsible for issues caused by disabled permissions or operating system restrictions."
+  ]
+},
+{
+  "title": "Background Services",
+  "content": [
+    "Desktop and mobile applications may perform background synchronization, session validation, notification handling, update checks, caching, and similar operational tasks while running.",
+    "Background services may stop functioning due to operating system limitations, user settings, battery optimization, antivirus software, firewalls, or third-party security software.",
+    "We are not responsible for functionality lost due to background process termination."
+  ]
+},
+{
+  "title": "Application Updates",
+  "content": [
+    "Updates may modify, remove, redesign, replace, or discontinue features, interfaces, layouts, settings, notification behavior, synchronization systems, or application functionality at any time.",
+    "We are not obligated to maintain compatibility with previous application versions or operating systems."
+  ]
+},
+{
+  "title": "Downloads and Installers",
+  "content": [
+    "Installers, archived versions, previous releases, beta builds, and download links are provided for convenience only.",
+    "We do not guarantee permanent availability, compatibility, integrity, or continued hosting of any application version.",
+    "Older versions may contain known security vulnerabilities, missing features, bugs, or compatibility issues and are used entirely at the user's own risk."
+  ]
+},
+{
+  "title": "Operating System Limitations",
+  "content": [
+    "Application behavior may differ across Windows versions, Android versions, hardware configurations, accessibility settings, antivirus software, virtualization environments, and operating system updates.",
+    "We are not responsible for crashes, installation failures, startup issues, notification failures, compatibility problems, rendering differences, or performance limitations caused by operating system behavior or third-party software."
+  ]
+},
+{
+  "title": "Unofficial Applications",
+  "content": [
+    "Only applications distributed through official Zyphor sources are supported.",
+    "Modified, unofficial, reverse-engineered, repackaged, or third-party versions of Zyphor applications are used entirely at the user's own risk and may be denied access or permanently blocked."
+  ]
+},
+{
+  "title": "Future Applications",
+  "content": [
+    "These Terms automatically apply to all future Zyphor applications including desktop, mobile, web, browser extensions, APIs, integrations, launchers, utilities, and any future software released under the Zyphor brand.",
+    "Future applications may introduce additional features, permissions, requirements, or limitations without prior notice."
+  ]
+},
+{
+  "title": "No Circumvention",
+  "content": [
+    "Users may not attempt to circumvent bans, restrictions, rate limits, verification systems, security protections, payment limitations, moderation actions, eligibility requirements, or any technical or administrative safeguards implemented by Zyphor.",
+    "Attempts to evade enforcement through alternate accounts, devices, networks, VPNs, proxies, virtual machines, modified clients, or third-party services may result in additional enforcement."
+  ]
+},
+{
   "title": "Application Permissions",
   "content": [
     "Certain application features may require permissions including but not limited to notifications, internet access, storage access, or future device capabilities.",
