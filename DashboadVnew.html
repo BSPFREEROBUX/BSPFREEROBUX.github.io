@@ -718,31 +718,22 @@ box.innerHTML=`
 
 function prevCL(){
 
-    if(!changelogs.length) return;
-
-    clIndex--;
-
-    if(clIndex < 0){
-        clIndex = changelogs.length - 1;
+    if(clIndex < changelogs.length - 1){
+        clIndex++;
+        renderCL();
     }
-
-    renderCL();
 
 }
 
 function nextCL(){
 
-    if(!changelogs.length) return;
-
-    clIndex++;
-
-    if(clIndex >= changelogs.length){
-        clIndex = 0;
+    if(clIndex > 0){
+        clIndex--;
+        renderCL();
     }
 
-    renderCL();
-
 }
+
 
 function openSupport(){
 document.getElementById("supportPopup").style.display="flex";
