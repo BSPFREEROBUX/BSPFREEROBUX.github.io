@@ -1085,9 +1085,28 @@ async function init(){
 
     }
 
-    myName=me.username
+myName = me.username
 
-    await refreshState()
+await refreshState()
+
+const friendFromUrl = decodeURIComponent(location.hash.substring(1)).trim()
+
+if(friendFromUrl){
+
+    const exists = state.friends.some(
+        friend => friend.toLowerCase() === friendFromUrl.toLowerCase()
+    )
+
+    if(exists){
+
+        openChat(
+            state.friends.find(
+                friend => friend.toLowerCase() === friendFromUrl.toLowerCase()
+            ),
+            true
+        )
+
+    }
 
 }
 
