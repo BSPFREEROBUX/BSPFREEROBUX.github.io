@@ -1,29 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Profile</title>
-<link id="themeStylesheet" rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zyphor Profile Layout</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.profileCard{
-max-width:650px;
-margin:auto;
-padding:25px;
-border-radius:10px;
-background:rgba(0,0,0,0.25);
-}
+        body {
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at top, #12224d 0%, #090b11 30%, #05070b 100%);
+            color: white;
+            min-height: 100vh;
+        }
 
-.profileName{
-font-size:28px;
-margin-bottom:10px;
-}
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0, 213, 255, .12), transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(154, 61, 255, .12), transparent 30%);
+            pointer-events: none;
+        }
 
-.roleIcons{
-font-size:22px;
-margin-left:6px;
+        .layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            background: rgba(10, 13, 20, .72);
+            backdrop-filter: blur(24px);
+            border-right: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            width: 56px;
+        }
+
+        .logo h2 {
+            letter-spacing: 2px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item {
+            padding: 15px 18px;
+            border-radius: 16px;
+            color: #b8c2d5;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: .25s;
+        }
+
+        .item:hover,
+        .active {
+            background: linear-gradient(90deg,
+                    rgba(0, 213, 255, .12),
+                    rgba(154, 61, 255, .12));
+            border-color: rgba(0, 213, 255, .25);
+            color: white;
+        }
+
+        .bottom {
+            margin-top: auto;
+        }
+
+        .main {
+            padding: 34px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .search {
+            display: flex;
+            gap: 12px;
+        }
+
+        .search input,
+        .search button {
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+        }
+
+        .search input {
+            width: 280px;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .08);
+            color: white;
+        }
+
+        .search button {
+            background: linear-gradient(90deg, #00d5ff, #8b3dff);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .profileCard {
+            padding: 30px;
+            border-radius: 24px;
+            background: rgba(18, 22, 34, .68);
+            border: 1px solid rgba(255, 255, 255, .08);
+            backdrop-filter: blur(28px);
+        }
+
+        .profileTop {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d5ff, #7a3cff);
+        }
+
+        .profileName {
+            font-size: 34px;
+            font-weight: 800;
+        }
+
+        .infoGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .infoCard {
+            padding: 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .04);
+        }
+
+        .infoCard h3 {
+            color: #8ea2be;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .actions {
+            margin-top: 24px;
+        }
+
+        .roleIcons{
+font-size:24px;
+margin-left:8px;
 cursor:pointer;
 transition:.2s;
 }
@@ -32,15 +189,15 @@ transition:.2s;
 transform:scale(1.15);
 }
 
-.tooltip{
+#tooltip{
 position:absolute;
-padding:4px 8px;
-border-radius:5px;
-font-size:12px;
+padding:6px 10px;
+border-radius:8px;
 display:none;
 pointer-events:none;
 z-index:9999;
 font-weight:bold;
+font-size:12px;
 }
 
 .staffTip{
@@ -63,61 +220,129 @@ background:#ffd700;
 color:#000;
 }
 
-.row{
-margin-top:14px;
-font-size:16px;
-}
-
-.findUser{
-display:flex;
-align-items:center;
-gap:6px;
-}
-
-.findUser input{
-padding:6px 10px;
-border-radius:6px;
-border:none;
-width:150px;
-}
-
-.findUser button{
-padding:6px 10px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-</style>
+        .actions button {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .08);
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="topbar">
+    <div class="layout">
 
-<div class="findUser">
-<input id="searchUser" placeholder="Find user">
-<button onclick="searchProfile()">Find</button>
-</div>
+        <aside class="sidebar">
 
-<div class="icons">
-<span onclick="toggleTheme()">🌓</span>
-<span onclick="location.href='dashboard.html'">Dashboard</span>
-</div>
+            <div class="logo">
+                <img src="https://zyphor.cc/Logo1.png">
+                <h2>ZYPHOR</h2>
+            </div>
 
-</div>
+            <nav class="nav">
+                <a class="item" href="#">Dashboard</a>
+                <a class="item active" href="#">Profile</a>
+                <a class="item" href="#">Messages</a>
+                <a class="item" href="#">Wallet</a>
+                <a class="item" href="#">Cloud</a>
+                <a class="item" href="#">App Center</a>
+                <a class="item" href="#">Support</a>
+                <a class="item" href="#">Settings</a>
+            </nav>
 
-<div class="wrapper" style="margin-top:80px">
+            <div class="bottom">
+                <a class="item" href="#">Logout</a>
+            </div>
 
-<div id="profileBox" class="profileCard">
-Search for a user to view their profile
-</div>
+        </aside>
 
-</div>
+        <main class="main">
 
-<div id="tooltip" class="tooltip"></div>
+            <div class="header">
 
-<script src="theme.js"></script>
+                <div>
+                    <h1>Profile</h1>
+                    <p style="color:#8ea2be;">
+                        View and manage Zyphor profiles.
+                    </p>
+                </div>
+
+                <div class="search">
+                    <input id="searchUser" placeholder="Search username...">
+                    <button onclick="searchProfile()">Find</button>
+                </div>
+
+            </div>
+
+            <div id="profileBox" class="profileCard">
+
+                <div class="profileTop">
+
+                    <div class="avatar"></div>
+
+                    <div>
+                        <div class="profileName">
+                            <span id="profileUsername">Loading...</span>
+                            <span id="profileIcons"></span>
+                        </div>
+
+                        <p style="margin-top:10px;color:#8ea2be;">
+                            Premium Zyphor profile overview.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="infoGrid">
+
+                    <div class="infoCard">
+                        <h3>Account ID</h3>
+                        <p id="accountId">Loading...</p>
+                    </div>
+
+                    <div class="infoCard">
+                        <h3>Created</h3>
+                        <p id="accountCreated">Loading...</p>
+                    </div>
+
+                    <div class="infoCard">
+                        <h3>Discord</h3>
+                        <p id="discordInfo">Loading...</p>
+                    </div>
+
+                    <div class="infoCard">
+                        <h3>Roblox</h3>
+                        <p id="robloxInfo">Loading...</p>
+                    </div>
+
+                    <div class="infoCard">
+                        <h3>Quests Completed</h3>
+                        <p id="questCount">Loading...</p>
+                    </div>
+
+                    <div class="infoCard">
+                        <h3>Total Earnings</h3>
+                        <p id="earningsInfo">Loading...</p>
+                    </div>
+
+                </div>
+
+                <div class="actions" id="profileActions">
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <div id="tooltip"></div>
+
+    <script src="theme.js"></script>
 
 <script>
 
@@ -125,363 +350,90 @@ let backend=null
 let me=null
 
 async function getBackend(){
-const r=await fetch("server.txt")
-return (await r.text()).trim()
-}
 
-function applySavedTheme(){
+    const r=await fetch("server.txt")
 
-const saved=localStorage.getItem("siteTheme")
+    return (await r.text()).trim()
 
-if(saved){
-
-const theme=document.getElementById("themeStylesheet")
-
-if(theme){
-theme.href=saved
-}
-
-}
-
-}
-  
-async function getMe(){
-const token=localStorage.getItem("Token")
-if(!token) return null
-
-try{
-
-const r=await fetch(backend+"/me",{
-headers:{Authorization:token}
-})
-
-const data=await r.json()
-
-if(data.error) return null
-
-return data
-
-}catch{
-
-return null
-
-}
-}
-
-function getUsername(){
-const params=new URLSearchParams(location.search)
-return params.get("username")
 }
 
 async function safeJson(res){
-const t=await res.text()
-try{
-return JSON.parse(t)
-}catch{
-return null
-}
-}
 
+    const t=await res.text()
 
+    try{
 
-function payoutPopup(username){
+        return JSON.parse(t)
 
-document.body.insertAdjacentHTML("beforeend",`
+    }catch{
 
-<div id="payoutPopup" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999">
-<div style="background:#222;padding:20px;border-radius:10px;width:300px">
-<h3>Payout</h3>
-<input id="amt" placeholder="Amount" style="width:100%;margin-bottom:8px">
-<input id="reason" placeholder="Reason" style="width:100%;margin-bottom:8px">
-<button onclick="doPayout('${username}','add')">Insert</button>
-<button onclick="doPayout('${username}','take')">Take Balance</button>
-<button onclick="document.getElementById('payoutPopup').remove()">Close</button>
-</div>
-</div>
+        return null
 
-`)
+    }
 
 }
 
-async function doPayout(username,type){
+async function getMe(){
 
-const amount=parseInt(document.getElementById("amt").value)
-const reason=document.getElementById("reason").value
-const token=localStorage.getItem("Token")
+    const token=localStorage.getItem("Token")
 
-await fetch(backend+"/admin/payout",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"Authorization":token
-},
-body:JSON.stringify({
-username,
-amount,
-reason,
-type
-})
-})
+    if(!token) return null
 
-location.reload()
+    try{
+
+        const r=await fetch(backend+"/me",{
+            headers:{
+                Authorization:token
+            }
+        })
+
+        const data=await r.json()
+
+        if(data.error) return null
+
+        return data
+
+    }catch{
+
+        return null
+
+    }
+
+}
+
+function getUsername(){
+
+    const params=new URLSearchParams(location.search)
+
+    return params.get("username")
 
 }
 
 async function trackPage(page){
 
-const token=localStorage.getItem("Token")
+    const token=localStorage.getItem("Token")
 
-if(!token) return
+    if(!token) return
 
-await fetch(backend+"/track/page",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
-body:JSON.stringify({page})
-})
+    await fetch(backend+"/track/page",{
 
-}
+        method:"POST",
 
-function showTip(text,type,x,y){
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
 
-const tip=document.getElementById("tooltip")
+        body:JSON.stringify({
+            page
+        })
 
-tip.innerText=text
-
-tip.className="tooltip"
-
-if(type==="staff") tip.classList.add("staffTip")
-if(type==="support") tip.classList.add("supportTip")
-if(type==="admin") tip.classList.add("adminTip")
-if(type==="vip") tip.classList.add("vipTip")
-
-tip.style.left=x+10+"px"
-tip.style.top=y+10+"px"
-tip.style.display="block"
+    })
 
 }
-
-function hideTip(){
-
-document.getElementById("tooltip").style.display="none"
-
-}
-
-function createRoleIcons(p){
-
-let icons=""
-
-if(p.support || p.admin){
-icons+=`
-<span
-class="roleIcons"
-style="color:#8b949e"
-onmousemove="showTip('Staff Member','staff',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-⚒️
-</span>
-`
-}
-
-if(p.support){
-icons+=`
-<span
-class="roleIcons"
-style="
-color:#57f287;
-text-shadow:0 0 10px #57f28788;
-"
-onmousemove="showTip('Support','support',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-🧰
-</span>
-`
-}
-
-if(p.admin){
-icons+=`
-<span
-class="roleIcons"
-style="
-color:#3498db;
-text-shadow:0 0 10px #3498db88;
-"
-onmousemove="showTip('Administrator','admin',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-💎
-</span>
-`
-}
-
-if(p.vip){
-icons+=`
-<span
-class="roleIcons"
-style="
-color:#ffd700;
-text-shadow:0 0 12px #ffd700aa;
-"
-onmousemove="showTip('VIP','vip',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-👑
-</span>
-`
-}
-
-return icons
-
-}
-
-function searchProfile(){
-
-const username=document.getElementById("searchUser").value.trim()
-
-if(!username) return
-
-location.href="profile.html?username="+encodeURIComponent(username)
-
-}
-
-async function loadProfile(){
-
-applySavedTheme()
-backend=await getBackend()
-
-await trackPage(
-location.pathname.split("/").pop() + location.search
-)
-
-me=await getMe()
-
-console.log("ME:",me)
-
-const username=getUsername()
-
-if(!username){
-
-profileBox.innerHTML="Search for a user to view their profile"
-
-return
-
-}
-
-document.getElementById("searchUser").value=username
-
-const r=await fetch(
-backend+"/profile?username="+encodeURIComponent(username)
-)
-
-const data=await safeJson(r)
-
-if(!data || data.error){
-
-profileBox.innerHTML="User not found"
-
-return
-
-}
-
-const icons=createRoleIcons(data.permissions)
-
-let adminBtn=""
-
-if(me && me.permissions && me.permissions.admin){
-
-adminBtn=`
-<button onclick="payoutPopup('${data.username}')">
-Payout
-</button>
-`
-
-}
-
-let roblox="Not linked"
-
-if(data.roblox){
-
-roblox=`${data.roblox.username} (ID: ${data.roblox.id})`
-
-}
-
-let earningsHTML="None"
-
-if(data.earnings && Object.keys(data.earnings).length){
-
-earningsHTML=Object.entries(data.earnings)
-.map(([k,v])=>`${v} ${k}`)
-.join("<br>")
-
-}
-
-let discord="Not linked"
-
-if(data.linked){
-
-discord=data.linked.username || data.linked.id
-
-}
-
-profileBox.innerHTML=`
-
-<div class="profileName">
-${data.username} ${icons}
-</div>
-
-${adminBtn}
-
-<div class="row">
-<b>Account ID:</b><br>
-${data.id}
-</div>
-
-<div class="row">
-<b>Account Created:</b><br>
-${new Date(data.created).toLocaleString()}
-</div>
-
-<div class="row">
-<b>Discord:</b><br>
-${discord}
-</div>
-
-<div class="row">
-<b>Roblox:</b><br>
-${roblox}
-</div>
-
-<div class="row">
-<b>Quests Completed:</b><br>
-${data.questsCompleted}
-</div>
-
-<div class="row">
-<b>Total Earnings:</b><br>
-${earningsHTML}
-</div>
-
-`
-
-}
-
-document.getElementById("searchUser").addEventListener("keypress",e=>{
-
-if(e.key==="Enter"){
-
-searchProfile()
-
-}
-
-})
-
-loadProfile()
 
 </script>
 
 </body>
+
 </html>
