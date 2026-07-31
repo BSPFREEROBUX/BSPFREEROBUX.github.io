@@ -289,7 +289,9 @@
 
 .chatArea{
     flex:1;
-    overflow:auto;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
     padding:24px;
     display:flex;
     flex-direction:column;
@@ -297,27 +299,34 @@
 }
 
 .message{
-    max-width:70%;
-    padding:14px 18px;
+    max-width:75%;
+    padding:16px 18px;
     border-radius:18px;
-    line-height:1.5;
-}
-
-.message.staff{
-    align-self:flex-start;
-    background:linear-gradient(135deg,#4da3ff,#8b5cf6);
+    word-break:break-word;
+    animation:fade .2s ease;
 }
 
 .message.user{
     align-self:flex-end;
-    background:#232938;
+    background:linear-gradient(135deg,#4da3ff,#8b5cf6);
+    color:white;
+    border-bottom-right-radius:6px;
+}
+
+.message.staff{
+    align-self:flex-start;
+    background:#1d2332;
+    border:1px solid rgba(255,255,255,.08);
+    border-bottom-left-radius:6px;
 }
 
 .composer{
-    display:flex;
-    gap:14px;
-    padding:20px;
-    border-top:1px solid rgba(255,255,255,.08);
+display:flex;
+gap:14px;
+padding:18px;
+border-top:1px solid rgba(255,255,255,.08);
+background:#151a27;
+flex-shrink:0;
 }
 
 .composer textarea{
@@ -401,6 +410,22 @@ margin-bottom:6px;
 color:#94a3b8;
 font-size:14px;
 line-height:1.5;
+}
+
+.content{
+    flex:1;
+    display:grid;
+    grid-template-columns:360px minmax(0,1fr);
+    gap:24px;
+    padding:30px;
+    overflow:hidden;
+}
+
+.card{
+display:flex;
+flex-direction:column;
+overflow:hidden;
+height:100%;
 }
 
 .popupClose{
@@ -545,6 +570,121 @@ border-radius:12px;
 cursor:pointer;
 font-weight:700;
 transition:.25s;
+}
+
+.messageRow{
+display:flex;
+margin:12px 0;
+}
+
+.messageRow.me{
+justify-content:flex-end;
+}
+
+.messageBubble{
+max-width:72%;
+background:#1b2130;
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+padding:14px 18px;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+animation:fadeIn .18s ease;
+}
+
+.messageBubble.me{
+background:linear-gradient(135deg,#4da3ff,#8b5cf6);
+border:none;
+}
+
+.messageTop{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+gap:18px;
+}
+
+.messageAuthor{
+font-weight:700;
+font-size:14px;
+}
+
+.messageTime{
+font-size:12px;
+opacity:.65;
+white-space:nowrap;
+}
+
+.messageText{
+line-height:1.65;
+word-break:break-word;
+}
+
+.dateDivider{
+display:flex;
+justify-content:center;
+margin:22px 0;
+}
+
+.dateDivider span{
+padding:6px 14px;
+border-radius:999px;
+background:#101521;
+border:1px solid rgba(255,255,255,.08);
+font-size:12px;
+color:#9aa4b2;
+}
+
+.ticketInfo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.ticketName{
+font-size:20px;
+font-weight:700;
+margin-bottom:4px;
+}
+
+.ticketStatus{
+font-size:13px;
+font-weight:700;
+}
+
+.statusOpen{
+color:#22c55e;
+}
+
+.statusClosed{
+color:#ef4444;
+}
+
+.emptyChat{
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+color:#94a3b8;
+}
+
+.emptyIcon{
+font-size:56px;
+margin-bottom:18px;
+opacity:.5;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(8px);
+}
+to{
+opacity:1;
+transform:none;
+}
 }
 
 .createTicketBtn:hover{
@@ -1338,42 +1478,124 @@ function openTicket(ticket){
 
 function renderMessages(ticket){
 
-chatMessages.innerHTML = "";
-(ticket.messages || []).forEach(message => {
+    chatMessages.innerHTML = "";
 
-        const div=document.createElement("div")
+    if(!ticket){
 
-        div.className="message"
+        chatMessages.innerHTML = `
+            <div class="emptyChat">
+                <div class="emptyIcon">💬</div>
+                <h2>Select a ticket</h2>
+                <p>Choose a ticket from the left to start viewing the conversation.</p>
+            </div>
+        `;
 
-        const author=
-            escapeHTML(message.author || "Unknown")
+        return;
 
-        const time=
-            new Date(message.time)
-            .toLocaleString()
+    }
 
-        let text=
-            formatMessage(
-                message.text || ""
-            )
+    ticketTitle.textContent = ticket.title;
 
-        div.innerHTML=`
+    ticketHeader.innerHTML = `
+        <div class="ticketInfo">
 
-            <b>${author}</b>
+            <div>
 
-            <small style="
-                opacity:.6;
-                margin-left:8px;
-            ">
+                <div class="ticketName">
+                    ${escapeHTML(ticket.title)}
+                </div>
 
-                ${time}
+                <div class="ticketStatus ${
+                    ticket.status=="open"
+                    ? "statusOpen"
+                    : "statusClosed"
+                }">
 
-            </small>
+                    ${ticket.status.toUpperCase()}
+
+                    ${
+                        ticket.locked
+                        ? " • LOCKED"
+                        : ""
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    let lastDate = "";
+
+    (ticket.messages || []).forEach(message=>{
+
+        const date = new Date(message.time);
+
+        const day = date.toLocaleDateString();
+
+        if(day!==lastDate){
+
+            lastDate=day;
+
+            const sep=document.createElement("div");
+
+            sep.className="dateDivider";
+
+            sep.innerHTML=`
+                <span>${day}</span>
+            `;
+
+            chatMessages.appendChild(sep);
+
+        }
+
+        const mine =
+            message.author===user.username;
+
+        const wrapper=document.createElement("div");
+
+        wrapper.className=
+            mine
+            ? "messageRow me"
+            : "messageRow";
+
+        const bubble=document.createElement("div");
+
+        bubble.className=
+            mine
+            ? "messageBubble me"
+            : "messageBubble";
+
+        bubble.innerHTML=`
+
+            <div class="messageTop">
+
+                <span class="messageAuthor">
+
+                    ${escapeHTML(message.author)}
+
+                </span>
+
+                <span class="messageTime">
+
+                    ${date.toLocaleTimeString([],{
+                        hour:"2-digit",
+                        minute:"2-digit"
+                    })}
+
+                </span>
+
+            </div>
 
             ${
-                text
+                message.text
                 ?
-                `<div style="margin-top:8px">${text}</div>`
+                `<div class="messageText">
+
+                    ${formatMessage(message.text)}
+
+                </div>`
                 :
                 ""
             }
@@ -1386,14 +1608,20 @@ chatMessages.innerHTML = "";
                 ""
             }
 
-        `
+        `;
 
-        chatMessages.appendChild(div)
+        wrapper.appendChild(bubble);
 
-    })
+        chatMessages.appendChild(wrapper);
 
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight
+    });
+
+    requestAnimationFrame(()=>{
+
+        chatMessages.scrollTop=
+            chatMessages.scrollHeight;
+
+    });
 
 }
 
@@ -1465,15 +1693,125 @@ document.getElementById("ticketReasonInput")
 const ticketChars =
 document.getElementById("ticketChars")
 
+const ticketPopup = document.getElementById("ticketPopup");
+
+const ticketTitleInput = document.getElementById("ticketTitleInput");
+
+const ticketCategory = document.getElementById("ticketCategory");
+
+const createTicketBtn = document.querySelector(".createTicketBtn");
+
+const ticketReasonInput = document.getElementById("ticketReasonInput");
+
+const ticketChars = document.getElementById("ticketChars");
+
 if(ticketReasonInput){
 
-ticketReasonInput.addEventListener("input",()=>{
+    ticketReasonInput.addEventListener("input",()=>{
 
-ticketChars.textContent=
-ticketReasonInput.value.length
+        ticketChars.textContent =
+        ticketReasonInput.value.length;
 
-})
+    });
 
+}
+
+async function sendMessage(){
+    if(!activeTicket) return
+    const msg=messageBox.value
+    const form=new FormData()
+    form.append("ticketId",activeTicket.id)
+    form.append("message",msg)
+    if(selectedFile) form.append("file",selectedFile)
+    if(anonToggle.checked) form.append("anonymous",true)
+    await fetch(backend+"/support/message",{
+        method:"POST",
+        headers:{Authorization:token},
+        body:form
+    })
+    messageBox.value=""
+    removePreview()
+    await refreshActiveTicket()
+}
+
+async function closeTicket(){
+    if(!activeTicket) return
+    await fetch(backend+"/support/close",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
+        body:JSON.stringify({ticketId:activeTicket.id})
+    })
+    loadTickets()
+}
+
+async function lockTicket(){
+    if(!activeTicket) return
+    await fetch(backend+"/support/lock",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
+        body:JSON.stringify({ticketId:activeTicket.id})
+    })
+    loadTickets()
+}
+
+async function unlockTicket(){
+    if(!activeTicket) return
+    await fetch(backend+"/support/unlock",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
+        body:JSON.stringify({ticketId:activeTicket.id})
+    })
+    loadTickets()
+}
+
+function createTicket(){
+    ticketPopup.style.display="flex"
+}
+
+function closeTicketPopup(){
+    ticketPopup.style.display="none"
+    ticketTitleInput.value=""
+    ticketReasonInput.value=""
+}
+
+async function submitTicket(){
+
+    const title=ticketTitleInput.value.trim()
+    const reason=ticketReasonInput.value.trim()
+
+    if(!title || !reason){
+        alert("Please enter a title and reason")
+        return
+    }
+
+    await fetch(backend+"/support/create",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
+        body:JSON.stringify({
+            title:title,
+            reason:reason
+        })
+    })
+
+    closeTicketPopup()
+    loadTickets()
+}
+
+function logout(){
+    localStorage.removeItem("Token")
+    location.href="login.html"
 }
 
 setInterval(()=>{
