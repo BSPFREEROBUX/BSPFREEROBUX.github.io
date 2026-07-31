@@ -1458,32 +1458,44 @@ function formatMessage(text){
 
 }
 
-function openTicket(ticket){
+async function openTicket(ticket){
 
     activeTicket = ticket
 
+    await fetch(
+        backend + "/notifications/seen",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify({
+                ticketId: ticket.id
+            })
+        }
+    )
+
+    activeTicketSignature = ""
+
     ticketHeader.innerHTML = `
-
         <b>${escapeHTML(ticket.title)}</b>
-
         <br>
-
         <span style="color:${
-            ticket.status==="open"
-            ? "#22c55e"
-            : "#ef4444"
+            ticket.status === "open"
+                ? "#22c55e"
+                : "#ef4444"
         }">
-
             ${ticket.status.toUpperCase()}
-
         </span>
-
         ${ticket.locked ? " 🔒 Locked" : ""}
-
     `
 
     renderMessages(ticket)
 
+    if (typeof loadScheduleUI === "function") {
+        loadScheduleUI(ticket)
+    }
 }
 
 function renderMessages(ticket){
