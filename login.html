@@ -112,13 +112,27 @@ height:16px;
 <input id="username" placeholder="Username">
 <input id="password" type="password" placeholder="Password">
 
-<div id="tosbox" class="tosbox">Loading Terms of Service...</div>
+<h3 style="margin-top:15px">Terms of Service</h3>
+
+<div id="tosbox" class="tosbox">
+Loading Terms of Service...
+</div>
 
 <label id="tosagree" class="tosagree">
 <input type="checkbox" id="agree">
 <span>I have read and agree to the Terms of Service</span>
 </label>
 
+<h3 style="margin-top:20px">Privacy Policy</h3>
+
+<div id="privacybox" class="tosbox">
+Loading Privacy Policy...
+</div>
+
+<label id="privacyagree" class="tosagree">
+<input type="checkbox" id="agreePrivacy">
+<span>I have read and agree to the Privacy Policy</span>
+</label>
 <button onclick="login()">Login</button>
 
 <div style="margin-top:10px">
@@ -165,6 +179,7 @@ height:16px;
 let pendingUser = null
 let backendUrl = null
 let tosRead = false
+let privacyRead = false
 
 async function loadTos(){
   try{
@@ -209,6 +224,22 @@ tosbox.addEventListener("scroll",()=>{
   }
 })
 
+privacybox.addEventListener("scroll",()=>{
+
+    const nearBottom =
+        privacybox.scrollTop +
+        privacybox.clientHeight >=
+        privacybox.scrollHeight - 10
+
+    if(nearBottom && !privacyRead){
+
+        privacyRead = true
+        privacyagree.classList.add("enabled")
+
+    }
+
+})
+
 document.addEventListener("keydown",e=>{
 if(e.key==="Enter"){
 const popup=document.getElementById("twofaPopup")
@@ -221,21 +252,95 @@ login()
 }
 })
 
+async function loadPrivacy(){
+
+    try{
+
+        const r = await fetch("PP.json")
+        const data = await r.json()
+
+        let html = ""
+
+        html += `<h2 style="margin-top:0">${data.hero.title}</h2>`
+        html += `<p>${data.hero.description}</p>`
+
+        for(const section of data.sections){
+
+            html += `<h3 style="margin-top:18px">${section.title}</h3>`
+
+            if(section.content){
+
+                for(const line of section.content){
+
+                    html += `<p>${line}</p>`
+
+                }
+
+            }
+
+            if(section.list){
+
+                html += "<ul>"
+
+                for(const item of section.list){
+
+                    html += `<li>${item}</li>`
+
+                }
+
+                html += "</ul>"
+
+            }
+
+        }
+
+        privacybox.innerHTML = html
+
+    }catch{
+
+        privacybox.textContent = "Failed to load Privacy Policy."
+
+    }
+
+}
+
 async function getBackend(){
   const r = await fetch("server.txt")
   return (await r.text()).trim()
 }
 
 async function login(){
-  if(!tosRead){
-    alert("You must scroll through the Terms of Service first")
-    return
-  }
+if(!tosRead){
 
-  if(!agree.checked){
-    alert("You must agree to the Terms of Service")
+    alert("You must scroll through the Terms of Service first")
+
     return
-  }
+
+}
+
+if(!agree.checked){
+
+    alert("You must agree to the Terms of Service")
+
+    return
+
+}
+
+if(!privacyRead){
+
+    alert("You must scroll through the Privacy Policy first")
+
+    return
+
+}
+
+if(!agreePrivacy.checked){
+
+    alert("You must agree to the Privacy Policy")
+
+    return
+
+}
 
   try{
     const base = await getBackend()
@@ -252,11 +357,12 @@ async function login(){
     const r = await fetch(base + "/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username,
-        password,
-        agreedToTos: true
-      })
+body: JSON.stringify({
+    username,
+    password,
+    agreedToTos: true,
+    agreedToPrivacyPolicy: true
+})
     })
 
     const d = await r.json()
@@ -349,6 +455,7 @@ async function submit2FA(){
 }
 
 loadTos()
+loadPrivacy()
 </script>
 
 </body>
