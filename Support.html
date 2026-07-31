@@ -634,19 +634,16 @@ box-shadow:0 15px 35px rgba(77,163,255,.35);
 
 <div class="profile">
 
-<label class="switchLabel">
+    <label class="switchLabel">
 
-    <span>Anonymous</span>
+        <span>Anonymous</span>
 
-    <label class="switch">
-
-        <input type="checkbox" id="anonToggle">
-
-        <span class="slider"></span>
+        <label class="switch">
+            <input type="checkbox" id="anonToggle">
+            <span class="slider"></span>
+        </label>
 
     </label>
-
-</label>
 
     <button class="btn" onclick="closeTicket()">
         Close
@@ -662,106 +659,89 @@ box-shadow:0 15px 35px rgba(77,163,255,.35);
 
 </div>
 
-            </header>
+</header>
 
-            <div class="content">
+<div class="content">
 
-                <div class="card">
+    <!-- Ticket List -->
+    <div class="card">
 
-                    <div class="cardHeader">
-                        <h2>Tickets</h2>
-                        <button class="btn" onclick="createTicket()">
-    + New Ticket
-</button>
-                    </div>
+        <div class="cardHeader">
+            <h2>Tickets</h2>
 
-<div class="ticketList">
+            <button class="btn" onclick="createTicket()">
+                + New Ticket
+            </button>
+        </div>
 
-    <div class="sidebarUser" id="userDisplay"></div>
+        <div class="ticketList">
 
-    <div id="myTickets"></div>
+            <div class="sidebarUser" id="userDisplay"></div>
 
-    <h3 id="staffTitle" style="display:none;margin-top:20px">
-        All Tickets
-    </h3>
+            <div id="myTickets"></div>
 
-    <div id="allTickets"></div>
+            <h3 id="staffTitle" style="display:none;margin-top:20px">
+                All Tickets
+            </h3>
 
-</div>
-
-    </div>
-
-    <div class="ticket">
-    </div>
-
-</div>
-
-                </div>
-
-                <div class="card">
-
-                    <div class="cardHeader">
-                        <h2 id="ticketTitle">
-    Select a ticket
-</h2>
-                    </div>
-
-<div id="ticketHeader"
-     style="padding:18px;border-bottom:1px solid rgba(255,255,255,.08)">
-</div>
-
-<div class="chatArea" id="chatMessages"></div>
-
-<div id="scheduleBox"
-     style="display:none;padding:12px;border-top:1px solid rgba(255,255,255,.08);">
-
-    <select id="dateSelect"></select>
-
-    <select id="timeSelect"></select>
-
-    <button class="btn" onclick="bookTime()">
-        Book
-    </button>
-
-</div>
-
-<div class="previewBar" id="previewBar"></div>
-
-<div class="composer">
-
-    <button class="send"
-            style="width:56px"
-            onclick="fileInput.click()">
-        +
-    </button>
-
-    <input
-        type="file"
-        id="fileInput"
-        style="display:none"
-        accept="image/*,video/*,.mp4,.mov,.webm,.gif,.png,.jpg,.jpeg"
-    >
-
-    <textarea
-        id="messageBox"
-        placeholder="Write a message..."
-    ></textarea>
-
-    <button
-        class="send"
-        onclick="sendMessage()">
-        ➜
-    </button>
-
-</div>
-
-                </div>
-
-            </div>
+            <div id="allTickets"></div>
 
         </div>
 
     </div>
+
+    <!-- Chat -->
+    <div class="card">
+
+        <div class="cardHeader">
+            <h2 id="ticketTitle">Select a ticket</h2>
+        </div>
+
+        <div id="ticketHeader"
+             style="padding:18px;border-bottom:1px solid rgba(255,255,255,.08)">
+        </div>
+
+        <div id="chatMessages" class="chatArea"></div>
+
+        <div id="scheduleBox"
+             style="display:none;padding:12px;border-top:1px solid rgba(255,255,255,.08);">
+
+            <select id="dateSelect"></select>
+            <select id="timeSelect"></select>
+
+            <button class="btn" onclick="bookTime()">
+                Book
+            </button>
+
+        </div>
+
+        <div id="previewBar"></div>
+
+        <div class="composer">
+
+            <button class="send" onclick="fileInput.click()">
+                +
+            </button>
+
+            <input
+                type="file"
+                id="fileInput"
+                style="display:none"
+                accept="image/*,video/*,.png,.jpg,.jpeg,.gif,.mp4,.mov,.webm">
+
+            <textarea
+                id="messageBox"
+                placeholder="Write a message..."></textarea>
+
+            <button class="send" onclick="sendMessage()">
+                ➜
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 <div id="ticketPopup" class="ticketPopup">
 
@@ -1358,9 +1338,8 @@ function openTicket(ticket){
 
 function renderMessages(ticket){
 
-    chatMessages.innerHTML=""
-
-    (ticket.messages || []).forEach(message=>{
+chatMessages.innerHTML = "";
+(ticket.messages || []).forEach(message => {
 
         const div=document.createElement("div")
 
