@@ -270,7 +270,8 @@
   "title": "Application Logs",
   "content": [
     "Applications may generate logs relating to startup, shutdown, updates, authentication, synchronization, downloads, uploads, notifications, application events, diagnostics, security events, feature initialization, plugin loading, configuration changes, and other operational information."
-,
+  ]
+},
 {
   "title": "User Content",
   "content": [
@@ -1002,6 +1003,4 @@
   ]
 }
   ]
-}
-]
 }
