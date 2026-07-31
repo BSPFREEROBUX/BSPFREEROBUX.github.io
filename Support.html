@@ -1068,6 +1068,8 @@ async function init(){
 
     token = localStorage.getItem("Token")
 
+    await trackPage("Support.html")
+
     if(!token){
 
         location.href="login.html"
@@ -1109,6 +1111,20 @@ async function init(){
 
     await loadTickets()
 
+}
+
+async function trackPage(page){
+    const token = localStorage.getItem("Token")
+    if(!token) return
+
+    await fetch(backend + "/track/page",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
+        body:JSON.stringify({page})
+    })
 }
 
 async function loadTickets(){
