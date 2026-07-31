@@ -1710,6 +1710,98 @@ if(ticketReasonInput){
 
 }
 
+function removePreview(){
+
+    selectedFile = null;
+    selectedFileUrl = null;
+
+    fileInput.value = "";
+
+    previewBar.innerHTML = "";
+    previewBar.style.display = "none";
+
+}
+
+fileInput.addEventListener("change",()=>{
+
+    const file=fileInput.files[0];
+
+    if(!file){
+        removePreview();
+        return;
+    }
+
+    selectedFile=file;
+
+    if(selectedFileUrl){
+        URL.revokeObjectURL(selectedFileUrl);
+    }
+
+    selectedFileUrl=URL.createObjectURL(file);
+
+    previewBar.style.display="block";
+
+    if(file.type.startsWith("image/")){
+
+        previewBar.innerHTML=`
+        <div style="padding:12px">
+            <img
+                src="${selectedFileUrl}"
+                style="
+                    max-height:120px;
+                    border-radius:12px;
+                    display:block;
+                    margin-bottom:10px;
+                ">
+            <button class="btn" onclick="removePreview()">
+                Remove
+            </button>
+        </div>
+        `;
+
+    }
+    else if(file.type.startsWith("video/")){
+
+        previewBar.innerHTML=`
+        <div style="padding:12px">
+            <video
+                controls
+                src="${selectedFileUrl}"
+                style="
+                    max-height:160px;
+                    border-radius:12px;
+                    display:block;
+                    margin-bottom:10px;
+                ">
+            </video>
+
+            <button class="btn" onclick="removePreview()">
+                Remove
+            </button>
+        </div>
+        `;
+
+    }
+    else{
+
+        previewBar.innerHTML=`
+        <div style="padding:12px">
+
+            📄 ${file.name}
+
+            <br><br>
+
+            <button class="btn" onclick="removePreview()">
+                Remove
+            </button>
+
+        </div>
+        `;
+
+    }
+
+});
+
 async function sendMessage(){
     if(!activeTicket) return
     const msg=messageBox.value
