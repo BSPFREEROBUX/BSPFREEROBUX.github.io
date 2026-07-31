@@ -1,680 +1,755 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
-<link id="themeStylesheet" rel="stylesheet" href="styles.css">
+<title>Zyphor Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{
-box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-html,body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#0e0e0e;
-color:#fff;
-overflow-x:hidden;
+body {
+    font-family: Inter, sans-serif;
+    background: radial-gradient(
+        circle at top,
+        #12224d 0%,
+        #090b11 30%,
+        #05070b 100%
+    );
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-body.light{
-background:#f2f2f2;
-color:#111;
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0,213,255,.12), transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(154,61,255,.12), transparent 30%);
+    pointer-events: none;
 }
 
-.mouseGlow{
-position:fixed;
-width:300px;
-height:300px;
-border-radius:50%;
-pointer-events:none;
-z-index:0;
-background:radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 35%, rgba(0,0,0,0) 70%);
-transform:translate(-50%,-50%);
-mix-blend-mode:screen;
-filter:blur(25px);
-transition:transform .03s linear;
+.layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
 }
 
-.topbar{
-position:fixed;
-top:0;
-left:0;
-width:100%;
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    background: rgba(10,13,20,.72);
+    backdrop-filter: blur(24px);
+    border-right: 1px solid rgba(255,255,255,.08);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 40px;
+}
+
+.logo img {
+    width: 56px;
+}
+
+.logo h2 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item {
+    padding: 15px 18px;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    color: #b8c2d5;
+    text-decoration: none;
+    transition: .25s;
+}
+
+.item:hover,
+.item.active {
+    background: linear-gradient(
+        90deg,
+        rgba(0,213,255,.12),
+        rgba(154,61,255,.12)
+    );
+    border-color: rgba(0,213,255,.25);
+    color: #fff;
+    transform: translateX(6px);
+}
+
+.bottom {
+    margin-top: auto;
+}
+
+.main {
+    padding: 34px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.welcome h1 {
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.welcome p {
+    margin-top: 6px;
+    color: #9fa8b6;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d5ff, #7a3cff);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+.card {
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 24px;
+    background: rgba(18,22,34,.68);
+    backdrop-filter: blur(28px);
+    box-shadow: 0 0 40px rgba(0,213,255,.08);
+    transition: .25s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 60px rgba(0,213,255,.15);
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 220px;
+    background: linear-gradient(
+        135deg,
+        rgba(0,213,255,.16),
+        rgba(61,108,255,.10),
+        rgba(154,61,255,.18)
+    );
+}
+
+.hero h2 {
+    font-size: 36px;
+}
+
+.hero p {
+    margin-top: 10px;
+    color: #b9c5d8;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.stat h3 {
+    font-size: 14px;
+    color: #8e99aa;
+}
+
+.stat h1 {
+    margin-top: 12px;
+    font-size: 36px;
+}
+
+.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 260px;
+    border: 2px dashed rgba(255,255,255,.08);
+    color: #6d7a91;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.rightcol {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.row {
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+}
+
+.changelog{
+display:flex;
+flex-direction:column;
+}
+
+.cardHeader{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:clamp(8px,1.5vw,15px);
-background:#121212;
-z-index:1000;
-flex-wrap:wrap;
+margin-bottom:20px;
 }
 
-body.light .topbar{
-background:#ffffff;
+.cardSubtitle{
+font-size:11px;
+letter-spacing:2px;
+color:#8ea2be;
 }
 
-.icons{
+.versionButton{
+padding:8px 16px;
+border-radius:999px;
+background:linear-gradient(90deg,#00d5ff,#8b3dff);
+font-weight:700;
+}
+
+.timeline{
 display:flex;
-flex-wrap:wrap;
-gap:clamp(4px,1vw,10px);
+flex-direction:column;
+gap:18px;
+margin:20px 0;
 }
 
-.icons span{
-cursor:pointer;
-font-size:clamp(11px,1.2vw,14px);
-padding:clamp(5px,1vw,8px) clamp(8px,1.5vw,12px);
-border-radius:8px;
-background:#1e1e1e;
-}
-
-body.light .icons span{
-background:#e6e6e6;
-}
-
-.wrapper{
-max-width:1200px;
-margin:auto;
-padding:clamp(10px,2vw,20px);
-margin-top:clamp(90px,10vh,130px);
-}
-
-.vipName{
-position:relative;
-display:inline-block;
-padding-top:18px;
-color:#ffd54a;
-font-weight:bold;
-}
-
-.vipName::before{
-content:"";
-position:absolute;
-top:-2px;
-left:50%;
-width:2px;
-height:18px;
-background:linear-gradient(to bottom,#d6d6d6,#888);
-transform:translateX(-50%);
-z-index:1;
-}
-
-.vipName::after{
-content:"";
-position:absolute;
-left:50%;
-top:-18px;
-width:18px;
-height:14px;
-background:#ffd700;
-transform:
-translateX(-50%)
-rotate(-8deg);
-clip-path:polygon(
-0% 100%,
-0% 45%,
-18% 0%,
-35% 40%,
-50% 8%,
-65% 40%,
-82% 0%,
-100% 45%,
-100% 100%
-);
-border:2px solid #ffea8a;
-box-shadow:
-0 0 10px #ffd70088,
-0 2px 8px rgba(0,0,0,.35);
-transform-origin:top center;
-animation:vipSwing 2.8s ease-in-out infinite;
-z-index:2;
-}
-
-@keyframes vipSwing{
-
-0%{
-transform:
-translateX(-50%)
-rotate(-8deg);
-}
-
-50%{
-transform:
-translateX(-50%)
-rotate(8deg);
-}
-
-100%{
-transform:
-translateX(-50%)
-rotate(-8deg);
-}
-
-}
-.main-flex{
+.changeItem{
 display:flex;
-gap:clamp(10px,2vw,20px);
-align-items:flex-start;
-flex-wrap:wrap;
+gap:16px;
 }
 
-.left{
-flex:1 1 600px;
-min-width:0;
+.dot{
+width:16px;
+height:16px;
+border-radius:50%;
+background:#00d5ff;
+box-shadow:0 0 18px #00d5ff;
+margin-top:5px;
+flex-shrink:0;
 }
 
-.right{
-flex:1 1 280px;
-max-width:350px;
-width:100%;
+.changeContent{
+flex:1;
+padding:16px;
+background:rgba(255,255,255,.03);
+border-radius:16px;
 }
 
-.stats-container{
-display:flex;
-gap:clamp(10px,2vw,20px);
-margin-bottom:clamp(20px,3vw,30px);
-flex-wrap:wrap;
-}
-
-.stat-box{
-background:#1e1e1e;
-padding:clamp(12px,2vw,20px);
-border-radius:12px;
-flex:1 1 250px;
-text-align:center;
-font-size:clamp(14px,1.5vw,16px);
-}
-
-body.light .stat-box{
-background:#ffffff;
-color:#111;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-.stat-inner{
-background:#2a2a2a;
-margin-top:10px;
-padding:clamp(10px,2vw,15px);
-border-radius:8px;
-font-size:clamp(18px,2.5vw,24px);
-}
-
-body.light .stat-inner{
-background:#e6e6e6;
-}
-
-.stat-btn{
-margin-top:10px;
-padding:clamp(8px,1.5vw,12px);
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:#4cafef;
-color:white;
-font-weight:bold;
-width:100%;
-font-size:clamp(13px,1.4vw,15px);
-}
-
-.cl-nav{
+.changeTop{
 display:flex;
 justify-content:space-between;
+margin-bottom:10px;
+}
+
+.changeTop span{
+color:#8ea2be;
+font-size:13px;
+}
+
+.tags{
+display:flex;
 gap:10px;
 margin-top:14px;
 }
 
-.cl-btn{
+.tag{
+padding:5px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:700;
+}
+
+.new{
+background:#00d5ff22;
+color:#00d5ff;
+}
+
+.changeFooter{
+display:flex;
+gap:10px;
+}
+
+.navButton{
 flex:1;
-border:none;
-background:#2a2a2a;
-color:white;
 padding:12px;
-border-radius:10px;
-font-weight:600;
-transition:.15s;
-}
-
-.cl-btn:hover{
-background:#3a3a3a;
-transform:translateY(-1px);
-}
-
-body.light .cl-btn{
-background:#e6e6e6;
-color:#111;
-}
-
-body.light .cl-btn:hover{
-background:#d8d8d8;
-}
-
-.quest-card{
-background:#1e1e1e;
-padding:clamp(12px,2vw,16px);
-border-radius:10px;
-margin-bottom:clamp(10px,2vw,15px);
-word-wrap:break-word;
-font-size:clamp(13px,1.4vw,15px);
-}
-
-body.light .quest-card{
-background:#ffffff;
-color:#111;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-#supportPopup div{
-max-width:90%;
-}
-
-button{
-border-radius:8px;
-padding:clamp(6px,1.2vw,10px) clamp(10px,2vw,14px);
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,.05);
+color:white;
 cursor:pointer;
-font-size:clamp(12px,1.3vw,14px);
+}
+
+.navButton:hover{
+background:rgba(255,255,255,.1);
+}
+
+.supportPopup{
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,.65);
+backdrop-filter:blur(8px);
+z-index:9999;
+}
+
+.supportCard{
+width:420px;
+max-width:90%;
+padding:30px;
+border-radius:24px;
+background:rgba(18,22,34,.95);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:0 0 50px rgba(0,213,255,.12);
+text-align:center;
+}
+
+.supportCard h2{
+margin-bottom:10px;
+}
+
+.supportCard p{
+color:#9ea8bb;
+margin-bottom:25px;
+}
+
+.supportButtons{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.supportButtons button{
+padding:16px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+background:rgba(255,255,255,.05);
+color:white;
+transition:.2s;
+}
+
+.supportButtons button:hover{
+background:linear-gradient(90deg,#00d5ff22,#8b3dff22);
+transform:translateY(-2px);
+}
+
+.closeSupport{
+margin-top:20px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:#20242f;
+color:white;
+cursor:pointer;
+}
+
+@media (max-width: 1200px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        flex-direction: row;
+        overflow: auto;
+        gap: 20px;
+    }
+
+    .logo {
+        margin-bottom: 0;
+    }
+
+    .nav {
+        flex-direction: row;
+    }
+
+    .bottom {
+        margin: 0 0 0 auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
 }
 </style>
 </head>
-
-
-  
 <body>
-
-<div id="notificationBox" style="
-display:none;
-position:fixed;
-top:70px;
-right:20px;
-width:350px;
-max-height:400px;
-overflow:auto;
-background:#1e1e1e;
-border-radius:10px;
-padding:10px;
-z-index:9999;
-">
-<div id="notificationList"></div>
-</div>
-  
-<div id="settingsBox" style="display:none;position:fixed;top:60px;right:20px;background:#1e1e1e;padding:15px;border-radius:10px;z-index:999">
-
-<input id="emailInput" placeholder="Enter email">
-<button onclick="sendCode()">Send Code</button>
-
-<input id="codeInput" placeholder="Enter code">
-<button onclick="verifyCode()">Verify</button>
-
-<button onclick="toggle2FA()">Toggle 2FA</button>
-
-<hr style="margin:10px 0">
-
-<select id="timezoneSelect">
-<option value="UTC">UTC</option>
-<option value="Europe/Copenhagen">Denmark</option>
-<option value="Europe/Stockholm">Sweden</option>
-<option value="Asia/Almaty">Kazakhstan</option>
-<option value="America/New_York">New York</option>
-<option value="America/Chicago">Chicago</option>
-<option value="America/Los_Angeles">Los Angeles</option>
-<option value="Europe/London">London</option>
-<option value="Asia/Tokyo">Tokyo</option>
-<option value="Australia/Sydney">Sydney</option>
-<option value="Asia/Kolkata">India</option>
-</select>
-  
-<button onclick="saveTimezone()">Save GMT</button>
-
-<hr style="margin:10px 0">
-
-<div id="vipThemeBox" style="display:none">
-
-<div style="margin-bottom:8px;font-weight:bold">
-VIP Theme
+<div class="layout">
+<aside class="sidebar">
+<div class="logo">
+<img src="https://Zyphor.cc/Logo1.png">
+<h2>ZYPHOR</h2>
 </div>
 
-<select id="vipThemeSelect">
-<option value="styles.css">
-Default Theme
-</option>
+<nav class="nav">
+<a class="item active" href="#">Dashboard</a>
+<a class="item" href="#" onclick="goProfile(); return false;">Profile</a>
+<a class="item" href="dms.html">Messages</a>
+<a class="item" href="Wallet.html">Wallet</a>
+<a class="item" href="Cloud.html">Cloud</a>
+<a class="item" href="download.html">App Center</a>
+<a class="item" href="#" onclick="openSupport(); return false;">Support</a>
+<a class="item" href="#">Settings</a>
+</nav>
 
-<option value="Vip1style.css">
-Modern VIP Theme
-</option>
-</select>
+<div class="bottom">
+<a class="item" href="#" onclick="logout();return false;">Logout</a>
+</div>
+</aside>
 
-<button
-onclick="saveVipTheme()"
-style="margin-top:8px;width:100%"
->
-Load Theme
-</button>
-
+<main class="main">
+<div class="top">
+<div class="welcome">
+<h1>Welcome Back</h1>
+<p>Zyphor Control Center</p>
+</div>
+<div class="profile">
+<div class="avatar"></div>
+<div>
+<b id="profileName">Loading...</b>
+<br>
+<span id="profileStatus" style="color:#8ea2be">Online</span>
+</div>
+</div>
 </div>
 
+<div class="grid">
+<div>
+<div class="card hero">
+<h2>Welcome to Zyphor.</h2>
+<p>Your central hub for everything Zyphor.</p>
 </div>
-<div class="topbar">
-<div id="userDisplay"></div>
-<div class="icons">
-<span id="notificationBell" onclick="toggleNotifications()">
-🔔
+
+<div class="stats">
+<div class="card stat"><h3>Users</h3><h1>0</h1></div>
+<div class="card stat">
+    <h3>Wallet</h3>
+    <h1 id="walletBalance">$0</h1>
+</div>
+<div class="card stat">
+    <h3>Messages</h3>
+    <h1 id="messageCount">0</h1>
+</div>
+<div class="card stat"><h3>Cloud</h3><h1>0</h1></div>
+</div>
+
+<div class="card" style="margin-top:24px">
+    <h2>Discord</h2>
+
+    <div id="linkCodeBox" style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        height:260px;
+        border:2px dashed rgba(255,255,255,.08);
+        border-radius:18px;
+        text-align:center;
+        gap:12px;
+    ">
+        Loading...
+    </div>
+</div>
+</div>
+
+<div class="rightcol">
+<div class="card">
+<h2>
+Notifications
 <span id="notificationBadge" style="
 display:none;
-background:red;
+background:#ff3b30;
 color:white;
+padding:2px 8px;
 border-radius:999px;
-padding:2px 6px;
-font-size:11px;
-margin-left:4px;
-">0</span>
-</span>
-<span onclick="location.href='dms.html'">Dms✉️</span>
-<span onclick="location.href='download.html'">📲 Download App</span>
-<span onclick="location.href='history.html'">📜 Login History</span>
-<span onclick="location.href='Cloud.html'">🗃️Image Cloud</span>
-<span onclick="location.href='balance.html'">💰 Wallet</span>
-<span onclick="goProfile()">👤 Profile</span>
-<span onclick="openSupportPopup()">🛠 Support</span>
-<span onclick="toggleSettings()">⚙ Settings</span>
-<span onclick="logout()">🚪 Logout</span>
-<span onclick="toggleTheme()">🌓</span>
+font-size:12px;
+margin-left:8px;
+"></span>
+</h2>
+<div id="notificationList" class="list">
+    <div class="row">Loading...</div>
 </div>
 </div>
 
-<div class="wrapper">
-<div class="main-flex">
+<div class="card changelog">
 
-<div class="left">
-
-<div id="banScreen" style="display:none">
-<h2>You Are Banned</h2>
-<p id="banReason"></p>
-<p>Time Remaining: <span id="banTimer"></span></p>
+<div class="cardHeader">
+<div>
+<div class="cardSubtitle">LATEST RELEASE</div>
+<h2>Changelog</h2>
 </div>
 
-<div id="mainContent">
+<div id="clVersion" class="versionButton"></div>
+</div>
 
-<h3>Your Discord Link Code</h3>
-<div class="quest-card" id="linkCodeBox">Loading...</div>
+<div id="cl_box" class="timeline"></div>
 
+<div class="changeFooter">
+<button class="navButton" onclick="prevCL()">← Previous</button>
+<button class="navButton" onclick="nextCL()">Next →</button>
 </div>
 
 </div>
 
-<div class="right">
-
-<div class="quest-card" style="max-height:clamp(300px,50vh,500px);display:flex;flex-direction:column">
-<h3>Changelog</h3>
-
-<div id="cl_box" style="flex:1;overflow:auto;margin-top:10px"></div>
-
-<div class="cl-nav">
-<button class="cl-btn" onclick="nextCL()">← Previous</button>
-<button class="cl-btn" onclick="prevCL()">Next →</button>
+<div class="card">
+<h2>Quick Actions</h2>
+<div class="list">
+<div class="row">Cloud</div>
+<div class="row">Support</div>
+<div class="row">Downloads</div>
+</div>
+</div>
+</div>
+</div>
+</main>
 </div>
 
-</div>
+<div id="supportPopup" class="supportPopup">
 
-</div>
+<div class="supportCard">
 
-</div>
+<h2>Support</h2>
 
-</div>
+<p>Select how you'd like to contact the Zyphor team.</p>
 
-<div id="supportPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:1000;">
-<div style="background:#1e1e1e;padding:25px;border-radius:10px;text-align:center;min-width:280px">
+<div class="supportButtons">
 
-<h2>Support Method</h2>
-
-<div style="margin-top:20px">
-
-<button onclick="openDiscordSupport()" style="border:none;background:none;cursor:pointer;margin-right:20px">
-<img src="discord.png" style="width:100px">
+<button onclick="location.href='Support.html'">
+🌐 Website Tickets
 </button>
 
-<button onclick="openWebsiteSupport()" style="border:none;background:none;cursor:pointer;margin-right:20px">
-<img src="Web.png" style="width:100px">
-</button>
-
-<button onclick="openEmailSupport()" style="border:none;background:none;cursor:pointer">
-<img src="email.png" style="width:100px">
+<button onclick="emailSupport()">
+✉️ Email Support
 </button>
 
 </div>
 
-<div style="margin-top:20px">
-<button onclick="closeSupportPopup()">Close</button>
+<button class="closeSupport" onclick="closeSupport()">
+Close
+</button>
+
 </div>
 
 </div>
-</div>
-
-<script src="theme.js"></script>
 
 <script>
-let backend = null
-let banInterval = null
-
-const pageFlipSound = new Audio("Sounds/PageFlip.mp3")
-const logoutSound = new Audio("Sounds/LogOut.mp3")
-const clickSound = new Audio("Sounds/Click.mp3")
+let backend
+let changelogs=[]
+let clIndex=0
+let lastUnread = 0
 const notificationSound = new Audio("Sounds/Notification.mp3")
 notificationSound.preload = "auto"
 notificationSound.load()
-
-clickSound.volume = 0.5
 notificationSound.volume = 1
-pageFlipSound.volume = 0.6
-logoutSound.volume = 0.7
 
 async function getBackend(){
-const r = await fetch("server.txt")
-return (await r.text()).trim()
+const r=await fetch("server.txt")
+return(await r.text()).trim()
 }
 
 async function safeJson(res){
-const text = await res.text()
-try { return JSON.parse(text) }
-catch { return null }
-}
-
-async function animateValue(el, end){
-let start = 0
-let duration = 1500
-let startTime = null
-function update(timestamp){
-if(!startTime) startTime = timestamp
-let progress = timestamp - startTime
-let value = Math.floor((progress/duration)*end)
-if(value > end) value = end
-el.textContent = value.toLocaleString()
-if(progress < duration){
-requestAnimationFrame(update)
-}
-}
-requestAnimationFrame(update)
+    const text = await res.text()
+    try{
+        return JSON.parse(text)
+    }catch{
+        return null
+    }
 }
 
 async function trackPage(page){
-const token=localStorage.getItem("Token")
-if(!token) return
+    const token = localStorage.getItem("Token")
+    if(!token) return
 
-await fetch(backend+"/track/page",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
-body:JSON.stringify({page})
-})
+    await fetch(backend + "/track/page",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
+        body:JSON.stringify({page})
+    })
 }
 
-function applySavedTheme(){
+function logout(){
+    localStorage.removeItem("Token")
+    location.href="login.html"
+}
 
-const saved=localStorage.getItem("siteTheme")
+async function loadWallet(){
 
-if(saved){
+    const token = localStorage.getItem("Token")
+    if(!token) return
 
-document.getElementById("themeStylesheet").href=saved
+    try{
+
+        const r = await fetch(backend + "/balance",{
+            headers:{
+                Authorization:token
+            }
+        })
+
+        const d = await r.json()
+
+        document.getElementById("walletBalance").textContent =
+            "$" + Number(d.balance).toLocaleString()
+
+    }catch{
+
+        document.getElementById("walletBalance").textContent="$0"
+
+    }
 
 }
 
+function convertTime(time){
+return new Date(time).toLocaleString()
 }
-
-function saveVipTheme(){
-
-const selected=
-document.getElementById("vipThemeSelect").value
-
-localStorage.setItem(
-"siteTheme",
-selected
-)
-
-document.getElementById("themeStylesheet").href=
-selected
-
-}
-
-function saveTimezone(){
-const tz=document.getElementById("timezoneSelect").value
-localStorage.setItem("userTimezone",tz)
-alert("Timezone saved")
-}
-
-window.addEventListener("load",()=>{
-const saved=localStorage.getItem("userTimezone")
-if(saved){
-document.getElementById("timezoneSelect").value=saved
-}
-})
-
-let changelogs=[]
-let clIndex=0
 
 async function loadChangelogs(){
 const r=await fetch(backend+"/changelogs")
 changelogs=await r.json()
-
 clIndex=0
 renderCL()
 }
 
-let lastUnread = 0
+function renderCL(){
 
-function toggleNotifications(){
+const box=document.getElementById("cl_box")
 
-const box=document.getElementById("notificationBox")
-
-box.style.display=
-box.style.display==="block"
-? "none"
-: "block"
-
+if(!changelogs.length){
+box.innerHTML="No changelogs."
+return
 }
 
-async function loadNotifications(){
+const cl=changelogs[clIndex]
 
-const token=localStorage.getItem("Token")
-if(!token) return
+document.getElementById("clVersion").textContent="v"+cl.version
 
-let notifications=[]
-let unread=0
+box.innerHTML=`
+<div class="changeItem">
 
-try{
+<div class="dot"></div>
 
-const r=await fetch(backend+"/notifications",{
-headers:{Authorization:token}
-})
+<div class="changeContent">
 
-const data=await r.json()
-
-if(Array.isArray(data.notifications)){
-notifications.push(...data.notifications.map(n=>({
-type:"support",
-message:n.message,
-ticketId:n.ticketId
-})))
-}
-
-unread+=data.unread||0
-
-}catch{}
-
-try{
-
-const r=await fetch(backend+"/dms/state",{
-headers:{Authorization:token}
-})
-
-const data=await r.json()
-
-if(Array.isArray(data.incomingRequests)){
-
-data.incomingRequests.forEach(req=>{
-notifications.push({
-type:"friend",
-message:`Friend request from ${req.from}`
-})
-})
-
-unread+=data.incomingRequests.length
-}
-
-if(Array.isArray(data.chats)){
-
-data.chats.forEach(chat=>{
-
-if(chat.unread>0){
-
-notifications.push({
-type:"dm",
-message:`${chat.unread} unread message${chat.unread===1?"":"s"} from ${chat.with}`
-})
-
-unread+=chat.unread
-
-}
-
-})
-
-}
-
-}catch{}
-
-const badge=document.getElementById("notificationBadge")
-
-if(unread>0){
-badge.style.display="inline-block"
-badge.textContent=unread
-}else{
-badge.style.display="none"
-}
-
-if(unread>lastUnread){
-notificationSound.currentTime=0
-notificationSound.play().catch(()=>{})
-}
-
-lastUnread=unread
-
-document.getElementById("notificationList").innerHTML=
-notifications.map(n=>`
-<div
-style="
-padding:10px;
-border-bottom:1px solid #333;
-cursor:pointer;
-"
-onclick="
-${n.type==='support'
-?`location.href='Support.html#${n.ticketId}'`
-:`location.href='DMS.html'`}
-"
->
-${n.message}
+<div class="changeTop">
+<h3>${cl.title}</h3>
+<span>${convertTime(cl.time)}</span>
 </div>
-`).join("") || "<div style='padding:10px'>No notifications</div>"
+
+<p style="white-space:pre-wrap">${cl.text}</p>
+
+<div class="tags">
+<span class="tag new">UPDATE</span>
+</div>
+
+</div>
+
+</div>
+`
+}
+
+function prevCL(){
+
+    if(clIndex < changelogs.length - 1){
+        clIndex++;
+        renderCL();
+    }
+
+}
+
+function nextCL(){
+
+    if(clIndex > 0){
+        clIndex--;
+        renderCL();
+    }
+
+}
+
+function openSupport(){
+document.getElementById("supportPopup").style.display="flex";
+}
+
+function closeSupport(){
+document.getElementById("supportPopup").style.display="none";
+}
+
+function emailSupport(){
+
+alert(
+"Please email:\n\nZyphor@Zyphor.cc\n\nWe'll get back to you as soon as possible."
+);
+
+window.location.href="mailto:Zyphor@Zyphor.cc";
+
 }
 
 function goProfile() {
@@ -683,311 +758,183 @@ function goProfile() {
 
     window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
 }  
-  
-function convertTime(time,fromTZ){
-const d=new Date(time)
-return d.toLocaleString(undefined,{
-timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone
-})
+
+async function loadNotifications(){
+
+    const token = localStorage.getItem("Token")
+    if(!token) return
+
+    let notifications = []
+    let unread = 0
+    let unreadMessages = 0
+
+    try{
+
+        const r = await fetch(backend + "/notifications",{
+            headers:{ Authorization:token }
+        })
+
+        const data = await r.json()
+
+        if(Array.isArray(data.notifications)){
+            notifications.push(...data.notifications.map(n=>({
+                type:"support",
+                message:n.message,
+                ticketId:n.ticketId
+            })))
+        }
+
+        unread += data.unread || 0
+
+    }catch{}
+
+    try{
+
+        const r = await fetch(backend + "/dms/state",{
+            headers:{ Authorization:token }
+        })
+
+        const data = await r.json()
+
+        if(Array.isArray(data.incomingRequests)){
+            data.incomingRequests.forEach(req=>{
+                notifications.push({
+                    type:"friend",
+                    message:`Friend request from ${req.from}`
+                })
+            })
+
+            unread += data.incomingRequests.length
+        }
+
+        if(Array.isArray(data.chats)){
+            data.chats.forEach(chat=>{
+                if(chat.unread > 0){
+
+                    notifications.push({
+                        type:"dm",
+                        message:`${chat.unread} unread message${chat.unread===1?"":"s"} from ${chat.with}`
+                    })
+
+                     unread += chat.unread
+                    unreadMessages += chat.unread
+                }
+            })
+        }
+
+    }catch{}
+
+    const badge = document.getElementById("notificationBadge")
+    document.getElementById("messageCount").textContent =
+    unreadMessages.toLocaleString()
+
+
+    if(unread > 0){
+        badge.style.display = "inline-block"
+        badge.textContent = unread
+    }else{
+        badge.style.display = "none"
+    }
+
+    if(unread > lastUnread){
+        notificationSound.currentTime = 0
+        notificationSound.play().catch(()=>{})
+    }
+
+    lastUnread = unread
+
+    document.getElementById("notificationList").innerHTML =
+        notifications.map(n=>`
+            <div class="row"
+                 style="cursor:pointer"
+                 onclick="${
+                    n.type==="support"
+                    ? `location.href='Support.html#${n.ticketId}'`
+                    : `location.href='dms.html'`
+                 }">
+                ${n.message}
+            </div>
+        `).join("") || "<div class='row'>No notifications.</div>"
 }
-
-function renderCL(){
-const box=document.getElementById("cl_box")
-
-if(!changelogs.length){
-box.innerHTML="No changelogs"
-return
-}
-
-const cl=changelogs[clIndex]
-
-box.innerHTML=`
-<h4>${cl.title} (${cl.version})</h4>
-<div class="meta">${convertTime(cl.time,cl.timezone)}</div>
-<p style="white-space:pre-wrap">${cl.text}</p>
-`
-}
-
-function prevCL(){
-if(clIndex>0){
-pageFlipSound.currentTime=0
-pageFlipSound.play()
-
-clIndex--
-renderCL()
-}
-}
-
-function nextCL(){
-if(clIndex<changelogs.length-1){
-pageFlipSound.currentTime=0
-pageFlipSound.play()
-
-clIndex++
-renderCL()
-}
-}
-
 
 async function init(){
-applySavedTheme()
-backend = await getBackend()
+backend=await getBackend()
+
 await trackPage("dashboard.html")
 
-await loadNotifications()
-
-setInterval(
-loadNotifications,
-5000
-)
-
-
 const token = localStorage.getItem("Token")
-if(!token) return location.href = "login.html"
 
-try{
-const r = await fetch(backend + "/me", { headers: { Authorization: token } })
+if(!token){
+    location.href="login.html"
+    return
+}
+
+const r = await fetch(backend + "/me",{
+    headers:{
+        Authorization:token
+    }
+})
+
 const data = await safeJson(r)
 
 if(!data || data.error){
-localStorage.removeItem("Token")
-return location.href = "login.html"
+    localStorage.removeItem("Token")
+    location.href="login.html"
+    return
 }
 
-if(data.banned){
-showBan(data.reason, data.remaining)
-return
-}
-
-if(data.permissions && data.permissions.vip){
-document.getElementById("vipThemeBox").style.display="block"
-
-userDisplay.innerHTML=
-`Logged in as: <span class="vipName">${data.username}</span>`
-
-}else{
-
-userDisplay.textContent=
-"Logged in as: " + data.username
-
-}
+document.getElementById("profileName").textContent = data.username
 
 if(data.linkedDiscord){
-const discordName = data.linkedDiscord.username || "Unknown User"
-linkCodeBox.innerHTML = `<b>Discord Linked</b><br>Account: ${discordName}<br>ID: ${data.linkedDiscord.id}`
+
+    const discordName = data.linkedDiscord.username || "Unknown User";
+
+    document.getElementById("linkCodeBox").innerHTML = `
+        <div style="font-size:60px">✅</div>
+        <h2>Discord Linked</h2>
+        <div style="font-size:20px">${discordName}</div>
+        <div style="color:#8ea2be">${data.linkedDiscord.id}</div>
+    `;
+
 }else if(data.linkCode){
-linkCodeBox.innerHTML = `<b>Your Link Code</b><br>${data.linkCode}<br><small>Use this with /linkdiscord in Discord</small>`
+
+    document.getElementById("linkCodeBox").innerHTML = `
+        <div style="color:#8ea2be">
+            Your Discord Link Code
+        </div>
+
+        <div style="
+            font-size:52px;
+            font-weight:800;
+            letter-spacing:5px;
+            color:#00d5ff;
+        ">
+            ${data.linkCode}
+        </div>
+
+        <div style="color:#8ea2be">
+            Use <b>/linkdiscord</b> in the Zyphor Discord server.
+        </div>
+    `;
+
 }else{
-linkCodeBox.innerHTML = "<b>No link code found</b>"
+
+    document.getElementById("linkCodeBox").innerHTML = `
+        <div style="font-size:60px">❌</div>
+        <h2>No Link Code</h2>
+    `;
+
 }
+
+await loadWallet()
+
+await loadNotifications()
+setInterval(loadNotifications,5000)
+
 await loadChangelogs()
-}catch(err){}
-}
-
-let settingsOpen=false
-
-function toggleSettings(){
-settingsOpen=!settingsOpen
-document.getElementById("settingsBox").style.display=settingsOpen?"block":"none"
-}
-
-async function sendCode(){
-
-const email=document.getElementById("emailInput").value.trim()
-
-if(!email){
-alert("Enter email")
-return
-}
-
-const save=await fetch(backend+"/account/add-email",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:localStorage.getItem("Token")
-},
-body:JSON.stringify({
-email
-})
-})
-
-const saveData=await save.json()
-
-if(saveData.error){
-
-if(saveData.error==="emailused")
-return alert("Email already used")
-
-if(saveData.error==="invalidemail")
-return alert("Invalid email")
-
-if(saveData.error==="emailsendfailed")
-return alert("Failed to send email")
-
-return alert(saveData.error)
-
-}
-
-alert("Verification code sent to "+email)
-
-}
-
-async function verifyCode(){
-
-const r=await fetch(backend+"/account/verify-email",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:localStorage.getItem("Token")
-},
-body:JSON.stringify({
-code:document.getElementById("codeInput").value
-})
-})
-
-const d=await r.json()
-
-if(d.success){
-
-alert("Verified")
-
-}else{
-
-if(d.error==="expired")
-return alert("Code expired")
-
-if(d.error==="wrongcode")
-return alert("Wrong code")
-
-if(d.error==="nocode")
-return alert("No pending verification")
-
-alert("Invalid or expired code")
-
-}
-
-}
-
-async function toggle2FA(){
-
-const r=await fetch(backend+"/2fa/toggle",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:localStorage.getItem("Token")
-},
-body:JSON.stringify({
-enabled:true
-})
-})
-
-const d=await r.json()
-
-if(d.error){
-
-if(d.error==="noemail")
-return alert("Add and verify email first")
-
-alert(d.error)
-
-}else{
-
-alert("2FA Enabled")
-
-}
-
-}
-
-function showBan(reason, remaining){
-mainContent.style.display = "none"
-banScreen.style.display = "block"
-banReason.textContent = "Reason: " + reason
-startCountdown(remaining)
-}
-
-function parseRemaining(str){
-const parts = str.split(" ")
-let total = 0
-parts.forEach(p=>{
-if(p.endsWith("D")) total += parseInt(p)*86400
-if(p.endsWith("H")) total += parseInt(p)*3600
-if(p.endsWith("M") && !p.includes("S")) total += parseInt(p)*60
-if(p.endsWith("S")) total += parseInt(p)
-})
-return total
-}
-
-function startCountdown(str){
-let seconds = parseRemaining(str)
-updateTimer(seconds)
-
-banInterval = setInterval(()=>{
-seconds--
-if(seconds <= 0){
-clearInterval(banInterval)
-location.reload()
-}
-updateTimer(seconds)
-},1000)
-}
-
-function updateTimer(seconds){
-const d=Math.floor(seconds/86400); seconds%=86400
-const h=Math.floor(seconds/3600); seconds%=3600
-const m=Math.floor(seconds/60); seconds%=60
-banTimer.textContent=`${d}D ${h}H ${m}M ${seconds}S`
-}
-
-
-
-function openSupportPopup(){
-document.getElementById("supportPopup").style.display="flex"
-}
-
-function closeSupportPopup(){
-document.getElementById("supportPopup").style.display="none"
-}
-
-function openDiscordSupport(){
-window.open("https://discord.com/channels/1435017648751513713/1442140583220215949","_blank")
-}
-
-function openWebsiteSupport(){
-location.href="Support.html"
-}
-
-function openEmailSupport(){
-window.location.href = "mailto:Zyphor@zyphor.cc"
-}
-
-const mouseGlow=document.getElementById("mouseGlow")
-
-document.addEventListener("mousemove",e=>{
-mouseGlow.style.left=e.clientX+"px"
-mouseGlow.style.top=e.clientY+"px"
-})
-
-document.addEventListener("click",e=>{
-const isButton=e.target.closest("button")
-
-if(!isButton){
-clickSound.currentTime=0
-clickSound.play()
-}
-})
-  
-function logout(){
-logoutSound.currentTime=0
-logoutSound.play()
-
-setTimeout(()=>{
-localStorage.removeItem("Token")
-location.href = "login.html"
-},250)
 }
 
 init()
 </script>
-
 </body>
 </html>
