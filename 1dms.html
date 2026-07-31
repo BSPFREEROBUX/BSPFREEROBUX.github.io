@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+
+<title>Zyphor Messages</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#0d0f14;
+    color:white;
+}
+
+body{
+    display:flex;
+}
+
+#app{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+
+.header{
+    padding:20px 18px 16px;
+    background:#12151d;
+    border-bottom:1px solid #242933;
+}
+
+.title{
+    font-size:28px;
+    font-weight:800;
+}
+
+.search{
+    margin-top:16px;
+    display:flex;
+    gap:10px;
+}
+
+.search input{
+    flex:1;
+    height:48px;
+    border:none;
+    outline:none;
+    background:#1b202b;
+    border-radius:14px;
+    padding:0 16px;
+    color:white;
+    font-size:15px;
+}
+
+.search button{
+    width:48px;
+    border:none;
+    border-radius:14px;
+    background:#5865F2;
+    color:white;
+    font-size:22px;
+}
+
+.requests{
+    margin-top:16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#1b202b;
+    border-radius:14px;
+    padding:15px;
+}
+
+.requests span:first-child{
+    font-size:15px;
+    font-weight:600;
+}
+
+.badge{
+    min-width:24px;
+    height:24px;
+    border-radius:999px;
+    background:#ef4444;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+}
+
+.friendList{
+    flex:1;
+    overflow:auto;
+    padding:12px;
+}
+
+.friendList::-webkit-scrollbar{
+    display:none;
+}
+
+.friend{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px;
+    background:#171b24;
+    border-radius:16px;
+    margin-bottom:12px;
+}
+
+.avatar{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:#5865F2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:700;
+    position:relative;
+}
+
+.online{
+    position:absolute;
+    right:2px;
+    bottom:2px;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#22c55e;
+    border:3px solid #171b24;
+}
+
+.info{
+    flex:1;
+    min-width:0;
+}
+
+.name{
+    font-size:17px;
+    font-weight:700;
+}
+
+.preview{
+    margin-top:5px;
+    color:#9ca3af;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-size:13px;
+}
+
+.unread{
+    min-width:24px;
+    height:24px;
+    border-radius:999px;
+    background:#5865F2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+}
+
+.chat{
+    position:fixed;
+    inset:0;
+    background:#0d0f14;
+    display:none;
+    flex-direction:column;
+}
+
+.chatHeader{
+    height:72px;
+    padding:0 18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#12151d;
+    border-bottom:1px solid #242933;
+}
+
+.back{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:12px;
+    background:#1b202b;
+    color:white;
+    font-size:22px;
+}
+
+.chatName{
+    font-size:18px;
+    font-weight:700;
+}
+
+.messages{
+    flex:1;
+    overflow:auto;
+    padding:18px;
+}
+
+.messages::-webkit-scrollbar{
+    display:none;
+}
+
+.row{
+    display:flex;
+    margin-bottom:14px;
+}
+
+.me{
+    justify-content:flex-end;
+}
+
+.them{
+    justify-content:flex-start;
+}
+
+.bubble{
+    max-width:78%;
+    padding:12px 15px;
+    border-radius:18px;
+    background:#1b202b;
+    line-height:1.45;
+}
+
+.me .bubble{
+    background:#5865F2;
+}
+
+.composer{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+    background:#12151d;
+    border-top:1px solid #242933;
+}
+
+.circle{
+    width:52px;
+    height:52px;
+    border:none;
+    border-radius:50%;
+    background:#1b202b;
+    color:white;
+    font-size:24px;
+}
+
+.send{
+    background:#5865F2;
+}
+
+.composer textarea{
+    flex:1;
+    height:52px;
+    border:none;
+    outline:none;
+    resize:none;
+    background:#1b202b;
+    border-radius:26px;
+    color:white;
+    padding:15px 18px;
+    font-size:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="app">
+
+<div class="header">
+
+<div class="title">
+Messages
+</div>
+
+<div class="search">
+<input id="searchUser" placeholder="Search username">
+<button id="addFriendBtn">+</button>
+</div>
+
+<div class="requests" id="requestsButton">
+    <span>Friend Requests</span>
+    <div class="badge" id="requestCount">0</div>
+</div>
+
+<div id="requestList"></div>
+
+</div>
+
+<div class="friendList" id="friendList"></div>
+
+<div class="chat" id="chat">
+
+<div class="chatHeader">
+
+<button
+    class="back"
+    id="backButton">
+←
+</button>
+
+<div class="chatName" id="chatTitle">
+Select a friend
+</div>
+
+</div>
+
+<div class="messages" id="messages"></div>
+
+<div class="composer">
+
+<input
+    type="file"
+    id="imagePicker"
+    accept="image/*"
+    multiple
+    hidden>
+
+<label
+    for="imagePicker"
+    class="circle">
+📷
+</label>
+
+<textarea
+    id="messageBox"
+    placeholder="Message">
+</textarea>
+
+<button
+    class="circle send"
+    id="sendBtn">
+➤
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let backend=null
+let token=null
+let myName=""
+
+let state={}
+let activeFriend=""
+
+const friendList=document.getElementById("friendList")
+const requestList=document.getElementById("requestList")
+const requestCount=document.getElementById("requestCount")
+
+const chat=document.getElementById("chat")
+const chatTitle=document.getElementById("chatTitle")
+const messages=document.getElementById("messages")
+
+const messageBox=document.getElementById("messageBox")
+const imagePicker=document.getElementById("imagePicker")
+const sendBtn=document.getElementById("sendBtn")
+
+const searchUser=document.getElementById("searchUser")
+const addFriendBtn=document.getElementById("addFriendBtn")
+const backButton=document.getElementById("backButton")
+
+async function getBackend(){
+    const r=await fetch("server.txt")
+    return (await r.text()).trim()
+}
+
+async function safeJson(r){
+    const t=await r.text()
+
+    try{
+        return JSON.parse(t)
+    }catch{
+        return null
+    }
+}
+
+async function api(path,options={}){
+
+    const headers=new Headers(options.headers||{})
+
+    headers.set(
+        "Authorization",
+        localStorage.getItem("Token")
+    )
+
+    return fetch(
+        backend+path,
+        {
+            ...options,
+            headers
+        }
+    )
+
+}
+
+async function refreshState(){
+
+    const r=await api("/dms/state")
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    state=data
+
+    renderRequests()
+
+    renderFriends()
+
+    if(activeFriend){
+
+        await openChat(activeFriend,false)
+
+    }
+
+}
+
+function renderRequests(){
+
+    requestCount.textContent=state.incomingRequests.length
+
+    requestList.innerHTML=""
+
+    if(state.incomingRequests.length===0){
+
+        requestList.style.display="none"
+
+        return
+
+    }
+
+    requestList.style.display="block"
+
+    state.incomingRequests.forEach(r=>{
+
+        const div=document.createElement("div")
+
+        div.className="friend"
+
+        div.innerHTML=`
+
+            <div class="avatar">
+
+                ${r.from.charAt(0).toUpperCase()}
+
+            </div>
+
+            <div class="info">
+
+                <div class="name">${r.from}</div>
+
+                <div class="preview">Friend request</div>
+
+            </div>
+
+            <button class="circle accept">✓</button>
+
+            <button class="circle decline">✕</button>
+
+        `
+
+        div.querySelector(".accept").onclick=()=>acceptRequest(r.id,r.from)
+
+        div.querySelector(".decline").onclick=()=>declineRequest(r.id)
+
+        requestList.appendChild(div)
+
+    })
+
+}
+
+function renderFriends(){
+
+    friendList.innerHTML=""
+
+    if(state.friends.length===0){
+
+        friendList.innerHTML=`
+            <div style="
+                text-align:center;
+                padding:40px 20px;
+                color:#8b93a3;
+            ">
+                No friends yet
+            </div>
+        `
+
+        return
+
+    }
+
+    const sorted=[...state.friends].sort((a,b)=>{
+
+        const aa=state.chats.find(c=>c.with===a)||{}
+
+        const bb=state.chats.find(c=>c.with===b)||{}
+
+        return (bb.unread||0)-(aa.unread||0)
+
+    })
+
+    sorted.forEach(friend=>{
+
+        const chat=state.chats.find(c=>c.with===friend)||{}
+
+        const div=document.createElement("div")
+
+        div.className="friend"
+
+        div.innerHTML=`
+
+            <div class="avatar">
+
+                ${friend.charAt(0).toUpperCase()}
+
+            </div>
+
+            <div class="info">
+
+                <div class="name">
+
+                    ${friend}
+
+                </div>
+
+                <div class="preview">
+
+                    ${
+                        chat.lastAuthor
+                        ? `${chat.lastAuthor}: ${chat.lastMessage}`
+                        : "No messages yet"
+                    }
+
+                </div>
+
+            </div>
+
+            ${
+                chat.unread
+                ? `
+                    <div class="unread">
+
+                        ${chat.unread}
+
+                    </div>
+                `
+                : ""
+            }
+
+        `
+
+        div.onclick=()=>openChat(friend)
+
+        friendList.appendChild(div)
+
+    })
+
+}
+
+async function openChat(friend,markSeen=true){
+
+    activeFriend=friend
+
+    const r=await api(
+        "/dms/chat?with="+encodeURIComponent(friend)
+    )
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    if(data.error){
+
+        alert(data.error)
+
+        return
+
+    }
+
+    chat.style.display="flex"
+
+    chatTitle.textContent=friend
+
+    renderMessages(data.chat)
+
+    if(markSeen){
+
+        await api("/dms/seen",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                chatId:friend
+
+            })
+
+        })
+
+    }
+
+}
+
+function escapeHTML(text){
+
+    return String(text??"").replace(/[&<>"']/g,m=>({
+
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        "\"":"&quot;",
+        "'":"&#39;"
+
+    })[m])
+
+}
+
+function formatTime(time){
+
+    try{
+
+        return new Date(time).toLocaleString()
+
+    }catch{
+
+        return ""
+
+    }
+
+}
+
+function renderMessages(chatData){
+
+    messages.innerHTML=""
+
+    if(chatData.messages.length===0){
+
+        messages.innerHTML=`
+            <div style="
+                text-align:center;
+                color:#8b93a3;
+                padding:40px;
+            ">
+                No messages yet.
+            </div>
+        `
+
+        return
+
+    }
+
+    chatData.messages.forEach(message=>{
+
+        const me=message.author===myName
+
+        const row=document.createElement("div")
+
+        row.className="row "+(me?"me":"them")
+
+        const other=chatData.users.find(u=>u!==myName)
+
+        const readTime=chatData.lastRead?.[other]
+
+        let receipt=""
+
+        if(me){
+
+            if(readTime && new Date(readTime)>=new Date(message.time)){
+
+                receipt="<div style='font-size:11px;opacity:.7;margin-top:6px'>✓ Read</div>"
+
+            }else{
+
+                receipt="<div style='font-size:11px;opacity:.45;margin-top:6px'>✓ Sent</div>"
+
+            }
+
+        }
+
+        row.innerHTML=`
+
+            <div class="bubble">
+
+                ${
+                    !me
+                    ? `<div style="font-size:12px;opacity:.7;margin-bottom:4px">${escapeHTML(message.author)}</div>`
+                    : ""
+                }
+
+                <div>${escapeHTML(message.text)}</div>
+
+                ${
+                    (message.images||[])
+                    .map(image=>`
+
+                        <img
+                            src="${backend}${image.url}"
+                            style="
+                                width:100%;
+                                border-radius:12px;
+                                margin-top:10px;
+                                cursor:pointer;
+                            "
+                            onclick="window.open('${backend}${image.url}','_blank')"
+                        >
+
+                    `)
+                    .join("")
+                }
+
+                <div style="
+                    margin-top:6px;
+                    font-size:11px;
+                    opacity:.55;
+                ">
+                    ${formatTime(message.time)}
+                </div>
+
+                ${receipt}
+
+            </div>
+
+        `
+
+        messages.appendChild(row)
+
+    })
+
+    requestAnimationFrame(()=>{
+
+        messages.scrollTop=messages.scrollHeight
+
+    })
+
+}
+
+async function sendMessage(){
+
+    if(!activeFriend){
+
+        return
+
+    }
+
+    const text=messageBox.value.trim()
+
+    if(
+        text==="" &&
+        imagePicker.files.length===0
+    ){
+
+        return
+
+    }
+
+    const form=new FormData()
+
+    form.append(
+        "chatId",
+        activeFriend
+    )
+
+    form.append(
+        "message",
+        text
+    )
+
+    for(const file of imagePicker.files){
+
+        form.append(
+            "images",
+            file
+        )
+
+    }
+
+    const r=await api(
+        "/dms/send",
+        {
+            method:"POST",
+            body:form
+        }
+    )
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    if(data.error){
+
+        alert(data.error)
+
+        return
+
+    }
+
+    messageBox.value=""
+
+    imagePicker.value=""
+
+    await openChat(
+        activeFriend,
+        false
+    )
+
+    await refreshState()
+
+}
+
+sendBtn.onclick=sendMessage
+
+messageBox.addEventListener(
+    "keydown",
+    e=>{
+
+        if(
+            e.key==="Enter" &&
+            !e.shiftKey
+        ){
+
+            e.preventDefault()
+
+            sendMessage()
+
+        }
+
+    }
+)
+
+backButton.onclick=()=>{
+
+    chat.style.display="none"
+
+    activeFriend=""
+
+}
+
+addFriendBtn.onclick=addFriend
+
+searchUser.addEventListener(
+    "keydown",
+    e=>{
+
+        if(e.key==="Enter"){
+
+            addFriend()
+
+        }
+
+    }
+)
+
+async function addFriend(){
+
+    const username=searchUser.value.trim()
+
+    if(!username){
+
+        return
+
+    }
+
+    const r=await api("/friends/request",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            username
+
+        })
+
+    })
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    if(data.success){
+
+        searchUser.value=""
+
+        refreshState()
+
+        return
+
+    }
+
+    alert(data.error)
+
+}
+
+async function acceptRequest(requestId,from){
+
+    const r=await api("/friends/accept",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            requestId
+
+        })
+
+    })
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    await refreshState()
+
+    openChat(from)
+
+}
+
+async function declineRequest(requestId){
+
+    await api("/friends/decline",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            requestId
+
+        })
+
+    })
+
+    refreshState()
+
+}
+
+setInterval(async()=>{
+
+    await refreshState()
+
+    if(activeFriend){
+
+        await api("/dms/seen",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                chatId:activeFriend
+
+            })
+
+        })
+
+    }
+
+},2500)
+
+async function init(){
+
+    backend=await getBackend()
+
+    token=localStorage.getItem("Token")
+
+    if(!token){
+
+        location.href="login.html"
+
+        return
+
+    }
+
+    const r=await api("/me")
+
+    const me=await safeJson(r)
+
+    if(!me){
+
+        location.href="login.html"
+
+        return
+
+    }
+
+    myName=me.username
+
+    await refreshState()
+
+}
+
+init()
+
+</script>
+
+</body>
+</html>
