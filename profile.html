@@ -400,6 +400,13 @@ async function getMe(){
 
 }
 
+function goProfile() {
+    const username = localStorage.getItem("username");
+    if (!username) return;
+
+    window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
+}  
+
 function getUsername(){
 
     const params=new URLSearchParams(location.search)
