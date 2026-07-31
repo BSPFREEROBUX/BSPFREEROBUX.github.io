@@ -114,8 +114,6 @@
       ]
     },
     {
-  "sections": [
-    {
       "title": "Messages and Communications",
       "content": [
         "We may collect direct messages, private conversations, group conversations, support conversations, message identifiers, timestamps, edits, deletions, reactions, mentions, replies, attachments, embeds, formatting information, message delivery status, read status, typing indicators where available, and related communication metadata.",
@@ -362,7 +360,8 @@
   "title": "Future Information Categories",
   "content": [
     "As Zyphor introduces new features, services, APIs, applications, desktop software, mobile software, cloud services, artificial intelligence systems, integrations, or technologies, additional categories of information reasonably necessary for those services may be collected, processed, stored, synchronized, analyzed, secured, and retained in accordance with this Privacy Policy and applicable law."
-,
+  ]
+},
 {
   "title": "Payment Information",
   "content": [
@@ -454,7 +453,8 @@
   "content": [
     "This Privacy Policy may be modified, expanded, reorganized, or updated to reflect new technologies, features, services, legal requirements, operational changes, security practices, or business developments.",
     "Continued use of Zyphor following the effective date of an updated Privacy Policy constitutes acceptance of the revised Privacy Policy to the extent permitted by applicable law."
-,
+  ]
+},
 {
   "title": "International Data Transfers",
   "content": [
@@ -544,7 +544,8 @@
   "title": "Service Availability",
   "content": [
     "Operational information may be collected to monitor uptime, outages, infrastructure health, service performance, resource utilization, maintenance events, incident response, disaster recovery, and overall platform availability."
-,
+  ]
+},
 {
   "title": "Children's Privacy",
   "content": [
@@ -634,7 +635,8 @@
   "title": "Privacy Contact",
   "content": [
     "Privacy-related questions, requests, or concerns may be submitted through Zyphor's designated support channels or other contact methods provided by Zyphor. Additional verification may be required before requests are processed."
-,
+  ]
+},
 {
   "title": "Account Deletion",
   "content": [
@@ -725,7 +727,8 @@
   "title": "Entire Privacy Policy",
   "content": [
     "This Privacy Policy applies collectively to all current and future Zyphor websites, desktop applications, mobile applications, APIs, cloud services, developer tools, downloads, installers, integrations, artificial intelligence systems, authentication services, notification systems, support services, storage systems, communication systems, and any other products or services operated under the Zyphor brand unless a separate privacy policy explicitly replaces or supplements this Privacy Policy."
-,
+  ]
+},
 {
   "title": "Service Providers",
   "content": [
@@ -815,7 +818,8 @@
   "title": "Platform Expansion",
   "content": [
     "As Zyphor expands into new products, operating systems, devices, hardware platforms, software ecosystems, cloud environments, developer platforms, artificial intelligence systems, or future technologies, additional categories of information reasonably necessary to provide those services may be collected, processed, stored, synchronized, analyzed, secured, retained, and disclosed in accordance with this Privacy Policy and applicable law."
-,
+  ]
+},
 {
   "title": "System Metadata",
   "content": [
@@ -905,7 +909,8 @@
   "title": "Comprehensive Processing",
   "content": [
     "Information described within this Privacy Policy may be collected, generated, received, inferred, organized, structured, stored, adapted, modified, retrieved, consulted, analyzed, combined, indexed, synchronized, transmitted, disclosed, transferred, shared, archived, encrypted, pseudonymized, anonymized, de-identified, backed up, restored, retained, restricted, deleted, or otherwise processed where reasonably necessary to provide, improve, secure, maintain, support, develop, comply with legal obligations, or otherwise operate Zyphor in accordance with this Privacy Policy and applicable law."
-,
+  ]
+},
 {
   "title": "Communication Services",
   "content": [
@@ -997,4 +1002,6 @@
   ]
 }
   ]
+}
+]
 }
