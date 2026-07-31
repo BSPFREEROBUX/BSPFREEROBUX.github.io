@@ -508,6 +508,20 @@ function renderRequests(){
 
 }
 
+async function trackPage(page){
+    const token = localStorage.getItem("Token")
+    if(!token) return
+
+    await fetch(backend + "/track/page",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
+        body:JSON.stringify({page})
+    })
+}
+
 function renderFriends(){
 
     friendList.innerHTML=""
@@ -1048,6 +1062,8 @@ async function init(){
     backend=await getBackend()
 
     token=localStorage.getItem("Token")
+
+    await trackPage("1dms.html")
 
     if(!token){
 
