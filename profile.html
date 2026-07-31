@@ -432,6 +432,361 @@ async function trackPage(page){
 
 }
 
+function showTip(text,type,x,y){
+
+    const tip=document.getElementById("tooltip")
+
+    tip.innerText=text
+
+    tip.className=""
+
+    if(type==="staff") tip.classList.add("staffTip")
+    if(type==="support") tip.classList.add("supportTip")
+    if(type==="admin") tip.classList.add("adminTip")
+    if(type==="vip") tip.classList.add("vipTip")
+
+    tip.style.left=x+10+"px"
+    tip.style.top=y+10+"px"
+    tip.style.display="block"
+
+}
+
+function hideTip(){
+
+    document.getElementById("tooltip").style.display="none"
+
+}
+
+function createRoleIcons(p){
+
+    let icons=""
+
+    if(p.support || p.admin){
+
+        icons+=`
+<span
+class="roleIcons"
+style="color:#8b949e"
+onmousemove="showTip('Staff Member','staff',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+⚒️
+</span>
+`
+
+    }
+
+    if(p.support){
+
+        icons+=`
+<span
+class="roleIcons"
+style="color:#57f287;text-shadow:0 0 10px #57f28788"
+onmousemove="showTip('Support','support',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+🧰
+</span>
+`
+
+    }
+
+    if(p.admin){
+
+        icons+=`
+<span
+class="roleIcons"
+style="color:#3498db;text-shadow:0 0 10px #3498db88"
+onmousemove="showTip('Administrator','admin',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+💎
+</span>
+`
+
+    }
+
+    if(p.vip){
+
+        icons+=`
+<span
+class="roleIcons"
+style="color:#ffd700;text-shadow:0 0 12px #ffd700aa"
+onmousemove="showTip('VIP','vip',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+👑
+</span>
+`
+
+    }
+
+    return icons
+
+}
+
+function searchProfile(){
+
+    const username=document.getElementById("searchUser").value.trim()
+
+    if(!username) return
+
+    location.href="profile.html?username="+encodeURIComponent(username)
+
+}
+
+document.getElementById("searchUser").addEventListener("keypress",e=>{
+
+    if(e.key==="Enter"){
+
+        searchProfile()
+
+    }
+
+})
+
+function payoutPopup(username){
+
+document.body.insertAdjacentHTML("beforeend",`
+
+<div id="payoutPopup" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:99999;
+">
+
+<div style="
+width:340px;
+background:#141923;
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+padding:24px;
+">
+
+<h2 style="margin-bottom:18px">
+Payout
+</h2>
+
+<input
+id="amt"
+type="number"
+placeholder="Amount"
+style="
+width:100%;
+padding:12px;
+margin-bottom:12px;
+border:none;
+border-radius:10px;
+background:#202634;
+color:white;
+">
+
+<input
+id="reason"
+placeholder="Reason"
+style="
+width:100%;
+padding:12px;
+margin-bottom:18px;
+border:none;
+border-radius:10px;
+background:#202634;
+color:white;
+">
+
+<div style="display:flex;gap:10px">
+
+<button
+onclick="doPayout('${username}','add')"
+style="
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#00d5ff;
+cursor:pointer;
+font-weight:700;
+">
+Insert
+</button>
+
+<button
+onclick="doPayout('${username}','take')"
+style="
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#ff4f6d;
+color:white;
+cursor:pointer;
+font-weight:700;
+">
+Take
+</button>
+
+</div>
+
+<button
+onclick="document.getElementById('payoutPopup').remove()"
+style="
+margin-top:14px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#2a3242;
+color:white;
+cursor:pointer;
+">
+Close
+</button>
+
+</div>
+
+</div>
+
+`)
+
+}
+
+async function doPayout(username,type){
+
+const amount=parseInt(document.getElementById("amt").value)
+
+const reason=document.getElementById("reason").value
+
+const token=localStorage.getItem("Token")
+
+await fetch(backend+"/admin/payout",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+
+body:JSON.stringify({
+username,
+amount,
+reason,
+type
+})
+
+})
+
+location.reload()
+
+}
+
+async function loadProfile(){
+
+    backend=await getBackend()
+
+    await trackPage(
+        location.pathname.split("/").pop()+location.search
+    )
+
+    me=await getMe()
+
+    const username=getUsername()
+
+    if(!username){
+
+        document.getElementById("profileUsername").textContent="Search for a user"
+        return
+
+    }
+
+    document.getElementById("searchUser").value=username
+
+    const r=await fetch(
+        backend+"/profile?username="+encodeURIComponent(username)
+    )
+
+    const data=await safeJson(r)
+
+    if(!data || data.error){
+
+        document.getElementById("profileUsername").textContent="User not found"
+
+        return
+
+    }
+
+    const icons=createRoleIcons(data.permissions)
+
+    let roblox="Not linked"
+
+    if(data.roblox){
+
+        roblox=`${data.roblox.username} (ID: ${data.roblox.id})`
+
+    }
+
+    let discord="Not linked"
+
+    if(data.linked){
+
+        discord=data.linked.username || data.linked.id
+
+    }
+
+    let earningsHTML="None"
+
+    if(data.earnings && Object.keys(data.earnings).length){
+
+        earningsHTML=Object.entries(data.earnings)
+        .map(([k,v])=>`${v} ${k}`)
+        .join("<br>")
+
+    }
+
+    document.getElementById("profileUsername").textContent=data.username
+
+    document.getElementById("profileIcons").innerHTML=icons
+
+    document.getElementById("accountId").textContent=data.id
+
+    document.getElementById("accountCreated").textContent=
+        new Date(data.created).toLocaleString()
+
+    document.getElementById("discordInfo").innerHTML=discord
+
+    document.getElementById("robloxInfo").innerHTML=roblox
+
+    document.getElementById("questCount").textContent=
+        data.questsCompleted
+
+    document.getElementById("earningsInfo").innerHTML=
+        earningsHTML
+
+    const actions=document.getElementById("profileActions")
+
+    actions.innerHTML=""
+
+    if(me && me.permissions && me.permissions.admin){
+
+        actions.innerHTML=`
+<button onclick="payoutPopup('${data.username}')">
+Payout
+</button>
+`
+
+    }
+
+}
+
+loadProfile()
+
 </script>
 
 </body>
