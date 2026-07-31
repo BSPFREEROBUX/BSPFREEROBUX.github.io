@@ -184,6 +184,87 @@
         overflow: auto;
       }
 
+      .item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    border-radius:16px;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.05);
+    transition:.2s;
+    cursor:pointer;
+}
+
+.item:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,.05);
+}
+
+.item.active{
+    background:linear-gradient(
+        135deg,
+        rgba(0,213,255,.12),
+        rgba(154,61,255,.08)
+    );
+    border:1px solid rgba(0,213,255,.25);
+    box-shadow:0 0 30px rgba(0,213,255,.12);
+}
+
+.itemMain{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    min-width:0;
+}
+
+.itemTitle{
+    font-weight:700;
+}
+
+.itemSub{
+    font-size:13px;
+    opacity:.65;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.itemActions{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.smallBtn{
+    border:none;
+    border-radius:10px;
+    padding:7px 12px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(90deg,#00d5ff,#8b3dff);
+}
+
+.empty{
+    opacity:.6;
+    text-align:center;
+    padding:20px;
+}
+
+.msgHead{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-bottom:6px;
+    font-size:13px;
+}
+
+.msgTime{
+    opacity:.55;
+    font-size:11px;
+}
+
       .user {
         display: flex;
         justify-content: space-between;
@@ -304,7 +385,13 @@
           <a href="#">Settings</a>
         </nav>
         <div class="bottom">
-          <a class="nav active" href="#" style="text-decoration:none"> Logout </a>
+          <a
+    class="nav active"
+    href="#"
+    onclick="logout(); return false;"
+    style="text-decoration:none">
+    Logout
+</a>
         </div>
       </aside>
       <main class="main">
@@ -323,7 +410,16 @@
               <button id="addFriendBtn" class="actionButton secondary" onclick="addFriendFromSearch()"> Add Friend </button>
             </div>
           </div>
-<div class="list" id="requestList"></div>
+<div class="section">
+
+    <h3 style="margin-bottom:14px;">
+        Friend Requests
+        <span class="badge" id="requestCount">0</span>
+    </h3>
+
+    <div class="list" id="requestList"></div>
+
+</div>
 
 <div class="section">
 
@@ -677,7 +773,9 @@ return
 }
 
 state=data
-statusText.textContent=`Logged in as ${myName}`
+if (statusText) {
+    statusText.textContent = `Logged in as ${myName}`;
+}
 
 const totalUnread=(state.unreadMessages||0)+(state.unreadRequests||0)
 if(!firstStateLoad && totalUnread>lastUnreadTotal){
@@ -982,7 +1080,9 @@ return
 }
 
 myName=me.username
-statusText.textContent=`Logged in as ${myName}`
+if (statusText) {
+    statusText.textContent = `Logged in as ${myName}`;
+}
 
 if(location.hash){
 const wanted=decodeURIComponent(location.hash.slice(1))
