@@ -153,14 +153,10 @@
 }
 
 .card{
-    background:rgba(18,22,34,.68);
-    backdrop-filter:blur(28px);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:24px;
-    padding:22px;
     display:flex;
     flex-direction:column;
     min-height:0;
+    overflow:hidden;
 }
 
       .card h2 {
@@ -176,16 +172,41 @@
         padding: 0 16px;
       }
 
-      .section {
-        margin-top: 20px;
-      }
+.section{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+}
 
-      .list {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        overflow: auto;
-      }
+#unfriendBtn{
+    height:40px;
+    padding:0 18px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,70,70,.12);
+    border:1px solid rgba(255,70,70,.2);
+    color:#ff8d8d;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+}
+
+#unfriendBtn:hover{
+    background:#ff4040;
+    color:white;
+}
+
+.section:last-child{
+    flex:1;
+}
+
+.list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    overflow-y:auto;
+    min-height:0;
+}
 
       .item{
     display:flex;
@@ -220,6 +241,22 @@
     flex-direction:column;
     gap:4px;
     min-width:0;
+}
+
+.sendBtn{
+    width:72px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(90deg,#16c6ff,#7c4dff);
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.sendBtn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 24px rgba(0,213,255,.35);
 }
 
 .itemTitle{
@@ -261,6 +298,24 @@
     align-items:center;
     margin-bottom:6px;
     font-size:13px;
+}
+
+::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.12);
+    border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:rgba(0,213,255,.45);
 }
 
 .msgTime{
@@ -309,6 +364,28 @@
     display:flex;
     flex-direction:column;
     gap:18px;
+}
+
+.attachBtn{
+    width:52px;
+    height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:none;
+    border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    cursor:pointer;
+    transition:.2s;
+    color:#b8c2d5;
+    flex-shrink:0;
+}
+
+.attachBtn:hover{
+    background:rgba(0,213,255,.12);
+    border-color:rgba(0,213,255,.3);
+    color:white;
 }
 
       .msg {
@@ -483,25 +560,21 @@
             multiple
             hidden>
 
-        <label
-            class="btn"
-            id="attachBtn"
-            for="imagePicker">
-            Attach
-        </label>
-
+<label class="attachBtn" id="attachBtn" for="imagePicker">
+    📎
+</label>
         <textarea
             id="messageBox"
             placeholder="Type a message..."
             disabled></textarea>
 
-        <button
-            id="sendBtn"
-            onclick="sendMessage()"
-            class="btn"
-            disabled>
-            Send
-        </button>
+<button
+    id="sendBtn"
+    onclick="sendMessage()"
+    class="sendBtn"
+    disabled>
+    Send
+</button>
 
     </div>
 
