@@ -253,6 +253,26 @@ color:#000;
 <a class="item" href="#">Settings</a>
 </nav>
 
+<div id="supportPopup" class="supportPopup">
+
+<div class="supportCard">
+
+<h2>Support</h2>
+
+<p>Select how you'd like to contact the Zyphor team.</p>
+
+<div class="supportButtons">
+
+<button onclick="location.href='Support.html'">
+🌐 Website Tickets
+</button>
+
+<button onclick="emailSupport()">
+✉️ Email Support
+</button>
+
+</div>
+
 <div class="bottom">
 <a class="item" href="#" onclick="logout();return false;">Logout</a>
 </div>
@@ -370,6 +390,10 @@ async function safeJson(res){
 
     }
 
+}
+
+function openSupport(){
+document.getElementById("supportPopup").style.display="flex";
 }
 
 async function getMe(){
