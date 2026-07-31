@@ -385,6 +385,8 @@ const searchUser=document.getElementById("searchUser")
 const addFriendBtn=document.getElementById("addFriendBtn")
 const backButton=document.getElementById("backButton")
 
+let lastChatJSON = ""
+
 async function getBackend(){
     const r=await fetch("server.txt")
     return (await r.text()).trim()
@@ -615,7 +617,15 @@ async function openChat(friend,markSeen=true){
 
     chatTitle.textContent=friend
 
+    const chatJSON = JSON.stringify(data.chat)
+
+if(chatJSON !== lastChatJSON){
+
+    lastChatJSON = chatJSON
+
     renderMessages(data.chat)
+
+}
 
     if(markSeen){
 
@@ -669,8 +679,10 @@ function formatTime(time){
 
 function renderMessages(chatData){
 
-    messages.innerHTML=""
+    const previousScrollTop = messages.scrollTop
+    const previousScrollHeight = messages.scrollHeight
 
+    messages.innerHTML=""
     if(chatData.messages.length===0){
 
         messages.innerHTML=`
@@ -766,7 +778,11 @@ function renderMessages(chatData){
 
     requestAnimationFrame(()=>{
 
-        messages.scrollTop=messages.scrollHeight
+        const heightDifference =
+            messages.scrollHeight - previousScrollHeight
+
+        messages.scrollTop =
+            previousScrollTop + heightDifference
 
     })
 
