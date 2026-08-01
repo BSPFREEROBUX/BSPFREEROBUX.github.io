@@ -1717,11 +1717,33 @@ async function refreshActiveTicket(){
 
         return
 
-    activeTicketSignature=sig
+const oldMessages = JSON.stringify(activeTicket.messages || [])
+const newMessages = JSON.stringify(updated.messages || [])
 
-    activeTicket=updated
+activeTicketSignature = sig
 
-    openTicket(updated)
+activeTicket = updated
+
+if(oldMessages !== newMessages){
+    renderMessages(updated)
+}
+
+ticketHeader.innerHTML = `
+    <b>${escapeHTML(updated.title)}</b>
+    <br>
+    <span style="color:${
+        updated.status === "open"
+            ? "#22c55e"
+            : "#ef4444"
+    }">
+        ${updated.status.toUpperCase()}
+    </span>
+    ${updated.locked ? " 🔒 Locked" : ""}
+`
+
+if(typeof loadScheduleUI === "function"){
+    loadScheduleUI(updated)
+}
 
 }
 
