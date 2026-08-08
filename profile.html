@@ -250,6 +250,67 @@ cursor:pointer;
 transition:.2s;
 }
 
+.badgesSection{
+    margin-top:24px;
+}
+
+.badgesSection h2{
+    margin-bottom:16px;
+}
+
+.badgesList{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+}
+
+.badgeCard{
+    padding:18px;
+    border-radius:18px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.badgeCard.earned{
+    border-color:rgba(0,213,255,.35);
+    background:linear-gradient(
+        135deg,
+        rgba(0,213,255,.10),
+        rgba(139,61,255,.10)
+    );
+}
+
+.badgeName{
+    font-size:17px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.badgeDescription{
+    color:#8ea2be;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.badgeProgress{
+    color:#b8c2d5;
+    font-size:13px;
+}
+
+.badgeStatus{
+    margin-top:10px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.badgeCard.earned .badgeStatus{
+    color:#57f287;
+}
+
+.badgeCard:not(.earned) .badgeStatus{
+    color:#8ea2be;
+}
+
 .roleIcons:hover{
 transform:scale(1.15);
 }
@@ -368,70 +429,68 @@ Close
 
             </div>
 
-            <div id="profileBox" class="profileCard">
+<div id="profileBox" class="profileCard">
 
-                <div class="profileTop">
+    <div class="profileTop">
 
-                    <div class="avatar"></div>
+        <div class="avatar"></div>
 
-                    <div>
-                        <div class="profileName">
-                            <span id="profileUsername">Loading...</span>
-                            <span id="profileIcons"></span>
-                        </div>
-
-                        <p style="margin-top:10px;color:#8ea2be;">
-                            Premium Zyphor profile overview.
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="infoGrid">
-
-                    <div class="infoCard">
-                        <h3>Account ID</h3>
-                        <p id="accountId">Loading...</p>
-                    </div>
-
-                    <div class="infoCard">
-                        <h3>Created</h3>
-                        <p id="accountCreated">Loading...</p>
-                    </div>
-
-                    <div class="infoCard">
-                        <h3>Discord</h3>
-                        <p id="discordInfo">Loading...</p>
-                    </div>
-
-                    <div class="infoCard">
-                        <h3>Roblox</h3>
-                        <p id="robloxInfo">Loading...</p>
-                    </div>
-
-                    <div class="infoCard">
-                        <h3>Quests Completed</h3>
-                        <p id="questCount">Loading...</p>
-                    </div>
-
-                    <div class="infoCard">
-                        <h3>Total Earnings</h3>
-                        <p id="earningsInfo">Loading...</p>
-                    </div>
-
-                </div>
-
-                <div class="actions" id="profileActions">
-
-                </div>
-
+        <div>
+            <div class="profileName">
+                <span id="profileUsername">Loading...</span>
+                <span id="profileIcons"></span>
             </div>
 
-        </main>
+            <p style="margin-top:10px;color:#8ea2be;">
+                Premium Zyphor profile overview.
+            </p>
+        </div>
 
     </div>
 
-    <div id="tooltip"></div>
+    <div class="infoGrid">
+
+        <div class="infoCard">
+            <h3>Account ID</h3>
+            <p id="accountId">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Created</h3>
+            <p id="accountCreated">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Discord</h3>
+            <p id="discordInfo">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Roblox</h3>
+            <p id="robloxInfo">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Quests Completed</h3>
+            <p id="questCount">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Total Earnings</h3>
+            <p id="earningsInfo">Loading...</p>
+        </div>
+
+    </div>
+
+    <div class="badgesSection">
+        <h2>Badges</h2>
+        <div id="badgesList"></div>
+    </div>
+
+    <div class="actions" id="profileActions">
+    </div>
+
+</div>
 
     <script src="theme.js"></script>
 
@@ -763,6 +822,44 @@ Close
 
 }
 
+function renderBadges(badges){
+    const container=document.getElementById("badgesList")
+
+    if(!badges || !Object.keys(badges).length){
+        container.innerHTML=`
+            <div class="badgeCard">
+                <div class="badgeDescription">No badges available.</div>
+            </div>
+        `
+        return
+    }
+
+    container.innerHTML=Object.entries(badges).map(([name,badge])=>{
+        const earned=badge.earned===true
+
+        const progress=badge.required>0
+            ? `${badge.current}/${badge.required}`
+            : earned
+                ? "Completed"
+                : "Not completed"
+
+        return `
+            <div class="badgeCard ${earned?"earned":""}">
+                <div class="badgeName">${name}</div>
+                <div class="badgeDescription">
+                    ${badge.description}
+                </div>
+                <div class="badgeProgress">
+                    ${progress}
+                </div>
+                <div class="badgeStatus">
+                    ${earned?"✓ Earned":"Not earned"}
+                </div>
+            </div>
+        `
+    }).join("")
+}
+
 async function doPayout(username,type){
 
 const amount=parseInt(document.getElementById("amt").value)
@@ -874,6 +971,7 @@ async function loadProfile(){
 
     document.getElementById("earningsInfo").innerHTML=
         earningsHTML
+    renderBadges(data.badges)
 
     const actions=document.getElementById("profileActions")
 
