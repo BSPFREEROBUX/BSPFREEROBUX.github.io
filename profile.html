@@ -74,6 +74,7 @@ margin-bottom:25px;
     position:fixed;
     inset:0;
     display:none;
+    pointer-events:none;
     align-items:center;
     justify-content:center;
     z-index:100000;
@@ -84,6 +85,7 @@ margin-bottom:25px;
 
 .ownerReveal.active{
     display:flex;
+    pointer-events:none;
     animation:ownerFade .7s ease forwards;
 }
 
@@ -279,6 +281,11 @@ margin-bottom:25px;
     animation:ownerLine 1s ease 2.5s forwards;
 }
 
+.ownerReveal:not(.active){
+    visibility:hidden;
+    pointer-events:none;
+}
+
 .ownerStatus{
     margin-top:20px;
     font-size:11px;
@@ -299,10 +306,23 @@ margin-bottom:25px;
 }
 
 @keyframes ownerFade{
-    0%{opacity:0}
-    10%{opacity:1}
-    88%{opacity:1}
-    100%{opacity:0}
+    0%{
+        opacity:0;
+        visibility:visible;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    88%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
+        visibility:hidden;
+    }
 }
 
 @keyframes ownerGrid{
@@ -956,13 +976,44 @@ async function trackPage(page){
 }
 
 function showOwnerReveal(username){
-    if(username.toLowerCase()!=="somin") return
+    if(!username || username.toLowerCase()!=="somin") return
 
     const reveal=document.getElementById("ownerReveal")
     if(!reveal) return
 
+    const elements=[
+        ".ownerGrid",
+        ".ownerGlow",
+        ".ownerScan",
+        ".ownerRing",
+        ".ownerSeal",
+        ".ownerFlash",
+        ".ownerCrown",
+        ".ownerSmall",
+        ".ownerUsername",
+        ".ownerTitle",
+        ".ownerLine",
+        ".ownerStatus"
+    ]
+
     reveal.classList.remove("active")
+
+    elements.forEach(selector=>{
+        const element=reveal.querySelector(selector)
+        if(element){
+            element.style.animation="none"
+        }
+    })
+
     void reveal.offsetWidth
+
+    elements.forEach(selector=>{
+        const element=reveal.querySelector(selector)
+        if(element){
+            element.style.animation=""
+        }
+    })
+
     reveal.classList.add("active")
 
     setTimeout(()=>{
