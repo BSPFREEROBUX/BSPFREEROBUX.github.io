@@ -74,6 +74,7 @@ margin-bottom:25px;
     position:fixed;
     inset:0;
     display:none;
+    visibility:hidden;
     pointer-events:none;
     align-items:center;
     justify-content:center;
@@ -85,6 +86,7 @@ margin-bottom:25px;
 
 .ownerReveal.active{
     display:flex;
+    visibility:visible;
     pointer-events:none;
     animation:ownerFade .7s ease forwards;
 }
@@ -981,44 +983,20 @@ function showOwnerReveal(username){
     const reveal=document.getElementById("ownerReveal")
     if(!reveal) return
 
-    const elements=[
-        ".ownerGrid",
-        ".ownerGlow",
-        ".ownerScan",
-        ".ownerRing",
-        ".ownerSeal",
-        ".ownerFlash",
-        ".ownerCrown",
-        ".ownerSmall",
-        ".ownerUsername",
-        ".ownerTitle",
-        ".ownerLine",
-        ".ownerStatus"
-    ]
-
     reveal.classList.remove("active")
 
-    elements.forEach(selector=>{
-        const element=reveal.querySelector(selector)
-        if(element){
-            element.style.animation="none"
-        }
+    const clone=reveal.cloneNode(true)
+    reveal.replaceWith(clone)
+
+    requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+            clone.classList.add("active")
+
+            setTimeout(()=>{
+                clone.classList.remove("active")
+            },5000)
+        })
     })
-
-    void reveal.offsetWidth
-
-    elements.forEach(selector=>{
-        const element=reveal.querySelector(selector)
-        if(element){
-            element.style.animation=""
-        }
-    })
-
-    reveal.classList.add("active")
-
-    setTimeout(()=>{
-        reveal.classList.remove("active")
-    },5000)
 }
 
 function showTip(text,type,x,y){
