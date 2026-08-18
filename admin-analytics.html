@@ -161,6 +161,10 @@ border-radius:999px;
 Search
 </button>
 
+<button onclick="downloadPageVisitingData()">
+Download Page Visiting Data
+</button>
+
 <button onclick="generateReset()">
 Generate Password Renew Link
 </button>
@@ -200,6 +204,7 @@ let backend=null
 let allData={}
 let currentRange="today"
 let graphPoints=[]
+window.currentUserPageHistory=[]
 
 async function init(){
 
@@ -464,12 +469,16 @@ const list=document.getElementById("userList")
 
 if(!data || data.error){
 
+window.currentUserPageHistory=[]
+
 stats.innerHTML=""
 list.innerHTML="<div class='entry'>No data found</div>"
 
 return
 
 }
+
+window.currentUserPageHistory=data.slice()
 
 stats.innerHTML=`
 
@@ -487,7 +496,7 @@ stats.innerHTML=`
 
 list.innerHTML=""
 
-data.reverse().forEach(e=>{
+data.slice().reverse().forEach(e=>{
 
 const div=document.createElement("div")
 
@@ -503,6 +512,92 @@ ${new Date(e.time).toLocaleString()}
 list.appendChild(div)
 
 })
+
+}
+
+function downloadPageVisitingData(){
+
+const username=document.getElementById("user").value
+
+if(!username) return
+
+const data=window.currentUserPageHistory
+
+if(!Array.isArray(data) || data.length===0) return
+
+const visits=data
+.map(e=>({
+page:e.page,
+time:e.time
+}))
+.sort((a,b)=>new Date(a.time)-new Date(b.time))
+
+const totalVisits=visits.length
+
+const firstVisit=new Date(visits[0].time)
+const lastVisit=new Date(visits[visits.length-1].time)
+const now=new Date()
+
+const elapsedMs=Math.max(now-firstVisit,1)
+const elapsedDays=Math.max(elapsedMs/86400000,1)
+const elapsedWeeks=Math.max(elapsedDays/7,1)
+const elapsedMonths=Math.max(elapsedDays/30.4375,1)
+const elapsedYears=Math.max(elapsedDays/365.25,1)
+
+const pageCounts={}
+
+visits.forEach(e=>{
+
+if(!pageCounts[e.page]) pageCounts[e.page]=0
+
+pageCounts[e.page]++
+
+})
+
+const pageVisitCounts=Object.entries(pageCounts)
+.sort((a,b)=>b[1]-a[1])
+.reduce((obj,[page,count])=>{
+
+obj[page]=count
+
+return obj
+
+},{})
+
+const output={
+username,
+summary:{
+totalVisits,
+averageDailyVisits:Number((totalVisits/elapsedDays).toFixed(2)),
+averageWeeklyVisits:Number((totalVisits/elapsedWeeks).toFixed(2)),
+averageMonthlyVisits:Number((totalVisits/elapsedMonths).toFixed(2)),
+averageYearlyVisits:Number((totalVisits/elapsedYears).toFixed(2)),
+firstVisit:firstVisit.toISOString(),
+lastVisit:lastVisit.toISOString()
+},
+pageVisitCounts,
+pageVisits:visits
+}
+
+const blob=new Blob(
+[JSON.stringify(output,null,2)],
+{type:"application/json"}
+)
+
+const url=URL.createObjectURL(blob)
+
+const a=document.createElement("a")
+
+a.href=url
+a.download=`${username}-page-visiting-data.json`
+
+document.body.appendChild(a)
+
+a.click()
+
+a.remove()
+
+URL.revokeObjectURL(url)
 
 }
 
