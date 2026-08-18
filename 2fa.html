@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Zyphor — Two-Factor Authentication</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,Arial,sans-serif}
+body{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:
+radial-gradient(circle at 15% 15%,#172554 0,transparent 35%),
+radial-gradient(circle at 85% 85%,#0c4a6e 0,transparent 30%),
+#020617;
+color:#f8fafc
+}
+.card{
+width:100%;
+max-width:480px;
+background:rgba(15,23,42,.94);
+border:1px solid rgba(148,163,184,.18);
+border-radius:24px;
+padding:30px;
+box-shadow:0 25px 80px rgba(0,0,0,.45)
+}
+.logo{
+width:50px;
+height:50px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:15px;
+background:#2563eb;
+font-size:21px;
+font-weight:900;
+margin-bottom:22px
+}
+h1{margin:0;font-size:28px;letter-spacing:-.5px}
+.subtitle{
+margin:9px 0 25px;
+color:#94a3b8;
+font-size:14px;
+line-height:1.55
+}
+.setting{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:18px;
+padding:18px;
+border:1px solid #1e293b;
+background:#0b1220;
+border-radius:17px
+}
+.setting-title{font-size:15px;font-weight:800}
+.setting-email{
+margin-top:5px;
+font-size:13px;
+color:#64748b;
+word-break:break-all
+}
+.switch{
+position:relative;
+width:54px;
+height:30px;
+flex:none
+}
+.switch input{
+display:none
+}
+.slider{
+position:absolute;
+inset:0;
+border-radius:999px;
+background:#334155;
+cursor:pointer;
+transition:.2s
+}
+.slider:before{
+content:"";
+position:absolute;
+width:24px;
+height:24px;
+left:3px;
+top:3px;
+background:#fff;
+border-radius:50%;
+transition:.2s
+}
+.switch input:checked+.slider{
+background:#2563eb
+}
+.switch input:checked+.slider:before{
+transform:translateX(24px)
+}
+.panel{
+display:none;
+margin-top:16px;
+padding:18px;
+border:1px solid #1e293b;
+background:#0b1220;
+border-radius:17px
+}
+.panel.show{display:block}
+.panel-title{
+font-weight:800;
+font-size:15px;
+margin-bottom:7px
+}
+.panel-text{
+font-size:13px;
+line-height:1.5;
+color:#94a3b8;
+margin-bottom:15px
+}
+button{
+width:100%;
+border:0;
+border-radius:12px;
+padding:13px 16px;
+background:#2563eb;
+color:#fff;
+font-size:14px;
+font-weight:800;
+cursor:pointer;
+transition:.15s
+}
+button:hover{background:#1d4ed8}
+button:disabled{opacity:.5;cursor:not-allowed}
+.code{
+width:100%;
+height:54px;
+margin:12px 0;
+border-radius:12px;
+border:1px solid #334155;
+background:#111827;
+color:#fff;
+outline:none;
+font-size:23px;
+font-weight:800;
+letter-spacing:8px;
+text-align:center
+}
+.code:focus{border-color:#3b82f6}
+.status{
+display:none;
+margin-top:16px;
+padding:12px 14px;
+border-radius:12px;
+background:#111827;
+font-size:13px;
+line-height:1.45
+}
+.status.show{display:block}
+.status.success{color:#4ade80}
+.status.error{color:#f87171}
+.loading{
+text-align:center;
+color:#94a3b8;
+padding:35px 0
+}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+<div id="loading" class="loading">Loading 2FA settings...</div>
+
+<div id="content" class="hidden">
+
+<div class="logo">Z</div>
+
+<h1>Two-Factor Authentication</h1>
+
+<p class="subtitle">
+Add an extra layer of security to your Zyphor account.
+When enabled, you'll need a verification code sent to your email when signing in.
+</p>
+
+<div class="setting">
+<div>
+<div class="setting-title">Email 2FA</div>
+<div id="email" class="setting-email">Loading...</div>
+</div>
+
+<label class="switch">
+<input id="toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+
+<div id="enablePanel" class="panel">
+<div class="panel-title">Enable 2FA</div>
+<div class="panel-text">
+A verification code has been sent to your email. Enter the 6-digit code below to enable two-factor authentication.
+</div>
+
+<input
+id="enableCode"
+class="code"
+inputmode="numeric"
+autocomplete="one-time-code"
+maxlength="6"
+placeholder="000000"
+>
+
+<button id="enableButton">Verify and Enable</button>
+</div>
+
+<div id="disablePanel" class="panel">
+<div class="panel-title">Disable 2FA</div>
+<div class="panel-text">
+Enter the verification code sent to your email to confirm that you want to disable two-factor authentication.
+</div>
+
+<input
+id="disableCode"
+class="code"
+inputmode="numeric"
+autocomplete="one-time-code"
+maxlength="6"
+placeholder="000000"
+>
+
+<button id="disableButton">Verify and Disable</button>
+</div>
+
+<div id="status" class="status"></div>
+
+</div>
+</div>
+
+<script>
+let SERVER_URL=""
+let twoFAEnabled=false
+
+const loading=document.getElementById("loading")
+const content=document.getElementById("content")
+const toggle=document.getElementById("toggle")
+const email=document.getElementById("email")
+const enablePanel=document.getElementById("enablePanel")
+const disablePanel=document.getElementById("disablePanel")
+const enableCode=document.getElementById("enableCode")
+const disableCode=document.getElementById("disableCode")
+const enableButton=document.getElementById("enableButton")
+const disableButton=document.getElementById("disableButton")
+const status=document.getElementById("status")
+
+function getToken(){
+    return localStorage.getItem("Token") || ""
+}
+
+async function getServer(){
+    const response=await fetch("server.txt?"+Date.now(),{
+        cache:"no-store"
+    })
+
+    if(!response.ok){
+        throw new Error("server.txt")
+    }
+
+    const url=(await response.text()).trim().replace(/\/+$/,"")
+
+    if(!/^https?:\/\//i.test(url)){
+        throw new Error("Invalid server URL")
+    }
+
+    return url
+}
+
+async function request(path,options={}){
+    const headers={
+        "Content-Type":"application/json",
+        "Authorization":getToken()
+    }
+
+    const response=await fetch(SERVER_URL+path,{
+        ...options,
+        headers
+    })
+
+    return await response.json()
+}
+
+function showStatus(message,type){
+    status.textContent=message
+    status.className="status show "+(type||"")
+}
+
+function closePanels(){
+    enablePanel.classList.remove("show")
+    disablePanel.classList.remove("show")
+    enableCode.value=""
+    disableCode.value=""
+}
+
+function errorMessage(error){
+    const messages={
+        unauthorized:"Your session has expired. Please log in again.",
+        invalid_session:"Your session has expired. Please log in again.",
+        noemail:"No email is connected to your account.",
+        emailnotverified:"Your email must be verified before using 2FA.",
+        nocode:"No verification code is active.",
+        expired:"The verification code has expired.",
+        wrong:"Incorrect verification code.",
+        invalid:"Incorrect verification code.",
+        missing:"Please enter the verification code.",
+        forbidden:"You are not allowed to change this setting."
+    }
+
+    return messages[error] || "Something went wrong. Please try again."
+}
+
+async function loadSettings(){
+    try{
+        SERVER_URL=await getServer()
+
+        const token=getToken()
+
+        if(!token){
+            loading.classList.add("hidden")
+            content.classList.remove("hidden")
+            showStatus("You are not logged in.","error")
+            return
+        }
+
+        const data=await request("/2fa/status")
+
+        if(data.error){
+            loading.classList.add("hidden")
+            content.classList.remove("hidden")
+            showStatus(errorMessage(data.error),"error")
+            return
+        }
+
+        twoFAEnabled=!!data.enabled
+
+        toggle.checked=twoFAEnabled
+
+        email.textContent=data.email || "No email connected"
+
+        loading.classList.add("hidden")
+        content.classList.remove("hidden")
+    }catch{
+        loading.textContent="Unable to connect to the server."
+    }
+}
+
+toggle.addEventListener("change",async()=>{
+    if(toggle.checked===twoFAEnabled){
+        closePanels()
+        return
+    }
+
+    closePanels()
+
+    if(toggle.checked){
+        enablePanel.classList.add("show")
+        enableCode.focus()
+    }else{
+        disablePanel.classList.add("show")
+        disableCode.focus()
+    }
+})
+
+enableButton.addEventListener("click",async()=>{
+    const code=enableCode.value.trim()
+
+    if(!/^\d{6}$/.test(code)){
+        showStatus("Enter the 6-digit verification code.","error")
+        return
+    }
+
+    enableButton.disabled=true
+
+    try{
+        const result=await request("/2fa/verify",{
+            method:"POST",
+            body:JSON.stringify({
+                code:code
+            })
+        })
+
+        if(!result.success){
+            toggle.checked=false
+            showStatus(errorMessage(result.error),"error")
+            return
+        }
+
+        const changed=await request("/2fa/toggle",{
+            method:"POST",
+            body:JSON.stringify({
+                enabled:true
+            })
+        })
+
+        if(!changed.success){
+            toggle.checked=false
+            showStatus(errorMessage(changed.error),"error")
+            return
+        }
+
+        twoFAEnabled=true
+        toggle.checked=true
+        closePanels()
+        showStatus("Two-factor authentication is now enabled.","success")
+    }catch{
+        toggle.checked=false
+        showStatus("Unable to contact the server.","error")
+    }finally{
+        enableButton.disabled=false
+    }
+})
+
+disableButton.addEventListener("click",async()=>{
+    const code=disableCode.value.trim()
+
+    if(!/^\d{6}$/.test(code)){
+        showStatus("Enter the 6-digit verification code.","error")
+        return
+    }
+
+    disableButton.disabled=true
+
+    try{
+        const result=await request("/2fa/verify",{
+            method:"POST",
+            body:JSON.stringify({
+                code:code
+            })
+        })
+
+        if(!result.success){
+            toggle.checked=true
+            showStatus(errorMessage(result.error),"error")
+            return
+        }
+
+        const changed=await request("/2fa/toggle",{
+            method:"POST",
+            body:JSON.stringify({
+                enabled:false
+            })
+        })
+
+        if(!changed.success){
+            toggle.checked=true
+            showStatus(errorMessage(changed.error),"error")
+            return
+        }
+
+        twoFAEnabled=false
+        toggle.checked=false
+        closePanels()
+        showStatus("Two-factor authentication is now disabled.","success")
+    }catch{
+        toggle.checked=true
+        showStatus("Unable to contact the server.","error")
+    }finally{
+        disableButton.disabled=false
+    }
+})
+
+enableCode.addEventListener("input",()=>{
+    enableCode.value=enableCode.value.replace(/\D/g,"").slice(0,6)
+})
+
+disableCode.addEventListener("input",()=>{
+    disableCode.value=disableCode.value.replace(/\D/g,"").slice(0,6)
+})
+
+loadSettings()
+</script>
+
+</body>
+</html>
