@@ -713,12 +713,21 @@ cursor:pointer;
             margin-bottom: 30px;
         }
 
-        .avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00d5ff, #7a3cff);
-        }
+.avatar{
+width:90px;
+height:90px;
+border-radius:50%;
+overflow:hidden;
+background:linear-gradient(135deg,#00d5ff,#7a3cff);
+flex-shrink:0;
+}
+
+.avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
 
         .profileName {
             font-size: 34px;
@@ -971,7 +980,9 @@ Close
 
     <div class="profileTop">
 
-        <div class="avatar"></div>
+        <div class="avatar">
+<img id="profilePfp" style="display:none">
+</div>
 
         <div>
             <div class="profileName">
@@ -1415,6 +1426,32 @@ function renderBadges(badges){
     }).join("")
 }
 
+function loadProfilePfp(username){
+
+const image=document.getElementById("profilePfp")
+
+const url=
+backend+
+"/account/pfp/"+
+encodeURIComponent(username)+
+"?v="+Date.now()
+
+image.onload=()=>{
+
+image.style.display="block"
+
+}
+
+image.onerror=()=>{
+
+image.style.display="none"
+
+}
+
+image.src=url
+
+}
+
 async function doPayout(username,type){
 
 const amount=parseInt(document.getElementById("amt").value)
@@ -1509,6 +1546,7 @@ async function loadProfile(){
     }
 
     document.getElementById("profileUsername").textContent=data.username
+    loadProfilePfp(data.username)
     showOwnerReveal(data.username)
 
     document.getElementById("profileIcons").innerHTML=icons
