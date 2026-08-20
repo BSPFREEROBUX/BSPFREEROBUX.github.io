@@ -129,11 +129,50 @@ body::before {
     border-radius: 18px;
 }
 
-.avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #00d5ff, #7a3cff);
+.avatar{
+width:48px;
+height:48px;
+border-radius:50%;
+background:linear-gradient(135deg,#00d5ff,#7a3cff);
+position:relative;
+overflow:hidden;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:.2s;
+flex-shrink:0;
+}
+
+.avatar:hover{
+transform:scale(1.06);
+box-shadow:0 0 20px rgba(0,213,255,.35);
+}
+
+.avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+#avatarUploadText{
+font-size:22px;
+font-weight:700;
+color:white;
+pointer-events:none;
+}
+
+.avatar:hover::after{
+content:"Change";
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.55);
+font-size:10px;
+font-weight:700;
 }
 
 .grid {
@@ -471,7 +510,13 @@ cursor:pointer;
 <p>Your central hub for everything Zyphor.</p>
 </div>
 <div class="profile">
-<div class="avatar"></div>
+<div class="avatar" id="avatar" onclick="selectPfp()" title="Click to change profile picture">
+<img id="avatarImage" style="display:none">
+<div id="avatarUploadText">+</div>
+</div>
+
+<input type="file" id="pfpInput" accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif" style="display:none" onchange="uploadPfp(event)">
+
 <div>
 <b id="profileName">Loading...</b>
 <br>
@@ -635,6 +680,194 @@ async function trackPage(page){
         },
         body:JSON.stringify({page})
     })
+}
+
+async function loadPfp(){
+
+const avatarImage=document.getElementById("avatarImage")
+const avatarUploadText=document.getElementById("avatarUploadText")
+
+try{
+
+const token=localStorage.getItem("Token")
+
+const me=await fetch(backend+"/me",{
+headers:{
+Authorization:token
+}
+})
+
+const data=await safeJson(me)
+
+if(!data||!data.username) return
+
+const url=backend+"/account/pfp/"+encodeURIComponent(data.username)+"?v="+Date.now()
+
+const testImage=new Image()
+
+testImage.onload=()=>{
+
+avatarImage.src=url
+avatarImage.style.display="block"
+avatarUploadText.style.display="none"
+
+}
+
+testImage.onerror=()=>{
+
+avatarImage.removeAttribute("src")
+avatarImage.style.display="none"
+avatarUploadText.style.display="block"
+
+}
+
+testImage.src=url
+
+}catch{}
+
+}
+
+async function selectPfp(){
+
+const token=localStorage.getItem("Token")
+
+if(!token) return
+
+try{
+
+const r=await fetch(backend+"/account/pfp/status",{
+headers:{
+Authorization:token
+}
+})
+
+const data=await safeJson(r)
+
+if(!data){
+alert("Failed to check PFP permissions.")
+return
+}
+
+if(!data.permission||data.permission.enabled!==true){
+
+alert("You do not have permission to upload a profile picture.")
+return
+
+}
+
+if(data.cooldownRemaining>0){
+
+const hours=Math.floor(data.cooldownRemaining/3600000)
+const minutes=Math.ceil((data.cooldownRemaining%3600000)/60000)
+
+alert(
+"You can change your profile picture again in "+
+hours+"h "+minutes+"m."
+)
+
+return
+
+}
+
+document.getElementById("pfpInput").click()
+
+}catch{
+
+alert("Failed to check PFP status.")
+
+}
+
+}
+
+async function uploadPfp(event){
+
+const file=event.target.files[0]
+
+if(!file) return
+
+const token=localStorage.getItem("Token")
+
+if(!token) return
+
+const formData=new FormData()
+
+formData.append("pfp",file)
+
+const avatar=document.getElementById("avatar")
+
+avatar.style.opacity=".6"
+avatar.style.pointerEvents="none"
+
+try{
+
+const r=await fetch(
+backend+"/account/pfp/upload",
+{
+method:"POST",
+headers:{
+Authorization:token
+},
+body:formData
+}
+)
+
+const data=await safeJson(r)
+
+if(!r.ok){
+
+if(data&&data.error==="cooldown"){
+
+const hours=Math.floor(data.remaining/3600000)
+const minutes=Math.ceil((data.remaining%3600000)/60000)
+
+alert(
+"You can change your profile picture again in "+
+hours+"h "+minutes+"m."
+)
+
+}else if(data&&data.error==="no_pfp_permission"){
+
+alert("You do not have permission to upload a profile picture.")
+
+}else if(data&&data.error==="gif_requires_administrator"){
+
+alert("Only administrators can use GIF profile pictures.")
+
+}else if(data&&data.error==="file_too_large"){
+
+const max=Math.round(data.maxSize/1024/1024)
+
+alert("This file is too large. Maximum size: "+max+" MB.")
+
+}else{
+
+alert("Failed to upload profile picture.")
+
+}
+
+return
+
+}
+
+const avatarImage=document.getElementById("avatarImage")
+const avatarUploadText=document.getElementById("avatarUploadText")
+
+avatarImage.src=backend+data.url
+avatarImage.style.display="block"
+avatarUploadText.style.display="none"
+
+}catch{
+
+alert("Failed to upload profile picture.")
+
+}finally{
+
+avatar.style.opacity="1"
+avatar.style.pointerEvents="auto"
+event.target.value=""
+
+}
+
 }
 
 function logout(){
@@ -884,6 +1117,8 @@ if(!data || data.error){
 }
 
 document.getElementById("profileName").textContent = data.username
+
+await loadPfp()
 
 if(data.linkedDiscord){
 
