@@ -52,8 +52,8 @@ opacity:.8;
 }
 
 .firework.one{left:10%;top:20%;animation-delay:0s}
-.firework.two{right:14%;top:28%;animation-delay:1s;transform:scale(1.5)}
-.firework.three{left:48%;top:10%;animation-delay:2s;transform:scale(.8)}
+.firework.two{right:14%;top:28%;animation-delay:1s}
+.firework.three{left:48%;top:10%;animation-delay:2s}
 
 @keyframes boom{
 0%,100%{transform:scale(.2);opacity:0}
@@ -103,7 +103,7 @@ color:transparent;
 
 .hero p{
 font-size:19px;
-max-width:600px;
+max-width:650px;
 line-height:1.6;
 color:#c9d3ed;
 }
@@ -148,8 +148,9 @@ overflow:hidden;
 
 .fill{
 height:100%;
-width:27%;
+width:0%;
 background:linear-gradient(90deg,#00e5ff,#685cff,#ffcc4d);
+transition:width .4s ease;
 }
 
 .levelNumber{
@@ -176,7 +177,9 @@ margin:0;
 
 .sectionHeader p{
 margin:7px 0 0;
+max-width:850px;
 color:#8fa0c6;
+line-height:1.6;
 }
 
 .pass{
@@ -185,6 +188,13 @@ border-radius:30px;
 background:rgba(9,15,33,.78);
 border:1px solid rgba(255,255,255,.1);
 overflow-x:auto;
+overflow-y:hidden;
+cursor:grab;
+scroll-behavior:smooth;
+}
+
+.pass:active{
+cursor:grabbing;
 }
 
 .track{
@@ -220,6 +230,7 @@ border-radius:24px;
 background:linear-gradient(180deg,#1a294f,#10182e);
 border:2px solid rgba(255,255,255,.08);
 z-index:1;
+flex-shrink:0;
 }
 
 .reward.empty{
@@ -237,11 +248,6 @@ background:#07101f;
 border:3px solid #9da9c5;
 font-weight:bold;
 z-index:2;
-}
-
-.claimable .level{
-border-color:#ffd86b;
-box-shadow:0 0 20px rgba(255,216,107,.5);
 }
 
 .badge{
@@ -276,16 +282,6 @@ font-size:12px;
 text-align:center;
 }
 
-.claim{
-border:0;
-border-radius:10px;
-padding:8px 13px;
-font-weight:bold;
-cursor:pointer;
-background:#ffd86b;
-color:#382400;
-}
-
 .mystery{
 width:80px;
 height:80px;
@@ -311,6 +307,25 @@ text-align:center;
 font-style:italic;
 }
 
+.doubleRewards{
+display:flex;
+gap:8px;
+align-items:center;
+justify-content:center;
+}
+
+.pfpReward{
+width:58px;
+height:58px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+background:linear-gradient(145deg,#00dfff,#654cff);
+border:2px solid rgba(255,255,255,.35);
+}
+
 .footerInfo{
 margin-top:30px;
 padding:24px;
@@ -318,12 +333,23 @@ border-radius:20px;
 background:rgba(255,216,107,.06);
 border:1px solid rgba(255,216,107,.15);
 color:#d7dff0;
+line-height:1.6;
 }
 
 @media(max-width:700px){
-.hero{padding:35px 25px}
-.progressArea{grid-template-columns:1fr}
-.levelNumber{margin:auto}
+
+.hero{
+padding:35px 25px;
+}
+
+.progressArea{
+grid-template-columns:1fr;
+}
+
+.levelNumber{
+margin:auto;
+}
+
 }
 </style>
 </head>
@@ -346,30 +372,61 @@ color:#d7dff0;
 </section>
 
 <div class="progressArea">
+
 <div>
-<div class="progressTitle">Your ZyPass Progress — Level 27 / 100</div>
-<div class="bar"><div class="fill"></div></div>
+<div class="progressTitle" id="progressTitle">Your ZyPass Progress — Level 0 / 100</div>
+
+<div class="bar">
+<div class="fill" id="progressFill"></div>
 </div>
-<div class="levelNumber">27</div>
+</div>
+
+<div class="levelNumber" id="levelNumber">0</div>
+
 </div>
 
 <div class="sectionHeader">
 <h2>ZyPass Rewards</h2>
-<p>Click available rewards to claim them.</p>
+
+<p>
+Some rewards are currently hidden because Zyphor Fest 2026 has not been released yet. The rewards for these levels are still being created and will be revealed when the event is released.
+</p>
 </div>
 
-<section class="pass">
+<section class="pass" id="pass">
 <div class="track" id="track"></div>
 </section>
 
 <div class="footerInfo">
-🏅 <b>Zyphor Fest 2026</b> is a limited-time event. Progress through all 100 ZyPass levels to discover mysterious collectibles and unlock the final exclusive badge.
+🏅 <b>Zyphor Fest 2026</b> is a limited-time event. Progress through all 100 ZyPass levels to discover mysterious collectibles and unlock exclusive rewards.
 </div>
 
 </div>
 
 <script>
+const currentLevel=0
+
 const track=document.getElementById("track")
+const progressTitle=document.getElementById("progressTitle")
+const progressFill=document.getElementById("progressFill")
+const levelNumber=document.getElementById("levelNumber")
+const pass=document.getElementById("pass")
+
+progressTitle.textContent=`Your ZyPass Progress — Level ${currentLevel} / 100`
+levelNumber.textContent=currentLevel
+progressFill.style.width=`${currentLevel}%`
+
+pass.addEventListener("wheel",function(e){
+
+if(e.deltaY!==0){
+
+e.preventDefault()
+
+pass.scrollLeft+=e.deltaY
+
+}
+
+},{passive:false})
 
 for(let level=1;level<=100;level++){
 
@@ -377,18 +434,19 @@ const reward=document.createElement("div")
 
 if(level===1){
 
-reward.className="reward claimable"
+reward.className="reward"
 
 reward.innerHTML=`
 <div class="level">1</div>
+
 <div class="badge">🏅</div>
+
 <div class="rewardName">
 Play During<br>
 Zyphor Fest 2026
 </div>
-<button class="claim" onclick="claimReward(this,1)">
-Claim
-</button>
+
+<div class="noData">Locked</div>
 `
 
 }else if([10,20,30,40,50,60,70,80,90].includes(level)){
@@ -397,8 +455,14 @@ reward.className="reward"
 
 reward.innerHTML=`
 <div class="level">${level}</div>
-<div class="mystery"><span>?</span></div>
-<div class="mysteryName">Mysterious Collectable!?</div>
+
+<div class="mystery">
+<span>?</span>
+</div>
+
+<div class="mysteryName">
+Mysterious Collectable!?
+</div>
 `
 
 }else if(level===100){
@@ -407,10 +471,24 @@ reward.className="reward"
 
 reward.innerHTML=`
 <div class="level">100</div>
-<div class="badge">🏅</div>
+
+<div class="doubleRewards">
+
+<div class="badge">
+🏅
+</div>
+
+<div class="pfpReward">
+🖼️
+</div>
+
+</div>
+
 <div class="rewardName">
 Reach Level 100 During<br>
 Zyphor Fest 2026
+<br><br>
+PFP Permission
 </div>
 `
 
@@ -420,21 +498,19 @@ reward.className="reward empty"
 
 reward.innerHTML=`
 <div class="level">${level}</div>
-<div class="noData">No Data</div>
-<div class="rewardName">No reward available</div>
+
+<div class="noData">
+No Data
+</div>
+
+<div class="rewardName">
+No reward available
+</div>
 `
 
 }
 
 track.appendChild(reward)
-
-}
-
-function claimReward(button,level){
-
-button.outerHTML='<div style="font-size:11px;color:#62f2bd;font-weight:bold">✓ CLAIMED</div>'
-
-console.log("Claimed ZyPass reward for level",level)
 
 }
 </script>
