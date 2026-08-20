@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ZyPass • Zyphor Fest 2026</title>
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+html,body{
+margin:0;
+min-height:100%;
+font-family:Arial,sans-serif;
+background:#07111f;
+color:white;
+overflow-x:hidden;
+}
+
+body{
+background:
+radial-gradient(circle at 20% 0%,rgba(93,58,255,.35),transparent 30%),
+radial-gradient(circle at 80% 10%,rgba(0,210,255,.22),transparent 28%),
+linear-gradient(180deg,#0d1830 0%,#070d1b 45%,#040711 100%);
+}
+
+.sky{
+position:fixed;
+inset:0;
+pointer-events:none;
+overflow:hidden;
+z-index:0;
+}
+
+.firework{
+position:absolute;
+width:5px;
+height:5px;
+border-radius:50%;
+background:#fff;
+box-shadow:
+0 -45px #ff4d6d,
+32px -32px #ffd166,
+45px 0 #00e5ff,
+32px 32px #8b5cff,
+0 45px #00ffae,
+-32px 32px #ff4d6d,
+-45px 0 #ffd166,
+-32px -32px #00e5ff;
+animation:boom 3s infinite ease-in-out;
+opacity:.8;
+}
+
+.firework.one{
+left:10%;
+top:20%;
+animation-delay:0s;
+}
+
+.firework.two{
+right:14%;
+top:28%;
+animation-delay:1s;
+transform:scale(1.5);
+}
+
+.firework.three{
+left:48%;
+top:10%;
+animation-delay:2s;
+transform:scale(.8);
+}
+
+@keyframes boom{
+0%,100%{
+transform:scale(.2);
+opacity:0;
+}
+20%,70%{
+opacity:1;
+}
+50%{
+transform:scale(1.4);
+}
+85%{
+opacity:0;
+transform:scale(1.8);
+}
+}
+
+.page{
+position:relative;
+z-index:1;
+max-width:1450px;
+margin:auto;
+padding:35px 20px 80px;
+}
+
+.hero{
+position:relative;
+min-height:380px;
+border-radius:35px;
+overflow:hidden;
+padding:55px;
+background:
+linear-gradient(115deg,rgba(16,26,65,.96),rgba(46,19,82,.86)),
+radial-gradient(circle at 75% 40%,rgba(255,199,72,.3),transparent 35%);
+border:1px solid rgba(255,255,255,.15);
+box-shadow:0 30px 90px rgba(0,0,0,.45);
+}
+
+.hero::before{
+content:"";
+position:absolute;
+inset:0;
+background-image:
+radial-gradient(circle,rgba(255,255,255,.8) 1px,transparent 1px);
+background-size:45px 45px;
+opacity:.08;
+}
+
+.fest{
+position:relative;
+font-size:15px;
+font-weight:bold;
+letter-spacing:5px;
+color:#ffd86b;
+text-transform:uppercase;
+}
+
+.hero h1{
+position:relative;
+font-size:clamp(52px,8vw,110px);
+margin:18px 0 8px;
+letter-spacing:-5px;
+background:linear-gradient(90deg,#ffffff,#80eaff,#b29cff,#ffe17a);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+}
+
+.hero p{
+position:relative;
+font-size:19px;
+max-width:600px;
+line-height:1.6;
+color:#c9d3ed;
+}
+
+.prelook{
+position:relative;
+display:inline-flex;
+align-items:center;
+gap:10px;
+margin-top:20px;
+padding:12px 20px;
+border-radius:100px;
+background:rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.15);
+font-weight:bold;
+color:#ffd86b;
+}
+
+.progressArea{
+margin-top:30px;
+display:grid;
+grid-template-columns:1fr auto;
+gap:30px;
+align-items:center;
+padding:28px 30px;
+border-radius:25px;
+background:rgba(8,13,30,.72);
+border:1px solid rgba(255,255,255,.1);
+backdrop-filter:blur(15px);
+}
+
+.progressTitle{
+font-size:20px;
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.bar{
+height:17px;
+background:#050812;
+border-radius:50px;
+overflow:hidden;
+border:1px solid rgba(255,255,255,.08);
+}
+
+.fill{
+height:100%;
+width:27%;
+border-radius:inherit;
+background:linear-gradient(90deg,#00e5ff,#685cff,#ffcc4d);
+box-shadow:0 0 25px rgba(0,229,255,.6);
+}
+
+.levelNumber{
+width:85px;
+height:85px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:27px;
+font-weight:bold;
+background:linear-gradient(145deg,#263b7d,#582e8c);
+border:4px solid #ffd86b;
+box-shadow:0 0 30px rgba(255,216,107,.35);
+}
+
+.sectionHeader{
+margin:55px 0 20px;
+display:flex;
+align-items:end;
+justify-content:space-between;
+gap:20px;
+}
+
+.sectionHeader h2{
+font-size:34px;
+margin:0;
+}
+
+.sectionHeader p{
+margin:7px 0 0;
+color:#8fa0c6;
+}
+
+.pass{
+position:relative;
+padding:50px 25px 60px;
+border-radius:30px;
+background:rgba(9,15,33,.78);
+border:1px solid rgba(255,255,255,.1);
+overflow-x:auto;
+}
+
+.track{
+position:relative;
+display:flex;
+gap:24px;
+min-width:max-content;
+padding:20px 10px 35px;
+}
+
+.track::before{
+content:"";
+position:absolute;
+height:8px;
+left:45px;
+right:45px;
+top:111px;
+border-radius:20px;
+background:linear-gradient(
+90deg,
+#ffd86b 0%,
+#00dfff 30%,
+#765dff 60%,
+#ff4da6 100%
+);
+opacity:.7;
+}
+
+.reward{
+position:relative;
+width:145px;
+height:220px;
+padding:15px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:space-between;
+border-radius:24px;
+background:linear-gradient(180deg,#1a294f,#10182e);
+border:2px solid rgba(255,255,255,.08);
+transition:.2s;
+z-index:1;
+}
+
+.reward:hover{
+transform:translateY(-10px);
+border-color:#ffd86b;
+box-shadow:0 20px 35px rgba(0,0,0,.4);
+}
+
+.reward.locked{
+filter:saturate(.7);
+}
+
+.level{
+width:52px;
+height:52px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#07101f;
+border:3px solid #9da9c5;
+font-weight:bold;
+z-index:2;
+}
+
+.claimable .level{
+border-color:#ffd86b;
+box-shadow:0 0 20px rgba(255,216,107,.5);
+}
+
+.claimed .level{
+border-color:#00e6a8;
+}
+
+.badge{
+width:80px;
+height:80px;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:40px;
+background:linear-gradient(145deg,#ffda66,#c57c16);
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.rewardName{
+text-align:center;
+font-size:12px;
+line-height:1.35;
+font-weight:bold;
+}
+
+.claim{
+border:0;
+border-radius:10px;
+padding:8px 13px;
+font-weight:bold;
+cursor:pointer;
+background:#ffd86b;
+color:#382400;
+transition:.2s;
+}
+
+.claim:hover{
+transform:scale(1.05);
+background:#fff0aa;
+}
+
+.claimedText{
+font-size:11px;
+color:#62f2bd;
+font-weight:bold;
+}
+
+.mystery{
+width:80px;
+height:80px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+background:
+radial-gradient(circle at 30% 25%,#46516a,#111725 65%);
+border:2px solid #526078;
+box-shadow:inset 0 0 25px #000,0 8px 20px rgba(0,0,0,.5);
+}
+
+.mystery::before{
+content:"";
+position:absolute;
+inset:8px;
+border-radius:50%;
+background:radial-gradient(circle,#20293b,#090d16);
+}
+
+.mystery span{
+position:relative;
+z-index:2;
+font-size:44px;
+font-weight:bold;
+color:#9ba7bd;
+text-shadow:0 0 20px rgba(255,255,255,.2);
+}
+
+.mysteryName{
+color:#9da8c0;
+font-size:11px;
+text-align:center;
+font-style:italic;
+}
+
+.footerInfo{
+margin-top:30px;
+padding:24px;
+border-radius:20px;
+background:rgba(255,216,107,.06);
+border:1px solid rgba(255,216,107,.15);
+color:#d7dff0;
+line-height:1.6;
+}
+
+@media(max-width:700px){
+
+.hero{
+padding:35px 25px;
+min-height:330px;
+}
+
+.hero h1{
+letter-spacing:-3px;
+}
+
+.progressArea{
+grid-template-columns:1fr;
+}
+
+.levelNumber{
+margin:auto;
+}
+
+.sectionHeader{
+display:block;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="sky">
+<div class="firework one"></div>
+<div class="firework two"></div>
+<div class="firework three"></div>
+</div>
+
+<div class="page">
+
+<section class="hero">
+
+<div class="fest">🏅 Zyphor Fest 2026</div>
+
+<h1>ZyPass</h1>
+
+<p>
+Welcome to the ZyPass for Zyphor Fest 2026. Level up, unlock mysterious collectibles, and claim exclusive rewards throughout the event.
+</p>
+
+<div class="prelook">
+🔎 PreLook into the Pass
+</div>
+
+</section>
+
+<div class="progressArea">
+
+<div>
+
+<div class="progressTitle">
+Your ZyPass Progress — Level 27 / 100
+</div>
+
+<div class="bar">
+<div class="fill"></div>
+</div>
+
+</div>
+
+<div class="levelNumber">
+27
+</div>
+
+</div>
+
+<div class="sectionHeader">
+
+<div>
+<h2>ZyPass Rewards</h2>
+<p>Click available rewards to claim them.</p>
+</div>
+
+</div>
+
+<section class="pass">
+
+<div class="track">
+
+<div class="reward claimable">
+
+<div class="level">1</div>
+
+<div class="badge">🏅</div>
+
+<div class="rewardName">
+Play During<br>
+Zyphor Fest 2026
+</div>
+
+<button class="claim" onclick="claimReward(this,1)">
+Claim
+</button>
+
+</div>
+
+<div class="reward locked">
+<div class="level">10</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward locked">
+<div class="level">20</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward claimable">
+<div class="level">30</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward locked">
+<div class="level">40</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward locked">
+<div class="level">50</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward locked">
+<div class="level">60</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward locked">
+<div class="level">70</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward locked">
+<div class="level">80</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward locked">
+<div class="level">90</div>
+<div class="mystery"><span>?</span></div>
+<div class="mysteryName">Mysterious Collectable!?</div>
+</div>
+
+<div class="reward locked">
+
+<div class="level">100</div>
+
+<div class="badge">🏅</div>
+
+<div class="rewardName">
+Reach Level 100 During<br>
+Zyphor Fest 2026
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<div class="footerInfo">
+
+🏅 <b>Zyphor Fest 2026</b> is a limited-time event. Progress through all 100 ZyPass levels to discover mysterious collectibles and unlock the final exclusive badge.
+
+</div>
+
+</div>
+
+<script>
+function claimReward(button,level){
+
+button.outerHTML='<div class="claimedText">✓ CLAIMED</div>'
+
+const card=document.querySelector(
+`.reward .level`
+)
+
+console.log("Claimed ZyPass reward for level",level)
+
+}
+</script>
+
+</body>
+</html>
