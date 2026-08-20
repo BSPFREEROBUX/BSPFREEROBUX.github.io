@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor Fest 2026 — Event Shop</title>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#080a0f;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+#fireworks{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:1;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 20% 30%,rgba(255,90,170,.16),transparent 30%),
+        radial-gradient(circle at 80% 25%,rgba(100,100,255,.2),transparent 35%),
+        radial-gradient(circle at 50% 90%,rgba(255,190,70,.1),transparent 35%);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:950px;
+}
+
+.event-tag{
+    display:inline-block;
+    padding:10px 20px;
+    border-radius:999px;
+    border:1px solid rgba(255,215,110,.35);
+    background:rgba(255,215,110,.08);
+    color:#ffd86b;
+    font-size:13px;
+    letter-spacing:2px;
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-size:clamp(50px,9vw,110px);
+    line-height:.95;
+    letter-spacing:-5px;
+    margin-bottom:25px;
+    background:linear-gradient(90deg,#fff,#ffcb6b,#ff79bb,#9a8cff,#62d7ff,#fff);
+    background-size:300% 100%;
+    animation:gradient 8s linear infinite;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+@keyframes gradient{
+    from{background-position:0%}
+    to{background-position:300%}
+}
+
+.hero p{
+    max-width:720px;
+    margin:auto;
+    color:#aeb5c2;
+    font-size:clamp(16px,2vw,20px);
+    line-height:1.7;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:35px;
+}
+
+.button{
+    padding:14px 24px;
+    border-radius:999px;
+    text-decoration:none;
+    color:#fff;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);
+    transition:.25s;
+}
+
+.button:hover{
+    transform:translateY(-3px);
+    background:rgba(255,255,255,.13);
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    max-width:1200px;
+    margin:auto;
+    padding:90px 20px;
+}
+
+.section-heading{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.section-heading h2{
+    font-size:clamp(34px,5vw,60px);
+    margin-bottom:12px;
+}
+
+.section-heading span{
+    color:#ffcb6b;
+}
+
+.section-heading p{
+    max-width:700px;
+    margin:auto;
+    color:#9099aa;
+    line-height:1.7;
+}
+
+.currency-card{
+    max-width:850px;
+    margin:0 auto 85px;
+    padding:35px;
+    border-radius:28px;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(255,205,80,.14),transparent 35%),
+        linear-gradient(145deg,#171821,#0e1017);
+    border:1px solid rgba(255,210,100,.15);
+    text-align:center;
+}
+
+.coin{
+    font-size:60px;
+    margin-bottom:10px;
+    animation:float 2.5s ease-in-out infinite;
+}
+
+@keyframes float{
+    50%{transform:translateY(-10px) rotate(5deg)}
+}
+
+.currency-card h2{
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.currency-card p{
+    color:#aeb5c2;
+    line-height:1.7;
+    max-width:650px;
+    margin:auto;
+}
+
+.conversion{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+.currency-box{
+    padding:16px 22px;
+    border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    font-weight:bold;
+}
+
+.arrow{
+    font-size:28px;
+    color:#ffcb6b;
+}
+
+.shop-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(255px,1fr));
+    gap:20px;
+}
+
+.shop-item{
+    position:relative;
+    overflow:hidden;
+    padding:28px;
+    border-radius:24px;
+    background:linear-gradient(145deg,#161924,#0e1017);
+    border:1px solid rgba(255,255,255,.08);
+    transition:.25s;
+}
+
+.shop-item:hover{
+    transform:translateY(-7px);
+    border-color:rgba(255,205,100,.35);
+    box-shadow:0 25px 70px rgba(0,0,0,.3);
+}
+
+.shop-item.featured{
+    border-color:rgba(255,200,80,.35);
+}
+
+.shop-item.featured::before{
+    content:"LIMITED EVENT";
+    position:absolute;
+    top:15px;
+    right:-38px;
+    transform:rotate(45deg);
+    padding:6px 38px;
+    background:linear-gradient(90deg,#ff9a4c,#ff5f8f);
+    font-size:8px;
+    letter-spacing:1px;
+    font-weight:bold;
+}
+
+.item-icon{
+    font-size:45px;
+    margin-bottom:18px;
+}
+
+.shop-item h3{
+    font-size:25px;
+    margin-bottom:10px;
+}
+
+.shop-item p{
+    color:#a6adbb;
+    font-size:14px;
+    line-height:1.65;
+    min-height:68px;
+}
+
+.cost{
+    margin-top:20px;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,.07);
+    color:#ffcf68;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.cost small{
+    display:block;
+    color:#727b8d;
+    font-weight:normal;
+    margin-top:5px;
+}
+
+.badge-card{
+    margin-top:75px;
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+    padding:70px 25px;
+    border-radius:32px;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(255,190,50,.18),transparent 40%),
+        radial-gradient(circle at 20% 80%,rgba(255,70,150,.12),transparent 35%),
+        #11131b;
+    border:1px solid rgba(255,205,90,.2);
+}
+
+.badge-card::before{
+    content:"🏆 ✨ 🎆 ✨ 🏆";
+    position:absolute;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:25px;
+    white-space:nowrap;
+}
+
+.badge-icon{
+    font-size:75px;
+    margin-bottom:20px;
+    padding-top:20px;
+}
+
+.badge-card h2{
+    font-size:clamp(34px,6vw,70px);
+    margin-bottom:15px;
+    background:linear-gradient(90deg,#ffd86b,#fff0aa,#ff8bbf,#a998ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.badge-card p{
+    max-width:720px;
+    margin:auto;
+    color:#adb4c1;
+    line-height:1.7;
+    font-size:17px;
+}
+
+.badge-requirement{
+    display:inline-block;
+    margin-top:28px;
+    padding:16px 25px;
+    border-radius:18px;
+    background:rgba(255,210,100,.08);
+    border:1px solid rgba(255,210,100,.22);
+    color:#ffd86b;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.friends{
+    margin-top:85px;
+}
+
+.friend-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+}
+
+.friend-card{
+    padding:28px;
+    text-align:center;
+    border-radius:24px;
+    background:linear-gradient(145deg,#161924,#0e1017);
+    border:1px solid rgba(255,255,255,.08);
+    transition:.25s;
+}
+
+.friend-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(140,130,255,.4);
+}
+
+.avatar{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    margin:0 auto 18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    background:rgba(255,255,255,.06);
+    border:2px solid rgba(255,255,255,.1);
+}
+
+.friend-card h3{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.friend-card p{
+    color:#9099aa;
+    font-size:14px;
+    line-height:1.55;
+}
+
+.friend-cost{
+    margin-top:17px;
+    color:#ffcf68;
+    font-weight:bold;
+}
+
+.mystery{
+    margin-top:80px;
+    text-align:center;
+    padding:50px 25px;
+    border-radius:28px;
+    background:rgba(105,85,255,.07);
+    border:1px solid rgba(105,85,255,.18);
+}
+
+.mystery h2{
+    font-size:clamp(32px,5vw,55px);
+    margin-bottom:15px;
+}
+
+.mystery p{
+    max-width:650px;
+    margin:auto;
+    color:#9ca5b5;
+    line-height:1.7;
+}
+
+footer{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:45px 20px 65px;
+    color:#687183;
+}
+
+@media(max-width:600px){
+    .hero h1{letter-spacing:-3px}
+    .currency-card{padding:25px 18px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="event-tag">🎆 ZYPHOR FEST 2026 • EVENT SHOP</div>
+        <h1>Spend. Collect. Unlock.</h1>
+        <p>
+            A brand-new limited-time event economy is coming to Zyphor Fest 2026.
+            Earn Zyphor Fest 2026 Coins, unlock exclusive rewards, customize your profile,
+            and collect rewards that may only be available during the event.
+        </p>
+
+        <div class="hero-buttons">
+            <a class="button" href="#currency">Discover the currency ↓</a>
+            <a class="button" href="#rewards">View the rewards ↓</a>
+        </div>
+    </div>
+</section>
+
+<main class="container">
+
+<section id="currency">
+    <div class="section-heading">
+        <h2>The Event <span>Currency</span></h2>
+        <p>Earn Zyphor Fest 2026 Coins throughout the event and choose how you want to spend them.</p>
+    </div>
+
+    <div class="currency-card">
+        <div class="coin">🪙</div>
+        <h2>Zyphor Fest 2026 Coins</h2>
+        <p>
+            Earn special event coins during Zyphor Fest 2026 and use them for exclusive rewards,
+            profile customization, special requests, and more.
+        </p>
+
+        <div class="conversion">
+            <div class="currency-box">🪙 1,000 Event Coins</div>
+            <div class="arrow">→</div>
+            <div class="currency-box">💎 1 Zyphium</div>
+        </div>
+    </div>
+</section>
+
+<section id="rewards">
+    <div class="section-heading">
+        <h2>Event Shop <span>Rewards</span></h2>
+        <p>Spend your Zyphor Fest 2026 Coins on rewards and exclusive Zyphor profile items.</p>
+    </div>
+
+    <div class="shop-grid">
+
+        <div class="shop-item">
+            <div class="item-icon">💎</div>
+            <h3>Convert to Zyphium</h3>
+            <p>
+                Transfer your Zyphor Fest 2026 Coins into Zyphium and use your Zyphium throughout Zyphor.
+            </p>
+            <div class="cost">
+                1,000 Coins = 1 Zyphium
+            </div>
+        </div>
+
+        <div class="shop-item">
+            <div class="item-icon">🖼️</div>
+            <h3>Profile Frames</h3>
+            <p>
+                Unlock special profile frames and give your Zyphor profile a unique event look.
+            </p>
+            <div class="cost">
+                Available in the Event Shop
+            </div>
+        </div>
+
+        <div class="shop-item">
+            <div class="item-icon">✨</div>
+            <h3>Profile Decorations</h3>
+            <p>
+                Customize your Zyphor profile with special decorations and limited event cosmetics.
+            </p>
+            <div class="cost">
+                Available in the Event Shop
+            </div>
+        </div>
+
+        <div class="shop-item featured">
+            <div class="item-icon">🏆</div>
+            <h3>Limited-Time Badge</h3>
+            <p>
+                Earn enough Zyphor Fest 2026 Coins to unlock an exclusive badge that represents your participation in the event.
+            </p>
+            <div class="cost">
+                100,000 Event Coins Required
+                <small>Limited-time event reward</small>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="badge-card">
+    <div class="badge-icon">🏅</div>
+    <h2>100,000 Coin Challenge</h2>
+    <p>
+        Think you can collect enough Zyphor Fest 2026 Coins?
+        Reach the required amount during the event to unlock a special limited-time badge for your Zyphor profile.
+    </p>
+    <div class="badge-requirement">🪙 100,000 Zyphor Fest 2026 Coins</div>
+</section>
+
+<section class="friends">
+    <div class="section-heading">
+        <h2>Something <span>More Personal</span> 👀</h2>
+        <p>
+            Some event rewards may give you the opportunity to spend your coins on something a little more unique.
+        </p>
+    </div>
+
+    <div class="friend-grid">
+
+        <div class="friend-card">
+            <div class="avatar">👤</div>
+            <h3>BossSquirtle</h3>
+            <p>
+                Spend Zyphor Fest 2026 Coins for the opportunity to receive a friend request from BossSquirtle on Discord or Zyphor.
+            </p>
+            <div class="friend-cost">Event Shop Reward</div>
+        </div>
+
+        <div class="friend-card">
+            <div class="avatar">👤</div>
+            <h3>Somin</h3>
+            <p>
+                A special event reward where you can use your coins for the opportunity to receive a friend request from Somin.
+            </p>
+            <div class="friend-cost">Event Shop Reward</div>
+        </div>
+
+        <div class="friend-card">
+            <div class="avatar">⚡</div>
+            <h3>Zyphor</h3>
+            <p>
+                Use your event coins for the opportunity to receive a friend request from the official Zyphor account.
+            </p>
+            <div class="friend-cost">Event Shop Reward</div>
+        </div>
+
+    </div>
+</section>
+
+<section class="mystery">
+    <h2>And That's Not Everything... 👀</h2>
+    <p>
+        The Zyphor Fest 2026 Event Shop may contain even more rewards,
+        exclusive items, surprises, and limited-time opportunities.
+        Start preparing — you'll want as many Zyphor Fest 2026 Coins as possible.
+    </p>
+</section>
+
+</main>
+
+<footer>
+    🎆 Zyphor Fest 2026 • Earn Coins • Unlock Rewards • Make Your Profile Yours 🎆
+</footer>
+
+<script>
+const canvas=document.getElementById("fireworks")
+const ctx=canvas.getContext("2d")
+
+function resize(){
+    canvas.width=window.innerWidth
+    canvas.height=window.innerHeight
+}
+
+resize()
+window.addEventListener("resize",resize)
+
+const rockets=[]
+const particles=[]
+
+function random(min,max){
+    return Math.random()*(max-min)+min
+}
+
+function launch(){
+    rockets.push({
+        x:random(0,canvas.width),
+        y:canvas.height,
+        targetY:random(canvas.height*.08,canvas.height*.55),
+        speed:random(5,9),
+        color:`hsl(${random(0,360)},100%,65%)`
+    })
+}
+
+function explode(rocket){
+    for(let i=0;i<70;i++){
+        const angle=Math.PI*2*i/70
+        const speed=random(1,5)
+
+        particles.push({
+            x:rocket.x,
+            y:rocket.y,
+            vx:Math.cos(angle)*speed,
+            vy:Math.sin(angle)*speed,
+            life:100,
+            color:rocket.color
+        })
+    }
+}
+
+function animate(){
+    ctx.fillStyle="rgba(8,10,15,.18)"
+    ctx.fillRect(0,0,canvas.width,canvas.height)
+
+    for(let i=rockets.length-1;i>=0;i--){
+        const rocket=rockets[i]
+        rocket.y-=rocket.speed
+
+        ctx.beginPath()
+        ctx.arc(rocket.x,rocket.y,2,0,Math.PI*2)
+        ctx.fillStyle=rocket.color
+        ctx.fill()
+
+        if(rocket.y<=rocket.targetY){
+            explode(rocket)
+            rockets.splice(i,1)
+        }
+    }
+
+    for(let i=particles.length-1;i>=0;i--){
+        const particle=particles[i]
+
+        particle.x+=particle.vx
+        particle.y+=particle.vy
+        particle.vy+=.035
+        particle.vx*=.99
+        particle.life--
+
+        ctx.globalAlpha=Math.max(particle.life/100,0)
+
+        ctx.beginPath()
+        ctx.arc(particle.x,particle.y,2,0,Math.PI*2)
+        ctx.fillStyle=particle.color
+        ctx.fill()
+
+        if(particle.life<=0){
+            particles.splice(i,1)
+        }
+    }
+
+    ctx.globalAlpha=1
+    requestAnimationFrame(animate)
+}
+
+setInterval(launch,1300)
+
+for(let i=0;i<5;i++){
+    setTimeout(launch,i*350)
+}
+
+animate()
+</script>
+
+</body>
+</html>
