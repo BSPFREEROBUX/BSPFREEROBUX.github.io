@@ -1166,14 +1166,16 @@ function renderEvidence(){
 
     container.innerHTML=evidence.map(file=>{
 
-        const url=
-            backend+
-            "/admin/reports/"+
-            encodeURIComponent(selectedReport.reporter)+
-            "/"+
-            encodeURIComponent(selectedReport.id)+
-            "/evidence/"+
-            encodeURIComponent(file.name)
+const url=
+    backend+
+    "/admin/reports/"+
+    encodeURIComponent(selectedReport.reporter)+
+    "/"+
+    encodeURIComponent(selectedReport.id)+
+    "/evidence/"+
+    encodeURIComponent(file.name)+
+    "?token="+
+    encodeURIComponent(localStorage.getItem("Token"))
 
         return `
             <div class="evidenceItem" onclick="previewEvidence(${JSON.stringify(url)})">
