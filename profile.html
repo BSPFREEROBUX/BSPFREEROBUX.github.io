@@ -1350,20 +1350,49 @@ onmouseleave="hideTip()"
 
 function searchProfile(){
 
-    const username=document.getElementById("searchUser").value.trim()
+    const input=document.getElementById("searchUser").value.trim()
 
-    if(!username) return
+    if(!input) return
 
-    location.href="profile.html?username="+encodeURIComponent(username)
+    if(input.startsWith("(!") && input.endsWith("!)")){
 
+        const id=input.slice(2,-2).trim()
+
+        if(!/^\d+$/.test(id)){
+            alert("Invalid account ID.")
+            return
+        }
+
+        fetch(backend+"/account/by-id/"+encodeURIComponent(id))
+        .then(safeJson)
+        .then(data=>{
+
+            if(!data || data.error){
+                alert("No account found with that ID.")
+                return
+            }
+
+            location.href=
+                "profile.html?username="+
+                encodeURIComponent(data.username)
+
+        })
+        .catch(()=>{
+            alert("Could not search for that account.")
+        })
+
+        return
+    }
+
+    location.href=
+        "profile.html?username="+
+        encodeURIComponent(input)
 }
 
 document.getElementById("searchUser").addEventListener("keypress",e=>{
 
     if(e.key==="Enter"){
-
         searchProfile()
-
     }
 
 })
