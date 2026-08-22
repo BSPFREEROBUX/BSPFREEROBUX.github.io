@@ -98,353 +98,6 @@ margin-bottom:25px;
     pointer-events:none;
 }
 
-.reportFlag{
-    width:34px;
-    height:34px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border:none;
-    border-radius:10px;
-    background:rgba(255,255,255,.06);
-    color:#9ea8bb;
-    cursor:pointer;
-    transition:.2s ease;
-    font-size:17px;
-}
-
-.reportFlag:hover{
-    color:#ff5c7c;
-    background:rgba(255,92,124,.12);
-    transform:translateY(-1px);
-}
-
-.reportOverlay{
-    position:fixed;
-    inset:0;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.75);
-    backdrop-filter:blur(10px);
-    z-index:999999;
-}
-
-.reportOverlay.show{
-    display:flex;
-}
-
-.reportModal{
-    width:min(600px,100%);
-    max-height:calc(100vh - 40px);
-    overflow-y:auto;
-    background:linear-gradient(180deg,#171c29,#0d111a);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:22px;
-    box-shadow:0 25px 80px rgba(0,0,0,.6);
-}
-
-.reportModal::-webkit-scrollbar{
-    width:7px;
-}
-
-.reportModal::-webkit-scrollbar-thumb{
-    background:#30394b;
-    border-radius:20px;
-}
-
-.reportHeader{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    padding:24px 26px;
-    border-bottom:1px solid rgba(255,255,255,.07);
-}
-
-.reportHeaderIcon{
-    width:48px;
-    height:48px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:14px;
-    background:linear-gradient(135deg,rgba(255,80,110,.18),rgba(154,61,255,.16));
-    color:#ff6682;
-    font-size:23px;
-}
-
-.reportHeaderText{
-    flex:1;
-}
-
-.reportHeaderText h2{
-    margin:0;
-    color:#fff;
-    font-size:22px;
-}
-
-.reportHeaderText p{
-    margin:4px 0 0;
-    color:#8e99ad;
-    font-size:13px;
-}
-
-.reportClose{
-    width:38px;
-    height:38px;
-    border:none;
-    border-radius:10px;
-    background:rgba(255,255,255,.05);
-    color:#9ea8bb;
-    cursor:pointer;
-    font-size:22px;
-}
-
-.reportClose:hover{
-    background:rgba(255,255,255,.1);
-    color:#fff;
-}
-
-.reportBody{
-    padding:24px 26px 26px;
-}
-
-.reportLabel{
-    display:block;
-    color:#e8edf6;
-    font-size:14px;
-    font-weight:700;
-    margin-bottom:11px;
-}
-
-.reportOptional{
-    color:#788399;
-    font-weight:500;
-}
-
-.reportCategories{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-bottom:22px;
-}
-
-.reportCategory{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    min-height:56px;
-    padding:13px 15px;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:13px;
-    background:rgba(255,255,255,.025);
-    color:#b8c1d0;
-    cursor:pointer;
-    text-align:left;
-    font:inherit;
-    transition:.18s ease;
-}
-
-.reportCategory:hover{
-    background:rgba(255,255,255,.06);
-    border-color:rgba(0,213,255,.3);
-    color:#fff;
-}
-
-.reportCategory.selected{
-    color:#fff;
-    border-color:#00bce8;
-    background:linear-gradient(135deg,rgba(0,188,232,.12),rgba(124,58,237,.1));
-    box-shadow:0 0 20px rgba(0,188,232,.07);
-}
-
-.reportCategoryIcon{
-    width:29px;
-    height:29px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:8px;
-    background:rgba(255,255,255,.06);
-    font-size:14px;
-}
-
-.reportOther{
-    grid-column:1/-1;
-}
-
-.reportTextarea{
-    width:100%;
-    min-height:115px;
-    resize:vertical;
-    box-sizing:border-box;
-    padding:14px;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:13px;
-    background:rgba(255,255,255,.035);
-    color:#fff;
-    outline:none;
-    font:inherit;
-}
-
-.reportTextarea:focus{
-    border-color:rgba(0,188,232,.55);
-    box-shadow:0 0 0 3px rgba(0,188,232,.07);
-}
-
-.reportTextarea::placeholder{
-    color:#667085;
-}
-
-.reportUpload{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    min-height:135px;
-    padding:20px;
-    border:1px dashed rgba(0,188,232,.35);
-    border-radius:15px;
-    background:rgba(0,188,232,.025);
-    color:#9da8ba;
-    cursor:pointer;
-    transition:.2s ease;
-    text-align:center;
-}
-
-.reportUpload:hover,
-.reportUpload.drag{
-    border-color:#00bce8;
-    background:rgba(0,188,232,.07);
-}
-
-.reportUploadIcon{
-    width:42px;
-    height:42px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:13px;
-    background:rgba(0,188,232,.1);
-    color:#00cfff;
-    font-size:20px;
-    margin-bottom:8px;
-}
-
-.reportUpload strong{
-    color:#e8edf6;
-    font-size:14px;
-}
-
-.reportUpload small{
-    margin-top:5px;
-    color:#778398;
-}
-
-.reportFiles{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    margin-top:10px;
-}
-
-.reportFile{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:10px 12px;
-    border-radius:11px;
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.06);
-}
-
-.reportFileInfo{
-    flex:1;
-    min-width:0;
-}
-
-.reportFileName{
-    color:#dce3ef;
-    font-size:13px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.reportFileSize{
-    margin-top:3px;
-    color:#748096;
-    font-size:11px;
-}
-
-.reportRemove{
-    border:none;
-    background:transparent;
-    color:#8490a4;
-    font-size:20px;
-    cursor:pointer;
-}
-
-.reportRemove:hover{
-    color:#ff5c7c;
-}
-
-.reportFooter{
-    display:flex;
-    gap:10px;
-    margin-top:24px;
-}
-
-.reportCancel{
-    flex:1;
-    height:48px;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:13px;
-    background:rgba(255,255,255,.04);
-    color:#c7d0df;
-    font-weight:700;
-    cursor:pointer;
-}
-
-.reportSubmit{
-    flex:2;
-    height:48px;
-    border:none;
-    border-radius:13px;
-    background:linear-gradient(90deg,#008bd1,#7038c7);
-    color:white;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 10px 25px rgba(67,65,210,.22);
-}
-
-.reportSubmit:hover{
-    filter:brightness(1.1);
-}
-
-.reportStatus{
-    min-height:18px;
-    margin-top:12px;
-    text-align:center;
-    color:#9ea8bb;
-    font-size:13px;
-}
-
-@media(max-width:600px){
-    .reportCategories{
-        grid-template-columns:1fr;
-    }
-
-    .reportOther{
-        grid-column:auto;
-    }
-
-    .reportModal{
-        border-radius:18px;
-    }
-}
-
 .ownerGrid{
     position:absolute;
     inset:-50%;
@@ -1333,19 +986,12 @@ Close
 <img id="profilePfp" style="display:none">
 </div>
 
-<div class="profileName">
-    <span id="profileUsername">Loading...</span>
-    <span id="profileIcons"></span>
-
-    <button
-        id="reportFlag"
-        class="reportFlag"
-        type="button"
-        title="Report User"
-        onclick="openReport()"
-        style="display:none"
-    >⚑</button>
-</div>
+        <div>
+            <div class="profileName">
+                <span id="profileUsername">Loading...</span>
+                <span id="profileIcons"></span>
+                <button id="reportFlag" class="reportFlag" type="button" title="Report this user" aria-label="Report this user" style="display:none" onclick="openReport()">⚑</button>
+            </div>
 
             <p style="margin-top:10px;color:#8ea2be;">
                 Everything about this Zyphor profile.
@@ -1393,335 +1039,73 @@ Close
         <div id="badgesList"></div>
     </div>
 
-<div class="actions" id="profileActions">
-</div>
+    <div class="actions" id="profileActions">
+    </div>
 
 </div>
 
-<div id="reportOverlay" class="reportOverlay" onclick="if(event.target===this)closeReport()">
+
+<div id="reportOverlay" class="reportOverlay" onclick="reportOverlayClick(event)">
     <div class="reportModal">
+        <button class="reportClose" type="button" onclick="closeReport()">×</button>
 
-        <div class="reportHeader">
-            <div class="reportHeaderIcon">⚑</div>
-
-            <div class="reportHeaderText">
+        <div class="reportHead">
+            <div class="reportIcon">⚑</div>
+            <div>
                 <h2>Report User</h2>
-                <p id="reportTarget">Report inappropriate behavior on Zyphor.</p>
+                <p id="reportTarget">Help keep Zyphor safe by reporting inappropriate behavior.</p>
             </div>
-
-            <button class="reportClose" type="button" onclick="closeReport()">×</button>
         </div>
 
-        <div class="reportBody">
+        <div class="reportStep">1. Select a report category</div>
 
-            <label class="reportLabel">Select a report category</label>
-
-            <div class="reportCategories">
-
-                <button class="reportCategory selected" type="button" data-category="Inappropriate Username" onclick="selectReportCategory(this)">
-                    <div class="reportCategoryIcon">⚑</div>
-                    <span>Inappropriate Username</span>
-                </button>
-
-                <button class="reportCategory" type="button" data-category="Inappropriate Profile Picture" onclick="selectReportCategory(this)">
-                    <div class="reportCategoryIcon">◉</div>
-                    <span>Inappropriate Profile Picture</span>
-                </button>
-
-                <button class="reportCategory" type="button" data-category="Harassment" onclick="selectReportCategory(this)">
-                    <div class="reportCategoryIcon">!</div>
-                    <span>Harassment or Bullying</span>
-                </button>
-
-                <button class="reportCategory" type="button" data-category="Spam or Scam" onclick="selectReportCategory(this)">
-                    <div class="reportCategoryIcon">⚠</div>
-                    <span>Spam or Scam</span>
-                </button>
-
-                <button class="reportCategory reportOther" type="button" data-category="Other" onclick="selectReportCategory(this)">
-                    <div class="reportCategoryIcon">✎</div>
-                    <span>Other</span>
-                </button>
-
-            </div>
-
-            <label class="reportLabel">
-                Additional details
-                <span class="reportOptional">(optional)</span>
-            </label>
-
-            <textarea id="reportReason" class="reportTextarea" maxlength="2000" placeholder="Tell us what happened..."></textarea>
-
-            <div style="height:20px"></div>
-
-            <label class="reportLabel">
-                Attach proof screenshots
-                <span class="reportOptional">(optional, max 10 MB total)</span>
-            </label>
-
-            <label id="reportUpload" class="reportUpload">
-                <input id="reportEvidence" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" multiple hidden>
-
-                <div class="reportUploadIcon">↑</div>
-
-                <strong>Click to upload or drag and drop</strong>
-
-                <small>PNG, JPG or WEBP · Maximum 10 MB total</small>
-            </label>
-
-            <div id="reportFiles" class="reportFiles"></div>
-
-            <div class="reportFooter">
-                <button class="reportCancel" type="button" onclick="closeReport()">Cancel</button>
-                <button id="reportSubmit" class="reportSubmit" type="button" onclick="submitReport()">⚑ Submit Report</button>
-            </div>
-
-            <div id="reportStatus" class="reportStatus"></div>
-
+        <div class="reportCategories">
+            <button class="reportCategory selected" type="button" data-category="Inappropriate Username" onclick="selectReportCategory(this)">
+                <span>♙</span> Inappropriate Username
+            </button>
+            <button class="reportCategory" type="button" data-category="Inappropriate Profile Picture" onclick="selectReportCategory(this)">
+                <span>▣</span> Inappropriate Profile Picture
+            </button>
+            <button class="reportCategory" type="button" data-category="Harassment" onclick="selectReportCategory(this)">
+                <span>⬡</span> Harassment or Bullying
+            </button>
+            <button class="reportCategory" type="button" data-category="Spam or Scam" onclick="selectReportCategory(this)">
+                <span>!</span> Spam or Scam
+            </button>
+            <button class="reportCategory full" type="button" data-category="Other" onclick="selectReportCategory(this)">
+                <span>✎</span> Other — Please specify
+            </button>
         </div>
+
+        <div class="reportStep">2. Please provide more details <span style="color:#7f8ca1;font-weight:500">(optional)</span></div>
+        <textarea id="reportReason" class="reportTextarea" maxlength="2000" placeholder="Describe what happened..."></textarea>
+
+        <div class="reportStep">3. Attach proof screenshots <span style="color:#7f8ca1;font-weight:500">(optional)</span></div>
+
+        <label id="reportUpload" class="reportUpload">
+            <input id="reportEvidence" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" multiple hidden>
+            <div style="font-size:29px">☁</div>
+            <strong>Click to upload or drag and drop</strong>
+            <small>PNG, JPG or WEBP — up to 10 MB total</small>
+        </label>
+
+        <div id="reportFiles" class="reportFiles"></div>
+
+        <div class="reportFooter">
+            <button class="reportCancel" type="button" onclick="closeReport()">Cancel</button>
+            <button id="reportSubmit" class="reportSubmit" type="button" onclick="submitReport()">⚑ &nbsp; Submit Report</button>
+        </div>
+
+        <div id="reportStatus" class="reportStatus"></div>
     </div>
 </div>
 
-<script src="theme.js"></script>
+    <script src="theme.js"></script>
 
 <script>
 
 let backend=null
 let me=null
-
-let reportTargetUsername=null
-let reportCategory="Inappropriate Username"
-let reportFiles=[]
-
-function openReport(){
-
-    if(!reportTargetUsername) return
-
-    if(!me){
-        alert("You must be logged in to submit a report.")
-        return
-    }
-
-    document.getElementById("reportTarget").textContent=
-        `Reporting @${reportTargetUsername}`
-
-    document.getElementById("reportReason").value=""
-    document.getElementById("reportStatus").textContent=""
-
-    reportFiles=[]
-    reportCategory="Inappropriate Username"
-
-    document.querySelectorAll(".reportCategory").forEach((button,index)=>{
-        button.classList.toggle("selected",index===0)
-    })
-
-    renderReportFiles()
-
-    document.getElementById("reportOverlay").classList.add("show")
-}
-
-function closeReport(){
-    document.getElementById("reportOverlay").classList.remove("show")
-}
-
-function selectReportCategory(button){
-
-    reportCategory=button.dataset.category
-
-    document.querySelectorAll(".reportCategory").forEach(button=>{
-        button.classList.remove("selected")
-    })
-
-    button.classList.add("selected")
-}
-
-function addReportFiles(files){
-
-    const allowed=[
-        "image/png",
-        "image/jpeg",
-        "image/jpg",
-        "image/webp"
-    ]
-
-    for(const file of files){
-
-        if(!allowed.includes(file.type)) continue
-
-        if(!reportFiles.some(existing=>
-            existing.name===file.name &&
-            existing.size===file.size
-        )){
-            reportFiles.push(file)
-        }
-    }
-
-    const totalSize=reportFiles.reduce(
-        (total,file)=>total+file.size,
-        0
-    )
-
-    if(totalSize>10*1024*1024){
-
-        reportFiles=[]
-
-        document.getElementById("reportStatus").textContent=
-            "Maximum screenshot size is 10 MB."
-
-    }
-
-    renderReportFiles()
-}
-
-function renderReportFiles(){
-
-    const container=document.getElementById("reportFiles")
-
-    container.innerHTML=reportFiles.map((file,index)=>`
-
-        <div class="reportFile">
-
-            <div class="reportFileInfo">
-
-                <div class="reportFileName">
-                    ${escapeReportHtml(file.name)}
-                </div>
-
-                <div class="reportFileSize">
-                    ${formatReportSize(file.size)}
-                </div>
-
-            </div>
-
-            <button
-                class="reportRemove"
-                type="button"
-                onclick="removeReportFile(${index})"
-            >
-                ×
-            </button>
-
-        </div>
-
-    `).join("")
-}
-
-function removeReportFile(index){
-
-    reportFiles.splice(index,1)
-
-    renderReportFiles()
-}
-
-function formatReportSize(bytes){
-
-    if(bytes<1024*1024){
-        return `${Math.ceil(bytes/1024)} KB`
-    }
-
-    return `${(bytes/(1024*1024)).toFixed(2)} MB`
-}
-
-function escapeReportHtml(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;")
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-    const input=document.getElementById("reportEvidence")
-
-    if(!input) return
-
-    input.addEventListener("change",event=>{
-
-        addReportFiles([...event.target.files])
-
-        input.value=""
-    })
-
-})
-
-async function submitReport(){
-
-    if(!reportTargetUsername) return
-
-    const reason=document.getElementById("reportReason").value.trim()
-
-    const status=document.getElementById("reportStatus")
-
-    const button=document.getElementById("reportSubmit")
-
-    if(reportCategory==="Other" && !reason){
-
-        status.textContent=
-            "Please describe what you are reporting."
-
-        return
-    }
-
-    const form=new FormData()
-
-    form.append("targetUsername",reportTargetUsername)
-
-    form.append("category",reportCategory)
-
-    form.append("reason",reason)
-
-    for(const file of reportFiles){
-        form.append("evidence",file)
-    }
-
-    button.disabled=true
-
-    button.textContent="Submitting..."
-
-    try{
-
-        const response=await fetch(
-            backend+"/reports/submit",
-            {
-                method:"POST",
-                headers:{
-                    Authorization:localStorage.getItem("Token")
-                },
-                body:form
-            }
-        )
-
-        const data=await safeJson(response)
-
-        if(!data || data.error){
-
-            status.textContent=
-                (data&&data.error)||
-                "Could not submit the report."
-
-            return
-        }
-
-        status.textContent=
-            "Report submitted successfully."
-
-        setTimeout(closeReport,1000)
-
-    }catch{
-
-        status.textContent=
-            "Could not connect to the server."
-
-    }finally{
-
-        button.disabled=false
-
-        button.innerHTML="⚑ Submit Report"
-    }
-}
 
 async function getBackend(){
 
@@ -2406,19 +1790,9 @@ async function loadProfile(){
     const reportFlag=document.getElementById("reportFlag")
     reportFlag.style.display=me && me.username!==data.username ? "inline-flex" : "none"
 
-reportTargetUsername=data.username
-
-const reportFlag=document.getElementById("reportFlag")
-
-if(me && me.username!==data.username){
-    reportFlag.style.display="inline-flex"
-}else{
-    reportFlag.style.display="none"
-}
-
-document.getElementById("profileUsername").textContent=data.username
-loadProfilePfp(data.username)
-showOwnerReveal(data.username)
+    document.getElementById("profileUsername").textContent=data.username
+    loadProfilePfp(data.username)
+    showOwnerReveal(data.username)
 
     document.getElementById("profileIcons").innerHTML=icons
 
