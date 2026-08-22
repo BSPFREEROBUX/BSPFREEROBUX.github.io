@@ -990,6 +990,7 @@ Close
             <div class="profileName">
                 <span id="profileUsername">Loading...</span>
                 <span id="profileIcons"></span>
+                <button id="reportFlag" class="reportFlag" type="button" title="Report this user" aria-label="Report this user" style="display:none" onclick="openReport()">⚑</button>
             </div>
 
             <p style="margin-top:10px;color:#8ea2be;">
@@ -1041,6 +1042,62 @@ Close
     <div class="actions" id="profileActions">
     </div>
 
+</div>
+
+
+<div id="reportOverlay" class="reportOverlay" onclick="reportOverlayClick(event)">
+    <div class="reportModal">
+        <button class="reportClose" type="button" onclick="closeReport()">×</button>
+
+        <div class="reportHead">
+            <div class="reportIcon">⚑</div>
+            <div>
+                <h2>Report User</h2>
+                <p id="reportTarget">Help keep Zyphor safe by reporting inappropriate behavior.</p>
+            </div>
+        </div>
+
+        <div class="reportStep">1. Select a report category</div>
+
+        <div class="reportCategories">
+            <button class="reportCategory selected" type="button" data-category="Inappropriate Username" onclick="selectReportCategory(this)">
+                <span>♙</span> Inappropriate Username
+            </button>
+            <button class="reportCategory" type="button" data-category="Inappropriate Profile Picture" onclick="selectReportCategory(this)">
+                <span>▣</span> Inappropriate Profile Picture
+            </button>
+            <button class="reportCategory" type="button" data-category="Harassment" onclick="selectReportCategory(this)">
+                <span>⬡</span> Harassment or Bullying
+            </button>
+            <button class="reportCategory" type="button" data-category="Spam or Scam" onclick="selectReportCategory(this)">
+                <span>!</span> Spam or Scam
+            </button>
+            <button class="reportCategory full" type="button" data-category="Other" onclick="selectReportCategory(this)">
+                <span>✎</span> Other — Please specify
+            </button>
+        </div>
+
+        <div class="reportStep">2. Please provide more details <span style="color:#7f8ca1;font-weight:500">(optional)</span></div>
+        <textarea id="reportReason" class="reportTextarea" maxlength="2000" placeholder="Describe what happened..."></textarea>
+
+        <div class="reportStep">3. Attach proof screenshots <span style="color:#7f8ca1;font-weight:500">(optional)</span></div>
+
+        <label id="reportUpload" class="reportUpload">
+            <input id="reportEvidence" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" multiple hidden>
+            <div style="font-size:29px">☁</div>
+            <strong>Click to upload or drag and drop</strong>
+            <small>PNG, JPG or WEBP — up to 10 MB total</small>
+        </label>
+
+        <div id="reportFiles" class="reportFiles"></div>
+
+        <div class="reportFooter">
+            <button class="reportCancel" type="button" onclick="closeReport()">Cancel</button>
+            <button id="reportSubmit" class="reportSubmit" type="button" onclick="submitReport()">⚑ &nbsp; Submit Report</button>
+        </div>
+
+        <div id="reportStatus" class="reportStatus"></div>
+    </div>
 </div>
 
     <script src="theme.js"></script>
@@ -1277,6 +1334,188 @@ document.getElementById("searchUser").addEventListener("keypress",e=>{
     }
 
 })
+
+
+let reportTargetUsername=null
+let reportCategory="Inappropriate Username"
+let reportFiles=[]
+
+function openReport(){
+    if(!reportTargetUsername) return
+    if(!me){
+        alert("You must be logged in to submit a report.")
+        return
+    }
+
+    document.getElementById("reportTarget").textContent=`Reporting @${reportTargetUsername}. False reports may result in action against your account.`
+    document.getElementById("reportReason").value=""
+    document.getElementById("reportStatus").textContent=""
+    document.getElementById("reportEvidence").value=""
+    reportFiles=[]
+    reportCategory="Inappropriate Username"
+    document.querySelectorAll(".reportCategory").forEach((button,index)=>{
+        button.classList.toggle("selected",index===0)
+    })
+    renderReportFiles()
+    document.getElementById("reportOverlay").classList.add("show")
+}
+
+function closeReport(){
+    document.getElementById("reportOverlay").classList.remove("show")
+}
+
+function reportOverlayClick(event){
+    if(event.target===document.getElementById("reportOverlay")) closeReport()
+}
+
+function selectReportCategory(button){
+    reportCategory=button.dataset.category
+    document.querySelectorAll(".reportCategory").forEach(item=>{
+        item.classList.remove("selected")
+    })
+    button.classList.add("selected")
+}
+
+function formatReportSize(bytes){
+    if(bytes<1024*1024) return `${Math.ceil(bytes/1024)} KB`
+    return `${(bytes/(1024*1024)).toFixed(2)} MB`
+}
+
+function renderReportFiles(){
+    const box=document.getElementById("reportFiles")
+    box.innerHTML=reportFiles.map((file,index)=>`
+        <div class="reportFile">
+            <div class="reportFileIcon">▣</div>
+            <div class="reportFileInfo">
+                <div class="reportFileName">${escapeReportHtml(file.name)}</div>
+                <div class="reportFileSize">${formatReportSize(file.size)}</div>
+            </div>
+            <button class="reportRemove" type="button" onclick="removeReportFile(${index})">×</button>
+        </div>
+    `).join("")
+}
+
+function escapeReportHtml(value){
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;")
+}
+
+function removeReportFile(index){
+    reportFiles.splice(index,1)
+    renderReportFiles()
+}
+
+function addReportFiles(files){
+    const status=document.getElementById("reportStatus")
+    const allowed=["image/png","image/jpeg","image/jpg","image/webp"]
+
+    for(const file of files){
+        if(!allowed.includes(file.type)){
+            status.textContent="Only PNG, JPG, and WEBP images are allowed."
+            continue
+        }
+
+        if(!reportFiles.some(existing=>existing.name===file.name && existing.size===file.size)){
+            reportFiles.push(file)
+        }
+    }
+
+    const total=reportFiles.reduce((sum,file)=>sum+file.size,0)
+
+    if(total>10*1024*1024){
+        reportFiles=[]
+        status.textContent="Your screenshots exceed the 10 MB total limit."
+    }else{
+        status.textContent=""
+    }
+
+    renderReportFiles()
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+    const upload=document.getElementById("reportEvidence")
+    const area=document.getElementById("reportUpload")
+
+    if(!upload || !area) return
+
+    upload.addEventListener("change",event=>{
+        addReportFiles([...event.target.files])
+        upload.value=""
+    })
+
+    ;["dragenter","dragover"].forEach(type=>{
+        area.addEventListener(type,event=>{
+            event.preventDefault()
+            area.classList.add("drag")
+        })
+    })
+
+    ;["dragleave","drop"].forEach(type=>{
+        area.addEventListener(type,event=>{
+            event.preventDefault()
+            area.classList.remove("drag")
+        })
+    })
+
+    area.addEventListener("drop",event=>{
+        addReportFiles([...event.dataTransfer.files])
+    })
+})
+
+async function submitReport(){
+    if(!reportTargetUsername) return
+
+    const reason=document.getElementById("reportReason").value.trim()
+    const status=document.getElementById("reportStatus")
+    const submit=document.getElementById("reportSubmit")
+
+    if(reportCategory==="Other" && !reason){
+        status.textContent="Please explain what you are reporting."
+        return
+    }
+
+    const form=new FormData()
+    form.append("targetUsername",reportTargetUsername)
+    form.append("category",reportCategory)
+    form.append("reason",reason)
+
+    for(const file of reportFiles){
+        form.append("evidence",file)
+    }
+
+    submit.disabled=true
+    status.textContent="Submitting report..."
+
+    try{
+        const response=await fetch(backend+"/reports/submit",{
+            method:"POST",
+            headers:{
+                Authorization:localStorage.getItem("Token")
+            },
+            body:form
+        })
+
+        const data=await safeJson(response)
+
+        if(!data || data.error){
+            status.textContent=(data&&data.error)||"Could not submit the report."
+            submit.disabled=false
+            return
+        }
+
+        status.textContent="Report submitted successfully."
+        setTimeout(closeReport,900)
+    }catch{
+        status.textContent="Could not connect to the server."
+    }
+
+    submit.disabled=false
+}
+
 
 function payoutPopup(username){
 
@@ -1546,6 +1785,10 @@ async function loadProfile(){
         .join("<br>")
 
     }
+
+    reportTargetUsername=data.username
+    const reportFlag=document.getElementById("reportFlag")
+    reportFlag.style.display=me && me.username!==data.username ? "inline-flex" : "none"
 
     document.getElementById("profileUsername").textContent=data.username
     loadProfilePfp(data.username)
