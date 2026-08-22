@@ -1875,24 +1875,34 @@ async function loadProfile(){
     loadProfilePfp(data.username)
     showOwnerReveal(data.username)
 
-if(data.username.toLowerCase()==="somin"){
-    const sominTheme=document.createElement("audio")
+    if(data.username.toLowerCase()==="somin"){
+    let sominTheme=document.getElementById("sominTheme")
+
+    if(!sominTheme){
+        sominTheme=document.createElement("audio")
+        sominTheme.id="sominTheme"
+        sominTheme.loop=true
+        sominTheme.volume=0.5
+        document.body.appendChild(sominTheme)
+    }
+
     const sominSounds=[
         "Sound/Somin/1.mp3",
         "Sound/Somin/2.mp3"
     ]
 
     sominTheme.src=sominSounds[Math.floor(Math.random()*sominSounds.length)]
-    sominTheme.loop=true
-    sominTheme.volume=0.5
-    document.body.appendChild(sominTheme)
+    sominTheme.load()
 
-    sominTheme.play().catch(()=>{
-        document.addEventListener("click",()=>{
-            sominTheme.play()
-        },{once:true})
-    })
+    const startSominTheme=()=>{
+        sominTheme.play().catch(()=>{})
+    }
+
+    document.addEventListener("click",startSominTheme,{once:true})
+    document.addEventListener("keydown",startSominTheme,{once:true})
+    document.addEventListener("touchstart",startSominTheme,{once:true})
 }
+    
 
     document.getElementById("profileIcons").innerHTML=icons
 
