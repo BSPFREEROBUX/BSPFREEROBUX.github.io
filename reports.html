@@ -725,8 +725,6 @@ body::before{
 
     </aside>
 
-    </aside>
-
     <main class="main">
 
         <div class="topbar">
@@ -1000,7 +998,7 @@ function renderReports(){
             :0
 
         return `
-            <div class="report" onclick="openReport(${JSON.stringify(report.id)})">
+            <div class="report" onclick='openReport(${JSON.stringify(report.id)})'>
 
                 <div class="reportAvatar">
                     ${escapeHtml(getInitials(report.target))}
@@ -1030,7 +1028,7 @@ function renderReports(){
                     ${evidenceCount?`▣ ${evidenceCount} evidence`:"No evidence"}
                 </div>
 
-                <button class="viewButton" onclick="event.stopPropagation();openReport(${JSON.stringify(report.id)})">
+                <button class="viewButton" onclick='event.stopPropagation();openReport(${JSON.stringify(report.id)})'>
                     ›
                 </button>
 
