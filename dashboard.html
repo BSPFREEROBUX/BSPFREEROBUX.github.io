@@ -994,100 +994,134 @@ function goProfile() {
 
 async function loadNotifications(){
 
-    const token = localStorage.getItem("Token")
+    const token=localStorage.getItem("Token")
     if(!token) return
 
-    let notifications = []
-    let unread = 0
-    let unreadMessages = 0
+    let notifications=[]
+    let unread=0
+    let unreadMessages=0
 
     try{
 
-        const r = await fetch(backend + "/notifications",{
-            headers:{ Authorization:token }
+        const r=await fetch(backend+"/notifications",{
+            headers:{
+                Authorization:token
+            }
         })
 
-        const data = await r.json()
+        const data=await r.json()
 
         if(Array.isArray(data.notifications)){
-            notifications.push(...data.notifications.map(n=>({
-                type:"support",
-                message:n.message,
-                ticketId:n.ticketId
-            })))
+
+            notifications.push(
+                ...data.notifications.map(n=>({
+                    type:n.type||"system",
+                    message:n.message,
+                    ticketId:n.ticketId||null
+                }))
+            )
+
         }
 
-        unread += data.unread || 0
+        unread+=data.unread||0
 
     }catch{}
 
     try{
 
-        const r = await fetch(backend + "/dms/state",{
-            headers:{ Authorization:token }
+        const r=await fetch(backend+"/dms/state",{
+            headers:{
+                Authorization:token
+            }
         })
 
-        const data = await r.json()
+        const data=await r.json()
 
         if(Array.isArray(data.incomingRequests)){
+
             data.incomingRequests.forEach(req=>{
+
                 notifications.push({
                     type:"friend",
                     message:`Friend request from ${req.from}`
                 })
+
             })
 
-            unread += data.incomingRequests.length
+            unread+=data.incomingRequests.length
+
         }
 
         if(Array.isArray(data.chats)){
+
             data.chats.forEach(chat=>{
-                if(chat.unread > 0){
+
+                if(chat.unread>0){
 
                     notifications.push({
                         type:"dm",
                         message:`${chat.unread} unread message${chat.unread===1?"":"s"} from ${chat.with}`
                     })
 
-                     unread += chat.unread
-                    unreadMessages += chat.unread
+                    unread+=chat.unread
+                    unreadMessages+=chat.unread
+
                 }
+
             })
+
         }
 
     }catch{}
 
-    const badge = document.getElementById("notificationBadge")
-    document.getElementById("messageCount").textContent =
-    unreadMessages.toLocaleString()
+    const badge=document.getElementById("notificationBadge")
 
+    document.getElementById("messageCount").textContent=
+        unreadMessages.toLocaleString()
 
-    if(unread > 0){
-        badge.style.display = "inline-block"
-        badge.textContent = unread
+    if(unread>0){
+
+        badge.style.display="inline-block"
+        badge.textContent=unread
+
     }else{
-        badge.style.display = "none"
+
+        badge.style.display="none"
+
     }
 
-    if(unread > lastUnread){
-        notificationSound.currentTime = 0
+    if(unread>lastUnread){
+
+        notificationSound.currentTime=0
         notificationSound.play().catch(()=>{})
+
     }
 
-    lastUnread = unread
+    lastUnread=unread
 
-    document.getElementById("notificationList").innerHTML =
-        notifications.map(n=>`
-            <div class="row"
-                 style="cursor:pointer"
-                 onclick="${
-                    n.type==="support"
-                    ? `location.href='Support.html#${n.ticketId}'`
-                    : `location.href='dms.html'`
-                 }">
-                ${n.message}
-            </div>
-        `).join("") || "<div class='row'>No notifications.</div>"
+    document.getElementById("notificationList").innerHTML=
+        notifications.map(n=>{
+
+            let click=""
+
+            if(n.type==="support" && n.ticketId){
+                click=`location.href='Support.html#${n.ticketId}'`
+            }else if(
+                n.type==="dm" ||
+                n.type==="friend"
+            ){
+                click=`location.href='dms.html'`
+            }
+
+            return `
+                <div class="row"
+                    style="${click?"cursor:pointer":""}"
+                    ${click?`onclick="${click}"`:""}>
+                    ${n.message}
+                </div>
+            `
+
+        }).join("") || "<div class='row'>No notifications.</div>"
 }
 
 async function init(){
