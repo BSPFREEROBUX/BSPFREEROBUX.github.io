@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor Reports</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Inter",sans-serif;
+    background:
+        radial-gradient(circle at top,#12224d 0%,#090b11 30%,#05070b 100%);
+    color:#fff;
+    min-height:100vh;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(0,213,255,.08),transparent 28%),
+        radial-gradient(circle at 85% 75%,rgba(154,61,255,.1),transparent 32%);
+}
+
+.layout{
+    position:relative;
+    display:grid;
+    grid-template-columns:250px 1fr;
+    min-height:100vh;
+}
+
+.sidebar{
+    position:sticky;
+    top:0;
+    height:100vh;
+    padding:24px 16px;
+    border-right:1px solid rgba(255,255,255,.07);
+    background:rgba(7,10,17,.72);
+    backdrop-filter:blur(20px);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:8px 10px 28px;
+    font-size:21px;
+    font-weight:800;
+}
+
+.logoIcon{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:linear-gradient(135deg,#00bce8,#7437c9);
+    box-shadow:0 0 30px rgba(0,188,232,.22);
+}
+
+.navTitle{
+    margin:12px 10px 9px;
+    color:#667085;
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.navItem{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 14px;
+    margin-bottom:5px;
+    border:none;
+    border-radius:12px;
+    background:transparent;
+    color:#9da8ba;
+    text-align:left;
+    text-decoration:none;
+    font:inherit;
+    cursor:pointer;
+}
+
+.navItem:hover{
+    background:rgba(255,255,255,.05);
+    color:#fff;
+}
+
+.navItem.active{
+    background:linear-gradient(90deg,rgba(0,188,232,.13),rgba(124,58,237,.1));
+    color:#fff;
+    border:1px solid rgba(0,188,232,.16);
+}
+
+.navIcon{
+    width:22px;
+    text-align:center;
+}
+
+.main{
+    padding:34px;
+    min-width:0;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.topbar h1{
+    font-size:30px;
+}
+
+.topbar p{
+    margin-top:6px;
+    color:#8d99ac;
+}
+
+.refresh{
+    height:44px;
+    padding:0 18px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:12px;
+    background:rgba(255,255,255,.045);
+    color:#dce5f1;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.refresh:hover{
+    background:rgba(255,255,255,.08);
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:25px;
+}
+
+.stat{
+    padding:20px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    background:rgba(15,20,32,.7);
+    backdrop-filter:blur(15px);
+}
+
+.statLabel{
+    color:#8995a9;
+    font-size:13px;
+}
+
+.statValue{
+    margin-top:9px;
+    font-size:28px;
+    font-weight:800;
+}
+
+.statIcon{
+    float:right;
+    font-size:22px;
+}
+
+.toolbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.searchBox{
+    flex:1;
+    position:relative;
+}
+
+.searchBox input{
+    width:100%;
+    height:48px;
+    padding:0 16px 0 45px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:13px;
+    outline:none;
+    background:rgba(255,255,255,.035);
+    color:#fff;
+    font:inherit;
+}
+
+.searchBox input:focus{
+    border-color:rgba(0,188,232,.5);
+}
+
+.searchIcon{
+    position:absolute;
+    left:16px;
+    top:14px;
+    color:#718096;
+}
+
+.filter{
+    height:48px;
+    min-width:155px;
+    padding:0 13px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:13px;
+    outline:none;
+    background:#151b28;
+    color:#dce5f1;
+    font:inherit;
+}
+
+.reportList{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+}
+
+.report{
+    display:grid;
+    grid-template-columns:52px minmax(160px,1.1fr) minmax(180px,1.3fr) minmax(120px,.8fr) minmax(100px,.6fr) 44px;
+    align-items:center;
+    gap:18px;
+    padding:17px;
+    border:1px solid rgba(255,255,255,.075);
+    border-radius:17px;
+    background:rgba(14,19,30,.75);
+    transition:.18s ease;
+    cursor:pointer;
+}
+
+.report:hover{
+    transform:translateY(-1px);
+    border-color:rgba(0,188,232,.22);
+    background:rgba(20,27,42,.85);
+}
+
+.reportAvatar{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    background:linear-gradient(135deg,rgba(0,188,232,.18),rgba(124,58,237,.18));
+    font-weight:800;
+    color:#dff9ff;
+}
+
+.reportMain{
+    min-width:0;
+}
+
+.reportTarget{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-weight:700;
+}
+
+.reportMeta{
+    margin-top:5px;
+    color:#758197;
+    font-size:12px;
+}
+
+.reportCategory{
+    min-width:0;
+}
+
+.categoryBadge{
+    display:inline-flex;
+    align-items:center;
+    max-width:100%;
+    padding:7px 10px;
+    border-radius:9px;
+    background:rgba(124,58,237,.12);
+    color:#c5b3ff;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.categoryBadge.username{
+    background:rgba(0,188,232,.11);
+    color:#68dfff;
+}
+
+.categoryBadge.pfp{
+    background:rgba(255,166,0,.11);
+    color:#ffc45e;
+}
+
+.categoryBadge.harassment{
+    background:rgba(255,80,110,.11);
+    color:#ff8299;
+}
+
+.categoryBadge.spam{
+    background:rgba(255,166,0,.11);
+    color:#ffc45e;
+}
+
+.reportDate{
+    color:#8d99ac;
+    font-size:12px;
+}
+
+.evidenceCount{
+    color:#9ea8bb;
+    font-size:12px;
+}
+
+.viewButton{
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:10px;
+    background:rgba(255,255,255,.05);
+    color:#aab6c9;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.viewButton:hover{
+    background:rgba(0,188,232,.13);
+    color:#68dfff;
+}
+
+.empty{
+    padding:70px 20px;
+    border:1px dashed rgba(255,255,255,.12);
+    border-radius:20px;
+    color:#788399;
+    text-align:center;
+}
+
+.emptyIcon{
+    margin-bottom:12px;
+    font-size:36px;
+}
+
+.loading{
+    padding:60px;
+    color:#8d99ac;
+    text-align:center;
+}
+
+.modalOverlay{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(12px);
+}
+
+.modalOverlay.show{
+    display:flex;
+}
+
+.modal{
+    width:min(820px,100%);
+    max-height:calc(100vh - 40px);
+    overflow-y:auto;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:22px;
+    background:linear-gradient(180deg,#171d2a,#0c1018);
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
+}
+
+.modalHeader{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:23px 25px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.modalIcon{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:15px;
+    background:rgba(255,80,110,.12);
+    color:#ff7b93;
+    font-size:22px;
+}
+
+.modalTitle{
+    flex:1;
+}
+
+.modalTitle h2{
+    font-size:20px;
+}
+
+.modalTitle p{
+    margin-top:4px;
+    color:#7f8ca1;
+    font-size:12px;
+}
+
+.close{
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:10px;
+    background:rgba(255,255,255,.05);
+    color:#9ea8bb;
+    font-size:21px;
+    cursor:pointer;
+}
+
+.modalBody{
+    padding:25px;
+}
+
+.infoGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.info{
+    padding:14px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:13px;
+    background:rgba(255,255,255,.025);
+}
+
+.infoLabel{
+    color:#738096;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+}
+
+.infoValue{
+    margin-top:6px;
+    color:#e7edf7;
+    word-break:break-word;
+}
+
+.sectionTitle{
+    margin:25px 0 10px;
+    color:#e7edf7;
+    font-size:14px;
+}
+
+.reason{
+    min-height:90px;
+    padding:15px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:14px;
+    background:rgba(255,255,255,.025);
+    color:#b9c4d3;
+    white-space:pre-wrap;
+    line-height:1.6;
+}
+
+.evidenceGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:12px;
+}
+
+.evidenceItem{
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    background:#111722;
+    cursor:pointer;
+}
+
+.evidenceItem img{
+    display:block;
+    width:100%;
+    height:130px;
+    object-fit:cover;
+}
+
+.evidenceName{
+    padding:9px;
+    overflow:hidden;
+    color:#aab6c9;
+    font-size:11px;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.noEvidence{
+    padding:18px;
+    border:1px dashed rgba(255,255,255,.1);
+    border-radius:13px;
+    color:#758197;
+    text-align:center;
+}
+
+.resolveArea{
+    margin-top:25px;
+    padding-top:22px;
+    border-top:1px solid rgba(255,255,255,.07);
+}
+
+.resolveArea textarea{
+    width:100%;
+    min-height:90px;
+    margin-top:10px;
+    padding:13px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:13px;
+    outline:none;
+    resize:vertical;
+    background:rgba(255,255,255,.035);
+    color:#fff;
+    font:inherit;
+}
+
+.resolveActions{
+    display:flex;
+    gap:10px;
+    margin-top:13px;
+}
+
+.resolveButton{
+    flex:1;
+    height:48px;
+    border:none;
+    border-radius:13px;
+    color:#fff;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.resolveButton.resolved{
+    background:linear-gradient(90deg,#008bd1,#7038c7);
+}
+
+.resolveButton.dismissed{
+    background:rgba(255,255,255,.08);
+    color:#c7d0df;
+}
+
+.status{
+    min-height:18px;
+    margin-top:10px;
+    color:#8d99ac;
+    font-size:12px;
+    text-align:center;
+}
+
+.imageOverlay{
+    position:fixed;
+    inset:0;
+    z-index:100000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    background:rgba(0,0,0,.9);
+}
+
+.imageOverlay.show{
+    display:flex;
+}
+
+.imageOverlay img{
+    max-width:100%;
+    max-height:100%;
+    border-radius:14px;
+    box-shadow:0 30px 100px #000;
+}
+
+.imageClose{
+    position:absolute;
+    top:20px;
+    right:25px;
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    font-size:24px;
+    cursor:pointer;
+}
+
+@media(max-width:1050px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .report{
+        grid-template-columns:52px 1fr auto;
+    }
+
+    .reportCategory,
+    .reportDate,
+    .evidenceCount{
+        display:none;
+    }
+}
+
+@media(max-width:750px){
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:relative;
+        height:auto;
+        padding:14px;
+        border-right:none;
+        border-bottom:1px solid rgba(255,255,255,.07);
+    }
+
+    .navTitle{
+        display:none;
+    }
+
+    .sidebar nav{
+        display:flex;
+        overflow-x:auto;
+        gap:6px;
+    }
+
+    .navItem{
+        width:auto;
+        flex:none;
+        margin:0;
+    }
+
+    .main{
+        padding:20px;
+    }
+
+    .topbar{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .toolbar{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .filter{
+        width:100%;
+    }
+
+    .infoGrid,
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .resolveActions{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logoIcon">Z</div>
+            <span>Zyphor Admin</span>
+        </div>
+
+        <div class="navTitle">Administration</div>
+
+        <nav>
+
+            <a class="navItem" href="admin.html">
+                <span class="navIcon">⌂</span>
+                Dashboard
+            </a>
+
+            <a class="navItem" href="admin.html">
+                <span class="navIcon">♙</span>
+                Users
+            </a>
+
+            <a class="navItem active" href="reports.html">
+                <span class="navIcon">⚑</span>
+                Reports
+            </a>
+
+            <a class="navItem" href="admin.html">
+                <span class="navIcon">⚙</span>
+                Administration
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Reports</h1>
+                <p>Review and manage user reports submitted to Zyphor.</p>
+            </div>
+
+            <button class="refresh" onclick="loadReports()">↻ Refresh</button>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="statIcon">⚑</div>
+                <div class="statLabel">Open Reports</div>
+                <div class="statValue" id="openCount">0</div>
+            </div>
+
+            <div class="stat">
+                <div class="statIcon">◉</div>
+                <div class="statLabel">With Evidence</div>
+                <div class="statValue" id="evidenceCount">0</div>
+            </div>
+
+            <div class="stat">
+                <div class="statIcon">!</div>
+                <div class="statLabel">Harassment</div>
+                <div class="statValue" id="harassmentCount">0</div>
+            </div>
+
+            <div class="stat">
+                <div class="statIcon">◷</div>
+                <div class="statLabel">Today</div>
+                <div class="statValue" id="todayCount">0</div>
+            </div>
+
+        </div>
+
+        <div class="toolbar">
+
+            <div class="searchBox">
+                <span class="searchIcon">⌕</span>
+                <input id="search" placeholder="Search reporter, reported user or category..." oninput="renderReports()">
+            </div>
+
+            <select id="categoryFilter" class="filter" onchange="renderReports()">
+                <option value="">All Categories</option>
+                <option value="Inappropriate Username">Inappropriate Username</option>
+                <option value="Inappropriate Profile Picture">Inappropriate Profile Picture</option>
+                <option value="Harassment">Harassment</option>
+                <option value="Spam or Scam">Spam or Scam</option>
+                <option value="Other">Other</option>
+            </select>
+
+        </div>
+
+        <div id="reportList" class="reportList">
+            <div class="loading">Loading reports...</div>
+        </div>
+
+    </main>
+
+</div>
+
+<div id="modalOverlay" class="modalOverlay" onclick="if(event.target===this)closeReport()">
+
+    <div class="modal">
+
+        <div class="modalHeader">
+
+            <div class="modalIcon">⚑</div>
+
+            <div class="modalTitle">
+                <h2>Report Details</h2>
+                <p id="modalSubtitle">Review the submitted report.</p>
+            </div>
+
+            <button class="close" onclick="closeReport()">×</button>
+
+        </div>
+
+        <div class="modalBody">
+
+            <div class="infoGrid">
+
+                <div class="info">
+                    <div class="infoLabel">Reported User</div>
+                    <div class="infoValue" id="modalTarget"></div>
+                </div>
+
+                <div class="info">
+                    <div class="infoLabel">Reporter</div>
+                    <div class="infoValue" id="modalReporter"></div>
+                </div>
+
+                <div class="info">
+                    <div class="infoLabel">Category</div>
+                    <div class="infoValue" id="modalCategory"></div>
+                </div>
+
+                <div class="info">
+                    <div class="infoLabel">Submitted</div>
+                    <div class="infoValue" id="modalDate"></div>
+                </div>
+
+            </div>
+
+            <div class="sectionTitle">Additional Details</div>
+
+            <div id="modalReason" class="reason"></div>
+
+            <div class="sectionTitle">Attached Evidence</div>
+
+            <div id="modalEvidence"></div>
+
+            <div class="resolveArea">
+
+                <div class="sectionTitle" style="margin-top:0">Administrator Note</div>
+
+                <textarea id="adminNote" maxlength="2000" placeholder="Optional note about how this report was handled..."></textarea>
+
+                <div class="resolveActions">
+
+                    <button class="resolveButton dismissed" onclick="resolveReport('dismissed')">
+                        Dismiss Report
+                    </button>
+
+                    <button class="resolveButton resolved" onclick="resolveReport('resolved')">
+                        ✓ Resolve Report
+                    </button>
+
+                </div>
+
+                <div id="resolveStatus" class="status"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="imageOverlay" class="imageOverlay" onclick="closeImage()">
+    <button class="imageClose">×</button>
+    <img id="previewImage">
+</div>
+
+<script>
+let backend=""
+let reports=[]
+let selectedReport=null
+
+async function getBackend(){
+    const response=await fetch("server.txt")
+    return (await response.text()).trim()
+}
+
+async function safeJson(response){
+    const text=await response.text()
+
+    try{
+        return JSON.parse(text)
+    }catch{
+        return null
+    }
+}
+
+function escapeHtml(value){
+    return String(value??"")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;")
+}
+
+function formatDate(value){
+    if(!value) return "Unknown"
+
+    const date=new Date(value)
+
+    if(Number.isNaN(date.getTime())) return value
+
+    return date.toLocaleString()
+}
+
+function getCategoryClass(category){
+    if(category==="Inappropriate Username") return "username"
+    if(category==="Inappropriate Profile Picture") return "pfp"
+    if(category==="Harassment") return "harassment"
+    if(category==="Spam or Scam") return "spam"
+    return ""
+}
+
+function getInitials(name){
+    return String(name||"?")
+        .trim()
+        .slice(0,2)
+        .toUpperCase()
+}
+
+function updateStats(){
+
+    const todayStart=new Date()
+    todayStart.setHours(0,0,0,0)
+
+    const evidence=reports.filter(report=>
+        Array.isArray(report.evidence)&&report.evidence.length>0
+    ).length
+
+    const harassment=reports.filter(report=>
+        report.category==="Harassment"
+    ).length
+
+    const today=reports.filter(report=>{
+        const date=new Date(report.createdAt)
+        return date>=todayStart
+    }).length
+
+    document.getElementById("openCount").textContent=reports.length
+    document.getElementById("evidenceCount").textContent=evidence
+    document.getElementById("harassmentCount").textContent=harassment
+    document.getElementById("todayCount").textContent=today
+}
+
+function renderReports(){
+
+    const container=document.getElementById("reportList")
+
+    const search=document.getElementById("search").value.trim().toLowerCase()
+
+    const category=document.getElementById("categoryFilter").value
+
+    const filtered=reports.filter(report=>{
+
+        const haystack=[
+            report.reporter,
+            report.target,
+            report.category,
+            report.reason
+        ].join(" ").toLowerCase()
+
+        const matchesSearch=!search||haystack.includes(search)
+
+        const matchesCategory=!category||report.category===category
+
+        return matchesSearch&&matchesCategory
+    })
+
+    if(!filtered.length){
+
+        container.innerHTML=`
+            <div class="empty">
+                <div class="emptyIcon">⚑</div>
+                <strong>No reports found</strong>
+                <div style="margin-top:7px">There are no reports matching your current filters.</div>
+            </div>
+        `
+
+        return
+    }
+
+    container.innerHTML=filtered.map(report=>{
+
+        const evidenceCount=Array.isArray(report.evidence)
+            ?report.evidence.length
+            :0
+
+        return `
+            <div class="report" onclick="openReport(${JSON.stringify(report.id)})">
+
+                <div class="reportAvatar">
+                    ${escapeHtml(getInitials(report.target))}
+                </div>
+
+                <div class="reportMain">
+                    <div class="reportTarget">
+                        @${escapeHtml(report.target)}
+                    </div>
+
+                    <div class="reportMeta">
+                        Reported by @${escapeHtml(report.reporter)}
+                    </div>
+                </div>
+
+                <div class="reportCategory">
+                    <span class="categoryBadge ${getCategoryClass(report.category)}">
+                        ${escapeHtml(report.category)}
+                    </span>
+                </div>
+
+                <div class="reportDate">
+                    ${escapeHtml(formatDate(report.createdAt))}
+                </div>
+
+                <div class="evidenceCount">
+                    ${evidenceCount?`▣ ${evidenceCount} evidence`:"No evidence"}
+                </div>
+
+                <button class="viewButton" onclick="event.stopPropagation();openReport(${JSON.stringify(report.id)})">
+                    ›
+                </button>
+
+            </div>
+        `
+
+    }).join("")
+}
+
+async function loadReports(){
+
+    const container=document.getElementById("reportList")
+
+    container.innerHTML=`<div class="loading">Loading reports...</div>`
+
+    try{
+
+        if(!backend){
+            backend=await getBackend()
+        }
+
+        const token=localStorage.getItem("Token")
+
+        if(!token){
+            container.innerHTML=`
+                <div class="empty">
+                    <div class="emptyIcon">🔒</div>
+                    <strong>Administrator access required</strong>
+                    <div style="margin-top:7px">You must be logged in as an administrator.</div>
+                </div>
+            `
+            return
+        }
+
+        const response=await fetch(backend+"/admin/reports",{
+            headers:{
+                Authorization:token
+            }
+        })
+
+        if(response.status===401||response.status===403){
+
+            container.innerHTML=`
+                <div class="empty">
+                    <div class="emptyIcon">🔒</div>
+                    <strong>Access denied</strong>
+                    <div style="margin-top:7px">Only Zyphor administrators can view reports.</div>
+                </div>
+            `
+
+            return
+        }
+
+        const data=await safeJson(response)
+
+        if(!data||!Array.isArray(data.reports)){
+            throw new Error("Invalid response")
+        }
+
+        reports=data.reports
+
+        updateStats()
+        renderReports()
+
+    }catch{
+
+        container.innerHTML=`
+            <div class="empty">
+                <div class="emptyIcon">⚠</div>
+                <strong>Could not load reports</strong>
+                <div style="margin-top:7px">Check your connection and try again.</div>
+            </div>
+        `
+    }
+}
+
+function openReport(id){
+
+    selectedReport=reports.find(report=>report.id===id)
+
+    if(!selectedReport) return
+
+    document.getElementById("modalTarget").textContent=
+        "@"+(selectedReport.target||"Unknown")
+
+    document.getElementById("modalReporter").textContent=
+        "@"+(selectedReport.reporter||"Unknown")
+
+    document.getElementById("modalCategory").textContent=
+        selectedReport.category||"Unknown"
+
+    document.getElementById("modalDate").textContent=
+        formatDate(selectedReport.createdAt)
+
+    document.getElementById("modalSubtitle").textContent=
+        `Report ID: ${selectedReport.id}`
+
+    document.getElementById("modalReason").textContent=
+        selectedReport.reason||"No additional details were provided."
+
+    document.getElementById("adminNote").value=""
+
+    document.getElementById("resolveStatus").textContent=""
+
+    renderEvidence()
+
+    document.getElementById("modalOverlay").classList.add("show")
+}
+
+function closeReport(){
+
+    document.getElementById("modalOverlay").classList.remove("show")
+
+    selectedReport=null
+}
+
+function renderEvidence(){
+
+    const container=document.getElementById("modalEvidence")
+
+    const evidence=Array.isArray(selectedReport.evidence)
+        ?selectedReport.evidence
+        :[]
+
+    if(!evidence.length){
+
+        container.innerHTML=`
+            <div class="noEvidence">
+                No screenshots or other evidence were attached.
+            </div>
+        `
+
+        return
+    }
+
+    container.innerHTML=evidence.map(file=>{
+
+        const url=
+            backend+
+            "/admin/reports/"+
+            encodeURIComponent(selectedReport.reporter)+
+            "/"+
+            encodeURIComponent(selectedReport.id)+
+            "/evidence/"+
+            encodeURIComponent(file.name)
+
+        return `
+            <div class="evidenceItem" onclick="previewEvidence(${JSON.stringify(url)})">
+                <img
+                    src="${escapeHtml(url)}"
+                    alt="${escapeHtml(file.originalName||file.name)}"
+                >
+                <div class="evidenceName">
+                    ${escapeHtml(file.originalName||file.name)}
+                </div>
+            </div>
+        `
+
+    }).join("")
+}
+
+function previewEvidence(url){
+
+    const image=document.getElementById("previewImage")
+
+    image.src=url
+
+    document.getElementById("imageOverlay").classList.add("show")
+}
+
+function closeImage(){
+
+    document.getElementById("imageOverlay").classList.remove("show")
+
+    document.getElementById("previewImage").src=""
+}
+
+async function resolveReport(action){
+
+    if(!selectedReport) return
+
+    const status=document.getElementById("resolveStatus")
+
+    const note=document.getElementById("adminNote").value.trim()
+
+    status.textContent="Updating report..."
+
+    try{
+
+        const response=await fetch(backend+"/admin/reports/resolve",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:localStorage.getItem("Token")
+            },
+
+            body:JSON.stringify({
+                reporter:selectedReport.reporter,
+                id:selectedReport.id,
+                action,
+                note
+            })
+
+        })
+
+        const data=await safeJson(response)
+
+        if(!data||data.error){
+
+            status.textContent=
+                (data&&data.error)||
+                "Could not update the report."
+
+            return
+        }
+
+        status.textContent=
+            action==="resolved"
+                ?"Report resolved successfully."
+                :"Report dismissed."
+
+        reports=reports.filter(report=>
+            report.id!==selectedReport.id
+        )
+
+        updateStats()
+        renderReports()
+
+        setTimeout(closeReport,700)
+
+    }catch{
+
+        status.textContent=
+            "Could not connect to the server."
+    }
+}
+
+async function start(){
+
+    backend=await getBackend()
+
+    await loadReports()
+}
+
+start()
+</script>
+
+</body>
+</html>
