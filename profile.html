@@ -870,7 +870,20 @@ color:#000;
             color: white;
             cursor: pointer;
         }
-    </style>
+    
+.reportFlag{width:34px;height:34px;display:none;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.04);color:#9aa7bb;cursor:pointer;font-size:18px;transition:.2s}
+.reportFlag:hover{color:#ff6b87;background:rgba(255,80,110,.12);border-color:rgba(255,80,110,.3)}
+.reportOverlay{position:fixed;inset:0;z-index:999999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,5,10,.78);backdrop-filter:blur(12px)}
+.reportOverlay.show{display:flex}
+.reportModal{position:relative;width:min(650px,100%);max-height:calc(100vh - 40px);overflow-y:auto;padding:26px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(160deg,#141a28,#090d15);box-shadow:0 30px 100px rgba(0,0,0,.7)}
+.reportClose{position:absolute;right:18px;top:18px;width:38px;height:38px;border:0;border-radius:11px;background:rgba(255,255,255,.06);color:#9aa7bb;font-size:24px;cursor:pointer}.reportClose:hover{background:rgba(255,255,255,.11);color:#fff}
+.reportHead{display:flex;align-items:center;gap:14px;margin-bottom:24px}.reportIcon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:15px;background:rgba(255,80,110,.13);color:#ff7791;font-size:25px}.reportHead h2{margin:0;color:#fff;font-size:23px}.reportHead p{margin:5px 45px 0 0;color:#8995a8;font-size:13px;line-height:1.4}
+.reportStep{margin:20px 0 10px;color:#dfe6f1;font-size:14px;font-weight:800}.reportCategories{display:grid;grid-template-columns:1fr 1fr;gap:10px}.reportCategory{min-height:58px;display:flex;align-items:center;gap:10px;padding:13px 14px;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:rgba(255,255,255,.035);color:#b7c2d2;font:inherit;text-align:left;cursor:pointer;transition:.18s}.reportCategory span{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.07)}.reportCategory:hover{background:rgba(255,255,255,.07);color:#fff}.reportCategory.selected{border-color:#00bce8;background:linear-gradient(135deg,rgba(0,188,232,.13),rgba(124,58,237,.11));color:#fff}.reportCategory.full{grid-column:1/-1}
+.reportTextarea{width:100%;min-height:105px;padding:14px;box-sizing:border-box;resize:vertical;border:1px solid rgba(255,255,255,.09);border-radius:13px;outline:0;background:rgba(255,255,255,.035);color:#fff;font:inherit}.reportTextarea:focus{border-color:#00bce8}
+.reportUpload{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:135px;padding:18px;border:1px dashed rgba(0,188,232,.42);border-radius:15px;background:rgba(0,188,232,.025);color:#9aa7bb;text-align:center;cursor:pointer}.reportUpload:hover{border-color:#00bce8;background:rgba(0,188,232,.06)}.reportUpload strong{color:#e5ebf5}.reportUpload small{color:#758197}.reportFiles{display:flex;flex-direction:column;gap:8px;margin-top:10px}.reportFile{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.07);border-radius:11px;background:rgba(255,255,255,.035)}.reportFileInfo{flex:1;min-width:0}.reportFileName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e5ebf5;font-size:13px}.reportFileSize{margin-top:3px;color:#748096;font-size:11px}.reportRemove{border:0;background:transparent;color:#8490a4;font-size:20px;cursor:pointer}.reportRemove:hover{color:#ff6b87}
+.reportFooter{display:flex;gap:10px;margin-top:24px}.reportCancel,.reportSubmit{height:48px;border-radius:13px;font:inherit;font-weight:800;cursor:pointer}.reportCancel{flex:1;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);color:#cbd4e1}.reportSubmit{flex:2;border:0;background:linear-gradient(90deg,#008bd1,#7038c7);color:#fff}.reportSubmit:disabled{opacity:.65;cursor:wait}.reportStatus{min-height:18px;margin-top:11px;text-align:center;color:#9aa7bb;font-size:13px}
+@media(max-width:600px){.reportModal{padding:20px;border-radius:18px}.reportCategories{grid-template-columns:1fr}.reportCategory.full{grid-column:auto}.reportFooter{flex-direction:column}.reportCancel,.reportSubmit{flex:auto}}
+</style>
 </head>
 
 <body>
