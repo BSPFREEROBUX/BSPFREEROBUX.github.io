@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor Staff Team</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top,#251046 0%,#0d0718 40%,#050308 100%);
+    color:#fff;
+    padding:40px 20px;
+}
+
+.container{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.logo{
+    width:70px;
+    height:70px;
+    margin:0 auto 18px;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    background:linear-gradient(135deg,#8b5cf6,#5b21b6);
+    box-shadow:0 0 35px rgba(139,92,246,.45);
+}
+
+h1{
+    font-size:clamp(36px,6vw,64px);
+    letter-spacing:-2px;
+}
+
+.subtitle{
+    color:#aaa;
+    margin-top:12px;
+    font-size:17px;
+}
+
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:45px;
+}
+
+.stat{
+    min-width:180px;
+    padding:18px 25px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:15px;
+    text-align:center;
+}
+
+.stat-number{
+    display:block;
+    font-size:24px;
+    font-weight:bold;
+    color:#a78bfa;
+}
+
+.stat-text{
+    display:block;
+    margin-top:5px;
+    color:#777;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.section{
+    margin-bottom:42px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:20px;
+    color:#ddd;
+    font-size:20px;
+}
+
+.section-title::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:linear-gradient(90deg,rgba(139,92,246,.4),transparent);
+}
+
+.staff-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:20px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+    padding:25px;
+    border-radius:20px;
+    background:linear-gradient(145deg,rgba(30,20,50,.95),rgba(10,7,18,.95));
+    border:1px solid rgba(255,255,255,.08);
+    transition:.25s ease;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(139,92,246,.5);
+    box-shadow:0 15px 45px rgba(0,0,0,.4);
+}
+
+.card.owner{
+    border-color:rgba(251,191,36,.35);
+}
+
+.card.admin{
+    border-color:rgba(239,68,68,.3);
+}
+
+.card.headstaff{
+    border-color:rgba(139,92,246,.45);
+}
+
+.card.support{
+    border-color:rgba(34,197,94,.3);
+}
+
+.top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.avatar{
+    width:58px;
+    height:58px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#7c3aed,#4c1d95);
+}
+
+.owner .avatar{
+    background:linear-gradient(135deg,#f59e0b,#b45309);
+}
+
+.admin .avatar{
+    background:linear-gradient(135deg,#ef4444,#991b1b);
+}
+
+.support .avatar{
+    background:linear-gradient(135deg,#22c55e,#166534);
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#8dffad;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 12px #22c55e;
+}
+
+.username{
+    font-size:23px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.role{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:999px;
+    background:rgba(139,92,246,.12);
+    border:1px solid rgba(139,92,246,.25);
+    color:#c4b5fd;
+    font-size:13px;
+}
+
+.owner .role{
+    color:#fde68a;
+    background:rgba(245,158,11,.1);
+    border-color:rgba(245,158,11,.3);
+}
+
+.admin .role{
+    color:#fca5a5;
+    background:rgba(239,68,68,.1);
+    border-color:rgba(239,68,68,.3);
+}
+
+.support .role{
+    color:#86efac;
+    background:rgba(34,197,94,.1);
+    border-color:rgba(34,197,94,.3);
+}
+
+.footer{
+    text-align:center;
+    color:#555;
+    font-size:13px;
+    padding:25px 0 5px;
+}
+
+@media(max-width:600px){
+    body{
+        padding:25px 14px;
+    }
+
+    .staff-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">Z</div>
+        <h1>Zyphor Staff Team</h1>
+        <div class="subtitle">Meet the people helping manage and support the Zyphor community.</div>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <span class="stat-number">5</span>
+            <span class="stat-text">Staff Members</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-number">5</span>
+            <span class="stat-text">Currently Active</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Owners</div>
+
+        <div class="staff-grid">
+
+            <div class="card owner">
+                <div class="top">
+                    <div class="avatar">B</div>
+                    <div class="status">
+                        <div class="dot"></div>
+                        Active
+                    </div>
+                </div>
+
+                <div class="username">BossSquirtle</div>
+                <div class="role">Owner</div>
+            </div>
+
+            <div class="card owner">
+                <div class="top">
+                    <div class="avatar">S</div>
+                    <div class="status">
+                        <div class="dot"></div>
+                        Active
+                    </div>
+                </div>
+
+                <div class="username">Somin</div>
+                <div class="role">Owner</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Administration</div>
+
+        <div class="staff-grid">
+
+            <div class="card admin">
+                <div class="top">
+                    <div class="avatar">T</div>
+                    <div class="status">
+                        <div class="dot"></div>
+                        Active
+                    </div>
+                </div>
+
+                <div class="username">TRISH_PRO1</div>
+                <div class="role">Administrator</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Head Staff</div>
+
+        <div class="staff-grid">
+
+            <div class="card headstaff">
+                <div class="top">
+                    <div class="avatar">J</div>
+                    <div class="status">
+                        <div class="dot"></div>
+                        Active
+                    </div>
+                </div>
+
+                <div class="username">Janno1010</div>
+                <div class="role">Head Staff / Supervisor</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Support</div>
+
+        <div class="staff-grid">
+
+            <div class="card support">
+                <div class="top">
+                    <div class="avatar">M</div>
+                    <div class="status">
+                        <div class="dot"></div>
+                        Active
+                    </div>
+                </div>
+
+                <div class="username">Mstrboksy</div>
+                <div class="role">Support</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        © Zyphor • Official Staff Directory
+    </div>
+
+</div>
+
+</body>
+</html>
