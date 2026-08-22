@@ -1000,6 +1000,7 @@ async function loadNotifications(){
     let notifications=[]
     let unread=0
     let unreadMessages=0
+    let hasReportNotifications=false
 
     try{
 
@@ -1013,13 +1014,19 @@ async function loadNotifications(){
 
         if(Array.isArray(data.notifications)){
 
-            notifications.push(
-                ...data.notifications.map(n=>({
+            data.notifications.forEach(n=>{
+
+                notifications.push({
                     type:n.type||"system",
                     message:n.message,
                     ticketId:n.ticketId||null
-                }))
-            )
+                })
+
+                if(n.type==="report"){
+                    hasReportNotifications=true
+                }
+
+            })
 
         }
 
@@ -1122,6 +1129,19 @@ async function loadNotifications(){
             `
 
         }).join("") || "<div class='row'>No notifications.</div>"
+
+    if(hasReportNotifications){
+
+        fetch(backend+"/notifications/seen",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:token
+            },
+            body:JSON.stringify({})
+        }).catch(()=>{})
+
+    }
 }
 
 async function init(){
