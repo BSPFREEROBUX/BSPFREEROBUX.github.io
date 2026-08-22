@@ -23,6 +23,11 @@
             min-height: 100vh;
         }
 
+        .moderatorTip{
+    background:#4fc3f7;
+    color:#000;
+}
+
         body::before {
             content: "";
             position: fixed;
@@ -1308,6 +1313,21 @@ onmouseleave="hideTip()"
 `
 
     }
+
+    if(p.moderator){
+
+    icons+=`
+<span
+class="roleIcons"
+style="color:#4fc3f7;text-shadow:0 0 10px #4fc3f7aa"
+onmousemove="showTip('Moderator','moderator',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+🛡️
+</span>
+`
+
+}
 
     if(p.vip){
 
