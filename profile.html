@@ -1814,10 +1814,29 @@ async function loadProfile(){
 
     if(!data || data.error){
 
-        document.getElementById("profileUsername").textContent="User not found"
+        const profileUsername=document.getElementById("profileUsername")
+        const reportFlag=document.getElementById("reportFlag")
+        const actions=document.getElementById("profileActions")
+
+        if(data && data.error==="banned"){
+            profileUsername.textContent="BANNED"
+            profileUsername.style.color="#ff1f1f"
+            profileUsername.style.fontSize="clamp(42px,8vw,100px)"
+            profileUsername.style.fontWeight="1000"
+            profileUsername.style.textAlign="center"
+            profileUsername.style.textShadow="0 0 20px rgba(255,0,0,.8)"
+            if(reportFlag) reportFlag.style.display="none"
+            if(actions) actions.innerHTML=""
+        }else{
+            profileUsername.textContent="User not found"
+            profileUsername.style.color=""
+            profileUsername.style.fontSize=""
+            profileUsername.style.fontWeight=""
+            profileUsername.style.textAlign=""
+            profileUsername.style.textShadow=""
+        }
 
         return
-
     }
 
     const icons=createRoleIcons(data.permissions)
