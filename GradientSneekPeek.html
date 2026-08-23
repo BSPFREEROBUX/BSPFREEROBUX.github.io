@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zyphor Fest 2026 — Sneak Peek</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#03040b;
+color:#fff;
+overflow-x:hidden
+}
+body:before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:20;
+background:
+radial-gradient(circle at 50% 20%,#7857ff18,transparent 30%),
+radial-gradient(circle at 10% 80%,#00d9ff12,transparent 25%),
+radial-gradient(circle at 90% 70%,#ff36c912,transparent 25%)
+}
+#stars,#fireworks{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:1
+}
+.star{
+position:absolute;
+width:2px;
+height:2px;
+border-radius:50%;
+background:#fff;
+box-shadow:0 0 8px #fff;
+animation:twinkle var(--t) ease-in-out infinite alternate
+}
+@keyframes twinkle{
+from{opacity:.1;transform:scale(.5)}
+to{opacity:1;transform:scale(1.8)}
+}
+.firework{
+position:absolute;
+width:5px;
+height:5px;
+border-radius:50%;
+animation:explode 1.8s cubic-bezier(.1,.8,.2,1) forwards;
+filter:drop-shadow(0 0 8px currentColor)
+}
+.firework i{
+position:absolute;
+left:50%;
+top:50%;
+width:2px;
+height:75px;
+background:linear-gradient(transparent,currentColor);
+transform-origin:50% 100%;
+transform:rotate(var(--r)) translateY(-20px);
+animation:spark 1.8s ease-out forwards
+}
+@keyframes explode{
+0%{transform:scale(.1);opacity:1}
+60%{transform:scale(1);opacity:1}
+100%{transform:scale(1.15);opacity:0}
+}
+@keyframes spark{
+0%{opacity:0;height:5px}
+20%{opacity:1}
+100%{height:110px;opacity:0}
+}
+
+.noise{
+position:fixed;
+inset:0;
+z-index:30;
+pointer-events:none;
+opacity:.035;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")
+}
+
+.hero{
+min-height:100vh;
+position:relative;
+display:grid;
+place-items:center;
+padding:80px 20px;
+z-index:2
+}
+.hero:after{
+content:"";
+position:absolute;
+width:700px;
+height:700px;
+border-radius:50%;
+background:radial-gradient(circle,#6b50ff18,transparent 65%);
+filter:blur(20px);
+animation:orb 8s ease-in-out infinite alternate
+}
+@keyframes orb{
+to{transform:scale(1.3) translateY(-30px)}
+}
+.hero-content{
+position:relative;
+z-index:5;
+text-align:center;
+max-width:1050px
+}
+.event-pill{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:10px 18px;
+border:1px solid #ffffff1b;
+background:#ffffff08;
+border-radius:999px;
+backdrop-filter:blur(20px);
+box-shadow:0 0 40px #795cff15;
+font-size:12px;
+letter-spacing:3px;
+text-transform:uppercase;
+animation:float 4s ease-in-out infinite
+}
+.event-pill span{
+width:7px;
+height:7px;
+background:#61f7ff;
+border-radius:50%;
+box-shadow:0 0 15px #61f7ff;
+animation:blink 1s infinite
+}
+@keyframes blink{50%{opacity:.25}}
+@keyframes float{
+50%{transform:translateY(-8px)}
+}
+
+h1{
+font-size:clamp(60px,12vw,155px);
+line-height:.78;
+font-weight:1000;
+letter-spacing:-9px;
+margin:35px 0;
+background:linear-gradient(
+90deg,
+#52eaff 0%,
+#5f73ff 18%,
+#b55dff 36%,
+#ff4fc8 53%,
+#ff7357 70%,
+#ffd45c 85%,
+#52eaff 100%
+);
+background-size:400%;
+-webkit-background-clip:text;
+color:transparent;
+animation:titleGradient 7s linear infinite;
+filter:drop-shadow(0 0 35px #795cff22)
+}
+@keyframes titleGradient{to{background-position:400%}}
+
+.hero-content p{
+max-width:760px;
+margin:auto;
+font-size:clamp(17px,2.4vw,24px);
+line-height:1.65;
+color:#a5acc5
+}
+.hero-buttons{
+display:flex;
+justify-content:center;
+gap:15px;
+margin-top:35px;
+flex-wrap:wrap
+}
+.button{
+padding:15px 24px;
+border-radius:15px;
+border:1px solid #ffffff17;
+background:#ffffff09;
+color:#fff;
+text-decoration:none;
+font-weight:800;
+backdrop-filter:blur(20px);
+transition:.35s
+}
+.button.primary{
+background:linear-gradient(100deg,#5865ff,#a94fff);
+box-shadow:0 15px 50px #765cff30
+}
+.button:hover{
+transform:translateY(-5px) scale(1.02);
+box-shadow:0 20px 60px #795cff35
+}
+
+.section{
+position:relative;
+z-index:3;
+max-width:1200px;
+margin:auto;
+padding:110px 20px
+}
+.heading{
+font-size:clamp(38px,6vw,70px);
+font-weight:950;
+letter-spacing:-4px;
+margin-bottom:12px
+}
+.heading span{
+background:linear-gradient(90deg,#5deaff,#a65cff,#ff50c8);
+-webkit-background-clip:text;
+color:transparent
+}
+.description{
+color:#777f9d;
+font-size:17px;
+margin-bottom:45px
+}
+
+.showcase{
+position:relative;
+padding:30px;
+border-radius:32px;
+background:
+linear-gradient(145deg,#ffffff0b,#ffffff02),
+radial-gradient(circle at 90% 10%,#795cff14,transparent 30%);
+border:1px solid #ffffff12;
+box-shadow:
+0 40px 100px #0008,
+inset 0 1px #ffffff10;
+overflow:hidden;
+backdrop-filter:blur(25px)
+}
+.showcase:before{
+content:"";
+position:absolute;
+width:500px;
+height:500px;
+right:-250px;
+top:-250px;
+border-radius:50%;
+border:1px solid #ffffff0b;
+box-shadow:0 0 0 60px #ffffff03,0 0 0 120px #ffffff02
+}
+.browser-top{
+display:flex;
+align-items:center;
+gap:8px;
+padding-bottom:22px;
+border-bottom:1px solid #ffffff0b;
+margin-bottom:22px
+}
+.browser-dot{
+width:9px;
+height:9px;
+border-radius:50%;
+background:#ffffff22
+}
+.browser-title{
+margin-left:12px;
+font-size:12px;
+color:#606984
+}
+
+.profile{
+position:relative;
+padding:30px;
+border:1px solid #ffffff0d;
+background:#050711d9;
+border-radius:24px;
+margin-bottom:18px;
+overflow:hidden
+}
+.profile:after{
+content:"";
+position:absolute;
+inset:-1px;
+background:linear-gradient(120deg,transparent 20%,#ffffff08 50%,transparent 80%);
+transform:translateX(-100%);
+animation:shine 5s infinite
+}
+@keyframes shine{
+45%,100%{transform:translateX(100%)}
+}
+.profile-row{
+display:flex;
+align-items:center;
+gap:18px;
+position:relative;
+z-index:2
+}
+.avatar{
+width:62px;
+height:62px;
+border-radius:20px;
+display:grid;
+place-items:center;
+font-size:20px;
+font-weight:950;
+background:linear-gradient(135deg,#48e8ff,#625fff);
+box-shadow:0 0 35px #5469ff30
+}
+.avatar.pink{
+background:linear-gradient(135deg,#ff56b8,#795cff)
+}
+.username{
+font-size:22px;
+font-weight:900
+}
+.nameplate{
+display:inline-flex;
+align-items:center;
+gap:7px;
+padding:7px 12px;
+border-radius:9px;
+font-size:10px;
+font-weight:950;
+letter-spacing:1px;
+margin-top:7px;
+text-transform:uppercase;
+background:linear-gradient(90deg,#42e8ff,#5d70ff,#b85cff,#ff4fc7);
+box-shadow:0 0 25px #765cff35
+}
+.nameplate.gold{
+background:linear-gradient(90deg,#fff06a,#ffbf38,#fff06a);
+color:#3b2400;
+box-shadow:0 0 25px #ffbf3835
+}
+.nameplate:before{
+content:"✦"
+}
+.gradient-name{
+margin-top:23px;
+font-size:31px;
+font-weight:1000;
+letter-spacing:-1px;
+background:linear-gradient(
+90deg,
+#43eaff,
+#586aff,
+#a951ff,
+#ff4fc5,
+#ff7358,
+#ffd45b,
+#65ffb4,
+#43eaff
+);
+background-size:500%;
+-webkit-background-clip:text;
+color:transparent;
+animation:nameGradient 8s linear infinite;
+filter:drop-shadow(0 0 15px #755cff25)
+}
+@keyframes nameGradient{
+to{background-position:500%}
+}
+.color-line{
+display:flex;
+gap:6px;
+margin-top:11px
+}
+.color-line i{
+display:block;
+width:14px;
+height:14px;
+border-radius:50%;
+box-shadow:0 0 13px currentColor
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px
+}
+.card{
+position:relative;
+padding:30px;
+min-height:250px;
+border:1px solid #ffffff0d;
+border-radius:24px;
+background:#ffffff05;
+overflow:hidden;
+transition:.45s cubic-bezier(.2,.8,.2,1)
+}
+.card:hover{
+transform:translateY(-12px) rotateX(3deg);
+border-color:#ffffff25;
+box-shadow:0 30px 80px #0008
+}
+.card:before{
+content:"";
+position:absolute;
+width:160px;
+height:160px;
+right:-80px;
+top:-80px;
+border-radius:50%;
+background:#795cff18;
+filter:blur(15px)
+}
+.icon{
+width:55px;
+height:55px;
+display:grid;
+place-items:center;
+font-size:24px;
+border-radius:17px;
+background:#ffffff0b;
+border:1px solid #ffffff0d;
+margin-bottom:25px;
+box-shadow:inset 0 1px #ffffff12
+}
+.card h3{
+font-size:21px;
+margin-bottom:10px
+}
+.card p{
+color:#777f9c;
+line-height:1.7;
+font-size:14px
+}
+.lock{
+position:absolute;
+right:20px;
+top:20px;
+color:#626b86;
+font-size:13px
+}
+
+.infinite{
+position:relative;
+margin-top:30px;
+padding:70px 30px;
+text-align:center;
+border-radius:32px;
+border:1px solid #ffffff10;
+background:
+radial-gradient(circle at 50% 100%,#b65cff16,transparent 50%),
+#ffffff04;
+overflow:hidden
+}
+.infinite:before,
+.infinite:after{
+content:"";
+position:absolute;
+width:300px;
+height:300px;
+border-radius:50%;
+border:1px solid #ffffff08;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+animation:ring 7s linear infinite
+}
+.infinite:after{
+width:500px;
+height:500px;
+animation-delay:-3.5s
+}
+@keyframes ring{
+to{transform:translate(-50%,-50%) rotate(360deg) scale(1.08)}
+}
+.infinity{
+position:relative;
+z-index:2;
+font-size:100px;
+font-weight:100;
+line-height:1;
+background:linear-gradient(90deg,#43eaff,#9e5cff,#ff50c8,#ffd35c);
+-webkit-background-clip:text;
+color:transparent;
+filter:drop-shadow(0 0 30px #795cff35)
+}
+.infinite h2{
+position:relative;
+z-index:2;
+font-size:clamp(34px,5vw,60px);
+font-weight:950;
+letter-spacing:-3px;
+margin:12px 0
+}
+.infinite p{
+position:relative;
+z-index:2;
+max-width:700px;
+margin:auto;
+color:#8189a4;
+line-height:1.8
+}
+.palette{
+position:relative;
+z-index:3;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:8px;
+max-width:700px;
+margin:35px auto
+}
+.palette span{
+width:40px;
+height:40px;
+border-radius:12px;
+transition:.35s;
+box-shadow:0 8px 25px #0008
+}
+.palette span:hover{
+transform:translateY(-8px) scale(1.18) rotate(8deg)
+}
+
+.fest-panel{
+margin-top:35px;
+padding:50px;
+border-radius:30px;
+border:1px solid #ffffff10;
+background:linear-gradient(135deg,#ffffff07,#795cff08);
+text-align:center;
+position:relative;
+overflow:hidden
+}
+.fest-panel h2{
+font-size:clamp(32px,5vw,55px);
+font-weight:950
+}
+.fest-panel p{
+color:#7d85a0;
+margin:15px auto 25px;
+max-width:650px;
+line-height:1.7
+}
+
+footer{
+position:relative;
+z-index:3;
+border-top:1px solid #ffffff08;
+padding:30px;
+text-align:center;
+font-size:12px;
+color:#454d68
+}
+
+@media(max-width:800px){
+.cards{grid-template-columns:1fr}
+.section{padding:75px 15px}
+.showcase{padding:17px}
+.profile{padding:21px}
+h1{letter-spacing:-5px}
+}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div id="fireworks"></div>
+<div class="noise"></div>
+
+<section class="hero">
+<div class="hero-content">
+<div class="event-pill"><span></span>Zyphor Fest 2026 · Sneak Peek</div>
+<h1>ZYPhor<br>FEST 2026</h1>
+<p>Something colorful is coming to Zyphor. Discover exclusive event nameplates, animated name gradients and cosmetics built to make your profile impossible to miss.</p>
+<div class="hero-buttons">
+<a class="button primary" href="#preview">See The Preview</a>
+<a class="button" href="https://zyphor.cc">Visit Zyphor</a>
+</div>
+</div>
+</section>
+
+<section class="section" id="preview">
+<div class="heading">Your name.<br><span>Your gradient.</span></div>
+<div class="description">A sneak peek at what your profile could look like during Zyphor Fest 2026.</div>
+
+<div class="showcase">
+<div class="browser-top">
+<div class="browser-dot"></div>
+<div class="browser-dot"></div>
+<div class="browser-dot"></div>
+<div class="browser-title">zyphor.cc · profile</div>
+</div>
+
+<div class="profile">
+<div class="profile-row">
+<div class="avatar">BS</div>
+<div>
+<div class="username">BossSquirtle</div>
+<div class="nameplate">ZYPhor FEST 2026</div>
+</div>
+</div>
+<div class="gradient-name">BossSquirtle</div>
+<div class="color-line">
+<i style="background:#43eaff;color:#43eaff"></i>
+<i style="background:#586aff;color:#586aff"></i>
+<i style="background:#a951ff;color:#a951ff"></i>
+<i style="background:#ff4fc5;color:#ff4fc5"></i>
+<i style="background:#ff7358;color:#ff7358"></i>
+<i style="background:#ffd45b;color:#ffd45b"></i>
+<i style="background:#65ffb4;color:#65ffb4"></i>
+</div>
+</div>
+
+<div class="profile">
+<div class="profile-row">
+<div class="avatar pink">S</div>
+<div>
+<div class="username">Sömin</div>
+<div class="nameplate gold">FESTIVAL LEGEND</div>
+</div>
+</div>
+<div class="gradient-name" style="background:linear-gradient(90deg,#fff06a,#ffb52e,#ff654d,#ff4fc7,#a95cff,#43eaff,#fff06a);background-size:500%;-webkit-background-clip:text">Sömin</div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="heading">Unlock the <span>collection.</span></div>
+<div class="description">Event cosmetics designed to make your Zyphor identity stand out.</div>
+
+<div class="cards">
+<div class="card">
+<div class="lock">EVENT</div>
+<div class="icon">🏷️</div>
+<h3>Festival Nameplates</h3>
+<p>Unlock special Zyphor Fest nameplates that appear beside your username and instantly show that you were part of the event.</p>
+</div>
+
+<div class="card">
+<div class="lock">CUSTOM</div>
+<div class="icon">🌈</div>
+<h3>Animated Gradients</h3>
+<p>Create flowing animated gradients across your username using every color you want.</p>
+</div>
+
+<div class="card">
+<div class="lock">RARE</div>
+<div class="icon">✨</div>
+<h3>Festival Exclusives</h3>
+<p>Collect unique event cosmetics that won't look like ordinary Zyphor profile customization.</p>
+</div>
+</div>
+
+<div class="infinite">
+<div class="infinity">∞</div>
+<h2>There is no color limit.</h2>
+<p>Add as many colors as you want. Your gradient can contain two colors, twenty colors, or an absurd number of colors. The only limit is how creative you want to get.</p>
+
+<div class="palette">
+<span style="background:#43eaff"></span>
+<span style="background:#586aff"></span>
+<span style="background:#805cff"></span>
+<span style="background:#a951ff"></span>
+<span style="background:#d653ff"></span>
+<span style="background:#ff4fc5"></span>
+<span style="background:#ff4f91"></span>
+<span style="background:#ff654d"></span>
+<span style="background:#ff8d4d"></span>
+<span style="background:#ffd45b"></span>
+<span style="background:#fff06a"></span>
+<span style="background:#65ffb4"></span>
+<span style="background:#43eaff"></span>
+</div>
+
+<p>Every color becomes another point in your gradient — creating combinations that are completely yours.</p>
+</div>
+
+<div class="fest-panel">
+<h2>🎆 Zyphor Fest 2026 🎆</h2>
+<p>The sky is only the beginning. Expect fireworks, glowing profiles, animated cosmetics, festival effects and more surprises as Zyphor Fest gets closer.</p>
+<a class="button primary" href="https://zyphor.cc">Explore Zyphor</a>
+</div>
+</section>
+
+<footer>
+© 2026 Zyphor · Zyphor Fest 2026 · Sneak Peek
+</footer>
+
+<script>
+const stars=document.getElementById("stars");
+const fireworks=document.getElementById("fireworks");
+
+for(let i=0;i<180;i++){
+const s=document.createElement("i");
+s.className="star";
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+s.style.setProperty("--t",(1.5+Math.random()*4)+"s");
+s.style.animationDelay=(-Math.random()*5)+"s";
+stars.appendChild(s)
+}
+
+function createFirework(){
+const fw=document.createElement("div");
+fw.className="firework";
+const colors=["#43eaff","#8b5cff","#ff4fc7","#ffd45b","#65ffb4","#ff654d"];
+fw.style.color=colors[Math.floor(Math.random()*colors.length)];
+fw.style.left=(10+Math.random()*80)+"%";
+fw.style.top=(10+Math.random()*55)+"%";
+
+for(let i=0;i<18;i++){
+const ray=document.createElement("i");
+ray.style.setProperty("--r",(i*20)+"deg");
+ray.style.animationDelay=(Math.random()*.12)+"s";
+fw.appendChild(ray)
+}
+fireworks.appendChild(fw);
+setTimeout(()=>fw.remove(),1900)
+}
+
+for(let i=0;i<5;i++){
+setTimeout(createFirework,i*500)
+}
+setInterval(()=>{
+if(Math.random()>.2)createFirework()
+},1700);
+
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+for(let i=0;i<2;i++)setTimeout(createFirework,i*350)
+}
+})
+},{threshold:.35});
+
+document.querySelectorAll(".section").forEach(x=>observer.observe(x));
+
+document.addEventListener("mousemove",e=>{
+const x=(e.clientX/window.innerWidth-.5)*10;
+const y=(e.clientY/window.innerHeight-.5)*10;
+document.querySelectorAll(".card").forEach((card,i)=>{
+card.style.transform=`translateY(${y*(i%2?-.25:.25)}px) rotateX(${-y*.15}deg) rotateY(${x*.15}deg)`
+})
+});
+</script>
+
+</body>
+</html>
+```0
