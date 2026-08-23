@@ -234,7 +234,7 @@ body::before{
 
 .report{
     display:grid;
-    grid-template-columns:52px minmax(160px,1.1fr) minmax(180px,1.3fr) minmax(120px,.8fr) minmax(100px,.6fr) 44px;
+    grid-template-columns:52px minmax(160px,1.1fr) minmax(180px,1.3fr) minmax(110px,.7fr) minmax(100px,.6fr) 44px;
     align-items:center;
     gap:18px;
     padding:17px;
@@ -319,6 +319,11 @@ body::before{
     color:#ffc45e;
 }
 
+.categoryBadge.bot{
+    background:rgba(168,85,247,.14);
+    color:#d8a7ff;
+}
+
 .reportDate{
     color:#8d99ac;
     font-size:12px;
@@ -327,6 +332,34 @@ body::before{
 .evidenceCount{
     color:#9ea8bb;
     font-size:12px;
+}
+
+.statusBadge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:7px;
+    padding:4px 8px;
+    border-radius:7px;
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.statusBadge.open{
+    background:rgba(0,188,232,.12);
+    color:#68dfff;
+}
+
+.statusBadge.resolved{
+    background:rgba(34,197,94,.12);
+    color:#6ee7a0;
+}
+
+.statusBadge.dismissed{
+    background:rgba(255,255,255,.08);
+    color:#aab4c5;
 }
 
 .viewButton{
@@ -567,6 +600,11 @@ body::before{
     color:#c7d0df;
 }
 
+.resolveButton:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
 .status{
     min-height:18px;
     margin-top:10px;
@@ -747,21 +785,21 @@ body::before{
             </div>
 
             <div class="stat">
+                <div class="statIcon">✓</div>
+                <div class="statLabel">Resolved</div>
+                <div class="statValue" id="resolvedCount">0</div>
+            </div>
+
+            <div class="stat">
+                <div class="statIcon">×</div>
+                <div class="statLabel">Dismissed</div>
+                <div class="statValue" id="dismissedCount">0</div>
+            </div>
+
+            <div class="stat">
                 <div class="statIcon">◉</div>
                 <div class="statLabel">With Evidence</div>
                 <div class="statValue" id="evidenceCount">0</div>
-            </div>
-
-            <div class="stat">
-                <div class="statIcon">!</div>
-                <div class="statLabel">Harassment</div>
-                <div class="statValue" id="harassmentCount">0</div>
-            </div>
-
-            <div class="stat">
-                <div class="statIcon">◷</div>
-                <div class="statLabel">Today</div>
-                <div class="statValue" id="todayCount">0</div>
             </div>
 
         </div>
@@ -779,7 +817,15 @@ body::before{
                 <option value="Inappropriate Profile Picture">Inappropriate Profile Picture</option>
                 <option value="Harassment">Harassment</option>
                 <option value="Spam or Scam">Spam or Scam</option>
+                <option value="Botted Account">🤖 Botted Account</option>
                 <option value="Other">Other</option>
+            </select>
+
+            <select id="statusFilter" class="filter" onchange="renderReports()">
+                <option value="open">Open Reports</option>
+                <option value="">All Reports</option>
+                <option value="resolved">Resolved</option>
+                <option value="dismissed">Dismissed</option>
             </select>
 
         </div>
@@ -833,6 +879,16 @@ body::before{
                     <div class="infoValue" id="modalDate"></div>
                 </div>
 
+                <div class="info">
+                    <div class="infoLabel">Status</div>
+                    <div class="infoValue" id="modalStatus"></div>
+                </div>
+
+                <div class="info">
+                    <div class="infoLabel">Handled</div>
+                    <div class="infoValue" id="modalHandledDate"></div>
+                </div>
+
             </div>
 
             <div class="sectionTitle">Additional Details</div>
@@ -843,7 +899,12 @@ body::before{
 
             <div id="modalEvidence"></div>
 
-            <div class="resolveArea">
+            <div id="handledNoteSection">
+                <div class="sectionTitle">Administrator Note</div>
+                <div id="handledNote" class="reason"></div>
+            </div>
+
+            <div id="resolveArea" class="resolveArea">
 
                 <div class="sectionTitle" style="margin-top:0">Administrator Note</div>
 
@@ -920,6 +981,7 @@ function getCategoryClass(category){
     if(category==="Inappropriate Profile Picture") return "pfp"
     if(category==="Harassment") return "harassment"
     if(category==="Spam or Scam") return "spam"
+    if(category==="Botted Account") return "bot"
     return ""
 }
 
@@ -930,56 +992,72 @@ function getInitials(name){
         .toUpperCase()
 }
 
-function updateStats(){
+function getReportStatus(report){
+    const status=String(report.status||"open").toLowerCase()
 
-    const todayStart=new Date()
-    todayStart.setHours(0,0,0,0)
+    if(status==="resolved") return "resolved"
+    if(status==="dismissed") return "dismissed"
+
+    return "open"
+}
+
+function getStatusLabel(status){
+    if(status==="resolved") return "✓ Resolved"
+    if(status==="dismissed") return "× Dismissed"
+    return "⚑ Open"
+}
+
+function updateStats(){
+    const open=reports.filter(report=>getReportStatus(report)==="open").length
+
+    const resolved=reports.filter(report=>
+        getReportStatus(report)==="resolved"
+    ).length
+
+    const dismissed=reports.filter(report=>
+        getReportStatus(report)==="dismissed"
+    ).length
 
     const evidence=reports.filter(report=>
         Array.isArray(report.evidence)&&report.evidence.length>0
     ).length
 
-    const harassment=reports.filter(report=>
-        report.category==="Harassment"
-    ).length
-
-    const today=reports.filter(report=>{
-        const date=new Date(report.createdAt)
-        return date>=todayStart
-    }).length
-
-    document.getElementById("openCount").textContent=reports.length
+    document.getElementById("openCount").textContent=open
+    document.getElementById("resolvedCount").textContent=resolved
+    document.getElementById("dismissedCount").textContent=dismissed
     document.getElementById("evidenceCount").textContent=evidence
-    document.getElementById("harassmentCount").textContent=harassment
-    document.getElementById("todayCount").textContent=today
 }
 
 function renderReports(){
-
     const container=document.getElementById("reportList")
 
     const search=document.getElementById("search").value.trim().toLowerCase()
 
     const category=document.getElementById("categoryFilter").value
 
-    const filtered=reports.filter(report=>{
+    const status=document.getElementById("statusFilter").value
 
+    const filtered=reports.filter(report=>{
         const haystack=[
             report.reporter,
             report.target,
             report.category,
-            report.reason
+            report.reason,
+            report.status
         ].join(" ").toLowerCase()
 
         const matchesSearch=!search||haystack.includes(search)
 
-        const matchesCategory=!category||report.category===category
+        const matchesCategory=!category||
+            report.category===category
 
-        return matchesSearch&&matchesCategory
+        const matchesStatus=!status||
+            getReportStatus(report)===status
+
+        return matchesSearch&&matchesCategory&&matchesStatus
     })
 
     if(!filtered.length){
-
         container.innerHTML=`
             <div class="empty">
                 <div class="emptyIcon">⚑</div>
@@ -992,10 +1070,11 @@ function renderReports(){
     }
 
     container.innerHTML=filtered.map(report=>{
-
         const evidenceCount=Array.isArray(report.evidence)
             ?report.evidence.length
             :0
+
+        const reportStatus=getReportStatus(report)
 
         return `
             <div class="report" onclick='openReport(${JSON.stringify(report.id)})'>
@@ -1012,11 +1091,15 @@ function renderReports(){
                     <div class="reportMeta">
                         Reported by @${escapeHtml(report.reporter)}
                     </div>
+
+                    <div class="statusBadge ${reportStatus}">
+                        ${getStatusLabel(reportStatus)}
+                    </div>
                 </div>
 
                 <div class="reportCategory">
                     <span class="categoryBadge ${getCategoryClass(report.category)}">
-                        ${escapeHtml(report.category)}
+                        ${report.category==="Botted Account"?"🤖 ":""}${escapeHtml(report.category)}
                     </span>
                 </div>
 
@@ -1034,18 +1117,15 @@ function renderReports(){
 
             </div>
         `
-
     }).join("")
 }
 
 async function loadReports(){
-
     const container=document.getElementById("reportList")
 
     container.innerHTML=`<div class="loading">Loading reports...</div>`
 
     try{
-
         if(!backend){
             backend=await getBackend()
         }
@@ -1060,6 +1140,7 @@ async function loadReports(){
                     <div style="margin-top:7px">You must be logged in as an administrator.</div>
                 </div>
             `
+
             return
         }
 
@@ -1070,7 +1151,6 @@ async function loadReports(){
         })
 
         if(response.status===401||response.status===403){
-
             container.innerHTML=`
                 <div class="empty">
                     <div class="emptyIcon">🔒</div>
@@ -1094,7 +1174,6 @@ async function loadReports(){
         renderReports()
 
     }catch{
-
         container.innerHTML=`
             <div class="empty">
                 <div class="emptyIcon">⚠</div>
@@ -1106,10 +1185,11 @@ async function loadReports(){
 }
 
 function openReport(id){
-
     selectedReport=reports.find(report=>report.id===id)
 
     if(!selectedReport) return
+
+    const reportStatus=getReportStatus(selectedReport)
 
     document.getElementById("modalTarget").textContent=
         "@"+(selectedReport.target||"Unknown")
@@ -1123,6 +1203,14 @@ function openReport(id){
     document.getElementById("modalDate").textContent=
         formatDate(selectedReport.createdAt)
 
+    document.getElementById("modalStatus").textContent=
+        getStatusLabel(reportStatus)
+
+    document.getElementById("modalHandledDate").textContent=
+        selectedReport.resolvedAt||
+        selectedReport.updatedAt||
+        (reportStatus==="open"?"Not handled yet":"Unknown")
+
     document.getElementById("modalSubtitle").textContent=
         `Report ID: ${selectedReport.id}`
 
@@ -1133,20 +1221,36 @@ function openReport(id){
 
     document.getElementById("resolveStatus").textContent=""
 
+    const handledNoteSection=document.getElementById("handledNoteSection")
+    const resolveArea=document.getElementById("resolveArea")
+
+    if(reportStatus==="open"){
+        handledNoteSection.style.display="none"
+        resolveArea.style.display="block"
+    }else{
+        const note=
+            selectedReport.adminNote||
+            selectedReport.note||
+            "No administrator note was provided."
+
+        document.getElementById("handledNote").textContent=note
+
+        handledNoteSection.style.display="block"
+        resolveArea.style.display="none"
+    }
+
     renderEvidence()
 
     document.getElementById("modalOverlay").classList.add("show")
 }
 
 function closeReport(){
-
     document.getElementById("modalOverlay").classList.remove("show")
 
     selectedReport=null
 }
 
 function renderEvidence(){
-
     const container=document.getElementById("modalEvidence")
 
     const evidence=Array.isArray(selectedReport.evidence)
@@ -1154,7 +1258,6 @@ function renderEvidence(){
         :[]
 
     if(!evidence.length){
-
         container.innerHTML=`
             <div class="noEvidence">
                 No screenshots or other evidence were attached.
@@ -1165,17 +1268,16 @@ function renderEvidence(){
     }
 
     container.innerHTML=evidence.map(file=>{
-
-const url=
-    backend+
-    "/admin/reports/"+
-    encodeURIComponent(selectedReport.reporter)+
-    "/"+
-    encodeURIComponent(selectedReport.id)+
-    "/evidence/"+
-    encodeURIComponent(file.name)+
-    "?token="+
-    encodeURIComponent(localStorage.getItem("Token"))
+        const url=
+            backend+
+            "/admin/reports/"+
+            encodeURIComponent(selectedReport.reporter)+
+            "/"+
+            encodeURIComponent(selectedReport.id)+
+            "/evidence/"+
+            encodeURIComponent(file.name)+
+            "?token="+
+            encodeURIComponent(localStorage.getItem("Token"))
 
         return `
             <div class="evidenceItem" onclick="previewEvidence(${JSON.stringify(url)})">
@@ -1188,12 +1290,10 @@ const url=
                 </div>
             </div>
         `
-
     }).join("")
 }
 
 function previewEvidence(url){
-
     const image=document.getElementById("previewImage")
 
     image.src=url
@@ -1202,14 +1302,12 @@ function previewEvidence(url){
 }
 
 function closeImage(){
-
     document.getElementById("imageOverlay").classList.remove("show")
 
     document.getElementById("previewImage").src=""
 }
 
 async function resolveReport(action){
-
     if(!selectedReport) return
 
     const status=document.getElementById("resolveStatus")
@@ -1219,9 +1317,7 @@ async function resolveReport(action){
     status.textContent="Updating report..."
 
     try{
-
         const response=await fetch(backend+"/admin/reports/resolve",{
-
             method:"POST",
 
             headers:{
@@ -1235,13 +1331,11 @@ async function resolveReport(action){
                 action,
                 note
             })
-
         })
 
         const data=await safeJson(response)
 
         if(!data||data.error){
-
             status.textContent=
                 (data&&data.error)||
                 "Could not update the report."
@@ -1249,29 +1343,36 @@ async function resolveReport(action){
             return
         }
 
+        const index=reports.findIndex(report=>
+            report.id===selectedReport.id
+        )
+
+        if(index!==-1){
+            reports[index]={
+                ...reports[index],
+                status:action,
+                adminNote:note,
+                resolvedAt:new Date().toISOString()
+            }
+        }
+
+        updateStats()
+        renderReports()
+
         status.textContent=
             action==="resolved"
                 ?"Report resolved successfully."
                 :"Report dismissed."
 
-        reports=reports.filter(report=>
-            report.id!==selectedReport.id
-        )
-
-        updateStats()
-        renderReports()
-
         setTimeout(closeReport,700)
 
     }catch{
-
         status.textContent=
             "Could not connect to the server."
     }
 }
 
 async function start(){
-
     backend=await getBackend()
 
     await loadReports()
