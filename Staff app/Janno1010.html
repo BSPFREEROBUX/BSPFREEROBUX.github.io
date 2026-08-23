@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Staff Application Feedback</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,Arial,sans-serif;background:#07090f;color:#f5f7ff;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:-50%;background:radial-gradient(circle at 20% 20%,rgba(95,70,255,.22),transparent 25%),radial-gradient(circle at 80% 30%,rgba(0,180,255,.14),transparent 25%),radial-gradient(circle at 50% 90%,rgba(150,40,255,.13),transparent 25%);animation:bg 15s ease-in-out infinite alternate;z-index:-1}
+@keyframes bg{to{transform:translate(5%,3%) scale(1.08)}}
+.container{width:min(1100px,92%);margin:auto;padding:55px 0 80px}
+.hero{text-align:center;margin-bottom:40px}
+.badge{display:inline-flex;padding:8px 16px;border:1px solid #373d58;border-radius:999px;background:#111522;color:#9da9ff;font-size:13px;font-weight:700;letter-spacing:.5px;margin-bottom:18px}
+h1{font-size:clamp(34px,6vw,64px);line-height:1;font-weight:900;background:linear-gradient(90deg,#fff,#aab5ff,#72d7ff,#fff);background-size:250%;-webkit-background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:250%}}
+.subtitle{margin:18px auto 0;color:#969db4;max-width:700px;line-height:1.7;font-size:16px}
+.score-card{position:relative;background:linear-gradient(145deg,rgba(21,26,42,.96),rgba(10,13,23,.96));border:1px solid #30374f;border-radius:26px;padding:30px;margin-bottom:35px;box-shadow:0 20px 70px rgba(0,0,0,.35);overflow:hidden}
+.score-card:before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,#ffb347,#ff6b6b,#b46cff,#57c7ff)}
+.score-top{display:flex;justify-content:space-between;align-items:center;gap:25px;flex-wrap:wrap}
+.score-number{font-size:54px;font-weight:900;color:#ffb454}
+.score-label{color:#a4abc0;font-size:14px;margin-top:3px}
+.progress{height:10px;background:#1a1f2d;border-radius:99px;overflow:hidden;margin-top:22px}
+.progress span{display:block;height:100%;width:55%;background:linear-gradient(90deg,#ffb347,#ff6b6b);border-radius:99px;animation:progress 1.4s ease}
+@keyframes progress{from{width:0}to{width:55%}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:25px}
+.stat{background:#0e1320;border:1px solid #272d41;border-radius:15px;padding:17px}
+.stat strong{display:block;font-size:23px}
+.stat span{display:block;color:#858da5;font-size:12px;margin-top:5px}
+.section-title{font-size:25px;font-weight:850;margin:42px 0 18px}
+.feedback{display:grid;gap:13px}
+.item{background:rgba(15,19,31,.9);border:1px solid #272d40;border-radius:18px;padding:22px;transition:.25s;position:relative}
+.item:hover{transform:translateY(-2px);border-color:#465071;box-shadow:0 12px 35px rgba(0,0,0,.2)}
+.item-head{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+.number{width:34px;height:34px;border-radius:10px;background:#20263a;display:grid;place-items:center;color:#aeb8ff;font-weight:800;font-size:13px;flex-shrink:0}
+.item h3{font-size:16px;line-height:1.4}
+.rating{margin-left:auto;padding:5px 10px;border-radius:8px;font-weight:800;font-size:12px}
+.good{background:rgba(55,210,130,.12);color:#54df99;border:1px solid rgba(55,210,130,.25)}
+.mid{background:rgba(255,190,70,.12);color:#ffc45e;border:1px solid rgba(255,190,70,.25)}
+.bad{background:rgba(255,88,100,.12);color:#ff7f89;border:1px solid rgba(255,88,100,.25)}
+.item p{color:#aeb4c7;line-height:1.7;font-size:14px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+.summary-card{padding:23px;border-radius:18px;border:1px solid #292f44;background:#0e1320}
+.summary-card h3{margin-bottom:12px}
+.summary-card ul{list-style:none;display:grid;gap:9px}
+.summary-card li{color:#aab0c2;font-size:14px;line-height:1.5;padding-left:20px;position:relative}
+.summary-card li:before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:#737eff}
+.final{margin-top:35px;text-align:center;padding:30px;border:1px solid #343b55;border-radius:22px;background:linear-gradient(145deg,#111728,#0b0f1a)}
+.final strong{font-size:30px;color:#ffb454}
+.final p{margin-top:10px;color:#9ba2b7;line-height:1.6}
+footer{text-align:center;color:#555d72;font-size:12px;margin-top:35px}
+@media(max-width:600px){
+.container{padding-top:35px}
+.score-card{padding:22px}
+.score-number{font-size:45px}
+.item{padding:17px}
+.item-head{align-items:flex-start}
+.rating{margin-left:0}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="hero">
+<div class="badge">STAFF APPLICATION & RENEWAL</div>
+<h1>Application Feedback</h1>
+<p class="subtitle">Detailed moderation review covering every answer, decision, strength, weakness, and area that needs improvement.</p>
+</header>
+
+<section class="score-card">
+<div class="score-top">
+<div>
+<div class="score-number">5.5/10</div>
+<div class="score-label">Overall Application Score</div>
+</div>
+<div style="text-align:right;color:#858da5;font-size:14px">32 questions reviewed<br>Moderation judgment focused</div>
+</div>
+<div class="progress"><span></span></div>
+<div class="stats">
+<div class="stat"><strong>10/10</strong><span>Basic information</span></div>
+<div class="stat"><strong>7/10</strong><span>Basic moderation knowledge</span></div>
+<div class="stat"><strong>5/10</strong><span>Moderation judgment</span></div>
+<div class="stat"><strong>5/10</strong><span>Support handling</span></div>
+<div class="stat"><strong>8/10</strong><span>Fairness & neutrality</span></div>
+<div class="stat"><strong>4/10</strong><span>Communication quality</span></div>
+</div>
+</section>
+
+<h2 class="section-title">Question-by-Question Review</h2>
+
+<section class="feedback">
+
+<div class="item"><div class="item-head"><div class="number">01</div><h3>Username</h3><span class="rating good">10/10</span></div><p>Correct and complete.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">02</div><h3>Discord username</h3><span class="rating good">10/10</span></div><p>Correct and complete.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">03</div><h3>Age</h3><span class="rating good">10/10</span></div><p>Clear answer.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">04</div><h3>Timezone</h3><span class="rating good">10/10</span></div><p>Clear answer, assuming UTC+3 is correct.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">05</div><h3>Activity</h3><span class="rating good">7/10</span></div><p>You show that you are available a lot, which is good. However, "basically all day" isn't very specific or professional. It would be better to explain roughly when you are normally available.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">06</div><h3>Why do you want to become staff?</h3><span class="rating mid">5/10</span></div><p>The answer is very short and doesn't explain what motivates you, what you can contribute, or what you want to accomplish as staff.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">07</div><h3>Previous moderation/support experience</h3><span class="rating mid">5/10</span></div><p>You gave an example, which is good, but you don't explain what responsibilities you had, what you did as the owner or staff member, or what you learned from the experience.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">08</div><h3>N-word scenario</h3><span class="rating bad">4/10</span></div><p>This answer doesn't fully answer the question. The question specifically asked you to consider whether it was directed at someone, used as a joke, quoted, or repeatedly used. You mostly focused on whether it was an insult and mentioned insulting staff, which isn't the main point of the question. You should explain how context, intent, severity, and repetition affect the punishment.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">09</div><h3>Support waiting over a week</h3><span class="rating bad">4/10</span></div><p>Telling a frustrated user to "calm down" isn't a good support approach. You should acknowledge their frustration, check the status of their issue, provide an update if possible, and escalate it if necessary.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">10</div><h3>Insulting or swearing at staff</h3><span class="rating mid">5/10</span></div><p>It is good that you would tell them to stop, but saying that their problem might not get fixed if they continue is not appropriate. A user's support issue should not be withheld as punishment for being rude. Their behavior and their support request should be handled separately.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">11</div><h3>Two users arguing with little evidence</h3><span class="rating good">7/10</span></div><p>Good instinct not to immediately punish either person. However, you should also explain that you would separate the situation, ask for evidence if available, monitor the situation, and only punish if an actual rule violation can be established.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">12</div><h3>Friend breaks a rule</h3><span class="rating good">9/10</span></div><p>Very good answer. You correctly understand that friends should not receive special treatment. The same rules should apply to everyone.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">13</div><h3>Provoking without technically breaking a rule</h3><span class="rating bad">4/10</span></div><p>This answer is problematic because you say you would warn someone even though they haven't broken a rule. You should explain what behavior would justify staff intervention and whether your staff guidelines allow discretion for disruptive behavior. Not every annoying behavior should automatically result in a warning.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">14</div><h3>Repeated minor rule violations</h3><span class="rating good">7/10</span></div><p>You understand that punishments should escalate, which is good. However, you immediately jump to asking for a ban without explaining how previous warnings, frequency, and severity would affect the decision.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">15</div><h3>Serious rule violation followed by an apology</h3><span class="rating mid">5/10</span></div><p>The violation still happened, but saying the apology would not affect the punishment at all is too absolute. An apology does not erase a violation, but intent, remorse, previous history, and the circumstances can be considered when deciding the appropriate punishment.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">16</div><h3>Repeated tickets</h3><span class="rating good">7/10</span></div><p>Good distinction between someone who is genuinely confused and someone intentionally spamming tickets. However, a kick or ban should depend on how severe and persistent the spam is.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">17</div><h3>Serious report with little evidence</h3><span class="rating mid">6/10</span></div><p>Good that you understand evidence is important. However, you shouldn't automatically timeout someone and request a ban simply because a small amount of evidence appears convincing. You should investigate the situation and gather whatever evidence is available first.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">18</div><h3>Another staff member makes an unfair decision</h3><span class="rating good">8/10</span></div><p>Good that you would escalate the issue instead of publicly arguing. It could be better to say that you would privately discuss it with the staff member first when appropriate, then contact an administrator if the issue remains unresolved.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">19</div><h3>You wrongly punish an innocent user</h3><span class="rating good">9/10</span></div><p>Very good answer. You recognize that you should apologize and try to reverse the punishment. You could also mention informing the appropriate higher staff member and correcting any moderation records.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">20</div><h3>User asks for private staff information</h3><span class="rating good">7/10</span></div><p>Good that you refuse to give private information. However, repeatedly asking isn't automatically a reason for a timeout unless the user is actually harassing or violating a rule.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">21</div><h3>User threatens to leave unless they get what they want</h3><span class="rating good">8/10</span></div><p>Good that you wouldn't give in to manipulation. However, telling them they can leave at any time can sound unnecessarily hostile. A professional response would simply explain that staff decisions aren't changed because someone threatens to leave.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">22</div><h3>Repeatedly toxic user</h3><span class="rating mid">6/10</span></div><p>A timeout can be appropriate, but you should explain how repeated behavior would be documented and how punishments would progressively escalate.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">23</div><h3>Punishment bypass</h3><span class="rating good">8/10</span></div><p>Good that you recognize punishment evasion as serious. However, an IP ban should not automatically be assumed to be the correct punishment. You should follow the server's ban-evasion procedures and involve the appropriate staff.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">24</div><h3>Cheating, exploiting, or bug abuse</h3><span class="rating bad">3/10</span></div><p>This is one of the weakest answers. Saying the punishment should never depend on whether it is their first offense or whether the abuse was intentional ignores important circumstances. Accidentally discovering a bug is very different from intentionally exploiting it repeatedly for personal gain. Severity, intent, impact, and previous offenses should all be considered.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">25</div><h3>Spam and advertisements</h3><span class="rating good">8/10</span></div><p>Good basic escalation. Warning first and timing them out if they continue makes sense. However, severe advertising, malicious links, scams, or repeated spam may require more immediate escalation.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">26</div><h3>Harassment</h3><span class="rating mid">6/10</span></div><p>A timeout and escalation can be appropriate, but the response is too automatic. You should investigate the harassment, collect evidence, protect the targeted user, and consider how serious and repeated the behavior is.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">27</div><h3>Serious threat</h3><span class="rating good">7/10</span></div><p>Good that you would immediately escalate the situation. However, you should also preserve evidence, protect the targeted user, and follow the appropriate threat procedures instead of simply timing the person out.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">28</div><h3>Website ban evasion</h3><span class="rating good">8/10</span></div><p>Good recognition that ban evasion is serious and should be escalated. Again, an IP ban should not automatically be assumed to be the correct solution.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">29</div><h3>Staff abuse accusation</h3><span class="rating good">8/10</span></div><p>Good that you would ask for evidence and involve higher staff. However, "no proof = no action" is too simplistic. Staff can also investigate logs, messages, moderation records, and other available evidence.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">30</div><h3>Warn vs Timeout vs Kick/Ban vs Website Ban</h3><span class="rating good">7/10</span></div><p>You understand the basic differences, which is good. However, the answer is very simplistic. You should explain when each punishment is appropriate and how severity, history, and the rules affect the decision.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">31</div><h3>Unsure about punishment</h3><span class="rating good">10/10</span></div><p>Excellent answer. Asking higher staff instead of guessing is exactly what you should do.</p></div>
+
+<div class="item"><div class="item-head"><div class="number">32</div><h3>Why should we trust you?</h3><span class="rating mid">6/10</span></div><p>This answer is too vague. Saying you've already been staff and believe you've done a good job isn't enough by itself. You should provide specific examples of your reliability, fairness, activity, communication, and contributions.</p></div>
+
+</section>
+
+<h2 class="section-title">Main Areas To Improve</h2>
+
+<section class="summary">
+
+<div class="summary-card">
+<h3>⚖️ Moderation Judgment</h3>
+<ul>
+<li>Don't treat every rule violation as an automatic punishment.</li>
+<li>Consider context, intent, severity, evidence, and previous history.</li>
+<li>Don't immediately jump to bans unless the situation actually warrants it.</li>
+<li>Explain why a punishment is appropriate.</li>
+</ul>
+</div>
+
+<div class="summary-card">
+<h3>💬 Support</h3>
+<ul>
+<li>Don't tell frustrated users to "calm down."</li>
+<li>Acknowledge their frustration.</li>
+<li>Investigate the actual issue.</li>
+<li>Don't imply that support will be withheld because someone is rude.</li>
+</ul>
+</div>
+
+<div class="summary-card">
+<h3>🛡️ Staff Conduct</h3>
+<ul>
+<li>Remain neutral when investigating reports.</li>
+<li>Don't give friends special treatment.</li>
+<li>Know when to escalate to higher staff.</li>
+<li>Be careful with serious punishments such as bans and IP bans.</li>
+</ul>
+</div>
+
+<div class="summary-card">
+<h3>📝 Communication</h3>
+<ul>
+<li>Give more detailed explanations.</li>
+<li>Use professional language when dealing with users.</li>
+<li>Improve spelling and grammar.</li>
+<li>Make responses clear enough that users understand the decision.</li>
+</ul>
+</div>
+
+</section>
+
+<div class="final">
+<strong>Overall: 5.5/10</strong>
+<p>Your strongest areas are fairness toward friends, knowing when to ask higher staff, acknowledging mistakes, and understanding the basic punishment system. Your weakest areas are contextual moderation, support handling, and explaining why a specific punishment is appropriate.</p>
+</div>
+
+<footer>
+Staff Application Review • Moderation Evaluation
+</footer>
+
+</div>
+</body>
+</html>
