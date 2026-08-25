@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor Support</title>
+<script>
+(function(){
+    const phone = localStorage.getItem("Phone");
+    const file = phone === "1" ? "1Support.html" : "0Support.html";
+    const hash = window.location.hash || "";
+    window.location.replace(file + hash);
+})();
+</script>
+</head>
+<body>
+</body>
+</html>

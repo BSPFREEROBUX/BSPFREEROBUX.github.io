@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor Support Mobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#090b13;--panel:#131722;--panel2:#181d2b;--border:rgba(255,255,255,.08);--accent:#4da3ff;--accent2:#8b5cf6;--text:#fff;--muted:#9aa4b2;--radius:20px}
+body{font-family:Inter,sans-serif;background:radial-gradient(circle at top,#22345d 0%,#10131b 45%,#08090e 100%);color:var(--text);height:100vh;overflow:hidden}
+.layout{display:flex;height:100%}
+.sidebar{width:280px;display:flex;flex-direction:column;padding:28px;background:rgba(18,22,33,.82);backdrop-filter:blur(20px);border-right:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:15px;margin-bottom:35px}.logo img{width:52px;height:52px;border-radius:14px}
+.nav{display:flex;flex-direction:column;gap:10px;flex:1}
+.item{display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:16px;color:#cdd5e2;text-decoration:none;font-weight:600;transition:.25s}
+.item:hover{background:rgba(255,255,255,.05);transform:translateX(4px)}.item.active{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 15px 35px rgba(77,163,255,.35)}
+.main{flex:1;display:flex;flex-direction:column}
+.topbar{height:90px;display:flex;justify-content:space-between;align-items:center;padding:0 35px;background:rgba(18,22,33,.55);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.profile{display:flex;align-items:center;gap:12px}.profile label{display:flex;align-items:center;gap:8px;color:#cdd5e2;font-size:14px}.profile input[type=checkbox]{width:18px;height:18px;accent-color:#4da3ff}.profile .btn{padding:9px 16px;font-size:14px}
+.content{flex:1;display:grid;grid-template-columns:360px minmax(0,1fr);gap:24px;padding:30px;overflow:hidden}
+.card{display:flex;flex-direction:column;overflow:hidden;height:100%;background:rgba(19,23,34,.9);backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:var(--radius)}
+.cardHeader{display:flex;justify-content:space-between;align-items:center;padding:22px;border-bottom:1px solid var(--border)}
+.btn{padding:10px 18px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer}
+.ticketList{flex:1;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:14px}.sidebarUser{color:#9aa4b2;font-size:13px;margin-bottom:18px}
+.ticketItem{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-bottom:12px;cursor:pointer;transition:.25s}
+.ticketItem:hover{border-color:#4da3ff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(77,163,255,.18)}
+.ticketStatusOpen{color:#22c55e;font-size:12px;font-weight:700}.ticketStatusClosed{color:#ef4444;font-size:12px;font-weight:700}
+.chatArea{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:24px;display:flex;flex-direction:column;gap:18px}
+.messageRow{display:flex;margin:12px 0}.messageRow.me{justify-content:flex-end}.messageBubble{max-width:72%;background:#1b2130;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px 18px;box-shadow:0 10px 25px rgba(0,0,0,.15);animation:fadeIn .18s ease}.messageBubble.me{background:linear-gradient(135deg,#4da3ff,#8b5cf6);border:none}
+.messageTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:18px}.messageAuthor{font-weight:700;font-size:14px}.messageTime{font-size:12px;opacity:.65;white-space:nowrap}.messageText{line-height:1.65;word-break:break-word}
+.dateDivider{display:flex;justify-content:center;margin:22px 0}.dateDivider span{padding:6px 14px;border-radius:999px;background:#101521;border:1px solid rgba(255,255,255,.08);font-size:12px;color:#9aa4b2}
+.composer{display:flex;gap:14px;padding:18px;border-top:1px solid rgba(255,255,255,.08);background:#151a27;flex-shrink:0}
+.composer textarea{flex:1;resize:none;height:56px;padding:16px;border:none;outline:none;border-radius:14px;background:#161c28;color:#fff;font-family:inherit}.send{width:56px;border:none;border-radius:14px;cursor:pointer;font-size:20px;color:#fff;background:linear-gradient(135deg,#4da3ff,#8b5cf6)}
+.ticketPopup{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:9999}.ticketBox{width:520px;max-width:92%;background:#171b27;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.popupHeader{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px}.popupHeader h2{font-size:28px;margin-bottom:6px}.popupHeader p{color:#94a3b8;font-size:14px;line-height:1.5}
+.popupClose{width:42px;height:42px;border:none;border-radius:12px;cursor:pointer;font-size:18px;color:#fff;background:rgba(255,255,255,.06)}.popupClose:hover{background:#ef4444}
+.ticketInput{width:100%;background:#0f1420;border:1px solid rgba(255,255,255,.08);color:#fff;padding:16px;font-size:15px;border-radius:14px;margin-bottom:18px;outline:none;transition:.2s}.ticketInput:focus{border-color:#4da3ff;box-shadow:0 0 0 4px rgba(77,163,255,.12)}
+.ticketReason{height:180px;resize:none}.ticketFooter{display:flex;justify-content:space-between;align-items:center;margin-top:10px}.ticketCount{color:#94a3b8;font-size:13px}.ticketActions{display:flex;gap:12px}.cancelTicket{background:#20283a;color:#fff;border:none;padding:12px 18px;border-radius:12px;cursor:pointer;font-weight:700}.createTicketBtn{background:linear-gradient(135deg,#4da3ff,#8b5cf6);color:#fff;border:none;padding:12px 22px;border-radius:12px;cursor:pointer;font-weight:700}
+.emptyChat{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#94a3b8}.emptyIcon{font-size:56px;margin-bottom:18px;opacity:.5}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.sidebar{width:220px;padding:20px}.content{grid-template-columns:300px minmax(0,1fr);padding:20px;gap:16px}.topbar{padding:0 20px}}
+</style>
+
+<style>
+*{box-sizing:border-box}
+body{height:100dvh;overflow:hidden}
+.layout{height:100dvh}
+.sidebar{display:none}
+.main{height:100dvh;min-width:0}
+.topbar{height:auto;min-height:74px;padding:14px 16px;gap:12px;align-items:flex-start}
+.topbar h1{font-size:22px}.topbar p{font-size:12px}
+.profile{gap:6px;flex-wrap:wrap;justify-content:flex-end}.profile .btn{display:none}
+#anonWrap{font-size:12px}
+.content{display:flex;flex-direction:column;padding:10px;gap:10px;overflow:hidden;min-height:0}
+.content>.card:first-child{height:37%;min-height:190px;flex:none}
+.content>.card:last-child{height:63%;min-height:0;flex:1}
+.card{border-radius:16px}
+.cardHeader{padding:14px 15px;min-height:58px}.cardHeader h2{font-size:16px}
+.cardHeader .btn{padding:9px 12px;font-size:12px}
+.ticketList{padding:10px;gap:8px}
+.sidebarUser{font-size:11px;margin-bottom:4px}
+.ticketItem{padding:12px;border-radius:12px;margin-bottom:8px;font-size:13px}
+#staffTitle{font-size:13px;margin-top:10px!important}
+.ticketItem:hover{transform:none}
+.chatArea{padding:12px;gap:8px}
+.messageRow{margin:6px 0}.messageBubble{max-width:88%;padding:11px 13px;border-radius:15px}
+.messageTop{gap:10px;margin-bottom:6px}.messageAuthor{font-size:12px}.messageTime{font-size:10px}.messageText{font-size:13px;line-height:1.5}
+.dateDivider{margin:12px 0}.dateDivider span{font-size:10px;padding:5px 10px}
+.ticketHeader{font-size:12px!important}
+#ticketHeader{padding:11px!important;font-size:12px}
+#ticketTitle{font-size:15px}
+.composer{padding:9px;gap:8px}.composer textarea{height:46px;padding:12px;font-size:13px}.send{width:44px;height:44px;font-size:18px;flex:none}
+#previewBar{max-height:145px;overflow:auto}
+.ticketPopup{padding:12px}.ticketBox{max-width:100%;width:100%;padding:18px;border-radius:18px;max-height:90dvh;overflow:auto}
+.popupHeader h2{font-size:22px}.popupHeader p{font-size:12px}.ticketInput{padding:13px;font-size:14px;margin-bottom:12px}.ticketReason{height:130px}
+.ticketFooter{display:flex;flex-direction:column;align-items:stretch;gap:10px}.ticketActions{width:100%}.ticketActions button{flex:1}
+.createTicketBtn,.cancelTicket{padding:12px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+<div class="logo"><img src="https://zyphor.cc/Logo1.png"><h2>ZYPHOR</h2></div>
+<nav class="nav">
+<a class="item" href="Dashboard.html">Dashboard</a>
+<a class="item" href="#" onclick="goProfile();return false;">Profile</a>
+<a class="item" href="dms.html">Messages</a>
+<a class="item" href="Wallet.html">Wallet</a>
+<a class="item" href="Cloud.html">Cloud</a>
+<a class="item" href="download.html">App Center</a>
+<a class="item active" href="Support.html">Support</a>
+<a class="item" href="#">Settings</a>
+</nav>
+</aside>
+<div class="main">
+<header class="topbar">
+<div><h1>Support Center</h1><p style="margin-top:6px;color:#9aa4b2">Need assistance? We're here to help.</p></div>
+<div class="profile">
+<label id="anonWrap" style="display:none">Anonymous <input type="checkbox" id="anonToggle"></label>
+<button class="btn" onclick="closeTicket()">Close</button>
+<button class="btn" onclick="lockTicket()">Lock</button>
+<button class="btn" onclick="unlockTicket()">Unlock</button>
+</div>
+</header>
+<div class="content">
+<div class="card">
+<div class="cardHeader"><h2>Tickets</h2><button class="btn" onclick="createTicket()">+ New Ticket</button></div>
+<div class="ticketList"><div class="sidebarUser" id="userDisplay"></div><div id="myTickets"></div><h3 id="staffTitle" style="display:none;margin-top:20px">All Tickets</h3><div id="allTickets"></div></div>
+</div>
+<div class="card">
+<div class="cardHeader"><h2 id="ticketTitle">Select a ticket</h2></div>
+<div id="ticketHeader" style="padding:18px;border-bottom:1px solid rgba(255,255,255,.08)"></div>
+<div id="chatMessages" class="chatArea"></div>
+<div id="previewBar"></div>
+<div class="composer">
+<button class="send" onclick="fileInput.click()">+</button>
+<input type="file" id="fileInput" style="display:none" accept="image/*,video/*,.png,.jpg,.jpeg,.gif,.mp4,.mov,.webm">
+<textarea id="messageBox" placeholder="Write a message..."></textarea>
+<button class="send" onclick="sendMessage()">➜</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="ticketPopup" class="ticketPopup">
+<div class="ticketBox">
+<div class="popupHeader"><div><h2>Create Support Ticket</h2><p>Tell us what's wrong and we'll respond as soon as possible.</p></div><button class="popupClose" onclick="closeTicketPopup()">✕</button></div>
+<input id="ticketTitleInput" class="ticketInput" maxlength="80" placeholder="Ticket title">
+<select id="ticketCategory" class="ticketInput"><option>General Support</option><option>Bug Report</option><option>Billing</option><option>Account</option><option>Website</option><option>Android App</option><option>Windows App</option><option>Other</option></select>
+<textarea id="ticketReasonInput" class="ticketInput ticketReason" maxlength="2500" placeholder="Describe your issue..."></textarea>
+<div class="ticketFooter"><div class="ticketCount"><span id="ticketChars">0</span>/2500</div><div class="ticketActions"><button class="cancelTicket" onclick="closeTicketPopup()">Cancel</button><button class="createTicketBtn" onclick="submitTicket()">Create Ticket</button></div></div>
+</div>
+</div>
+<script>
+const messageBox=document.getElementById("messageBox")
+const fileInput=document.getElementById("fileInput")
+const previewBar=document.getElementById("previewBar")
+const chatMessages=document.getElementById("chatMessages")
+const ticketHeader=document.getElementById("ticketHeader")
+const userDisplay=document.getElementById("userDisplay")
+const staffTitle=document.getElementById("staffTitle")
+const anonToggle=document.getElementById("anonToggle")
+let backend=null,token=null,user=null,activeTicket=null,selectedFile=null,selectedFileUrl=null,activeTicketSignature="",loadingTickets=false
+async function getBackend(){const r=await fetch("server.txt");return(await r.text()).trim()}
+async function safeJson(res){const txt=await res.text();try{return JSON.parse(txt)}catch{return null}}
+function hasSupport(){return !!(user&&(user.permissions.support||user.permissions.admin))}
+function hasAdmin(){return !!(user&&user.permissions.admin)}
+function escapeHTML(text){return String(text??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function goProfile(){const username=localStorage.getItem("username");if(!username)return;window.location.href=`https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`}
+async function trackPage(page){const t=localStorage.getItem("Token");if(!t)return;await fetch(backend+"/track/page",{method:"POST",headers:{"Content-Type":"application/json",Authorization:t},body:JSON.stringify({page})})}
+async function init(){
+backend=await getBackend();token=localStorage.getItem("Token");await trackPage("Support.html")
+if(!token){location.href="login.html";return}
+const r=await fetch(backend+"/me",{headers:{Authorization:token}});user=await safeJson(r)
+if(!user||user.error){location.href="login.html";return}
+userDisplay.textContent="Logged in as: "+user.username
+if(hasSupport())staffTitle.style.display="block"
+if(hasAdmin())document.getElementById("anonWrap").style.display="flex"
+await loadTickets()
+if(location.hash){setTimeout(()=>{const id=location.hash.slice(1);const el=document.querySelector(`[data-ticket="${CSS.escape(id)}"]`);if(el)el.click()},100)}
+}
+async function loadTickets(){
+if(loadingTickets)return;loadingTickets=true
+try{const r=await fetch(backend+"/support/list",{headers:{Authorization:token}});const data=await safeJson(r)||{mine:[],all:[]};renderTicketList(Array.isArray(data.mine)?data.mine:[],"myTickets");if(hasSupport())renderTicketList(Array.isArray(data.all)?data.all:[],"allTickets")}catch(e){console.error(e)}
+loadingTickets=false
+}
+function renderTicketList(list,containerId){
+const container=document.getElementById(containerId);container.innerHTML=""
+list.sort((a,b)=>a.status!==b.status?(a.status==="open"?-1:1):new Date(b.createdAt)-new Date(a.createdAt))
+list.forEach(ticket=>{const unread=ticket.unread||0;const div=document.createElement("div");div.className="ticketItem";div.dataset.ticket=ticket.id;div.innerHTML=`<b>${escapeHTML(ticket.title)}</b>${unread>0?`<span style="float:right;background:#ef4444;color:white;padding:3px 7px;border-radius:999px;font-size:11px">${unread}</span>`:""}<br><span class="${ticket.status==="open"?"ticketStatusOpen":"ticketStatusClosed"}">${ticket.status.toUpperCase()}</span>`;div.onclick=()=>{openTicket(ticket);history.replaceState(null,"","#"+ticket.id)};container.appendChild(div)})
+}
+function getFileName(path){if(!path)return"file";const p=String(path).split("/");return p[p.length-1]||"file"}
+function getExt(name){const clean=String(name||"").split("?")[0].toLowerCase();const i=clean.lastIndexOf(".");return i===-1?"":clean.slice(i+1)}
+function isImageFile(file){const name=getFileName(file?.path||file?.name||"");const mime=String(file?.mime||file?.type||"").toLowerCase();return mime.startsWith("image/")||["png","jpg","jpeg","gif","webp","bmp","svg"].includes(getExt(name))}
+function isVideoFile(file){const name=getFileName(file?.path||file?.name||"");const mime=String(file?.mime||file?.type||"").toLowerCase();return mime.startsWith("video/")||["mp4","mov","webm","mkv","avi","m4v","ogg"].includes(getExt(name))}
+function renderAttachment(att){if(!att)return"";const path=att.path||"";const url=backend+"/uploads/"+path;const name=getFileName(path);if(isImageFile(att))return`<div style="margin-top:10px"><img src="${url}" style="max-width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.08)"></div>`;if(isVideoFile(att))return`<div style="margin-top:10px"><video controls src="${url}" style="max-width:100%;border-radius:12px"></video></div>`;return`<div style="margin-top:10px"><a href="${url}" target="_blank" style="color:#7ab7ff">📄 ${escapeHTML(name)}</a></div>`}
+function formatMessage(text){return escapeHTML(text).replace(/((https?:\/\/|www\.)[^\s<]+)/gi,url=>{let href=url;if(!href.startsWith("http"))href="https://"+href;return`<a href="${href}" target="_blank">${url}</a>`})}
+async function openTicket(ticket){activeTicket=ticket;await fetch(backend+"/notifications/seen",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({ticketId:ticket.id})});activeTicketSignature="";renderMessages(ticket)}
+function renderMessages(ticket){
+chatMessages.innerHTML=""
+if(!ticket){chatMessages.innerHTML=`<div class="emptyChat"><div class="emptyIcon">💬</div><h2>Select a ticket</h2><p>Choose a ticket from the left to start viewing the conversation.</p></div>`;return}
+document.getElementById("ticketTitle").textContent=ticket.title
+ticketHeader.innerHTML=`<b>${escapeHTML(ticket.title)}</b><br><span style="color:${ticket.status==="open"?"#22c55e":"#ef4444"}">${ticket.status.toUpperCase()}</span>${ticket.locked?" 🔒 Locked":""}`
+let lastDate=""
+;(ticket.messages||[]).forEach(message=>{const date=new Date(message.time),day=date.toLocaleDateString();if(day!==lastDate){lastDate=day;const sep=document.createElement("div");sep.className="dateDivider";sep.innerHTML=`<span>${day}</span>`;chatMessages.appendChild(sep)}const mine=message.author===user.username;const wrapper=document.createElement("div");wrapper.className=mine?"messageRow me":"messageRow";const bubble=document.createElement("div");bubble.className=mine?"messageBubble me":"messageBubble";bubble.innerHTML=`<div class="messageTop"><span class="messageAuthor">${escapeHTML(message.author)}</span><span class="messageTime">${date.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}</span></div>${message.text?`<div class="messageText">${formatMessage(message.text)}</div>`:""}${message.attachment?renderAttachment(message.attachment):""}`;wrapper.appendChild(bubble);chatMessages.appendChild(wrapper)})
+requestAnimationFrame(()=>chatMessages.scrollTop=chatMessages.scrollHeight)
+}
+function buildTicketSignature(ticket){return ticket?JSON.stringify(ticket):""}
+async function refreshActiveTicket(){
+if(!activeTicket)return
+const r=await fetch(backend+"/support/list",{headers:{Authorization:token}});const data=await safeJson(r);if(!data)return
+const tickets=[...(data.mine||[]),...(data.all||[])],updated=tickets.find(t=>t.id===activeTicket.id);if(!updated)return
+const sig=buildTicketSignature(updated);if(sig===activeTicketSignature)return
+const oldMessages=JSON.stringify(activeTicket.messages||[]),newMessages=JSON.stringify(updated.messages||[]);activeTicketSignature=sig;activeTicket=updated
+if(oldMessages!==newMessages)renderMessages(updated)
+}
+const ticketPopup=document.getElementById("ticketPopup"),ticketTitleInput=document.getElementById("ticketTitleInput"),ticketReasonInput=document.getElementById("ticketReasonInput"),ticketChars=document.getElementById("ticketChars")
+ticketReasonInput.addEventListener("input",()=>ticketChars.textContent=ticketReasonInput.value.length)
+function removePreview(){selectedFile=null;selectedFileUrl=null;fileInput.value="";previewBar.innerHTML="";previewBar.style.display="none"}
+fileInput.addEventListener("change",()=>{const file=fileInput.files[0];if(!file){removePreview();return}selectedFile=file;if(selectedFileUrl)URL.revokeObjectURL(selectedFileUrl);selectedFileUrl=URL.createObjectURL(file);previewBar.style.display="block";previewBar.innerHTML=`<div style="padding:12px">${file.type.startsWith("image/")?`<img src="${selectedFileUrl}" style="max-height:120px;border-radius:12px;display:block;margin-bottom:10px">`:file.type.startsWith("video/")?`<video controls src="${selectedFileUrl}" style="max-height:160px;border-radius:12px;display:block;margin-bottom:10px"></video>`:`📄 ${escapeHTML(file.name)}<br><br>`}<button class="btn" onclick="removePreview()">Remove</button></div>`})
+async function sendMessage(){if(!activeTicket)return;const msg=messageBox.value;const form=new FormData();form.append("ticketId",activeTicket.id);form.append("message",msg);if(selectedFile)form.append("file",selectedFile);if(anonToggle.checked)form.append("anonymous",true);await fetch(backend+"/support/message",{method:"POST",headers:{Authorization:token},body:form});messageBox.value="";removePreview();await refreshActiveTicket()}
+async function closeTicket(){if(!activeTicket)return;await fetch(backend+"/support/close",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({ticketId:activeTicket.id})});loadTickets()}
+async function lockTicket(){if(!activeTicket)return;await fetch(backend+"/support/lock",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({ticketId:activeTicket.id})});loadTickets()}
+async function unlockTicket(){if(!activeTicket)return;await fetch(backend+"/support/unlock",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({ticketId:activeTicket.id})});loadTickets()}
+function createTicket(){ticketPopup.style.display="flex"}function closeTicketPopup(){ticketPopup.style.display="none";ticketTitleInput.value="";ticketReasonInput.value=""}
+async function submitTicket(){const title=ticketTitleInput.value.trim(),reason=ticketReasonInput.value.trim();if(!title||!reason){alert("Please enter a title and reason");return}await fetch(backend+"/support/create",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({title,reason})});closeTicketPopup();loadTickets()}
+function logout(){localStorage.removeItem("Token");location.href="login.html"}
+setInterval(refreshActiveTicket,500);setInterval(loadTickets,2000);init()
+</script>
+</body>
+</html>
