@@ -772,42 +772,6 @@ transition:.2s;
 }
 
 
-
-.profileLower{
-    display:grid;
-    grid-template-columns:minmax(190px,220px) minmax(0,1fr);
-    gap:22px;
-    align-items:start;
-    margin-top:24px;
-}
-
-.earningsCard{
-    min-height:92px;
-    align-self:start;
-}
-
-.profileLower .badgesSection{
-    margin-top:0;
-    padding-top:0;
-}
-
-.profileLower #badgesList{
-    grid-template-columns:1fr;
-    gap:14px;
-    max-width:180px;
-}
-
-@media(max-width:850px){
-    .profileLower{
-        grid-template-columns:1fr;
-    }
-
-    .profileLower #badgesList{
-        grid-template-columns:repeat(auto-fill,minmax(80px,1fr));
-        max-width:none;
-    }
-}
-
 .badgesSection{
     margin-top:30px;
     padding-top:4px;
@@ -1298,19 +1262,16 @@ Close
             <p id="questCount">Loading...</p>
         </div>
 
-
-    </div>
-
-    <div class="profileLower">
-        <div class="infoCard earningsCard">
+        <div class="infoCard">
             <h3>Total Earnings</h3>
             <p id="earningsInfo">Loading...</p>
         </div>
 
-        <div class="badgesSection">
-            <h2>Badges</h2>
-            <div id="badgesList"></div>
-        </div>
+    </div>
+
+    <div class="badgesSection">
+        <h2>Badges</h2>
+        <div id="badgesList"></div>
     </div>
 
     <div class="actions" id="profileActions">
