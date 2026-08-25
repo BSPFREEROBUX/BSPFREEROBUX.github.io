@@ -5,198 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zyphor Contributions</title>
 <style>
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    min-height:100vh;
-    font-family:Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at top,#18204a 0%,#090b18 42%,#04050b 100%);
-    color:white;
-    padding:40px 20px;
-}
-
-.container{
-    max-width:900px;
-    margin:auto;
-}
-
-.header{
-    text-align:center;
-    margin-bottom:35px;
-}
-
-.header h1{
-    margin:0;
-    font-size:42px;
-    font-weight:800;
-    background:linear-gradient(90deg,#42a5ff,#9b5cff,#e54dff);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-}
-
-.header p{
-    margin-top:10px;
-    color:#9ea7c7;
-}
-
-#contributions{
-    display:grid;
-    gap:18px;
-}
-
-.user-card{
-    background:rgba(16,19,38,.82);
-    border:1px solid rgba(125,105,255,.25);
-    border-radius:22px;
-    padding:22px;
-    backdrop-filter:blur(16px);
-    box-shadow:0 15px 45px rgba(0,0,0,.35);
-    transition:.2s ease;
-}
-
-.user-card:hover{
-    transform:translateY(-3px);
-    border-color:rgba(142,117,255,.55);
-    box-shadow:0 20px 55px rgba(53,31,120,.35);
-}
-
-.user{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    margin-bottom:18px;
-}
-
-.pfp{
-    width:58px;
-    height:58px;
-    border-radius:50%;
-    object-fit:cover;
-    background:linear-gradient(135deg,#287cff,#9b4dff);
-    border:2px solid rgba(255,255,255,.15);
-}
-
-.username{
-    font-size:21px;
-    font-weight:700;
-}
-
-.label{
-    color:#8e96b7;
-    font-size:13px;
-    margin-top:4px;
-}
-
-.contribution-list{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-}
-
-.contribution{
-    padding:10px 14px;
-    border-radius:999px;
-    background:linear-gradient(135deg,rgba(52,134,255,.17),rgba(170,74,255,.17));
-    border:1px solid rgba(133,112,255,.28);
-    color:#e8eaff;
-    font-size:14px;
-}
-
-.empty{
-    text-align:center;
-    color:#8e96b7;
-    padding:50px 20px;
-}
-
-.loading{
-    text-align:center;
-    color:#aab2d1;
-    padding:50px 20px;
-}
-
-.error{
-    text-align:center;
-    color:#ff7e96;
-    padding:50px 20px;
-}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#18204a,#090b18 42%,#04050b);color:#fff;padding:40px 20px}
+.container{max-width:900px;margin:auto}
+.header{text-align:center;margin-bottom:35px}
+.header h1{margin:0;font-size:42px;font-weight:800;background:linear-gradient(90deg,#42a5ff,#9b5cff,#e54dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.header p{margin-top:10px;color:#9ea7c7}
+#contributions{display:grid;gap:18px}
+.user-card{background:rgba(16,19,38,.82);border:1px solid rgba(125,105,255,.25);border-radius:22px;padding:22px;backdrop-filter:blur(16px);box-shadow:0 15px 45px rgba(0,0,0,.35);transition:.2s}
+.user-card:hover{transform:translateY(-3px);border-color:rgba(142,117,255,.55)}
+.user{display:flex;align-items:center;gap:15px;margin-bottom:18px}
+.pfp{width:58px;height:58px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,#287cff,#9b4dff);border:2px solid rgba(255,255,255,.15)}
+.username{font-size:21px;font-weight:700}
+.label{color:#8e96b7;font-size:13px;margin-top:4px}
+.contribution-list{display:flex;flex-wrap:wrap;gap:10px}
+.contribution{padding:10px 14px;border-radius:999px;background:linear-gradient(135deg,rgba(52,134,255,.17),rgba(170,74,255,.17));border:1px solid rgba(133,112,255,.28);color:#e8eaff;font-size:14px}
+.empty,.loading,.error{text-align:center;padding:50px 20px}
+.empty,.loading{color:#8e96b7}
+.error{color:#ff7e96}
 </style>
 </head>
 <body>
-
 <div class="container">
-    <div class="header">
-        <h1>Zyphor Contributions</h1>
-        <p>People who helped build Zyphor</p>
-    </div>
-
-    <div id="contributions" class="loading">
-        Loading contributions...
-    </div>
+<div class="header">
+<h1>Zyphor Contributions</h1>
+<p>People who helped build Zyphor</p>
+</div>
+<div id="contributions" class="loading">Loading contributions...</div>
 </div>
 
 <script>
-async function loadContributions(){
-    const container = document.getElementById("contributions")
+let SERVER_URL=""
 
-    try{
-        const response = await fetch("/contributions")
-        const data = await response.json()
-
-        if(!data.success || !Array.isArray(data.contributions)){
-            throw new Error("Invalid response")
-        }
-
-        if(data.contributions.length === 0){
-            container.className = "empty"
-            container.textContent = "No contributions yet."
-            return
-        }
-
-        container.className = ""
-
-        container.innerHTML = data.contributions.map(user => {
-            const contributions = Array.isArray(user.contributions)
-                ? user.contributions
-                : []
-
-            return `
-                <div class="user-card">
-                    <div class="user">
-                        <img
-                            class="pfp"
-                            src="${user.pfp}"
-                            alt="${escapeHtml(user.username)}"
-                            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22%3E%3Ccircle cx=%2232%22 cy=%2232%22 r=%2232%22 fill=%22%233747a8%22/%3E%3C/svg%3E'"
-                        >
-                        <div>
-                            <div class="username">${escapeHtml(user.username)}</div>
-                            <div class="label">${contributions.length} contribution${contributions.length === 1 ? "" : "s"}</div>
-                        </div>
-                    </div>
-
-                    <div class="contribution-list">
-                        ${
-                            contributions.length
-                                ? contributions.map(x => `
-                                    <div class="contribution">
-                                        ${escapeHtml(String(x))}
-                                    </div>
-                                `).join("")
-                                : `<div class="label">No contributions listed</div>`
-                        }
-                    </div>
-                </div>
-            `
-        }).join("")
-    }catch(error){
-        container.className = "error"
-        container.textContent = "Failed to load contributions."
-    }
+async function getServer(){
+    const response=await fetch("server.txt?"+Date.now(),{cache:"no-store"})
+    if(!response.ok)throw new Error("server.txt")
+    const url=(await response.text()).trim().replace(/\/+$/,"")
+    if(!/^https?:\/\//i.test(url))throw new Error("invalid server url")
+    return url
 }
 
 function escapeHtml(value){
@@ -208,8 +54,83 @@ function escapeHtml(value){
         .replaceAll("'","&#039;")
 }
 
+async function loadContributions(){
+    const container=document.getElementById("contributions")
+
+    try{
+        SERVER_URL=await getServer()
+
+        const response=await fetch(
+            SERVER_URL+"/contributions",
+            {
+                method:"GET",
+                cache:"no-store"
+            }
+        )
+
+        const data=await response.json()
+
+        if(!data.success || !Array.isArray(data.contributions)){
+            throw new Error("Invalid response")
+        }
+
+        if(data.contributions.length===0){
+            container.className="empty"
+            container.textContent="No contributions yet."
+            return
+        }
+
+        container.className=""
+
+        container.innerHTML=data.contributions.map(user=>{
+            const contributions=Array.isArray(user.contributions)
+                ? user.contributions
+                : []
+
+            const pfpUrl=
+                SERVER_URL+
+                "/account/pfp/"+
+                encodeURIComponent(user.username)+
+                "?v="+Date.now()
+
+            return `
+                <div class="user-card">
+                    <div class="user">
+                        <img
+                            class="pfp"
+                            src="${pfpUrl}"
+                            alt="${escapeHtml(user.username)}"
+                        >
+                        <div>
+                            <div class="username">${escapeHtml(user.username)}</div>
+                            <div class="label">
+                                ${contributions.length}
+                                contribution${contributions.length===1?"":"s"}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contribution-list">
+                        ${
+                            contributions.length
+                            ? contributions.map(x=>`
+                                <div class="contribution">
+                                    ${escapeHtml(x)}
+                                </div>
+                            `).join("")
+                            : `<div class="label">No contributions listed</div>`
+                        }
+                    </div>
+                </div>
+            `
+        }).join("")
+    }catch(error){
+        container.className="error"
+        container.textContent="Failed to load contributions."
+    }
+}
+
 loadContributions()
 </script>
-
 </body>
 </html>
