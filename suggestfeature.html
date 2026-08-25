@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Suggest a Feature - Zyphor</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#1b2450,#090b18 45%,#04050b);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{width:100%;max-width:650px;background:rgba(13,16,32,.9);border:1px solid rgba(125,105,255,.3);border-radius:26px;padding:32px;box-shadow:0 25px 80px rgba(0,0,0,.45);backdrop-filter:blur(18px)}
+.logo{width:68px;height:68px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;margin-bottom:20px;background:linear-gradient(135deg,#3b82ff,#9b5cff,#ef4dff);box-shadow:0 10px 35px rgba(125,75,255,.35)}
+h1{margin:0;font-size:32px}
+.sub{margin:10px 0 28px;color:#99a2c2;line-height:1.5}
+textarea{width:100%;height:220px;resize:vertical;border:1px solid rgba(145,130,255,.25);border-radius:18px;background:#090c18;color:#fff;padding:18px;font-size:16px;outline:none;line-height:1.5}
+textarea:focus{border-color:#806cff;box-shadow:0 0 0 4px rgba(128,108,255,.1)}
+button{width:100%;margin-top:16px;border:0;border-radius:16px;padding:16px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(90deg,#347cff,#8757ff,#dc4cff);cursor:pointer;transition:.2s}
+button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.status{margin-top:16px;padding:14px 16px;border-radius:14px;display:none}
+.status.show{display:block}
+.success{background:rgba(47,180,104,.12);border:1px solid rgba(47,180,104,.3);color:#7df0aa}
+.error{background:rgba(255,70,100,.12);border:1px solid rgba(255,70,100,.3);color:#ff889d}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="logo">Z</div>
+<h1>Suggest a Feature</h1>
+<div class="sub">Have an idea, improvement, removal, or something you can do to help the owner? Write it below and send it directly to the Zyphor team.</div>
+<textarea id="suggestion" maxlength="5000" placeholder="Write your suggestion here..."></textarea>
+<button id="send">Submit Suggestion</button>
+<div id="status" class="status"></div>
+</div>
+
+<script>
+let SERVER_URL=""
+
+const suggestion=document.getElementById("suggestion")
+const send=document.getElementById("send")
+const status=document.getElementById("status")
+
+function getToken(){
+    return localStorage.getItem("Token") ||
+           localStorage.getItem("token") ||
+           localStorage.getItem("SessionID") ||
+           localStorage.getItem("sessionToken") ||
+           ""
+}
+
+async function getServer(){
+    const response=await fetch("server.txt?"+Date.now(),{cache:"no-store"})
+    if(!response.ok)throw new Error("server.txt")
+    const url=(await response.text()).trim().replace(/\/+$/,"")
+    if(!/^https?:\/\//i.test(url))throw new Error("invalid server url")
+    return url
+}
+
+function show(text,type){
+    status.textContent=text
+    status.className="status show "+type
+}
+
+async function init(){
+    try{
+        SERVER_URL=await getServer()
+
+        if(!getToken()){
+            send.disabled=true
+            show("You must be logged in to submit a suggestion.","error")
+        }
+    }catch{
+        send.disabled=true
+        show("Unable to connect to the server.","error")
+    }
+}
+
+send.addEventListener("click",async()=>{
+    const text=suggestion.value.trim()
+
+    if(!text){
+        show("Write a suggestion first.","error")
+        return
+    }
+
+    const token=getToken()
+
+    if(!token){
+        show("You must be logged in.","error")
+        return
+    }
+
+    send.disabled=true
+
+    try{
+        const response=await fetch(SERVER_URL+"/suggestions",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":token
+            },
+            body:JSON.stringify({
+                suggestion:text
+            })
+        })
+
+        const data=await response.json()
+
+        if(data.success){
+            suggestion.value=""
+            show("Your suggestion has been submitted.","success")
+        }else if(data.error==="unauthorized"){
+            show("Your session is invalid or expired.","error")
+        }else{
+            show("Unable to submit your suggestion.","error")
+        }
+    }catch{
+        show("Unable to contact the server.","error")
+    }finally{
+        send.disabled=false
+    }
+})
+
+init()
+</script>
+</body>
+</html>
