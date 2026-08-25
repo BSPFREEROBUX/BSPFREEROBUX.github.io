@@ -1980,13 +1980,24 @@ function badgeLogoForName(name,index,tier){
         return messengerIcons[tier.name] || messengerIcons.Bronze
     }
 
+    if(normalized.includes("superstar") || normalized.includes("friend")){
+        const superstarIcons={
+            Bronze:"/Images/Badges/Icons/SuperstarBronze.png",
+            Silver:"/Images/Badges/Icons/SuperstarSilver.png",
+            Gold:"/Images/Badges/Icons/SuperstarGold.png",
+            Diamond:"/Images/Badges/Icons/SuperstarDiamond.png",
+            Platinum:"/Images/Badges/Icons/SuperstarPlatinum.png"
+        }
+
+        return superstarIcons[tier.name] || superstarIcons.Bronze
+    }
+
     const logos=[
         "💬","⭐","🔥","⚡","🏆","🎯","💎","👑","🛡️","🚀",
         "🎮","🧩","🌌","🗺️","🎁","💰","🧠","🌟","🗡️","🛡",
         "🏹","🔮","☄️","🌈","🎖️","🏅","🐉","⚔️"
     ]
 
-    if(normalized.includes("friend") || normalized.includes("star")) return "⭐"
     if(normalized.includes("quest")) return "🎯"
     if(normalized.includes("roblox")) return "🎮"
     if(normalized.includes("wallet") || normalized.includes("earn")) return "💰"
