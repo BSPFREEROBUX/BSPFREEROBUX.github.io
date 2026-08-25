@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor Dashboard</title>
+<script>
+(function(){
+    const phone = localStorage.getItem("Phone");
+    const page = phone === "1" ? "1dashboard.html" : "0dashboard.html";
+    window.location.replace(page);
+})();
+</script>
+</head>
+<body></body>
+</html>
