@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor Profile</title>
+<script>
+(function(){
+    const phone = localStorage.getItem("Phone");
+
+    if(phone === "1"){
+        window.location.replace("1profile.html");
+    }else{
+        window.location.replace("0profile.html");
+    }
+})();
+</script>
+</head>
+<body>
+</body>
+</html>
