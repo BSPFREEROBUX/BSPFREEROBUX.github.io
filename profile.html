@@ -2235,16 +2235,6 @@ async function loadProfile(){
 
     }
 
-    let earningsHTML="None"
-
-    if(data.earnings && Object.keys(data.earnings).length){
-
-        earningsHTML=Object.entries(data.earnings)
-        .map(([k,v])=>`${v} ${k}`)
-        .join("<br>")
-
-    }
-
     reportTargetUsername=data.username
     const reportFlag=document.getElementById("reportFlag")
     reportFlag.style.display=me && me.username!==data.username ? "inline-flex" : "none"
@@ -2296,8 +2286,6 @@ const sominSounds=[
     document.getElementById("questCount").textContent=
         data.questsCompleted
 
-    document.getElementById("earningsInfo").innerHTML=
-        earningsHTML
     renderBadges(data.badges)
 
     const actions=document.getElementById("profileActions")
