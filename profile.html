@@ -771,65 +771,278 @@ cursor:pointer;
 transition:.2s;
 }
 
+
 .badgesSection{
-    margin-top:24px;
+    margin-top:30px;
+    padding-top:4px;
 }
 
 .badgesSection h2{
-    margin-bottom:16px;
+    margin-bottom:18px;
 }
 
-.badgesList{
+#badgesList{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:14px;
+    grid-template-columns:repeat(auto-fill,minmax(92px,1fr));
+    gap:18px;
+    align-items:start;
 }
 
-.badgeCard{
-    padding:18px;
+.badgesEmpty{
+    grid-column:1/-1;
+    padding:20px;
     border-radius:18px;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.badgeCard.earned{
-    border-color:rgba(0,213,255,.35);
-    background:linear-gradient(
-        135deg,
-        rgba(0,213,255,.10),
-        rgba(139,61,255,.10)
-    );
-}
-
-.badgeName{
-    font-size:17px;
-    font-weight:700;
-    margin-bottom:6px;
-}
-
-.badgeDescription{
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
     color:#8ea2be;
-    font-size:13px;
-    margin-bottom:12px;
 }
 
-.badgeProgress{
-    color:#b8c2d5;
-    font-size:13px;
+.medalBadge{
+    --progress:0;
+    --tier:#9a6b45;
+    --tierGlow:rgba(154,107,69,.35);
+    position:relative;
+    width:100%;
+    aspect-ratio:1;
+    border:0;
+    padding:0;
+    border-radius:50%;
+    cursor:pointer;
+    background:
+        conic-gradient(
+            from -90deg,
+            var(--tier) calc(var(--progress) * 1%),
+            rgba(255,255,255,.055) 0
+        );
+    display:grid;
+    place-items:center;
+    isolation:isolate;
+    transition:transform .22s ease,filter .22s ease;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.08),
+        0 12px 30px rgba(0,0,0,.28);
 }
 
-.badgeStatus{
-    margin-top:10px;
+.medalBadge::before{
+    content:"";
+    position:absolute;
+    inset:7px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 34% 26%,rgba(255,255,255,.14),transparent 28%),
+        linear-gradient(145deg,rgba(31,36,51,.99),rgba(8,12,20,.99));
+    z-index:-1;
+}
+
+.medalBadge::after{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.075);
+    pointer-events:none;
+}
+
+.medalBadge:hover,
+.medalBadge:focus-visible,
+.medalBadge.open{
+    transform:translateY(-5px) scale(1.035);
+    filter:drop-shadow(0 0 14px var(--tierGlow));
+    outline:none;
+}
+
+.medalBadge.complete{
+    animation:medalPulse 2.8s ease-in-out infinite;
+}
+
+.medalBadge .medalInner{
+    width:68%;
+    height:68%;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:
+        radial-gradient(circle at 30% 25%,rgba(255,255,255,.13),transparent 30%),
+        linear-gradient(145deg,#20283a,#0d1220);
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        inset 0 -10px 20px rgba(0,0,0,.22);
+}
+
+.medalLogo{
+    font-size:clamp(24px,3.2vw,38px);
+    line-height:1;
+    filter:
+        drop-shadow(0 3px 5px rgba(0,0,0,.45))
+        drop-shadow(0 0 8px var(--tierGlow));
+    user-select:none;
+}
+
+.medalPercent{
+    position:absolute;
+    bottom:7px;
+    left:50%;
+    transform:translateX(-50%);
+    min-width:42px;
+    padding:3px 7px;
+    border-radius:999px;
+    background:rgba(7,10,17,.92);
+    border:1px solid rgba(255,255,255,.10);
+    color:white;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.2px;
+    box-shadow:0 5px 12px rgba(0,0,0,.28);
+}
+
+.medalTier{
+    position:absolute;
+    top:-5px;
+    right:-3px;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
     font-size:12px;
-    font-weight:700;
+    font-weight:900;
+    color:#10131b;
+    background:var(--tier);
+    border:2px solid #0d111b;
+    box-shadow:0 0 14px var(--tierGlow);
 }
 
-.badgeCard.earned .badgeStatus{
-    color:#57f287;
+.medalDetails{
+    position:absolute;
+    left:50%;
+    top:calc(100% + 12px);
+    transform:translate(-50%,-6px) scale(.96);
+    width:min(250px,calc(100vw - 42px));
+    padding:15px 16px;
+    border-radius:16px;
+    background:linear-gradient(155deg,rgba(23,29,44,.98),rgba(9,13,22,.98));
+    border:1px solid rgba(255,255,255,.11);
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.55),
+        0 0 30px var(--tierGlow);
+    text-align:left;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    z-index:50;
+    transition:.18s ease;
 }
 
-.badgeCard:not(.earned) .badgeStatus{
+.medalBadge:hover .medalDetails,
+.medalBadge:focus-visible .medalDetails,
+.medalBadge.open .medalDetails{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translate(-50%,0) scale(1);
+}
+
+.medalDetailsTitle{
+    font-size:15px;
+    font-weight:800;
+    color:#fff;
+    margin-bottom:4px;
+}
+
+.medalDetailsDescription{
+    font-size:12px;
+    line-height:1.45;
     color:#8ea2be;
+    margin-bottom:11px;
+}
+
+.medalDetailsRow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:7px;
+    font-size:12px;
+}
+
+.medalDetailsLabel{
+    color:#8491a6;
+}
+
+.medalDetailsValue{
+    color:#fff;
+    font-weight:800;
+}
+
+.medalBar{
+    margin-top:11px;
+    height:7px;
+    border-radius:999px;
+    overflow:hidden;
+    background:rgba(255,255,255,.07);
+}
+
+.medalBarFill{
+    height:100%;
+    width:calc(var(--progress) * 1%);
+    border-radius:inherit;
+    background:linear-gradient(90deg,var(--tier),#fff);
+    box-shadow:0 0 12px var(--tierGlow);
+}
+
+.medalHint{
+    display:block;
+    margin-top:8px;
+    color:#65738a;
+    font-size:10px;
+    text-align:center;
+}
+
+@keyframes medalPulse{
+    0%,100%{
+        box-shadow:
+            0 0 0 1px rgba(255,255,255,.08),
+            0 12px 30px rgba(0,0,0,.28),
+            0 0 0 rgba(255,255,255,0);
+    }
+    50%{
+        box-shadow:
+            0 0 0 1px rgba(255,255,255,.11),
+            0 12px 30px rgba(0,0,0,.28),
+            0 0 22px var(--tierGlow);
+    }
+}
+
+@media(max-width:700px){
+    #badgesList{
+        grid-template-columns:repeat(auto-fill,minmax(80px,1fr));
+        gap:14px;
+    }
+
+    .medalDetails{
+        position:fixed;
+        left:50%;
+        top:auto;
+        bottom:18px;
+        transform:translate(-50%,10px) scale(.96);
+        width:min(340px,calc(100vw - 30px));
+    }
+
+    .medalBadge:hover .medalDetails{
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none;
+        transform:translate(-50%,10px) scale(.96);
+    }
+
+    .medalBadge.open .medalDetails,
+    .medalBadge:focus-visible .medalDetails{
+        opacity:1;
+        visibility:visible;
+        pointer-events:auto;
+        transform:translate(-50%,0) scale(1);
+    }
 }
 
 .roleIcons:hover{
@@ -1698,42 +1911,181 @@ Close
 
 }
 
+function escapeBadgeHtml(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;")
+}
+
+function badgeTierForPercent(percent){
+    if(percent >= 100){
+        return {
+            name:"Platinum",
+            short:"P",
+            color:"#f2f5ff",
+            glow:"rgba(226,236,255,.58)"
+        }
+    }
+
+    if(percent >= 75){
+        return {
+            name:"Diamond",
+            short:"D",
+            color:"#55d9ff",
+            glow:"rgba(85,217,255,.58)"
+        }
+    }
+
+    if(percent >= 50){
+        return {
+            name:"Gold",
+            short:"G",
+            color:"#ffd34f",
+            glow:"rgba(255,211,79,.55)"
+        }
+    }
+
+    if(percent >= 25){
+        return {
+            name:"Silver",
+            short:"S",
+            color:"#c8d1dc",
+            glow:"rgba(200,209,220,.45)"
+        }
+    }
+
+    return {
+        name:"Bronze",
+        short:"B",
+        color:"#c47b4d",
+        glow:"rgba(196,123,77,.48)"
+    }
+}
+
+function badgeLogoForName(name,index){
+    const logos=[
+        "💬","⭐","🔥","⚡","🏆","🎯","💎","👑","🛡️","🚀",
+        "🎮","🧩","🌌","🗺️","🎁","💰","🧠","🌟","🗡️","🛡",
+        "🏹","🔮","☄️","🌈","🎖️","🏅","🐉","⚔️"
+    ]
+
+    const normalized=String(name||"").toLowerCase()
+
+    if(normalized.includes("message") || normalized.includes("messenger")) return "💬"
+    if(normalized.includes("friend") || normalized.includes("star")) return "⭐"
+    if(normalized.includes("quest")) return "🎯"
+    if(normalized.includes("roblox")) return "🎮"
+    if(normalized.includes("wallet") || normalized.includes("earn")) return "💰"
+    if(normalized.includes("owner") || normalized.includes("king")) return "👑"
+    if(normalized.includes("admin")) return "💎"
+    if(normalized.includes("staff") || normalized.includes("mod")) return "🛡️"
+    if(normalized.includes("fire")) return "🔥"
+    if(normalized.includes("speed") || normalized.includes("fast")) return "⚡"
+    if(normalized.includes("quest")) return "🎯"
+
+    return logos[index % logos.length]
+}
+
+function badgeProgressValue(badge){
+    const required=Number(badge && badge.required)
+    const current=Number(badge && badge.current)
+
+    if(Number.isFinite(required) && required > 0 && Number.isFinite(current)){
+        return Math.max(0,Math.min(100,(current/required)*100))
+    }
+
+    return badge && badge.earned===true ? 100 : 0
+}
+
 function renderBadges(badges){
     const container=document.getElementById("badgesList")
 
     if(!badges || !Object.keys(badges).length){
         container.innerHTML=`
-            <div class="badgeCard">
-                <div class="badgeDescription">No badges available.</div>
+            <div class="badgesEmpty">
+                No badges available.
             </div>
         `
         return
     }
 
-    container.innerHTML=Object.entries(badges).map(([name,badge])=>{
-        const earned=badge.earned===true
-
-        const progress=badge.required>0
-            ? `${badge.current}/${badge.required}`
-            : earned
+    container.innerHTML=Object.entries(badges).map(([name,badge],index)=>{
+        const percent=badgeProgressValue(badge)
+        const tier=badgeTierForPercent(percent)
+        const required=Number(badge && badge.required)
+        const current=Number(badge && badge.current)
+        const hasNumbers=Number.isFinite(required) && required > 0 && Number.isFinite(current)
+        const completed=percent>=100 || badge.earned===true
+        const progressText=hasNumbers
+            ? `${Math.max(0,current)}/${required}`
+            : completed
                 ? "Completed"
                 : "Not completed"
 
+        const percentText=percent>=100
+            ? "100%"
+            : `${percent.toFixed(percent % 1 === 0 ? 0 : 1)}%`
+
+        const logo=badgeLogoForName(name,index)
+
         return `
-            <div class="badgeCard ${earned?"earned":""}">
-                <div class="badgeName">${name}</div>
-                <div class="badgeDescription">
-                    ${badge.description}
-                </div>
-                <div class="badgeProgress">
-                    ${progress}
-                </div>
-                <div class="badgeStatus">
-                    ${earned?"✓ Earned":"Not earned"}
-                </div>
-            </div>
+            <button
+                class="medalBadge ${completed?"complete":""}"
+                type="button"
+                aria-label="${escapeBadgeHtml(name)} — ${percentText} — ${tier.name}"
+                style="--progress:${percent.toFixed(2)};--tier:${tier.color};--tierGlow:${tier.glow}"
+                onclick="toggleBadgeDetails(this)"
+            >
+                <span class="medalInner">
+                    <span class="medalLogo">${logo}</span>
+                </span>
+
+                <span class="medalTier">${tier.short}</span>
+                <span class="medalPercent">${percentText}</span>
+
+                <span class="medalDetails">
+                    <span class="medalDetailsTitle">${escapeBadgeHtml(name)}</span>
+                    <span class="medalDetailsDescription">${escapeBadgeHtml(badge.description || "Badge progress")}</span>
+
+                    <span class="medalDetailsRow">
+                        <span class="medalDetailsLabel">Progress</span>
+                        <span class="medalDetailsValue">${progressText}</span>
+                    </span>
+
+                    <span class="medalDetailsRow">
+                        <span class="medalDetailsLabel">Completion</span>
+                        <span class="medalDetailsValue">${percentText}</span>
+                    </span>
+
+                    <span class="medalDetailsRow">
+                        <span class="medalDetailsLabel">Medal</span>
+                        <span class="medalDetailsValue">${tier.name}</span>
+                    </span>
+
+                    <span class="medalBar">
+                        <span class="medalBarFill"></span>
+                    </span>
+
+                    <span class="medalHint">Hover or click to view details</span>
+                </span>
+            </button>
         `
     }).join("")
+}
+
+function toggleBadgeDetails(button){
+    const wasOpen=button.classList.contains("open")
+
+    document.querySelectorAll(".medalBadge.open").forEach(item=>{
+        item.classList.remove("open")
+    })
+
+    if(!wasOpen){
+        button.classList.add("open")
+    }
 }
 
 function loadProfilePfp(username){
@@ -1944,6 +2296,13 @@ Payout
     }
 
 }
+document.addEventListener("click",event=>{
+    if(!event.target.closest(".medalBadge")){
+        document.querySelectorAll(".medalBadge.open").forEach(item=>{
+            item.classList.remove("open")
+        })
+    }
+})
 
 loadProfile()
 
