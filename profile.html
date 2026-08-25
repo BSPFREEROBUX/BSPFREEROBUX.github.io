@@ -772,23 +772,11 @@ transition:.2s;
 }
 
 
-.profileLower{
-    display:grid;
-    grid-template-columns:205px minmax(0,1fr);
-    gap:12px;
-    align-items:start;
-    margin-top:24px;
-}
-
-.earningsCard{
-    min-height:92px;
-    align-self:start;
-}
-
 .badgesSection{
-    margin-top:0;
+    margin-top:24px;
     padding-top:0;
     min-width:0;
+    width:100%;
 }
 
 .badgesSection h2{
@@ -801,9 +789,10 @@ transition:.2s;
     display:flex;
     flex-wrap:wrap;
     align-items:flex-start;
-    gap:12px;
-    justify-content:space-between;
+    gap:14px;
+    justify-content:flex-start;
     min-width:0;
+    width:100%;
     padding:2px 0 14px 0;
 }
 
@@ -1010,12 +999,6 @@ transition:.2s;
             0 0 0 1px rgba(255,255,255,.11),
             0 10px 26px rgba(0,0,0,.28),
             0 0 22px var(--tierGlow);
-    }
-}
-
-@media(max-width:900px){
-    .profileLower{
-        grid-template-columns:1fr;
     }
 }
 
@@ -1286,16 +1269,9 @@ Close
 
     </div>
 
-    <div class="profileLower">
-        <div class="infoCard earningsCard">
-            <h3>Total Earnings</h3>
-            <p id="earningsInfo">Loading...</p>
-        </div>
-
-        <div class="badgesSection">
-            <h2>Badges</h2>
-            <div id="badgesList"></div>
-        </div>
+    <div class="badgesSection">
+        <h2>Badges</h2>
+        <div id="badgesList"></div>
     </div>
 
     <div class="actions" id="profileActions">
