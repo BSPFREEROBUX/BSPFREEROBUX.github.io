@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Zyphor Suggestions Admin</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#1b2450,#090b18 45%,#04050b);color:#fff;padding:35px 20px}
+.container{max-width:1000px;margin:auto}
+.header{margin-bottom:28px}
+.header h1{margin:0;font-size:38px;background:linear-gradient(90deg,#42a5ff,#9b5cff,#e54dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.header p{color:#969fbe}
+#suggestions{display:grid;gap:16px}
+.suggestion{background:rgba(14,17,34,.9);border:1px solid rgba(125,105,255,.25);border-radius:22px;padding:22px;box-shadow:0 15px 45px rgba(0,0,0,.3)}
+.user{display:flex;align-items:center;gap:13px;margin-bottom:18px}
+.pfp{width:52px;height:52px;border-radius:50%;object-fit:cover;background:#202753;border:2px solid rgba(255,255,255,.12)}
+.username{font-weight:700;font-size:18px}
+.date{font-size:12px;color:#7f89aa;margin-top:4px}
+.text{font-size:16px;line-height:1.6;color:#e7eaff;white-space:pre-wrap;word-break:break-word}
+.id{margin-top:15px;font-size:11px;color:#66708f}
+.loading,.empty,.error{text-align:center;padding:50px;color:#8f98b7}
+.error{color:#ff8498}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>Suggestions</h1>
+<p>Administrator view of Zyphor feature suggestions.</p>
+</div>
+<div id="suggestions" class="loading">Loading suggestions...</div>
+</div>
+
+<script>
+let SERVER_URL=""
+
+function getToken(){
+    return localStorage.getItem("Token") ||
+           localStorage.getItem("token") ||
+           localStorage.getItem("SessionID") ||
+           localStorage.getItem("sessionToken") ||
+           ""
+}
+
+async function getServer(){
+    const response=await fetch("server.txt?"+Date.now(),{cache:"no-store"})
+    if(!response.ok)throw new Error("server.txt")
+    const url=(await response.text()).trim().replace(/\/+$/,"")
+    if(!/^https?:\/\//i.test(url))throw new Error("invalid server url")
+    return url
+}
+
+function escapeHtml(value){
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;")
+}
+
+async function load(){
+    const container=document.getElementById("suggestions")
+
+    try{
+        SERVER_URL=await getServer()
+
+        const token=getToken()
+
+        if(!token){
+            container.className="error"
+            container.textContent="You must be logged in."
+            return
+        }
+
+        const response=await fetch(SERVER_URL+"/admin/suggestions",{
+            method:"GET",
+            headers:{
+                "Authorization":token
+            },
+            cache:"no-store"
+        })
+
+        if(response.status===403){
+            container.className="error"
+            container.textContent="Administrator access required."
+            return
+        }
+
+        const data=await response.json()
+
+        if(!data.success){
+            container.className="error"
+            container.textContent=data.error==="unauthorized"
+                ?"Administrator access required."
+                :"Unable to load suggestions."
+            return
+        }
+
+        if(!Array.isArray(data.suggestions)||data.suggestions.length===0){
+            container.className="empty"
+            container.textContent="No suggestions yet."
+            return
+        }
+
+        container.className=""
+
+        container.innerHTML=data.suggestions.map(item=>{
+            const pfp=
+                SERVER_URL+
+                "/account/pfp/"+
+                encodeURIComponent(item.username)+
+                "?v="+Date.now()
+
+            const date=item.createdAt
+                ?new Date(item.createdAt).toLocaleString()
+                :"Unknown date"
+
+            return `
+                <div class="suggestion">
+                    <div class="user">
+                        <img class="pfp" src="${pfp}" alt="${escapeHtml(item.username)}">
+                        <div>
+                            <div class="username">${escapeHtml(item.username)}</div>
+                            <div class="date">${escapeHtml(date)}</div>
+                        </div>
+                    </div>
+                    <div class="text">${escapeHtml(item.suggestion)}</div>
+                    <div class="id">Suggestion ID: ${escapeHtml(item.id)}</div>
+                </div>
+            `
+        }).join("")
+    }catch{
+        container.className="error"
+        container.textContent="Unable to connect to the server."
+    }
+}
+
+load()
+</script>
+</body>
+</html>
