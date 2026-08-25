@@ -2033,7 +2033,11 @@ function renderBadges(badges){
         return
     }
 
-    container.innerHTML=Object.entries(badges).map(([name,badge],index)=>{
+    const sortedBadges=Object.entries(badges).sort((a,b)=>{
+        return badgeProgressValue(b[1])-badgeProgressValue(a[1])
+    })
+
+    container.innerHTML=sortedBadges.map(([name,badge],index)=>{
         const percent=badgeProgressValue(badge)
         const tier=badgeTierForPercent(percent)
         const required=Number(badge && badge.required)
