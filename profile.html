@@ -5,21 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zyphor Profile</title>
 <script>
-(function(){
-    const username = localStorage.getItem("username");
+(function () {
+    const params = new URLSearchParams(window.location.search);
+    const urlUsername = params.get("username");
+    const localUsername = localStorage.getItem("username");
+    const username = urlUsername || localUsername;
     const phone = localStorage.getItem("Phone");
 
-    if(!username){
-        window.location.replace("0profile.html");
-        return;
-    }
+    const target = phone === "1"
+        ? "1profile.html"
+        : "0profile.html";
 
-    const encodedUsername = encodeURIComponent(username);
-
-    if(phone === "1"){
-        window.location.replace("1profile.html?username=" + encodedUsername);
-    }else{
-        window.location.replace("0profile.html?username=" + encodedUsername);
+    if (username) {
+        window.location.replace(
+            target + "?username=" + encodeURIComponent(username)
+        );
+    } else {
+        window.location.replace(target);
     }
 })();
 </script>
