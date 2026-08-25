@@ -4,59 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zyphor Profile</title>
-<style>
-body {
-    margin: 0;
-    background: #111;
-    color: white;
-    font-family: Arial, sans-serif;
-}
-
-#debug {
-    padding: 20px;
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-</style>
-</head>
-<body>
-
-<div id="debug">Loading debug...</div>
-
 <script>
 (function () {
-    const debug = document.getElementById("debug");
-
     const phone = localStorage.getItem("Phone");
     const params = window.location.search;
 
-    const target = phone === "1"
-        ? "1profile.html"
-        : "0profile.html";
-
-    debug.textContent =
-        "Zyphor Profile Redirect Debug\n\n" +
-        "Current URL: " + window.location.href + "\n" +
-        "Current Path: " + window.location.pathname + "\n" +
-        "Query Params: " + (params || "None") + "\n\n" +
-        "localStorage.Phone: " + phone + "\n" +
-        "Phone === '1': " + (phone === "1") + "\n\n" +
-        "Target: " + target + "\n" +
-        "Redirect URL: " + target + params + "\n\n" +
-        "Redirecting in 3 seconds...";
-
-    console.log("Zyphor Profile Redirect Debug");
-    console.log("Current URL:", window.location.href);
-    console.log("Phone:", phone);
-    console.log("Params:", params);
-    console.log("Target:", target);
-    console.log("Redirect URL:", target + params);
-
-    setTimeout(function () {
-        window.location.replace(target + params);
-    }, 3000);
+    if (phone === "1") {
+        window.location.replace("1profile.html" + params);
+    } else {
+        window.location.replace("0profile.html" + params);
+    }
 })();
 </script>
-
+</head>
+<body>
 </body>
 </html>
