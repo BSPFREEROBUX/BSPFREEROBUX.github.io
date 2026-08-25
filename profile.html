@@ -774,8 +774,8 @@ transition:.2s;
 
 .profileLower{
     display:grid;
-    grid-template-columns:220px minmax(0,1fr);
-    gap:22px;
+    grid-template-columns:205px minmax(0,1fr);
+    gap:12px;
     align-items:start;
     margin-top:24px;
 }
@@ -796,12 +796,15 @@ transition:.2s;
 }
 
 #badgesList{
+    position:relative;
+    z-index:1;
     display:flex;
     flex-wrap:wrap;
     align-items:flex-start;
-    gap:18px;
+    gap:12px;
+    justify-content:space-between;
     min-width:0;
-    padding:2px 2px 14px 2px;
+    padding:2px 0 14px 0;
 }
 
 .badgesEmpty{
@@ -818,9 +821,9 @@ transition:.2s;
     --tier:#9a6b45;
     --tierGlow:rgba(154,107,69,.35);
     position:relative;
-    width:104px;
-    height:104px;
-    flex:0 0 104px;
+    width:96px;
+    height:96px;
+    flex:0 0 96px;
     border:0;
     padding:0;
     border-radius:50%;
@@ -863,6 +866,7 @@ transition:.2s;
 .medalBadge:hover,
 .medalBadge:focus-visible,
 .medalBadge.open{
+    z-index:1000;
     transform:translateY(-5px) scale(1.045);
     filter:drop-shadow(0 0 16px var(--tierGlow));
     outline:none;
@@ -873,8 +877,8 @@ transition:.2s;
 }
 
 .medalInner{
-    width:76px;
-    height:76px;
+    width:70px;
+    height:70px;
     border-radius:50%;
     display:grid;
     place-items:center;
@@ -889,8 +893,8 @@ transition:.2s;
 }
 
 .medalLogo{
-    width:68px;
-    height:68px;
+    width:62px;
+    height:62px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -925,7 +929,7 @@ transition:.2s;
     opacity:0;
     visibility:hidden;
     pointer-events:none;
-    z-index:100;
+    z-index:10000;
     transition:.18s ease;
 }
 
