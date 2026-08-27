@@ -1,1130 +1,1332 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zyphor Messages</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-<title>Zyphor Messages</title>
+      body {
+        font-family: Inter, sans-serif;
+        background: radial-gradient(circle at top, #12224d 0%, #090b11 30%, #05070b 100%);
+        color: #fff;
+        min-height: 100vh;
+        overflow: hidden;
+      }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(0, 213, 255, .12), transparent 25%),
+          radial-gradient(circle at 80% 70%, rgba(154, 61, 255, .12), transparent 30%);
+      }
 
-<style>
+      .layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        height: 100vh;
+      }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Inter,sans-serif;
-    -webkit-tap-highlight-color:transparent;
-}
+      .sidebar {
+        background: rgba(10, 13, 20, .72);
+        backdrop-filter: blur(24px);
+        border-right: 1px solid rgba(255, 255, 255, .08);
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+      }
 
-html,
-body{
-    width:100%;
-    height:100%;
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 40px;
+      }
+
+      .logo img {
+        width: 56px;
+      }
+
+      .logo h2 {
+        font-size: 28px;
+        letter-spacing: 2px;
+      }
+
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: #b8c2d5;
+        padding: 15px 18px;
+        border-radius: 16px;
+        transition: .2s;
+      }
+
+      .nav a.active,
+      .nav a:hover {
+        background: linear-gradient(90deg,
+            rgba(0, 213, 255, .12),
+            rgba(154, 61, 255, .12));
+        color: #fff;
+        transform: translateX(6px);
+      }
+
+      .bottom {
+        margin-top: auto;
+      }
+
+      .pageHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+
+      .tinyTitle {
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: #7ea0d7;
+        margin-bottom: 6px;
+        font-weight: 700;
+      }
+
+      .pageHeader p {
+        margin-top: 6px;
+        color: #8ea2be;
+        font-size: 14px;
+      }
+
+      .searchBox {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .searchButtons {
+        display: flex;
+        gap: 12px;
+      }
+
+      .actionButton {
+        flex: 1;
+        height: 46px;
+        border: none;
+        border-radius: 14px;
+        cursor: pointer;
+        font-weight: 700;
+        background: linear-gradient(90deg, #00d5ff, #8b3dff);
+        color: white;
+        transition: .2s;
+      }
+
+      .actionButton:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 25px rgba(0, 213, 255, .25);
+      }
+
+      .actionButton.secondary {
+        background: rgba(255, 255, 255, .05);
+        border: 1px solid rgba(255, 255, 255, .08);
+      }
+
+.main{
+    padding:30px;
+    display:grid;
+    grid-template-columns:360px 1fr;
+    gap:24px;
+    height:100vh;
     overflow:hidden;
-    background:#0d0f14;
-    color:white;
 }
 
-body{
-    display:flex;
-}
-
-#app{
-    width:100%;
-    height:100%;
+.card{
     display:flex;
     flex-direction:column;
+    min-height:0;
+    overflow:hidden;
 }
 
-.header{
-    padding:20px 18px 16px;
-    background:#12151d;
-    border-bottom:1px solid #242933;
-}
+      .card h2 {
+        margin-bottom: 18px;
+      }
 
-.title{
-    font-size:28px;
-    font-weight:800;
-}
+      .search {
+        height: 48px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, .08);
+        background: #0d1018;
+        color: #fff;
+        padding: 0 16px;
+      }
 
-.search{
-    margin-top:16px;
+.section{
     display:flex;
-    gap:10px;
+    flex-direction:column;
+    min-height:0;
 }
 
-.search input{
-    flex:1;
-    height:48px;
-    border:none;
-    outline:none;
-    background:#1b202b;
-    border-radius:14px;
-    padding:0 16px;
-    color:white;
-    font-size:15px;
-}
-
-.search button{
-    width:48px;
-    border:none;
-    border-radius:14px;
-    background:#5865F2;
-    color:white;
-    font-size:22px;
-}
-
-.requests{
-    margin-top:16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:#1b202b;
-    border-radius:14px;
-    padding:15px;
-}
-
-.requests span:first-child{
-    font-size:15px;
-    font-weight:600;
-}
-
-.badge{
-    min-width:24px;
-    height:24px;
-    border-radius:999px;
-    background:#ef4444;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-    font-weight:700;
-}
-
-.friendList{
-    flex:1;
-    overflow:auto;
-    padding:12px;
-}
-
-.friendList::-webkit-scrollbar{
-    display:none;
-}
-
-.friend{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    padding:14px;
-    background:#171b24;
-    border-radius:16px;
-    margin-bottom:12px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.friend:hover{
-    background:#1d2330;
-    transform:translateY(-1px);
-}
-
-.friend.pinned{
-    border:1px solid rgba(88,101,242,.5);
-    box-shadow:0 0 18px rgba(88,101,242,.12);
-}
-
-.friendAction{
-    width:38px;
-    height:38px;
+#unfriendBtn{
+    height:40px;
+    padding:0 18px;
     border:none;
     border-radius:12px;
-    background:#1b202b;
-    color:#8f98aa;
-    font-size:18px;
+    background:rgba(255,70,70,.12);
+    border:1px solid rgba(255,70,70,.2);
+    color:#ff8d8d;
+    font-weight:600;
     cursor:pointer;
-    flex-shrink:0;
     transition:.2s;
 }
 
-.friendAction:hover{
-    background:#252c3a;
+#unfriendBtn:hover{
+    background:#ff4040;
     color:white;
 }
 
-.friendAction.active{
-    color:#ffd84d;
-    background:#332b12;
-}
-
-.avatar{
-    width:56px;
-    height:56px;
-    border-radius:50%;
-    background:#5865F2;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-    font-weight:700;
-    position:relative;
-}
-
-.online{
-    position:absolute;
-    right:2px;
-    bottom:2px;
-    width:14px;
-    height:14px;
-    border-radius:50%;
-    background:#22c55e;
-    border:3px solid #171b24;
-}
-
-.info{
+.section:last-child{
     flex:1;
+}
+
+.list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    overflow-y:auto;
+    min-height:0;
+}
+
+      .item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    border-radius:16px;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.05);
+    transition:.2s;
+    cursor:pointer;
+}
+
+.item:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,.05);
+}
+
+.item.active{
+    background:linear-gradient(
+        135deg,
+        rgba(0,213,255,.12),
+        rgba(154,61,255,.08)
+    );
+    border:1px solid rgba(0,213,255,.25);
+    box-shadow:0 0 30px rgba(0,213,255,.12);
+}
+
+.itemMain{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
     min-width:0;
 }
 
-.name{
-    font-size:17px;
+.sendBtn{
+    width:72px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(90deg,#16c6ff,#7c4dff);
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.sendBtn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 24px rgba(0,213,255,.35);
+}
+
+.itemTitle{
     font-weight:700;
 }
 
-.preview{
-    margin-top:5px;
-    color:#9ca3af;
+.itemSub{
+    font-size:13px;
+    opacity:.65;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+}
+
+.itemActions{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.smallBtn{
+    border:none;
+    border-radius:10px;
+    padding:7px 12px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(90deg,#00d5ff,#8b3dff);
+}
+
+.empty{
+    opacity:.6;
+    text-align:center;
+    padding:20px;
+}
+
+.msgHead{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-bottom:6px;
     font-size:13px;
 }
 
-.unread{
-    min-width:24px;
-    height:24px;
-    border-radius:999px;
-    background:#5865F2;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-    font-weight:700;
+::-webkit-scrollbar{
+    width:8px;
+    height:8px;
 }
+
+::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.12);
+    border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:rgba(0,213,255,.45);
+}
+
+.msgTime{
+    opacity:.55;
+    font-size:11px;
+}
+
+      .user {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, .03);
+        border: 1px solid rgba(255, 255, 255, .05);
+      }
+
+      .badge {
+        background: #ff3b30;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 700;
+      }
 
 .chat{
-    position:fixed;
-    inset:0;
-    background:#0d0f14;
-    display:none;
-    flex-direction:column;
-}
-
-.chatHeader{
-    height:72px;
-    padding:0 18px;
     display:flex;
-    align-items:center;
-    gap:14px;
-    background:#12151d;
-    border-bottom:1px solid #242933;
+    flex-direction:column;
+    min-height:0;
+    height:100%;
 }
-
-.back{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:12px;
-    background:#1b202b;
-    color:white;
-    font-size:22px;
-}
-
-.chatName{
-    font-size:18px;
-    font-weight:700;
-}
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, .08);
+      }
 
 .messages{
     flex:1;
-    overflow:auto;
-    padding:18px;
-}
-
-.messages::-webkit-scrollbar{
-    display:none;
-}
-
-.row{
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:24px 0;
     display:flex;
-    margin-bottom:14px;
+    flex-direction:column;
+    gap:18px;
 }
 
-.me{
-    justify-content:flex-end;
-}
-
-.them{
-    justify-content:flex-start;
-}
-
-.bubble{
-    max-width:78%;
-    padding:12px 15px;
-    border-radius:18px;
-    background:#1b202b;
-    line-height:1.45;
-    user-select:text;
-}
-
-.messageRow{
-    position:relative;
-}
-
-.messageContextMenu{
-    position:fixed;
-    z-index:10000;
-    min-width:180px;
-    padding:7px;
-    background:#171b24;
-    border:1px solid #2d3442;
-    border-radius:14px;
-    box-shadow:0 18px 40px rgba(0,0,0,.45);
-}
-
-.messageContextMenu button{
-    width:100%;
-    border:none;
-    background:transparent;
-    color:white;
-    text-align:left;
-    padding:11px 12px;
-    border-radius:10px;
-    cursor:pointer;
-    font:600 14px Inter,sans-serif;
-}
-
-.messageContextMenu button:hover{
-    background:#222938;
-}
-
-.me .bubble{
-    background:#5865F2;
-}
-
-.composer{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:14px 16px calc(14px + env(safe-area-inset-bottom));
-    background:#12151d;
-    border-top:1px solid #242933;
-}
-
-.circle{
+.attachBtn{
     width:52px;
     height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     border:none;
-    border-radius:50%;
-    background:#1b202b;
+    border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    cursor:pointer;
+    transition:.2s;
+    color:#b8c2d5;
+    flex-shrink:0;
+}
+
+.attachBtn:hover{
+    background:rgba(0,213,255,.12);
+    border-color:rgba(0,213,255,.3);
     color:white;
-    font-size:24px;
 }
 
-.send{
-    background:#5865F2;
+      .msg {
+        max-width: 70%;
+        padding: 14px 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, .05);
+      }
+
+      .msg.me {
+        margin-left: auto;
+        background: linear-gradient(135deg,
+            #00d5ff22,
+            #8b3dff22);
+      }
+
+      .activeUser {
+        background: linear-gradient(135deg,
+            rgba(0, 213, 255, .12),
+            rgba(154, 61, 255, .08));
+        border: 1px solid rgba(0, 213, 255, .25);
+        box-shadow: 0 0 30px rgba(0, 213, 255, .12);
+      }
+
+      .user:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, .05);
+        cursor: pointer;
+        transition: .2s;
+      }
+
+      .composer {
+        display: flex;
+        gap: 14px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, .08);
+      }
+
+      .supportPopup{
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,.65);
+backdrop-filter:blur(8px);
+z-index:9999;
 }
 
-.composer textarea{
-    flex:1;
-    height:52px;
-    border:none;
-    outline:none;
-    resize:none;
-    background:#1b202b;
-    border-radius:26px;
-    color:white;
-    padding:15px 18px;
-    font-size:15px;
+.supportCard{
+width:420px;
+max-width:90%;
+padding:30px;
+border-radius:24px;
+background:rgba(18,22,34,.95);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:0 0 50px rgba(0,213,255,.12);
+text-align:center;
 }
 
-</style>
+.supportCard h2{
+margin-bottom:10px;
+}
 
-</head>
+.supportCard p{
+color:#9ea8bb;
+margin-bottom:25px;
+}
 
-<body>
+.supportButtons{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
 
-<div id="app">
+.supportButtons button{
+padding:16px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+background:rgba(255,255,255,.05);
+color:white;
+transition:.2s;
+}
 
-<div class="header">
+.supportButtons button:hover{
+background:linear-gradient(90deg,#00d5ff22,#8b3dff22);
+transform:translateY(-2px);
+}
 
-<div class="title">
-Messages
-</div>
+.closeSupport{
+margin-top:20px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:#20242f;
+color:white;
+cursor:pointer;
+}
 
-<div class="search">
-<input id="searchUser" placeholder="Search username">
-<button id="addFriendBtn">+</button>
-</div>
+      .composer textarea {
+        flex: 1;
+        height: 58px;
+        border: none;
+        outline: none;
+        border-radius: 16px;
+        background: #0d1018;
+        color: #fff;
+        padding: 16px;
+        resize: none;
+      }
 
-<div class="requests" id="requestsButton">
-    <span>Friend Requests</span>
-    <div class="badge" id="requestCount">0</div>
-</div>
+      .btn {
+        padding: 0 22px;
+        border: none;
+        border-radius: 16px;
+        background: linear-gradient(90deg, #00d5ff, #8b3dff);
+        color: #fff;
+        font-weight: 700;
+      }
 
-<div id="requestList"></div>
+      @media (max-width: 1100px) {
+        .main {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="logo">
+          <img src="https://zyphor.cc/Logo1.png">
+          <h2>ZYPHOR</h2>
+        </div>
+<nav class="nav">
+<a class="item active" href="Dashboard.html">Dashboard</a>
+<a class="item" href="#" onclick="goProfile(); return false;">Profile</a>
+<a class="item" href="dms.html">Messages</a>
+<a class="item" href="Wallet.html">Wallet</a>
+<a class="item" href="Cloud.html">Cloud</a>
+<a class="item" href="download.html">App Center</a>
+<a class="item" href="#" onclick="openSupport(); return false;">Support</a>
+<a class="item" href="#">Settings</a>
+</nav>
 
-</div>
+<div id="supportPopup" class="supportPopup">
 
-<div class="friendList" id="friendList"></div>
+<div class="supportCard">
 
-<div class="chat" id="chat">
+<h2>Support</h2>
 
-<div class="chatHeader">
+<p>Select how you'd like to contact the Zyphor team.</p>
 
-<button
-    class="back"
-    id="backButton">
-←
+<div class="supportButtons">
+
+<button onclick="location.href='Support.html'">
+🌐 Website Tickets
 </button>
 
-<div class="chatName" id="chatTitle">
-Select a friend
+<button onclick="emailSupport()">
+✉️ Email Support
+</button>
+
+</div>
+
+<button class="closeSupport" onclick="closeSupport()">
+Close
+</button>
+
+</div>
+
+</div>
+        <div class="bottom">
+          <a
+    class="nav active"
+    href="#"
+    onclick="logout(); return false;"
+    style="text-decoration:none">
+    Logout
+</a>
+        </div>
+      </aside>
+      <main class="main">
+        <div class="card">
+          <div class="pageHeader">
+            <div>
+              <div class="tinyTitle">COMMUNICATION</div>
+              <h2>Direct Messages</h2>
+              <p>Talk with friends and manage requests.</p>
+            </div>
+          </div>
+          <div class="searchBox">
+            <input id="searchUser" class="search" placeholder="Search username...">
+            <div class="searchButtons">
+              <button id="startChatBtn" class="actionButton" onclick="openFromSearch()"> Start Chat </button>
+              <button id="addFriendBtn" class="actionButton secondary" onclick="addFriendFromSearch()"> Add Friend </button>
+            </div>
+          </div>
+<div class="section">
+
+    <h3 style="margin-bottom:14px;">
+        Friend Requests
+        <span class="badge" id="requestCount">0</span>
+    </h3>
+
+    <div class="list" id="requestList"></div>
+
+</div>
+
+<div class="section">
+
+    <h3 style="margin-bottom:14px;">
+        Friends
+        <span class="badge" id="friendCount">0</span>
+    </h3>
+
+    <div class="list" id="friendList"></div>
+
 </div>
 
 </div>
 
-<div class="messages" id="messages"></div>
+<div class="card chat">
 
-<div class="composer">
+    <div class="header">
 
-<input
-    type="file"
-    id="imagePicker"
-    accept="image/*"
-    multiple
-    hidden>
+        <div>
+            <h2 id="chatTitle">Select a friend</h2>
+            <div id="chatSub" style="opacity:.6;">
+                Private messages
+            </div>
+        </div>
 
-<label
-    for="imagePicker"
-    class="circle">
-📷
+        <button
+            id="unfriendBtn"
+            onclick="unfriendActive()"
+            class="btn"
+            disabled>
+            Unfriend
+        </button>
+
+    </div>
+
+    <div class="messages" id="chatMessages">
+
+        <div
+            style="
+                opacity:.6;
+                margin:auto;
+                text-align:center;
+            ">
+            Select a friend to start chatting.
+        </div>
+
+    </div>
+
+    <div class="composer">
+
+        <input
+            type="file"
+            id="imagePicker"
+            accept="image/*"
+            multiple
+            hidden>
+
+<label class="attachBtn" id="attachBtn" for="imagePicker">
+    📎
 </label>
-
-<textarea
-    id="messageBox"
-    placeholder="Message">
-</textarea>
+        <textarea
+            id="messageBox"
+            placeholder="Type a message..."
+            disabled></textarea>
 
 <button
-    class="circle send"
-    id="sendBtn">
-➤
+    id="sendBtn"
+    onclick="sendMessage()"
+    class="sendBtn"
+    disabled>
+    Send
 </button>
 
-</div>
+    </div>
 
 </div>
-
+      </main>
+    </div>
 <script>
-
 let backend=null
 let token=null
 let myName=""
-
-let state={}
+let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
 let activeFriend=""
-let pinnedFriends=new Set(JSON.parse(localStorage.getItem("zyphorPinnedFriends")||"[]"))
-let messageContextMenu=null
+let lastUnreadTotal=0
+let firstStateLoad=true
 
-const friendList=document.getElementById("friendList")
-const requestList=document.getElementById("requestList")
 const requestCount=document.getElementById("requestCount")
-
-const chat=document.getElementById("chat")
+const friendCount=document.getElementById("friendCount")
+const requestList=document.getElementById("requestList")
+const friendList=document.getElementById("friendList")
+const chatMessages=document.getElementById("chatMessages")
 const chatTitle=document.getElementById("chatTitle")
-const messages=document.getElementById("messages")
-
+const chatSub=document.getElementById("chatSub")
 const messageBox=document.getElementById("messageBox")
-const imagePicker=document.getElementById("imagePicker")
 const sendBtn=document.getElementById("sendBtn")
+const imagePicker=document.getElementById("imagePicker")
+const unfriendBtn=document.getElementById("unfriendBtn")
+const statusText=document.getElementById("statusText")
+const attachBtn = document.getElementById("attachBtn");
 
-const searchUser=document.getElementById("searchUser")
-const addFriendBtn=document.getElementById("addFriendBtn")
-const backButton=document.getElementById("backButton")
+const notificationSound=new Audio("Sounds/Notification.mp3")
+notificationSound.preload="auto"
+
+messageBox.addEventListener("keydown",e=>{
+if(e.key==="Enter" && !e.shiftKey){
+e.preventDefault()
+sendMessage()
+}
+})
+
+document.getElementById("searchUser").addEventListener("keydown",e=>{
+if(e.key==="Enter"){
+e.preventDefault()
+openFromSearch()
+}
+})
+
+async function trackPage(page){
+const token=localStorage.getItem("Token")
+if(!token) return
+
+await fetch(backend+"/track/page",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({page})
+})
+}
+
+
+function escapeHTML(value){
+return String(value ?? "").replace(/[&<>"']/g,m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+"\"":"&quot;",
+"'":"&#39;"
+}[m]))
+}
+
+function formatTime(time){
+try{
+return new Date(time).toLocaleString()
+}catch{
+return ""
+}
+}
 
 async function getBackend(){
-    const r=await fetch("server.txt")
-    return (await r.text()).trim()
+const r=await fetch("server.txt")
+return (await r.text()).trim()
 }
 
-async function safeJson(r){
-    const t=await r.text()
-
-    try{
-        return JSON.parse(t)
-    }catch{
-        return null
-    }
+async function safeJson(res){
+const t=await res.text()
+try{return JSON.parse(t)}catch{return null}
 }
+
+function goProfile() {
+    const username = localStorage.getItem("username");
+    if (!username) return;
+
+    window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
+}  
 
 async function api(path,options={}){
-
-    const headers=new Headers(options.headers||{})
-
-    headers.set(
-        "Authorization",
-        localStorage.getItem("Token")
-    )
-
-    return fetch(
-        backend+path,
-        {
-            ...options,
-            headers
-        }
-    )
-
+const liveToken=localStorage.getItem("Token")
+if(!liveToken){
+location.href="login.html"
+throw new Error("unauthorized")
 }
 
-async function refreshState(){
+const headers=new Headers(options.headers||{})
+headers.set("Authorization",liveToken)
 
-    const r=await api("/dms/state")
+return fetch(backend+path,{
+...options,
+headers
+})
+}
 
-    const data=await safeJson(r)
+function playSound(){
+notificationSound.currentTime=0
+notificationSound.play().catch(()=>{})
+}
 
-    if(!data){
-
-        return
-
-    }
-
-    state=data
-
-    renderRequests()
-
-    renderFriends()
-
-    if(activeFriend){
-
-        await openChat(activeFriend,false)
-
-    }
-
+function getChatSummary(friend){
+return state.chats.find(c=>c.with===friend) || {unread:0,lastMessage:"",lastAuthor:""}
 }
 
 function renderRequests(){
+requestCount.textContent=String(state.incomingRequests.length)
+requestList.innerHTML=""
 
-    requestCount.textContent=state.incomingRequests.length
-
-    requestList.innerHTML=""
-
-    if(state.incomingRequests.length===0){
-
-        requestList.style.display="none"
-
-        return
-
-    }
-
-    requestList.style.display="block"
-
-    state.incomingRequests.forEach(r=>{
-
-        const div=document.createElement("div")
-
-        div.className="friend"
-
-        div.innerHTML=`
-
-            <div class="avatar">
-
-                ${r.from.charAt(0).toUpperCase()}
-
-            </div>
-
-            <div class="info">
-
-                <div class="name">${r.from}</div>
-
-                <div class="preview">Friend request</div>
-
-            </div>
-
-            <button class="circle accept">✓</button>
-
-            <button class="circle decline">✕</button>
-
-        `
-
-        div.querySelector(".accept").onclick=()=>acceptRequest(r.id,r.from)
-
-        div.querySelector(".decline").onclick=()=>declineRequest(r.id)
-
-        requestList.appendChild(div)
-
-    })
-
+if(!state.incomingRequests.length){
+requestList.innerHTML='<div class="empty">No requests.</div>'
+return
 }
 
-function savePinnedFriends(){
-    localStorage.setItem("zyphorPinnedFriends",JSON.stringify([...pinnedFriends]))
+state.incomingRequests.forEach(r=>{
+const row=document.createElement("div")
+row.className="item"
+row.innerHTML=`
+<div class="itemMain">
+<div class="itemTitle">${escapeHTML(r.from)}</div>
+<div class="itemSub">Wants to add you</div>
+</div>
+<div class="itemActions">
+<button class="smallBtn" data-accept>Accept</button>
+<button class="smallBtn" data-decline>Decline</button>
+</div>
+`
+row.querySelector("[data-accept]").onclick=async e=>{
+e.stopPropagation()
+await acceptRequest(r.id,r.from)
 }
-
-function togglePinnedFriend(friend){
-    if(pinnedFriends.has(friend)){
-        pinnedFriends.delete(friend)
-    }else{
-        pinnedFriends.add(friend)
-    }
-    savePinnedFriends()
-    renderFriends()
+row.querySelector("[data-decline]").onclick=async e=>{
+e.stopPropagation()
+await declineRequest(r.id)
+}
+requestList.appendChild(row)
+})
 }
 
 function renderFriends(){
-    friendList.innerHTML=""
+friendCount.textContent=String(state.friends.length)
+friendList.innerHTML=""
 
-    if(state.friends.length===0){
-
-        friendList.innerHTML=`
-            <div style="
-                text-align:center;
-                padding:40px 20px;
-                color:#8b93a3;
-            ">
-                No friends yet
-            </div>
-        `
-
-        return
-    }
-
-    const sorted=[...state.friends].sort((a,b)=>{
-        const aPinned=pinnedFriends.has(a)?1:0
-        const bPinned=pinnedFriends.has(b)?1:0
-
-        if(aPinned!==bPinned){
-            return bPinned-aPinned
-        }
-
-        const aa=state.chats.find(c=>c.with===a)||{}
-        const bb=state.chats.find(c=>c.with===b)||{}
-
-        return (bb.unread||0)-(aa.unread||0)
-    })
-
-    sorted.forEach(friend=>{
-
-        const chat=state.chats.find(c=>c.with===friend)||{}
-        const pinned=pinnedFriends.has(friend)
-
-        const div=document.createElement("div")
-        div.className="friend"+(pinned?" pinned":"")
-
-        div.innerHTML=`
-            <div class="avatar">
-                ${friend.charAt(0).toUpperCase()}
-            </div>
-
-            <div class="info">
-                <div class="name">
-                    ${friend}
-                </div>
-
-                <div class="preview">
-                    ${
-                        chat.lastAuthor
-                        ? `${chat.lastAuthor}: ${chat.lastMessage}`
-                        : "No messages yet"
-                    }
-                </div>
-            </div>
-
-            ${
-                chat.unread
-                ? `
-                    <div class="unread">
-                        ${chat.unread}
-                    </div>
-                `
-                : ""
-            }
-
-            <button
-                class="friendAction ${pinned?"active":""}"
-                aria-label="${pinned?"Unpin":"Pin"} ${friend}"
-                title="${pinned?"Unpin":"Pin"}">
-                ${pinned?"★":"☆"}
-            </button>
-        `
-
-        div.onclick=()=>openChat(friend)
-
-        div.querySelector(".friendAction").onclick=e=>{
-            e.stopPropagation()
-            togglePinnedFriend(friend)
-        }
-
-        friendList.appendChild(div)
-    })
+if(!state.friends.length){
+friendList.innerHTML='<div class="empty">No friends yet.</div>'
+return
 }
 
-async function openChat(friend,markSeen=true){
+const sorted=[...state.friends].sort((a,b)=>{
+const aa=getChatSummary(a)
+const bb=getChatSummary(b)
+if((bb.unread||0)!==(aa.unread||0)) return (bb.unread||0)-(aa.unread||0)
+return a.localeCompare(b)
+})
 
-    activeFriend=friend
+sorted.forEach(friend=>{
+const summary=getChatSummary(friend)
+const row=document.createElement("div")
+row.className="item"+(activeFriend===friend ? " active" : "")
+row.innerHTML=`
+<div class="itemMain">
+<div class="itemTitle">${escapeHTML(friend)}</div>
+<div class="itemSub">${escapeHTML(summary.lastAuthor ? `${summary.lastAuthor}: ${summary.lastMessage}` : "No messages yet")}</div>
+</div>
+<div class="itemActions">
+${summary.unread>0 ? `<span class="badge">${summary.unread}</span>` : ""}
+</div>
+`
+row.onclick=()=>openChat(friend)
+friendList.appendChild(row)
+})
+}
 
-    const r=await api(
-        "/dms/chat?with="+encodeURIComponent(friend)
-    )
+function openSupport(){
+document.getElementById("supportPopup").style.display="flex";
+}
 
-    const data=await safeJson(r)
+async function getMe(){
 
-    if(!data){
+    const token=localStorage.getItem("Token")
 
-        return
+    if(!token) return null
 
-    }
+    try{
 
-    if(data.error){
-
-        alert(data.error)
-
-        return
-
-    }
-
-    chat.style.display="flex"
-
-    chatTitle.textContent=friend
-
-    renderMessages(data.chat)
-
-    if(markSeen){
-
-        await api("/dms/seen",{
-
-            method:"POST",
-
+        const r=await fetch(backend+"/me",{
             headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-
-                chatId:friend
-
-            })
-
+                Authorization:token
+            }
         })
 
+        const data=await r.json()
+
+        if(data.error) return null
+
+        return data
+
+    }catch{
+
+        return null
+
     }
 
 }
 
-function renderMessages(chatData){
+function renderActiveChat(chat, forceBottom = false){
 
-    messages.innerHTML=""
+if(!chat){
+chatTitle.textContent="Select a friend"
+chatSub.textContent="Private messages"
+chatMessages.innerHTML='<div class="empty">Pick a friend to open the chat.</div>'
 
-    if(chatData.messages.length===0){
+messageBox.disabled=true
+sendBtn.disabled=true
+imagePicker.disabled=true
+attachBtn.style.pointerEvents="none"
+attachBtn.style.opacity="0.5"
 
-        messages.innerHTML=`
-            <div style="
-                text-align:center;
-                color:#8b93a3;
-                padding:40px;
-            ">
-                No messages yet.
-            </div>
-        `
+unfriendBtn.disabled=true
+messageBox.value=""
+imagePicker.value=""
 
-        return
-
-    }
-
-    chatData.messages.forEach(message=>{
-
-        const row=document.createElement("div")
-
-        row.className=
-            "row messageRow "+
-            (
-                message.author===myName
-                ? "me"
-                : "them"
-            )
-
-        row.innerHTML=`
-
-            <div class="bubble">
-
-                ${message.text}
-
-                ${
-                    (message.images||[])
-                    .map(image=>`
-
-                        <img
-                            src="${backend}${image.url}"
-                            style="
-                                width:100%;
-                                border-radius:12px;
-                                margin-top:10px;
-                            "
-                        >
-
-                    `)
-                    .join("")
-                }
-
-            </div>
-
-        `
-
-        row.addEventListener("contextmenu",e=>{
-            e.preventDefault()
-            showMessageContextMenu(e.clientX,e.clientY,message.text||"")
-        })
-
-        messages.appendChild(row)
-
-    })
-
-    messages.scrollTop=messages.scrollHeight
-
+return
 }
 
-function hideMessageContextMenu(){
-    if(messageContextMenu){
-        messageContextMenu.remove()
-        messageContextMenu=null
-    }
+chatTitle.textContent=chat.with
+chatSub.textContent=`${chat.messages.length} messages`
+
+messageBox.disabled=false
+sendBtn.disabled=false
+imagePicker.disabled=false
+attachBtn.style.pointerEvents="auto"
+attachBtn.style.opacity="1"
+
+unfriendBtn.disabled=false
+
+if(!chat.messages.length){
+chatMessages.innerHTML='<div class="empty">No messages yet.</div>'
+return
 }
 
-function showMessageContextMenu(x,y,text){
-    hideMessageContextMenu()
+chatMessages.innerHTML=chat.messages.map(m=>{
+const me=m.author===myName
+return `
+<div class="msg ${me ? "me" : ""}">
+<div class="msgHead">
+<strong>${escapeHTML(m.author)}</strong>
+<span class="msgTime">${escapeHTML(formatTime(m.time))}</span>
+</div>
+<div>${escapeHTML(m.text)}</div>
 
-    messageContextMenu=document.createElement("div")
-    messageContextMenu.className="messageContextMenu"
-    messageContextMenu.innerHTML=`
-        <button type="button">Copy Message</button>
-    `
+${
+(m.images||[]).map(img=>`
+<img
+src="${backend}${img.url}"
+style="
+max-width:300px;
+max-height:300px;
+display:block;
+margin-top:8px;
+border-radius:10px;
+cursor:pointer;
+"
+onclick="window.open('${backend}${img.url}','_blank')">
+`).join("")
+}
+${me ? (() => {
+const other = chat.users.find(u => u !== myName)
+const readTime = chat.lastRead?.[other]
 
-    messageContextMenu.querySelector("button").onclick=async()=>{
-        try{
-            await navigator.clipboard.writeText(text)
-        }catch{
-            const area=document.createElement("textarea")
-            area.value=text
-            area.style.position="fixed"
-            area.style.opacity="0"
-            document.body.appendChild(area)
-            area.select()
-            document.execCommand("copy")
-            area.remove()
-        }
-
-        hideMessageContextMenu()
-    }
-
-    document.body.appendChild(messageContextMenu)
-
-    const rect=messageContextMenu.getBoundingClientRect()
-
-    messageContextMenu.style.left=
-        Math.max(8,Math.min(x,window.innerWidth-rect.width-8))+"px"
-
-    messageContextMenu.style.top=
-        Math.max(8,Math.min(y,window.innerHeight-rect.height-8))+"px"
+if(readTime && new Date(readTime) >= new Date(m.time)){
+return `<div style="font-size:11px;opacity:.6;margin-top:4px">✓ Read</div>`
 }
 
-document.addEventListener("click",hideMessageContextMenu)
-document.addEventListener("scroll",hideMessageContextMenu,true)
-window.addEventListener("resize",hideMessageContextMenu)
+return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
+})() : ""}
+</div>
+`
+}).join("")
 
+const nearBottom =
+    chatMessages.scrollHeight -
+    chatMessages.scrollTop -
+    chatMessages.clientHeight < 150;
 
-async function sendMessage(){
-
-    if(!activeFriend){
-
-        return
-
-    }
-
-    const text=messageBox.value.trim()
-
-    if(
-        text==="" &&
-        imagePicker.files.length===0
-    ){
-
-        return
-
-    }
-
-    const form=new FormData()
-
-    form.append(
-        "chatId",
-        activeFriend
-    )
-
-    form.append(
-        "message",
-        text
-    )
-
-    for(const file of imagePicker.files){
-
-        form.append(
-            "images",
-            file
-        )
-
-    }
-
-    const r=await api(
-        "/dms/send",
-        {
-            method:"POST",
-            body:form
-        }
-    )
-
-    const data=await safeJson(r)
-
-    if(!data){
-
-        return
-
-    }
-
-    if(data.error){
-
-        alert(data.error)
-
-        return
-
-    }
-
-    messageBox.value=""
-
-    imagePicker.value=""
-
-    await openChat(
-        activeFriend,
-        false
-    )
-
-    await refreshState()
-
+if (forceBottom || nearBottom) {
+    requestAnimationFrame(() => {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+}
 }
 
-sendBtn.onclick=sendMessage
+async function refreshState(){
+const r=await api("/dms/state")
+const data=await safeJson(r)
 
-messageBox.addEventListener(
-    "keydown",
-    e=>{
-
-        if(
-            e.key==="Enter" &&
-            !e.shiftKey
-        ){
-
-            e.preventDefault()
-
-            sendMessage()
-
-        }
-
-    }
-)
-
-backButton.onclick=()=>{
-
-    chat.style.display="none"
-
-    activeFriend=""
-
+if(!data || data.error){
+if(data && data.error==="unauthorized") location.href="login.html"
+return
 }
 
-addFriendBtn.onclick=addFriend
+state=data
+if (statusText) {
+    statusText.textContent = `Logged in as ${myName}`;
+}
 
-searchUser.addEventListener(
-    "keydown",
-    e=>{
+const totalUnread=(state.unreadMessages||0)+(state.unreadRequests||0)
+if(!firstStateLoad && totalUnread>lastUnreadTotal){
+playSound()
+}
+firstStateLoad=false
+lastUnreadTotal=totalUnread
 
-        if(e.key==="Enter"){
+renderRequests()
+renderFriends()
 
-            addFriend()
+if(activeFriend){
+await refreshActiveChat(false)
+}else{
+renderActiveChat(null)
+}
+}
 
-        }
+async function refreshActiveChat(markSeenNow=true){
+if(!activeFriend) return
 
-    }
-)
+const r=await api("/dms/chat?with="+encodeURIComponent(activeFriend))
+const data=await safeJson(r)
 
-async function addFriend(){
+if(!data){
+return
+}
 
-    const username=searchUser.value.trim()
+if(data.error==="notfriends"){
+renderActiveChat(null)
+activeFriend=""
+await refreshState()
+return
+}
 
-    if(!username){
+if(data.error){
+return
+}
 
-        return
+renderActiveChat(data.chat)
 
-    }
+if(markSeenNow){
+await api("/dms/seen",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({chatId:activeFriend})
+})
+}
+}
 
-    const r=await api("/friends/request",{
+async function openChat(friend){
+const r=await api("/dms/chat?with="+encodeURIComponent(friend))
+const data=await safeJson(r)
 
-        method:"POST",
+if(data && data.error==="notfound"){
+alert("User not found")
+return
+}
 
-        headers:{
-            "Content-Type":"application/json"
-        },
+if(data && data.error==="notfriends"){
+alert("You need to be friends first")
+return
+}
 
-        body:JSON.stringify({
+if(data && data.error){
+alert(data.error)
+return
+}
 
-            username
+activeFriend=friend
+location.hash=encodeURIComponent(friend)
 
-        })
+await api("/dms/activity",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+chatId:activeFriend,
+active:true
+})
+})
 
-    })
+renderActiveChat(data.chat, true)
+await api("/dms/seen",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({chatId:activeFriend})
+})
+await refreshState()
+}
 
-    const data=await safeJson(r)
+async function openFromSearch(){
+const name=document.getElementById("searchUser").value.trim()
+if(!name) return
+await openChat(name)
+}
 
-    if(!data){
+async function addFriendFromSearch(){
+const name=document.getElementById("searchUser").value.trim()
+if(!name){
+alert("Enter a username")
+return
+}
 
-        return
+const r=await api("/friends/request",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+username:name
+})
+})
 
-    }
+const data=await safeJson(r)
 
-    if(data.success){
+if(!data){
+alert("Server error")
+return
+}
 
-        searchUser.value=""
+if(data.success){
+alert("Friend request sent")
+await refreshState()
+return
+}
 
-        refreshState()
+if(data.error==="notfound"){
+alert("User not found")
+}else if(data.error==="self"){
+alert("You cannot add yourself")
+}else if(data.error==="friends"){
+alert("You are already friends")
+}else if(data.error==="pending"){
+alert("Friend request already exists")
+}else{
+alert(data.error)
+}
+}
 
-        return
+async function requestFriend(username){
+const r=await api("/friends/request",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username})
+})
 
-    }
+const data=await safeJson(r)
 
-    alert(data.error)
+if(!data) return
 
+if(data.error==="unauthorized"){
+location.href="login.html"
+return
+}
+
+if(data.error==="notfound") alert("User not found")
+else if(data.error==="self") alert("You cannot add yourself")
+else if(data.error==="friends") alert("Already friends")
+else if(data.error==="pending") alert("Friend request already exists")
+else if(data.success) alert("Friend request sent")
+
+await refreshState()
 }
 
 async function acceptRequest(requestId,from){
-
-    const r=await api("/friends/accept",{
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-
-            requestId
-
-        })
-
-    })
-
-    const data=await safeJson(r)
-
-    if(!data){
-
-        return
-
-    }
-
-    await refreshState()
-
-    openChat(from)
-
+const r=await api("/friends/accept",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({requestId})
+})
+const data=await safeJson(r)
+if(!data || data.error) return
+await refreshState()
+await openChat(from)
 }
 
 async function declineRequest(requestId){
+await api("/friends/decline",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({requestId})
+})
+await refreshState()
+}
 
-    await api("/friends/decline",{
+async function sendMessage(){
 
-        method:"POST",
+if(!activeFriend) return
 
-        headers:{
-            "Content-Type":"application/json"
-        },
+const text=messageBox.value.trim()
+if(
+!text &&
+imagePicker.files.length===0
+){
+return
+}
 
-        body:JSON.stringify({
+const form=new FormData()
 
-            requestId
+form.append("chatId",activeFriend)
+form.append("message",text)
 
-        })
+for(const file of imagePicker.files){
+form.append("images",file)
+}
 
-    })
+const r=await api("/dms/send",{
+method:"POST",
+body:form
+})
 
-    refreshState()
+const data=await safeJson(r)
+
+if(data && data.error){
+alert(data.error)
+return
+}
+
+messageBox.value=""
+imagePicker.value=""
+
+await refreshActiveChat(false)
+await refreshState()
 
 }
 
-setInterval(async()=>{
+async function unfriendActive(){
+if(!activeFriend) return
+if(!confirm("Unfriend "+activeFriend+"?")) return
+await api("/friends/remove",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username:activeFriend})
+})
+activeFriend=""
+location.hash=""
+renderActiveChat(null)
+await refreshState()
+}
 
+function logout(){
+localStorage.removeItem("Token")
+location.href="login.html"
+}
+
+window.addEventListener("beforeunload",()=>{
+
+if(!activeFriend) return
+
+navigator.sendBeacon(
+backend+"/dms/activity",
+new Blob([
+JSON.stringify({
+chatId:activeFriend,
+active:false,
+token:localStorage.getItem("Token")
+})
+],{
+type:"application/json"
+})
+)
+
+})
+
+
+document.addEventListener("visibilitychange",()=>{
+
+if(!activeFriend) return
+
+
+api("/dms/activity",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+chatId:activeFriend,
+active:!document.hidden
+})
+})
+
+
+})
+
+async function init(){
+backend=await getBackend()
+token=localStorage.getItem("Token")
+await trackPage("DMS.html")
+if(!token){
+location.href="login.html"
+return
+}
+
+const meRes=await api("/me")
+const me=await safeJson(meRes)
+
+if(!me || me.error){
+location.href="login.html"
+return
+}
+
+myName=me.username
+if (statusText) {
+    statusText.textContent = `Logged in as ${myName}`;
+}
+
+if(location.hash){
+const wanted=decodeURIComponent(location.hash.slice(1))
+if(wanted) activeFriend=wanted
+}
+
+await refreshState()
+
+setInterval(async ()=>{
     await refreshState()
 
     if(activeFriend){
-
         await api("/dms/seen",{
-
             method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-
-                chatId:activeFriend
-
-            })
-
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({chatId:activeFriend})
         })
-
     }
-
 },2500)
 
-async function init(){
-
-    backend=await getBackend()
-
-    token=localStorage.getItem("Token")
-
-    if(!token){
-
-        location.href="login.html"
-
-        return
-
-    }
-
-    const r=await api("/me")
-
-    const me=await safeJson(r)
-
-    if(!me){
-
-        location.href="login.html"
-
-        return
-
-    }
-
-    myName=me.username
-
-    await refreshState()
-
+window.addEventListener("hashchange",()=>{
+const wanted=decodeURIComponent(location.hash.slice(1))
+if(wanted && wanted!==activeFriend){
+openChat(wanted)
+}
+})
 }
 
 init()
-
 </script>
 
 </body>
