@@ -1,881 +1,1130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DMS</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+
+<title>Zyphor Messages</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden}
-:root{
---bg:#090c12;--surface:#0e131b;--surface2:#121822;--surface3:#171e2a;
---line:#222c3a;--line2:#2d394b;--text:#eef3f9;--muted:#778398;
---cyan:#32c7ff;--blue:#637cff;--danger:#ff687a;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,sans-serif;
+    -webkit-tap-highlight-color:transparent;
 }
+
+html,
 body{
-font-family:Inter,system-ui,sans-serif;color:var(--text);
-background:
-radial-gradient(800px 500px at -10% -15%,rgba(50,199,255,.07),transparent 60%),
-radial-gradient(900px 550px at 110% 110%,rgba(99,124,255,.08),transparent 58%),
-var(--bg)
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#0d0f14;
+    color:white;
 }
-button,input,textarea{font:inherit}
-.layout{display:grid!important;grid-template-columns:218px 338px minmax(0,1fr)!important;width:100%;height:100vh;padding:0!important;gap:0!important}
-.sidebar{
-height:100vh!important;min-width:0!important;padding:16px 10px!important;
-border:0!important;border-right:1px solid var(--line)!important;border-radius:0!important;
-background:#0b1018!important;box-shadow:none!important
+
+body{
+    display:flex;
 }
-.logo{
-height:56px!important;margin:0 4px 13px!important;padding:0 10px!important;
-border-bottom:1px solid var(--line)!important;display:flex!important;align-items:center!important
+
+#app{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
 }
-.logo img{width:34px!important;height:34px!important;object-fit:contain}
-.logo h2{font-size:17px!important;letter-spacing:2.8px!important}
-.nav{gap:4px!important}
-.nav a{
-display:flex!important;align-items:center!important;height:40px!important;padding:0 12px!important;
-border-radius:9px!important;color:#8d98aa!important;font-size:11px!important;font-weight:650!important
-}
-.nav a:hover{transform:none!important;background:#121925!important;color:#dfe7f2!important}
-.nav a.active{
-transform:none!important;color:#fff!important;background:#151e2b!important;
-border:1px solid #253349!important;box-shadow:inset 2px 0 0 var(--cyan)!important
-}
-.bottom{padding-top:10px!important;border-top:1px solid var(--line)!important}
-.main{display:contents!important}
-.main>.card:first-child{
-grid-column:2!important;height:100vh!important;min-width:0!important;
-border-radius:0!important;border:0!important;border-right:1px solid var(--line)!important;
-padding:18px 12px!important;background:#0d131d!important;box-shadow:none!important
-}
-.main>.card:last-child{
-grid-column:3!important;height:100vh!important;min-width:0!important;
-border-radius:0!important;border:0!important;background:#090d14!important;box-shadow:none!important
-}
-.pageHeader{margin:2px 4px 17px!important}
-.tinyTitle{font-size:8px!important;letter-spacing:1.9px!important;color:#607592!important;margin-bottom:6px!important}
-.pageHeader h2{font-size:19px!important;letter-spacing:-.35px!important}
-.pageHeader p{font-size:10px!important;color:#748095!important;margin-top:5px!important}
-.searchBox{gap:8px!important;margin-bottom:16px!important}
-.search{
-height:41px!important;border-radius:9px!important;background:#141a24!important;
-border:1px solid #263142!important;color:#fff!important;padding:0 12px!important
-}
-.search:focus{border-color:#35637c!important;box-shadow:0 0 0 3px rgba(50,199,255,.045)!important;outline:0}
-.searchButtons{gap:7px!important}
-.actionButton{
-height:37px!important;border-radius:9px!important;border:1px solid transparent!important;
-background:linear-gradient(135deg,#31c6ff,#6279ff)!important;box-shadow:none!important;
-font-size:10px!important;font-weight:750!important;transition:.16s!important
-}
-.actionButton:hover{transform:none!important;filter:brightness(1.08)!important}
-.actionButton.secondary{
-background:#141a24!important;border-color:#293446!important;color:#aeb8c7!important
-}
-.section{min-height:0!important}
-.section:last-child{flex:1!important}
-.section h3{
-font-size:9px!important;letter-spacing:.6px!important;text-transform:uppercase!important;
-color:#8996a9!important;margin:8px 4px 8px!important
-}
-.list{gap:4px!important}
-.item{
-min-height:48px!important;padding:9px 10px!important;border-radius:9px!important;
-background:transparent!important;border:1px solid transparent!important;cursor:pointer!important
-}
-.item:hover{background:#131a25!important;border-color:#202a39!important;transform:none!important}
-.item.active{
-background:linear-gradient(90deg,rgba(50,199,255,.10),rgba(99,124,255,.045))!important;
-border-color:#294457!important;box-shadow:none!important
-}
-.itemTitle{font-size:11px!important;font-weight:700!important;color:#e2e8f0!important}
-.itemSub{font-size:9px!important;color:#66738a!important;margin-top:3px!important}
-.itemActions{gap:5px!important}
-.badge{
-padding:3px 7px!important;border-radius:999px!important;font-size:8px!important;
-background:#472635!important;border:1px solid #693544!important;color:#ff9aa7!important
-}
-.pinBtn{
-width:27px!important;height:27px!important;display:grid!important;place-items:center!important;
-padding:0!important;border-radius:7px!important;border:1px solid #293548!important;
-background:#141b26!important;color:#66758b!important;font-size:11px!important;cursor:pointer!important
-}
-.pinBtn:hover,.pinBtn.pinned{color:#57ceff!important;border-color:#32677d!important;background:#10202a!important}
-.empty{padding:17px!important;color:#5f6c80!important;font-size:10px!important;text-align:center!important}
-.chat{height:100vh!important;display:flex!important;flex-direction:column!important;min-height:0!important}
+
 .header{
-height:70px!important;min-height:70px!important;padding:0 18px!important;
-border-bottom:1px solid var(--line)!important;background:#0d121a!important
+    padding:20px 18px 16px;
+    background:#12151d;
+    border-bottom:1px solid #242933;
 }
-.header h2{font-size:15px!important;font-weight:750!important}
-#chatSub{font-size:9px!important;color:#6f7d91!important;margin-top:4px!important}
-#unfriendBtn{
-height:30px!important;padding:0 11px!important;border-radius:8px!important;
-background:#1c1419!important;border:1px solid #40232b!important;color:#ff8998!important;
-font-size:9px!important;font-weight:700!important
+
+.title{
+    font-size:28px;
+    font-weight:800;
 }
-#unfriendBtn:hover{background:#29171d!important}
+
+.search{
+    margin-top:16px;
+    display:flex;
+    gap:10px;
+}
+
+.search input{
+    flex:1;
+    height:48px;
+    border:none;
+    outline:none;
+    background:#1b202b;
+    border-radius:14px;
+    padding:0 16px;
+    color:white;
+    font-size:15px;
+}
+
+.search button{
+    width:48px;
+    border:none;
+    border-radius:14px;
+    background:#5865F2;
+    color:white;
+    font-size:22px;
+}
+
+.requests{
+    margin-top:16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#1b202b;
+    border-radius:14px;
+    padding:15px;
+}
+
+.requests span:first-child{
+    font-size:15px;
+    font-weight:600;
+}
+
+.badge{
+    min-width:24px;
+    height:24px;
+    border-radius:999px;
+    background:#ef4444;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+}
+
+.friendList{
+    flex:1;
+    overflow:auto;
+    padding:12px;
+}
+
+.friendList::-webkit-scrollbar{
+    display:none;
+}
+
+.friend{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px;
+    background:#171b24;
+    border-radius:16px;
+    margin-bottom:12px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.friend:hover{
+    background:#1d2330;
+    transform:translateY(-1px);
+}
+
+.friend.pinned{
+    border:1px solid rgba(88,101,242,.5);
+    box-shadow:0 0 18px rgba(88,101,242,.12);
+}
+
+.friendAction{
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:12px;
+    background:#1b202b;
+    color:#8f98aa;
+    font-size:18px;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:.2s;
+}
+
+.friendAction:hover{
+    background:#252c3a;
+    color:white;
+}
+
+.friendAction.active{
+    color:#ffd84d;
+    background:#332b12;
+}
+
+.avatar{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:#5865F2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:700;
+    position:relative;
+}
+
+.online{
+    position:absolute;
+    right:2px;
+    bottom:2px;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#22c55e;
+    border:3px solid #171b24;
+}
+
+.info{
+    flex:1;
+    min-width:0;
+}
+
+.name{
+    font-size:17px;
+    font-weight:700;
+}
+
+.preview{
+    margin-top:5px;
+    color:#9ca3af;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-size:13px;
+}
+
+.unread{
+    min-width:24px;
+    height:24px;
+    border-radius:999px;
+    background:#5865F2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+}
+
+.chat{
+    position:fixed;
+    inset:0;
+    background:#0d0f14;
+    display:none;
+    flex-direction:column;
+}
+
+.chatHeader{
+    height:72px;
+    padding:0 18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#12151d;
+    border-bottom:1px solid #242933;
+}
+
+.back{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:12px;
+    background:#1b202b;
+    color:white;
+    font-size:22px;
+}
+
+.chatName{
+    font-size:18px;
+    font-weight:700;
+}
+
 .messages{
-flex:1!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
-padding:20px 28px!important;gap:7px!important;display:flex!important;flex-direction:column!important
+    flex:1;
+    overflow:auto;
+    padding:18px;
 }
-.msg{
-width:fit-content!important;max-width:min(700px,68%)!important;
-padding:9px 11px!important;border-radius:11px 11px 11px 3px!important;
-background:#131a24!important;border:1px solid #202a38!important;box-shadow:none!important
+
+.messages::-webkit-scrollbar{
+    display:none;
 }
-.msg.me{
-margin-left:auto!important;background:#17293a!important;border-color:#27435a!important;
-border-radius:11px 11px 3px 11px!important
+
+.row{
+    display:flex;
+    margin-bottom:14px;
 }
-.msgHead{gap:7px!important;margin-bottom:4px!important}
-.msgHead strong{font-size:9px!important;color:#bdcad8!important}
-.msgTime{font-size:7px!important;color:#637086!important}
-.msg>div:last-of-type{
-font-size:11px!important;line-height:1.5!important;color:#e5eaf1!important;
-white-space:pre-wrap!important;overflow-wrap:anywhere!important;word-break:break-word!important
+
+.me{
+    justify-content:flex-end;
 }
-.msg:has(div:last-of-type:nth-child(2)){
+
+.them{
+    justify-content:flex-start;
 }
-.msg img{
-max-width:min(380px,100%)!important;max-height:320px!important;width:auto!important;height:auto!important;
-border-radius:8px!important;box-shadow:none!important
+
+.bubble{
+    max-width:78%;
+    padding:12px 15px;
+    border-radius:18px;
+    background:#1b202b;
+    line-height:1.45;
+    user-select:text;
 }
+
+.messageRow{
+    position:relative;
+}
+
+.messageContextMenu{
+    position:fixed;
+    z-index:10000;
+    min-width:180px;
+    padding:7px;
+    background:#171b24;
+    border:1px solid #2d3442;
+    border-radius:14px;
+    box-shadow:0 18px 40px rgba(0,0,0,.45);
+}
+
+.messageContextMenu button{
+    width:100%;
+    border:none;
+    background:transparent;
+    color:white;
+    text-align:left;
+    padding:11px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font:600 14px Inter,sans-serif;
+}
+
+.messageContextMenu button:hover{
+    background:#222938;
+}
+
+.me .bubble{
+    background:#5865F2;
+}
+
 .composer{
-padding:11px 16px 14px!important;gap:7px!important;
-border-top:1px solid var(--line)!important;background:#0d121a!important
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+    background:#12151d;
+    border-top:1px solid #242933;
 }
-.attachBtn{
-width:40px!important;height:40px!important;border-radius:8px!important;
-background:#141a24!important;border:1px solid #283345!important;color:#8190a3!important
+
+.circle{
+    width:52px;
+    height:52px;
+    border:none;
+    border-radius:50%;
+    background:#1b202b;
+    color:white;
+    font-size:24px;
 }
-.attachBtn:hover{background:#172231!important;border-color:#32546a!important;color:#fff!important}
+
+.send{
+    background:#5865F2;
+}
+
 .composer textarea{
-height:40px!important;min-height:40px!important;border-radius:8px!important;
-background:#141a24!important;border:1px solid #283345!important;padding:11px!important;
-font-size:10px!important;color:#fff!important;outline:0!important
+    flex:1;
+    height:52px;
+    border:none;
+    outline:none;
+    resize:none;
+    background:#1b202b;
+    border-radius:26px;
+    color:white;
+    padding:15px 18px;
+    font-size:15px;
 }
-.composer textarea:focus{border-color:#35637c!important;box-shadow:0 0 0 3px rgba(50,199,255,.035)!important}
-.sendBtn{
-width:66px!important;border-radius:8px!important;background:linear-gradient(135deg,#31c6ff,#6279ff)!important;
-border:0!important;font-size:10px!important;font-weight:750!important;box-shadow:none!important
-}
-.sendBtn:hover{filter:brightness(1.08)!important;transform:none!important}
-#messageContextMenu{
-position:fixed;z-index:999999;display:none;min-width:145px;padding:4px;
-background:#151c27;border:1px solid #344054;border-radius:8px;
-box-shadow:0 20px 50px rgba(0,0,0,.45)
-}
-#messageContextMenu.open{display:block}
-#messageContextMenu button{
-width:100%;border:0;background:transparent;color:#eaf0f7;text-align:left;
-padding:8px 9px;border-radius:6px;font-size:10px;cursor:pointer
-}
-#messageContextMenu button:hover{background:#202a39}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#2a3546;border-radius:999px}
-::-webkit-scrollbar-thumb:hover{background:#3d536c}
-@media(max-width:900px){
-.layout{grid-template-columns:1fr!important}
-.sidebar,.main>.card:first-child{display:none!important}
-.main>.card:last-child{grid-column:1!important}
-}
+
 </style>
 
 </head>
+
 <body>
 
-<div class="topbar">
-<div class="left">
-<button class="iconBtn" onclick="location.href='dashboard.html'">Dashboard</button>
-<button class="iconBtn" onclick="location.href='Support.html'">Support</button>
-</div>
-<div class="right">
-<span id="statusText"></span>
-<button class="iconBtn" onclick="logout()">Logout</button>
-</div>
+<div id="app">
+
+<div class="header">
+
+<div class="title">
+Messages
 </div>
 
-<div class="layout">
-<div class="sidebar">
-<div class="section">
-<h3>Find a user</h3>
-<div class="searchRow">
-<input id="searchUser" placeholder="Type a username">
-<button class="btn" onclick="openFromSearch()">Chat</button>
-<button class="btn" onclick="addFriendFromSearch()">Add Friend</button>
-</div>
+<div class="search">
+<input id="searchUser" placeholder="Search username">
+<button id="addFriendBtn">+</button>
 </div>
 
-<div class="section">
-<h3>Friend Requests <span class="badge" id="requestCount">0</span></h3>
-<div class="list" id="requestList"></div>
+<div class="requests" id="requestsButton">
+    <span>Friend Requests</span>
+    <div class="badge" id="requestCount">0</div>
 </div>
 
-<div class="section" style="flex:1;min-height:0">
-<h3>Friends <span class="badge" id="friendCount">0</span></h3>
-<div class="list" id="friendList"></div>
-</div>
+<div id="requestList"></div>
+
 </div>
 
-<div class="main">
+<div class="friendList" id="friendList"></div>
+
+<div class="chat" id="chat">
+
 <div class="chatHeader">
-<div class="chatHeaderTitle">
-<strong id="chatTitle">Select a friend</strong>
-<span id="chatSub">Private messages</span>
-</div>
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-<button class="smallBtn" id="unfriendBtn" onclick="unfriendActive()" disabled>Unfriend</button>
-<button class="smallBtn" onclick="refreshState()">Refresh</button>
-</div>
+
+<button
+    class="back"
+    id="backButton">
+←
+</button>
+
+<div class="chatName" id="chatTitle">
+Select a friend
 </div>
 
-<div class="chatMessages" id="chatMessages">
-<div class="empty">Pick a friend to open the chat.</div>
 </div>
 
-<div class="chatComposer">
-<textarea id="messageBox" placeholder="Message" disabled></textarea>
-<button class="btn" id="sendBtn" onclick="sendMessage()" disabled>Send</button>
+<div class="messages" id="messages"></div>
+
+<div class="composer">
+
+<input
+    type="file"
+    id="imagePicker"
+    accept="image/*"
+    multiple
+    hidden>
+
+<label
+    for="imagePicker"
+    class="circle">
+📷
+</label>
+
+<textarea
+    id="messageBox"
+    placeholder="Message">
+</textarea>
+
+<button
+    class="circle send"
+    id="sendBtn">
+➤
+</button>
+
 </div>
-</div>
+
 </div>
 
 <script>
+
 let backend=null
 let token=null
 let myName=""
-let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
+
+let state={}
 let activeFriend=""
-let activeChatId=""
-let lastUnreadTotal=0
-let firstStateLoad=true
+let pinnedFriends=new Set(JSON.parse(localStorage.getItem("zyphorPinnedFriends")||"[]"))
+let messageContextMenu=null
 
-const requestCount=document.getElementById("requestCount")
-const friendCount=document.getElementById("friendCount")
-const requestList=document.getElementById("requestList")
 const friendList=document.getElementById("friendList")
-const chatMessages=document.getElementById("chatMessages")
+const requestList=document.getElementById("requestList")
+const requestCount=document.getElementById("requestCount")
+
+const chat=document.getElementById("chat")
 const chatTitle=document.getElementById("chatTitle")
-const chatSub=document.getElementById("chatSub")
+const messages=document.getElementById("messages")
+
 const messageBox=document.getElementById("messageBox")
+const imagePicker=document.getElementById("imagePicker")
 const sendBtn=document.getElementById("sendBtn")
-const unfriendBtn=document.getElementById("unfriendBtn")
-const statusText=document.getElementById("statusText")
 
-const notificationSound=new Audio("Sounds/Notification.mp3")
-notificationSound.preload="auto"
-
-messageBox.addEventListener("keydown",e=>{
-if(e.key==="Enter" && !e.shiftKey){
-e.preventDefault()
-sendMessage()
-}
-})
-
-document.getElementById("searchUser").addEventListener("keydown",e=>{
-if(e.key==="Enter"){
-e.preventDefault()
-openFromSearch()
-}
-})
-
-async function trackPage(page){
-const token=localStorage.getItem("Token")
-if(!token) return
-
-await fetch(backend+"/track/page",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
-body:JSON.stringify({page})
-})
-}
-
-
-function escapeHTML(value){
-return String(value ?? "").replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-"\"":"&quot;",
-"'":"&#39;"
-}[m]))
-}
-
-function formatTime(time){
-try{
-return new Date(time).toLocaleString()
-}catch{
-return ""
-}
-}
+const searchUser=document.getElementById("searchUser")
+const addFriendBtn=document.getElementById("addFriendBtn")
+const backButton=document.getElementById("backButton")
 
 async function getBackend(){
-const r=await fetch("server.txt")
-return (await r.text()).trim()
+    const r=await fetch("server.txt")
+    return (await r.text()).trim()
 }
 
-async function safeJson(res){
-const t=await res.text()
-try{return JSON.parse(t)}catch{return null}
+async function safeJson(r){
+    const t=await r.text()
+
+    try{
+        return JSON.parse(t)
+    }catch{
+        return null
+    }
 }
 
 async function api(path,options={}){
-const liveToken=localStorage.getItem("Token")
-if(!liveToken){
-location.href="login.html"
-throw new Error("unauthorized")
-}
 
-const headers=new Headers(options.headers||{})
-headers.set("Authorization",liveToken)
+    const headers=new Headers(options.headers||{})
 
-return fetch(backend+path,{
-...options,
-headers
-})
-}
+    headers.set(
+        "Authorization",
+        localStorage.getItem("Token")
+    )
 
-function playSound(){
-notificationSound.currentTime=0
-notificationSound.play().catch(()=>{})
-}
+    return fetch(
+        backend+path,
+        {
+            ...options,
+            headers
+        }
+    )
 
-function getChatSummary(friend){
-return state.chats.find(c=>c.with===friend) || {unread:0,lastMessage:"",lastAuthor:""}
-}
-
-function renderRequests(){
-requestCount.textContent=String(state.incomingRequests.length)
-requestList.innerHTML=""
-
-if(!state.incomingRequests.length){
-requestList.innerHTML='<div class="empty">No requests.</div>'
-return
-}
-
-state.incomingRequests.forEach(r=>{
-const row=document.createElement("div")
-row.className="item"
-row.innerHTML=`
-<div class="itemMain">
-<div class="itemTitle">${escapeHTML(r.from)}</div>
-<div class="itemSub">Wants to add you</div>
-</div>
-<div class="itemActions">
-<button class="smallBtn" data-accept>Accept</button>
-<button class="smallBtn" data-decline>Decline</button>
-</div>
-`
-row.querySelector("[data-accept]").onclick=async e=>{
-e.stopPropagation()
-await acceptRequest(r.id,r.from)
-}
-row.querySelector("[data-decline]").onclick=async e=>{
-e.stopPropagation()
-await declineRequest(r.id)
-}
-requestList.appendChild(row)
-})
-}
-
-function renderFriends(){
-friendCount.textContent=String(state.friends.length)
-friendList.innerHTML=""
-
-if(!state.friends.length){
-friendList.innerHTML='<div class="empty">No friends yet.</div>'
-return
-}
-
-const sorted=[...state.friends].sort((a,b)=>{
-const aa=getChatSummary(a)
-const bb=getChatSummary(b)
-if((bb.unread||0)!==(aa.unread||0)) return (bb.unread||0)-(aa.unread||0)
-return a.localeCompare(b)
-})
-
-sorted.forEach(friend=>{
-const summary=getChatSummary(friend)
-const row=document.createElement("div")
-row.className="item"+(activeFriend===friend ? " active" : "")
-row.innerHTML=`
-<div class="itemMain">
-<div class="itemTitle">${escapeHTML(friend)}</div>
-<div class="itemSub">${escapeHTML(summary.lastAuthor ? `${summary.lastAuthor}: ${summary.lastMessage}` : "No messages yet")}</div>
-</div>
-<div class="itemActions">
-${summary.unread>0 ? `<span class="badge">${summary.unread}</span>` : ""}
-</div>
-`
-row.onclick=()=>openChat(friend)
-friendList.appendChild(row)
-})
-}
-
-function renderActiveChat(chat){
-if(!chat){
-chatTitle.textContent="Select a friend"
-chatSub.textContent="Private messages"
-chatMessages.innerHTML='<div class="empty">Pick a friend to open the chat.</div>'
-messageBox.disabled=true
-sendBtn.disabled=true
-unfriendBtn.disabled=true
-messageBox.value=""
-activeChatId=""
-return
-}
-
-chatTitle.textContent=chat.with
-chatSub.textContent=`${chat.messages.length} messages`
-messageBox.disabled=false
-sendBtn.disabled=false
-unfriendBtn.disabled=false
-
-if(!chat.messages.length){
-chatMessages.innerHTML='<div class="empty">No messages yet.</div>'
-return
-}
-
-chatMessages.innerHTML=chat.messages.map(m=>{
-const me=m.author===myName
-return `
-<div class="msg ${me ? "me" : ""}">
-<div class="msgHead">
-<strong>${escapeHTML(m.author)}</strong>
-<span class="msgTime">${escapeHTML(formatTime(m.time))}</span>
-</div>
-<div>${escapeHTML(m.text)}</div>
-${me && (() => {
-const other = chat.users.find(u => u !== myName)
-const readTime = chat.lastRead?.[other]
-
-if(readTime && new Date(readTime) >= new Date(m.time)){
-return `<div style="font-size:11px;opacity:.6;margin-top:4px">✓ Read</div>`
-}
-
-return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
-})()}
-</div>
-`
-}).join("")
-const nearBottom =
-chatMessages.scrollHeight -
-chatMessages.scrollTop -
-chatMessages.clientHeight < 150
-
-if(nearBottom){
-    chatMessages.scrollTop = chatMessages.scrollHeight
-}
 }
 
 async function refreshState(){
-const r=await api("/dms/state")
-const data=await safeJson(r)
 
-if(!data || data.error){
-if(data && data.error==="unauthorized") location.href="login.html"
-return
+    const r=await api("/dms/state")
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    state=data
+
+    renderRequests()
+
+    renderFriends()
+
+    if(activeFriend){
+
+        await openChat(activeFriend,false)
+
+    }
+
 }
 
-state=data
-statusText.textContent=`Logged in as ${myName}`
+function renderRequests(){
 
-const totalUnread=(state.unreadMessages||0)+(state.unreadRequests||0)
-if(!firstStateLoad && totalUnread>lastUnreadTotal){
-playSound()
-}
-firstStateLoad=false
-lastUnreadTotal=totalUnread
+    requestCount.textContent=state.incomingRequests.length
 
-renderRequests()
-renderFriends()
+    requestList.innerHTML=""
 
-if(activeFriend){
-await refreshActiveChat(false)
-}else{
-renderActiveChat(null)
-}
-}
+    if(state.incomingRequests.length===0){
 
-async function refreshActiveChat(markSeenNow=true){
-if(!activeFriend) return
+        requestList.style.display="none"
 
-const r=await api("/dms/chat?with="+encodeURIComponent(activeFriend))
-const data=await safeJson(r)
+        return
 
-if(!data){
-return
-}
+    }
 
-if(data.error==="notfriends"){
-renderActiveChat(null)
-activeFriend=""
-activeChatId=""
-await refreshState()
-return
-}
+    requestList.style.display="block"
 
-if(data.error){
-return
-}
+    state.incomingRequests.forEach(r=>{
 
-activeChatId=data.chat.id
-renderActiveChat(data.chat)
+        const div=document.createElement("div")
 
-if(markSeenNow){
-await api("/dms/seen",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chatId:activeChatId})
-})
-}
-}
+        div.className="friend"
 
-async function openChat(friend){
-const r=await api("/dms/chat?with="+encodeURIComponent(friend))
-const data=await safeJson(r)
+        div.innerHTML=`
 
-if(data && data.error==="notfound"){
-alert("User not found")
-return
+            <div class="avatar">
+
+                ${r.from.charAt(0).toUpperCase()}
+
+            </div>
+
+            <div class="info">
+
+                <div class="name">${r.from}</div>
+
+                <div class="preview">Friend request</div>
+
+            </div>
+
+            <button class="circle accept">✓</button>
+
+            <button class="circle decline">✕</button>
+
+        `
+
+        div.querySelector(".accept").onclick=()=>acceptRequest(r.id,r.from)
+
+        div.querySelector(".decline").onclick=()=>declineRequest(r.id)
+
+        requestList.appendChild(div)
+
+    })
+
 }
 
-if(data && data.error==="notfriends"){
-alert("You need to be friends first")
-return
+function savePinnedFriends(){
+    localStorage.setItem("zyphorPinnedFriends",JSON.stringify([...pinnedFriends]))
 }
 
-if(data && data.error){
-alert(data.error)
-return
+function togglePinnedFriend(friend){
+    if(pinnedFriends.has(friend)){
+        pinnedFriends.delete(friend)
+    }else{
+        pinnedFriends.add(friend)
+    }
+    savePinnedFriends()
+    renderFriends()
 }
 
-activeFriend=friend
-activeChatId=data.chat.id
-location.hash=encodeURIComponent(friend)
-renderActiveChat(data.chat)
-await api("/dms/seen",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chatId:activeChatId})
-})
-await refreshState()
+function renderFriends(){
+    friendList.innerHTML=""
+
+    if(state.friends.length===0){
+
+        friendList.innerHTML=`
+            <div style="
+                text-align:center;
+                padding:40px 20px;
+                color:#8b93a3;
+            ">
+                No friends yet
+            </div>
+        `
+
+        return
+    }
+
+    const sorted=[...state.friends].sort((a,b)=>{
+        const aPinned=pinnedFriends.has(a)?1:0
+        const bPinned=pinnedFriends.has(b)?1:0
+
+        if(aPinned!==bPinned){
+            return bPinned-aPinned
+        }
+
+        const aa=state.chats.find(c=>c.with===a)||{}
+        const bb=state.chats.find(c=>c.with===b)||{}
+
+        return (bb.unread||0)-(aa.unread||0)
+    })
+
+    sorted.forEach(friend=>{
+
+        const chat=state.chats.find(c=>c.with===friend)||{}
+        const pinned=pinnedFriends.has(friend)
+
+        const div=document.createElement("div")
+        div.className="friend"+(pinned?" pinned":"")
+
+        div.innerHTML=`
+            <div class="avatar">
+                ${friend.charAt(0).toUpperCase()}
+            </div>
+
+            <div class="info">
+                <div class="name">
+                    ${friend}
+                </div>
+
+                <div class="preview">
+                    ${
+                        chat.lastAuthor
+                        ? `${chat.lastAuthor}: ${chat.lastMessage}`
+                        : "No messages yet"
+                    }
+                </div>
+            </div>
+
+            ${
+                chat.unread
+                ? `
+                    <div class="unread">
+                        ${chat.unread}
+                    </div>
+                `
+                : ""
+            }
+
+            <button
+                class="friendAction ${pinned?"active":""}"
+                aria-label="${pinned?"Unpin":"Pin"} ${friend}"
+                title="${pinned?"Unpin":"Pin"}">
+                ${pinned?"★":"☆"}
+            </button>
+        `
+
+        div.onclick=()=>openChat(friend)
+
+        div.querySelector(".friendAction").onclick=e=>{
+            e.stopPropagation()
+            togglePinnedFriend(friend)
+        }
+
+        friendList.appendChild(div)
+    })
 }
 
-async function openFromSearch(){
-const name=document.getElementById("searchUser").value.trim()
-if(!name) return
-await openChat(name)
+async function openChat(friend,markSeen=true){
+
+    activeFriend=friend
+
+    const r=await api(
+        "/dms/chat?with="+encodeURIComponent(friend)
+    )
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    if(data.error){
+
+        alert(data.error)
+
+        return
+
+    }
+
+    chat.style.display="flex"
+
+    chatTitle.textContent=friend
+
+    renderMessages(data.chat)
+
+    if(markSeen){
+
+        await api("/dms/seen",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                chatId:friend
+
+            })
+
+        })
+
+    }
+
 }
 
-async function addFriendFromSearch(){
-const name=document.getElementById("searchUser").value.trim()
-if(!name){
-alert("Enter a username")
-return
+function renderMessages(chatData){
+
+    messages.innerHTML=""
+
+    if(chatData.messages.length===0){
+
+        messages.innerHTML=`
+            <div style="
+                text-align:center;
+                color:#8b93a3;
+                padding:40px;
+            ">
+                No messages yet.
+            </div>
+        `
+
+        return
+
+    }
+
+    chatData.messages.forEach(message=>{
+
+        const row=document.createElement("div")
+
+        row.className=
+            "row messageRow "+
+            (
+                message.author===myName
+                ? "me"
+                : "them"
+            )
+
+        row.innerHTML=`
+
+            <div class="bubble">
+
+                ${message.text}
+
+                ${
+                    (message.images||[])
+                    .map(image=>`
+
+                        <img
+                            src="${backend}${image.url}"
+                            style="
+                                width:100%;
+                                border-radius:12px;
+                                margin-top:10px;
+                            "
+                        >
+
+                    `)
+                    .join("")
+                }
+
+            </div>
+
+        `
+
+        row.addEventListener("contextmenu",e=>{
+            e.preventDefault()
+            showMessageContextMenu(e.clientX,e.clientY,message.text||"")
+        })
+
+        messages.appendChild(row)
+
+    })
+
+    messages.scrollTop=messages.scrollHeight
+
 }
 
-const r=await api("/friends/request",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-username:name
-})
-})
-
-const data=await safeJson(r)
-
-if(!data){
-alert("Server error")
-return
+function hideMessageContextMenu(){
+    if(messageContextMenu){
+        messageContextMenu.remove()
+        messageContextMenu=null
+    }
 }
 
-if(data.success){
-alert("Friend request sent")
-await refreshState()
-return
+function showMessageContextMenu(x,y,text){
+    hideMessageContextMenu()
+
+    messageContextMenu=document.createElement("div")
+    messageContextMenu.className="messageContextMenu"
+    messageContextMenu.innerHTML=`
+        <button type="button">Copy Message</button>
+    `
+
+    messageContextMenu.querySelector("button").onclick=async()=>{
+        try{
+            await navigator.clipboard.writeText(text)
+        }catch{
+            const area=document.createElement("textarea")
+            area.value=text
+            area.style.position="fixed"
+            area.style.opacity="0"
+            document.body.appendChild(area)
+            area.select()
+            document.execCommand("copy")
+            area.remove()
+        }
+
+        hideMessageContextMenu()
+    }
+
+    document.body.appendChild(messageContextMenu)
+
+    const rect=messageContextMenu.getBoundingClientRect()
+
+    messageContextMenu.style.left=
+        Math.max(8,Math.min(x,window.innerWidth-rect.width-8))+"px"
+
+    messageContextMenu.style.top=
+        Math.max(8,Math.min(y,window.innerHeight-rect.height-8))+"px"
 }
 
-if(data.error==="notfound"){
-alert("User not found")
-}else if(data.error==="self"){
-alert("You cannot add yourself")
-}else if(data.error==="friends"){
-alert("You are already friends")
-}else if(data.error==="pending"){
-alert("Friend request already exists")
-}else{
-alert(data.error)
+document.addEventListener("click",hideMessageContextMenu)
+document.addEventListener("scroll",hideMessageContextMenu,true)
+window.addEventListener("resize",hideMessageContextMenu)
+
+
+async function sendMessage(){
+
+    if(!activeFriend){
+
+        return
+
+    }
+
+    const text=messageBox.value.trim()
+
+    if(
+        text==="" &&
+        imagePicker.files.length===0
+    ){
+
+        return
+
+    }
+
+    const form=new FormData()
+
+    form.append(
+        "chatId",
+        activeFriend
+    )
+
+    form.append(
+        "message",
+        text
+    )
+
+    for(const file of imagePicker.files){
+
+        form.append(
+            "images",
+            file
+        )
+
+    }
+
+    const r=await api(
+        "/dms/send",
+        {
+            method:"POST",
+            body:form
+        }
+    )
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    if(data.error){
+
+        alert(data.error)
+
+        return
+
+    }
+
+    messageBox.value=""
+
+    imagePicker.value=""
+
+    await openChat(
+        activeFriend,
+        false
+    )
+
+    await refreshState()
+
 }
+
+sendBtn.onclick=sendMessage
+
+messageBox.addEventListener(
+    "keydown",
+    e=>{
+
+        if(
+            e.key==="Enter" &&
+            !e.shiftKey
+        ){
+
+            e.preventDefault()
+
+            sendMessage()
+
+        }
+
+    }
+)
+
+backButton.onclick=()=>{
+
+    chat.style.display="none"
+
+    activeFriend=""
+
 }
 
-async function requestFriend(username){
-const r=await api("/friends/request",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({username})
-})
+addFriendBtn.onclick=addFriend
 
-const data=await safeJson(r)
+searchUser.addEventListener(
+    "keydown",
+    e=>{
 
-if(!data) return
+        if(e.key==="Enter"){
 
-if(data.error==="unauthorized"){
-location.href="login.html"
-return
-}
+            addFriend()
 
-if(data.error==="notfound") alert("User not found")
-else if(data.error==="self") alert("You cannot add yourself")
-else if(data.error==="friends") alert("Already friends")
-else if(data.error==="pending") alert("Friend request already exists")
-else if(data.success) alert("Friend request sent")
+        }
 
-await refreshState()
+    }
+)
+
+async function addFriend(){
+
+    const username=searchUser.value.trim()
+
+    if(!username){
+
+        return
+
+    }
+
+    const r=await api("/friends/request",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            username
+
+        })
+
+    })
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    if(data.success){
+
+        searchUser.value=""
+
+        refreshState()
+
+        return
+
+    }
+
+    alert(data.error)
+
 }
 
 async function acceptRequest(requestId,from){
-const r=await api("/friends/accept",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({requestId})
-})
-const data=await safeJson(r)
-if(!data || data.error) return
-await refreshState()
-await openChat(from)
+
+    const r=await api("/friends/accept",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            requestId
+
+        })
+
+    })
+
+    const data=await safeJson(r)
+
+    if(!data){
+
+        return
+
+    }
+
+    await refreshState()
+
+    openChat(from)
+
 }
 
 async function declineRequest(requestId){
-await api("/friends/decline",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({requestId})
-})
-await refreshState()
+
+    await api("/friends/decline",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            requestId
+
+        })
+
+    })
+
+    refreshState()
+
 }
 
-async function sendMessage(){
-if(!activeChatId) return
-const text=messageBox.value.trim()
-if(!text) return
-const r=await api("/dms/send",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-chatId:activeChatId,
-message:text
-})
-})
-const data=await safeJson(r)
-if(data && data.error){
-if(data.error==="notfriends") alert("You are no longer friends")
-return
-}
-messageBox.value=""
-await refreshActiveChat(false)
-await refreshState()
-}
+setInterval(async()=>{
 
-async function unfriendActive(){
-if(!activeFriend) return
-if(!confirm("Unfriend "+activeFriend+"?")) return
-await api("/friends/remove",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({username:activeFriend})
-})
-activeFriend=""
-activeChatId=""
-location.hash=""
-renderActiveChat(null)
-await refreshState()
-}
-
-function logout(){
-localStorage.removeItem("Token")
-location.href="login.html"
-}
-
-async function init(){
-backend=await getBackend()
-token=localStorage.getItem("Token")
-await trackPage("DMS.html")
-if(!token){
-location.href="login.html"
-return
-}
-
-const meRes=await api("/me")
-const me=await safeJson(meRes)
-
-if(!me || me.error){
-location.href="login.html"
-return
-}
-
-myName=me.username
-statusText.textContent=`Logged in as ${myName}`
-
-if(location.hash){
-const wanted=decodeURIComponent(location.hash.slice(1))
-if(wanted) activeFriend=wanted
-}
-
-await refreshState()
-
-setInterval(async ()=>{
     await refreshState()
 
-    if(activeChatId){
+    if(activeFriend){
+
         await api("/dms/seen",{
+
             method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({chatId:activeChatId})
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                chatId:activeFriend
+
+            })
+
         })
+
     }
+
 },2500)
 
-window.addEventListener("hashchange",()=>{
-const wanted=decodeURIComponent(location.hash.slice(1))
-if(wanted && wanted!==activeFriend){
-openChat(wanted)
-}
-})
+async function init(){
+
+    backend=await getBackend()
+
+    token=localStorage.getItem("Token")
+
+    if(!token){
+
+        location.href="login.html"
+
+        return
+
+    }
+
+    const r=await api("/me")
+
+    const me=await safeJson(r)
+
+    if(!me){
+
+        location.href="login.html"
+
+        return
+
+    }
+
+    myName=me.username
+
+    await refreshState()
+
 }
 
 init()
-</script>
 
-<div id="messageContextMenu"><button id="copyMessageAction">Copy message</button></div>
-<script>
-(function(){
-const PIN_KEY="zyphor_dms_pinned";
-const ACTIVE_KEY="zyphor_dms_active";
-const originalRenderFriends=window.renderFriends;
-const originalOpenChat=window.openChat;
-const originalRefreshActiveChat=window.refreshActiveChat;
-const originalSendMessage=window.sendMessage;
-
-function pins(){
-try{
-const p=JSON.parse(localStorage.getItem(PIN_KEY)||"[]");
-return Array.isArray(p)?p:[];
-}catch{return []}
-}
-function setPins(p){localStorage.setItem(PIN_KEY,JSON.stringify(p))}
-function isPinned(name){return pins().includes(name)}
-function togglePin(name){
-if(!name)return;
-const p=pins();
-const i=p.indexOf(name);
-if(i>=0)p.splice(i,1);else p.unshift(name);
-setPins(p);
-if(originalRenderFriends)originalRenderFriends();
-requestAnimationFrame(addPinButtons);
-}
-function addPinButtons(){
-const list=document.getElementById("friendList");
-if(!list)return;
-const rows=[...list.children].filter(x=>x.querySelector(".itemTitle"));
-rows.forEach(row=>{
-const title=row.querySelector(".itemTitle");
-if(!title)return;
-const name=title.textContent.trim();
-let btn=row.querySelector(".pinBtn");
-if(!btn){
-btn=document.createElement("button");
-btn.className="pinBtn";
-btn.type="button";
-btn.addEventListener("click",e=>{e.stopPropagation();togglePin(name)});
-(row.querySelector(".itemActions")||row).appendChild(btn);
-}
-btn.textContent="📌";
-btn.classList.toggle("pinned",isPinned(name));
-btn.title=isPinned(name)?"Unpin":"Pin";
-});
-rows.sort((a,b)=>{
-const ap=isPinned(a.querySelector(".itemTitle").textContent.trim());
-const bp=isPinned(b.querySelector(".itemTitle").textContent.trim());
-if(ap!==bp)return ap?-1:1;
-return 0;
-}).forEach(row=>list.appendChild(row));
-}
-if(originalRenderFriends){
-window.renderFriends=function(){
-originalRenderFriends.apply(this,arguments);
-requestAnimationFrame(addPinButtons);
-};
-}
-if(originalOpenChat){
-window.openChat=async function(friend){
-localStorage.setItem(ACTIVE_KEY,friend);
-return originalOpenChat.apply(this,arguments);
-};
-}
-const box=document.getElementById("chatMessages");
-function nearBottom(){
-return box.scrollHeight-box.scrollTop-box.clientHeight<90;
-}
-if(originalRefreshActiveChat){
-window.refreshActiveChat=async function(markSeenNow=true){
-const stay=nearBottom();
-const oldTop=box.scrollTop;
-const result=await originalRefreshActiveChat.apply(this,arguments);
-if(stay)requestAnimationFrame(()=>box.scrollTop=box.scrollHeight);
-else box.scrollTop=oldTop;
-return result;
-};
-}
-if(originalSendMessage){
-window.sendMessage=async function(){
-const result=await originalSendMessage.apply(this,arguments);
-requestAnimationFrame(()=>box.scrollTop=box.scrollHeight);
-return result;
-};
-}
-const menu=document.getElementById("messageContextMenu");
-let copiedText="";
-document.addEventListener("contextmenu",e=>{
-const msg=e.target.closest(".msg");
-if(!msg)return;
-e.preventDefault();
-const clone=msg.cloneNode(true);
-clone.querySelectorAll("img,.msgHead").forEach(x=>x.remove());
-copiedText=clone.innerText.trim();
-menu.classList.add("open");
-menu.style.left=Math.min(e.clientX,innerWidth-160)+"px";
-menu.style.top=Math.min(e.clientY,innerHeight-45)+"px";
-});
-document.addEventListener("click",e=>{
-if(!e.target.closest("#messageContextMenu"))menu.classList.remove("open");
-});
-document.getElementById("copyMessageAction").addEventListener("click",async()=>{
-try{
-await navigator.clipboard.writeText(copiedText);
-}catch{
-const t=document.createElement("textarea");
-t.value=copiedText;t.style.position="fixed";t.style.opacity="0";
-document.body.appendChild(t);t.select();document.execCommand("copy");t.remove();
-}
-menu.classList.remove("open");
-});
-const saved=localStorage.getItem(ACTIVE_KEY);
-if(saved && !location.hash){
-location.hash=encodeURIComponent(saved);
-}
-window.addEventListener("hashchange",()=>localStorage.setItem(ACTIVE_KEY,decodeURIComponent(location.hash.slice(1))));
-requestAnimationFrame(addPinButtons);
-})();
 </script>
 
 </body>
