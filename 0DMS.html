@@ -753,6 +753,7 @@ let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
 let activeFriend=""
 let lastUnreadTotal=0
 let firstStateLoad=true
+let draftValues=JSON.parse(localStorage.getItem("zyphorMessageDrafts")||"{}")
 let pinnedFriends=JSON.parse(localStorage.getItem("zyphorPinnedFriends")||"[]")
 let messageContextMenu=null
 
@@ -769,6 +770,22 @@ const imagePicker=document.getElementById("imagePicker")
 const unfriendBtn=document.getElementById("unfriendBtn")
 const statusText=document.getElementById("statusText")
 const attachBtn = document.getElementById("attachBtn");
+
+function saveCurrentDraft(){
+    if(!activeFriend) return
+    draftValues[activeFriend]=messageBox.value
+    localStorage.setItem("zyphorMessageDrafts",JSON.stringify(draftValues))
+}
+
+function loadCurrentDraft(){
+    if(!activeFriend){
+        messageBox.value=""
+        return
+    }
+    messageBox.value=draftValues[activeFriend]||""
+}
+
+messageBox.addEventListener("input",saveCurrentDraft)
 
 const notificationSound=new Audio("Sounds/Notification.mp3")
 notificationSound.preload="auto"
