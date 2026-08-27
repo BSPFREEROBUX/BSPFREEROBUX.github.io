@@ -1,372 +1,564 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zyphor Messages</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
---bg:#07090f;
---panel:rgba(14,17,25,.82);
---panel2:rgba(18,22,32,.72);
---line:rgba(255,255,255,.075);
---line2:rgba(255,255,255,.11);
---text:#f5f7fb;
---muted:#7f8ba0;
---muted2:#aab4c5;
---cyan:#19d9ff;
---purple:#8f5cff;
---danger:#ff6878;
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DMS</title>
+<style>
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
-html,body{width:100%;height:100%;overflow:hidden}
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+background:#0f0f10;
+color:#f4f4f4;
+overflow:hidden;
+}
+
 body{
-font-family:Inter,sans-serif;
-color:var(--text);
-background:
-radial-gradient(900px 600px at 8% -10%,rgba(25,217,255,.13),transparent 62%),
-radial-gradient(850px 650px at 100% 100%,rgba(143,92,255,.14),transparent 60%),
-linear-gradient(145deg,#05070b,#0a0d14 48%,#06080d);
+display:flex;
+flex-direction:column;
 }
-body:before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background:
-linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-background-size:34px 34px;
-mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),transparent 95%);
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+padding:12px 16px;
+background:#151516;
+border-bottom:1px solid #2a2a2a;
+flex-shrink:0;
 }
-.layout{display:grid;grid-template-columns:272px 1fr;height:100vh;padding:14px;gap:14px}
-.sidebar,.card{
-background:linear-gradient(180deg,rgba(20,24,34,.78),rgba(9,12,18,.78));
-border:1px solid var(--line);
-box-shadow:0 22px 70px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.025);
-backdrop-filter:blur(28px) saturate(135%);
+
+.topbar .left,
+.topbar .right{
+display:flex;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
 }
-.sidebar{border-radius:24px;padding:18px;display:flex;flex-direction:column;min-width:0}
-.logo{display:flex;align-items:center;gap:12px;padding:8px 8px 22px}
-.logo img{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(25,217,255,.2))}
-.logo h2{font-size:20px;letter-spacing:2.8px;font-weight:800}
-.nav{display:flex;flex-direction:column;gap:5px}
-.nav a,.item{
-color:#aeb8c9;text-decoration:none;
-border-radius:14px;transition:.18s ease;
-}
-.nav a{padding:12px 13px;font-size:13px;font-weight:600}
-.nav a:hover,.nav a.active{
+
+.btn,
+.iconBtn,
+.smallBtn{
+border:none;
+border-radius:10px;
+background:#2a2a2a;
 color:#fff;
-background:linear-gradient(90deg,rgba(25,217,255,.105),rgba(143,92,255,.075));
-box-shadow:inset 0 0 0 1px rgba(25,217,255,.09),0 7px 26px rgba(0,0,0,.12);
-transform:none;
+cursor:pointer;
+touch-action:manipulation;
 }
-.bottom{margin-top:auto}
-.main{padding:0;display:grid;grid-template-columns:350px minmax(0,1fr);gap:14px;height:100vh;min-width:0;overflow:hidden}
-.card{border-radius:24px;min-height:0;overflow:hidden}
-.main>.card:first-child{padding:19px;display:flex;flex-direction:column}
-.pageHeader{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:17px}
-.tinyTitle{font-size:9px;letter-spacing:2px;color:#6f89b4;margin-bottom:6px;font-weight:800}
-.pageHeader h2{font-size:21px;letter-spacing:-.4px}
-.pageHeader p{margin-top:6px;color:var(--muted);font-size:12px;line-height:1.4}
-.searchBox{display:flex;flex-direction:column;gap:9px;margin-bottom:16px}
-.search{
-width:100%;height:45px;border-radius:13px;border:1px solid var(--line);
-background:rgba(255,255,255,.035);color:#fff;padding:0 14px;outline:0;
-transition:.18s;
+
+.btn:hover,
+.iconBtn:hover,
+.smallBtn:hover{
+background:#383838;
 }
-.search::placeholder{color:#657187}
-.search:focus{border-color:rgba(25,217,255,.3);box-shadow:0 0 0 4px rgba(25,217,255,.045)}
-.searchButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.actionButton{
-height:40px;border-radius:12px;border:1px solid transparent;
-cursor:pointer;font-size:12px;font-weight:700;
-background:linear-gradient(135deg,#19d9ff,#7057ff);
-box-shadow:0 10px 24px rgba(25,217,255,.1);
-transition:.18s;
+
+.iconBtn{
+padding:10px 12px;
 }
-.actionButton:hover{transform:translateY(-1px);filter:brightness(1.05)}
-.actionButton.secondary{background:rgba(255,255,255,.035);border-color:var(--line);box-shadow:none}
-.section{display:flex;flex-direction:column;min-height:0}
-.section:last-child{flex:1}
-.section h3{font-size:11px;letter-spacing:.5px;color:#dfe5ef}
+
+.smallBtn{
+padding:7px 10px;
+font-size:12px;
+}
+
+.layout{
+flex:1;
+display:grid;
+grid-template-columns:320px 1fr;
+min-height:0;
+}
+
+.sidebar{
+display:flex;
+flex-direction:column;
+min-height:0;
+border-right:1px solid #2a2a2a;
+background:#111112;
+overflow:hidden;
+}
+
+.section{
+padding:14px;
+border-bottom:1px solid #242424;
+}
+
+.section h3{
+margin:0 0 10px 0;
+font-size:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+
 .badge{
-background:rgba(255,64,88,.13);
-border:1px solid rgba(255,64,88,.17);
-color:#ff8593;
-border-radius:999px;padding:3px 8px;font-size:10px;font-weight:800;
-margin-left:5px;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:22px;
+height:22px;
+padding:0 7px;
+border-radius:999px;
+background:#e53935;
+color:#fff;
+font-size:12px;
+font-weight:700;
 }
-.list{display:flex;flex-direction:column;gap:8px;overflow-y:auto;min-height:0}
+
+.searchRow{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+input,textarea{
+width:100%;
+border:1px solid #333;
+border-radius:10px;
+background:#0d0d0e;
+color:#fff;
+outline:none;
+}
+
+input{
+padding:11px 12px;
+}
+
+textarea{
+resize:none;
+}
+
+.list{
+display:flex;
+flex-direction:column;
+gap:8px;
+max-height:250px;
+overflow:auto;
+padding-right:4px;
+}
+
 .item{
-display:flex;justify-content:space-between;align-items:center;gap:10px;
-padding:11px;border:1px solid rgba(255,255,255,.045);
-background:rgba(255,255,255,.025);
+padding:10px 12px;
+border:1px solid #2a2a2a;
+border-radius:12px;
+background:#171718;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
 cursor:pointer;
 }
-.item:hover{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.08)}
+
+.item:hover{
+background:#202021;
+}
+
 .item.active{
-background:linear-gradient(110deg,rgba(25,217,255,.095),rgba(143,92,255,.085));
-border-color:rgba(25,217,255,.2);
-box-shadow:0 10px 30px rgba(0,0,0,.16),inset 0 0 0 1px rgba(25,217,255,.045);
+border-color:#5b78ff;
+background:#1a1d2f;
 }
-.itemMain{display:flex;flex-direction:column;gap:4px;min-width:0}
-.itemTitle{font-size:12px;font-weight:750}
-.itemSub{font-size:10px;color:#758197;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.itemActions{display:flex;gap:6px;align-items:center}
-.smallBtn{
-border:1px solid rgba(255,255,255,.075);border-radius:9px;padding:6px 9px;
-cursor:pointer;color:#fff;background:rgba(255,255,255,.045);font-size:10px;font-weight:700;
+
+.itemMain{
+min-width:0;
+display:flex;
+flex-direction:column;
+gap:3px;
 }
-.smallBtn:hover{background:rgba(25,217,255,.1);border-color:rgba(25,217,255,.2)}
-.empty{color:#667289;text-align:center;padding:18px;font-size:11px}
-.chat{display:flex;flex-direction:column;min-height:0;height:100%;position:relative}
-.header{
-display:flex;justify-content:space-between;align-items:center;
-padding:18px 20px;border-bottom:1px solid var(--line);
-background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);
+
+.itemTitle{
+font-weight:700;
+font-size:14px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
-.header h2{font-size:17px;letter-spacing:-.3px}
-#chatSub{margin-top:4px;color:#748096!important;font-size:11px}
-#unfriendBtn{
-height:36px;padding:0 13px;border-radius:10px;
-background:rgba(255,78,94,.07);border:1px solid rgba(255,78,94,.14);
-color:#ff8d99;font-size:11px;font-weight:700;cursor:pointer;transition:.18s
+
+.itemSub{
+font-size:12px;
+opacity:.68;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
-#unfriendBtn:hover{background:rgba(255,78,94,.15);border-color:rgba(255,78,94,.25)}
-.messages{
-flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:22px 24px;
-display:flex;flex-direction:column;gap:10px;
-scrollbar-gutter:stable;
+
+.itemActions{
+display:flex;
+align-items:center;
+gap:6px;
+flex-shrink:0;
 }
+
+.main{
+display:flex;
+flex-direction:column;
+min-height:0;
+}
+
+.chatHeader{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+padding:14px 16px;
+border-bottom:1px solid #242424;
+background:#131314;
+flex-shrink:0;
+}
+
+.chatHeaderTitle{
+display:flex;
+flex-direction:column;
+gap:4px;
+min-width:0;
+}
+
+.chatHeaderTitle strong{
+font-size:16px;
+}
+
+.chatHeaderTitle span{
+font-size:12px;
+opacity:.65;
+}
+
+.chatMessages{
+flex:1;
+overflow:auto;
+padding:18px;
+display:flex;
+flex-direction:column;
+gap:10px;
+background:#0f0f10;
+}
+
 .msg{
-width:fit-content;max-width:min(720px,74%);
-padding:10px 12px;border-radius:15px;
-background:rgba(255,255,255,.045);
-border:1px solid rgba(255,255,255,.055);
-box-shadow:0 6px 25px rgba(0,0,0,.08);
-position:relative;
-transition:transform .15s,background .15s,border-color .15s;
+max-width:min(720px,85%);
+padding:10px 12px;
+border-radius:14px;
+border:1px solid #2a2a2a;
+background:#171718;
+word-break:break-word;
 }
-.msg:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.09)}
-.msg.me{margin-left:auto;background:linear-gradient(135deg,rgba(25,217,255,.11),rgba(143,92,255,.11));border-color:rgba(25,217,255,.105)}
-.msgHead{display:flex;gap:8px;align-items:center;margin-bottom:5px}
-.msgHead strong{font-size:10px;color:#dae2ee}
-.msg.me .msgHead strong{color:#aeefff}
-.msgTime{font-size:9px;color:#657188}
-.msg>div:last-of-type{font-size:12px;line-height:1.52;white-space:pre-wrap;overflow-wrap:anywhere}
-.msg img{max-width:300px!important;max-height:300px!important;border-radius:11px!important;margin-top:7px!important;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-.composer{
-display:flex;gap:9px;padding:13px 15px 15px;
-border-top:1px solid var(--line);background:rgba(7,10,16,.48);
+
+.msg.me{
+align-self:flex-end;
+background:#1e2744;
+border-color:#30406d;
 }
-.attachBtn{
-width:43px;height:43px;border-radius:12px;display:grid;place-items:center;
-background:rgba(255,255,255,.035);border:1px solid var(--line);
-color:#8b98ab;cursor:pointer;transition:.18s;flex-shrink:0
+
+.msgHead{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:12px;
+opacity:.8;
+margin-bottom:6px;
 }
-.attachBtn:hover{color:#fff;border-color:rgba(25,217,255,.22);background:rgba(25,217,255,.06)}
-.composer textarea{
-flex:1;height:43px;min-height:43px;border:1px solid var(--line);outline:0;
-border-radius:12px;background:rgba(255,255,255,.035);color:#fff;padding:12px 13px;
-resize:none;font-size:12px;transition:.18s;
+
+.msgTime{
+opacity:.55;
+font-size:11px;
 }
-.composer textarea:focus{border-color:rgba(25,217,255,.28);box-shadow:0 0 0 4px rgba(25,217,255,.04)}
-.composer textarea::placeholder{color:#657187}
-.sendBtn{
-width:70px;border:0;border-radius:12px;background:linear-gradient(135deg,#19d9ff,#7057ff);
-color:white;font-size:11px;font-weight:800;cursor:pointer;transition:.18s;
-box-shadow:0 10px 25px rgba(25,217,255,.08)
+
+.chatComposer{
+display:flex;
+gap:10px;
+padding:12px;
+border-top:1px solid #242424;
+background:#131314;
+flex-shrink:0;
 }
-.sendBtn:hover{transform:translateY(-1px);filter:brightness(1.06)}
-.sendBtn:disabled,.actionButton:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.supportPopup{position:fixed;inset:0;display:none;justify-content:center;align-items:center;background:rgba(0,0,0,.65);backdrop-filter:blur(16px);z-index:9999}
-.supportCard{width:400px;max-width:90%;padding:26px;border-radius:20px;background:rgba(16,20,29,.97);border:1px solid var(--line2);box-shadow:0 30px 100px rgba(0,0,0,.45);text-align:center}
-.supportCard h2{margin-bottom:8px}.supportCard p{color:#8995a8;font-size:12px;margin-bottom:20px}
-.supportButtons{display:flex;flex-direction:column;gap:9px}
-.supportButtons button,.closeSupport{padding:12px;border:1px solid var(--line);border-radius:11px;cursor:pointer;background:rgba(255,255,255,.04);color:#fff}
-.supportButtons button:hover{background:rgba(25,217,255,.07)}
-.closeSupport{margin-top:14px;width:100%;background:rgba(255,255,255,.025)}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:999px}
-::-webkit-scrollbar-thumb:hover{background:rgba(25,217,255,.35)}
-@media(max-width:1100px){.main{grid-template-columns:310px minmax(0,1fr)}}
-@media(max-width:850px){
-.layout{grid-template-columns:1fr;padding:8px}
-.sidebar{display:none}
-.main{grid-template-columns:1fr;height:calc(100vh - 16px)}
-.msg{max-width:86%}
+
+.chatComposer textarea{
+height:46px;
+padding:12px;
+line-height:1.35;
+}
+
+.chatComposer .btn{
+padding:0 16px;
+min-width:92px;
+}
+
+.empty{
+padding:18px;
+opacity:.7;
+}
+
+@media (max-width:900px){
+
+.topbar{
+flex-direction:column;
+align-items:stretch;
+padding:10px;
+}
+
+.topbar .left,
+.topbar .right{
+width:100%;
+justify-content:center;
+}
+
+.layout{
+display:flex;
+flex-direction:column;
+}
+
+.sidebar{
+height:40vh;
+border-right:none;
+border-bottom:1px solid #2a2a2a;
+}
+
+.main{
+height:60vh;
+}
+
+.section{
+padding:10px;
+}
+
+.searchRow{
+flex-direction:column;
+}
+
+.searchRow input,
+.searchRow button{
+width:100%;
+}
+
+.list{
+flex:1;
+max-height:none;
+overflow-y:auto;
+}
+
+.chatHeader{
+flex-wrap:wrap;
+padding:10px;
+}
+
+.chatMessages{
+padding:10px;
+}
+
+.msg{
+max-width:95%;
+font-size:14px;
+}
+
+.chatComposer{
+padding:8px;
+}
+
+.chatComposer textarea{
+font-size:16px;
+}
+
+.iconBtn,
+.btn,
+.smallBtn{
+min-height:42px;
+font-size:14px;
+}
+}
+
+@media (max-width:600px){
+
+.sidebar{
+height:35vh;
+}
+
+.main{
+height:65vh;
+}
+
+.chatHeader{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.chatHeaderTitle{
+width:100%;
+}
+
+.chatComposer{
+flex-direction:column;
+}
+
+.chatComposer textarea{
+width:100%;
+height:60px;
+}
+
+.chatComposer .btn{
+width:100%;
+min-height:48px;
+}
+
+.msg{
+max-width:100%;
+}
+
+.item{
+padding:12px;
+}
+
+.itemTitle{
+font-size:15px;
+}
+
+.itemSub{
+font-size:13px;
+}
+
+.badge{
+min-width:24px;
+height:24px;
+}
 }
 </style>
-  </head>
-  <body>
-    <div class="layout">
-      <aside class="sidebar">
-        <div class="logo">
-          <img src="https://zyphor.cc/Logo1.png">
-          <h2>ZYPHOR</h2>
-        </div>
-<nav class="nav">
-<a class="item active" href="Dashboard.html">Dashboard</a>
-<a class="item" href="#" onclick="goProfile(); return false;">Profile</a>
-<a class="item" href="dms.html">Messages</a>
-<a class="item" href="Wallet.html">Wallet</a>
-<a class="item" href="Cloud.html">Cloud</a>
-<a class="item" href="download.html">App Center</a>
-<a class="item" href="#" onclick="openSupport(); return false;">Support</a>
-<a class="item" href="#">Settings</a>
-</nav>
 
-<div id="supportPopup" class="supportPopup">
+<style id="desktop-dms-redesign">
+*{box-sizing:border-box}
+:root{--bg:#090c13;--panel:#111621;--panel2:#151b27;--panel3:#1a2130;--line:#273042;--line2:#34415a;--text:#f3f6fb;--muted:#8c97aa;--cyan:#38c8ff;--blue:#4d7cff;--purple:#865cff;--danger:#ff6677}
+html,body{height:100%;overflow:hidden}
+body{margin:0;background:radial-gradient(1000px 600px at 10% -10%,rgba(56,200,255,.08),transparent 55%),#090c13;color:var(--text)}
+.layout{height:100vh!important;display:grid!important;grid-template-columns:240px 340px minmax(0,1fr)!important;gap:0!important;padding:0!important;background:transparent!important}
+.sidebar{height:100vh!important;border-radius:0!important;border:0!important;border-right:1px solid var(--line)!important;background:#0d121b!important;padding:16px 12px!important;box-shadow:none!important}
+.logo{height:64px!important;padding:8px 12px 18px!important;border-bottom:1px solid var(--line);margin-bottom:14px!important}
+.logo h2{font-size:18px!important;letter-spacing:3px!important}
+.logo img{width:38px!important;height:38px!important}
+.nav{gap:4px!important}
+.nav a{height:43px!important;display:flex!important;align-items:center!important;padding:0 13px!important;border-radius:10px!important;color:#919bae!important;font-size:12px!important}
+.nav a:hover{background:#151c28!important;color:#eaf2ff!important;transform:none!important}
+.nav a.active{background:linear-gradient(90deg,rgba(56,200,255,.14),rgba(77,124,255,.08))!important;color:#fff!important;border:1px solid rgba(56,200,255,.22)!important;box-shadow:inset 3px 0 0 var(--cyan)!important}
+.bottom{padding-top:12px!important;border-top:1px solid var(--line)!important}
+.main{height:100vh!important;padding:0!important;display:contents!important}
+.main>.card:first-child{grid-column:2!important;height:100vh!important;border-radius:0!important;border:0!important;border-right:1px solid var(--line)!important;background:#0f141e!important;padding:18px 14px!important;box-shadow:none!important}
+.card{border-radius:0!important;border:0!important;background:#0b0f17!important;box-shadow:none!important}
+.pageHeader{margin:4px 4px 18px!important}
+.tinyTitle{font-size:9px!important;letter-spacing:1.8px!important;color:#63748c!important}
+.pageHeader h2{font-size:20px!important}
+.pageHeader p{font-size:11px!important;color:#7d8899!important}
+.searchBox{gap:8px!important;margin-bottom:17px!important}
+.search{height:42px!important;border-radius:10px!important;background:#151b26!important;border:1px solid #273142!important;padding:0 12px!important}
+.search:focus{border-color:#3a88aa!important;box-shadow:0 0 0 3px rgba(56,200,255,.06)!important}
+.searchButtons{grid-template-columns:1fr 1fr!important}
+.actionButton{height:38px!important;border-radius:9px!important;background:linear-gradient(135deg,#38c8ff,#5976ff)!important;box-shadow:none!important;font-size:11px!important}
+.actionButton.secondary{background:#151b26!important;border-color:#2a3445!important;color:#aeb8c8!important}
+.section h3{font-size:10px!important;color:#aeb8c8!important;margin:9px 4px 9px!important}
+.list{gap:5px!important}
+.item{padding:11px 10px!important;border-radius:10px!important;background:transparent!important;border:1px solid transparent!important}
+.item:hover{background:#151b26!important;border-color:#202a3a!important}
+.item.active{background:linear-gradient(90deg,rgba(56,200,255,.12),rgba(77,124,255,.06))!important;border-color:rgba(56,200,255,.2)!important;box-shadow:none!important}
+.itemTitle{font-size:12px!important;color:#e5ebf4!important}
+.itemSub{font-size:9px!important;color:#758095!important;margin-top:3px!important}
+.badge{background:#542d3a!important;border:1px solid #743846!important;color:#ff9aa6!important;padding:3px 7px!important;font-size:9px!important}
+.main>.card:last-child{grid-column:3!important;height:100vh!important;min-width:0!important;border-radius:0!important;background:#0b0f17!important}
+.chat{height:100vh!important;min-height:0!important}
+.header{height:78px!important;padding:0 24px!important;border-bottom:1px solid var(--line)!important;background:#0e131d!important}
+.header h2{font-size:15px!important}
+#chatSub{font-size:10px!important;color:#768297!important}
+#unfriendBtn{height:32px!important;padding:0 11px!important;border-radius:8px!important;font-size:10px!important}
+.messages{padding:24px clamp(22px,4vw,70px)!important;gap:7px!important;background:linear-gradient(180deg,rgba(255,255,255,.008),transparent 25%)!important}
+.msg{max-width:min(760px,72%)!important;padding:9px 11px!important;border-radius:12px 12px 12px 3px!important;background:#151b26!important;border:1px solid #222c3c!important;box-shadow:none!important;overflow:hidden!important}
+.msg.me{margin-left:auto!important;border-radius:12px 12px 3px 12px!important;background:linear-gradient(135deg,#183a50,#202846)!important;border-color:#28536c!important}
+.msgHead{margin-bottom:4px!important;gap:7px!important}
+.msgHead strong{font-size:10px!important;color:#c9d7e8!important}
+.msgTime{font-size:8px!important;color:#69768b!important}
+.msg>div:last-of-type{font-size:12px!important;line-height:1.45!important;color:#e9edf4!important;overflow-wrap:anywhere!important;word-break:break-word!important;max-height:260px!important;overflow:auto!important;padding-right:3px!important}
+.msg img{max-width:min(420px,100%)!important;height:auto!important;max-height:360px!important}
+.composer{padding:14px 22px 18px!important;background:#0e131d!important;border-top:1px solid var(--line)!important;gap:8px!important}
+.attachBtn{width:42px!important;height:42px!important;border-radius:9px!important;background:#151b26!important;border-color:#283243!important}
+.composer textarea{height:42px!important;min-height:42px!important;border-radius:9px!important;background:#151b26!important;border-color:#283243!important;font-size:11px!important;padding:12px!important}
+.sendBtn{width:74px!important;border-radius:9px!important;background:linear-gradient(135deg,#38c8ff,#5976ff)!important;font-size:11px!important;box-shadow:none!important}
+.empty{font-size:12px!important;color:#66738a!important}
+.pinBtn{width:32px;height:32px;border-radius:8px;border:1px solid #2a3445;background:#151b26;color:#93a0b3;cursor:pointer;margin-left:6px}
+.pinBtn:hover,.pinBtn.pinned{color:#66d8ff;border-color:#347898;background:#132433}
+#messageContextMenu{position:fixed;z-index:999999;display:none;min-width:155px;padding:5px;background:#151b26;border:1px solid #334055;border-radius:9px;box-shadow:0 18px 45px rgba(0,0,0,.4)}
+#messageContextMenu.open{display:block}
+#messageContextMenu button{width:100%;border:0;border-radius:6px;background:transparent;color:#eaf0f8;text-align:left;padding:9px 10px;font-size:11px;cursor:pointer}
+#messageContextMenu button:hover{background:#202938}
+::-webkit-scrollbar{width:7px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#2b3546;border-radius:99px}
+@media(max-width:1050px){.layout{grid-template-columns:210px 300px minmax(0,1fr)!important}.sidebar{padding:12px 9px!important}.messages{padding:22px!important}.msg{max-width:82%!important}}
+</style>
 
-<div class="supportCard">
+</head>
+<body>
 
-<h2>Support</h2>
-
-<p>Select how you'd like to contact the Zyphor team.</p>
-
-<div class="supportButtons">
-
-<button onclick="location.href='Support.html'">
-🌐 Website Tickets
-</button>
-
-<button onclick="emailSupport()">
-✉️ Email Support
-</button>
-
+<div class="topbar">
+<div class="left">
+<button class="iconBtn" onclick="location.href='dashboard.html'">Dashboard</button>
+<button class="iconBtn" onclick="location.href='Support.html'">Support</button>
+</div>
+<div class="right">
+<span id="statusText"></span>
+<button class="iconBtn" onclick="logout()">Logout</button>
+</div>
 </div>
 
-<button class="closeSupport" onclick="closeSupport()">
-Close
-</button>
-
-</div>
-
-</div>
-        <div class="bottom">
-          <a
-    class="nav active"
-    href="#"
-    onclick="logout(); return false;"
-    style="text-decoration:none">
-    Logout
-</a>
-        </div>
-      </aside>
-      <main class="main">
-        <div class="card">
-          <div class="pageHeader">
-            <div>
-              <div class="tinyTitle">COMMUNICATION</div>
-              <h2>Direct Messages</h2>
-              <p>Talk with friends and manage requests.</p>
-            </div>
-          </div>
-          <div class="searchBox">
-            <input id="searchUser" class="search" placeholder="Search username...">
-            <div class="searchButtons">
-              <button id="startChatBtn" class="actionButton" onclick="openFromSearch()"> Start Chat </button>
-              <button id="addFriendBtn" class="actionButton secondary" onclick="addFriendFromSearch()"> Add Friend </button>
-            </div>
-          </div>
+<div class="layout">
+<div class="sidebar">
 <div class="section">
-
-    <h3 style="margin-bottom:14px;">
-        Friend Requests
-        <span class="badge" id="requestCount">0</span>
-    </h3>
-
-    <div class="list" id="requestList"></div>
-
+<h3>Find a user</h3>
+<div class="searchRow">
+<input id="searchUser" placeholder="Type a username">
+<button class="btn" onclick="openFromSearch()">Chat</button>
+<button class="btn" onclick="addFriendFromSearch()">Add Friend</button>
+</div>
 </div>
 
 <div class="section">
-
-    <h3 style="margin-bottom:14px;">
-        Friends
-        <span class="badge" id="friendCount">0</span>
-    </h3>
-
-    <div class="list" id="friendList"></div>
-
+<h3>Friend Requests <span class="badge" id="requestCount">0</span></h3>
+<div class="list" id="requestList"></div>
 </div>
 
+<div class="section" style="flex:1;min-height:0">
+<h3>Friends <span class="badge" id="friendCount">0</span></h3>
+<div class="list" id="friendList"></div>
+</div>
 </div>
 
-<div class="card chat">
-
-    <div class="header">
-
-        <div>
-            <h2 id="chatTitle">Select a friend</h2>
-            <div id="chatSub" style="opacity:.6;">
-                Private messages
-            </div>
-        </div>
-
-        <button
-            id="unfriendBtn"
-            onclick="unfriendActive()"
-            class="btn"
-            disabled>
-            Unfriend
-        </button>
-
-    </div>
-
-    <div class="messages" id="chatMessages">
-
-        <div
-            style="
-                opacity:.6;
-                margin:auto;
-                text-align:center;
-            ">
-            Select a friend to start chatting.
-        </div>
-
-    </div>
-
-    <div class="composer">
-
-        <input
-            type="file"
-            id="imagePicker"
-            accept="image/*"
-            multiple
-            hidden>
-
-<label class="attachBtn" id="attachBtn" for="imagePicker">
-    📎
-</label>
-        <textarea
-            id="messageBox"
-            placeholder="Type a message..."
-            disabled></textarea>
-
-<button
-    id="sendBtn"
-    onclick="sendMessage()"
-    class="sendBtn"
-    disabled>
-    Send
-</button>
-
-    </div>
-
+<div class="main">
+<div class="chatHeader">
+<div class="chatHeaderTitle">
+<strong id="chatTitle">Select a friend</strong>
+<span id="chatSub">Private messages</span>
 </div>
-      </main>
-    </div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="smallBtn" id="unfriendBtn" onclick="unfriendActive()" disabled>Unfriend</button>
+<button class="smallBtn" onclick="refreshState()">Refresh</button>
+</div>
+</div>
+
+<div class="chatMessages" id="chatMessages">
+<div class="empty">Pick a friend to open the chat.</div>
+</div>
+
+<div class="chatComposer">
+<textarea id="messageBox" placeholder="Message" disabled></textarea>
+<button class="btn" id="sendBtn" onclick="sendMessage()" disabled>Send</button>
+</div>
+</div>
+</div>
+
 <script>
 let backend=null
 let token=null
 let myName=""
 let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
 let activeFriend=""
+let activeChatId=""
 let lastUnreadTotal=0
 let firstStateLoad=true
 
@@ -379,10 +571,8 @@ const chatTitle=document.getElementById("chatTitle")
 const chatSub=document.getElementById("chatSub")
 const messageBox=document.getElementById("messageBox")
 const sendBtn=document.getElementById("sendBtn")
-const imagePicker=document.getElementById("imagePicker")
 const unfriendBtn=document.getElementById("unfriendBtn")
 const statusText=document.getElementById("statusText")
-const attachBtn = document.getElementById("attachBtn");
 
 const notificationSound=new Audio("Sounds/Notification.mp3")
 notificationSound.preload="auto"
@@ -443,13 +633,6 @@ async function safeJson(res){
 const t=await res.text()
 try{return JSON.parse(t)}catch{return null}
 }
-
-function goProfile() {
-    const username = localStorage.getItem("username");
-    if (!username) return;
-
-    window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
-}  
 
 async function api(path,options={}){
 const liveToken=localStorage.getItem("Token")
@@ -544,67 +727,23 @@ friendList.appendChild(row)
 })
 }
 
-function openSupport(){
-document.getElementById("supportPopup").style.display="flex";
-}
-
-async function getMe(){
-
-    const token=localStorage.getItem("Token")
-
-    if(!token) return null
-
-    try{
-
-        const r=await fetch(backend+"/me",{
-            headers:{
-                Authorization:token
-            }
-        })
-
-        const data=await r.json()
-
-        if(data.error) return null
-
-        return data
-
-    }catch{
-
-        return null
-
-    }
-
-}
-
-function renderActiveChat(chat, forceBottom = false){
-
+function renderActiveChat(chat){
 if(!chat){
 chatTitle.textContent="Select a friend"
 chatSub.textContent="Private messages"
 chatMessages.innerHTML='<div class="empty">Pick a friend to open the chat.</div>'
-
 messageBox.disabled=true
 sendBtn.disabled=true
-imagePicker.disabled=true
-attachBtn.style.pointerEvents="none"
-attachBtn.style.opacity="0.5"
-
 unfriendBtn.disabled=true
 messageBox.value=""
-imagePicker.value=""
-
+activeChatId=""
 return
 }
 
 chatTitle.textContent=chat.with
 chatSub.textContent=`${chat.messages.length} messages`
-
 messageBox.disabled=false
 sendBtn.disabled=false
-imagePicker.disabled=false
-attachBtn.style.pointerEvents="auto"
-attachBtn.style.opacity="1"
-
 unfriendBtn.disabled=false
 
 if(!chat.messages.length){
@@ -621,23 +760,7 @@ return `
 <span class="msgTime">${escapeHTML(formatTime(m.time))}</span>
 </div>
 <div>${escapeHTML(m.text)}</div>
-
-${
-(m.images||[]).map(img=>`
-<img
-src="${backend}${img.url}"
-style="
-max-width:300px;
-max-height:300px;
-display:block;
-margin-top:8px;
-border-radius:10px;
-cursor:pointer;
-"
-onclick="window.open('${backend}${img.url}','_blank')">
-`).join("")
-}
-${me ? (() => {
+${me && (() => {
 const other = chat.users.find(u => u !== myName)
 const readTime = chat.lastRead?.[other]
 
@@ -646,20 +769,17 @@ return `<div style="font-size:11px;opacity:.6;margin-top:4px">✓ Read</div>`
 }
 
 return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
-})() : ""}
+})()}
 </div>
 `
 }).join("")
-
 const nearBottom =
-    chatMessages.scrollHeight -
-    chatMessages.scrollTop -
-    chatMessages.clientHeight < 150;
+chatMessages.scrollHeight -
+chatMessages.scrollTop -
+chatMessages.clientHeight < 150
 
-if (forceBottom || nearBottom) {
-    requestAnimationFrame(() => {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    });
+if(nearBottom){
+    chatMessages.scrollTop = chatMessages.scrollHeight
 }
 }
 
@@ -673,9 +793,7 @@ return
 }
 
 state=data
-if (statusText) {
-    statusText.textContent = `Logged in as ${myName}`;
-}
+statusText.textContent=`Logged in as ${myName}`
 
 const totalUnread=(state.unreadMessages||0)+(state.unreadRequests||0)
 if(!firstStateLoad && totalUnread>lastUnreadTotal){
@@ -707,6 +825,7 @@ return
 if(data.error==="notfriends"){
 renderActiveChat(null)
 activeFriend=""
+activeChatId=""
 await refreshState()
 return
 }
@@ -715,13 +834,14 @@ if(data.error){
 return
 }
 
+activeChatId=data.chat.id
 renderActiveChat(data.chat)
 
 if(markSeenNow){
 await api("/dms/seen",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chatId:activeFriend})
+body:JSON.stringify({chatId:activeChatId})
 })
 }
 }
@@ -746,24 +866,13 @@ return
 }
 
 activeFriend=friend
+activeChatId=data.chat.id
 location.hash=encodeURIComponent(friend)
-
-await api("/dms/activity",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-chatId:activeFriend,
-active:true
-})
-})
-
-renderActiveChat(data.chat, true)
+renderActiveChat(data.chat)
 await api("/dms/seen",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chatId:activeFriend})
+body:JSON.stringify({chatId:activeChatId})
 })
 await refreshState()
 }
@@ -864,44 +973,25 @@ await refreshState()
 }
 
 async function sendMessage(){
-
-if(!activeFriend) return
-
+if(!activeChatId) return
 const text=messageBox.value.trim()
-if(
-!text &&
-imagePicker.files.length===0
-){
-return
-}
-
-const form=new FormData()
-
-form.append("chatId",activeFriend)
-form.append("message",text)
-
-for(const file of imagePicker.files){
-form.append("images",file)
-}
-
+if(!text) return
 const r=await api("/dms/send",{
 method:"POST",
-body:form
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+chatId:activeChatId,
+message:text
 })
-
+})
 const data=await safeJson(r)
-
 if(data && data.error){
-alert(data.error)
+if(data.error==="notfriends") alert("You are no longer friends")
 return
 }
-
 messageBox.value=""
-imagePicker.value=""
-
 await refreshActiveChat(false)
 await refreshState()
-
 }
 
 async function unfriendActive(){
@@ -913,6 +1003,7 @@ headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username:activeFriend})
 })
 activeFriend=""
+activeChatId=""
 location.hash=""
 renderActiveChat(null)
 await refreshState()
@@ -922,45 +1013,6 @@ function logout(){
 localStorage.removeItem("Token")
 location.href="login.html"
 }
-
-window.addEventListener("beforeunload",()=>{
-
-if(!activeFriend) return
-
-navigator.sendBeacon(
-backend+"/dms/activity",
-new Blob([
-JSON.stringify({
-chatId:activeFriend,
-active:false,
-token:localStorage.getItem("Token")
-})
-],{
-type:"application/json"
-})
-)
-
-})
-
-
-document.addEventListener("visibilitychange",()=>{
-
-if(!activeFriend) return
-
-
-api("/dms/activity",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-chatId:activeFriend,
-active:!document.hidden
-})
-})
-
-
-})
 
 async function init(){
 backend=await getBackend()
@@ -980,9 +1032,7 @@ return
 }
 
 myName=me.username
-if (statusText) {
-    statusText.textContent = `Logged in as ${myName}`;
-}
+statusText.textContent=`Logged in as ${myName}`
 
 if(location.hash){
 const wanted=decodeURIComponent(location.hash.slice(1))
@@ -994,11 +1044,11 @@ await refreshState()
 setInterval(async ()=>{
     await refreshState()
 
-    if(activeFriend){
+    if(activeChatId){
         await api("/dms/seen",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({chatId:activeFriend})
+            body:JSON.stringify({chatId:activeChatId})
         })
     }
 },2500)
@@ -1014,130 +1064,100 @@ openChat(wanted)
 init()
 </script>
 
-
-<style>
-#messageContextMenu{
-position:fixed;z-index:100000;display:none;min-width:145px;padding:5px;
-background:rgba(15,19,28,.97);border:1px solid rgba(255,255,255,.1);
-border-radius:11px;box-shadow:0 20px 60px rgba(0,0,0,.45);backdrop-filter:blur(18px)
-}
-#messageContextMenu.open{display:block}
-#messageContextMenu button{
-width:100%;border:0;background:transparent;color:#fff;text-align:left;
-padding:9px 11px;border-radius:8px;font-size:11px;cursor:pointer
-}
-#messageContextMenu button:hover{background:rgba(255,255,255,.07)}
-</style>
 <div id="messageContextMenu"><button id="copyMessageAction">Copy message</button></div>
 <script>
 (function(){
-const activeKey="zyphor_dms_active_friend";
-const oldRender=window.renderActiveChat;
+const PIN_KEY="zyphor_dms_pinned";
+const ACTIVE_KEY="zyphor_dms_active";
 
-function isAtBottom(el,threshold=100){
-return el.scrollHeight-el.scrollTop-el.clientHeight<=threshold;
-}
+function getPins(){try{return JSON.parse(localStorage.getItem(PIN_KEY)||"[]")}catch{return[]}}
+function setPins(v){localStorage.setItem(PIN_KEY,JSON.stringify(v))}
+function pinned(u){return getPins().includes(u)}
+function togglePin(u){if(!u)return;let p=getPins();p=p.includes(u)?p.filter(x=>x!==u):[u,...p];setPins(p);renderFriends()}
 
-function saveActive(){
-if(typeof activeFriend!=="undefined"){
-if(activeFriend)localStorage.setItem(activeKey,activeFriend);
-else localStorage.removeItem(activeKey);
-}
-}
-
-function restoreActive(){
-const saved=localStorage.getItem(activeKey);
-if(saved && !activeFriend) activeFriend=saved;
-}
-
-if(typeof window.openChat==="function"){
-const originalOpenChat=window.openChat;
-window.openChat=async function(friend){
-localStorage.setItem(activeKey,friend);
-return originalOpenChat.apply(this,arguments);
-};
-}
-
-const context=document.getElementById("messageContextMenu");
-let contextText="";
-
-document.addEventListener("contextmenu",function(e){
-const msg=e.target.closest(".msg");
-if(!msg)return;
-e.preventDefault();
-contextText="";
-const textNodes=[...msg.querySelectorAll(":scope > div")];
-if(textNodes.length) contextText=textNodes[textNodes.length-1].innerText.trim();
-if(!contextText) contextText=msg.innerText.trim();
-context.classList.add("open");
-context.style.left=Math.min(e.clientX,innerWidth-155)+"px";
-context.style.top=Math.min(e.clientY,innerHeight-58)+"px";
+const originalRenderFriends=window.renderFriends;
+if(originalRenderFriends){
+window.renderFriends=function(){
+const result=originalRenderFriends.apply(this,arguments);
+document.querySelectorAll(".item").forEach(row=>{
+const title=row.querySelector(".itemTitle");
+if(!title||row.querySelector(".pinBtn"))return;
+const u=title.textContent.trim();
+const b=document.createElement("button");
+b.className="pinBtn"+(pinned(u)?" pinned":"");
+b.textContent="📌";
+b.title=pinned(u)?"Unpin":"Pin";
+b.onclick=e=>{e.stopPropagation();togglePin(u)};
+row.querySelector(".itemActions")?.appendChild(b);
 });
-
-document.addEventListener("click",function(e){
-if(!e.target.closest("#messageContextMenu"))context.classList.remove("open");
-});
-
-document.getElementById("copyMessageAction").addEventListener("click",async function(){
-if(!contextText)return;
-try{
-await navigator.clipboard.writeText(contextText);
-}catch{
-const area=document.createElement("textarea");
-area.value=contextText;
-area.style.position="fixed";
-area.style.opacity="0";
-document.body.appendChild(area);
-area.select();
-document.execCommand("copy");
-area.remove();
+const list=document.getElementById("friendList");
+if(list){
+[...list.children].sort((a,b)=>{
+const ap=pinned(a.querySelector(".itemTitle")?.textContent.trim());
+const bp=pinned(b.querySelector(".itemTitle")?.textContent.trim());
+return ap===bp?0:ap?-1:1
+}).forEach(x=>list.appendChild(x));
 }
-context.classList.remove("open");
-});
-
-const box=document.getElementById("chatMessages");
-if(box){
-box.addEventListener("scroll",function(){box.dataset.userScrolled=isAtBottom(box)?"0":"1"},{passive:true});
-}
-
-const originalRefresh=window.refreshActiveChat;
-if(originalRefresh){
-window.refreshActiveChat=async function(markSeenNow=true){
-const wasBottom=isAtBottom(box,140);
-const oldHeight=box.scrollHeight;
-const oldTop=box.scrollTop;
-const result=await originalRefresh.apply(this,arguments);
-if(wasBottom) requestAnimationFrame(()=>{box.scrollTop=box.scrollHeight;});
-else {const delta=box.scrollHeight-oldHeight;box.scrollTop=oldTop+Math.max(0,delta<0?0:0);}
 return result;
-};
+}
+}
+
+const originalOpen=window.openChat;
+if(originalOpen){
+window.openChat=async function(friend){
+localStorage.setItem(ACTIVE_KEY,friend);
+return originalOpen.apply(this,arguments);
+}
+}
+
+const originalRender=window.renderActiveChat;
+if(originalRender){
+window.renderActiveChat=function(chat){
+const box=document.getElementById("chatMessages");
+const near=box?box.scrollHeight-box.scrollTop-box.clientHeight<120:true;
+const oldTop=box?.scrollTop||0;
+const result=originalRender.apply(this,arguments);
+if(box){if(near)box.scrollTop=box.scrollHeight;else box.scrollTop=oldTop}
+return result;
+}
 }
 
 const originalSend=window.sendMessage;
 if(originalSend){
 window.sendMessage=async function(){
 const result=await originalSend.apply(this,arguments);
-requestAnimationFrame(()=>{box.scrollTop=box.scrollHeight;});
+const box=document.getElementById("chatMessages");
+if(box)requestAnimationFrame(()=>box.scrollTop=box.scrollHeight);
 return result;
-};
+}
 }
 
-const boot=window.init;
-if(boot){
+const menu=document.getElementById("messageContextMenu");
+let copied="";
+document.addEventListener("contextmenu",e=>{
+const msg=e.target.closest(".msg");
+if(!msg)return;
+e.preventDefault();
+const body=msg.querySelector(".msgHead")?.nextElementSibling;
+copied=body?.innerText||msg.innerText;
+menu.classList.add("open");
+menu.style.left=Math.min(e.clientX,innerWidth-170)+"px";
+menu.style.top=Math.min(e.clientY,innerHeight-50)+"px";
+});
+document.addEventListener("click",e=>{if(!e.target.closest("#messageContextMenu"))menu.classList.remove("open")});
+document.getElementById("copyMessageAction").onclick=async()=>{
+try{await navigator.clipboard.writeText(copied)}catch{const t=document.createElement("textarea");t.value=copied;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}
+menu.classList.remove("open");
+};
+
+const originalInit=window.init;
+if(originalInit){
 window.init=async function(){
-restoreActive();
-const result=await boot.apply(this,arguments);
-if(activeFriend){
-try{
-await openChat(activeFriend);
-}catch{}
+const saved=localStorage.getItem(ACTIVE_KEY);
+if(saved&&!location.hash)location.hash=encodeURIComponent(saved);
+return originalInit.apply(this,arguments);
 }
-return result;
-};
-saveActive();
 }
-
-window.addEventListener("beforeunload",saveActive);
 })();
 </script>
 
