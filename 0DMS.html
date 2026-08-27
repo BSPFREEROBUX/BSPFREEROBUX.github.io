@@ -277,6 +277,75 @@
     align-items:center;
 }
 
+.pinBtn{
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:#9ea8bb;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+    transition:.2s;
+    flex-shrink:0;
+    font-size:16px;
+}
+
+.pinBtn:hover{
+    color:white;
+    background:rgba(0,213,255,.12);
+    border-color:rgba(0,213,255,.3);
+    transform:translateY(-1px);
+}
+
+.pinBtn.pinned{
+    color:#00d5ff;
+    background:linear-gradient(135deg,rgba(0,213,255,.16),rgba(139,61,255,.14));
+    border-color:rgba(0,213,255,.35);
+    box-shadow:0 0 18px rgba(0,213,255,.12);
+}
+
+.item.pinned{
+    background:linear-gradient(135deg,rgba(0,213,255,.10),rgba(139,61,255,.06));
+    border-color:rgba(0,213,255,.2);
+}
+
+.msg{
+    position:relative;
+    cursor:context-menu;
+}
+
+.messageContextMenu{
+    position:fixed;
+    z-index:99999;
+    min-width:170px;
+    padding:6px;
+    border-radius:12px;
+    background:rgba(15,19,30,.98);
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 16px 50px rgba(0,0,0,.45);
+    backdrop-filter:blur(18px);
+}
+
+.messageContextMenu button{
+    width:100%;
+    border:none;
+    border-radius:9px;
+    padding:10px 12px;
+    background:transparent;
+    color:white;
+    font:600 13px Inter,sans-serif;
+    text-align:left;
+    cursor:pointer;
+}
+
+.messageContextMenu button:hover{
+    background:rgba(255,255,255,.08);
+}
+
 .smallBtn{
     border:none;
     border-radius:10px;
@@ -684,6 +753,8 @@ let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
 let activeFriend=""
 let lastUnreadTotal=0
 let firstStateLoad=true
+let pinnedFriends=JSON.parse(localStorage.getItem("zyphorPinnedFriends")||"[]")
+let messageContextMenu=null
 
 const requestCount=document.getElementById("requestCount")
 const friendCount=document.getElementById("friendCount")
@@ -791,6 +862,76 @@ function getChatSummary(friend){
 return state.chats.find(c=>c.with===friend) || {unread:0,lastMessage:"",lastAuthor:""}
 }
 
+function isPinned(friend){
+return pinnedFriends.includes(friend)
+}
+
+function savePinnedFriends(){
+localStorage.setItem("zyphorPinnedFriends",JSON.stringify(pinnedFriends))
+}
+
+function togglePin(friend){
+if(isPinned(friend)){
+    pinnedFriends=pinnedFriends.filter(name=>name!==friend)
+}else{
+    pinnedFriends.push(friend)
+}
+savePinnedFriends()
+renderFriends()
+}
+
+function closeMessageContextMenu(){
+if(messageContextMenu){
+    messageContextMenu.remove()
+    messageContextMenu=null
+}
+}
+
+async function copyMessageText(text){
+try{
+    await navigator.clipboard.writeText(text||"")
+}catch{
+    const textarea=document.createElement("textarea")
+    textarea.value=text||""
+    textarea.style.position="fixed"
+    textarea.style.left="-9999px"
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand("copy")
+    textarea.remove()
+}
+}
+
+function showMessageContextMenu(event,message){
+event.preventDefault()
+closeMessageContextMenu()
+
+const menu=document.createElement("div")
+menu.className="messageContextMenu"
+
+const copyButton=document.createElement("button")
+copyButton.textContent="Copy Message"
+copyButton.onclick=async()=>{
+    await copyMessageText(message.text||"")
+    closeMessageContextMenu()
+}
+
+menu.appendChild(copyButton)
+document.body.appendChild(menu)
+messageContextMenu=menu
+
+const x=Math.min(event.clientX,window.innerWidth-menu.offsetWidth-8)
+const y=Math.min(event.clientY,window.innerHeight-menu.offsetHeight-8)
+menu.style.left=Math.max(8,x)+"px"
+menu.style.top=Math.max(8,y)+"px"
+}
+
+document.addEventListener("click",closeMessageContextMenu)
+document.addEventListener("contextmenu",event=>{
+if(!event.target.closest(".msg")) closeMessageContextMenu()
+})
+window.addEventListener("resize",closeMessageContextMenu)
+
 function renderRequests(){
 requestCount.textContent=String(state.incomingRequests.length)
 requestList.innerHTML=""
@@ -835,6 +976,10 @@ return
 }
 
 const sorted=[...state.friends].sort((a,b)=>{
+const ap=isPinned(a)
+const bp=isPinned(b)
+if(ap!==bp) return bp-ap
+
 const aa=getChatSummary(a)
 const bb=getChatSummary(b)
 if((bb.unread||0)!==(aa.unread||0)) return (bb.unread||0)-(aa.unread||0)
@@ -844,17 +989,22 @@ return a.localeCompare(b)
 sorted.forEach(friend=>{
 const summary=getChatSummary(friend)
 const row=document.createElement("div")
-row.className="item"+(activeFriend===friend ? " active" : "")
+row.className="item"+(activeFriend===friend ? " active" : "")+(isPinned(friend) ? " pinned" : "")
 row.innerHTML=`
 <div class="itemMain">
 <div class="itemTitle">${escapeHTML(friend)}</div>
 <div class="itemSub">${escapeHTML(summary.lastAuthor ? `${summary.lastAuthor}: ${summary.lastMessage}` : "No messages yet")}</div>
 </div>
 <div class="itemActions">
+<button class="pinBtn ${isPinned(friend) ? "pinned" : ""}" data-pin title="${isPinned(friend) ? "Unpin" : "Pin"}">${isPinned(friend) ? "📌" : "📍"}</button>
 ${summary.unread>0 ? `<span class="badge">${summary.unread}</span>` : ""}
 </div>
 `
 row.onclick=()=>openChat(friend)
+row.querySelector("[data-pin]").onclick=e=>{
+    e.stopPropagation()
+    togglePin(friend)
+}
 friendList.appendChild(row)
 })
 }
@@ -927,10 +1077,10 @@ chatMessages.innerHTML='<div class="empty">No messages yet.</div>'
 return
 }
 
-chatMessages.innerHTML=chat.messages.map(m=>{
+chatMessages.innerHTML=chat.messages.map((m,index)=>{
 const me=m.author===myName
 return `
-<div class="msg ${me ? "me" : ""}">
+<div class="msg ${me ? "me" : ""}" data-message-index="${index}">
 <div class="msgHead">
 <strong>${escapeHTML(m.author)}</strong>
 <span class="msgTime">${escapeHTML(formatTime(m.time))}</span>
@@ -965,6 +1115,12 @@ return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
 </div>
 `
 }).join("")
+
+chatMessages.querySelectorAll(".msg").forEach((element,index)=>{
+    const message=chat.messages[index]
+    if(!message) return
+    element.addEventListener("contextmenu",event=>showMessageContextMenu(event,message))
+})
 
 const nearBottom =
     chatMessages.scrollHeight -
