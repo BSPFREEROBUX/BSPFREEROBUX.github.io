@@ -1,22 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zyphor Profile</title>
-<script>
-(function () {
-    const phone = localStorage.getItem("Phone");
-    const params = window.location.search;
-
-    if (phone === "1") {
-        window.location.replace("1profile.html" + params);
-    } else {
-        window.location.replace("0profile.html" + params);
-    }
-})();
-</script>
+<title>Profile</title>
 </head>
 <body>
+<div id="content"></div>
+<script>
+async function loadProfile(){
+    try{
+        const serverResponse=await fetch("/server.txt")
+        const backendUrl=(await serverResponse.text()).trim()
+
+        if(!backendUrl) throw new Error()
+
+        const response=await fetch(`${backendUrl}/url`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                url:"profile"
+            })
+        })
+
+        const data=await response.json()
+
+        if(!data.success) throw new Error()
+
+        document.getElementById("content").innerHTML=data.html
+    }catch{
+        document.getElementById("content").innerText="Failed to load profile"
+    }
+}
+
+loadProfile()
+</script>
 </body>
 </html>
