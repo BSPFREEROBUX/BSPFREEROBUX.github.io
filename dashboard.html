@@ -1,40 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor Dashboard</title>
 </head>
 <body>
-<div id="content"></div>
+
 <script>
 async function loadDashboard(){
     try{
-        const serverResponse=await fetch("/server.txt")
-        const backendUrl=(await serverResponse.text()).trim()
+        const serverResponse=await fetch("/server.txt",{cache:"no-store"})
 
-        if(!backendUrl) throw new Error()
+        if(!serverResponse.ok){
+            throw new Error("Failed to load server.txt")
+        }
 
-        const response=await fetch(`${backendUrl}/url`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                url:"dashboard"
-            })
-        })
+        const backendUrl=(await serverResponse.text()).trim().replace(/\/+$/,"")
 
-        const data=await response.json()
+        if(!backendUrl){
+            throw new Error("No backend URL")
+        }
 
-        if(!data.success) throw new Error()
-
-        document.getElementById("content").innerHTML=data.html
-    }catch{
-        document.getElementById("content").innerText="Failed to load Dashboard"
+        window.location.href=backendUrl+"/url/dashboard"
+    }catch(err){
+        document.body.innerHTML=`
+            <div style="
+                min-height:100vh;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:#08090f;
+                color:white;
+                font-family:Arial,sans-serif;
+                text-align:center;
+                padding:20px;
+            ">
+                <div>
+                    <h2>Failed to load Dashboard</h2>
+                    <p style="color:#888">${err.message}</p>
+                </div>
+            </div>
+        `
     }
 }
 
 loadDashboard()
 </script>
+
 </body>
 </html>
