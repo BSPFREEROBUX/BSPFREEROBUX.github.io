@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#060609">
+<title>Zyphor — 502</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#060609;--text:#f8f8fb;--muted:#9999a7;--accent:#7c5cff;--accent2:#bd78ff}
+html,body{width:100%;min-height:100%}
+body{
+min-height:100vh;overflow:hidden;display:grid;place-items:center;padding:24px;
+font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+color:var(--text);
+background:
+radial-gradient(circle at 13% 14%,rgba(124,92,255,.18),transparent 28%),
+radial-gradient(circle at 87% 83%,rgba(189,120,255,.12),transparent 29%),
+radial-gradient(circle at 52% 48%,rgba(90,70,210,.075),transparent 38%),var(--bg)
+}
+body:before{
+content:"";position:fixed;inset:0;pointer-events:none;
+background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+background-size:42px 42px;
+mask-image:radial-gradient(circle at center,black 8%,transparent 78%);
+}
+.orb{position:fixed;width:340px;height:340px;border-radius:50%;filter:blur(90px);pointer-events:none;opacity:.44}
+.orb.one{left:-150px;top:17%;background:rgba(124,92,255,.2);animation:float1 11s ease-in-out infinite}
+.orb.two{right:-150px;bottom:10%;background:rgba(189,120,255,.16);animation:float2 14s ease-in-out infinite}
+.shell{
+position:relative;width:min(900px,100%);padding:25px;border-radius:34px;
+display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:22px;
+background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012)),rgba(14,14,19,.74);
+border:1px solid rgba(255,255,255,.09);
+box-shadow:0 40px 120px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.045);
+backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+animation:enter .55s ease-out
+}
+.main{
+position:relative;overflow:hidden;padding:34px 30px 29px;border-radius:25px;
+text-align:center;background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.055)
+}
+.main:before{
+content:"";position:absolute;inset:-1px;border-radius:25px;
+background:radial-gradient(circle at 50% 46%,rgba(124,92,255,.12),transparent 52%);
+pointer-events:none
+}
+.eyebrow{
+position:relative;display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+border:1px solid rgba(124,92,255,.25);background:rgba(124,92,255,.07);
+color:#d0c7ff;font-size:10px;font-weight:850;letter-spacing:1.3px;text-transform:uppercase
+}
+.dot{width:7px;height:7px;border-radius:50%;background:#9d89ff;box-shadow:0 0 15px rgba(157,137,255,.85);animation:pulse 1.7s infinite}
+.logo{
+position:relative;margin:24px auto 16px;width:56px;height:56px;display:grid;place-items:center;border-radius:17px;
+font-size:28px;font-weight:950;background:linear-gradient(145deg,#906fff,#6445d8);
+box-shadow:0 17px 38px rgba(124,92,255,.3),inset 0 1px 0 rgba(255,255,255,.32)
+}
+.code{
+position:relative;font-size:clamp(88px,12vw,140px);font-weight:950;line-height:.85;letter-spacing:-8px;
+background:linear-gradient(180deg,#fff 0%,#d9d5ff 44%,#8068ff 100%);
+-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 22px 70px rgba(124,92,255,.18)
+}
+.title{position:relative;margin-top:21px;font-size:clamp(24px,3.8vw,38px);font-weight:900;letter-spacing:-1.2px}
+.desc{position:relative;max-width:560px;margin:12px auto 0;color:var(--muted);font-size:14px;line-height:1.7}
+.actions{position:relative;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:27px}
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:165px;padding:13px 17px;
+border-radius:14px;text-decoration:none;font-size:12px;font-weight:800;transition:.2s ease
+}
+.primary{color:#fff;background:linear-gradient(135deg,#8061ff,#6846d8);border:1px solid rgba(255,255,255,.11);box-shadow:0 14px 34px rgba(124,92,255,.23)}
+.primary:hover{transform:translateY(-3px);box-shadow:0 20px 42px rgba(124,92,255,.31)}
+.secondary{color:#d3d2dc;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08)}
+.secondary:hover{transform:translateY(-3px);border-color:rgba(124,92,255,.42);background:rgba(124,92,255,.06)}
+.footer{position:relative;margin-top:31px;color:#5e5e6c;font-size:10px;letter-spacing:.45px}
+.side{
+position:relative;border-radius:25px;padding:19px;overflow:hidden;
+background:linear-gradient(150deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
+border:1px solid rgba(255,255,255,.075)
+}
+.side:after{
+content:"";position:absolute;width:170px;height:170px;right:-95px;top:-90px;border-radius:50%;
+background:rgba(124,92,255,.14);filter:blur(35px);pointer-events:none
+}
+.sideLabel{font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:1px;color:#a29fad}
+.sideTitle{margin-top:7px;font-size:17px;font-weight:900}
+.infoGrid{display:grid;gap:9px;margin-top:17px}
+.info{
+padding:12px;border-radius:14px;background:rgba(255,255,255,.024);border:1px solid rgba(255,255,255,.05)
+}
+.info b{display:block;font-size:11px;color:#d7d7df}
+.info span{display:block;margin-top:4px;font-size:10px;line-height:1.5;color:#777784}
+.status{
+display:flex;align-items:center;gap:8px;margin-top:16px;padding:11px 12px;border-radius:12px;
+background:rgba(98,239,155,.045);border:1px solid rgba(98,239,155,.09);color:#8fdbad;font-size:10px
+}
+.status i{width:7px;height:7px;border-radius:50%;background:#62ef9b;box-shadow:0 0 12px rgba(98,239,155,.7)}
+.spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#a696ff;box-shadow:0 0 10px #8972ff;opacity:.55}
+.s1{top:15%;left:10%;animation:twinkle 2.7s infinite}.s2{top:27%;right:16%;animation:twinkle 3.3s .5s infinite}.s3{bottom:18%;left:20%;animation:twinkle 3s 1s infinite}
+@keyframes enter{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.7);opacity:.45}}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.8;transform:scale(1.6)}}
+@keyframes float1{50%{transform:translate(75px,40px)}}@keyframes float2{50%{transform:translate(-70px,-55px)}}
+@media(max-width:760px){
+body{padding:13px;overflow:auto}.shell{grid-template-columns:1fr;padding:14px;border-radius:28px}.main{padding:31px 20px 24px}.side{padding:17px}
+}
+@media(max-width:450px){.code{letter-spacing:-5px}.actions{flex-direction:column}.btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="orb one"></div>
+<div class="orb two"></div>
+<div class="spark s1"></div>
+<div class="spark s2"></div>
+<div class="spark s3"></div>
+
+<main class="shell">
+<section class="main">
+<div class="eyebrow"><span class="dot"></span> Zyphor Web</div>
+<div class="logo">Z</div>
+<div class="code">502</div>
+<div class="title">Bad gateway</div>
+<div class="desc">The Zyphor gateway received an invalid response from an upstream service.</div>
+<div class="actions">
+<button class="btn primary" onclick="location.reload()">↻ Retry</button>
+<a class="btn secondary" href="/">↗ Zyphor Home</a>
+</div>
+<div class="footer">zyphor.cc · Error 502</div>
+</section>
+
+<aside class="side">
+<div class="sideLabel">System response</div>
+<div class="sideTitle">What happened?</div>
+<div class="infoGrid">
+<div class="info"><b>Request</b><span>Your request reached the Zyphor web layer, but it could not be completed normally.</span></div>
+<div class="info"><b>Next step</b><span>Return to a valid Zyphor page or retry your request.</span></div>
+<div class="info"><b>Status code</b><span>HTTP 502 response</span></div>
+</div>
+<div class="status"><i></i> Zyphor systems are still responding</div>
+</aside>
+</main>
+</body>
+</html>
