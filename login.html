@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="UTF-8">
@@ -12,30 +11,24 @@
 <script>
 async function loadLogin(){
     try{
-        const serverResponse=await fetch("/server.txt")
-        const backendUrl=(await serverResponse.text()).trim()
+        const serverResponse=await fetch("/server.txt",{cache:"no-store"})
+        const backendUrl=(await serverResponse.text()).trim().replace(/\/+$/,"")
 
         if(!backendUrl){
             throw new Error("No backend URL")
         }
 
-        const response=await fetch(`${backendUrl}/url`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                url:"login"
-            })
+        const response=await fetch(`${backendUrl}/url/login`,{
+            method:"GET"
         })
 
-        const data=await response.json()
-
-        if(!data.success){
+        if(!response.ok){
             throw new Error("Failed to load Login")
         }
 
-        document.getElementById("content").innerHTML=data.html
+        const html=await response.text()
+
+        document.getElementById("content").innerHTML=html
     }catch(err){
         document.getElementById("content").innerText="Failed to load Login"
     }
