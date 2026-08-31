@@ -5,30 +5,30 @@
 <title>Support</title>
 </head>
 <body>
+
 <div id="content"></div>
+
 <script>
 async function loadSupport(){
     try{
-        const serverResponse=await fetch("/server.txt")
-        const backendUrl=(await serverResponse.text()).trim()
+        const serverResponse=await fetch("/server.txt",{cache:"no-store"})
+        const backendUrl=(await serverResponse.text()).trim().replace(/\/+$/,"")
 
-        if(!backendUrl) throw new Error()
+        if(!backendUrl){
+            throw new Error("No backend URL")
+        }
 
-        const response=await fetch(`${backendUrl}/url`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                url:"Support"
-            })
+        const response=await fetch(`${backendUrl}/url/Support`,{
+            method:"GET"
         })
 
-        const data=await response.json()
+        if(!response.ok){
+            throw new Error("Failed to load Support")
+        }
 
-        if(!data.success) throw new Error()
+        const html=await response.text()
 
-        document.getElementById("content").innerHTML=data.html
+        document.getElementById("content").innerHTML=html
     }catch{
         document.getElementById("content").innerText="Failed to load Support"
     }
@@ -36,5 +36,6 @@ async function loadSupport(){
 
 loadSupport()
 </script>
+
 </body>
 </html>
