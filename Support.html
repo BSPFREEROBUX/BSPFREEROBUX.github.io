@@ -1,18 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zyphor Support</title>
-<script>
-(function(){
-    const phone = localStorage.getItem("Phone");
-    const file = phone === "1" ? "1Support.html" : "0Support.html";
-    const hash = window.location.hash || "";
-    window.location.replace(file + hash);
-})();
-</script>
+<title>Support</title>
 </head>
 <body>
+<div id="content"></div>
+<script>
+async function loadSupport(){
+    try{
+        const serverResponse=await fetch("/server.txt")
+        const backendUrl=(await serverResponse.text()).trim()
+
+        if(!backendUrl) throw new Error()
+
+        const response=await fetch(`${backendUrl}/url`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                url:"Support"
+            })
+        })
+
+        const data=await response.json()
+
+        if(!data.success) throw new Error()
+
+        document.getElementById("content").innerHTML=data.html
+    }catch{
+        document.getElementById("content").innerText="Failed to load Support"
+    }
+}
+
+loadSupport()
+</script>
 </body>
 </html>
