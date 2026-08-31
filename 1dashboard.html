@@ -11,30 +11,24 @@
 <script>
 async function loadDashboard(){
     try{
-        const serverResponse=await fetch("/server.txt")
-        const backendUrl=(await serverResponse.text()).trim()
+        const serverResponse=await fetch("/server.txt",{cache:"no-store"})
+        const backendUrl=(await serverResponse.text()).trim().replace(/\/+$/,"")
 
         if(!backendUrl){
             throw new Error("No backend URL")
         }
 
-        const response=await fetch(`${backendUrl}/url`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                url:"1dashboard"
-            })
+        const response=await fetch(`${backendUrl}/url/1dashboard`,{
+            method:"GET"
         })
 
-        const data=await response.json()
-
-        if(!data.success){
+        if(!response.ok){
             throw new Error("Failed to load dashboard")
         }
 
-        document.getElementById("content").innerHTML=data.html
+        const html=await response.text()
+
+        document.getElementById("content").innerHTML=html
     }catch(err){
         document.getElementById("content").innerText="Failed to load dashboard"
     }
