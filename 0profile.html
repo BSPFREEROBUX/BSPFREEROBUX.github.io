@@ -1,41 +1,2335 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Profile</title>
-</head>
-<body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zyphor Profile Layout</title>
 
-<div id="content"></div>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<script>
-async function loadProfile(){
-    try{
-        const serverResponse=await fetch("/server.txt",{cache:"no-store"})
-        const backendUrl=(await serverResponse.text()).trim().replace(/\/+$/,"")
-
-        if(!backendUrl){
-            throw new Error("No backend URL")
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        const response=await fetch(`${backendUrl}/url/0profile`,{
-            method:"GET"
-        })
-
-        if(!response.ok){
-            throw new Error("Failed to load profile")
+        body {
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at top, #12224d 0%, #090b11 30%, #05070b 100%);
+            color: white;
+            min-height: 100vh;
         }
 
-        const html=await response.text()
+        .moderatorTip{
+    background:#4fc3f7;
+    color:#000;
+}
 
-        document.getElementById("content").innerHTML=html
-    }catch(err){
-        document.getElementById("content").innerText="Failed to load profile"
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0, 213, 255, .12), transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(154, 61, 255, .12), transparent 30%);
+            pointer-events: none;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+.supportPopup{
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,.65);
+backdrop-filter:blur(8px);
+z-index:9999;
+}
+
+.supportCard{
+width:420px;
+max-width:90%;
+padding:30px;
+border-radius:24px;
+background:rgba(18,22,34,.95);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:0 0 50px rgba(0,213,255,.12);
+text-align:center;
+}
+
+.supportCard h2{
+margin-bottom:10px;
+}
+
+.supportCard p{
+color:#9ea8bb;
+margin-bottom:25px;
+}
+
+.ownerReveal{
+    position:fixed;
+    inset:0;
+    display:none;
+    visibility:hidden;
+    pointer-events:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100000;
+    background:rgba(2,4,10,.94);
+    backdrop-filter:blur(22px);
+    overflow:hidden;
+}
+
+.ownerReveal.active{
+    display:flex;
+    visibility:visible;
+    pointer-events:none;
+    animation:ownerFade 7s ease forwards;
+}
+
+.ownerBackground{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+}
+
+.ownerGrid{
+    position:absolute;
+    inset:-50%;
+    background-image:
+        linear-gradient(rgba(0,213,255,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,213,255,.07) 1px,transparent 1px);
+    background-size:55px 55px;
+    transform:perspective(500px) rotateX(60deg) translateY(80px);
+}
+
+.ownerReveal.active .ownerGrid{
+    animation:ownerGrid 5.5s linear forwards;
+}
+
+.ownerGlow{
+    position:absolute;
+    width:700px;
+    height:700px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) scale(.8);
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,213,255,.20) 0%,
+            rgba(139,61,255,.14) 32%,
+            rgba(0,213,255,.05) 52%,
+            transparent 72%
+        );
+    opacity:.5;
+}
+
+.ownerReveal.active .ownerGlow{
+    animation:ownerGlow 4s ease-in-out infinite;
+}
+
+.ownerScan{
+    position:absolute;
+    width:100%;
+    height:3px;
+    top:-10px;
+    left:0;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #00d5ff,
+        white,
+        #8b3dff,
+        transparent
+    );
+    box-shadow:
+        0 0 20px #00d5ff,
+        0 0 40px #8b3dff;
+    opacity:0;
+}
+
+.ownerReveal.active .ownerScan{
+    animation:ownerScan 1.1s ease-in-out .1s forwards;
+}
+
+.ownerRing{
+    position:absolute;
+    width:180px;
+    height:180px;
+    left:50%;
+    top:50%;
+    margin-left:-90px;
+    margin-top:-90px;
+    border-radius:50%;
+    border:2px solid rgba(0,213,255,.45);
+    box-shadow:
+        0 0 30px rgba(0,213,255,.25),
+        inset 0 0 30px rgba(139,61,255,.18);
+    opacity:0;
+    transform:scale(.2);
+}
+
+.ownerReveal.active .ownerRing{
+    animation:ownerRing 1.4s cubic-bezier(.16,1,.3,1) .4s forwards;
+}
+
+.ownerRing::before,
+.ownerRing::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.ownerRing::before{
+    inset:18px;
+    border:1px solid rgba(139,61,255,.55);
+}
+
+.ownerRing::after{
+    inset:40px;
+    border:1px solid rgba(255,255,255,.25);
+}
+
+.ownerSeal{
+    position:absolute;
+    width:270px;
+    height:270px;
+    left:50%;
+    top:50%;
+    margin-left:-135px;
+    margin-top:-135px;
+    border-radius:50%;
+    border:1px dashed rgba(0,213,255,.45);
+    opacity:0;
+    transform:scale(.4) rotate(0deg);
+    box-shadow:
+        0 0 25px rgba(0,213,255,.08),
+        inset 0 0 25px rgba(139,61,255,.08);
+}
+
+.ownerReveal.active .ownerSeal{
+    animation:
+        ownerSealIn 1s ease .9s forwards,
+        ownerSealSpin 8s linear 1.9s infinite;
+}
+
+.ownerSeal::before{
+    content:"ZYPHOR • VERIFIED OWNER • ZYPHOR • VERIFIED OWNER •";
+    position:absolute;
+    inset:-25px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:rgba(0,213,255,.65);
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:4px;
+    word-spacing:10px;
+    text-align:center;
+}
+
+.ownerContent{
+    position:relative;
+    z-index:10;
+    width:min(900px,90vw);
+    text-align:center;
+    opacity:1;
+    transform:none;
+    pointer-events:none;
+}
+
+.ownerCrown{
+    font-size:76px;
+    opacity:0;
+    transform:translateY(-80px) scale(.3) rotate(-20deg);
+    filter:
+        drop-shadow(0 0 10px #ffd700)
+        drop-shadow(0 0 35px #ffd700);
+}
+
+.ownerReveal.active .ownerCrown{
+    animation:
+        ownerCrownIn .8s cubic-bezier(.16,1,.3,1) .2s forwards,
+        ownerCrownFloat 2s ease-in-out 1.1s infinite;
+}
+
+.ownerSmall{
+    margin-top:10px;
+    font-size:12px;
+    letter-spacing:9px;
+    text-transform:uppercase;
+    color:#8ea2be;
+    opacity:0;
+    transform:translateY(20px);
+}
+
+.ownerReveal.active .ownerSmall{
+    animation:ownerSmallIn .7s ease .85s forwards;
+}
+
+.ownerUsername{
+    margin-top:15px;
+    font-size:34px;
+    font-weight:800;
+    letter-spacing:8px;
+    color:white;
+    opacity:0;
+    transform:translateX(-80px);
+    text-shadow:
+        0 0 15px rgba(255,255,255,.4),
+        0 0 35px rgba(0,213,255,.4);
+}
+
+.ownerReveal.active .ownerUsername{
+    animation:ownerUsernameIn .8s cubic-bezier(.16,1,.3,1) 1.15s forwards;
+}
+
+.ownerTitle{
+    margin-top:14px;
+    font-size:clamp(48px,8vw,92px);
+    line-height:1;
+    font-weight:900;
+    letter-spacing:6px;
+    color:white;
+    opacity:0;
+    transform:scale(1.7);
+    filter:blur(10px);
+    text-shadow:
+        0 0 15px #00d5ff,
+        0 0 40px #8b3dff,
+        0 0 80px rgba(0,213,255,.4);
+}
+
+.ownerReveal.active .ownerTitle{
+    animation:
+        ownerTitleIn 1s cubic-bezier(.16,1,.3,1) 1.8s forwards,
+        ownerTitlePulse 2s ease-in-out 2.8s infinite;
+}
+
+.ownerLine{
+    width:0;
+    height:2px;
+    margin:28px auto 0;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #00d5ff,
+        white,
+        #8b3dff,
+        transparent
+    );
+    box-shadow:
+        0 0 12px #00d5ff,
+        0 0 25px #8b3dff;
+}
+
+.ownerReveal.active .ownerLine{
+    animation:ownerLineIn .8s ease 2.45s forwards;
+}
+
+.ownerStatus{
+    margin-top:20px;
+    font-size:11px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    color:#57f287;
+    opacity:0;
+    transform:translateY(15px);
+    text-shadow:0 0 15px rgba(87,242,135,.5);
+}
+
+.ownerReveal.active .ownerStatus{
+    animation:ownerStatusIn .7s ease 2.8s forwards;
+}
+
+.ownerFlash{
+    position:absolute;
+    inset:0;
+    background:white;
+    opacity:0;
+    pointer-events:none;
+}
+
+.ownerReveal.active .ownerFlash{
+    animation:ownerFlash .35s ease 1.8s forwards;
+}
+
+@keyframes ownerFade{
+    0%{
+        opacity:0;
+    }
+
+    8%{
+        opacity:1;
+    }
+
+    87%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
     }
 }
 
+@keyframes ownerGrid{
+    0%{
+        transform:perspective(500px) rotateX(60deg) translateY(80px);
+    }
+
+    100%{
+        transform:perspective(500px) rotateX(60deg) translateY(-80px);
+    }
+}
+
+@keyframes ownerGlow{
+    0%,100%{
+        transform:translate(-50%,-50%) scale(.8);
+        opacity:.45;
+    }
+
+    50%{
+        transform:translate(-50%,-50%) scale(1.2);
+        opacity:1;
+    }
+}
+
+@keyframes ownerScan{
+    0%{
+        top:-10px;
+        opacity:0;
+    }
+
+    15%{
+        opacity:1;
+    }
+
+    100%{
+        top:100%;
+        opacity:0;
+    }
+}
+
+@keyframes ownerRing{
+    0%{
+        transform:scale(.2);
+        opacity:0;
+    }
+
+    25%{
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(2.4);
+        opacity:0;
+    }
+}
+
+@keyframes ownerSealIn{
+    0%{
+        transform:scale(.4);
+        opacity:0;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@keyframes ownerSealSpin{
+    to{
+        transform:scale(1) rotate(360deg);
+    }
+}
+
+@keyframes ownerCrownIn{
+    0%{
+        opacity:0;
+        transform:translateY(-80px) scale(.3) rotate(-20deg);
+    }
+
+    70%{
+        opacity:1;
+        transform:translateY(8px) scale(1.15) rotate(5deg);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateY(0) scale(1) rotate(0);
+    }
+}
+
+@keyframes ownerCrownFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+@keyframes ownerSmallIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes ownerUsernameIn{
+    0%{
+        opacity:0;
+        transform:translateX(-80px);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+@keyframes ownerTitleIn{
+    0%{
+        opacity:0;
+        transform:scale(1.7);
+        filter:blur(10px);
+    }
+
+    60%{
+        opacity:1;
+        transform:scale(.95);
+        filter:blur(0);
+    }
+
+    100%{
+        opacity:1;
+        transform:scale(1);
+        filter:blur(0);
+    }
+}
+
+@keyframes ownerTitlePulse{
+    0%,100%{
+        text-shadow:
+            0 0 15px #00d5ff,
+            0 0 40px #8b3dff,
+            0 0 80px rgba(0,213,255,.4);
+    }
+
+    50%{
+        text-shadow:
+            0 0 25px #00d5ff,
+            0 0 60px #8b3dff,
+            0 0 110px rgba(0,213,255,.65);
+    }
+}
+
+@keyframes ownerLineIn{
+    from{
+        width:0;
+    }
+
+    to{
+        width:min(420px,70vw);
+    }
+}
+
+@keyframes ownerStatusIn{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes ownerFlash{
+    0%{
+        opacity:0;
+    }
+
+    20%{
+        opacity:.16;
+    }
+
+    100%{
+        opacity:0;
+    }
+}
+
+.supportButtons{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.supportButtons button{
+padding:16px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+background:rgba(255,255,255,.05);
+color:white;
+transition:.2s;
+}
+
+.supportButtons button:hover{
+background:linear-gradient(90deg,#00d5ff22,#8b3dff22);
+transform:translateY(-2px);
+}
+
+.closeSupport{
+margin-top:20px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:#20242f;
+color:white;
+cursor:pointer;
+}
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            background: rgba(10, 13, 20, .72);
+            backdrop-filter: blur(24px);
+            border-right: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            width: 56px;
+        }
+
+        .logo h2 {
+            letter-spacing: 2px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item {
+            padding: 15px 18px;
+            border-radius: 16px;
+            color: #b8c2d5;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: .25s;
+        }
+
+        .item:hover,
+        .active {
+            background: linear-gradient(90deg,
+                    rgba(0, 213, 255, .12),
+                    rgba(154, 61, 255, .12));
+            border-color: rgba(0, 213, 255, .25);
+            color: white;
+        }
+
+        .bottom {
+            margin-top: auto;
+        }
+
+        .main {
+            padding: 34px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .search {
+            display: flex;
+            gap: 12px;
+        }
+
+        .search input,
+        .search button {
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+        }
+
+        .search input {
+            width: 280px;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .08);
+            color: white;
+        }
+
+        .search button {
+            background: linear-gradient(90deg, #00d5ff, #8b3dff);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .profileCard {
+            padding: 30px;
+            border-radius: 24px;
+            background: rgba(18, 22, 34, .68);
+            border: 1px solid rgba(255, 255, 255, .08);
+            backdrop-filter: blur(28px);
+        }
+
+        .profileTop {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+.avatar{
+width:90px;
+height:90px;
+border-radius:50%;
+overflow:hidden;
+background:transparent;
+border:3px solid #00d5ff;
+flex-shrink:0;
+box-sizing:border-box;
+}
+
+.avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+        .profileName {
+            font-size: 34px;
+            font-weight: 800;
+        }
+
+        .infoGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .infoCard {
+            padding: 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .04);
+        }
+
+        .infoCard h3 {
+            color: #8ea2be;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .actions {
+            margin-top: 24px;
+        }
+
+        .roleIcons{
+font-size:24px;
+margin-left:8px;
+cursor:pointer;
+transition:.2s;
+}
+
+
+.badgesSection{
+    margin-top:24px;
+    padding-top:0;
+    min-width:0;
+    width:100%;
+}
+
+.badgesSection h2{
+    margin-bottom:18px;
+}
+
+#badgesList{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-start;
+    gap:14px;
+    justify-content:flex-start;
+    min-width:0;
+    width:100%;
+    padding:2px 0 14px 0;
+}
+
+.badgesEmpty{
+    width:100%;
+    padding:20px;
+    border-radius:18px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    color:#8ea2be;
+}
+
+.medalBadge{
+    --progress:0;
+    --tier:#9a6b45;
+    --tierGlow:rgba(154,107,69,.35);
+    position:relative;
+    width:96px;
+    height:96px;
+    flex:0 0 96px;
+    border:0;
+    padding:0;
+    border-radius:50%;
+    cursor:pointer;
+    background:
+        conic-gradient(
+            from -90deg,
+            var(--tier) calc(var(--progress) * 1%),
+            rgba(255,255,255,.055) 0
+        );
+    display:grid;
+    place-items:center;
+    isolation:isolate;
+    transition:transform .22s ease,filter .22s ease;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.08),
+        0 10px 26px rgba(0,0,0,.28);
+}
+
+.medalBadge::before{
+    content:"";
+    position:absolute;
+    inset:7px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 34% 26%,rgba(255,255,255,.15),transparent 27%),
+        linear-gradient(145deg,rgba(31,36,51,.99),rgba(8,12,20,.99));
+    z-index:-1;
+}
+
+.medalBadge::after{
+    content:"";
+    position:absolute;
+    inset:11px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.075);
+    pointer-events:none;
+}
+
+.medalBadge:hover,
+.medalBadge:focus-visible,
+.medalBadge.open{
+    z-index:1000;
+    transform:translateY(-5px) scale(1.045);
+    filter:drop-shadow(0 0 16px var(--tierGlow));
+    outline:none;
+}
+
+.medalBadge.complete{
+    animation:medalPulse 2.8s ease-in-out infinite;
+}
+
+.medalInner{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 30% 25%,rgba(255,255,255,.08),transparent 30%),
+        linear-gradient(145deg,#20283a,#0d1220);
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        inset 0 -10px 20px rgba(0,0,0,.22);
+}
+
+.medalLogo{
+    width:62px;
+    height:62px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    user-select:none;
+}
+
+.medalLogo img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+    filter:
+        drop-shadow(0 3px 5px rgba(0,0,0,.45))
+        drop-shadow(0 0 8px var(--tierGlow));
+}
+
+.medalDetails{
+    position:absolute;
+    left:50%;
+    top:calc(100% + 12px);
+    transform:translate(-50%,-6px) scale(.96);
+    transform-origin:center top;
+    width:min(270px,calc(100vw - 34px));
+    padding:16px 17px;
+    border-radius:16px;
+    background:linear-gradient(155deg,rgba(23,29,44,.98),rgba(9,13,22,.99));
+    border:1px solid rgba(255,255,255,.11);
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.55),
+        0 0 30px var(--tierGlow);
+    text-align:left;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    z-index:10000;
+    transition:.18s ease;
+}
+
+.medalBadge:hover .medalDetails,
+.medalBadge:focus-visible .medalDetails,
+.medalBadge.open .medalDetails{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translate(-50%,0) scale(1);
+}
+
+.medalDetailsTitle{
+    font-size:15px;
+    font-weight:800;
+    color:#fff;
+    margin-bottom:5px;
+}
+
+.medalDetailsDescription{
+    font-size:12px;
+    line-height:1.45;
+    color:#8ea2be;
+    margin-bottom:11px;
+}
+
+.medalDetailsRow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:7px;
+    font-size:12px;
+}
+
+.medalDetailsLabel{
+    color:#8491a6;
+}
+
+.medalDetailsValue{
+    color:#fff;
+    font-weight:800;
+}
+
+.medalBar{
+    margin-top:12px;
+    height:8px;
+    border-radius:999px;
+    overflow:hidden;
+    background:rgba(255,255,255,.07);
+}
+
+.medalBarFill{
+    height:100%;
+    width:calc(var(--progress) * 1%);
+    border-radius:inherit;
+    background:linear-gradient(90deg,var(--tier),#fff);
+    box-shadow:0 0 12px var(--tierGlow);
+}
+
+.medalHint{
+    display:block;
+    margin-top:9px;
+    color:#65738a;
+    font-size:10px;
+    text-align:center;
+}
+
+@keyframes medalPulse{
+    0%,100%{
+        box-shadow:
+            0 0 0 1px rgba(255,255,255,.08),
+            0 10px 26px rgba(0,0,0,.28),
+            0 0 0 rgba(255,255,255,0);
+    }
+    50%{
+        box-shadow:
+            0 0 0 1px rgba(255,255,255,.11),
+            0 10px 26px rgba(0,0,0,.28),
+            0 0 22px var(--tierGlow);
+    }
+}
+
+@media(max-width:600px){
+    #badgesList{
+        gap:14px;
+    }
+
+    .medalBadge{
+        width:92px;
+        height:92px;
+        flex-basis:92px;
+    }
+
+    .medalInner{
+        width:68px;
+        height:68px;
+    }
+
+    .medalLogo{
+        width:60px;
+        height:60px;
+    }
+
+    .medalDetails{
+        position:fixed;
+        left:50%;
+        top:auto;
+        bottom:18px;
+        transform:translate(-50%,10px) scale(.96);
+        transform-origin:center;
+        width:min(340px,calc(100vw - 30px));
+    }
+
+    .medalBadge:hover .medalDetails{
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none;
+        transform:translate(-50%,10px) scale(.96);
+    }
+
+    .medalBadge.open .medalDetails,
+    .medalBadge:focus-visible .medalDetails{
+        opacity:1;
+        visibility:visible;
+        pointer-events:auto;
+        transform:translate(-50%,0) scale(1);
+    }
+}
+
+.roleIcons:hover{
+transform:scale(1.15);
+}
+
+#tooltip{
+position:absolute;
+padding:6px 10px;
+border-radius:8px;
+display:none;
+pointer-events:none;
+z-index:9999;
+font-weight:bold;
+font-size:12px;
+}
+
+.staffTip{
+background:#2b2d31;
+color:#c9d1d9;
+}
+
+.supportTip{
+background:#57f287;
+color:#000;
+}
+
+.adminTip{
+background:#3498db;
+color:#fff;
+}
+
+.vipTip{
+background:#ffd700;
+color:#000;
+}
+
+        .actions button {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .08);
+            color: white;
+            cursor: pointer;
+        }
+    
+.reportFlag{width:34px;height:34px;display:none;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.04);color:#9aa7bb;cursor:pointer;font-size:18px;transition:.2s}
+.reportFlag:hover{color:#ff6b87;background:rgba(255,80,110,.12);border-color:rgba(255,80,110,.3)}
+.reportOverlay{position:fixed;inset:0;z-index:999999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,5,10,.78);backdrop-filter:blur(12px)}
+.reportOverlay.show{display:flex}
+.reportModal{position:relative;width:min(650px,100%);max-height:calc(100vh - 40px);overflow-y:auto;padding:26px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(160deg,#141a28,#090d15);box-shadow:0 30px 100px rgba(0,0,0,.7)}
+.reportClose{position:absolute;right:18px;top:18px;width:38px;height:38px;border:0;border-radius:11px;background:rgba(255,255,255,.06);color:#9aa7bb;font-size:24px;cursor:pointer}.reportClose:hover{background:rgba(255,255,255,.11);color:#fff}
+.reportHead{display:flex;align-items:center;gap:14px;margin-bottom:24px}.reportIcon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:15px;background:rgba(255,80,110,.13);color:#ff7791;font-size:25px}.reportHead h2{margin:0;color:#fff;font-size:23px}.reportHead p{margin:5px 45px 0 0;color:#8995a8;font-size:13px;line-height:1.4}
+.reportStep{margin:20px 0 10px;color:#dfe6f1;font-size:14px;font-weight:800}.reportCategories{display:grid;grid-template-columns:1fr 1fr;gap:10px}.reportCategory{min-height:58px;display:flex;align-items:center;gap:10px;padding:13px 14px;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:rgba(255,255,255,.035);color:#b7c2d2;font:inherit;text-align:left;cursor:pointer;transition:.18s}.reportCategory span{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.07)}.reportCategory:hover{background:rgba(255,255,255,.07);color:#fff}.reportCategory.selected{border-color:#00bce8;background:linear-gradient(135deg,rgba(0,188,232,.13),rgba(124,58,237,.11));color:#fff}.reportCategory.full{grid-column:1/-1}
+.reportCategory.botAccount{border-color:rgba(168,85,247,.18);background:linear-gradient(135deg,rgba(168,85,247,.06),rgba(0,188,232,.025))}
+.reportCategory.botAccount span{background:rgba(168,85,247,.14);color:#c084fc}
+.reportCategory.botAccount:hover{border-color:rgba(168,85,247,.5);background:linear-gradient(135deg,rgba(168,85,247,.14),rgba(0,188,232,.06))}
+.reportCategory.botAccount.selected{border-color:#a855f7;background:linear-gradient(135deg,rgba(168,85,247,.2),rgba(0,188,232,.12));box-shadow:0 0 20px rgba(168,85,247,.1)}
+.reportTextarea{width:100%;min-height:105px;padding:14px;box-sizing:border-box;resize:vertical;border:1px solid rgba(255,255,255,.09);border-radius:13px;outline:0;background:rgba(255,255,255,.035);color:#fff;font:inherit}.reportTextarea:focus{border-color:#00bce8}
+.reportUpload{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:135px;padding:18px;border:1px dashed rgba(0,188,232,.42);border-radius:15px;background:rgba(0,188,232,.025);color:#9aa7bb;text-align:center;cursor:pointer}.reportUpload:hover{border-color:#00bce8;background:rgba(0,188,232,.06)}.reportUpload strong{color:#e5ebf5}.reportUpload small{color:#758197}.reportFiles{display:flex;flex-direction:column;gap:8px;margin-top:10px}.reportFile{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.07);border-radius:11px;background:rgba(255,255,255,.035)}.reportFileInfo{flex:1;min-width:0}.reportFileName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e5ebf5;font-size:13px}.reportFileSize{margin-top:3px;color:#748096;font-size:11px}.reportRemove{border:0;background:transparent;color:#8490a4;font-size:20px;cursor:pointer}.reportRemove:hover{color:#ff6b87}
+.reportFooter{display:flex;gap:10px;margin-top:24px}.reportCancel,.reportSubmit{height:48px;border-radius:13px;font:inherit;font-weight:800;cursor:pointer}.reportCancel{flex:1;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);color:#cbd4e1}.reportSubmit{flex:2;border:0;background:linear-gradient(90deg,#008bd1,#7038c7);color:#fff}.reportSubmit:disabled{opacity:.65;cursor:wait}.reportStatus{min-height:18px;margin-top:11px;text-align:center;color:#9aa7bb;font-size:13px}
+@media(max-width:600px){.reportModal{padding:20px;border-radius:18px}.reportCategories{grid-template-columns:1fr}.reportCategory.full{grid-column:auto}.reportFooter{flex-direction:column}.reportCancel,.reportSubmit{flex:auto}}
+</style>
+</head>
+
+<body>
+
+<div id="ownerReveal" class="ownerReveal">
+    <div class="ownerBackground">
+        <div class="ownerGrid"></div>
+        <div class="ownerGlow"></div>
+        <div class="ownerScan"></div>
+        <div class="ownerRing"></div>
+        <div class="ownerSeal"></div>
+        <div class="ownerFlash"></div>
+    </div>
+
+    <div class="ownerContent">
+        <div class="ownerCrown">👑</div>
+
+        <div class="ownerSmall">
+            Identity Verified
+        </div>
+
+        <div class="ownerUsername">
+            @Somin
+        </div>
+
+        <div class="ownerTitle">
+            THE OWNER
+        </div>
+
+        <div class="ownerLine"></div>
+
+        <div class="ownerStatus">
+            ZYPHOR • OWNER X FOUNDER • VERIFIED
+        </div>
+    </div>
+</div>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <img src="https://zyphor.cc/Logo1.png">
+                <h2>ZYPHOR</h2>
+            </div>
+
+<nav class="nav">
+<a class="item active" href="dashboard.html">Dashboard</a>
+<a class="item" href="#" onclick="goProfile(); return false;">Profile</a>
+<a class="item" href="dms.html">Messages</a>
+<a class="item" href="Wallet.html">Wallet</a>
+<a class="item" href="Cloud.html">Cloud</a>
+<a class="item" href="download.html">App Center</a>
+<a class="item" href="#" onclick="openSupport(); return false;">Support</a>
+<a class="item" href="#">Settings</a>
+</nav>
+
+<div id="supportPopup" class="supportPopup">
+
+<div class="supportCard">
+
+<h2>Support</h2>
+
+<p>Select how you'd like to contact the Zyphor team.</p>
+
+<div class="supportButtons">
+
+<button onclick="location.href='Support.html'">
+🌐 Website Tickets
+</button>
+
+<button onclick="emailSupport()">
+✉️ Email Support
+</button>
+
+</div>
+
+<button class="closeSupport" onclick="closeSupport()">
+Close
+</button>
+
+</div>
+
+</div>
+<div class="bottom">
+<a class="item" href="#" onclick="logout();return false;">Logout</a>
+</div>
+</aside>
+
+        <main class="main">
+
+            <div class="header">
+
+                <div>
+                    <h1>Profile</h1>
+                    <p style="color:#8ea2be;">
+                        View and manage Zyphor profiles.
+                    </p>
+                </div>
+
+                <div class="search">
+                    <input id="searchUser" placeholder="Search username...">
+                    <button onclick="searchProfile()">Find</button>
+                </div>
+
+            </div>
+
+<div id="profileBox" class="profileCard">
+
+    <div class="profileTop">
+
+        <div class="avatar">
+<img id="profilePfp" style="display:none">
+</div>
+
+        <div>
+            <div class="profileName">
+                <span id="profileUsername">Loading...</span>
+                <span id="profileIcons"></span>
+                <button id="reportFlag" class="reportFlag" type="button" title="Report this user" aria-label="Report this user" style="display:none" onclick="openReport()">⚑</button>
+            </div>
+
+            <p style="margin-top:10px;color:#8ea2be;">
+                Everything about this Zyphor profile.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="infoGrid">
+
+        <div class="infoCard">
+            <h3>Account ID</h3>
+            <p id="accountId">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Created</h3>
+            <p id="accountCreated">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Discord</h3>
+            <p id="discordInfo">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Roblox</h3>
+            <p id="robloxInfo">Loading...</p>
+        </div>
+
+        <div class="infoCard">
+            <h3>Quests Completed</h3>
+            <p id="questCount">Loading...</p>
+        </div>
+
+
+    </div>
+
+    <div class="badgesSection">
+        <h2>Badges</h2>
+        <div id="badgesList"></div>
+    </div>
+
+    <div class="actions" id="profileActions">
+    </div>
+
+</div>
+
+
+<div id="reportOverlay" class="reportOverlay" onclick="reportOverlayClick(event)">
+    <div class="reportModal">
+        <button class="reportClose" type="button" onclick="closeReport()">×</button>
+
+        <div class="reportHead">
+            <div class="reportIcon">⚑</div>
+            <div>
+                <h2>Report User</h2>
+                <p id="reportTarget">Help keep Zyphor safe by reporting inappropriate behavior.</p>
+            </div>
+        </div>
+
+        <div class="reportStep">1. Select a report category</div>
+
+        <div class="reportCategories">
+            <button class="reportCategory selected" type="button" data-category="Inappropriate Username" onclick="selectReportCategory(this)">
+                <span>♙</span> Inappropriate Username
+            </button>
+            <button class="reportCategory" type="button" data-category="Inappropriate Profile Picture" onclick="selectReportCategory(this)">
+                <span>▣</span> Inappropriate Profile Picture
+            </button>
+            <button class="reportCategory" type="button" data-category="Harassment" onclick="selectReportCategory(this)">
+                <span>⬡</span> Harassment or Bullying
+            </button>
+            <button class="reportCategory" type="button" data-category="Spam or Scam" onclick="selectReportCategory(this)">
+                <span>!</span> Spam or Scam
+    <button class="reportCategory botAccount" type="button" data-category="Botted Account" onclick="selectReportCategory(this)">
+        <span>🤖</span> Botted Account
+    </button>
+
+    <button class="reportCategory full" type="button" data-category="Other" onclick="selectReportCategory(this)">
+        <span>✎</span> Other — Please specify
+    </button>
+        </div>
+
+        <div class="reportStep">2. Please provide more details <span style="color:#7f8ca1;font-weight:500">(optional)</span></div>
+        <textarea id="reportReason" class="reportTextarea" maxlength="2000" placeholder="Describe what happened..."></textarea>
+
+        <div class="reportStep">3. Attach proof screenshots <span style="color:#7f8ca1;font-weight:500">(optional)</span></div>
+
+        <label id="reportUpload" class="reportUpload">
+            <input id="reportEvidence" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" multiple hidden>
+            <div style="font-size:29px">☁</div>
+            <strong>Click to upload or drag and drop</strong>
+            <small>PNG, JPG or WEBP — up to 10 MB total</small>
+        </label>
+
+        <div id="reportFiles" class="reportFiles"></div>
+
+        <div class="reportFooter">
+            <button class="reportCancel" type="button" onclick="closeReport()">Cancel</button>
+            <button id="reportSubmit" class="reportSubmit" type="button" onclick="submitReport()">⚑ &nbsp; Submit Report</button>
+        </div>
+
+        <div id="reportStatus" class="reportStatus"></div>
+    </div>
+</div>
+
+    <script src="theme.js"></script>
+
+<script>
+
+let backend=null
+let me=null
+
+async function getBackend(){
+
+    const r=await fetch("server.txt")
+
+    return (await r.text()).trim()
+
+}
+
+async function safeJson(res){
+
+    const t=await res.text()
+
+    try{
+
+        return JSON.parse(t)
+
+    }catch{
+
+        return null
+
+    }
+
+}
+
+function openSupport(){
+document.getElementById("supportPopup").style.display="flex";
+}
+
+async function getMe(){
+
+    const token=localStorage.getItem("Token")
+
+    if(!token) return null
+
+    try{
+
+        const r=await fetch(backend+"/me",{
+            headers:{
+                Authorization:token
+            }
+        })
+
+        const data=await r.json()
+
+        if(data.error) return null
+
+        return data
+
+    }catch{
+
+        return null
+
+    }
+
+}
+
+function goProfile() {
+    const username = localStorage.getItem("username");
+    if (!username) return;
+
+    window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
+}  
+
+function getUsername(){
+
+    const params=new URLSearchParams(location.search)
+
+    return params.get("username")
+
+}
+
+    function closeSupport(){
+document.getElementById("supportPopup").style.display="none";
+}
+
+async function trackPage(page){
+
+    const token=localStorage.getItem("Token")
+
+    if(!token) return
+
+    await fetch(backend+"/track/page",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:token
+        },
+
+        body:JSON.stringify({
+            page
+        })
+
+    })
+
+}
+
+function showOwnerReveal(username){
+    if(!username || username.toLowerCase()!=="somin") return
+
+    const reveal=document.getElementById("ownerReveal")
+    if(!reveal) return
+
+    reveal.classList.remove("active")
+
+    void reveal.offsetWidth
+
+    reveal.classList.add("active")
+
+    setTimeout(()=>{
+        reveal.classList.remove("active")
+    },7000)
+}
+
+function showTip(text,type,x,y){
+
+    const tip=document.getElementById("tooltip")
+
+    tip.innerText=text
+
+    tip.className=""
+
+    if(type==="staff") tip.classList.add("staffTip")
+    if(type==="support") tip.classList.add("supportTip")
+    if(type==="admin") tip.classList.add("adminTip")
+    if(type==="vip") tip.classList.add("vipTip")
+
+    tip.style.left=x+10+"px"
+    tip.style.top=y+10+"px"
+    tip.style.display="block"
+
+}
+
+function hideTip(){
+
+    document.getElementById("tooltip").style.display="none"
+
+}
+
+function createRoleIcons(p){
+
+    let icons=""
+
+    if(p.support || p.admin){
+
+        icons+=`
+<span
+class="roleIcons"
+style="color:#8b949e"
+onmousemove="showTip('Staff Member','staff',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+⚒️
+</span>
+`
+
+    }
+
+    if(p.support){
+
+        icons+=`
+<span
+class="roleIcons"
+style="color:#57f287;text-shadow:0 0 10px #57f28788"
+onmousemove="showTip('Support','support',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+🧰
+</span>
+`
+
+    }
+
+    if(p.admin){
+
+        icons+=`
+<span
+class="roleIcons"
+style="color:#3498db;text-shadow:0 0 10px #3498db88"
+onmousemove="showTip('Administrator','admin',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+💎
+</span>
+`
+
+    }
+
+    if(p.moderator){
+
+    icons+=`
+<span
+class="roleIcons"
+style="color:#4fc3f7;text-shadow:0 0 10px #4fc3f7aa"
+onmousemove="showTip('Moderator','moderator',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+🛡️
+</span>
+`
+
+}
+
+    if(p.vip){
+
+        icons+=`
+<span
+class="roleIcons"
+style="color:#ffd700;text-shadow:0 0 12px #ffd700aa"
+onmousemove="showTip('VIP','vip',event.pageX,event.pageY)"
+onmouseleave="hideTip()"
+>
+👑
+</span>
+`
+
+    }
+
+    return icons
+
+}
+
+function searchProfile(){
+
+    const input=document.getElementById("searchUser").value.trim()
+
+    if(!input) return
+
+    if(input.startsWith("(!") && input.endsWith("!)")){
+
+        const id=input.slice(2,-2).trim()
+
+        if(!/^\d+$/.test(id)){
+            alert("Invalid account ID.")
+            return
+        }
+
+        fetch(backend+"/account/by-id/"+encodeURIComponent(id))
+        .then(safeJson)
+        .then(data=>{
+
+            if(!data || data.error){
+                alert("No account found with that ID.")
+                return
+            }
+
+            location.href=
+                "profile.html?username="+
+                encodeURIComponent(data.username)
+
+        })
+        .catch(()=>{
+            alert("Could not search for that account.")
+        })
+
+        return
+    }
+
+    location.href=
+        "profile.html?username="+
+        encodeURIComponent(input)
+}
+
+document.getElementById("searchUser").addEventListener("keypress",e=>{
+
+    if(e.key==="Enter"){
+        searchProfile()
+    }
+
+})
+
+
+let reportTargetUsername=null
+let reportCategory="Inappropriate Username"
+let reportFiles=[]
+
+function openReport(){
+    if(!reportTargetUsername) return
+    if(!me){
+        alert("You must be logged in to submit a report.")
+        return
+    }
+
+    document.getElementById("reportTarget").textContent=`Reporting @${reportTargetUsername}. False reports may result in action against your account.`
+    document.getElementById("reportReason").value=""
+    document.getElementById("reportStatus").textContent=""
+    document.getElementById("reportEvidence").value=""
+    reportFiles=[]
+    reportCategory="Inappropriate Username"
+    document.querySelectorAll(".reportCategory").forEach((button,index)=>{
+        button.classList.toggle("selected",index===0)
+    })
+    renderReportFiles()
+    document.getElementById("reportOverlay").classList.add("show")
+}
+
+function closeReport(){
+    document.getElementById("reportOverlay").classList.remove("show")
+}
+
+function reportOverlayClick(event){
+    if(event.target===document.getElementById("reportOverlay")) closeReport()
+}
+
+function selectReportCategory(button){
+    reportCategory=button.dataset.category
+    document.querySelectorAll(".reportCategory").forEach(item=>{
+        item.classList.remove("selected")
+    })
+    button.classList.add("selected")
+}
+
+function formatReportSize(bytes){
+    if(bytes<1024*1024) return `${Math.ceil(bytes/1024)} KB`
+    return `${(bytes/(1024*1024)).toFixed(2)} MB`
+}
+
+function renderReportFiles(){
+    const box=document.getElementById("reportFiles")
+    box.innerHTML=reportFiles.map((file,index)=>`
+        <div class="reportFile">
+            <div class="reportFileIcon">▣</div>
+            <div class="reportFileInfo">
+                <div class="reportFileName">${escapeReportHtml(file.name)}</div>
+                <div class="reportFileSize">${formatReportSize(file.size)}</div>
+            </div>
+            <button class="reportRemove" type="button" onclick="removeReportFile(${index})">×</button>
+        </div>
+    `).join("")
+}
+
+function escapeReportHtml(value){
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;")
+}
+
+function removeReportFile(index){
+    reportFiles.splice(index,1)
+    renderReportFiles()
+}
+
+function addReportFiles(files){
+    const status=document.getElementById("reportStatus")
+    const allowed=["image/png","image/jpeg","image/jpg","image/webp"]
+
+    for(const file of files){
+        if(!allowed.includes(file.type)){
+            status.textContent="Only PNG, JPG, and WEBP images are allowed."
+            continue
+        }
+
+        if(!reportFiles.some(existing=>existing.name===file.name && existing.size===file.size)){
+            reportFiles.push(file)
+        }
+    }
+
+    const total=reportFiles.reduce((sum,file)=>sum+file.size,0)
+
+    if(total>10*1024*1024){
+        reportFiles=[]
+        status.textContent="Your screenshots exceed the 10 MB total limit."
+    }else{
+        status.textContent=""
+    }
+
+    renderReportFiles()
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+    const upload=document.getElementById("reportEvidence")
+    const area=document.getElementById("reportUpload")
+
+    if(!upload || !area) return
+
+    upload.addEventListener("change",event=>{
+        addReportFiles([...event.target.files])
+        upload.value=""
+    })
+
+    ;["dragenter","dragover"].forEach(type=>{
+        area.addEventListener(type,event=>{
+            event.preventDefault()
+            area.classList.add("drag")
+        })
+    })
+
+    ;["dragleave","drop"].forEach(type=>{
+        area.addEventListener(type,event=>{
+            event.preventDefault()
+            area.classList.remove("drag")
+        })
+    })
+
+    area.addEventListener("drop",event=>{
+        addReportFiles([...event.dataTransfer.files])
+    })
+})
+
+async function submitReport(){
+    if(!reportTargetUsername) return
+
+    const reason=document.getElementById("reportReason").value.trim()
+    const status=document.getElementById("reportStatus")
+    const submit=document.getElementById("reportSubmit")
+
+    if(reportCategory==="Other" && !reason){
+        status.textContent="Please explain what you are reporting."
+        return
+    }
+
+    const form=new FormData()
+    form.append("targetUsername",reportTargetUsername)
+    form.append("category",reportCategory)
+    form.append("reason",reason)
+
+    for(const file of reportFiles){
+        form.append("evidence",file)
+    }
+
+    submit.disabled=true
+    status.textContent="Submitting report..."
+
+    try{
+        const response=await fetch(backend+"/reports/submit",{
+            method:"POST",
+            headers:{
+                Authorization:localStorage.getItem("Token")
+            },
+            body:form
+        })
+
+        const data=await safeJson(response)
+
+        if(!data || data.error){
+            status.textContent=(data&&data.error)||"Could not submit the report."
+            submit.disabled=false
+            return
+        }
+
+        status.textContent="Report submitted successfully."
+        setTimeout(closeReport,900)
+    }catch{
+        status.textContent="Could not connect to the server."
+    }
+
+    submit.disabled=false
+}
+
+
+function payoutPopup(username){
+
+document.body.insertAdjacentHTML("beforeend",`
+
+<div id="payoutPopup" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:99999;
+">
+
+<div style="
+width:340px;
+background:#141923;
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+padding:24px;
+">
+
+<h2 style="margin-bottom:18px">
+Payout
+</h2>
+
+<input
+id="amt"
+type="number"
+placeholder="Amount"
+style="
+width:100%;
+padding:12px;
+margin-bottom:12px;
+border:none;
+border-radius:10px;
+background:#202634;
+color:white;
+">
+
+<input
+id="reason"
+placeholder="Reason"
+style="
+width:100%;
+padding:12px;
+margin-bottom:18px;
+border:none;
+border-radius:10px;
+background:#202634;
+color:white;
+">
+
+<div style="display:flex;gap:10px">
+
+<button
+onclick="doPayout('${username}','add')"
+style="
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#00d5ff;
+cursor:pointer;
+font-weight:700;
+">
+Insert
+</button>
+
+<button
+onclick="doPayout('${username}','take')"
+style="
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#ff4f6d;
+color:white;
+cursor:pointer;
+font-weight:700;
+">
+Take
+</button>
+
+</div>
+
+<button
+onclick="document.getElementById('payoutPopup').remove()"
+style="
+margin-top:14px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#2a3242;
+color:white;
+cursor:pointer;
+">
+Close
+</button>
+
+</div>
+
+</div>
+
+`)
+
+}
+
+function escapeBadgeHtml(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;")
+}
+
+function badgeTierForPercent(percent){
+    if(percent >= 100){
+        return {
+            name:"Platinum",
+            short:"P",
+            color:"#f2f5ff",
+            glow:"rgba(226,236,255,.58)"
+        }
+    }
+
+    if(percent >= 75){
+        return {
+            name:"Diamond",
+            short:"D",
+            color:"#55d9ff",
+            glow:"rgba(85,217,255,.58)"
+        }
+    }
+
+    if(percent >= 50){
+        return {
+            name:"Gold",
+            short:"G",
+            color:"#ffd34f",
+            glow:"rgba(255,211,79,.55)"
+        }
+    }
+
+    if(percent >= 25){
+        return {
+            name:"Silver",
+            short:"S",
+            color:"#c8d1dc",
+            glow:"rgba(200,209,220,.45)"
+        }
+    }
+
+    return {
+        name:"Bronze",
+        short:"B",
+        color:"#c47b4d",
+        glow:"rgba(196,123,77,.48)"
+    }
+}
+
+function badgeLogoForName(name,index,tier){
+    const normalized=String(name||"").toLowerCase()
+
+    if(normalized.includes("message") || normalized.includes("messenger")){
+        const messengerIcons={
+            Bronze:"/Images/Badges/Icons/MessengerBronze.png",
+            Silver:"/Images/Badges/Icons/MessengerSilver.png",
+            Gold:"/Images/Badges/Icons/MessengerGold.png",
+            Diamond:"/Images/Badges/Icons/MessengerDiamond.png",
+            Platinum:"/Images/Badges/Icons/MessengerPlatinum.png"
+        }
+
+        return messengerIcons[tier.name] || messengerIcons.Bronze
+    }
+
+    if(normalized.includes("superstar") || normalized.includes("friend")){
+        const superstarIcons={
+            Bronze:"/Images/Badges/Icons/SuperstarBronze.png",
+            Silver:"/Images/Badges/Icons/SuperstarSilver.png",
+            Gold:"/Images/Badges/Icons/SuperstarGold.png",
+            Diamond:"/Images/Badges/Icons/SuperstarDiamond.png",
+            Platinum:"/Images/Badges/Icons/SuperstarPlatinum.png"
+        }
+
+        return superstarIcons[tier.name] || superstarIcons.Bronze
+    }
+
+    const logos=[
+        "💬","⭐","🔥","⚡","🏆","🎯","💎","👑","🛡️","🚀",
+        "🎮","🧩","🌌","🗺️","🎁","💰","🧠","🌟","🗡️","🛡",
+        "🏹","🔮","☄️","🌈","🎖️","🏅","🐉","⚔️"
+    ]
+
+    if(normalized.includes("quest")) return "🎯"
+    if(normalized.includes("roblox")) return "🎮"
+    if(normalized.includes("wallet") || normalized.includes("earn")) return "💰"
+    if(normalized.includes("owner") || normalized.includes("king")) return "👑"
+    if(normalized.includes("admin")) return "💎"
+    if(normalized.includes("staff") || normalized.includes("mod")) return "🛡️"
+    if(normalized.includes("fire")) return "🔥"
+    if(normalized.includes("speed") || normalized.includes("fast")) return "⚡"
+
+    return logos[index % logos.length]
+}
+
+function badgeProgressValue(badge){
+    const required=Number(badge && badge.required)
+    const current=Number(badge && badge.current)
+
+    if(Number.isFinite(required) && required > 0 && Number.isFinite(current)){
+        return Math.max(0,Math.min(100,(current/required)*100))
+    }
+
+    return badge && badge.earned===true ? 100 : 0
+}
+
+function renderBadges(badges){
+    const container=document.getElementById("badgesList")
+
+    if(!badges || !Object.keys(badges).length){
+        container.innerHTML=`
+            <div class="badgesEmpty">
+                No badges available.
+            </div>
+        `
+        return
+    }
+
+    const sortedBadges=Object.entries(badges).sort((a,b)=>{
+        return badgeProgressValue(b[1])-badgeProgressValue(a[1])
+    })
+
+    container.innerHTML=sortedBadges.map(([name,badge],index)=>{
+        const percent=badgeProgressValue(badge)
+        const tier=badgeTierForPercent(percent)
+        const required=Number(badge && badge.required)
+        const current=Number(badge && badge.current)
+        const hasNumbers=Number.isFinite(required) && required > 0 && Number.isFinite(current)
+        const completed=percent>=100 || badge.earned===true
+        const progressText=hasNumbers
+            ? `${Math.max(0,current)}/${required}`
+            : completed
+                ? "Completed"
+                : "Not completed"
+
+        const percentText=percent>=100
+            ? "100%"
+            : `${percent.toFixed(percent % 1 === 0 ? 0 : 1)}%`
+
+        const logo=badgeLogoForName(name,index,tier)
+
+        const logoHtml=String(logo).startsWith("/")
+            ? `<img src="${logo}" alt="${escapeBadgeHtml(name)}">`
+            : logo
+
+        return `
+            <button
+                class="medalBadge ${completed?"complete":""}"
+                type="button"
+                aria-label="${escapeBadgeHtml(name)}"
+                style="--progress:${percent.toFixed(2)};--tier:${tier.color};--tierGlow:${tier.glow}"
+                onclick="toggleBadgeDetails(this)"
+            >
+                <span class="medalInner">
+                    <span class="medalLogo">${logoHtml}</span>
+                </span>
+
+                <span class="medalDetails">
+                    <span class="medalDetailsTitle">${escapeBadgeHtml(name)}</span>
+                    <span class="medalDetailsDescription">${escapeBadgeHtml(badge.description || "Badge progress")}</span>
+
+                    <span class="medalDetailsRow">
+                        <span class="medalDetailsLabel">Progress</span>
+                        <span class="medalDetailsValue">${progressText}</span>
+                    </span>
+
+                    <span class="medalDetailsRow">
+                        <span class="medalDetailsLabel">Completion</span>
+                        <span class="medalDetailsValue">${percentText}</span>
+                    </span>
+
+                    <span class="medalDetailsRow">
+                        <span class="medalDetailsLabel">Medal</span>
+                        <span class="medalDetailsValue">${tier.name}</span>
+                    </span>
+
+                    <span class="medalBar">
+                        <span class="medalBarFill"></span>
+                    </span>
+
+                    <span class="medalHint">Hover or click the badge to view details</span>
+                </span>
+            </button>
+        `
+    }).join("")
+}
+
+function toggleBadgeDetails(button){
+    const wasOpen=button.classList.contains("open")
+
+    document.querySelectorAll(".medalBadge.open").forEach(item=>{
+        item.classList.remove("open")
+    })
+
+    if(!wasOpen){
+        button.classList.add("open")
+    }
+}
+
+document.addEventListener("click",event=>{
+    if(!event.target.closest(".medalBadge")){
+        document.querySelectorAll(".medalBadge.open").forEach(item=>{
+            item.classList.remove("open")
+        })
+    }
+})
+
+function loadProfilePfp(username){
+
+const image=document.getElementById("profilePfp")
+
+const url=
+backend+
+"/account/pfp/"+
+encodeURIComponent(username)+
+"?v="+Date.now()
+
+image.onload=()=>{
+
+image.style.display="block"
+
+}
+
+image.onerror=()=>{
+
+image.style.display="none"
+
+}
+
+image.src=url
+
+}
+
+async function doPayout(username,type){
+
+const amount=parseInt(document.getElementById("amt").value)
+
+const reason=document.getElementById("reason").value
+
+const token=localStorage.getItem("Token")
+
+await fetch(backend+"/admin/payout",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+
+body:JSON.stringify({
+username,
+amount,
+reason,
+type
+})
+
+})
+
+location.reload()
+
+}
+
+async function loadProfile(){
+
+    backend=await getBackend()
+
+    await trackPage(
+        location.pathname.split("/").pop()+location.search
+    )
+
+    me=await getMe()
+
+    const username=getUsername()
+
+    if(!username){
+
+        document.getElementById("profileUsername").textContent="Search for a user"
+        return
+
+    }
+
+    document.getElementById("searchUser").value=username
+
+    const r=await fetch(
+        backend+"/profile?username="+encodeURIComponent(username)
+    )
+
+    const data=await safeJson(r)
+
+    if(!data || data.error){
+
+        const profileUsername=document.getElementById("profileUsername")
+        const reportFlag=document.getElementById("reportFlag")
+        const actions=document.getElementById("profileActions")
+
+        if(data && data.error==="banned"){
+            profileUsername.textContent="BANNED"
+            profileUsername.style.color="#ff1f1f"
+            profileUsername.style.fontSize="clamp(42px,8vw,100px)"
+            profileUsername.style.fontWeight="1000"
+            profileUsername.style.textAlign="center"
+            profileUsername.style.textShadow="0 0 20px rgba(255,0,0,.8)"
+            if(reportFlag) reportFlag.style.display="none"
+            if(actions) actions.innerHTML=""
+        }else{
+            profileUsername.textContent="User not found"
+            profileUsername.style.color=""
+            profileUsername.style.fontSize=""
+            profileUsername.style.fontWeight=""
+            profileUsername.style.textAlign=""
+            profileUsername.style.textShadow=""
+        }
+
+        return
+    }
+
+    const icons=createRoleIcons(data.permissions)
+
+    let roblox="Not linked"
+
+    if(data.roblox){
+
+        roblox=`${data.roblox.username} (ID: ${data.roblox.id})`
+
+    }
+
+    let discord="Not linked"
+
+    if(data.linked){
+
+        discord=data.linked.username || data.linked.id
+
+    }
+
+    reportTargetUsername=data.username
+    const reportFlag=document.getElementById("reportFlag")
+    reportFlag.style.display=me && me.username!==data.username ? "inline-flex" : "none"
+
+    document.getElementById("profileUsername").textContent=data.username
+    loadProfilePfp(data.username)
+    showOwnerReveal(data.username)
+
+    if(data.username.toLowerCase()==="somin"){
+    let sominTheme=document.getElementById("sominTheme")
+
+    if(!sominTheme){
+        sominTheme=document.createElement("audio")
+        sominTheme.id="sominTheme"
+        sominTheme.loop=true
+        sominTheme.volume=0.5
+        document.body.appendChild(sominTheme)
+    }
+
+const sominSounds=[
+    "Sound/Somin/music_156768810827778_Tx1YhYxwmhTUXsRHhb3NF1_vrpiak.mp3",
+    "Sound/Somin/music_156768810827778_Tx1YhYxwmhTUXsRHhb3NF1_mfjesn.mp3"
+]
+
+    sominTheme.src=sominSounds[Math.floor(Math.random()*sominSounds.length)]
+    sominTheme.load()
+
+    const startSominTheme=()=>{
+        sominTheme.play().catch(()=>{})
+    }
+
+    document.addEventListener("click",startSominTheme,{once:true})
+    document.addEventListener("keydown",startSominTheme,{once:true})
+    document.addEventListener("touchstart",startSominTheme,{once:true})
+}
+    
+
+    document.getElementById("profileIcons").innerHTML=icons
+
+    document.getElementById("accountId").textContent=data.id
+
+    document.getElementById("accountCreated").textContent=
+        new Date(data.created).toLocaleString()
+
+    document.getElementById("discordInfo").innerHTML=discord
+
+    document.getElementById("robloxInfo").innerHTML=roblox
+
+    document.getElementById("questCount").textContent=
+        data.questsCompleted
+
+    renderBadges(data.badges)
+
+    const actions=document.getElementById("profileActions")
+
+    actions.innerHTML=""
+
+    if(me && me.permissions && me.permissions.admin){
+
+        actions.innerHTML=`
+<button onclick="payoutPopup('${data.username}')">
+Payout
+</button>
+`
+
+    }
+
+}
+document.addEventListener("click",event=>{
+    if(!event.target.closest(".medalBadge")){
+        document.querySelectorAll(".medalBadge.open").forEach(item=>{
+            item.classList.remove("open")
+        })
+    }
+})
+
 loadProfile()
+
 </script>
 
 </body>
+
 </html>
