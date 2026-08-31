@@ -1,40 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>DMS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
 </head>
 <body>
 
-<div id="content"></div>
-
 <script>
-async function loadDMS(){
-    try{
-        const serverResponse=await fetch("/server.txt",{cache:"no-store"})
-        const backendUrl=(await serverResponse.text()).trim().replace(/\/+$/,"")
+const phone = localStorage.getItem("Phone");
 
-        if(!backendUrl){
-            throw new Error("No backend URL")
-        }
-
-        const response=await fetch(`${backendUrl}/url/DMS`,{
-            method:"GET"
-        })
-
-        if(!response.ok){
-            throw new Error("Failed to load DMS")
-        }
-
-        const html=await response.text()
-
-        document.getElementById("content").innerHTML=html
-    }catch(err){
-        document.getElementById("content").innerText="Failed to load DMS"
-    }
+if (phone === "1") {
+    location.replace("1dms.html");
+} else {
+    location.replace("0dms.html");
 }
-
-loadDMS()
 </script>
 
 </body>
