@@ -1,1 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#070711">
+<title>Create Account</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
+:root{
+--bg:#05050a;
+--bg2:#080914;
+--bg3:#0d0f1c;
+--panel:rgba(13,15,28,.72);
+--panel2:rgba(17,20,36,.88);
+--panel3:rgba(255,255,255,.035);
+--line:rgba(255,255,255,.075);
+--line2:rgba(255,255,255,.13);
+--white:#fff;
+--text:#f5f6fb;
+--sub:#a0a7b8;
+--sub2:#70798d;
+--purple:#8a5cf6;
+--purple2:#ad83ff;
+--blue:#4d8dff;
+--cyan:#43d7ff;
+--green:#3de39c;
+--red:#ff6180;
+--yellow:#ffc967;
+--radius:30px;
+--shadow:0 40px 120px rgba(0,0,0,.58);
+}
+
+*{box-sizing:border-box}
+
+html{
+min-height:100%;
+background:var(--bg);
+}
+
+body{
+margin:0;
+min-height:100vh;
+font-family:Inter,Arial,sans-serif;
+color:var(--text);
+background:
+radial-gradient(circle at 0% 0%,rgba(125,66,255,.16),transparent 28%),
+radial-gradient(circle at 100% 100%,rgba(43,139,255,.13),transparent 30%),
+linear-gradient(140deg,#04040a,#090a13 48%,#05060c);
+overflow-x:hidden;
+}
+
+body:before{
+content:"";
+position:fixed;
+inset:0;
+z-index:-10;
+pointer-events:none;
+background:
+linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+background-size:52px 52px;
+mask-image:linear-gradient(to bottom,rgba(0,0,0,.85),transparent 92%);
+-webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.85),transparent 92%);
+}
+
+body:after{
+content:"";
+position:fixed;
+inset:0;
+z-index:-9;
+pointer-events:none;
+background:
+radial-gradient(circle at 50% 0%,rgba(255,255,255,.045),transparent 26%),
+radial-gradient(circle at 50% 100%,rgba(0,0,0,.45),transparent 38%);
+}
+
+button,input{font:inherit}
+
+button{color:inherit}
+
+.app{
+position:relative;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:44px;
+}
+
+.ambient{
+position:fixed;
+pointer-events:none;
+z-index:-2;
+border-radius:50%;
+filter:blur(100px);
+opacity:.34;
+}
+
+.ambient.one{
+width:420px;
+height:420px;
+top:-180px;
+left:-140px;
+background:#6d39ff;
+animation:orbFloat 12s ease-in-out infinite;
+}
+
+.ambient.two{
+width:460px;
+height:460px;
+right:-220px;
+bottom:-220px;
+background:#1c83ff;
+animation:orbFloat 15s ease-in-out infinite reverse;
+}
+
+.ambient.three{
+width:220px;
+height:220px;
+right:17%;
+top:7%;
+background:#a445ff;
+opacity:.12;
+animation:orbFloat 18s ease-in-out infinite;
+}
+
+@keyframes orbFloat{
+0%,100%{transform:translate3d(0,0,0) scale(1)}
+50%{transform:translate3d(28px,-18px,0) scale(1.08)}
+}
+
+.topbar{
+position:fixed;
+z-index:50;
+top:20px;
+left:20px;
+right:20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+pointer-events:none;
+}
+
+.brand-mini{
+display:flex;
+align-items:center;
+gap:11px;
+pointer-events:auto;
+user-select:none;
+}
+
+.brand-mini-logo{
+width:42px;
+height:42px;
+display:grid;
+place-items:center;
+border-radius:13px;
+font-family:"Space Grotesk",sans-serif;
+font-size:13px;
+font-weight:800;
+letter-spacing:-.06em;
+background:
+linear-gradient(145deg,#a77aff 0%,#7668ff 48%,#45caff 100%);
+box-shadow:
+0 12px 32px rgba(103,86,255,.28),
+inset 0 1px 0 rgba(255,255,255,.38);
+position:relative;
+overflow:hidden;
+}
+
+.brand-mini-logo:after{
+content:"";
+position:absolute;
+width:70%;
+height:170%;
+background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+transform:translateX(-130%) rotate(25deg);
+animation:logoShine 5s ease-in-out infinite;
+}
+
+@keyframes logoShine{
+0%,70%,100%{transform:translateX(-130%) rotate(25deg)}
+82%{transform:translateX(180%) rotate(25deg)}
+}
+
+.brand-mini-name{
+font-size:12px;
+font-weight:800;
+letter-spacing:-.02em;
+}
+
+.brand-mini-sub{
+font-size:9px;
+color:var(--sub2);
+margin-top:2px;
+}
+
+.theme-switch{
+pointer-events:auto;
+height:40px;
+padding:0 13px;
+display:flex;
+align-items:center;
+gap:8px;
+border:1px solid var(--line);
+border-radius:999px;
+background:rgba(10,11,20,.54);
+backdrop-filter:blur(22px);
+-webkit-backdrop-filter:blur(22px);
+color:#9fa7b9;
+font-size:10px;
+font-weight:800;
+cursor:pointer;
+transition:.25s ease;
+}
+
+.theme-switch:hover{
+color:white;
+border-color:var(--line2);
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(0,0,0,.22);
+}
+
+.theme-dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:linear-gradient(135deg,#9e77ff,#52cfff);
+box-shadow:0 0 14px rgba(129,103,255,.75);
+}
+
+.shell{
+width:min(1240px,100%);
+display:grid;
+grid-template-columns:minmax(400px,.88fr) minmax(540px,1.12fr);
+border:1px solid rgba(255,255,255,.095);
+border-radius:var(--radius);
+background:
+linear-gradient(135deg,rgba(255,255,255,.045),transparent 26%),
+linear-gradient(180deg,rgba(15,18,33,.75),rgba(7,8,15,.93));
+box-shadow:var(--shadow);
+overflow:hidden;
+position:relative;
+isolation:isolate;
+}
+
+.shell:before{
+content:"";
+position:absolute;
+inset:0;
+pointer-events:none;
+background:
+linear-gradient(110deg,transparent 0%,rgba(145,103,255,.045) 25%,transparent 47%),
+linear-gradient(280deg,transparent 0%,rgba(77,147,255,.035) 37%,transparent 65%);
+z-index:-1;
+}
+
+.shell:after{
+content:"";
+position:absolute;
+width:560px;
+height:560px;
+left:-320px;
+top:-320px;
+border-radius:50%;
+border:1px solid rgba(150,108,255,.08);
+box-shadow:
+0 0 0 55px rgba(150,108,255,.018),
+0 0 0 110px rgba(150,108,255,.012);
+z-index:-1;
+}
+
+.hero{
+min-height:790px;
+padding:64px 55px 45px;
+display:flex;
+flex-direction:column;
+position:relative;
+overflow:hidden;
+border-right:1px solid var(--line);
+background:
+radial-gradient(circle at 25% 18%,rgba(130,85,255,.12),transparent 32%),
+linear-gradient(180deg,rgba(255,255,255,.012),transparent 44%);
+}
+
+.hero:after{
+content:"";
+position:absolute;
+width:360px;
+height:360px;
+right:-230px;
+bottom:75px;
+border-radius:50%;
+border:1px solid rgba(82,153,255,.1);
+box-shadow:
+0 0 0 35px rgba(82,153,255,.023),
+0 0 0 70px rgba(82,153,255,.013);
+}
+
+.hero-top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:65px;
+}
+
+.hero-badge{
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:7px 10px;
+border-radius:999px;
+border:1px solid rgba(139,92,246,.18);
+background:rgba(139,92,246,.055);
+font-size:9px;
+font-weight:900;
+letter-spacing:.16em;
+color:#bca8f8;
+}
+
+.pulse{
+width:6px;
+height:6px;
+border-radius:50%;
+background:var(--green);
+box-shadow:0 0 13px rgba(61,227,156,.75);
+animation:pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse{
+0%,100%{transform:scale(1);opacity:1}
+50%{transform:scale(.72);opacity:.65}
+}
+
+.hero-symbol{
+width:82px;
+height:82px;
+position:relative;
+display:grid;
+place-items:center;
+}
+
+.hero-symbol-core{
+width:60px;
+height:60px;
+border-radius:19px;
+display:grid;
+place-items:center;
+font-family:"Space Grotesk",sans-serif;
+font-weight:800;
+font-size:21px;
+letter-spacing:-.07em;
+background:linear-gradient(145deg,#ae89ff,#706eff 45%,#40caf7);
+box-shadow:
+0 18px 46px rgba(95,75,242,.35),
+inset 0 1px 0 rgba(255,255,255,.4);
+z-index:2;
+}
+
+.hero-ring{
+position:absolute;
+inset:0;
+border-radius:27px;
+border:1px solid rgba(150,113,255,.19);
+animation:ring 4s ease-in-out infinite;
+}
+
+.hero-ring.r2{
+inset:9px;
+border-color:rgba(79,156,255,.15);
+animation-delay:-1.8s;
+}
+
+@keyframes ring{
+0%,100%{transform:scale(1);opacity:.45}
+50%{transform:scale(1.12);opacity:1}
+}
+
+.hero h1{
+font-family:"Space Grotesk",sans-serif;
+font-size:clamp(42px,4.4vw,69px);
+line-height:.93;
+letter-spacing:-.065em;
+margin:0;
+max-width:500px;
+}
+
+.gradient{
+background:linear-gradient(105deg,#b393ff,#7e93ff 48%,#59dcff);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+}
+
+.hero-copy{
+max-width:450px;
+margin:24px 0 0;
+font-size:13px;
+line-height:1.85;
+color:var(--sub);
+}
+
+.benefits{
+display:grid;
+gap:17px;
+margin-top:48px;
+}
+
+.benefit{
+display:grid;
+grid-template-columns:40px 1fr;
+gap:13px;
+align-items:start;
+}
+
+.benefit-icon{
+width:40px;
+height:40px;
+display:grid;
+place-items:center;
+border-radius:13px;
+border:1px solid var(--line);
+background:linear-gradient(145deg,rgba(255,255,255,.052),rgba(255,255,255,.018));
+color:#b39bff;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+font-size:15px;
+}
+
+.benefit strong{
+display:block;
+font-size:12px;
+font-weight:800;
+margin-bottom:4px;
+}
+
+.benefit span{
+display:block;
+font-size:10px;
+line-height:1.55;
+color:#737e92;
+}
+
+.hero-bottom{
+margin-top:auto;
+padding-top:40px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+color:#687287;
+font-size:9px;
+font-weight:700;
+}
+
+.system-state{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.state-dot{
+width:6px;
+height:6px;
+border-radius:50%;
+background:#40e2a2;
+box-shadow:0 0 12px rgba(64,226,162,.7);
+}
+
+.version{
+opacity:.65;
+letter-spacing:.08em;
+}
+
+.form{
+padding:58px 62px 42px;
+min-width:0;
+background:linear-gradient(180deg,rgba(17,20,35,.17),transparent);
+}
+
+.mobile-head{
+display:none;
+}
+
+.form-topline{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-bottom:7px;
+}
+
+.kicker{
+font-size:9px;
+font-weight:900;
+letter-spacing:.18em;
+color:#7f899d;
+}
+
+.secure-pill{
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-size:9px;
+font-weight:800;
+color:#8993a7;
+}
+
+.secure-pill i{
+width:7px;
+height:7px;
+border-radius:50%;
+background:var(--green);
+box-shadow:0 0 10px rgba(61,227,156,.6);
+}
+
+.form h2{
+margin:0;
+font-family:"Space Grotesk",sans-serif;
+font-size:38px;
+line-height:1.06;
+letter-spacing:-.05em;
+}
+
+.form-intro{
+font-size:12px;
+line-height:1.7;
+color:var(--sub);
+margin:10px 0 31px;
+max-width:500px;
+}
+
+.form-row{
+display:grid;
+grid-template-columns:1fr;
+gap:20px;
+}
+
+.field{
+position:relative;
+}
+
+.field-label{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin:0 0 9px;
+font-size:11px;
+font-weight:800;
+color:#d8dce5;
+}
+
+.field-meta{
+font-size:9px;
+font-weight:600;
+color:#5e687c;
+}
+
+.control{
+height:57px;
+display:flex;
+align-items:center;
+border:1px solid var(--line);
+border-radius:16px;
+background:
+linear-gradient(180deg,rgba(255,255,255,.032),rgba(255,255,255,.018));
+box-shadow:
+inset 0 1px 0 rgba(255,255,255,.025),
+0 7px 25px rgba(0,0,0,.06);
+transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease,background .24s ease;
+}
+
+.control:hover{
+border-color:rgba(255,255,255,.12);
+}
+
+.control:focus-within{
+border-color:rgba(141,103,255,.72);
+box-shadow:
+0 0 0 4px rgba(121,85,255,.10),
+0 16px 35px rgba(0,0,0,.16),
+inset 0 1px 0 rgba(255,255,255,.035);
+transform:translateY(-1px);
+background:rgba(130,86,255,.025);
+}
+
+.leading{
+width:45px;
+height:100%;
+flex:0 0 45px;
+display:grid;
+place-items:center;
+font-size:14px;
+font-weight:800;
+color:#6f7a90;
+}
+
+.control input{
+width:100%;
+height:100%;
+padding:0 2px 0 0;
+border:0;
+outline:0;
+background:transparent;
+color:#f4f6fb;
+font-size:13px;
+font-weight:500;
+}
+
+.control input::placeholder{
+color:#535d70;
+}
+
+.trailing{
+min-width:42px;
+height:100%;
+display:grid;
+place-items:center;
+padding-right:7px;
+font-size:12px;
+font-weight:900;
+}
+
+.valid-icon{
+color:var(--green);
+opacity:0;
+transition:opacity .2s ease;
+}
+
+.valid-icon.show{
+opacity:1;
+}
+
+.password-button{
+border:0;
+background:transparent;
+font-size:9px;
+font-weight:900;
+color:#778196;
+cursor:pointer;
+padding:8px 13px;
+transition:color .2s ease;
+}
+
+.password-button:hover{color:#fff}
+
+.hint{
+font-size:9px;
+color:#626c80;
+padding:7px 2px 0;
+line-height:1.45;
+}
+
+.strength{
+display:flex;
+align-items:center;
+gap:10px;
+padding-top:9px;
+}
+
+.strength-bars{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:4px;
+flex:1;
+}
+
+.strength-bar{
+height:3px;
+border-radius:99px;
+background:rgba(255,255,255,.055);
+overflow:hidden;
+}
+
+.strength-bar:after{
+content:"";
+display:block;
+width:0;
+height:100%;
+border-radius:inherit;
+background:linear-gradient(90deg,#ff6381,#ffbd64,#6ee6a8,#5bcaff);
+transition:width .28s ease;
+}
+
+.strength-label{
+min-width:72px;
+text-align:right;
+font-size:9px;
+font-weight:800;
+color:#687286;
+}
+
+.section{
+margin-top:28px;
+border:1px solid var(--line);
+border-radius:20px;
+padding:17px;
+background:
+linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.012));
+box-shadow:inset 0 1px 0 rgba(255,255,255,.018);
+}
+
+.section-title{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:12px;
+}
+
+.section-title-left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.section-number{
+width:24px;
+height:24px;
+display:grid;
+place-items:center;
+border-radius:8px;
+font-size:9px;
+font-weight:900;
+color:#b59eff;
+border:1px solid rgba(157,117,255,.18);
+background:rgba(139,92,246,.06);
+}
+
+.section-title h3{
+margin:0;
+font-family:"Space Grotesk",sans-serif;
+font-size:14px;
+letter-spacing:-.02em;
+}
+
+.section-tag{
+font-size:8px;
+font-weight:900;
+letter-spacing:.1em;
+color:#6e778a;
+text-transform:uppercase;
+}
+
+.tos{
+height:230px;
+overflow:auto;
+padding:3px 14px 4px 3px;
+color:#949dae;
+font-size:10px;
+line-height:1.72;
+scrollbar-width:thin;
+scrollbar-color:rgba(255,255,255,.18) transparent;
+outline:0;
+}
+
+.tos::-webkit-scrollbar{width:7px}
+.tos::-webkit-scrollbar-track{background:transparent}
+.tos::-webkit-scrollbar-thumb{
+background:rgba(255,255,255,.13);
+border-radius:99px;
+}
+.tos::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.23)}
+
+.tos h2{
+font-family:"Space Grotesk",sans-serif;
+font-size:19px;
+color:#f3f5fa;
+letter-spacing:-.035em;
+line-height:1.1;
+margin:0 0 12px;
+}
+
+.tos h3{
+font-size:11px;
+color:#dce0e9;
+line-height:1.35;
+margin:18px 0 6px;
+}
+
+.tos p{margin:6px 0}
+.tos ul{margin:7px 0;padding-left:18px}
+.tos li{margin:3px 0}
+
+.tos-footer{
+display:flex;
+align-items:center;
+gap:9px;
+padding-top:10px;
+}
+
+.progress{
+height:3px;
+flex:1;
+border-radius:99px;
+background:rgba(255,255,255,.05);
+overflow:hidden;
+}
+
+.progress-fill{
+height:100%;
+width:0;
+border-radius:inherit;
+background:linear-gradient(90deg,#8b5cf6,#5f91ff,#49dfff);
+transition:width .2s ease;
+}
+
+.progress-text{
+min-width:113px;
+text-align:right;
+font-size:8px;
+font-weight:800;
+color:#646e82;
+}
+
+.agreement{
+display:flex;
+align-items:flex-start;
+gap:10px;
+margin-top:14px;
+opacity:.42;
+pointer-events:none;
+cursor:not-allowed;
+transition:opacity .25s ease,color .25s ease;
+color:#858ea0;
+font-size:10px;
+line-height:1.55;
+}
+
+.agreement.enabled{
+opacity:1;
+pointer-events:auto;
+cursor:pointer;
+color:#aeb5c3;
+}
+
+.agreement input{
+position:absolute;
+opacity:0;
+pointer-events:none;
+}
+
+.checkbox{
+width:18px;
+height:18px;
+flex:0 0 18px;
+position:relative;
+border-radius:6px;
+border:1px solid rgba(255,255,255,.18);
+background:rgba(255,255,255,.028);
+transition:.2s ease;
+}
+
+.agreement input:checked + .checkbox{
+border-color:#8d65ff;
+background:linear-gradient(140deg,#986cff,#5f83ff);
+box-shadow:0 7px 18px rgba(100,79,242,.3);
+}
+
+.agreement input:checked + .checkbox:after{
+content:"";
+position:absolute;
+left:5px;
+top:2px;
+width:5px;
+height:9px;
+border:solid #fff;
+border-width:0 2px 2px 0;
+transform:rotate(45deg);
+}
+
+.agreement button{
+border:0;
+padding:0;
+background:transparent;
+color:#b197ff;
+font-weight:900;
+cursor:pointer;
+}
+
+.cta{
+height:59px;
+width:100%;
+margin-top:18px;
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+border:1px solid rgba(255,255,255,.09);
+border-radius:17px;
+background:
+linear-gradient(110deg,#7c4bee,#6e70ff 51%,#40bdf4);
+box-shadow:
+0 18px 45px rgba(91,73,227,.26),
+inset 0 1px 0 rgba(255,255,255,.3);
+font-size:12px;
+font-weight:900;
+cursor:pointer;
+overflow:hidden;
+transition:transform .22s ease,box-shadow .22s ease,filter .22s ease,opacity .22s ease;
+}
+
+.cta:before{
+content:"";
+position:absolute;
+top:0;
+bottom:0;
+left:-120%;
+width:60%;
+transform:skewX(-24deg);
+background:linear-gradient(90deg,transparent,rgba(255,255,255,.23),transparent);
+transition:left .75s ease;
+}
+
+.cta:hover:not(:disabled){
+transform:translateY(-2px);
+box-shadow:
+0 24px 55px rgba(91,73,227,.33),
+inset 0 1px 0 rgba(255,255,255,.34);
+filter:brightness(1.045);
+}
+
+.cta:hover:not(:disabled):before{left:160%}
+
+.cta:active:not(:disabled){transform:translateY(0)}
+
+.cta:disabled{
+opacity:.64;
+cursor:not-allowed;
+}
+
+.cta span{
+position:relative;
+z-index:2;
+}
+
+.cta-arrow{
+font-size:17px;
+transition:transform .2s ease;
+}
+
+.cta:hover:not(:disabled) .cta-arrow{transform:translateX(4px)}
+
+.error{
+min-height:18px;
+padding:9px 2px 0;
+font-size:9px;
+font-weight:800;
+line-height:1.45;
+}
+
+.error.bad{color:var(--red)}
+.error.good{color:var(--green)}
+
+.under{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+font-size:10px;
+color:#687286;
+padding-top:19px;
+}
+
+.under a{
+color:#ac94ff;
+font-weight:900;
+text-decoration:none;
+}
+
+.under a:hover{text-decoration:underline}
+
+.legal-note{
+margin:16px auto 0;
+max-width:490px;
+display:flex;
+align-items:flex-start;
+justify-content:center;
+gap:7px;
+font-size:8px;
+line-height:1.55;
+text-align:center;
+color:#535d70;
+}
+
+.shield{
+width:14px;
+height:14px;
+flex:0 0 14px;
+display:grid;
+place-items:center;
+border-radius:50%;
+border:1px solid rgba(61,227,156,.12);
+color:var(--green);
+font-size:7px;
+}
+
+.modal{
+position:fixed;
+inset:0;
+z-index:100;
+display:none;
+align-items:center;
+justify-content:center;
+padding:22px;
+}
+
+.modal.open{display:flex}
+
+.modal-backdrop{
+position:absolute;
+inset:0;
+background:rgba(2,2,8,.77);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+animation:fade .2s ease;
+}
+
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+.modal-box{
+position:relative;
+width:min(820px,100%);
+max-height:min(820px,calc(100vh - 44px));
+display:flex;
+flex-direction:column;
+border:1px solid var(--line2);
+border-radius:25px;
+background:linear-gradient(155deg,rgba(23,26,44,.97),rgba(10,11,20,.98));
+box-shadow:0 45px 120px rgba(0,0,0,.65);
+overflow:hidden;
+animation:modalUp .25s ease;
+}
+
+@keyframes modalUp{
+from{opacity:0;transform:translateY(16px) scale(.985)}
+to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.modal-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:21px 23px;
+border-bottom:1px solid var(--line);
+}
+
+.modal-header-meta{
+display:block;
+font-size:8px;
+font-weight:900;
+letter-spacing:.16em;
+color:#758095;
+text-transform:uppercase;
+margin-bottom:4px;
+}
+
+.modal-header h3{
+margin:0;
+font-family:"Space Grotesk",sans-serif;
+font-size:22px;
+letter-spacing:-.04em;
+}
+
+.close{
+width:38px;
+height:38px;
+display:grid;
+place-items:center;
+border:1px solid var(--line);
+border-radius:12px;
+background:rgba(255,255,255,.025);
+color:#8f99ac;
+font-size:21px;
+cursor:pointer;
+transition:.2s ease;
+}
+
+.close:hover{
+color:#fff;
+background:rgba(255,255,255,.075);
+transform:rotate(5deg);
+}
+
+.modal-body{
+padding:24px;
+overflow:auto;
+font-size:11px;
+line-height:1.75;
+color:#9aa3b4;
+}
+
+.modal-body h2{
+margin:0 0 12px;
+font-family:"Space Grotesk",sans-serif;
+font-size:27px;
+color:#f3f5fa;
+letter-spacing:-.045em;
+}
+
+.modal-body h3{
+margin:20px 0 7px;
+font-size:13px;
+color:#e0e4ec;
+}
+
+.modal-body p{margin:6px 0}
+
+.modal-body ul{padding-left:20px}
+
+@media(max-width:1050px){
+.app{padding:30px 20px 40px}
+.shell{grid-template-columns:1fr;max-width:720px}
+.hero{
+display:none;
+}
+.form{
+padding:43px 43px 37px;
+}
+.mobile-head{
+display:flex;
+align-items:center;
+gap:11px;
+margin-bottom:31px;
+}
+.mobile-logo{
+width:44px;
+height:44px;
+display:grid;
+place-items:center;
+border-radius:13px;
+font-family:"Space Grotesk",sans-serif;
+font-size:13px;
+font-weight:900;
+background:linear-gradient(145deg,#a67bff,#676eff 50%,#42c9f8);
+box-shadow:0 13px 30px rgba(92,76,230,.28);
+}
+}
+
+@media(max-width:620px){
+.app{
+padding:0;
+display:block;
+}
+.topbar{
+top:13px;
+left:14px;
+right:14px;
+}
+.brand-mini-sub{display:none}
+.brand-mini-name{font-size:11px}
+.brand-mini-logo{
+width:38px;
+height:38px;
+border-radius:11px;
+}
+.theme-switch{
+width:40px;
+padding:0;
+justify-content:center;
+}
+.theme-switch label{display:none}
+.shell{
+min-height:100vh;
+border:0;
+border-radius:0;
+max-width:none;
+}
+.form{
+padding:76px 17px 25px;
+}
+.form h2{font-size:31px}
+.form-intro{
+font-size:11px;
+margin-bottom:25px;
+}
+.section{
+padding:14px;
+border-radius:18px;
+}
+.tos{
+height:205px;
+}
+.tos-footer{
+align-items:flex-start;
+flex-direction:column;
+gap:6px;
+}
+.progress{width:100%}
+.progress-text{
+text-align:left;
+min-width:0;
+}
+.cta{height:57px}
+.under{padding-top:16px}
+.modal{padding:9px}
+.modal-box{
+max-height:calc(100vh - 18px);
+border-radius:19px;
+}
+.modal-header{padding:16px 17px}
+.modal-body{padding:18px}
+}
+
+@media(prefers-reduced-motion:reduce){
+*{
+animation-duration:.001ms!important;
+animation-iteration-count:1!important;
+transition-duration:.001ms!important;
+scroll-behavior:auto!important;
+}
+}
+</style>
+</head>
+<body>
+<div class="ambient one"></div>
+<div class="ambient two"></div>
+<div class="ambient three"></div>
+
+<div class="topbar">
+<div class="brand-mini">
+<div class="brand-mini-logo">CB</div>
+<div>
+<div class="brand-mini-name">Cheat Battles</div>
+<div class="brand-mini-sub">ACCOUNT PORTAL</div>
+</div>
+</div>
+<button class="theme-switch" type="button" onclick="toggleTheme()">
+<span class="theme-dot"></span>
+<label>THEME</label>
+</button>
+</div>
+
+<main class="app">
+<section class="shell">
+<aside class="hero">
+<div class="hero-top">
+<div class="hero-badge"><span class="pulse"></span> LIVE PLATFORM</div>
+<div class="hero-symbol">
+<div class="hero-symbol-core">CB</div>
+<div class="hero-ring"></div>
+<div class="hero-ring r2"></div>
+</div>
+</div>
+
+<h1>Ready to<br><span class="gradient">enter?</span></h1>
+<p class="hero-copy">Create your account and step into a platform built for players, competition, and everything happening behind the battles.</p>
+
+<div class="benefits">
+<div class="benefit">
+<div class="benefit-icon">✦</div>
+<div>
+<strong>Instant setup</strong>
+<span>A clean signup flow designed to get you into your account without unnecessary friction.</span>
+</div>
+</div>
+<div class="benefit">
+<div class="benefit-icon">⌁</div>
+<div>
+<strong>Built with security in mind</strong>
+<span>Your signup request is sent directly to your configured backend over your normal connection.</span>
+</div>
+</div>
+<div class="benefit">
+<div class="benefit-icon">◈</div>
+<div>
+<strong>One account, everything connected</strong>
+<span>Use your account as the gateway to the rest of the experience.</span>
+</div>
+</div>
+</div>
+
+<div class="hero-bottom">
+<div class="system-state"><span class="state-dot"></span> Services operational</div>
+<div class="version">ACCOUNT SYSTEM</div>
+</div>
+</aside>
+
+<section class="form">
+<div class="mobile-head">
+<div class="mobile-logo">CB</div>
+<div>
+<div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:800;">Cheat Battles</div>
+<div style="font-size:9px;color:#6f798b;margin-top:2px;">CREATE ACCOUNT</div>
+</div>
+</div>
+
+<div class="form-topline">
+<span class="kicker">ACCOUNT CREATION</span>
+<span class="secure-pill"><i></i> SECURE SESSION</span>
+</div>
+
+<h2>Create your account</h2>
+<p class="form-intro">Fill in your details below, review the Terms of Service, and you will be ready to continue.</p>
+
+<form id="signupForm" novalidate>
+<div class="form-row">
+<div class="field">
+<div class="field-label">
+<label for="username">Username</label>
+<span class="field-meta">3–32 CHARACTERS</span>
+</div>
+<div class="control">
+<div class="leading">@</div>
+<input id="username" name="username" maxlength="32" autocomplete="username" placeholder="Choose a username">
+<div class="trailing"><span id="usernameValid" class="valid-icon">✓</span></div>
+</div>
+<div class="hint">Pick a name that you want to use across the platform.</div>
+</div>
+
+<div class="field">
+<div class="field-label">
+<label for="password">Password</label>
+<span class="field-meta">128 CHARACTERS MAX</span>
+</div>
+<div class="control">
+<div class="leading">⌘</div>
+<input id="password" name="password" type="password" maxlength="128" autocomplete="new-password" placeholder="Create a strong password">
+<div class="trailing">
+<button id="passwordToggle" class="password-button" type="button">SHOW</button>
+</div>
+</div>
+<div class="strength">
+<div class="strength-bars">
+<span class="strength-bar" id="bar1"></span>
+<span class="strength-bar" id="bar2"></span>
+<span class="strength-bar" id="bar3"></span>
+<span class="strength-bar" id="bar4"></span>
+<span class="strength-bar" id="bar5"></span>
+</div>
+<span id="strengthText" class="strength-label">ENTER PASSWORD</span>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">
+<div class="section-title-left">
+<div class="section-number">01</div>
+<h3>Terms of Service</h3>
+</div>
+<span class="section-tag" id="tosState">READ REQUIRED</span>
+</div>
+
+<div id="tosbox" class="tos" tabindex="0">Loading Terms of Service...</div>
+
+<div class="tos-footer">
+<div class="progress"><div id="progressFill" class="progress-fill"></div></div>
+<div id="progressText" class="progress-text">Scroll to the bottom to unlock</div>
+</div>
+
+<label id="agreement" class="agreement">
+<input type="checkbox" id="agree">
+<span class="checkbox"></span>
+<span>I have read and agree to the <button id="termsButton" type="button">Terms of Service</button>.</span>
+</label>
+</div>
+
+<button id="signupButton" class="cta" type="submit">
+<span id="buttonText">Create account</span>
+<span class="cta-arrow" id="buttonArrow">→</span>
+</button>
+
+<div id="message" class="error"></div>
+
+<div class="under">
+<span>Already have an account?</span>
+<a href="login.html">Login instead</a>
+</div>
+
+<div class="legal-note">
+<span class="shield">✓</span>
+<span>By creating an account, you confirm that the information provided is accurate and that you agree to the Terms of Service.</span>
+</div>
+</form>
+</section>
+</section>
+</main>
+
+<div id="modal" class="modal" aria-hidden="true">
+<div id="modalBackdrop" class="modal-backdrop"></div>
+<div class="modal-box">
+<div class="modal-header">
+<div>
+<span class="modal-header-meta">FULL DOCUMENT</span>
+<h3>Terms of Service</h3>
+</div>
+<button id="closeModal" class="close" type="button">×</button>
+</div>
+<div id="modalBody" class="modal-body"></div>
+</div>
+</div>
+
+<script>
+let tosRead=false
+let backendBase=""
+
+const $=id=>document.getElementById(id)
+const username=$("username")
+const password=$("password")
+const agree=$("agree")
+const tosbox=$("tosbox")
+const agreement=$("agreement")
+const signupButton=$("signupButton")
+const message=$("message")
+const usernameValid=$("usernameValid")
+const progressFill=$("progressFill")
+const progressText=$("progressText")
+const tosState=$("tosState")
+const strengthText=$("strengthText")
+const buttonText=$("buttonText")
+const buttonArrow=$("buttonArrow")
+const modal=$("modal")
+const modalBody=$("modalBody")
+
+async function getBackend(){
+const r=await fetch("server.txt")
+if(!r.ok)throw new Error("Backend configuration unavailable")
+return(await r.text()).trim().replace(/\/+$/,"")
+}
+
+async function safeJson(res){
+const text=await res.text()
+try{return JSON.parse(text)}
+catch{
+console.error("Invalid JSON:",text)
+showMessage("The server returned an invalid response.","bad")
+return null
+}
+}
+
+function escapeHtml(v){
+return String(v)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;")
+}
+
+function createTos(data){
+let html=`<h2>${escapeHtml(data.hero.title)}</h2>`
+html+=`<p>${escapeHtml(data.hero.description)}</p>`
+for(const section of data.sections){
+html+=`<h3>${escapeHtml(section.title)}</h3>`
+if(section.content){
+for(const line of section.content)html+=`<p>${escapeHtml(line)}</p>`
+}
+if(section.list){
+html+="<ul>"
+for(const item of section.list)html+=`<li>${escapeHtml(item)}</li>`
+html+="</ul>"
+}
+}
+return html
+}
+
+async function loadTos(){
+try{
+const r=await fetch("TOS.json")
+if(!r.ok)throw new Error("TOS unavailable")
+const data=await r.json()
+const html=createTos(data)
+tosbox.innerHTML=html
+modalBody.innerHTML=html
+updateProgress()
+}catch{
+tosbox.textContent="Failed to load Terms of Service."
+tosState.textContent="UNAVAILABLE"
+showMessage("Unable to load the Terms of Service.","bad")
+}
+}
+
+function updateProgress(){
+const max=tosbox.scrollHeight-tosbox.clientHeight
+const percent=max<=0?100:Math.min(100,Math.max(0,(tosbox.scrollTop/max)*100))
+progressFill.style.width=percent+"%"
+if(tosRead){
+progressText.textContent="Terms reviewed"
+return
+}
+progressText.textContent=percent>=99?"Terms reviewed":Math.round(percent)+"% reviewed"
+}
+
+function unlockTos(){
+if(tosRead)return
+tosRead=true
+agreement.classList.add("enabled")
+tosState.textContent="UNLOCKED"
+tosState.style.color="#3de39c"
+progressFill.style.width="100%"
+progressText.textContent="Terms reviewed"
+}
+
+function passwordStrength(){
+const v=password.value
+let s=0
+if(v.length>=8)s++
+if(v.length>=12)s++
+if(/[a-z]/.test(v)&&/[A-Z]/.test(v))s++
+if(/[0-9]/.test(v))s++
+if(/[^A-Za-z0-9]/.test(v))s++
+
+const names=["ENTER PASSWORD","VERY WEAK","WEAK","GOOD","STRONG","VERY STRONG"]
+strengthText.textContent=names[s]
+
+for(let i=1;i<=5;i++){
+const el=$("bar"+i)
+const afterWidth=i<=s?"100%":"0"
+el.style.setProperty("--strength-width",afterWidth)
+el.style.setProperty("background",i<=s?"rgba(255,255,255,.06)":"rgba(255,255,255,.055)")
+el.style.setProperty("overflow","visible")
+const existing=el.querySelector(".fill")
+if(existing)existing.remove()
+if(i<=s){
+const fill=document.createElement("span")
+fill.className="fill"
+fill.style.cssText="display:block;width:100%;height:100%;border-radius:99px;background:linear-gradient(90deg,#8b5cf6,#56cfff);"
+el.appendChild(fill)
+}
+}
+}
+
+function validateUsername(){
+const v=username.value.trim()
+const valid=v.length>=3&&v.length<=32
+usernameValid.classList.toggle("show",!!v&&valid)
+}
+
+function showMessage(text,type=""){
+message.textContent=text
+message.className="error"+(type?" "+type:"")
+}
+
+function setLoading(v){
+signupButton.disabled=v
+if(v){
+buttonText.textContent="Creating account..."
+buttonArrow.textContent=""
+}else{
+buttonText.textContent="Create account"
+buttonArrow.textContent="→"
+}
+}
+
+async function signup(){
+showMessage("")
+const user=username.value.trim()
+const pass=password.value
+
+if(!user){
+showMessage("Please enter a username.","bad")
+username.focus()
+return
+}
+
+if(user.length<3||user.length>32){
+showMessage("Your username must be between 3 and 32 characters.","bad")
+username.focus()
+return
+}
+
+if(!pass){
+showMessage("Please enter a password.","bad")
+password.focus()
+return
+}
+
+if(!tosRead){
+showMessage("Scroll through the Terms of Service before continuing.","bad")
+tosbox.focus()
+return
+}
+
+if(!agree.checked){
+showMessage("You must agree to the Terms of Service.","bad")
+agree.focus()
+return
+}
+
+setLoading(true)
+
+try{
+backendBase=backendBase||await getBackend()
+
+const r=await fetch(backendBase+"/signup",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+username:user,
+password:pass,
+agreedToTos:true
+})
+})
+
+const d=await safeJson(r)
+if(!d){
+setLoading(false)
+return
+}
+
+if(d.success){
+showMessage("Account created successfully. Redirecting...","good")
+setTimeout(()=>location.href="login.html",700)
+}else if(d.error==="exists"){
+showMessage("That username is already taken.","bad")
+setLoading(false)
+}else{
+showMessage("Signup failed. Please try again.","bad")
+setLoading(false)
+}
+}catch(e){
+console.error(e)
+showMessage("Network error. Please check your connection and try again.","bad")
+setLoading(false)
+}
+}
+
+function openModal(){
+modal.classList.add("open")
+modal.setAttribute("aria-hidden","false")
+document.body.style.overflow="hidden"
+}
+
+function closeModal(){
+modal.classList.remove("open")
+modal.setAttribute("aria-hidden","true")
+document.body.style.overflow=""
+}
+
+function toggleTheme(){
+const light=document.body.classList.toggle("light-mode")
+localStorage.setItem("signupTheme",light?"light":"dark")
+}
+
+function applyTheme(){
+if(localStorage.getItem("signupTheme")==="light")document.body.classList.add("light-mode")
+}
+
+tosbox.addEventListener("scroll",()=>{
+updateProgress()
+if(tosbox.scrollTop+tosbox.clientHeight>=tosbox.scrollHeight-12)unlockTos()
+})
+
+$("passwordToggle").addEventListener("click",()=>{
+const hidden=password.type==="password"
+password.type=hidden?"text":"password"
+$("passwordToggle").textContent=hidden?"HIDE":"SHOW"
+})
+
+username.addEventListener("input",validateUsername)
+password.addEventListener("input",passwordStrength)
+
+$("signupForm").addEventListener("submit",e=>{
+e.preventDefault()
+signup()
+})
+
+$("termsButton").addEventListener("click",openModal)
+$("closeModal").addEventListener("click",closeModal)
+$("modalBackdrop").addEventListener("click",closeModal)
+
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape")closeModal()
+})
+
+applyTheme()
+loadTos()
+passwordStrength()
+validateUsername()
+</script>
+</body>
+</html>
