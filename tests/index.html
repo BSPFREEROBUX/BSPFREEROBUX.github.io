@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor.cc — Practicing LocalStorage</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+    <header class="topbar glass">
+        <div class="brand">
+            <div class="logo">Z</div>
+            <div>
+                <h1>zyphor.cc</h1>
+                <p>Practicing LocalStorage</p>
+            </div>
+        </div>
+        <div class="top-actions">
+            <span id="saveState" class="pill">Saved</span>
+            <button id="randomizeBtn" class="btn">Randomize</button>
+            <button id="resetBtn" class="btn danger">Reset</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero glass">
+            <div>
+                <span class="eyebrow">LOCALSTORAGE LAB</span>
+                <h2>A messy little playground for browser persistence.</h2>
+                <p>Change anything below. The page remembers it using lots of independent localStorage values.</p>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><b id="keyCount">0</b><span>keys used</span></div>
+                <div class="stat"><b id="visitCount">0</b><span>visits</span></div>
+                <div class="stat"><b id="actionCount">0</b><span>actions</span></div>
+            </div>
+        </section>
+
+        <section class="grid">
+            <article class="card glass">
+                <div class="card-head"><h3>Profile</h3><span class="tag">5 keys</span></div>
+                <label>Display name<input id="displayName" type="text" placeholder="Zyphor"></label>
+                <label>Favorite color<input id="favoriteColor" type="color"></label>
+                <label>Bio<textarea id="bio" placeholder="Write something..."></textarea></label>
+                <label>Favorite emoji<input id="favoriteEmoji" type="text" maxlength="4" placeholder="⚡"></label>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Preferences</h3><span class="tag">8 keys</span></div>
+                <label>Theme<select id="theme"><option value="dark">Dark</option><option value="midnight">Midnight</option><option value="light">Light</option></select></label>
+                <label>Accent<select id="accent"><option value="purple">Purple</option><option value="cyan">Cyan</option><option value="pink">Pink</option><option value="lime">Lime</option></select></label>
+                <label class="row"><span>Animations<input id="animations" type="checkbox"></span></label>
+                <label class="row"><span>Compact mode<input id="compact" type="checkbox"></span></label>
+                <label class="row"><span>Sound enabled<input id="sound" type="checkbox"></span></label>
+                <label class="row"><span>Auto-save<input id="autosave" type="checkbox"></span></label>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Mini counter</h3><span class="tag">4 keys</span></div>
+                <div class="counter"><button class="round" id="minus">−</button><b id="counterValue">0</b><button class="round" id="plus">+</button></div>
+                <div class="button-row"><button class="btn" id="counter10">+10</button><button class="btn" id="counterReset">Reset</button></div>
+                <div class="progress"><span id="counterBar"></span></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Task board</h3><span class="tag">6 keys</span></div>
+                <div class="task-input"><input id="taskInput" placeholder="New task"><button class="btn" id="addTask">Add</button></div>
+                <div id="tasks" class="tasks"></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Notes</h3><span class="tag">3 keys</span></div>
+                <textarea id="notes" class="big-note" placeholder="Persistent notes..."></textarea>
+                <div class="button-row"><button class="btn" id="stampNote">Stamp time</button><button class="btn" id="clearNotes">Clear</button></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Favorite links</h3><span class="tag">4 keys</span></div>
+                <label>Site name<input id="linkName" placeholder="GitHub"></label>
+                <label>URL<input id="linkUrl" placeholder="https://github.com"></label>
+                <button class="btn wide" id="saveLink">Save link</button>
+                <div id="linkList" class="link-list"></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Daily spinner</h3><span class="tag">2 keys</span></div>
+                <div class="spinner-box"><span id="spinResult">?</span></div>
+                <button class="btn wide" id="spinBtn">Spin & remember</button>
+                <p class="muted">Last result: <span id="lastSpin">None</span></p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Color mixer</h3><span class="tag">4 keys</span></div>
+                <div class="color-grid">
+                    <input id="colorA" type="color"><input id="colorB" type="color">
+                </div>
+                <div id="mixPreview" class="mix-preview"></div>
+                <div class="button-row"><button class="btn" id="mixRandom">Random</button><button class="btn" id="copyMix">Copy</button></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Personal quiz</h3><span class="tag">5 keys</span></div>
+                <label>Favorite game<input id="favGame"></label>
+                <label>Hours coding / week<input id="codingHours" type="number" min="0" max="168"></label>
+                <label>Dream project<input id="dreamProject"></label>
+                <button class="btn wide" id="saveQuiz">Save answers</button>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Streaks</h3><span class="tag">5 keys</span></div>
+                <div class="streak"><span>Practice streak</span><b id="streakValue">0</b></div>
+                <button class="btn wide" id="claimStreak">Claim today</button>
+                <p class="muted" id="streakMessage">Waiting...</p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Random generator</h3><span class="tag">3 keys</span></div>
+                <div id="randomOutput" class="random-output">Ready</div>
+                <div class="button-row">
+                    <button class="btn" id="genName">Name</button>
+                    <button class="btn" id="genColor">Color</button>
+                    <button class="btn" id="genNumber">Number</button>
+                </div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Layout lab</h3><span class="tag">6 keys</span></div>
+                <label>Card radius<input id="radius" type="range" min="4" max="32"></label>
+                <label>Glow<input id="glow" type="range" min="0" max="100"></label>
+                <label>Font scale<input id="fontScale" type="range" min="80" max="120"></label>
+                <label>Density<select id="density"><option value="cozy">Cozy</option><option value="normal">Normal</option><option value="tight">Tight</option></select></label>
+                <div class="button-row"><button class="btn" id="saveLayout">Save layout</button><button class="btn" id="randomLayout">Random</button></div>
+            </article>
+
+
+            <article class="card glass">
+                <div class="card-head"><h3>Clicker game</h3><span class="tag">8 keys</span></div>
+                <div class="game-score"><span>Coins</span><b id="coinScore">0</b></div>
+                <button class="click-target" id="coinButton">CLICK</button>
+                <div class="button-row"><button class="btn" id="coinUpgrade">Upgrade +1 (<span id="coinCost">25</span>)</button><button class="btn" id="coinPrestige">Prestige</button></div>
+                <p class="muted">Per click: <span id="coinPower">1</span> · Multiplier: <span id="coinMult">1x</span></p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Reaction test</h3><span class="tag">4 keys</span></div>
+                <div id="reactionBox" class="reaction-box">Press start</div>
+                <button class="btn wide" id="reactionStart">Start test</button>
+                <p class="muted" id="reactionResult">Best: —</p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Memory game</h3><span class="tag">5 keys</span></div>
+                <div id="memoryBoard" class="memory-board"></div>
+                <button class="btn wide" id="memoryReset">New board</button>
+                <p class="muted" id="memoryResult">Matches: 0</p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Number guessing</h3><span class="tag">4 keys</span></div>
+                <p class="muted">Guess 1–100</p>
+                <input id="guessInput" type="number" min="1" max="100" placeholder="Your guess">
+                <button class="btn wide" id="guessBtn">Guess</button>
+                <p id="guessHint" class="muted">A number is waiting.</p>
+                <p class="muted">Wins: <span id="guessWins">0</span></p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Dice arena</h3><span class="tag">5 keys</span></div>
+                <div class="dice-row"><div id="dieUser">⚀</div><span>VS</span><div id="dieCpu">⚀</div></div>
+                <button class="btn wide" id="rollDice">Roll dice</button>
+                <p id="diceResult" class="muted">Wins: 0 · Losses: 0 · Draws: 0</p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Rock paper scissors</h3><span class="tag">5 keys</span></div>
+                <div class="button-row rps-row"><button class="btn rps" data-rps="rock">🪨</button><button class="btn rps" data-rps="paper">📄</button><button class="btn rps" data-rps="scissors">✂️</button></div>
+                <p id="rpsResult">Pick one.</p>
+                <p class="muted">W <span id="rpsW">0</span> · L <span id="rpsL">0</span> · D <span id="rpsD">0</span></p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Dice builder</h3><span class="tag">4 keys</span></div>
+                <label>Sides<select id="diceSides"><option>4</option><option>6</option><option>8</option><option>10</option><option>12</option><option>20</option><option>100</option></select></label>
+                <div id="customDie" class="custom-die">1</div>
+                <button class="btn wide" id="rollCustom">Roll</button>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Treasure chest</h3><span class="tag">6 keys</span></div>
+                <div id="chest" class="chest">🔒</div>
+                <button class="btn wide" id="openChest">Open chest</button>
+                <p id="chestResult" class="muted">Find random loot.</p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Idle miner</h3><span class="tag">6 keys</span></div>
+                <div class="game-score"><span>Ore</span><b id="oreScore">0</b></div>
+                <button class="btn wide" id="mineOre">Mine +<span id="orePower">1</span></button>
+                <label>Auto miners<input id="autoMiners" type="number" min="0" max="100"></label>
+                <p class="muted">Estimated passive ore: <span id="orePerSec">0</span>/sec</p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Daily quote</h3><span class="tag">3 keys</span></div>
+                <div id="quoteText" class="quote">Loading...</div>
+                <button class="btn wide" id="newQuote">New quote</button>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Habit tracker</h3><span class="tag">7 keys</span></div>
+                <div class="habits">
+                    <label class="row"><span>Read<input id="habitRead" type="checkbox"></span></label>
+                    <label class="row"><span>Code<input id="habitCode" type="checkbox"></span></label>
+                    <label class="row"><span>Exercise<input id="habitExercise" type="checkbox"></span></label>
+                    <label class="row"><span>Drink water<input id="habitWater" type="checkbox"></span></label>
+                    <label class="row"><span>Learn<input id="habitLearn" type="checkbox"></span></label>
+                </div>
+                <button class="btn wide" id="clearHabits">Clear today</button>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>XP & level</h3><span class="tag">5 keys</span></div>
+                <div class="level-line"><b id="levelValue">1</b><span>Level</span><strong id="xpValue">0 / 100 XP</strong></div>
+                <div class="progress"><span id="xpBar"></span></div>
+                <button class="btn wide" id="gainXp">Gain 25 XP</button>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Achievements</h3><span class="tag">8 keys</span></div>
+                <div id="achievements" class="achievements"></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Color memory</h3><span class="tag">5 keys</span></div>
+                <div id="colorPattern" class="pattern"></div>
+                <div id="colorChoices" class="pattern-choices"></div>
+                <button class="btn wide" id="startColorGame">Start round</button>
+                <p id="colorGameResult" class="muted">Remember the pattern.</p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Word scramble</h3><span class="tag">4 keys</span></div>
+                <div id="scrambledWord" class="scramble">—</div>
+                <input id="scrambleInput" placeholder="Unscramble it">
+                <button class="btn wide" id="scrambleCheck">Check</button>
+                <p id="scrambleResult" class="muted">Press New word.</p>
+                <button class="btn wide" id="scrambleNew">New word</button>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Timer</h3><span class="tag">4 keys</span></div>
+                <div id="timerDisplay" class="timer">01:00</div>
+                <div class="button-row"><button class="btn" id="timerStart">Start</button><button class="btn" id="timerPause">Pause</button><button class="btn" id="timerReset">Reset</button></div>
+                <label>Seconds<input id="timerSeconds" type="number" min="5" max="3600" value="60"></label>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Pomodoro log</h3><span class="tag">3 keys</span></div>
+                <div class="timer" id="pomodoroDisplay">25:00</div>
+                <button class="btn wide" id="pomodoroStart">Start 25 min</button>
+                <p class="muted">Completed: <span id="pomodoroCount">0</span></p>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Quick poll</h3><span class="tag">4 keys</span></div>
+                <p>Which UI style wins?</p>
+                <div class="button-row"><button class="btn poll" data-poll="Neon">Neon</button><button class="btn poll" data-poll="Minimal">Minimal</button><button class="btn poll" data-poll="Retro">Retro</button></div>
+                <div id="pollResults" class="poll-results"></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Collection</h3><span class="tag">8 keys</span></div>
+                <button class="btn wide" id="findCollectible">Find collectible</button>
+                <div id="collection" class="collection"></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Character stats</h3><span class="tag">6 keys</span></div>
+                <label>Strength<input id="statStrength" type="range" min="1" max="99"></label>
+                <label>Speed<input id="statSpeed" type="range" min="1" max="99"></label>
+                <label>Luck<input id="statLuck" type="range" min="1" max="99"></label>
+                <label>Defense<input id="statDefense" type="range" min="1" max="99"></label>
+                <button class="btn wide" id="statRandom">Randomize stats</button>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Palette presets</h3><span class="tag">5 keys</span></div>
+                <div id="paletteButtons" class="palette-buttons"></div>
+                <div id="palettePreview" class="palette-preview"></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Scoreboard</h3><span class="tag">5 keys</span></div>
+                <div class="scoreboard">
+                    <label>Player<input id="scorePlayer" value="You"></label>
+                    <label>Points<input id="scorePoints" type="number" value="0"></label>
+                    <button class="btn wide" id="saveScore">Save score</button>
+                </div>
+                <div id="scoreList"></div>
+            </article>
+
+            <article class="card glass">
+                <div class="card-head"><h3>Session journal</h3><span class="tag">4 keys</span></div>
+                <div id="journal" class="journal"></div>
+                <button class="btn wide" id="journalAdd">Add session entry</button>
+            </article>
+            <article class="card glass full">
+                <div class="card-head"><h3>Storage inspector</h3><span class="tag">live</span></div>
+                <div class="storage-toolbar">
+                    <input id="storageSearch" placeholder="Search keys...">
+                    <button class="btn" id="refreshStorage">Refresh</button>
+                    <button class="btn" id="exportStorage">Export JSON</button>
+                </div>
+                <div id="storageTable" class="storage-table"></div>
+            </article>
+        </section>
+    </main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
