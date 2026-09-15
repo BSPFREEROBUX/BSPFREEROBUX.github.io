@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zyphor Subscriptions | Lifetime</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,system-ui,sans-serif;background:#03050a;color:#fff}
+body{overflow-x:hidden;background:
+radial-gradient(circle at 15% 5%,#00d5ff1c,transparent 30%),
+radial-gradient(circle at 85% 10%,#8a3cff20,transparent 32%),
+radial-gradient(circle at 50% 100%,#ff2e7a12,transparent 35%),#03050a}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom,black,transparent 75%)}
+.wrap{position:relative;max-width:1400px;margin:auto;padding:34px 24px 70px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:35px}
+.brand{display:flex;align-items:center;gap:13px;font-weight:900;letter-spacing:3px}
+.brand img{width:48px;height:48px;border-radius:14px;box-shadow:0 0 35px #00d5ff44}
+.back{color:#b9c6d8;text-decoration:none;border:1px solid #ffffff15;background:#ffffff08;padding:11px 16px;border-radius:13px}
+.hero{text-align:center;padding:50px 20px 45px;margin-bottom:28px;border:1px solid #ffffff14;border-radius:32px;background:linear-gradient(135deg,#00d5ff0d,#8b45ff12);box-shadow:0 30px 100px #0008,inset 0 1px #ffffff10}
+.kicker{font-size:11px;font-weight:900;letter-spacing:4px;color:#00d5ff}
+h1{font-size:clamp(42px,7vw,82px);margin:12px 0 10px;line-height:1;letter-spacing:-4px}
+.hero p{max-width:720px;margin:auto;color:#93a2b8;line-height:1.7}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.plan{position:relative;min-height:640px;padding:30px;border:1px solid #ffffff14;border-radius:28px;background:#090d15cc;backdrop-filter:blur(18px);box-shadow:0 25px 70px #0008;overflow:hidden;transition:.3s}
+.plan:hover{transform:translateY(-7px);border-color:#ffffff30;box-shadow:0 35px 90px #000b}
+.plan:before{content:"";position:absolute;width:240px;height:240px;right:-100px;top:-100px;border-radius:50%;filter:blur(20px);opacity:.35}
+.infinity:before{background:#00d5ff}.endless:before{background:#8b45ff}.ascended:before{background:#ff2e7a}
+.planTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.plan h2{margin:0;font-size:29px;letter-spacing:-1px}
+.tag{font-size:9px;font-weight:900;letter-spacing:1px;padding:7px 9px;border-radius:99px;background:#ffffff0c;border:1px solid #ffffff14;color:#aebbd0}
+.price{margin:24px 0 3px;font-size:43px;font-weight:900;letter-spacing:-2px}
+.price small{font-size:13px;color:#78869b;font-weight:600;letter-spacing:0}
+.life{font-size:10px;color:#7d8ca3;letter-spacing:2px;text-transform:uppercase}
+.line{height:1px;background:#ffffff10;margin:25px 0}
+.features{display:grid;gap:11px}
+.feature{display:flex;gap:10px;align-items:flex-start;padding:11px 0;color:#c7d0dc;font-size:13px;line-height:1.45}
+.feature b{color:#fff}
+.icon{width:23px;min-width:23px;height:23px;display:grid;place-items:center;border-radius:7px;background:#ffffff0a;border:1px solid #ffffff12;font-size:11px}
+.no{opacity:.42}
+.no .icon:before{content:"−"}
+.yes .icon:before{content:"✓"}
+.purchase{width:100%;margin-top:25px;border:0;padding:15px;border-radius:15px;color:#fff;font-weight:900;font-size:14px;cursor:pointer;background:linear-gradient(135deg,#00bce8,#6248ff);box-shadow:0 10px 30px #00d5ff22}
+.endless .purchase{background:linear-gradient(135deg,#714cff,#a936ff)}
+.ascended .purchase{background:linear-gradient(135deg,#ff2875,#a43cff)}
+.note{text-align:center;color:#66758c;font-size:11px;margin-top:25px}
+.modal{display:none;position:fixed;inset:0;z-index:20;background:#000b;backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modalBox{width:min(650px,100%);height:420px;background:#090d15;border:1px solid #ffffff18;border-radius:25px;box-shadow:0 40px 120px #000;position:relative}
+.exit{position:absolute;right:13px;top:13px;width:40px;height:40px;border:0;border-radius:11px;background:#ef334055;color:#fff;font-size:23px;font-weight:900;cursor:pointer}
+.modalTitle{padding:22px 25px;border-bottom:1px solid #ffffff10;font-weight:900}
+.modalBlank{height:calc(100% - 85px)}
+@media(max-width:950px){.plans{grid-template-columns:1fr}.plan{min-height:auto}.wrap{padding:20px 14px 50px}.hero{padding:38px 18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div class="brand"><img src="https://zyphor.cc/Logo1.png"><span>ZYPHOR</span></div>
+<a class="back" href="0dashboard.html">← Dashboard</a>
+</header>
+<section class="hero">
+<div class="kicker">LIFETIME MEMBERSHIPS</div>
+<h1>ZYPhor Infinity.</h1>
+<p>Three lifetime tiers built for members who want more rewards, recognition, priority and access across Zyphor.</p>
+</section>
+<section class="plans">
+
+<article class="plan infinity">
+<div class="planTop"><h2>♾️ Infinity</h2><span class="tag">LIFETIME</span></div>
+<div class="price">$2 <small>/ lifetime</small></div><div class="life">or 2 Zyphium</div><div class="line"></div>
+<div class="features">
+<div class="feature yes"><span class="icon"></span><span><b>Animated Profile Picture</b><br>Use an animated PFP.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>2× XP Forever</b><br>2× XP from every Zyphor Pass, including future passes.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Special Event Access</b><br>Access exclusive Zyphor events and experiences.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Ticket Priority</b><br>Support tickets receive priority.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Increased Reputation</b><br>Instant recognition as an Infinity member.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Official Zyphor Friend Request</b><br>Receive an official friend request from Zyphor.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>5× Requests / Minute</b><br>Priority handling for your requests.</span></div>
+<div class="feature no"><span class="icon"></span><span>Endless 3× XP</span></div>
+<div class="feature no"><span class="icon"></span><span>Ascended-only early access</span></div>
+</div>
+<button class="purchase" data-plan="Zyphor Infinity">Purchase Infinity</button>
+</article>
+
+<article class="plan endless">
+<div class="planTop"><h2>⚡ Endless</h2><span class="tag">LIFETIME</span></div>
+<div class="price">$5 <small>/ lifetime</small></div><div class="life">or 5 Zyphium</div><div class="line"></div>
+<div class="features">
+<div class="feature yes"><span class="icon"></span><span><b>Everything in Infinity</b><br>All Infinity benefits included.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>3× XP Forever</b><br>Triple XP from Zyphor Passes.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>20× Requests / Minute</b><br>Priority handling with a higher request allowance.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Higher Server Request Limit</b><br>Endless requests receive a higher server-side limit.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Exclusive Event Access</b><br>Access special Zyphor experiences.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Priority Tickets</b><br>Get faster support handling.</span></div>
+<div class="feature no"><span class="icon"></span><span>5× XP</span></div>
+<div class="feature no"><span class="icon"></span><span>Ascended early access</span></div>
+</div>
+<button class="purchase" data-plan="Zyphor Endless">Purchase Endless</button>
+</article>
+
+<article class="plan ascended">
+<div class="planTop"><h2>👑 Ascended</h2><span class="tag">LIFETIME</span></div>
+<div class="price">$7.50 <small>/ lifetime</small></div><div class="life">or 7.5 Zyphium</div><div class="line"></div>
+<div class="features">
+<div class="feature yes"><span class="icon"></span><span><b>Everything in Endless</b><br>All Infinity and Endless benefits included.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>5× XP Forever</b><br>Five times the XP from Zyphor Passes.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>4× Boss Damage</b><br>Deal 4× damage against Zyphor global bosses.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>40× Requests / Minute</b><br>Priority request handling and the highest member allowance.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>10× Higher Server Request Limit</b><br>Ascended receives the highest server request allowance.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Early Access</b><br>Gradient names and other Ascended-exclusive features.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Instant Ticket Priority</b><br>Website tickets are instantly prioritized.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Staff Notifications</b><br>Staff are notified when you open or respond to tickets, with interval-based notifications.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Official Zyphor Friend Request</b><br>Receive a friend request from the official Zyphor account.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>PFP Borders</b><br>Unlock exclusive profile picture borders.</span></div>
+<div class="feature yes"><span class="icon"></span><span><b>Special Recognition</b><br>Highest Zyphor membership tier.</span></div>
+</div>
+<button class="purchase" data-plan="Zyphor Ascended">Purchase Ascended</button>
+</article>
+
+</section>
+<div class="note">1 Zyphium = $1 · All plans are lifetime memberships · Purchasing is not currently implemented.</div>
+</div>
+
+<div class="modal" id="modal">
+<div class="modalBox">
+<button class="exit" id="exit" aria-label="Close">×</button>
+<div class="modalTitle" id="modalTitle"></div>
+<div class="modalBlank"></div>
+</div>
+</div>
+
+<script>
+const modal=document.getElementById("modal"),title=document.getElementById("modalTitle");
+document.querySelectorAll(".purchase").forEach(btn=>btn.addEventListener("click",()=>{
+ title.textContent=btn.dataset.plan+" · Select Payment Method";
+ modal.classList.add("open");
+}));
+document.getElementById("exit").onclick=()=>modal.classList.remove("open");
+modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")modal.classList.remove("open")});
+</script>
+</body>
+</html>
