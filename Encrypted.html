@@ -2,68 +2,178 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
 <title>Private Chat</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#c0c0c0;color:#000}
-body{padding:18px}
-.window{max-width:900px;margin:0 auto;background:#c0c0c0;border:2px solid #fff;border-right-color:#404040;border-bottom-color:#404040;box-shadow:1px 1px 0 #000}
-.titlebar{height:34px;background:#000080;color:#fff;font-weight:bold;display:flex;align-items:center;padding:0 8px;font-size:14px}
-.titlebar span{margin-left:auto}
-.panel{padding:14px}
-fieldset{border:2px groove #fff;margin:0 0 12px;padding:12px}
-legend{font-weight:bold;padding:0 5px}
-label{display:block;font-weight:bold;margin-bottom:6px}
-input,textarea,button{font:inherit}
-input{width:100%;height:36px;border:2px inset #fff;background:#fff;padding:5px}
-button{min-height:36px;padding:5px 14px;background:#c0c0c0;border:2px outset #fff;cursor:pointer;font-weight:bold}
-button:active{border-style:inset}
-button:disabled{color:#777;cursor:not-allowed}
-.status{min-height:20px;font-size:13px;margin-top:8px}
-.chat{display:none}
-.messages{height:58vh;min-height:300px;overflow-y:auto;background:#fff;border:2px inset #fff;padding:8px}
-.message{border-bottom:1px solid #c0c0c0;padding:8px 4px;word-break:break-word}
-.message:last-child{border-bottom:0}
-.meta{font-size:12px;color:#000080;margin-bottom:4px;font-weight:bold}
-.text{white-space:pre-wrap;font-size:14px}
-.compose{display:flex;gap:8px;margin-top:10px}
-.compose textarea{flex:1;min-height:70px;resize:vertical;border:2px inset #fff;padding:7px;background:#fff}
-.compose button{width:110px}
-.small{font-size:12px}
-@media(max-width:600px){
-body{padding:6px}
-.window{width:100%}
-.panel{padding:8px}
-.messages{height:55vh;min-height:260px}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif}
+body{min-height:100vh;background:#eef2f7;color:#172033;padding:24px}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{width:min(980px,100%);margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.brand{font-size:25px;font-weight:800;letter-spacing:-.5px}
+.mode-switch{display:flex;gap:6px;padding:5px;border-radius:12px;background:#dbe2ec}
+.mode-switch button{border:0;border-radius:8px;padding:9px 13px;background:transparent;color:#4b5563;font-weight:700}
+.mode-switch button.active{background:#fff;color:#111827;box-shadow:0 1px 4px #0002}
+.card{background:#fff;border:1px solid #dce2ea;border-radius:18px;box-shadow:0 10px 35px #17203312;overflow:hidden}
+.header{padding:18px 20px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header-title{font-size:18px;font-weight:800}
+.header-sub{font-size:12px;color:#6b7280;margin-top:3px}
+.content{padding:20px}
+.login{max-width:620px;margin:8vh auto}
+.login .content{padding:26px}
+label{display:block;font-weight:700;font-size:14px;margin-bottom:8px}
+.key-row{display:flex;gap:10px}
+input,textarea{width:100%;border:1px solid #cfd6df;background:#fff;color:#111827;border-radius:10px;outline:0;padding:11px 12px}
+input:focus,textarea:focus{border-color:#64748b;box-shadow:0 0 0 3px #64748b18}
+.key-row button,.send{border:0;border-radius:10px;background:#111827;color:#fff;padding:0 20px;font-weight:800}
+.status{min-height:20px;margin-top:10px;font-size:13px;color:#6b7280}
+.chat-card{display:none}
+.messages{height:58vh;min-height:320px;max-height:680px;overflow-y:auto;padding:16px;background:#f8fafc}
+.message{max-width:82%;margin:0 0 12px;padding:10px 12px;border-radius:13px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 2px 5px #00000008}
+.meta{font-size:11px;font-weight:700;color:#64748b;margin-bottom:5px}
+.text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.45}
+.compose{display:flex;gap:10px;margin-top:12px}
+.compose textarea{min-height:56px;max-height:180px;resize:vertical}
+.compose .send{min-width:100px}
+.classic-only,.classic-frame,.classic-titlebar{display:none}
+
+body.mode-basic{background:#f5f5f5;color:#222;padding:0}
+.mode-basic .app{width:min(1100px,100%)}
+.mode-basic .top{padding:16px 20px;margin:0}
+.mode-basic .brand{font-size:21px}
+.mode-basic .mode-switch{background:#e5e7eb;border-radius:6px}
+.mode-basic .mode-switch button{border-radius:4px;padding:7px 10px}
+.mode-basic .mode-switch button.active{box-shadow:none}
+.mode-basic .card{border-radius:6px;box-shadow:none;border:1px solid #d1d5db}
+.mode-basic .header{padding:15px 18px}
+.mode-basic .content{padding:18px}
+.mode-basic .login{margin:9vh auto}
+.mode-basic .login .content{padding:22px}
+.mode-basic input,.mode-basic textarea{border-radius:5px}
+.mode-basic .key-row button,.mode-basic .send{border-radius:5px;background:#2563eb}
+.mode-basic .messages{background:#fafafa}
+.mode-basic .message{border-radius:5px;box-shadow:none}
+
+body.mode-modern{background:radial-gradient(circle at top left,#dbeafe 0,#eef2ff 30%,#f8fafc 70%);color:#0f172a;padding:30px}
+.mode-modern .app{width:min(1080px,100%)}
+.mode-modern .top{margin-bottom:22px}
+.mode-modern .brand{font-size:29px}
+.mode-modern .mode-switch{background:#ffffffa8;border:1px solid #fff;box-shadow:0 8px 25px #33415518;backdrop-filter:blur(15px)}
+.mode-modern .mode-switch button.active{background:#0f172a;color:#fff}
+.mode-modern .card{background:#ffffffd9;border:1px solid #fff;box-shadow:0 25px 70px #33415520;backdrop-filter:blur(18px);border-radius:24px}
+.mode-modern .header{padding:21px 24px;border-color:#ffffff}
+.mode-modern .header-title{font-size:20px}
+.mode-modern .content{padding:24px}
+.mode-modern .login{margin:12vh auto}
+.mode-modern .login .content{padding:34px}
+.mode-modern input,.mode-modern textarea{border:1px solid #d7deea;border-radius:13px;background:#ffffffd9}
+.mode-modern input:focus,.mode-modern textarea:focus{border-color:#6366f1;box-shadow:0 0 0 4px #6366f120}
+.mode-modern .key-row button,.mode-modern .send{border-radius:13px;background:linear-gradient(135deg,#111827,#4f46e5);box-shadow:0 8px 20px #4f46e530}
+.mode-modern .messages{background:#f1f5f980;border-radius:16px;border:1px solid #fff}
+.mode-modern .message{border:1px solid #ffffff;background:#ffffffdd;border-radius:16px;box-shadow:0 7px 20px #33415510}
+.mode-modern .meta{color:#6366f1}
+.mode-modern .compose{margin-top:14px}
+
+body.mode-old{background:#c0c0c0;color:#000;padding:18px;font-family:"MS Sans Serif",Tahoma,Arial,sans-serif}
+.mode-old .app{max-width:900px}
+.mode-old .top{margin-bottom:8px}
+.mode-old .brand{display:none}
+.mode-old .mode-switch{padding:0;gap:0;background:#c0c0c0;border:0}
+.mode-old .mode-switch button{border:2px outset #fff;border-right-color:#404040;border-bottom-color:#404040;border-radius:0;background:#c0c0c0;color:#000;padding:4px 9px;font-size:12px}
+.mode-old .mode-switch button.active{border:2px inset #fff;background:#c0c0c0;color:#000;box-shadow:none}
+.mode-old .card{border:2px solid #fff;border-right-color:#404040;border-bottom-color:#404040;border-radius:0;background:#c0c0c0;box-shadow:1px 1px #000;overflow:visible}
+.mode-old .header{height:32px;padding:4px 8px;background:#000080;color:#fff;border:0}
+.mode-old .header-title{font-size:13px}
+.mode-old .header-sub{display:none}
+.mode-old .content{padding:12px}
+.mode-old .login{margin:8vh auto}
+.mode-old .login .content{padding:12px}
+.mode-old label{font-size:13px}
+.mode-old input,.mode-old textarea{border:2px inset #fff;border-radius:0;background:#fff;box-shadow:none;padding:5px}
+.mode-old .key-row{display:block}
+.mode-old .key-row button,.mode-old .send{margin-top:8px;border:2px outset #fff;border-right-color:#404040;border-bottom-color:#404040;border-radius:0;background:#c0c0c0;color:#000;padding:5px 13px;box-shadow:none}
+.mode-old .key-row button:active,.mode-old .send:active{border-style:inset}
+.mode-old .messages{height:58vh;min-height:300px;background:#fff;border:2px inset #fff;border-radius:0;padding:8px}
+.mode-old .message{max-width:none;margin:0;border:0;border-bottom:1px solid #c0c0c0;border-radius:0;background:#fff;box-shadow:none;padding:7px 4px}
+.mode-old .meta{color:#000080;font-size:12px}
+.mode-old .text{font-size:13px}
+.mode-old .compose{gap:8px}
+.mode-old .compose textarea{margin-top:0}
+.mode-old .compose .send{margin-top:0;width:110px}
+.mode-old .status{font-size:12px;color:#000}
+
+@media(max-width:700px){
+body{padding:12px}
+.top{align-items:flex-start;flex-direction:column}
+.mode-switch{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}
+.mode-switch button{width:100%}
+.login{margin:5vh auto}
+.key-row{flex-direction:column}
+.key-row button{min-height:44px}
+.messages{height:58vh;min-height:260px}
+.message{max-width:94%}
 .compose{flex-direction:column}
-.compose button{width:100%}
-.titlebar{font-size:13px}
+.compose .send{width:100%;min-height:48px}
+.mode-old .key-row{display:block}
+.mode-old .key-row button{min-height:36px}
+.mode-old .compose{flex-direction:column}
+.mode-old .compose .send{width:100%;min-height:36px}
+}
+@media(max-width:400px){
+body{padding:8px}
+.mode-modern{padding:8px}
+.content,.mode-modern .content{padding:14px}
+.login .content,.mode-modern .login .content{padding:18px}
+.header,.mode-modern .header{padding:15px}
 }
 </style>
 </head>
-<body>
-<div class="window">
-<div class="titlebar">Private Chat <span>■ □ ×</span></div>
-<div class="panel">
-<fieldset id="loginBox">
-<legend>Decryption Key</legend>
-<label for="key">Enter key</label>
-<input id="key" type="password" autocomplete="off" spellcheck="false">
-<button id="unlock" type="button" style="margin-top:8px">Enter Chat</button>
-<div id="loginStatus" class="status"></div>
-</fieldset>
+<body class="mode-modern">
+<div class="app">
+<div class="top">
+<div class="brand">Private Chat</div>
+<div class="mode-switch" aria-label="GUI mode">
+<button type="button" data-mode="old">Old classic</button>
+<button type="button" data-mode="basic">Basic</button>
+<button type="button" data-mode="modern" class="active">Modern</button>
+</div>
+</div>
 
-<div id="chat" class="chat">
-<fieldset>
-<legend>Chat</legend>
+<div id="loginCard" class="card login">
+<div class="header">
+<div>
+<div class="header-title">Private Chat</div>
+<div class="header-sub">Enter the decryption key to continue</div>
+</div>
+</div>
+<div class="content">
+<label for="key">Decryption Key</label>
+<div class="key-row">
+<input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Enter decryption key">
+<button id="unlock" type="button">Enter Chat</button>
+</div>
+<div id="loginStatus" class="status"></div>
+</div>
+</div>
+
+<div id="chatCard" class="card chat-card">
+<div class="header">
+<div>
+<div class="header-title">Private Chat</div>
+<div class="header-sub">Messages are identified by IP address</div>
+</div>
+<div id="connectionState" class="header-sub">Connected</div>
+</div>
+<div class="content">
 <div id="messages" class="messages"></div>
 <div class="compose">
 <textarea id="message" maxlength="2000" placeholder="Type a message..." autocomplete="off"></textarea>
-<button id="send" type="button">Send</button>
+<button id="send" class="send" type="button">Send</button>
 </div>
-<div id="chatStatus" class="status small"></div>
-</fieldset>
+<div id="chatStatus" class="status"></div>
 </div>
 </div>
 </div>
@@ -72,39 +182,48 @@ body{padding:6px}
 let serverUrl="";
 let chatKey="";
 let pollTimer=null;
-
+let currentMode="modern";
 const $=id=>document.getElementById(id);
+
+function setMode(mode){
+    currentMode=mode;
+    document.body.className="mode-"+mode;
+    document.querySelectorAll("[data-mode]").forEach(button=>button.classList.toggle("active",button.dataset.mode===mode));
+    try{localStorage.setItem("privateChatMode",mode)}catch{}
+}
+
+try{
+    const saved=localStorage.getItem("privateChatMode");
+    if(["old","basic","modern"].includes(saved)) setMode(saved);
+}catch{}
+
+document.querySelectorAll("[data-mode]").forEach(button=>button.addEventListener("click",()=>setMode(button.dataset.mode)));
 
 async function getServerUrl(){
     const response=await fetch("/server.txt?"+Date.now(),{cache:"no-store"});
     if(!response.ok) throw new Error("server.txt unavailable");
-    const value=(await response.text()).trim().replace(/\/+$/,"");
+    const value=(await response.text()).trim().replace(/\/+$/,"" );
     if(!/^https?:\/\//i.test(value)) throw new Error("invalid server URL");
     return value;
 }
 
-function setStatus(element,text){
-    element.textContent=text;
-}
+function setStatus(element,text){element.textContent=text}
 
 function render(messages){
     const box=$("messages");
-    const atBottom=box.scrollHeight-box.scrollTop-box.clientHeight<80;
+    const atBottom=box.scrollHeight-box.scrollTop-box.clientHeight<100;
     box.innerHTML="";
     for(const item of messages){
         const row=document.createElement("div");
         row.className="message";
-
         const meta=document.createElement("div");
         meta.className="meta";
         const date=item.time?new Date(item.time):null;
-        const time=date&&!isNaN(date)?date.toLocaleString():"";
+        const time=date&&!isNaN(date.getTime())?date.toLocaleString():"";
         meta.textContent=(item.ip||"unknown")+(time?" — "+time:"");
-
         const text=document.createElement("div");
         text.className="text";
         text.textContent=String(item.message||"");
-
         row.append(meta,text);
         box.appendChild(row);
     }
@@ -122,11 +241,12 @@ async function loadMessages(){
 }
 
 async function unlock(){
+    const key=$("key").value;
+    if(!key) return setStatus($("loginStatus"),"Enter the decryption key.");
     $("unlock").disabled=true;
     setStatus($("loginStatus"),"Connecting...");
     try{
         serverUrl=await getServerUrl();
-        const key=$("key").value;
         const response=await fetch(serverUrl+"/private-chat/messages",{
             headers:{"X-Private-Chat-Key":key},
             cache:"no-store"
@@ -135,13 +255,21 @@ async function unlock(){
         const data=await response.json();
         chatKey=key;
         render(Array.isArray(data.messages)?data.messages:[]);
-        $("loginBox").style.display="none";
-        $("chat").style.display="block";
+        $("loginCard").style.display="none";
+        $("chatCard").style.display="block";
         setStatus($("chatStatus"),"Connected");
+        $("connectionState").textContent="Connected";
+        if(pollTimer) clearInterval(pollTimer);
         pollTimer=setInterval(async()=>{
-            try{await loadMessages();setStatus($("chatStatus"),"Connected")}
-            catch{setStatus($("chatStatus"),"Connection lost")}
-        },2000);
+            try{
+                await loadMessages();
+                setStatus($("chatStatus"),"Connected");
+                $("connectionState").textContent="Connected";
+            }catch{
+                setStatus($("chatStatus"),"Connection lost — retrying...");
+                $("connectionState").textContent="Reconnecting...";
+            }
+        },1000);
         $("message").focus();
     }catch(error){
         setStatus($("loginStatus"),error.message||"Unable to connect");
@@ -151,15 +279,12 @@ async function unlock(){
 
 async function sendMessage(){
     const text=$("message").value.trim();
-    if(!text) return;
+    if(!text||!serverUrl||!chatKey) return;
     $("send").disabled=true;
     try{
         const response=await fetch(serverUrl+"/private-chat/send",{
             method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-                "X-Private-Chat-Key":chatKey
-            },
+            headers:{"Content-Type":"application/json","X-Private-Chat-Key":chatKey},
             body:JSON.stringify({message:text})
         });
         const data=await response.json().catch(()=>({}));
@@ -177,9 +302,7 @@ async function sendMessage(){
 
 $("unlock").addEventListener("click",unlock);
 $("send").addEventListener("click",sendMessage);
-$("key").addEventListener("keydown",event=>{
-    if(event.key==="Enter") unlock();
-});
+$("key").addEventListener("keydown",event=>{if(event.key==="Enter") unlock()});
 $("message").addEventListener("keydown",event=>{
     if(event.key==="Enter"&&!event.shiftKey){
         event.preventDefault();
