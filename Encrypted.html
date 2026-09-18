@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Private Chat</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#c0c0c0;color:#000}
+body{padding:18px}
+.window{max-width:900px;margin:0 auto;background:#c0c0c0;border:2px solid #fff;border-right-color:#404040;border-bottom-color:#404040;box-shadow:1px 1px 0 #000}
+.titlebar{height:34px;background:#000080;color:#fff;font-weight:bold;display:flex;align-items:center;padding:0 8px;font-size:14px}
+.titlebar span{margin-left:auto}
+.panel{padding:14px}
+fieldset{border:2px groove #fff;margin:0 0 12px;padding:12px}
+legend{font-weight:bold;padding:0 5px}
+label{display:block;font-weight:bold;margin-bottom:6px}
+input,textarea,button{font:inherit}
+input{width:100%;height:36px;border:2px inset #fff;background:#fff;padding:5px}
+button{min-height:36px;padding:5px 14px;background:#c0c0c0;border:2px outset #fff;cursor:pointer;font-weight:bold}
+button:active{border-style:inset}
+button:disabled{color:#777;cursor:not-allowed}
+.status{min-height:20px;font-size:13px;margin-top:8px}
+.chat{display:none}
+.messages{height:58vh;min-height:300px;overflow-y:auto;background:#fff;border:2px inset #fff;padding:8px}
+.message{border-bottom:1px solid #c0c0c0;padding:8px 4px;word-break:break-word}
+.message:last-child{border-bottom:0}
+.meta{font-size:12px;color:#000080;margin-bottom:4px;font-weight:bold}
+.text{white-space:pre-wrap;font-size:14px}
+.compose{display:flex;gap:8px;margin-top:10px}
+.compose textarea{flex:1;min-height:70px;resize:vertical;border:2px inset #fff;padding:7px;background:#fff}
+.compose button{width:110px}
+.small{font-size:12px}
+@media(max-width:600px){
+body{padding:6px}
+.window{width:100%}
+.panel{padding:8px}
+.messages{height:55vh;min-height:260px}
+.compose{flex-direction:column}
+.compose button{width:100%}
+.titlebar{font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="window">
+<div class="titlebar">Private Chat <span>■ □ ×</span></div>
+<div class="panel">
+<fieldset id="loginBox">
+<legend>Decryption Key</legend>
+<label for="key">Enter key</label>
+<input id="key" type="password" autocomplete="off" spellcheck="false">
+<button id="unlock" type="button" style="margin-top:8px">Enter Chat</button>
+<div id="loginStatus" class="status"></div>
+</fieldset>
+
+<div id="chat" class="chat">
+<fieldset>
+<legend>Chat</legend>
+<div id="messages" class="messages"></div>
+<div class="compose">
+<textarea id="message" maxlength="2000" placeholder="Type a message..." autocomplete="off"></textarea>
+<button id="send" type="button">Send</button>
+</div>
+<div id="chatStatus" class="status small"></div>
+</fieldset>
+</div>
+</div>
+</div>
+
+<script>
+let serverUrl="";
+let chatKey="";
+let pollTimer=null;
+
+const $=id=>document.getElementById(id);
+
+async function getServerUrl(){
+    const response=await fetch("/server.txt?"+Date.now(),{cache:"no-store"});
+    if(!response.ok) throw new Error("server.txt unavailable");
+    const value=(await response.text()).trim().replace(/\/+$/,"");
+    if(!/^https?:\/\//i.test(value)) throw new Error("invalid server URL");
+    return value;
+}
+
+function setStatus(element,text){
+    element.textContent=text;
+}
+
+function render(messages){
+    const box=$("messages");
+    const atBottom=box.scrollHeight-box.scrollTop-box.clientHeight<80;
+    box.innerHTML="";
+    for(const item of messages){
+        const row=document.createElement("div");
+        row.className="message";
+
+        const meta=document.createElement("div");
+        meta.className="meta";
+        const date=item.time?new Date(item.time):null;
+        const time=date&&!isNaN(date)?date.toLocaleString():"";
+        meta.textContent=(item.ip||"unknown")+(time?" — "+time:"");
+
+        const text=document.createElement("div");
+        text.className="text";
+        text.textContent=String(item.message||"");
+
+        row.append(meta,text);
+        box.appendChild(row);
+    }
+    if(atBottom) box.scrollTop=box.scrollHeight;
+}
+
+async function loadMessages(){
+    const response=await fetch(serverUrl+"/private-chat/messages",{
+        headers:{"X-Private-Chat-Key":chatKey},
+        cache:"no-store"
+    });
+    if(!response.ok) throw new Error("Access denied");
+    const data=await response.json();
+    render(Array.isArray(data.messages)?data.messages:[]);
+}
+
+async function unlock(){
+    $("unlock").disabled=true;
+    setStatus($("loginStatus"),"Connecting...");
+    try{
+        serverUrl=await getServerUrl();
+        const key=$("key").value;
+        const response=await fetch(serverUrl+"/private-chat/messages",{
+            headers:{"X-Private-Chat-Key":key},
+            cache:"no-store"
+        });
+        if(!response.ok) throw new Error("Invalid decryption key");
+        const data=await response.json();
+        chatKey=key;
+        render(Array.isArray(data.messages)?data.messages:[]);
+        $("loginBox").style.display="none";
+        $("chat").style.display="block";
+        setStatus($("chatStatus"),"Connected");
+        pollTimer=setInterval(async()=>{
+            try{await loadMessages();setStatus($("chatStatus"),"Connected")}
+            catch{setStatus($("chatStatus"),"Connection lost")}
+        },2000);
+        $("message").focus();
+    }catch(error){
+        setStatus($("loginStatus"),error.message||"Unable to connect");
+        $("unlock").disabled=false;
+    }
+}
+
+async function sendMessage(){
+    const text=$("message").value.trim();
+    if(!text) return;
+    $("send").disabled=true;
+    try{
+        const response=await fetch(serverUrl+"/private-chat/send",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "X-Private-Chat-Key":chatKey
+            },
+            body:JSON.stringify({message:text})
+        });
+        const data=await response.json().catch(()=>({}));
+        if(!response.ok) throw new Error(data.error==="cooldown"?"Please wait a moment.":data.error==="message_too_long"?"Message is too long.":"Message failed.");
+        $("message").value="";
+        await loadMessages();
+        setStatus($("chatStatus"),"Message sent");
+    }catch(error){
+        setStatus($("chatStatus"),error.message||"Message failed");
+    }finally{
+        $("send").disabled=false;
+        $("message").focus();
+    }
+}
+
+$("unlock").addEventListener("click",unlock);
+$("send").addEventListener("click",sendMessage);
+$("key").addEventListener("keydown",event=>{
+    if(event.key==="Enter") unlock();
+});
+$("message").addEventListener("keydown",event=>{
+    if(event.key==="Enter"&&!event.shiftKey){
+        event.preventDefault();
+        sendMessage();
+    }
+});
+</script>
+</body>
+</html>
