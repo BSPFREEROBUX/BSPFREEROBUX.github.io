@@ -129,8 +129,8 @@ td{color:#e9e9f0}
                     <div class="muted" id="membershipText">Loading subscription status.</div>
                     <div class="meta">
                         <div class="meta-box"><span>Expires</span><strong id="expiresAt">—</strong></div>
-                        <div class="meta-box"><span>Requests / minute</span><strong id="rpm">10</strong></div>
-                        <div class="meta-box"><span>Requests / second</span><strong id="rps">10</strong></div>
+                        <div class="meta-box"><span>Requests / minute</span><strong id="rpm">No cap</strong></div>
+                        <div class="meta-box"><span>Requests / second</span><strong id="rps">5</strong></div>
                     </div>
                 </div>
                 <div class="timer" id="timer">—</div>
@@ -140,8 +140,8 @@ td{color:#e9e9f0}
                     <div class="plan-top"><h4>♾️ Infinity</h4><span class="tag">ZI</span></div>
                     <div class="price">$2 / 2 Zyphium</div>
                     <ul>
-                        <li>2× XP forever</li>
-                        <li>5× requests per minute</li>
+                        <li>PFP + GIF access</li>
+                        <li>5 requests / second</li>
                         <li>Server request priority</li>
                         <li>PFP + GIF access</li>
                         <li>Future Zyphor Pass access</li>
@@ -152,8 +152,8 @@ td{color:#e9e9f0}
                     <div class="price">$5 / 5 Zyphium</div>
                     <ul>
                         <li>Everything in Infinity</li>
-                        <li>3× XP forever</li>
-                        <li>20× requests per minute</li>
+                        <li>PFP + GIF access</li>
+                        <li>20 requests / second</li>
                         <li>Higher server request limit</li>
                         <li>Priority support</li>
                     </ul>
@@ -163,9 +163,9 @@ td{color:#e9e9f0}
                     <div class="price">$7.50 / 7.5 Zyphium</div>
                     <ul>
                         <li>Everything in Endless</li>
-                        <li>5× XP forever</li>
+                        <li>PFP + GIF access</li>
                         <li>4× boss damage</li>
-                        <li>40× requests per minute</li>
+                        <li>40 requests / second</li>
                         <li>Highest server priority</li>
                     </ul>
                 </div>
@@ -302,7 +302,7 @@ let me=null
 let generated=[]
 
 function token(){
-    return localStorage.getItem("loginToken") || localStorage.getItem("token") || localStorage.getItem("sessionToken") || ""
+    return localStorage.getItem("Token") || ""
 }
 
 function showToast(message){
