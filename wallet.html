@@ -2,27 +2,44 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#06080f">
 <title>Zyphium Wallet</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#05070b;
---panel:rgba(15,19,31,.72);
---panel2:rgba(19,24,39,.82);
+--bg:#04060a;
+--bg2:#070b12;
+--panel:rgba(14,19,31,.72);
+--panel-solid:#0d121d;
+--panel-2:rgba(21,27,43,.82);
 --border:rgba(255,255,255,.08);
---muted:#8ea2be;
---cyan:#00d5ff;
---purple:#9a3dff;
---green:#63e6aa;
---red:#ff7187;
+--border-strong:rgba(255,255,255,.13);
+--muted:#8b99b0;
+--muted-2:#64728b;
+--text:#f8fbff;
+--cyan:#00d9ff;
+--cyan2:#4c83ff;
+--purple:#9e4dff;
+--purple2:#6c4dff;
+--green:#62efaf;
+--red:#ff637d;
+--yellow:#ffc86d;
+--shadow:0 30px 90px rgba(0,0,0,.32);
 }
+html{scroll-behavior:smooth}
 body{
-font-family:Inter,sans-serif;
+font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+color:var(--text);
 background:
-radial-gradient(circle at top,#12224d 0%,#090b11 31%,#05070b 100%);
-color:#fff;
+radial-gradient(circle at 10% -10%,rgba(0,217,255,.12),transparent 25%),
+radial-gradient(circle at 90% 0%,rgba(158,77,255,.13),transparent 26%),
+radial-gradient(circle at 50% 110%,rgba(76,131,255,.08),transparent 26%),
+linear-gradient(180deg,#070a10 0%,#04060a 55%,#020408 100%);
 min-height:100vh;
 overflow-x:hidden;
 }
@@ -31,252 +48,549 @@ content:"";
 position:fixed;
 inset:0;
 pointer-events:none;
-background:
-radial-gradient(circle at 15% 18%,rgba(0,213,255,.11),transparent 24%),
-radial-gradient(circle at 83% 72%,rgba(154,61,255,.12),transparent 28%);
+z-index:-1;
+background-image:
+linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+background-size:42px 42px;
+mask-image:linear-gradient(to bottom,black,transparent 92%);
 }
-.layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+body::after{
+content:"";
+position:fixed;
+inset:-15%;
+pointer-events:none;
+z-index:-2;
+background:
+radial-gradient(circle at 25% 25%,rgba(0,217,255,.05),transparent 22%),
+radial-gradient(circle at 75% 52%,rgba(158,77,255,.05),transparent 24%);
+filter:blur(75px);
+}
+button,input,textarea,select{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,217,255,.38)}
+
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:100vh}
 .sidebar{
-padding:30px;
-background:rgba(10,13,20,.74);
-backdrop-filter:blur(24px);
-border-right:1px solid var(--border);
+position:sticky;
+top:0;
+height:100vh;
+padding:22px 16px;
 display:flex;
 flex-direction:column;
+background:rgba(7,10,16,.76);
+backdrop-filter:blur(26px);
+-webkit-backdrop-filter:blur(26px);
+border-right:1px solid var(--border);
+box-shadow:20px 0 80px rgba(0,0,0,.18);
+z-index:20;
 }
-.logo{display:flex;align-items:center;gap:14px;margin-bottom:40px}
-.logo img{width:54px;height:54px;object-fit:contain}
-.logo h2{font-size:27px;font-weight:800;letter-spacing:2px}
-.nav{display:flex;flex-direction:column;gap:9px}
-.item{
-padding:14px 17px;
-border:1px solid transparent;
-border-radius:16px;
-color:#b8c2d5;
+.logo{
+display:flex;
+align-items:center;
+gap:11px;
+padding:7px 10px 19px;
+margin-bottom:7px;
+}
+.logo img{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,217,255,.18))}
+.logo h2{font-size:21px;font-weight:900;letter-spacing:2.5px}
+.logoLive{margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 15px rgba(98,239,175,.8)}
+.nav{display:flex;flex-direction:column;gap:7px}
+.nav a{
+position:relative;
+display:flex;
+align-items:center;
+gap:11px;
+min-height:46px;
+padding:9px 11px;
+border-radius:14px;
 text-decoration:none;
-transition:.22s;
+color:#aab6c9;
+border:1px solid transparent;
+transition:.22s ease;
+overflow:hidden;
 }
-.item:hover,.item.active{
-background:linear-gradient(90deg,rgba(0,213,255,.12),rgba(154,61,255,.12));
-border-color:rgba(0,213,255,.25);
-color:#fff;
-transform:translateX(5px);
+.nav a::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(90deg,rgba(0,217,255,.09),rgba(158,77,255,.09));
+opacity:0;
+transition:.22s ease;
 }
-.bottom{margin-top:auto}
-.main{padding:34px;max-width:1550px;width:100%;margin:0 auto}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
-.kicker{color:#8ea2be;text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:700}
-h1{font-size:40px;margin-top:4px}
-.subtitle{color:#9fa8b6;margin-top:6px}
+.nav a:hover,.nav a.active{color:#fff;border-color:rgba(255,255,255,.07);transform:translateX(4px);background:rgba(255,255,255,.025)}
+.nav a:hover::after,.nav a.active::after{opacity:1}
+.nav a.active::before{
+content:"";
+position:absolute;
+left:0;
+top:9px;
+bottom:9px;
+width:3px;
+border-radius:99px;
+background:linear-gradient(180deg,var(--cyan),var(--purple));
+box-shadow:0 0 15px rgba(0,217,255,.55);
+}
+.navIcon{
+position:relative;
+z-index:1;
+width:29px;height:29px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:9px;
+border:1px solid rgba(255,255,255,.07);
+background:rgba(255,255,255,.035);
+font-size:14px;
+}
+.navText{position:relative;z-index:1;font-size:12px;font-weight:700}
+.bottom{margin-top:auto;padding-top:13px;border-top:1px solid rgba(255,255,255,.05)}
+
+.main{min-width:0;width:100%;max-width:1600px;margin:0 auto;padding:28px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px}
+.kicker{font-size:10px;letter-spacing:2.1px;text-transform:uppercase;color:#7590b8;font-weight:900}
+.pageTitle{font-size:38px;line-height:1.05;margin-top:5px;letter-spacing:-1.6px}
+.subtitle{color:var(--muted);font-size:13px;margin-top:7px;line-height:1.5}
 .profile{
 display:flex;
 align-items:center;
-gap:12px;
-padding:10px 15px;
-background:rgba(255,255,255,.04);
+gap:11px;
+padding:8px 11px 8px 8px;
+background:rgba(255,255,255,.035);
 border:1px solid var(--border);
 border-radius:18px;
+backdrop-filter:blur(18px);
 }
 .avatar{
-width:46px;height:46px;border-radius:50%;
+width:45px;height:45px;border-radius:50%;
 overflow:hidden;
-background:linear-gradient(135deg,var(--cyan),#7a3cff);
 display:flex;align-items:center;justify-content:center;
-font-weight:800;
+background:linear-gradient(135deg,var(--cyan),var(--purple2));
+font-weight:900;
+box-shadow:0 0 24px rgba(0,217,255,.12);
 }
 .avatar img{width:100%;height:100%;object-fit:cover}
-.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,.8fr);gap:22px}
+.profileName{font-size:12px;font-weight:800}
+.profileSub{font-size:10px;color:#6f7d95;margin-top:3px}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(330px,.82fr);gap:20px;align-items:start}
+.left,.right{min-width:0}
+.right{display:flex;flex-direction:column;gap:20px}
+
 .card{
 border:1px solid var(--border);
 border-radius:24px;
-background:var(--panel);
-backdrop-filter:blur(28px);
-box-shadow:0 0 40px rgba(0,213,255,.06);
+background:
+linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),
+var(--panel);
+backdrop-filter:blur(26px);
+-webkit-backdrop-filter:blur(26px);
+box-shadow:var(--shadow);
 }
+.cardPad{padding:21px}
+.cardHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:16px}
+.cardHeader h2{font-size:18px;letter-spacing:-.35px}
+.cardHeader p{margin-top:5px;color:var(--muted);font-size:11px;line-height:1.45}
+
 .balanceCard{
-padding:28px;
-min-height:285px;
 position:relative;
 overflow:hidden;
+padding:24px;
+min-height:300px;
 background:
-radial-gradient(circle at 92% 18%,rgba(0,213,255,.18),transparent 24%),
-radial-gradient(circle at 12% 86%,rgba(154,61,255,.14),transparent 28%),
-rgba(18,22,34,.72);
+radial-gradient(circle at 90% 15%,rgba(0,217,255,.18),transparent 23%),
+radial-gradient(circle at 15% 85%,rgba(158,77,255,.14),transparent 28%),
+linear-gradient(140deg,rgba(20,27,44,.82),rgba(10,15,25,.78));
+}
+.balanceCard::before{
+content:"";
+position:absolute;
+width:420px;height:420px;
+right:-230px;bottom:-270px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,.07);
+box-shadow:0 0 0 44px rgba(255,255,255,.017),0 0 0 88px rgba(255,255,255,.012),0 0 0 132px rgba(255,255,255,.009);
 }
 .balanceCard::after{
 content:"";
 position:absolute;
-width:300px;height:300px;
-right:-140px;bottom:-160px;
-border:1px solid rgba(255,255,255,.07);
-border-radius:50%;
-box-shadow:0 0 0 40px rgba(255,255,255,.02),0 0 0 80px rgba(255,255,255,.015);
+inset:0;
+pointer-events:none;
+background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.035) 48%,transparent 55%);
+transform:translateX(-120%);
+animation:sheen 9s ease-in-out infinite;
 }
-.balanceTop{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
+@keyframes sheen{0%,55%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
+.balanceTop{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.balanceLabel{margin-top:23px;font-size:11px;color:#7f90ab}
+.balance{font-size:55px;font-weight:900;line-height:1.03;letter-spacing:-2.2px;margin-top:7px}
+.balance small{font-size:19px;color:#b8c6da;letter-spacing:0;font-weight:700}
 .accountBadge{
-padding:7px 11px;
+display:inline-flex;
+align-items:center;
+gap:6px;
+padding:7px 10px;
 border-radius:999px;
-font-size:11px;
-font-weight:700;
-letter-spacing:.5px;
-color:#c8d6f0;
-background:rgba(255,255,255,.05);
+font-size:9px;
+font-weight:900;
+letter-spacing:.9px;
+color:#bbccdf;
 border:1px solid rgba(255,255,255,.07);
+background:rgba(255,255,255,.035);
 }
-.balanceLabel{color:#8ea2be;font-size:13px;margin-top:35px}
-.balance{
-font-size:54px;
-font-weight:800;
-line-height:1.04;
-margin-top:8px;
-letter-spacing:-1.5px;
-}
-.balance span{font-size:22px;color:#b8c2d5;letter-spacing:0}
-.accountRow{
+.accountBadge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(98,239,175,.7)}
+.accountMeta{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.accountId{
 display:flex;
 align-items:center;
 gap:10px;
-margin-top:22px;
-flex-wrap:wrap;
-}
-.accountId{
+min-width:0;
+padding:10px 11px;
+border-radius:12px;
 font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-color:#d8e2f5;
-background:rgba(0,0,0,.2);
+font-size:11px;
+color:#dbe5f6;
+background:rgba(0,0,0,.18);
 border:1px solid rgba(255,255,255,.06);
-border-radius:11px;
-padding:10px 12px;
 }
-.smallBtn,.primaryBtn,.dangerBtn{
-border:none;
+.accountId span{min-width:0;max-width:245px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.buttonRow{display:flex;flex-wrap:wrap;gap:8px}
+.smallBtn,.primaryBtn,.dangerBtn,.ghostBtn{
 border-radius:12px;
-padding:11px 14px;
-cursor:pointer;
+padding:10px 13px;
+font-size:11px;
+font-weight:800;
 color:#fff;
-font-weight:700;
+transition:.2s ease;
 }
-.smallBtn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
-.smallBtn:hover{background:rgba(255,255,255,.1)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:20px}
-.stat{padding:18px}
-.stat .icon{font-size:20px;margin-bottom:12px}
-.stat .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.stat .value{font-size:24px;font-weight:800;margin-top:7px}
-.panelPad{padding:24px}
-.sectionHead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:17px}
-.sectionHead h2{font-size:20px}
-.sectionHead p{color:var(--muted);font-size:12px;margin-top:5px}
-.quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.action{
-padding:16px;
-border-radius:16px;
+.smallBtn,.ghostBtn{
+border:1px solid rgba(255,255,255,.07);
 background:rgba(255,255,255,.035);
-border:1px solid rgba(255,255,255,.055);
-cursor:pointer;
-transition:.2s;
 }
-.action:hover{transform:translateY(-2px);background:rgba(255,255,255,.06)}
-.action strong{display:block;margin-bottom:6px}
-.action span{font-size:12px;color:var(--muted)}
-input,textarea{
-width:100%;
-margin-top:11px;
-padding:13px 14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,.09);
-background:rgba(0,0,0,.23);
-color:#fff;
-outline:none;
-}
-input:focus,textarea:focus{border-color:rgba(0,213,255,.4);box-shadow:0 0 0 3px rgba(0,213,255,.05)}
-textarea{resize:vertical;min-height:80px}
+.smallBtn:hover,.ghostBtn:hover{transform:translateY(-1px);background:rgba(255,255,255,.065);border-color:rgba(255,255,255,.12)}
 .primaryBtn{
-width:100%;
-margin-top:12px;
-background:linear-gradient(90deg,#00bde4,#7040ff);
-box-shadow:0 8px 28px rgba(0,213,255,.12);
+border:1px solid rgba(0,217,255,.16);
+background:linear-gradient(95deg,#00b9e3,#7650ff);
+box-shadow:0 10px 28px rgba(0,217,255,.12);
 }
-.primaryBtn:hover{filter:brightness(1.08)}
-.note{font-size:11px;color:var(--muted);margin-top:9px}
-.status{min-height:19px;margin-top:10px;font-size:12px}
-.status.ok{color:var(--green)}
-.status.err{color:var(--red)}
-.transactionList{display:flex;flex-direction:column}
+.primaryBtn:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.dangerBtn{border:1px solid rgba(255,99,125,.18);background:rgba(255,99,125,.07);color:#ff9baa}
+.dangerBtn:hover{background:rgba(255,99,125,.13)}
+.securityLine{position:relative;z-index:1;display:flex;align-items:center;gap:8px;margin-top:19px;color:#7d8ca3;font-size:10px}
+.securityLine .shield{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:rgba(98,239,175,.06);border:1px solid rgba(98,239,175,.13);color:#9cf2ca}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
+.stat{padding:17px;min-height:123px}
+.statTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.statIcon{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font-size:14px}
+.statLabel{font-size:9px;text-transform:uppercase;letter-spacing:1.3px;color:#718099;font-weight:900}
+.statValue{font-size:25px;font-weight:900;margin-top:15px;letter-spacing:-.6px}
+.statHint{font-size:9px;color:#5e6b82;margin-top:5px}
+
+.sectionTools{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.filterSelect,.searchInput{
+height:38px;
+padding:0 11px;
+border-radius:11px;
+border:1px solid rgba(255,255,255,.07);
+background:rgba(0,0,0,.17);
+color:#e9eef8;
+outline:none;
+font-size:10px;
+}
+.filterSelect:focus,.searchInput:focus{border-color:rgba(0,217,255,.33);box-shadow:0 0 0 3px rgba(0,217,255,.04)}
+.searchWrap{position:relative}
+.searchWrap .searchInput{padding-left:33px;width:210px}
+.searchGlyph{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:11px;color:#68758b;pointer-events:none}
+
+.transactions{
+display:flex;
+flex-direction:column;
+max-height:520px;
+overflow-y:auto;
+padding-right:3px;
+}
 .transaction{
 display:flex;
-justify-content:space-between;
 align-items:center;
-gap:16px;
-padding:15px 0;
+justify-content:space-between;
+gap:14px;
+padding:14px 2px;
 border-bottom:1px solid rgba(255,255,255,.055);
+cursor:pointer;
+transition:.18s ease;
 }
+.transaction:hover{padding-left:6px;padding-right:6px;background:rgba(255,255,255,.018)}
 .transaction:last-child{border-bottom:none}
-.tLeft{display:flex;gap:12px;align-items:center;min-width:0}
-.txIcon{
-width:40px;height:40px;border-radius:13px;
+.txLeft{display:flex;align-items:center;gap:11px;min-width:0}
+.txIcon{width:39px;height:39px;flex-shrink:0;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:16px}
+.txIcon.sent{background:rgba(255,99,125,.06);border-color:rgba(255,99,125,.11);color:#ff97a7}
+.txIcon.received{background:rgba(98,239,175,.06);border-color:rgba(98,239,175,.11);color:#9df2ca}
+.txIcon.adjust{background:rgba(255,200,109,.06);border-color:rgba(255,200,109,.11);color:#ffd796}
+.txInfo{min-width:0}
+.txTitle{font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.txMeta{font-size:9px;color:#6f7d95;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:470px}
+.txAmount{font-size:11px;font-weight:900;white-space:nowrap}
+.txAmount.pos{color:var(--green)}
+.txAmount.neg{color:#ff8da0}
+.txAmount.neutral{color:#ffd07f}
+.empty{text-align:center;padding:42px 14px;color:#69758a;font-size:11px}
+.emptyIcon{font-size:27px;margin-bottom:10px;opacity:.55}
+
+.sendCard{padding:20px}
+.inputGroup{margin-top:12px}
+.inputLabel{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#7d8ca4;font-size:10px;font-weight:800}
+.inputLabel span:last-child{font-weight:600;color:#5e6b82}
+.input{
+width:100%;
+height:44px;
+margin-top:7px;
+padding:0 12px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,.08);
+background:rgba(0,0,0,.20);
+color:#fff;
+outline:none;
+font-size:12px;
+}
+.input::placeholder{color:#58657a}
+.input:focus{border-color:rgba(0,217,255,.35);box-shadow:0 0 0 3px rgba(0,217,255,.05)}
+textarea.input{height:76px;padding:12px;resize:vertical}
+.amountWrap{position:relative}
+.amountWrap .input{padding-right:78px}
+.amountUnit{position:absolute;right:11px;bottom:13px;color:#6e7c94;font-size:9px;font-weight:900}
+.quickAmounts{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.quickAmount{height:29px;padding:0 9px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);color:#9eacc0;font-size:9px;font-weight:800}
+.quickAmount:hover{background:rgba(0,217,255,.06);color:#bdefff;border-color:rgba(0,217,255,.15)}
+.sendFooter{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px}
+.sendFooter .primaryBtn{flex:1}
+.balanceHint{font-size:9px;color:#637189;line-height:1.35}
+.recipientPreview{
+display:none;
+margin-top:8px;
+padding:9px 10px;
+border-radius:10px;
+border:1px solid rgba(0,217,255,.12);
+background:rgba(0,217,255,.035);
+color:#93dff0;
+font-size:9px;
+line-height:1.45;
+}
+.recipientPreview.show{display:block}
+
+.contacts{display:flex;flex-direction:column;gap:8px;max-height:255px;overflow:auto}
+.contact{
+display:flex;
+align-items:center;
+gap:10px;
+padding:10px;
+border-radius:13px;
+border:1px solid rgba(255,255,255,.055);
+background:rgba(255,255,255,.02);
+transition:.18s ease;
+}
+.contact:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.09)}
+.contactIcon{width:33px;height:33px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(135deg,rgba(0,217,255,.08),rgba(158,77,255,.08));border:1px solid rgba(255,255,255,.06);font-size:12px}
+.contactInfo{min-width:0;flex:1}
+.contactName{font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contactId{font-family:ui-monospace,monospace;color:#637189;font-size:8px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contactActions{display:flex;gap:5px}
+.iconBtn{
+width:29px;height:29px;border-radius:9px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:#8290a7;font-size:12px;
 display:flex;align-items:center;justify-content:center;
-font-size:17px;
-background:rgba(255,255,255,.05);
-flex-shrink:0;
+transition:.18s ease;
 }
-.txTitle{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.txMeta{color:var(--muted);font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.txAmount{text-align:right;white-space:nowrap;font-weight:800}
-.pos{color:var(--green)}
-.neg{color:var(--red)}
-.neutral{color:#ffc76c}
-.empty{text-align:center;color:var(--muted);padding:38px 10px}
-.search{
-width:210px;
-margin:0;
-padding:10px 12px;
+.iconBtn:hover{color:#fff;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.11);transform:translateY(-1px)}
+.iconBtn.danger:hover{color:#ff9aaa;border-color:rgba(255,99,125,.17);background:rgba(255,99,125,.06)}
+.contactStar{color:var(--yellow)}
+
+.quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quickAction{
+display:flex;
+align-items:center;
+gap:9px;
+padding:12px;
+border-radius:13px;
+border:1px solid rgba(255,255,255,.055);
+background:rgba(255,255,255,.022);
+color:#e7edf8;
+transition:.18s ease;
 }
+.quickAction:hover{transform:translateY(-2px);background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)}
+.quickActionIcon{width:31px;height:31px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:13px}
+.quickActionText{min-width:0}
+.quickActionTitle{font-size:10px;font-weight:800}
+.quickActionSub{font-size:8px;color:#627087;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.syncBar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-top:13px;
+padding:9px 11px;
+border-radius:12px;
+background:rgba(255,255,255,.025);
+border:1px solid rgba(255,255,255,.055);
+}
+.syncLeft{display:flex;align-items:center;gap:8px;color:#718099;font-size:9px}
+.syncDot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(98,239,175,.7)}
+.syncRight{color:#68758b;font-size:8px}
+
+.toastContainer{position:fixed;right:22px;bottom:22px;z-index:100;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{
+min-width:260px;
+max-width:370px;
+display:flex;
+align-items:flex-start;
+gap:10px;
+padding:12px;
+border-radius:15px;
+background:rgba(11,16,26,.94);
+border:1px solid rgba(255,255,255,.09);
+box-shadow:0 20px 60px rgba(0,0,0,.42);
+backdrop-filter:blur(18px);
+animation:toastIn .22s ease;
+pointer-events:auto;
+}
+@keyframes toastIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.toastIcon{width:31px;height:31px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.04)}
+.toastText{font-size:10px;color:#dbe5f3;line-height:1.45}
+.toastTitle{font-size:10px;font-weight:900;margin-bottom:3px}
+.toast.success .toastIcon{color:var(--green);background:rgba(98,239,175,.07)}
+.toast.error .toastIcon{color:#ff98a8;background:rgba(255,99,125,.07)}
+.toast.info .toastIcon{color:#83dcff;background:rgba(0,217,255,.07)}
+
 .modal{
 position:fixed;
 inset:0;
 display:none;
 align-items:center;
 justify-content:center;
-background:rgba(0,0,0,.68);
-backdrop-filter:blur(10px);
-z-index:20;
-padding:20px;
+padding:18px;
+background:rgba(0,0,0,.73);
+backdrop-filter:blur(11px);
+-webkit-backdrop-filter:blur(11px);
+z-index:60;
 }
 .modal.show{display:flex}
 .modalCard{
-width:460px;
+width:470px;
 max-width:100%;
-padding:25px;
-border-radius:22px;
-background:rgba(14,18,29,.97);
-border:1px solid rgba(255,255,255,.1);
-box-shadow:0 20px 80px rgba(0,0,0,.45);
+padding:22px;
+border-radius:23px;
+border:1px solid rgba(255,255,255,.10);
+background:linear-gradient(145deg,rgba(20,26,41,.98),rgba(9,13,21,.98));
+box-shadow:0 30px 110px rgba(0,0,0,.6);
+animation:modalIn .2s ease;
 }
-.closeRow{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.close{background:none;border:none;color:#9da7c5;font-size:26px;cursor:pointer}
-.footerRow{display:flex;gap:10px;margin-top:12px}
-.footerRow button{flex:1}
-@media(max-width:1150px){
+@keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+.modalHead{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}
+.modalHead h2{font-size:20px;letter-spacing:-.4px}
+.modalHead p{margin-top:5px;color:#75839a;font-size:10px;line-height:1.45}
+.closeBtn{width:32px;height:32px;border-radius:10px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);color:#91a0b7;font-size:18px;display:flex;align-items:center;justify-content:center}
+.closeBtn:hover{color:#fff;background:rgba(255,255,255,.07)}
+.modalBody{margin-top:16px}
+.confirmBox{
+padding:13px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.07);
+background:rgba(255,255,255,.025);
+}
+.confirmLine{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.045);font-size:10px}
+.confirmLine:last-child{border-bottom:none}
+.confirmLine span:first-child{color:#69778e}
+.confirmLine strong{color:#eaf0f9;text-align:right}
+.modalActions{display:flex;gap:8px;margin-top:14px}
+.modalActions button{flex:1}
+.qrBox{display:flex;justify-content:center;align-items:center;min-height:230px;padding:18px}
+#qrcode{padding:12px;border-radius:16px;background:#fff}
+#qrcode img{display:block}
+.qrCodeText{text-align:center;margin-top:8px;color:#7b889d;font-size:9px;word-break:break-all}
+
+.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.detailHero{
+display:flex;
+align-items:center;
+gap:11px;
+padding:13px;
+border-radius:14px;
+background:rgba(255,255,255,.025);
+border:1px solid rgba(255,255,255,.06);
+}
+.detailIcon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);font-size:17px}
+.detailTitle{font-size:11px;font-weight:900}
+.detailSub{font-size:9px;color:#66738a;margin-top:4px}
+.detailGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.detailCell{padding:11px;border-radius:11px;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05)}
+.detailCell small{display:block;color:#5f6d83;font-size:8px;text-transform:uppercase;letter-spacing:1px;font-weight:900}
+.detailCell b{display:block;margin-top:5px;font-size:10px;color:#dfe6f2;word-break:break-word}
+
+.mobileBar{
+display:none;
+position:sticky;
+bottom:0;
+margin:-8px -8px 0;
+padding:9px;
+background:rgba(6,9,15,.92);
+backdrop-filter:blur(18px);
+border-top:1px solid var(--border);
+z-index:30;
+}
+.mobileBar button{flex:1;min-height:42px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(255,255,255,.035);color:#9daac0;font-size:10px;font-weight:800}
+.mobileBar button.active{color:#fff;border-color:rgba(0,217,255,.17);background:linear-gradient(90deg,rgba(0,217,255,.07),rgba(158,77,255,.07))}
+
+@media(max-width:1250px){
 .grid{grid-template-columns:1fr}
+.right{display:grid;grid-template-columns:1fr 1fr}
+.stats{grid-template-columns:repeat(3,1fr)}
 }
-@media(max-width:900px){
+@media(max-width:920px){
 .layout{grid-template-columns:1fr}
-.sidebar{padding:18px;flex-direction:row;overflow:auto;gap:18px;align-items:center}
-.logo{margin-bottom:0}
-.logo img{width:42px;height:42px}
-.logo h2{font-size:21px}
-.nav{flex-direction:row}
-.bottom{margin:0 0 0 auto}
-.main{padding:20px}
+.sidebar{
+position:relative;
+height:auto;
+top:auto;
+padding:11px 12px;
+border-right:none;
+border-bottom:1px solid var(--border);
+}
+.logo{padding:3px 5px 9px;margin:0}
+.logo img{width:38px;height:38px}
+.logo h2{font-size:18px}
+.nav{flex-direction:row;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{min-width:max-content}
+.nav .navText{font-size:10px}
+.bottom{display:none}
+.main{padding:19px}
+.right{display:flex}
 }
 @media(max-width:680px){
-.top{flex-direction:column;align-items:flex-start;gap:15px}
-h1{font-size:31px}
+.topbar{flex-direction:column;align-items:flex-start}
+.profile{width:100%}
+.pageTitle{font-size:31px}
 .stats{grid-template-columns:1fr}
-.quickGrid{grid-template-columns:1fr}
 .balance{font-size:43px}
-.search{width:100%}
-.transaction{align-items:flex-start}
+.balanceCard{padding:20px}
+.balanceTop{flex-direction:column}
+.accountId{flex:1}
+.accountId span{max-width:170px}
+.accountMeta{align-items:stretch}
+.searchWrap .searchInput{width:100%}
+.sectionTools{width:100%}
+.sectionTools .filterSelect{flex:1}
+.sectionTools .searchWrap{width:100%}
+.sendFooter{flex-direction:column;align-items:stretch}
+.quickGrid{grid-template-columns:1fr}
+.formGrid{grid-template-columns:1fr}
+.mobileBar{display:flex;gap:8px}
+.toastContainer{right:12px;left:12px;bottom:12px}
+.toast{min-width:0;max-width:none;width:100%}
 }
 </style>
 </head>
@@ -286,158 +600,312 @@ h1{font-size:31px}
 <div class="logo">
 <img src="https://zyphor.cc/Logo1.png">
 <h2>ZYPHOR</h2>
+<div class="logoLive"></div>
 </div>
 <nav class="nav">
-<a class="item" href="dashboard.html">Dashboard</a>
-<a class="item" href="#" onclick="goProfile();return false;">Profile</a>
-<a class="item" href="dms.html">Messages</a>
-<a class="item active" href="wallet.html">Wallet</a>
-<a class="item" href="Cloud.html">Cloud</a>
-<a class="item" href="download.html">App Center</a>
-<a class="item" href="Support.html">Support</a>
+<a href="dashboard.html"><span class="navIcon">⌂</span><span class="navText">Dashboard</span></a>
+<a href="#" onclick="goProfile();return false;"><span class="navIcon">◉</span><span class="navText">Profile</span></a>
+<a href="dms.html"><span class="navIcon">✦</span><span class="navText">Messages</span></a>
+<a href="wallet.html" class="active"><span class="navIcon">◈</span><span class="navText">Wallet</span></a>
+<a href="Cloud.html"><span class="navIcon">☁</span><span class="navText">Cloud</span></a>
+<a href="download.html"><span class="navIcon">↓</span><span class="navText">App Center</span></a>
+<a href="Support.html"><span class="navIcon">?</span><span class="navText">Support</span></a>
+<a href="Settings.html"><span class="navIcon">⚙</span><span class="navText">Settings</span></a>
 </nav>
 <div class="bottom">
-<a class="item" href="#" onclick="logout();return false;">Logout</a>
+<a href="#" onclick="logout();return false;"><span class="navIcon">↪</span><span class="navText">Logout</span></a>
 </div>
 </aside>
 
 <main class="main">
-<div class="top">
+<div class="topbar">
 <div>
 <div class="kicker">Zyphium Financial</div>
-<h1>Wallet</h1>
-<p class="subtitle">Manage your Zyphium, send payments, and track every movement.</p>
+<h1 class="pageTitle">Wallet</h1>
+<p class="subtitle">Your account balance, saved wallets, transfers, and complete payment history.</p>
 </div>
 <div class="profile">
-<div class="avatar"><img id="avatarImage" style="display:none"></div>
+<div class="avatar"><img id="avatarImage" style="display:none"><span id="avatarFallback">Z</span></div>
 <div>
-<b id="profileName">Loading...</b>
-<div style="color:#8ea2be;font-size:12px;margin-top:3px">Zyphor Account</div>
+<div class="profileName" id="profileName">Loading...</div>
+<div class="profileSub">Zyphor Account</div>
 </div>
 </div>
 </div>
 
 <div class="grid">
-<div>
-<div class="card balanceCard">
+<div class="left">
+
+<section class="card balanceCard">
 <div class="balanceTop">
 <div>
 <div class="kicker">Available funds</div>
 <div class="balanceLabel">Current Zyphium balance</div>
-<div class="balance" id="balance">0 <span>Zyphium</span></div>
+<div class="balance" id="balance">0 <small>Zyphium</small></div>
 </div>
-<div class="accountBadge">ACTIVE ACCOUNT</div>
+<div class="accountBadge"><span class="dot"></span><span id="accountStatus">SYNCED</span></div>
 </div>
-<div class="accountRow">
-<div class="accountId" id="accountId">Loading...</div>
+
+<div class="accountMeta">
+<div class="accountId"><span id="accountId">Loading...</span></div>
+<div class="buttonRow">
 <button class="smallBtn" onclick="copyAccount()">Copy ID</button>
-<button class="smallBtn" onclick="refresh()">Refresh</button>
+<button class="smallBtn" onclick="openQR()">QR</button>
+<button class="smallBtn" onclick="openAddressBook()">Saved Wallets</button>
+<button class="smallBtn" onclick="refreshWallet()">Refresh</button>
 </div>
 </div>
+
+<div class="securityLine">
+<div class="shield">✓</div>
+<span>Wallet memory is stored locally by ZAccountID. Your Zyphor session token is never stored by this page.</span>
+</div>
+
+<div class="syncBar">
+<div class="syncLeft"><span class="syncDot"></span><span id="syncText">Connected to Zyphor Wallet</span></div>
+<div class="syncRight" id="lastSync">Not synced yet</div>
+</div>
+</section>
 
 <div class="stats">
 <div class="card stat">
-<div class="icon">↗</div>
-<div class="label">Sent</div>
-<div class="value" id="sentCount">0</div>
+<div class="statTop"><div class="statLabel">Sent</div><div class="statIcon">↗</div></div>
+<div class="statValue" id="sentCount">0</div>
+<div class="statHint" id="sentTotal">0 Zyphium</div>
 </div>
 <div class="card stat">
-<div class="icon">↙</div>
-<div class="label">Received</div>
-<div class="value" id="receivedCount">0</div>
+<div class="statTop"><div class="statLabel">Received</div><div class="statIcon">↙</div></div>
+<div class="statValue" id="receivedCount">0</div>
+<div class="statHint" id="receivedTotal">0 Zyphium</div>
 </div>
 <div class="card stat">
-<div class="icon">◆</div>
-<div class="label">Payments</div>
-<div class="value" id="paymentCount">0</div>
+<div class="statTop"><div class="statLabel">Activity</div><div class="statIcon">◆</div></div>
+<div class="statValue" id="paymentCount">0</div>
+<div class="statHint" id="activityHint">Wallet transactions</div>
 </div>
 </div>
 
-<div class="card panelPad" style="margin-top:20px">
-<div class="sectionHead">
+<section class="card cardPad" style="margin-top:15px">
+<div class="cardHeader">
 <div>
 <h2>Recent activity</h2>
-<p>Your latest Zyphium account movements.</p>
+<p>Search, filter, inspect, and export your Zyphium history.</p>
 </div>
-<input class="search" id="search" placeholder="Search payments" oninput="renderTransactions()">
+<div class="sectionTools">
+<div class="searchWrap">
+<span class="searchGlyph">⌕</span>
+<input class="searchInput" id="transactionSearch" placeholder="Search activity..." oninput="renderTransactions()">
 </div>
-<div class="transactionList" id="transactions"></div>
+<select class="filterSelect" id="transactionFilter" onchange="renderTransactions()">
+<option value="all">All</option>
+<option value="sent">Sent</option>
+<option value="received">Received</option>
+<option value="adjustment">Adjustments</option>
+</select>
+<button class="ghostBtn" onclick="exportCSV()">Export</button>
 </div>
+</div>
+<div class="transactions" id="transactions"></div>
+</section>
 </div>
 
-<div style="display:flex;flex-direction:column;gap:20px">
-<div class="card panelPad">
-<div class="sectionHead">
+<div class="right">
+<section class="card sendCard">
+<div class="cardHeader">
 <div>
 <h2>Send Zyphium</h2>
-<p>Transfer funds to any Zyphium account.</p>
+<p>Transfer funds to a ZAccountID with a confirmation step.</p>
 </div>
-<div style="font-size:22px">↗</div>
-</div>
-<input id="receiverID" placeholder="Recipient ZAccountID" autocomplete="off">
-<input id="amount" type="number" min="0.01" step="0.01" placeholder="Amount">
-<textarea id="note" maxlength="200" placeholder="Payment note (optional)"></textarea>
-<button class="primaryBtn" onclick="transfer()">Send Zyphium</button>
-<div class="status" id="status"></div>
-<div class="note">Transfers are recorded on both accounts with the same transaction ID.</div>
+<div class="statIcon">↗</div>
 </div>
 
-<div class="card panelPad">
-<div class="sectionHead">
+<div class="inputGroup">
+<div class="inputLabel"><span>Recipient</span><span>ZAccountID</span></div>
+<input class="input" id="receiverID" placeholder="Enter ZAccountID" autocomplete="off" oninput="updateRecipientPreview()">
+<div class="recipientPreview" id="recipientPreview"></div>
+</div>
+
+<div class="inputGroup">
+<div class="inputLabel"><span>Amount</span><span id="maxAmountLabel">Available 0</span></div>
+<div class="amountWrap">
+<input class="input" id="amount" type="number" min="0.01" step="0.01" placeholder="0.00" oninput="updateAmountHint()">
+<div class="amountUnit">ZYPHIUM</div>
+</div>
+<div class="quickAmounts">
+<button class="quickAmount" onclick="setAmount(5)">5</button>
+<button class="quickAmount" onclick="setAmount(10)">10</button>
+<button class="quickAmount" onclick="setAmount(25)">25</button>
+<button class="quickAmount" onclick="setAmount(50)">50</button>
+<button class="quickAmount" onclick="setPercent(25)">25%</button>
+<button class="quickAmount" onclick="setPercent(50)">50%</button>
+<button class="quickAmount" onclick="setPercent(100)">MAX</button>
+</div>
+</div>
+
+<div class="inputGroup">
+<div class="inputLabel"><span>Note</span><span id="noteCount">0 / 200</span></div>
+<textarea class="input" id="note" maxlength="200" placeholder="Optional payment note..." oninput="document.getElementById('noteCount').textContent=this.value.length+' / 200'"></textarea>
+</div>
+
+<div class="sendFooter">
+<div class="balanceHint">Transfers are recorded on both accounts with the same transaction ID when supported by the wallet server.</div>
+<button class="primaryBtn" onclick="prepareTransfer()">Review Payment</button>
+</div>
+<div class="status" id="sendStatus"></div>
+</section>
+
+<section class="card cardPad">
+<div class="cardHeader">
+<div>
+<h2>Saved wallets</h2>
+<p>Remember people by their ZAccountID, even after a refresh.</p>
+</div>
+<button class="smallBtn" onclick="openAddressBook()">Manage</button>
+</div>
+<div class="contacts" id="contacts"></div>
+</section>
+
+<section class="card cardPad">
+<div class="cardHeader">
 <div>
 <h2>Quick actions</h2>
-<p>Common wallet actions.</p>
+<p>Useful wallet tools in one place.</p>
 </div>
 </div>
 <div class="quickGrid">
-<div class="action" onclick="copyAccount()">
-<strong>Copy ZAccountID</strong>
-<span>Share your payment destination.</span>
+<button class="quickAction" onclick="openSaveWallet()">
+<span class="quickActionIcon">＋</span>
+<span class="quickActionText"><span class="quickActionTitle">Save wallet</span><span class="quickActionSub">Remember a ZAccountID</span></span>
+</button>
+<button class="quickAction" onclick="openQR()">
+<span class="quickActionIcon">▦</span>
+<span class="quickActionText"><span class="quickActionTitle">Receive</span><span class="quickActionSub">Show your wallet QR</span></span>
+</button>
+<button class="quickAction" onclick="copyPaymentLink()">
+<span class="quickActionIcon">⌁</span>
+<span class="quickActionText"><span class="quickActionTitle">Payment link</span><span class="quickActionSub">Copy a receive link</span></span>
+</button>
+<button class="quickAction" onclick="showLatest()">
+<span class="quickActionIcon">↻</span>
+<span class="quickActionText"><span class="quickActionTitle">Latest payment</span><span class="quickActionSub">Jump to newest activity</span></span>
+</button>
 </div>
-<div class="action" onclick="document.getElementById('receiverID').focus()">
-<strong>New transfer</strong>
-<span>Start another Zyphium payment.</span>
-</div>
-<div class="action" onclick="showLatest()">
-<strong>Latest payment</strong>
-<span>Jump to your newest activity.</span>
-</div>
-<div class="action" onclick="refresh()">
-<strong>Refresh balance</strong>
-<span>Load the newest account data.</span>
-</div>
+</section>
 </div>
 </div>
 
-<div class="card panelPad">
-<div class="sectionHead">
-<div>
-<h2>Account security</h2>
-<p>Your ZAccountID is safe to share for receiving payments.</p>
-</div>
-<div style="font-size:22px">🔐</div>
-</div>
-<div style="padding:15px;border-radius:15px;background:rgba(99,230,170,.06);border:1px solid rgba(99,230,170,.12);color:#b9e8d2;font-size:12px;line-height:1.6">
-Your balance and transactions are handled by the Zyphium server. Never share your Zyphor session token with anyone.
-</div>
-</div>
-</div>
+<div class="mobileBar">
+<button id="mobileSendBtn" class="active" onclick="focusSection('send')">Send</button>
+<button onclick="focusSection('activity')">Activity</button>
+<button onclick="focusSection('wallets')">Wallets</button>
 </div>
 </main>
 </div>
 
-<div class="modal" id="resultModal">
+<div class="toastContainer" id="toastContainer"></div>
+
+<div class="modal" id="confirmModal">
 <div class="modalCard">
-<div class="closeRow">
-<div>
-<div class="kicker">Transaction complete</div>
-<h2 style="margin-top:4px">Payment sent</h2>
+<div class="modalHead">
+<div><h2>Review Payment</h2><p>Check the recipient and amount before sending your Zyphium.</p></div>
+<button class="closeBtn" onclick="closeModal('confirmModal')">×</button>
 </div>
-<button class="close" onclick="closeModal()">×</button>
+<div class="modalBody">
+<div class="confirmBox">
+<div class="confirmLine"><span>Recipient</span><strong id="confirmRecipient">—</strong></div>
+<div class="confirmLine"><span>Amount</span><strong id="confirmAmount">—</strong></div>
+<div class="confirmLine"><span>Note</span><strong id="confirmNote">—</strong></div>
+<div class="confirmLine"><span>Your balance after</span><strong id="confirmRemaining">—</strong></div>
 </div>
-<div id="resultText" style="color:#b8c2d5;line-height:1.6;margin-top:8px"></div>
-<div class="footerRow">
-<button class="smallBtn" onclick="closeModal()">Done</button>
+<div class="modalActions">
+<button class="ghostBtn" onclick="closeModal('confirmModal')">Go Back</button>
+<button class="primaryBtn" onclick="transfer()">Confirm & Send</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal" id="qrModal">
+<div class="modalCard">
+<div class="modalHead">
+<div><h2>Your Wallet QR</h2><p>Let another person scan your ZAccountID for receiving payments.</p></div>
+<button class="closeBtn" onclick="closeModal('qrModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="qrBox"><div id="qrcode"></div></div>
+<div class="qrCodeText" id="qrCodeText"></div>
+<div class="modalActions">
+<button class="ghostBtn" onclick="copyAccount()">Copy ZAccountID</button>
+<button class="primaryBtn" onclick="downloadQR()">Save QR</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal" id="saveModal">
+<div class="modalCard">
+<div class="modalHead">
+<div><h2>Save Wallet</h2><p>Create a local contact for a ZAccountID. This stays on this device.</p></div>
+<button class="closeBtn" onclick="closeModal('saveModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="inputGroup">
+<div class="inputLabel"><span>ZAccountID</span></div>
+<input class="input" id="saveWalletId" placeholder="ZAccountID" autocomplete="off">
+</div>
+<div class="inputGroup">
+<div class="inputLabel"><span>Name</span><span>Optional</span></div>
+<input class="input" id="saveWalletName" maxlength="50" placeholder="Friend, alt account, shop...">
+</div>
+<div class="modalActions">
+<button class="ghostBtn" onclick="closeModal('saveModal')">Cancel</button>
+<button class="primaryBtn" onclick="saveWallet()">Save Wallet</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal" id="addressModal">
+<div class="modalCard">
+<div class="modalHead">
+<div><h2>Wallet Address Book</h2><p>Your saved ZAccountIDs and recent recipients.</p></div>
+<button class="closeBtn" onclick="closeModal('addressModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="buttonRow" style="margin-bottom:11px">
+<button class="smallBtn" onclick="openSaveWallet()">＋ Add wallet</button>
+<button class="smallBtn" onclick="clearRecent()">Clear recent</button>
+</div>
+<div class="contacts" id="addressBookList" style="max-height:380px"></div>
+</div>
+</div>
+</div>
+
+<div class="modal" id="detailModal">
+<div class="modalCard">
+<div class="modalHead">
+<div><h2>Transaction Details</h2><p>Complete details for this wallet movement.</p></div>
+<button class="closeBtn" onclick="closeModal('detailModal')">×</button>
+</div>
+<div class="modalBody" id="detailBody"></div>
+</div>
+</div>
+
+<div class="modal" id="renameModal">
+<div class="modalCard">
+<div class="modalHead">
+<div><h2>Rename Wallet</h2><p>Change the local label used for this ZAccountID.</p></div>
+<button class="closeBtn" onclick="closeModal('renameModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="inputGroup">
+<div class="inputLabel"><span>Name</span></div>
+<input class="input" id="renameInput" maxlength="50" placeholder="Wallet name">
+</div>
+<div class="modalActions">
+<button class="ghostBtn" onclick="closeModal('renameModal')">Cancel</button>
+<button class="primaryBtn" onclick="renameWallet()">Save Name</button>
+</div>
 </div>
 </div>
 </div>
@@ -445,146 +913,72 @@ Your balance and transactions are handled by the Zyphium server. Never share you
 <script>
 let backend=""
 let account=null
+let profile=null
+let pendingTransfer=null
+let renameTarget=""
+let walletMemory=loadWalletMemory()
+
+const MEMORY_KEY="zyphorWalletMemoryV2"
+const oldMemoryKey="zyphorWalletMemory"
+let walletRefreshTimer=null
+
+function loadWalletMemory(){
+try{
+const raw=localStorage.getItem(MEMORY_KEY)
+if(raw){
+const parsed=JSON.parse(raw)
+return {
+ownZAccountID:parsed.ownZAccountID||"",
+contacts:Array.isArray(parsed.contacts)?parsed.contacts:[],
+recent:Array.isArray(parsed.recent)?parsed.recent:[],
+lastBalance:Number(parsed.lastBalance)||0,
+lastSync:parsed.lastSync||""
+}
+}
+const old=localStorage.getItem(oldMemoryKey)
+if(old){
+const parsed=JSON.parse(old)
+return {
+ownZAccountID:parsed.ownZAccountID||parsed.ZAccountID||"",
+contacts:Array.isArray(parsed.contacts)?parsed.contacts:[],
+recent:Array.isArray(parsed.recent)?parsed.recent:[],
+lastBalance:Number(parsed.lastBalance)||0,
+lastSync:parsed.lastSync||""
+}
+}
+}catch{}
+return {ownZAccountID:"",contacts:[],recent:[],lastBalance:0,lastSync:""}
+}
+
+function saveWalletMemory(){
+try{localStorage.setItem(MEMORY_KEY,JSON.stringify(walletMemory))}catch{}
+}
 
 function token(){
 return localStorage.getItem("Token")||localStorage.getItem("SessionID")
 }
 
 async function getBackend(){
-const r=await fetch("server.txt")
+const r=await fetch("server.txt",{cache:"no-store"})
+if(!r.ok)throw new Error("backend_config")
 return(await r.text()).trim()
 }
 
-async function api(url,options={}){
-const response=await fetch(backend+url,{
-...options,
-headers:{
-"Content-Type":"application/json",
-"Authorization":token(),
-...(options.headers||{})
-}
-})
-const text=await response.text()
-try{return JSON.parse(text)}catch{return {success:false,error:"invalid_response"}}
-}
-
-function formatAmount(value){
-return Number(value||0).toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:2})
-}
-
-function formatDate(time){
-return new Date(time).toLocaleString()
-}
-
-function setStatus(text,type=""){
-const el=document.getElementById("status")
-el.textContent=text
-el.className="status "+type
-}
-
-async function loadProfile(){
-try{
-const data=await api("/me")
-if(!data||data.error){
-localStorage.removeItem("Token")
-localStorage.removeItem("SessionID")
+async function api(path,options={}){
+const liveToken=token()
+if(!liveToken){
 location.href="login.html"
-return
+throw new Error("unauthorized")
 }
-document.getElementById("profileName").textContent=data.username||"Account"
-if(data.username){
-const img=document.getElementById("avatarImage")
-const test=new Image()
-test.onload=()=>{
-img.src=backend+"/account/pfp/"+encodeURIComponent(data.username)+"?v="+Date.now()
-img.style.display="block"
-}
-test.onerror=()=>{}
-test.src=backend+"/account/pfp/"+encodeURIComponent(data.username)+"?v="+Date.now()
-}
-}catch{}
+const headers=new Headers(options.headers||{})
+headers.set("Authorization",liveToken)
+if(options.body && !(options.body instanceof FormData) && !headers.has("Content-Type"))headers.set("Content-Type","application/json")
+return fetch(backend+path,{...options,headers,cache:"no-store"})
 }
 
-async function loadAccount(){
-try{
-const data=await api("/zyphium/account")
-if(!data||!data.success){
-setStatus("Unable to load your Zyphium account.","err")
-return
-}
-account=data
-document.getElementById("balance").innerHTML=
-formatAmount(data.balance)+" <span>Zyphium</span>"
-document.getElementById("accountId").textContent=data.ZAccountID
-const transactions=Array.isArray(data.transactions)?data.transactions:[]
-const sent=transactions.filter(x=>x.type==="transfer_sent").length
-const received=transactions.filter(x=>x.type==="transfer_received").length
-document.getElementById("sentCount").textContent=sent.toLocaleString()
-document.getElementById("receivedCount").textContent=received.toLocaleString()
-document.getElementById("paymentCount").textContent=transactions.length.toLocaleString()
-renderTransactions()
-}catch{
-setStatus("Unable to connect to the Zyphium server.","err")
-}
-}
-
-function transactionMatches(t,query){
-if(!query)return true
-const text=[
-t.type,t.from,t.to,t.fromZAccountID,t.toZAccountID,t.note,t.reason
-].filter(Boolean).join(" ").toLowerCase()
-return text.includes(query.toLowerCase())
-}
-
-function renderTransactions(){
-const box=document.getElementById("transactions")
-const query=document.getElementById("search").value.trim()
-const transactions=(account?.transactions||[]).filter(t=>transactionMatches(t,query))
-if(!transactions.length){
-box.innerHTML='<div class="empty">'+(query?"No matching payments.":"No payments yet.")+"</div>"
-return
-}
-box.innerHTML=transactions.map(t=>{
-let cls="neutral"
-let sign=""
-let icon="◆"
-let title="Account adjustment"
-let target=""
-if(t.type==="transfer_sent"){
-cls="neg"
-sign="-"
-icon="↗"
-title="Sent to "+(t.to||"Unknown")
-target=t.toZAccountID||""
-}
-if(t.type==="transfer_received"){
-cls="pos"
-sign="+"
-icon="↙"
-title="Received from "+(t.from||"Unknown")
-target=t.fromZAccountID||""
-}
-if(t.type==="admin_balance_edit"){
-const positive=Number(t.amount)>0
-cls=positive?"pos":Number(t.amount)<0?"neg":"neutral"
-sign=Number(t.amount)>0?"+":Number(t.amount)<0?"-":""
-icon="◆"
-title="Administrator balance adjustment"
-target=t.administrator?"By "+t.administrator:""
-}
-const meta=[formatDate(t.time),target,t.note||t.reason||""].filter(Boolean).join(" • ")
-return `
-<div class="transaction">
-<div class="tLeft">
-<div class="txIcon">${icon}</div>
-<div style="min-width:0">
-<div class="txTitle">${escapeHtml(title)}</div>
-<div class="txMeta">${escapeHtml(meta)}</div>
-</div>
-</div>
-<div class="txAmount ${cls}">${sign}${formatAmount(Math.abs(t.amount))} Zyphium</div>
-</div>`
-}).join("")
+async function safeJson(res){
+const text=await res.text()
+try{return JSON.parse(text)}catch{return null}
 }
 
 function escapeHtml(value){
@@ -596,102 +990,685 @@ return String(value??"")
 .replaceAll("'","&#039;")
 }
 
-async function transfer(){
+function formatAmount(value){
+return Number(value||0).toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:2})
+}
+
+function formatDate(value){
+if(!value)return "Unknown date"
+const d=new Date(value)
+if(Number.isNaN(d.getTime()))return String(value)
+return d.toLocaleString()
+}
+
+function setStatus(message,type=""){
+const el=document.getElementById("sendStatus")
+el.textContent=message
+el.style.color=type==="error"?"#ff8fa1":type==="success"?"#75efb4":"#7b89a1"
+}
+
+function toast(title,message,type="info"){
+const container=document.getElementById("toastContainer")
+const el=document.createElement("div")
+el.className="toast "+type
+el.innerHTML=`
+<div class="toastIcon">${type==="success"?"✓":type==="error"?"!":"i"}</div>
+<div class="toastText"><div class="toastTitle">${escapeHtml(title)}</div>${escapeHtml(message)}</div>
+`
+container.appendChild(el)
+setTimeout(()=>{
+el.style.opacity="0"
+el.style.transform="translateY(6px)"
+el.style.transition=".2s ease"
+setTimeout(()=>el.remove(),220)
+},3200)
+}
+
+function openModal(id){document.getElementById(id).classList.add("show")}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+
+document.querySelectorAll(".modal").forEach(modal=>{
+modal.addEventListener("click",e=>{
+if(e.target===modal)modal.classList.remove("show")
+})
+})
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape"){
+document.querySelectorAll(".modal.show").forEach(m=>m.classList.remove("show"))
+}
+if(e.key==="/" && document.activeElement.tagName!=="INPUT" && document.activeElement.tagName!=="TEXTAREA"){
+e.preventDefault()
+document.getElementById("transactionSearch").focus()
+}
+})
+
+async function trackPage(page){
+try{
+await api("/track/page",{method:"POST",body:JSON.stringify({page})})
+}catch{}
+}
+
+async function loadProfile(){
+try{
+const r=await api("/me")
+const data=await safeJson(r)
+if(!data||data.error){
+localStorage.removeItem("Token")
+localStorage.removeItem("SessionID")
+location.href="login.html"
+return false
+}
+profile=data
+document.getElementById("profileName").textContent=data.username||"Account"
+document.getElementById("avatarFallback").textContent=(data.username||"Z").slice(0,1).toUpperCase()
+if(data.username){
+const url=backend+"/account/pfp/"+encodeURIComponent(data.username)+"?v="+Date.now()
+const test=new Image()
+test.onload=()=>{
+const img=document.getElementById("avatarImage")
+img.src=url
+img.style.display="block"
+document.getElementById("avatarFallback").style.display="none"
+}
+test.src=url
+}
+return true
+}catch{
+return false
+}
+}
+
+async function loadAccount(){
+const cachedId=walletMemory.ownZAccountID
+if(cachedId){
+document.getElementById("accountId").textContent=cachedId
+}
+if(walletMemory.lastBalance){
+document.getElementById("balance").innerHTML=formatAmount(walletMemory.lastBalance)+" <small>Zyphium</small>"
+document.getElementById("maxAmountLabel").textContent="Available "+formatAmount(walletMemory.lastBalance)
+}
+document.getElementById("accountStatus").textContent="SYNCING"
+document.getElementById("syncText").textContent="Syncing Zyphium wallet"
+try{
+const r=await api("/zyphium/account")
+const data=await safeJson(r)
+if(!data||!data.success){
+document.getElementById("accountStatus").textContent="OFFLINE"
+document.getElementById("syncText").textContent="Could not sync wallet"
+setStatus("Unable to load your Zyphium account.","error")
+renderContacts()
+return
+}
+account=data
+const balance=Number(data.balance)||0
+walletMemory.ownZAccountID=data.ZAccountID||walletMemory.ownZAccountID
+walletMemory.lastBalance=balance
+walletMemory.lastSync=new Date().toISOString()
+saveWalletMemory()
+
+document.getElementById("accountId").textContent=data.ZAccountID||"Unavailable"
+document.getElementById("balance").innerHTML=formatAmount(balance)+" <small>Zyphium</small>"
+document.getElementById("maxAmountLabel").textContent="Available "+formatAmount(balance)
+document.getElementById("accountStatus").textContent="SYNCED"
+document.getElementById("syncText").textContent="Connected to Zyphor Wallet"
+document.getElementById("lastSync").textContent="Updated "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
+updateStats()
+renderTransactions()
+renderContacts()
+updateRecipientPreview()
+}catch{
+document.getElementById("accountStatus").textContent="OFFLINE"
+document.getElementById("syncText").textContent="Wallet server unavailable"
+renderContacts()
+}
+}
+
+function getTransactions(){
+return Array.isArray(account?.transactions)?[...account.transactions]:[]
+}
+
+function updateStats(){
+const tx=getTransactions()
+let sentCount=0,receivedCount=0,sentTotal=0,receivedTotal=0
+for(const t of tx){
+const amount=Number(t.amount)||0
+if(t.type==="transfer_sent"){sentCount++;sentTotal+=Math.abs(amount)}
+if(t.type==="transfer_received"){receivedCount++;receivedTotal+=Math.abs(amount)}
+}
+document.getElementById("sentCount").textContent=sentCount.toLocaleString()
+document.getElementById("receivedCount").textContent=receivedCount.toLocaleString()
+document.getElementById("paymentCount").textContent=tx.length.toLocaleString()
+document.getElementById("sentTotal").textContent=formatAmount(sentTotal)+" Zyphium"
+document.getElementById("receivedTotal").textContent=formatAmount(receivedTotal)+" Zyphium"
+document.getElementById("activityHint").textContent=tx.length===1?"1 wallet transaction":tx.length.toLocaleString()+" wallet transactions"
+}
+
+function transactionType(t){
+if(t.type==="transfer_sent")return "sent"
+if(t.type==="transfer_received")return "received"
+return "adjustment"
+}
+
+function transactionTitle(t){
+if(t.type==="transfer_sent")return "Sent to "+(t.to||"Unknown")
+if(t.type==="transfer_received")return "Received from "+(t.from||"Unknown")
+if(t.type==="admin_balance_edit")return "Administrator balance adjustment"
+return t.type||"Account movement"
+}
+
+function transactionTarget(t){
+return t.type==="transfer_sent"?(t.toZAccountID||""):(t.type==="transfer_received"?(t.fromZAccountID||""):"")
+}
+
+function transactionMatches(t,q){
+if(!q)return true
+const hay=[
+t.type,t.from,t.to,t.fromZAccountID,t.toZAccountID,t.note,t.reason,t.transactionId,t.id,t.administrator
+].filter(Boolean).join(" ").toLowerCase()
+const contact=walletMemory.contacts.find(c=>c.id===transactionTarget(t))
+return (hay+" "+(contact?.name||"")).includes(q.toLowerCase())
+}
+
+function renderTransactions(){
+const box=document.getElementById("transactions")
+const q=document.getElementById("transactionSearch").value.trim()
+const filter=document.getElementById("transactionFilter").value
+let tx=getTransactions().filter(t=>transactionMatches(t,q)&&transactionType(t)===filter||transactionType(t)!=="ignore"&&transactionMatches(t,q)&&filter==="all")
+tx.sort((a,b)=>new Date(b.time||0)-new Date(a.time||0))
+if(!tx.length){
+box.innerHTML=`<div class="empty"><div class="emptyIcon">◈</div>${q||filter!=="all"?"No matching transactions.":"No wallet activity yet."}</div>`
+return
+}
+box.innerHTML=tx.map((t)=>{
+const type=transactionType(t)
+const contact=walletMemory.contacts.find(c=>c.id===transactionTarget(t))
+const title=contact?.name?contact.name+" · "+(type==="sent"?"Sent":"Received"):transactionTitle(t)
+const target=transactionTarget(t)
+const amount=Math.abs(Number(t.amount)||0)
+const sign=type==="sent"?"-":type==="received"?"+":""
+const cls=type==="sent"?"neg":type==="received"?"pos":"neutral"
+const icon=type==="sent"?"↗":type==="received"?"↙":"◆"
+const meta=[formatDate(t.time),target||t.reason||"",t.transactionId||t.id||""].filter(Boolean).join(" • ")
+const raw=JSON.stringify(t).replaceAll("'","&#039;")
+return `<div class="transaction" onclick='openTransactionDetails(${JSON.stringify(t).replaceAll("<","\\u003c")})'>
+<div class="txLeft">
+<div class="txIcon ${type}">${icon}</div>
+<div class="txInfo">
+<div class="txTitle">${escapeHtml(title)}</div>
+<div class="txMeta">${escapeHtml(meta)}</div>
+</div>
+</div>
+<div class="txAmount ${cls}">${sign}${formatAmount(amount)} Zyphium</div>
+</div>`
+}).join("")
+}
+
+function updateRecipientPreview(){
+const id=document.getElementById("receiverID").value.trim()
+const preview=document.getElementById("recipientPreview")
+if(!id){
+preview.classList.remove("show")
+preview.textContent=""
+return
+}
+const own=walletMemory.ownZAccountID
+if(own&&id===own){
+preview.classList.add("show")
+preview.textContent="This is your own ZAccountID. You cannot send to yourself."
+return
+}
+const contact=walletMemory.contacts.find(c=>c.id===id)
+if(contact){
+preview.classList.add("show")
+preview.innerHTML=`Saved wallet: <b>${escapeHtml(contact.name||"Unnamed wallet")}</b> · ${escapeHtml(id)}`
+return
+}
+const recent=walletMemory.recent.find(r=>r.id===id)
+if(recent){
+preview.classList.add("show")
+preview.textContent="Recent recipient · "+id
+return
+}
+preview.classList.remove("show")
+}
+
+function setAmount(value){
+document.getElementById("amount").value=Number(value).toFixed(2).replace(/\.00$/,"")
+updateAmountHint()
+}
+
+function setPercent(percent){
+if(!account)return
+setAmount((Number(account.balance)||0)*(percent/100))
+}
+
+function updateAmountHint(){
+const amount=Number(document.getElementById("amount").value)||0
+const balance=Number(account?.balance)||Number(walletMemory.lastBalance)||0
+const hint=document.getElementById("maxAmountLabel")
+hint.textContent=amount>balance&&amount>0?"Insufficient balance":"Available "+formatAmount(balance)
+}
+
+function getContactLabel(id){
+return walletMemory.contacts.find(c=>c.id===id)?.name||""
+}
+
+function touchRecent(id){
+if(!id)return
+walletMemory.recent=walletMemory.recent.filter(r=>r.id!==id)
+walletMemory.recent.unshift({id,lastUsed:new Date().toISOString()})
+walletMemory.recent=walletMemory.recent.slice(0,12)
+saveWalletMemory()
+renderContacts()
+}
+
+function saveWalletContact(id,name){
+id=String(id||"").trim()
+name=String(name||"").trim()
+if(!id)return
+const existing=walletMemory.contacts.find(c=>c.id===id)
+if(existing){
+if(name)existing.name=name
+existing.updatedAt=new Date().toISOString()
+}else{
+walletMemory.contacts.push({id,name,starred:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()})
+}
+saveWalletMemory()
+renderContacts()
+}
+
+function removeWalletContact(id){
+walletMemory.contacts=walletMemory.contacts.filter(c=>c.id!==id)
+saveWalletMemory()
+renderContacts()
+renderAddressBook()
+toast("Wallet removed",id+" was removed from your local address book.","info")
+}
+
+function toggleStar(id){
+const c=walletMemory.contacts.find(x=>x.id===id)
+if(!c)return
+c.starred=!c.starred
+saveWalletMemory()
+renderContacts()
+renderAddressBook()
+}
+
+function renderContactItem(c){
+const initials=(c.name||c.id||"?").slice(0,1).toUpperCase()
+return `<div class="contact">
+<div class="contactIcon">${escapeHtml(initials)}</div>
+<div class="contactInfo" onclick='useWallet(${JSON.stringify(c.id)})' style="cursor:pointer">
+<div class="contactName">${escapeHtml(c.name||"Unnamed wallet")} ${c.starred?"<span class='contactStar'>★</span>":""}</div>
+<div class="contactId">${escapeHtml(c.id)}</div>
+</div>
+<div class="contactActions">
+<button class="iconBtn" title="Send" onclick='useWallet(${JSON.stringify(c.id)})'>↗</button>
+<button class="iconBtn" title="Copy" onclick='copyText(${JSON.stringify(c.id)})'>⧉</button>
+<button class="iconBtn" title="Rename" onclick='openRenameWallet(${JSON.stringify(c.id)})'>✎</button>
+<button class="iconBtn contactStar" title="Favorite" onclick='toggleStar(${JSON.stringify(c.id)})'>${c.starred?"★":"☆"}</button>
+<button class="iconBtn danger" title="Delete" onclick='removeWalletContact(${JSON.stringify(c.id)})'>×</button>
+</div>
+</div>`
+}
+
+function renderContacts(){
+const box=document.getElementById("contacts")
+const favorites=walletMemory.contacts.filter(c=>c.starred)
+const regular=walletMemory.contacts.filter(c=>!c.starred)
+const recentIds=walletMemory.recent.map(r=>r.id)
+const recentOnly=recentIds.filter(id=>!walletMemory.contacts.some(c=>c.id===id)).slice(0,4)
+const html=[...favorites,...regular].slice(0,8).map(renderContactItem).join("")
+const recentHtml=recentOnly.map(id=>renderContactItem({id,name:"Recent recipient",starred:false})).join("")
+box.innerHTML=html+recentHtml
+if(!box.innerHTML)box.innerHTML='<div class="empty"><div class="emptyIcon">⌁</div>No saved wallets yet.<br>Save a ZAccountID to remember it here.</div>'
+}
+
+function renderAddressBook(){
+const box=document.getElementById("addressBookList")
+const saved=[...walletMemory.contacts].sort((a,b)=>Number(b.starred)-Number(a.starred)||a.id.localeCompare(b.id))
+const recent=walletMemory.recent.filter(r=>!walletMemory.contacts.some(c=>c.id===r.id))
+if(!saved.length&&!recent.length){
+box.innerHTML='<div class="empty">Your local wallet address book is empty.</div>'
+return
+}
+const savedHtml=saved.map(renderContactItem).join("")
+const recentHtml=recent.map(r=>renderContactItem({id:r.id,name:"Recent recipient",starred:false})).join("")
+box.innerHTML=savedHtml+recentHtml
+}
+
+function openAddressBook(){
+renderAddressBook()
+openModal("addressModal")
+}
+
+function openSaveWallet(id=""){
+document.getElementById("saveWalletId").value=id||document.getElementById("receiverID").value.trim()
+document.getElementById("saveWalletName").value=id?getContactLabel(id):""
+openModal("saveModal")
+}
+
+function saveWallet(){
+const id=document.getElementById("saveWalletId").value.trim()
+const name=document.getElementById("saveWalletName").value.trim()
+if(!id){
+toast("Missing ZAccountID","Enter a wallet ID to save.","error")
+return
+}
+if(id===walletMemory.ownZAccountID){
+toast("That is your wallet","Your own ZAccountID is already remembered automatically.","info")
+return
+}
+saveWalletContact(id,name)
+closeModal("saveModal")
+toast("Wallet saved",name?name+" is now linked to "+id:id+" is now in your address book.","success")
+}
+
+function openRenameWallet(id){
+renameTarget=id
+document.getElementById("renameInput").value=getContactLabel(id)
+openModal("renameModal")
+}
+
+function renameWallet(){
+if(!renameTarget)return
+const c=walletMemory.contacts.find(x=>x.id===renameTarget)
+if(c){
+c.name=document.getElementById("renameInput").value.trim()
+c.updatedAt=new Date().toISOString()
+saveWalletMemory()
+}
+closeModal("renameModal")
+renderContacts()
+renderAddressBook()
+toast("Wallet renamed","Your local wallet label was updated.","success")
+}
+
+function useWallet(id){
+document.getElementById("receiverID").value=id
+document.getElementById("amount").focus()
+updateRecipientPreview()
+closeModal("addressModal")
+toast("Recipient selected",getContactLabel(id)||id,"info")
+}
+
+function clearRecent(){
+walletMemory.recent=[]
+saveWalletMemory()
+renderContacts()
+renderAddressBook()
+toast("Recent wallets cleared","Saved wallets were not changed.","info")
+}
+
+async function copyText(text){
+try{
+await navigator.clipboard.writeText(String(text))
+toast("Copied","The value was copied to your clipboard.","success")
+}catch{
+toast("Copy failed","Your browser did not allow clipboard access.","error")
+}
+}
+
+async function copyAccount(){
+const id=account?.ZAccountID||walletMemory.ownZAccountID
+if(!id||id==="Unavailable"||id==="Loading..."){
+toast("Unavailable","Your ZAccountID has not loaded yet.","error")
+return
+}
+await copyText(id)
+}
+
+function copyPaymentLink(){
+const id=account?.ZAccountID||walletMemory.ownZAccountID
+if(!id){
+toast("Unavailable","Your ZAccountID has not loaded yet.","error")
+return
+}
+const link=location.origin+location.pathname+"?payTo="+encodeURIComponent(id)
+copyText(link)
+}
+
+function openQR(){
+const id=account?.ZAccountID||walletMemory.ownZAccountID
+if(!id){
+toast("Unavailable","Your ZAccountID has not loaded yet.","error")
+return
+}
+const box=document.getElementById("qrcode")
+box.innerHTML=""
+if(window.QRCode){
+new QRCode(box,{text:id,width:190,height:190,colorDark:"#0b1018",colorLight:"#ffffff"})
+}else{
+box.innerHTML='<div style="padding:45px;color:#0b1018;font-weight:900">QR unavailable</div>'
+}
+document.getElementById("qrCodeText").textContent=id
+openModal("qrModal")
+}
+
+function downloadQR(){
+const image=document.querySelector("#qrcode img")
+if(!image){
+toast("QR unavailable","Generate the QR code first.","error")
+return
+}
+const a=document.createElement("a")
+a.href=image.src
+a.download="zyphor-zaccountid.png"
+a.click()
+toast("QR saved","Your ZAccountID QR image was prepared.","success")
+}
+
+function prepareTransfer(){
 setStatus("")
-const ZAccountID=document.getElementById("receiverID").value.trim()
+const id=document.getElementById("receiverID").value.trim()
 const amount=Number(document.getElementById("amount").value)
 const note=document.getElementById("note").value.trim()
-if(!ZAccountID){
-setStatus("Enter a recipient ZAccountID.","err")
+const balance=Number(account?.balance)||Number(walletMemory.lastBalance)||0
+if(!id){
+setStatus("Enter a recipient ZAccountID.","error")
+return
+}
+if(id===walletMemory.ownZAccountID){
+setStatus("You cannot send Zyphium to your own ZAccountID.","error")
 return
 }
 if(!Number.isFinite(amount)||amount<=0){
-setStatus("Enter a valid amount.","err")
+setStatus("Enter a valid amount.","error")
 return
 }
-if(account&&amount>Number(account.balance)){
-setStatus("You do not have enough Zyphium.","err")
+if(amount>balance){
+setStatus("You do not have enough Zyphium.","error")
 return
 }
+pendingTransfer={ZAccountID:id,amount,note}
+document.getElementById("confirmRecipient").textContent=getContactLabel(id)||id
+document.getElementById("confirmAmount").textContent=formatAmount(amount)+" Zyphium"
+document.getElementById("confirmNote").textContent=note||"No note"
+document.getElementById("confirmRemaining").textContent=formatAmount(balance-amount)+" Zyphium"
+openModal("confirmModal")
+}
+
+async function transfer(){
+if(!pendingTransfer)return
+const transferData={...pendingTransfer}
+closeModal("confirmModal")
 setStatus("Sending payment...")
+document.getElementById("accountStatus").textContent="SYNCING"
 try{
-const data=await api("/zyphium/transfer",{
-method:"POST",
-body:JSON.stringify({ZAccountID,amount,note})
-})
-if(!data.success){
+const r=await api("/zyphium/transfer",{method:"POST",body:JSON.stringify(transferData)})
+const data=await safeJson(r)
+if(!data||!data.success){
 const errors={
 missing_account:"Enter a recipient ZAccountID.",
 invalid_amount:"Enter a valid amount.",
 same_account:"You cannot send Zyphium to yourself.",
 account_not_found:"That ZAccountID does not exist.",
-insufficient_balance:"You do not have enough Zyphium."
+insufficient_balance:"You do not have enough Zyphium.",
+unauthorized:"Your session expired. Please log in again."
 }
-setStatus(errors[data.error]||"Payment failed.","err")
+setStatus(errors[data?.error]||data?.error||"Payment failed.","error")
+document.getElementById("accountStatus").textContent="SYNCED"
 return
+}
+touchRecent(transferData.ZAccountID)
+if(!walletMemory.contacts.some(c=>c.id===transferData.ZAccountID)){
+saveWalletMemory()
 }
 document.getElementById("receiverID").value=""
 document.getElementById("amount").value=""
 document.getElementById("note").value=""
-setStatus("Payment sent successfully.","ok")
-document.getElementById("resultText").innerHTML=
-"Your transfer of <b>"+formatAmount(amount)+" Zyphium</b> was completed successfully."
-setTimeout(closeModal,1800)
-document.getElementById("resultModal").classList.add("show")
+document.getElementById("noteCount").textContent="0 / 200"
+document.getElementById("recipientPreview").classList.remove("show")
+pendingTransfer=null
+setStatus("Payment sent successfully.","success")
+toast("Payment sent",formatAmount(transferData.amount)+" Zyphium was sent successfully.","success")
 await loadAccount()
 }catch{
-setStatus("Payment failed because the server could not be reached.","err")
+setStatus("Payment failed because the wallet server could not be reached.","error")
+document.getElementById("accountStatus").textContent="OFFLINE"
 }
 }
 
-function copyAccount(){
-const id=account?.ZAccountID||document.getElementById("accountId").textContent
-if(!id||id==="Loading...")return
-navigator.clipboard?.writeText(id)
-setStatus("ZAccountID copied.","ok")
-setTimeout(()=>setStatus(""),1800)
+function openTransactionDetails(t){
+const type=transactionType(t)
+const amount=Math.abs(Number(t.amount)||0)
+const target=transactionTarget(t)
+const contact=walletMemory.contacts.find(c=>c.id===target)
+const sign=type==="sent"?"-":type==="received"?"+":""
+const cls=type==="sent"?"neg":type==="received"?"pos":"neutral"
+document.getElementById("detailBody").innerHTML=`
+<div class="detailHero">
+<div class="detailIcon">${type==="sent"?"↗":type==="received"?"↙":"◆"}</div>
+<div><div class="detailTitle">${escapeHtml(transactionTitle(t))}</div><div class="detailSub">${escapeHtml(formatDate(t.time))}</div></div>
+</div>
+<div class="detailGrid">
+<div class="detailCell"><small>Amount</small><b class="${cls}">${sign}${formatAmount(amount)} Zyphium</b></div>
+<div class="detailCell"><small>Type</small><b>${escapeHtml(t.type||"Unknown")}</b></div>
+<div class="detailCell"><small>Wallet</small><b>${escapeHtml(contact?.name||target||"—")}</b></div>
+<div class="detailCell"><small>Transaction ID</small><b>${escapeHtml(t.transactionId||t.id||"Not provided")}</b></div>
+</div>
+<div class="confirmBox" style="margin-top:10px">
+<div class="confirmLine"><span>From</span><strong>${escapeHtml(t.fromZAccountID||t.from||"—")}</strong></div>
+<div class="confirmLine"><span>To</span><strong>${escapeHtml(t.toZAccountID||t.to||"—")}</strong></div>
+<div class="confirmLine"><span>Note</span><strong>${escapeHtml(t.note||t.reason||"—")}</strong></div>
+${t.administrator?`<div class="confirmLine"><span>Administrator</span><strong>${escapeHtml(t.administrator)}</strong></div>`:""}
+</div>
+<div class="modalActions">
+${target?`<button class="ghostBtn" onclick='openSaveWallet(${JSON.stringify(target)});closeModal("detailModal")'>Save Wallet</button>`:""}
+${target?`<button class="primaryBtn" onclick='useWallet(${JSON.stringify(target)});closeModal("detailModal")'>Send Again</button>`:""}
+</div>
+`
+openModal("detailModal")
 }
 
-async function refresh(){
-setStatus("Refreshing...")
-await loadAccount()
-setStatus("Wallet refreshed.","ok")
-setTimeout(()=>setStatus(""),1800)
+function exportCSV(){
+const tx=getTransactions()
+if(!tx.length){
+toast("Nothing to export","There are no transactions yet.","info")
+return
+}
+const rows=[["Type","Amount","From","To","From ZAccountID","To ZAccountID","Note","Time","Transaction ID"]]
+for(const t of tx){
+rows.push([
+t.type||"",
+t.amount??"",
+t.from||"",
+t.to||"",
+t.fromZAccountID||"",
+t.toZAccountID||"",
+t.note||t.reason||"",
+t.time||"",
+t.transactionId||t.id||""
+])
+}
+const csv=rows.map(row=>row.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n")
+const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"})
+const url=URL.createObjectURL(blob)
+const a=document.createElement("a")
+a.href=url
+a.download="zyphium-wallet-history.csv"
+a.click()
+URL.revokeObjectURL(url)
+toast("Export ready","Your wallet history CSV was generated.","success")
 }
 
 function showLatest(){
-const search=document.getElementById("search")
-search.value=""
+const tx=getTransactions().sort((a,b)=>new Date(b.time||0)-new Date(a.time||0))
+if(!tx.length){
+toast("No activity","You do not have any transactions yet.","info")
+return
+}
+document.getElementById("transactionSearch").value=""
+document.getElementById("transactionFilter").value="all"
 renderTransactions()
-document.querySelector(".transactionList").scrollIntoView({behavior:"smooth",block:"center"})
+document.getElementById("transactions").scrollTop=0
+setTimeout(()=>openTransactionDetails(tx[0]),120)
 }
 
-function closeModal(){
-document.getElementById("resultModal").classList.remove("show")
+async function refreshWallet(){
+toast("Refreshing","Loading the newest wallet data.","info")
+await loadAccount()
+}
+
+function focusSection(kind){
+if(kind==="send"){
+document.getElementById("receiverID").focus()
+}else if(kind==="activity"){
+document.getElementById("transactionSearch").focus()
+}else{
+openAddressBook()
+}
 }
 
 function goProfile(){
-const username=localStorage.getItem("username")
-if(username){
-location.href="profile.html?username="+encodeURIComponent(username)
-}
+const username=profile?.username||localStorage.getItem("username")
+if(username)location.href="profile.html?username="+encodeURIComponent(username)
 }
 
 function logout(){
+if(walletRefreshTimer)clearInterval(walletRefreshTimer)
 localStorage.removeItem("Token")
 localStorage.removeItem("SessionID")
 location.href="login.html"
 }
 
 async function init(){
+try{
 backend=await getBackend()
 if(!token()){
 location.href="login.html"
 return
 }
 await loadProfile()
+await trackPage("Wallet.html")
 await loadAccount()
+renderContacts()
+const payTo=new URLSearchParams(location.search).get("payTo")
+if(payTo){
+document.getElementById("receiverID").value=payTo
+updateRecipientPreview()
+document.getElementById("amount").focus()
+toast("Payment recipient loaded","The payment link filled in the recipient for you.","info")
 }
+walletRefreshTimer=setInterval(()=>loadAccount(),15000)
+}catch{
+toast("Wallet error","The dashboard could not connect to the Zyphor server.","error")
+}
+}
+
+window.addEventListener("beforeunload",()=>{
+saveWalletMemory()
+})
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden)loadAccount()
+})
+
+document.getElementById("amount").addEventListener("keydown",e=>{
+if(e.key==="Enter"&&!e.shiftKey){
+e.preventDefault()
+prepareTransfer()
+}
+})
 
 init()
 </script>
