@@ -1,372 +1,1682 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zyphor Messages</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#070a12">
+<title>Zyphor Messages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+    --bg:#05070c;
+    --bg2:#080c14;
+    --panel:rgba(13,17,28,.74);
+    --panel-2:rgba(17,22,34,.9);
+    --panel-3:rgba(255,255,255,.035);
+    --line:rgba(255,255,255,.075);
+    --line2:rgba(255,255,255,.12);
+    --text:#f7f9ff;
+    --muted:#8793a8;
+    --muted2:#606c82;
+    --cyan:#00d5ff;
+    --blue:#4d7cff;
+    --purple:#8c52ff;
+    --green:#2ce0a1;
+    --red:#ff5364;
+    --amber:#ffbf55;
+    --shadow:0 30px 100px rgba(0,0,0,.42);
+    --radius:24px;
+    --sidebar:270px;
+}
 
-      body {
-        font-family: Inter, sans-serif;
-        background: radial-gradient(circle at top, #12224d 0%, #090b11 30%, #05070b 100%);
-        color: #fff;
-        min-height: 100vh;
-        overflow: hidden;
-      }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background:
-          radial-gradient(circle at 20% 20%, rgba(0, 213, 255, .12), transparent 25%),
-          radial-gradient(circle at 80% 70%, rgba(154, 61, 255, .12), transparent 30%);
-      }
+html,body{
+    width:100%;
+    height:100%;
+}
 
-      .layout {
-        display: grid;
-        grid-template-columns: 280px 1fr;
-        height: 100vh;
-      }
+body{
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 12% 10%,rgba(0,213,255,.09),transparent 24%),
+        radial-gradient(circle at 88% 12%,rgba(140,82,255,.10),transparent 25%),
+        radial-gradient(circle at 58% 92%,rgba(77,124,255,.07),transparent 28%),
+        linear-gradient(180deg,#080b12 0%,#04060b 100%);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+}
 
-      .sidebar {
-        background: rgba(10, 13, 20, .72);
-        backdrop-filter: blur(24px);
-        border-right: 1px solid rgba(255, 255, 255, .08);
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-      }
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+    background-size:48px 48px;
+    mask-image:linear-gradient(to bottom,black,transparent 95%);
+}
 
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin-bottom: 40px;
-      }
+button,input,textarea{
+    font:inherit;
+}
 
-      .logo img {
-        width: 56px;
-      }
+button{
+    -webkit-tap-highlight-color:transparent;
+}
 
-      .logo h2 {
-        font-size: 28px;
-        letter-spacing: 2px;
-      }
+a{
+    color:inherit;
+}
 
-      .nav {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
+.hidden{
+    display:none!important;
+}
 
-      .nav a {
-        text-decoration: none;
-        color: #b8c2d5;
-        padding: 15px 18px;
-        border-radius: 16px;
-        transition: .2s;
-      }
-
-      .nav a.active,
-      .nav a:hover {
-        background: linear-gradient(90deg,
-            rgba(0, 213, 255, .12),
-            rgba(154, 61, 255, .12));
-        color: #fff;
-        transform: translateX(6px);
-      }
-
-      .bottom {
-        margin-top: auto;
-      }
-
-      .pageHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 22px;
-      }
-
-      .tinyTitle {
-        font-size: 11px;
-        letter-spacing: 2px;
-        color: #7ea0d7;
-        margin-bottom: 6px;
-        font-weight: 700;
-      }
-
-      .pageHeader p {
-        margin-top: 6px;
-        color: #8ea2be;
-        font-size: 14px;
-      }
-
-      .searchBox {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        margin-bottom: 18px;
-      }
-
-      .searchButtons {
-        display: flex;
-        gap: 12px;
-      }
-
-      .actionButton {
-        flex: 1;
-        height: 46px;
-        border: none;
-        border-radius: 14px;
-        cursor: pointer;
-        font-weight: 700;
-        background: linear-gradient(90deg, #00d5ff, #8b3dff);
-        color: white;
-        transition: .2s;
-      }
-
-      .actionButton:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 0 25px rgba(0, 213, 255, .25);
-      }
-
-      .actionButton.secondary {
-        background: rgba(255, 255, 255, .05);
-        border: 1px solid rgba(255, 255, 255, .08);
-      }
-
-.main{
-    padding:30px;
+.layout{
     display:grid;
-    grid-template-columns:360px 1fr;
-    gap:24px;
+    grid-template-columns:var(--sidebar) minmax(0,1fr);
     height:100vh;
-    overflow:hidden;
 }
 
-.card{
+.sidebar{
+    min-height:0;
     display:flex;
     flex-direction:column;
-    min-height:0;
-    overflow:hidden;
+    padding:20px 16px;
+    background:rgba(6,9,15,.82);
+    border-right:1px solid var(--line);
+    backdrop-filter:blur(28px);
+    -webkit-backdrop-filter:blur(28px);
+    z-index:10;
 }
 
-      .card h2 {
-        margin-bottom: 18px;
-      }
-
-      .search {
-        height: 48px;
-        border-radius: 14px;
-        border: 1px solid rgba(255, 255, 255, .08);
-        background: #0d1018;
-        color: #fff;
-        padding: 0 16px;
-      }
-
-.section{
+.brand{
     display:flex;
-    flex-direction:column;
-    min-height:0;
-}
-
-#unfriendBtn{
-    height:40px;
-    padding:0 18px;
-    border:none;
-    border-radius:12px;
-    background:rgba(255,70,70,.12);
-    border:1px solid rgba(255,70,70,.2);
-    color:#ff8d8d;
-    font-weight:600;
-    cursor:pointer;
-    transition:.2s;
-}
-
-#unfriendBtn:hover{
-    background:#ff4040;
-    color:white;
-}
-
-.section:last-child{
-    flex:1;
-}
-
-.list{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    overflow-y:auto;
-    min-height:0;
-}
-
-      .item{
-    display:flex;
-    justify-content:space-between;
     align-items:center;
-    gap:12px;
-    padding:14px;
-    border-radius:16px;
-    background:rgba(255,255,255,.03);
-    border:1px solid rgba(255,255,255,.05);
-    transition:.2s;
-    cursor:pointer;
+    gap:11px;
+    padding:8px 10px 20px;
 }
 
-.item:hover{
-    transform:translateY(-2px);
-    background:rgba(255,255,255,.05);
+.brand img{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+    filter:drop-shadow(0 0 22px rgba(0,213,255,.2));
 }
 
-.item.active{
-    background:linear-gradient(
-        135deg,
-        rgba(0,213,255,.12),
-        rgba(154,61,255,.08)
-    );
-    border:1px solid rgba(0,213,255,.25);
-    box-shadow:0 0 30px rgba(0,213,255,.12);
-}
-
-.itemMain{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
+.brandText{
     min-width:0;
 }
 
-.sendBtn{
-    width:72px;
-    border:none;
-    border-radius:16px;
-    background:linear-gradient(90deg,#16c6ff,#7c4dff);
-    color:white;
-    font-weight:700;
-    cursor:pointer;
-    transition:.2s;
+.brandText strong{
+    display:block;
+    font-size:18px;
+    letter-spacing:2.5px;
+    font-weight:900;
 }
 
-.sendBtn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 0 24px rgba(0,213,255,.35);
+.brandText span{
+    display:block;
+    margin-top:3px;
+    color:var(--muted2);
+    font-size:9px;
+    letter-spacing:1.6px;
+    font-weight:800;
 }
 
-.itemTitle{
-    font-weight:700;
+.brandDot{
+    margin-left:auto;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 16px rgba(44,224,161,.8);
 }
 
-.itemSub{
-    font-size:13px;
-    opacity:.65;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.itemActions{
+.sidebarNav{
     display:flex;
-    gap:8px;
-    align-items:center;
+    flex-direction:column;
+    gap:6px;
+    overflow:auto;
+    scrollbar-width:none;
 }
 
-.pinBtn{
-    width:34px;
-    height:34px;
-    border:none;
+.sidebarNav::-webkit-scrollbar{
+    display:none;
+}
+
+.navItem{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    min-height:46px;
+    padding:8px 10px;
+    border-radius:14px;
+    text-decoration:none;
+    color:#9ba7bb;
+    border:1px solid transparent;
+    transition:.2s ease;
+}
+
+.navItem::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg,rgba(0,213,255,.08),rgba(140,82,255,.08));
+    opacity:0;
+    pointer-events:none;
+    transition:.2s ease;
+    border-radius:inherit;
+}
+
+.navItem:hover,
+.navItem.active{
+    color:#fff;
+    border-color:rgba(255,255,255,.07);
+    transform:translateX(3px);
+    background:rgba(255,255,255,.025);
+}
+
+.navItem:hover::after,
+.navItem.active::after{
+    opacity:1;
+}
+
+.navItem.active::before{
+    content:"";
+    position:absolute;
+    left:-1px;
+    top:10px;
+    bottom:10px;
+    width:3px;
+    border-radius:999px;
+    background:linear-gradient(180deg,var(--cyan),var(--purple));
+    box-shadow:0 0 15px rgba(0,213,255,.6);
+}
+
+.navEmoji{
+    position:relative;
+    z-index:1;
+    width:29px;
+    height:29px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.035);
     border-radius:10px;
+    font-size:13px;
+    flex-shrink:0;
+}
+
+.navLabel{
+    position:relative;
+    z-index:1;
+    font-size:12px;
+    font-weight:700;
+}
+
+.sidebarBottom{
+    margin-top:auto;
+    padding-top:12px;
+    border-top:1px solid rgba(255,255,255,.05);
+}
+
+.main{
+    position:relative;
+    min-width:0;
+    min-height:0;
+    padding:18px;
+}
+
+.appShell{
+    width:100%;
+    height:calc(100vh - 36px);
+    display:grid;
+    grid-template-columns:340px minmax(0,1fr);
+    gap:16px;
+    min-width:0;
+}
+
+.panel{
+    min-width:0;
+    min-height:0;
+    border:1px solid var(--line);
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),
+        var(--panel);
+    border-radius:26px;
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(28px);
+    -webkit-backdrop-filter:blur(28px);
+    overflow:hidden;
+}
+
+.inbox{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+}
+
+.inboxTop{
+    padding:20px 18px 14px;
+    border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.topLine{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+}
+
+.eyebrow{
+    font-size:9px;
+    color:#6f9be5;
+    letter-spacing:2px;
+    font-weight:900;
+}
+
+.inboxTitle{
+    margin-top:3px;
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.inboxSub{
+    margin-top:6px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.iconButton{
+    width:38px;
+    height:38px;
     display:flex;
     align-items:center;
     justify-content:center;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:12px;
+    background:rgba(255,255,255,.03);
+    color:#b8c3d4;
     cursor:pointer;
-    color:#9ea8bb;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.06);
-    transition:.2s;
-    flex-shrink:0;
-    font-size:16px;
+    transition:.2s ease;
 }
 
-.pinBtn:hover{
-    color:white;
-    background:rgba(0,213,255,.12);
-    border-color:rgba(0,213,255,.3);
+.iconButton:hover{
     transform:translateY(-1px);
-}
-
-.pinBtn.pinned{
-    color:#00d5ff;
-    background:linear-gradient(135deg,rgba(0,213,255,.16),rgba(139,61,255,.14));
-    border-color:rgba(0,213,255,.35);
-    box-shadow:0 0 18px rgba(0,213,255,.12);
-}
-
-.item.pinned{
-    background:linear-gradient(135deg,rgba(0,213,255,.10),rgba(139,61,255,.06));
+    background:rgba(0,213,255,.08);
     border-color:rgba(0,213,255,.2);
+    color:#fff;
+}
+
+.searchWrap{
+    position:relative;
+    margin-top:15px;
+}
+
+.searchIcon{
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#637088;
+    font-size:13px;
+    pointer-events:none;
+}
+
+.searchInput{
+    width:100%;
+    height:42px;
+    padding:0 37px 0 36px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:13px;
+    outline:none;
+    background:rgba(4,7,12,.7);
+    color:#fff;
+    font-size:12px;
+    transition:.2s ease;
+}
+
+.searchInput::placeholder{
+    color:#59657b;
+}
+
+.searchInput:focus{
+    border-color:rgba(0,213,255,.25);
+    box-shadow:0 0 0 4px rgba(0,213,255,.04);
+}
+
+.clearSearch{
+    position:absolute;
+    top:50%;
+    right:8px;
+    width:27px;
+    height:27px;
+    transform:translateY(-50%);
+    border:0;
+    border-radius:9px;
+    background:rgba(255,255,255,.05);
+    color:#8490a5;
+    cursor:pointer;
+    display:none;
+}
+
+.clearSearch.show{
+    display:block;
+}
+
+.requestStrip{
+    margin-top:10px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.miniAction{
+    min-height:38px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:12px;
+    background:rgba(255,255,255,.025);
+    color:#b9c2d1;
+    cursor:pointer;
+    transition:.2s ease;
+    font-size:10px;
+    font-weight:800;
+}
+
+.miniAction:hover{
+    border-color:rgba(255,255,255,.12);
+    background:rgba(255,255,255,.05);
+}
+
+.miniAction.primary{
+    color:#fff;
+    border-color:rgba(0,213,255,.15);
+    background:linear-gradient(135deg,rgba(0,213,255,.10),rgba(140,82,255,.10));
+}
+
+.inboxTabs{
+    display:flex;
+    gap:4px;
+    padding:10px 18px 9px;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.tab{
+    flex:1;
+    min-height:35px;
+    border:1px solid transparent;
+    border-radius:10px;
+    background:transparent;
+    color:#7f8ba2;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:800;
+    transition:.18s ease;
+}
+
+.tab.active{
+    color:#fff;
+    border-color:rgba(255,255,255,.07);
+    background:rgba(255,255,255,.045);
+}
+
+.countBadge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:18px;
+    height:18px;
+    padding:0 5px;
+    margin-left:4px;
+    border-radius:999px;
+    font-size:8px;
+    font-weight:900;
+    background:rgba(255,61,79,.13);
+    color:#ff9aa4;
+    border:1px solid rgba(255,61,79,.17);
+}
+
+.inboxList{
+    flex:1;
+    min-height:0;
+    overflow:auto;
+    padding:10px;
+    scrollbar-width:thin;
+}
+
+.friendRow{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    min-height:62px;
+    padding:8px 9px;
+    border:1px solid transparent;
+    border-radius:15px;
+    cursor:pointer;
+    transition:.18s ease;
+}
+
+.friendRow:hover{
+    background:rgba(255,255,255,.035);
+}
+
+.friendRow.active{
+    background:
+        linear-gradient(135deg,rgba(0,213,255,.105),rgba(140,82,255,.085)),
+        rgba(255,255,255,.02);
+    border-color:rgba(0,213,255,.18);
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+
+.friendRow.pinned{
+    background:linear-gradient(135deg,rgba(255,255,255,.032),rgba(0,213,255,.04));
+}
+
+.avatar{
+    position:relative;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    flex-shrink:0;
+    padding:2px;
+    background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));
+}
+
+.avatar.subscription-ascended{
+    background:conic-gradient(from 20deg,#100305 0deg,#ff263f 55deg,#050202 110deg,#e31334 170deg,#090304 230deg,#ff3147 300deg,#100305 360deg);
+    box-shadow:0 0 16px rgba(255,49,71,.22);
+}
+
+.avatar.subscription-infinity{
+    background:conic-gradient(from 25deg,#04080e 0deg,#249dff 55deg,#05070c 115deg,#4176ff 175deg,#03050a 240deg,#25d7ff 305deg,#04080e 360deg);
+    box-shadow:0 0 18px rgba(39,137,255,.23);
+    animation:ringSpin 5s linear infinite;
+}
+
+.avatar.subscription-endless{
+    background:conic-gradient(from 30deg,#09040f 0deg,#8b35ff 52deg,#050208 112deg,#b04dff 175deg,#050209 235deg,#6f38ff 300deg,#09040f 360deg);
+    box-shadow:0 0 18px rgba(141,77,255,.23);
+    animation:ringSpinReverse 5s linear infinite;
+}
+
+@keyframes ringSpin{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes ringSpinReverse{
+    to{transform:rotate(-360deg)}
+}
+
+.avatarInner{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    border-radius:inherit;
+    background:
+        radial-gradient(circle at 30% 20%,rgba(255,255,255,.15),transparent 24%),
+        linear-gradient(135deg,#111824,#20293b);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#dce3ef;
+    font-size:13px;
+    font-weight:900;
+}
+
+.avatarInner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.friendInfo{
+    min-width:0;
+    flex:1;
+}
+
+.friendNameLine{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    min-width:0;
+}
+
+.friendName{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:800;
+}
+
+.onlineDot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 9px rgba(44,224,161,.7);
+    flex-shrink:0;
+}
+
+.friendPreview{
+    margin-top:4px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#717d92;
+    font-size:10px;
+}
+
+.friendMeta{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-shrink:0;
+}
+
+.unread{
+    min-width:20px;
+    height:20px;
+    padding:0 6px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:999px;
+    background:linear-gradient(135deg,#ff5364,#ff334c);
+    color:#fff;
+    font-size:9px;
+    font-weight:900;
+    box-shadow:0 8px 18px rgba(255,83,100,.22);
+}
+
+.pinButton{
+    width:28px;
+    height:28px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:9px;
+    background:rgba(255,255,255,.025);
+    color:#667289;
+    cursor:pointer;
+    transition:.18s ease;
+}
+
+.pinButton:hover{
+    color:#fff;
+    border-color:rgba(0,213,255,.22);
+    background:rgba(0,213,255,.07);
+}
+
+.pinButton.pinned{
+    color:var(--cyan);
+    border-color:rgba(0,213,255,.2);
+}
+
+.emptyState{
+    display:flex;
+    min-height:130px;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    text-align:center;
+    color:#67748b;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.requestCard{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:14px;
+    background:rgba(255,255,255,.022);
+    margin-bottom:8px;
+}
+
+.requestCard:last-child{
+    margin-bottom:0;
+}
+
+.requestAvatar{
+    width:36px;
+    height:36px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,rgba(0,213,255,.11),rgba(140,82,255,.11));
+    border:1px solid rgba(255,255,255,.07);
+    font-size:13px;
+    font-weight:900;
+}
+
+.requestInfo{
+    min-width:0;
+    flex:1;
+}
+
+.requestName{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size:11px;
+    font-weight:800;
+}
+
+.requestSub{
+    margin-top:4px;
+    color:#6f7b90;
+    font-size:9px;
+}
+
+.requestActions{
+    display:flex;
+    gap:5px;
+}
+
+.requestAction{
+    min-width:31px;
+    height:31px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:9px;
+    background:rgba(255,255,255,.03);
+    color:#d8dfeb;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:900;
+}
+
+.requestAction.accept{
+    color:#7ff0c6;
+    border-color:rgba(44,224,161,.16);
+    background:rgba(44,224,161,.06);
+}
+
+.requestAction.decline{
+    color:#ff98a2;
+    border-color:rgba(255,83,100,.14);
+    background:rgba(255,83,100,.05);
+}
+
+.chat{
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto;
+    min-height:0;
+}
+
+.chatHeader{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    min-height:76px;
+    padding:15px 18px;
+    border-bottom:1px solid rgba(255,255,255,.055);
+    background:rgba(5,8,14,.23);
+}
+
+.chatHeader .avatar{
+    width:44px;
+    height:44px;
+}
+
+.chatIdentity{
+    min-width:0;
+    flex:1;
+}
+
+.chatTitleLine{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.chatTitle{
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:16px;
+    font-weight:900;
+}
+
+.chatStatus{
+    color:#7f8ba2;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.headerActions{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.headerAction{
+    width:36px;
+    height:36px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:11px;
+    background:rgba(255,255,255,.03);
+    color:#8e9aad;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.headerAction:hover{
+    color:#fff;
+    border-color:rgba(255,255,255,.12);
+    background:rgba(255,255,255,.055);
+}
+
+.headerAction.danger:hover{
+    border-color:rgba(255,83,100,.2);
+    background:rgba(255,83,100,.07);
+    color:#ff98a2;
+}
+
+.messages{
+    position:relative;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:22px clamp(18px,3vw,35px);
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+    scroll-behavior:smooth;
+    overscroll-behavior:contain;
+}
+
+.messages.withBottomPad{
+    padding-bottom:120px;
+}
+
+.messageDay{
+    position:sticky;
+    top:0;
+    z-index:4;
+    width:max-content;
+    max-width:100%;
+    align-self:center;
+    padding:6px 10px;
+    margin:2px 0 5px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:999px;
+    background:rgba(8,11,18,.78);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    color:#748096;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:.7px;
+}
+
+.msgWrap{
+    display:flex;
+    flex-direction:column;
+    max-width:min(76%,680px);
+    align-self:flex-start;
+}
+
+.msgWrap.me{
+    align-self:flex-end;
 }
 
 .msg{
     position:relative;
-    cursor:context-menu;
+    padding:11px 13px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px 18px 18px 6px;
+    background:rgba(255,255,255,.045);
+    cursor:default;
+    word-break:break-word;
 }
 
-.messageContextMenu{
-    position:fixed;
-    z-index:99999;
-    min-width:170px;
-    padding:6px;
-    border-radius:12px;
-    background:rgba(15,19,30,.98);
-    border:1px solid rgba(255,255,255,.10);
-    box-shadow:0 16px 50px rgba(0,0,0,.45);
-    backdrop-filter:blur(18px);
-}
-
-.messageContextMenu button{
-    width:100%;
-    border:none;
-    border-radius:9px;
-    padding:10px 12px;
-    background:transparent;
-    color:white;
-    font:600 13px Inter,sans-serif;
-    text-align:left;
-    cursor:pointer;
-}
-
-.messageContextMenu button:hover{
-    background:rgba(255,255,255,.08);
-}
-
-.smallBtn{
-    border:none;
-    border-radius:10px;
-    padding:7px 12px;
-    cursor:pointer;
-    color:white;
-    background:linear-gradient(90deg,#00d5ff,#8b3dff);
-}
-
-.empty{
-    opacity:.6;
-    text-align:center;
-    padding:20px;
+.msgWrap.me .msg{
+    border-color:rgba(0,213,255,.13);
+    border-radius:18px 18px 6px 18px;
+    background:
+        linear-gradient(135deg,rgba(0,213,255,.105),rgba(140,82,255,.11)),
+        rgba(255,255,255,.025);
 }
 
 .msgHead{
     display:flex;
-    gap:8px;
     align-items:center;
+    gap:7px;
     margin-bottom:6px;
-    font-size:13px;
+}
+
+.msgAuthor{
+    font-size:10px;
+    font-weight:800;
+    color:#cdd5e2;
+}
+
+.msgTime{
+    color:#667288;
+    font-size:8px;
+}
+
+.msgText{
+    color:#e8edf5;
+    font-size:12px;
+    line-height:1.6;
+    white-space:pre-wrap;
+}
+
+.msgImages{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:7px;
+    margin-top:8px;
+    max-width:420px;
+}
+
+.msgImage{
+    width:100%;
+    max-height:260px;
+    object-fit:cover;
+    border-radius:11px;
+    border:1px solid rgba(255,255,255,.07);
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.msgImage:hover{
+    transform:scale(1.012);
+    border-color:rgba(0,213,255,.2);
+}
+
+.msgState{
+    margin-top:5px;
+    color:#657187;
+    font-size:8px;
+    text-align:right;
+}
+
+.msgActions{
+    display:flex;
+    gap:5px;
+    opacity:0;
+    pointer-events:none;
+    transition:.16s ease;
+    margin-top:5px;
+}
+
+.msgWrap:hover .msgActions{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.messageAction{
+    height:25px;
+    padding:0 8px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:8px;
+    background:rgba(255,255,255,.025);
+    color:#8490a5;
+    font-size:8px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.messageAction:hover{
+    color:#fff;
+    background:rgba(255,255,255,.05);
+}
+
+.jumpButton{
+    position:absolute;
+    right:20px;
+    bottom:17px;
+    z-index:7;
+    min-width:38px;
+    height:38px;
+    padding:0 12px;
+    border:1px solid rgba(0,213,255,.18);
+    border-radius:12px;
+    background:rgba(8,12,19,.82);
+    color:#7be7ff;
+    box-shadow:0 18px 35px rgba(0,0,0,.3);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+    cursor:pointer;
+    display:none;
+    font-size:10px;
+    font-weight:900;
+}
+
+.jumpButton.show{
+    display:block;
+}
+
+.typing{
+    position:absolute;
+    left:22px;
+    bottom:16px;
+    z-index:6;
+    display:none;
+    align-items:center;
+    gap:7px;
+    min-height:31px;
+    padding:0 10px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:11px;
+    background:rgba(8,11,18,.78);
+    color:#79869b;
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+    font-size:9px;
+}
+
+.typing.show{
+    display:flex;
+}
+
+.typingDots{
+    display:flex;
+    gap:3px;
+}
+
+.typingDots span{
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:#7b889e;
+    animation:typingDot 1.2s infinite ease-in-out;
+}
+
+.typingDots span:nth-child(2){
+    animation-delay:.15s;
+}
+
+.typingDots span:nth-child(3){
+    animation-delay:.3s;
+}
+
+@keyframes typingDot{
+    0%,60%,100%{transform:translateY(0);opacity:.35}
+    30%{transform:translateY(-3px);opacity:1}
+}
+
+.composerArea{
+    position:relative;
+    padding:11px 14px 14px;
+    border-top:1px solid rgba(255,255,255,.055);
+    background:
+        linear-gradient(180deg,rgba(8,11,18,.48),rgba(8,11,18,.88));
+}
+
+.attachmentsPreview{
+    display:none;
+    gap:8px;
+    overflow:auto;
+    padding:0 0 9px;
+}
+
+.attachmentsPreview.show{
+    display:flex;
+}
+
+.attachmentChip{
+    position:relative;
+    min-width:82px;
+    height:62px;
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+    flex-shrink:0;
+}
+
+.attachmentChip img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.removeAttachment{
+    position:absolute;
+    top:5px;
+    right:5px;
+    width:21px;
+    height:21px;
+    border:1px solid rgba(0,0,0,.35);
+    border-radius:7px;
+    background:rgba(0,0,0,.68);
+    color:#fff;
+    cursor:pointer;
+    font-size:10px;
+}
+
+.composerShell{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+    padding:8px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    background:rgba(4,7,12,.65);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+    transition:.2s ease;
+}
+
+.composerShell:focus-within{
+    border-color:rgba(0,213,255,.2);
+    box-shadow:0 0 0 4px rgba(0,213,255,.035);
+}
+
+.composerIcon{
+    width:38px;
+    height:38px;
+    flex-shrink:0;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:11px;
+    background:rgba(255,255,255,.03);
+    color:#8794a8;
+    cursor:pointer;
+    transition:.2s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.composerIcon:hover{
+    color:#fff;
+    border-color:rgba(0,213,255,.16);
+    background:rgba(0,213,255,.06);
+}
+
+.composerCenter{
+    min-width:0;
+    flex:1;
+}
+
+.messageBox{
+    display:block;
+    width:100%;
+    min-height:38px;
+    max-height:150px;
+    resize:none;
+    border:0;
+    outline:none;
+    background:transparent;
+    color:#fff;
+    padding:9px 2px 5px;
+    font-size:12px;
+    line-height:1.55;
+}
+
+.messageBox::placeholder{
+    color:#59657a;
+}
+
+.composerMeta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:0 2px 2px;
+    color:#556177;
+    font-size:8px;
+}
+
+.draftStatus{
+    display:none;
+    align-items:center;
+    gap:5px;
+}
+
+.draftStatus.show{
+    display:flex;
+}
+
+.draftDot{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 8px rgba(0,213,255,.6);
+}
+
+.charCount{
+    margin-left:auto;
+}
+
+.sendButton{
+    min-width:76px;
+    height:40px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#12c9ff,#7a52ff);
+    color:#fff;
+    font-size:10px;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 12px 25px rgba(30,145,255,.18);
+    transition:.2s ease;
+}
+
+.sendButton:hover:not(:disabled){
+    transform:translateY(-1px);
+    box-shadow:0 16px 30px rgba(30,145,255,.26);
+}
+
+.sendButton:disabled{
+    opacity:.42;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+.quickTools{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    margin-top:7px;
+}
+
+.quickTool{
+    min-height:27px;
+    padding:0 8px;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:8px;
+    background:rgba(255,255,255,.02);
+    color:#667289;
+    cursor:pointer;
+    font-size:8px;
+    font-weight:800;
+}
+
+.quickTool:hover{
+    color:#fff;
+    background:rgba(255,255,255,.045);
+}
+
+.emojiPanel{
+    position:absolute;
+    left:15px;
+    bottom:94px;
+    width:310px;
+    max-width:calc(100vw - 30px);
+    padding:12px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:18px;
+    background:rgba(12,16,26,.97);
+    box-shadow:0 30px 80px rgba(0,0,0,.48);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    display:none;
+    z-index:15;
+}
+
+.emojiPanel.show{
+    display:block;
+    animation:pop .16s ease;
+}
+
+@keyframes pop{
+    from{opacity:0;transform:translateY(5px) scale(.985)}
+    to{opacity:1;transform:none}
+}
+
+.emojiHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#98a4b8;
+    font-size:9px;
+    font-weight:800;
+    margin-bottom:9px;
+}
+
+.emojiGrid{
+    display:grid;
+    grid-template-columns:repeat(9,1fr);
+    gap:3px;
+}
+
+.emojiOption{
+    aspect-ratio:1;
+    border:0;
+    border-radius:8px;
+    background:transparent;
+    cursor:pointer;
+    font-size:17px;
+    transition:.15s ease;
+}
+
+.emojiOption:hover{
+    background:rgba(255,255,255,.07);
+    transform:scale(1.08);
+}
+
+.toastStack{
+    position:fixed;
+    right:22px;
+    bottom:20px;
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    width:min(360px,calc(100vw - 32px));
+    pointer-events:none;
+}
+
+.toast{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:15px;
+    background:rgba(12,16,26,.94);
+    box-shadow:0 25px 70px rgba(0,0,0,.42);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    animation:toastIn .2s ease;
+    pointer-events:auto;
+}
+
+@keyframes toastIn{
+    from{opacity:0;transform:translateY(8px)}
+    to{opacity:1;transform:none}
+}
+
+.toastIcon{
+    width:29px;
+    height:29px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+    flex-shrink:0;
+    font-size:12px;
+}
+
+.toastContent{
+    min-width:0;
+    flex:1;
+}
+
+.toastTitle{
+    font-size:10px;
+    font-weight:900;
+}
+
+.toastText{
+    margin-top:3px;
+    color:#7d899e;
+    font-size:9px;
+    line-height:1.45;
+}
+
+.contextMenu{
+    position:fixed;
+    z-index:2000;
+    min-width:175px;
+    padding:6px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:14px;
+    background:rgba(12,16,26,.98);
+    box-shadow:0 22px 70px rgba(0,0,0,.5);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+}
+
+.contextMenu button{
+    width:100%;
+    min-height:35px;
+    padding:0 10px;
+    border:0;
+    border-radius:9px;
+    background:transparent;
+    color:#dbe2ed;
+    cursor:pointer;
+    text-align:left;
+    font-size:10px;
+    font-weight:700;
+}
+
+.contextMenu button:hover{
+    background:rgba(255,255,255,.06);
+}
+
+.contextMenu button.danger:hover{
+    background:rgba(255,83,100,.07);
+    color:#ff9ca5;
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+    background:rgba(0,0,0,.66);
+    backdrop-filter:blur(13px);
+    -webkit-backdrop-filter:blur(13px);
+}
+
+.overlay.show{
+    display:flex;
+}
+
+.modal{
+    width:430px;
+    max-width:100%;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:24px;
+    background:
+        radial-gradient(circle at top right,rgba(0,213,255,.07),transparent 28%),
+        rgba(13,17,28,.97);
+    box-shadow:0 40px 120px rgba(0,0,0,.58);
+    padding:20px;
+    animation:modalIn .18s ease;
+}
+
+@keyframes modalIn{
+    from{opacity:0;transform:scale(.985) translateY(7px)}
+    to{opacity:1;transform:none}
+}
+
+.modalHeader{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.modalTitle{
+    font-size:19px;
+    font-weight:900;
+}
+
+.modalSub{
+    margin-top:5px;
+    color:#7d899d;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.modalBody{
+    margin-top:16px;
+}
+
+.modalActions{
+    display:flex;
+    gap:8px;
+    margin-top:18px;
+}
+
+.modalButton{
+    flex:1;
+    min-height:42px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:12px;
+    background:rgba(255,255,255,.03);
+    color:#d8deea;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:800;
+}
+
+.modalButton.primary{
+    border-color:rgba(0,213,255,.14);
+    background:linear-gradient(135deg,rgba(0,213,255,.11),rgba(140,82,255,.11));
+    color:#fff;
+}
+
+.modalButton.danger{
+    border-color:rgba(255,83,100,.14);
+    background:rgba(255,83,100,.05);
+    color:#ff99a3;
+}
+
+.supportList{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.supportButton{
+    width:100%;
+    min-height:46px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:13px;
+    background:rgba(255,255,255,.025);
+    color:#fff;
+    cursor:pointer;
+    text-align:left;
+    padding:0 13px;
+    font-size:10px;
+    font-weight:800;
+}
+
+.supportButton:hover{
+    border-color:rgba(0,213,255,.17);
+    background:linear-gradient(90deg,rgba(0,213,255,.06),rgba(140,82,255,.06));
+}
+
+.mobileHeader{
+    display:none;
+}
+
+@media (max-width:1180px){
+    :root{
+        --sidebar:80px;
+    }
+
+    .brandText,
+    .brandDot,
+    .navLabel{
+        display:none;
+    }
+
+    .sidebar{
+        padding:18px 11px;
+        align-items:center;
+    }
+
+    .brand{
+        justify-content:center;
+        padding:6px 0 18px;
+    }
+
+    .sidebarNav{
+        width:100%;
+    }
+
+    .navItem{
+        justify-content:center;
+        padding:8px;
+    }
+
+    .navItem.active::before{
+        left:0;
+    }
+
+    .appShell{
+        grid-template-columns:310px minmax(0,1fr);
+    }
+}
+
+@media (max-width:920px){
+    body{
+        overflow:hidden;
+    }
+
+    .layout{
+        display:block;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        padding:0;
+        height:100vh;
+    }
+
+    .mobileHeader{
+        height:56px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:0 14px;
+        border-bottom:1px solid var(--line);
+        background:rgba(7,10,16,.84);
+        backdrop-filter:blur(22px);
+        -webkit-backdrop-filter:blur(22px);
+    }
+
+    .mobileBrand{
+        display:flex;
+        align-items:center;
+        gap:8px;
+    }
+
+    .mobileBrand img{
+        width:30px;
+        height:30px;
+    }
+
+    .mobileBrand span{
+        font-size:13px;
+        font-weight:900;
+        letter-spacing:1.6px;
+    }
+
+    .appShell{
+        height:calc(100vh - 56px);
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .panel{
+        border-radius:0;
+        border-left:0;
+        border-right:0;
+        box-shadow:none;
+    }
+
+    .chat{
+        display:none;
+    }
+
+    .appShell.chatOpen .inbox{
+        display:none;
+    }
+
+    .appShell.chatOpen .chat{
+        display:grid;
+    }
+
+    .chatHeader{
+        min-height:64px;
+    }
+
+    .mobileBack{
+        display:flex!important;
+    }
+}
+
+@media (min-width:921px){
+    .mobileBack{
+        display:none!important;
+    }
+}
+
+@media (max-width:680px){
+    .inboxTop{
+        padding:16px 14px 12px;
+    }
+
+    .inboxTabs{
+        padding-left:14px;
+        padding-right:14px;
+    }
+
+    .inboxList{
+        padding:8px;
+    }
+
+    .msgWrap{
+        max-width:88%;
+    }
+
+    .messages{
+        padding:17px 13px 24px;
+    }
+
+    .composerArea{
+        padding:9px 8px max(9px,env(safe-area-inset-bottom));
+    }
+
+    .sendButton{
+        min-width:64px;
+    }
+
+    .quickTools{
+        display:none;
+    }
+
+    .emojiPanel{
+        left:8px;
+        bottom:84px;
+        width:300px;
+    }
+
+    .headerActions .headerAction.secondaryMobile{
+        display:none;
+    }
+}
+
+@media (max-width:420px){
+    .emojiGrid{
+        grid-template-columns:repeat(8,1fr);
+    }
+
+    .requestStrip{
+        grid-template-columns:1fr;
+    }
+
+    .chatTitle{
+        font-size:14px;
+    }
+
+    .sendButton{
+        min-width:57px;
+    }
+
+    .composerIcon{
+        width:35px;
+        height:35px;
+    }
 }
 
 ::-webkit-scrollbar{
@@ -379,388 +1689,254 @@
 }
 
 ::-webkit-scrollbar-thumb{
-    background:rgba(255,255,255,.12);
+    background:rgba(255,255,255,.10);
     border-radius:999px;
 }
 
 ::-webkit-scrollbar-thumb:hover{
-    background:rgba(0,213,255,.45);
+    background:rgba(0,213,255,.34);
 }
-
-.msgTime{
-    opacity:.55;
-    font-size:11px;
-}
-
-      .user {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, .03);
-        border: 1px solid rgba(255, 255, 255, .05);
-      }
-
-      .badge {
-        background: #ff3b30;
-        border-radius: 999px;
-        padding: 4px 10px;
-        font-size: 12px;
-        font-weight: 700;
-      }
-
-.chat{
-    display:flex;
-    flex-direction:column;
-    min-height:0;
-    height:100%;
-}
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, .08);
-      }
-
-.messages{
-    flex:1;
-    min-height:0;
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding:24px 0;
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-}
-
-.attachBtn{
-    width:52px;
-    height:52px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border:none;
-    border-radius:16px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.08);
-    cursor:pointer;
-    transition:.2s;
-    color:#b8c2d5;
-    flex-shrink:0;
-}
-
-.attachBtn:hover{
-    background:rgba(0,213,255,.12);
-    border-color:rgba(0,213,255,.3);
-    color:white;
-}
-
-      .msg {
-        max-width: 70%;
-        padding: 14px 18px;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, .05);
-      }
-
-      .msg.me {
-        margin-left: auto;
-        background: linear-gradient(135deg,
-            #00d5ff22,
-            #8b3dff22);
-      }
-
-      .activeUser {
-        background: linear-gradient(135deg,
-            rgba(0, 213, 255, .12),
-            rgba(154, 61, 255, .08));
-        border: 1px solid rgba(0, 213, 255, .25);
-        box-shadow: 0 0 30px rgba(0, 213, 255, .12);
-      }
-
-      .user:hover {
-        transform: translateY(-2px);
-        background: rgba(255, 255, 255, .05);
-        cursor: pointer;
-        transition: .2s;
-      }
-
-      .composer {
-        display: flex;
-        gap: 14px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, .08);
-      }
-
-      .supportPopup{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,.65);
-backdrop-filter:blur(8px);
-z-index:9999;
-}
-
-.supportCard{
-width:420px;
-max-width:90%;
-padding:30px;
-border-radius:24px;
-background:rgba(18,22,34,.95);
-border:1px solid rgba(255,255,255,.08);
-box-shadow:0 0 50px rgba(0,213,255,.12);
-text-align:center;
-}
-
-.supportCard h2{
-margin-bottom:10px;
-}
-
-.supportCard p{
-color:#9ea8bb;
-margin-bottom:25px;
-}
-
-.supportButtons{
-display:flex;
-flex-direction:column;
-gap:15px;
-}
-
-.supportButtons button{
-padding:16px;
-border:none;
-border-radius:14px;
-cursor:pointer;
-font-size:16px;
-font-weight:600;
-background:rgba(255,255,255,.05);
-color:white;
-transition:.2s;
-}
-
-.supportButtons button:hover{
-background:linear-gradient(90deg,#00d5ff22,#8b3dff22);
-transform:translateY(-2px);
-}
-
-.closeSupport{
-margin-top:20px;
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-background:#20242f;
-color:white;
-cursor:pointer;
-}
-
-      .composer textarea {
-        flex: 1;
-        height: 58px;
-        border: none;
-        outline: none;
-        border-radius: 16px;
-        background: #0d1018;
-        color: #fff;
-        padding: 16px;
-        resize: none;
-      }
-
-      .btn {
-        padding: 0 22px;
-        border: none;
-        border-radius: 16px;
-        background: linear-gradient(90deg, #00d5ff, #8b3dff);
-        color: #fff;
-        font-weight: 700;
-      }
-
-      @media (max-width: 1100px) {
-        .main {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="layout">
-      <aside class="sidebar">
-        <div class="logo">
-          <img src="https://zyphor.cc/Logo1.png">
-          <h2>ZYPHOR</h2>
+</style>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="https://zyphor.cc/Logo1.png">
+            <div class="brandText">
+                <strong>ZYPHOR</strong>
+                <span>COMMUNICATION HUB</span>
+            </div>
+            <span class="brandDot"></span>
         </div>
-<nav class="nav">
-<a class="item active" href="Dashboard.html">Dashboard</a>
-<a class="item" href="#" onclick="goProfile(); return false;">Profile</a>
-<a class="item" href="dms.html">Messages</a>
-<a class="item" href="Wallet.html">Wallet</a>
-<a class="item" href="Cloud.html">Cloud</a>
-<a class="item" href="download.html">App Center</a>
-<a class="item" href="#" onclick="openSupport(); return false;">Support</a>
-<a class="item" href="#">Settings</a>
-</nav>
 
-<div id="supportPopup" class="supportPopup">
+        <nav class="sidebarNav">
+            <a class="navItem" href="Dashboard.html">
+                <span class="navEmoji">⌂</span>
+                <span class="navLabel">Dashboard</span>
+            </a>
+            <a class="navItem" href="#" onclick="goProfile();return false">
+                <span class="navEmoji">◉</span>
+                <span class="navLabel">Profile</span>
+            </a>
+            <a class="navItem active" href="dms.html">
+                <span class="navEmoji">✦</span>
+                <span class="navLabel">Messages</span>
+            </a>
+            <a class="navItem" href="Wallet.html">
+                <span class="navEmoji">◈</span>
+                <span class="navLabel">Wallet</span>
+            </a>
+            <a class="navItem" href="Cloud.html">
+                <span class="navEmoji">☁</span>
+                <span class="navLabel">Cloud</span>
+            </a>
+            <a class="navItem" href="download.html">
+                <span class="navEmoji">↓</span>
+                <span class="navLabel">App Center</span>
+            </a>
+            <a class="navItem" href="#" onclick="openSupport();return false">
+                <span class="navEmoji">?</span>
+                <span class="navLabel">Support</span>
+            </a>
+            <a class="navItem" href="Settings.html">
+                <span class="navEmoji">⚙</span>
+                <span class="navLabel">Settings</span>
+            </a>
+        </nav>
 
-<div class="supportCard">
-
-<h2>Support</h2>
-
-<p>Select how you'd like to contact the Zyphor team.</p>
-
-<div class="supportButtons">
-
-<button onclick="location.href='Support.html'">
-🌐 Website Tickets
-</button>
-
-<button onclick="emailSupport()">
-✉️ Email Support
-</button>
-
-</div>
-
-<button class="closeSupport" onclick="closeSupport()">
-Close
-</button>
-
-</div>
-
-</div>
-        <div class="bottom">
-          <a
-    class="nav active"
-    href="#"
-    onclick="logout(); return false;"
-    style="text-decoration:none">
-    Logout
-</a>
+        <div class="sidebarBottom">
+            <a class="navItem" href="#" onclick="logout();return false">
+                <span class="navEmoji">↪</span>
+                <span class="navLabel">Logout</span>
+            </a>
         </div>
-      </aside>
-      <main class="main">
-        <div class="card">
-          <div class="pageHeader">
+    </aside>
+
+    <main class="main">
+        <div class="mobileHeader">
+            <div class="mobileBrand">
+                <img src="https://zyphor.cc/Logo1.png">
+                <span>ZYPHOR</span>
+            </div>
+            <button class="iconButton" onclick="openSupport()">?</button>
+        </div>
+
+        <section class="appShell" id="appShell">
+            <div class="panel inbox">
+                <div class="inboxTop">
+                    <div class="topLine">
+                        <div>
+                            <div class="eyebrow">COMMUNICATION</div>
+                            <div class="inboxTitle">Messages</div>
+                            <div class="inboxSub" id="statusText">Connecting...</div>
+                        </div>
+                        <button class="iconButton" onclick="refreshState(true)" title="Refresh">↻</button>
+                    </div>
+
+                    <div class="searchWrap">
+                        <span class="searchIcon">⌕</span>
+                        <input id="searchUser" class="searchInput" autocomplete="off" spellcheck="false" placeholder="Search friends or username">
+                        <button id="clearSearch" class="clearSearch" onclick="clearSearchInput()">×</button>
+                    </div>
+
+                    <div class="requestStrip">
+                        <button class="miniAction primary" onclick="openFromSearch()">Open Chat</button>
+                        <button class="miniAction" onclick="addFriendFromSearch()">Add Friend</button>
+                    </div>
+                </div>
+
+                <div class="inboxTabs">
+                    <button class="tab active" data-tab="friends" onclick="setInboxTab('friends')">Friends <span class="countBadge" id="friendCount">0</span></button>
+                    <button class="tab" data-tab="requests" onclick="setInboxTab('requests')">Requests <span class="countBadge" id="requestCount">0</span></button>
+                </div>
+
+                <div class="inboxList" id="inboxList"></div>
+            </div>
+
+            <div class="panel chat" id="chatPanel">
+                <div class="chatHeader">
+                    <button class="iconButton mobileBack" onclick="closeMobileChat()">←</button>
+
+                    <div class="avatar" id="chatAvatar">
+                        <div class="avatarInner" id="chatAvatarInner">?</div>
+                    </div>
+
+                    <div class="chatIdentity">
+                        <div class="chatTitleLine">
+                            <div class="chatTitle" id="chatTitle">Select a friend</div>
+                            <span class="onlineDot hidden" id="chatOnlineDot"></span>
+                        </div>
+                        <div class="chatStatus" id="chatSub">Private messages</div>
+                    </div>
+
+                    <div class="headerActions">
+                        <button class="headerAction" id="copyUsernameBtn" onclick="copyActiveUsername()" disabled title="Copy username">⧉</button>
+                        <button class="headerAction" id="clearDraftHeader" onclick="clearCurrentDraft()" disabled title="Clear draft">⌫</button>
+                        <button class="headerAction danger" id="unfriendBtn" onclick="unfriendActive()" disabled title="Unfriend">×</button>
+                    </div>
+                </div>
+
+                <div class="messages" id="chatMessages">
+                    <div class="emptyState">
+                        Choose someone from your friends list to start chatting.
+                    </div>
+                    <button class="jumpButton" id="jumpButton" onclick="jumpToLatest()">↓</button>
+                    <div class="typing" id="typingIndicator">
+                        <span id="typingText">Typing</span>
+                        <span class="typingDots"><span></span><span></span><span></span></span>
+                    </div>
+                </div>
+
+                <div class="composerArea" id="composerArea">
+                    <div class="attachmentsPreview" id="attachmentsPreview"></div>
+
+                    <div class="composerShell">
+                        <button class="composerIcon" id="emojiButton" onclick="toggleEmojiPanel()" disabled>☺</button>
+
+                        <label class="composerIcon" id="attachButton" for="imagePicker" style="cursor:pointer;opacity:.45;pointer-events:none" title="Attach images">⌕</label>
+                        <input type="file" id="imagePicker" accept="image/*" multiple hidden>
+
+                        <div class="composerCenter">
+                            <textarea id="messageBox" class="messageBox" rows="1" maxlength="4000" placeholder="Write a message..." disabled></textarea>
+                            <div class="composerMeta">
+                                <span class="draftStatus" id="draftStatus"><span class="draftDot"></span><span id="draftStatusText">Draft saved</span></span>
+                                <span class="charCount" id="charCount">0 / 4000</span>
+                            </div>
+                        </div>
+
+                        <button id="sendBtn" class="sendButton" onclick="sendMessage()" disabled>Send</button>
+                    </div>
+
+                    <div class="quickTools">
+                        <button class="quickTool" onclick="insertQuickReply('Hey!')">Hey!</button>
+                        <button class="quickTool" onclick="insertQuickReply('What are you up to?')">What's up?</button>
+                        <button class="quickTool" onclick="insertQuickReply('I will be back soon.')">BRB</button>
+                        <button class="quickTool" onclick="insertQuickReply('👍')">👍</button>
+                        <button class="quickTool" onclick="insertQuickReply('🔥')">🔥</button>
+                        <span style="margin-left:auto;color:#505c71;font-size:8px">Enter to send · Shift+Enter for a new line</span>
+                    </div>
+
+                    <div class="emojiPanel" id="emojiPanel">
+                        <div class="emojiHeader">
+                            <span>Quick emojis</span>
+                            <button class="iconButton" style="width:28px;height:28px" onclick="toggleEmojiPanel()">×</button>
+                        </div>
+                        <div class="emojiGrid" id="emojiGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div class="overlay" id="supportPopup" onclick="overlayClose(event,'supportPopup')">
+    <div class="modal">
+        <div class="modalHeader">
             <div>
-              <div class="tinyTitle">COMMUNICATION</div>
-              <h2>Direct Messages</h2>
-              <p>Talk with friends and manage requests.</p>
+                <div class="modalTitle">Support</div>
+                <div class="modalSub">Choose where you want to continue.</div>
             </div>
-          </div>
-          <div class="searchBox">
-            <input id="searchUser" class="search" placeholder="Search username...">
-            <div class="searchButtons">
-              <button id="startChatBtn" class="actionButton" onclick="openFromSearch()"> Start Chat </button>
-              <button id="addFriendBtn" class="actionButton secondary" onclick="addFriendFromSearch()"> Add Friend </button>
-            </div>
-          </div>
-<div class="section">
-
-    <h3 style="margin-bottom:14px;">
-        Friend Requests
-        <span class="badge" id="requestCount">0</span>
-    </h3>
-
-    <div class="list" id="requestList"></div>
-
-</div>
-
-<div class="section">
-
-    <h3 style="margin-bottom:14px;">
-        Friends
-        <span class="badge" id="friendCount">0</span>
-    </h3>
-
-    <div class="list" id="friendList"></div>
-
-</div>
-
-</div>
-
-<div class="card chat">
-
-    <div class="header">
-
-        <div>
-            <h2 id="chatTitle">Select a friend</h2>
-            <div id="chatSub" style="opacity:.6;">
-                Private messages
-            </div>
+            <button class="iconButton" onclick="closeSupport()">×</button>
         </div>
-
-        <button
-            id="unfriendBtn"
-            onclick="unfriendActive()"
-            class="btn"
-            disabled>
-            Unfriend
-        </button>
-
-    </div>
-
-    <div class="messages" id="chatMessages">
-
-        <div
-            style="
-                opacity:.6;
-                margin:auto;
-                text-align:center;
-            ">
-            Select a friend to start chatting.
+        <div class="modalBody supportList">
+            <button class="supportButton" onclick="location.href='Support.html'">🌐 Website Tickets</button>
+            <button class="supportButton" onclick="emailSupport()">✉️ Email Support</button>
         </div>
-
+        <div class="modalActions">
+            <button class="modalButton" onclick="closeSupport()">Close</button>
+        </div>
     </div>
-
-    <div class="composer">
-
-        <input
-            type="file"
-            id="imagePicker"
-            accept="image/*"
-            multiple
-            hidden>
-
-<label class="attachBtn" id="attachBtn" for="imagePicker">
-    📎
-</label>
-        <textarea
-            id="messageBox"
-            placeholder="Type a message..."
-            disabled></textarea>
-
-<button
-    id="sendBtn"
-    onclick="sendMessage()"
-    class="sendBtn"
-    disabled>
-    Send
-</button>
-
-    </div>
-
 </div>
-      </main>
+
+<div class="overlay" id="confirmPopup" onclick="overlayClose(event,'confirmPopup')">
+    <div class="modal">
+        <div class="modalHeader">
+            <div>
+                <div class="modalTitle" id="confirmTitle">Confirm</div>
+                <div class="modalSub" id="confirmText"></div>
+            </div>
+            <button class="iconButton" onclick="closeConfirm()">×</button>
+        </div>
+        <div class="modalActions">
+            <button class="modalButton" onclick="closeConfirm()">Cancel</button>
+            <button class="modalButton danger" id="confirmAction">Continue</button>
+        </div>
     </div>
+</div>
+
+<div class="toastStack" id="toastStack"></div>
+
 <script>
 let backend=null
 let token=null
 let myName=""
 let state={friends:[],incomingRequests:[],outgoingRequests:[],chats:[]}
 let activeFriend=""
+let activeChatData=null
 let lastUnreadTotal=0
 let firstStateLoad=true
-let draftValues=JSON.parse(localStorage.getItem("zyphorMessageDrafts")||"{}")
-let pinnedFriends=JSON.parse(localStorage.getItem("zyphorPinnedFriends")||"[]")
-let messageContextMenu=null
+let draftValues={}
+let pinnedFriends=[]
+let inboxTab="friends"
+let refreshTimer=null
+let draftSaveTimer=null
+let typingTimer=null
+let lastRenderedMessageKey=""
+let lastKnownScrollTop=0
+let forceNextScroll=false
+let pendingAttachments=[]
+let currentConfirmAction=null
+let contextMenu=null
+
+const MAX_MESSAGE_LENGTH=4000
+const draftStorageKey="zyphorMessageDrafts.v2"
+const pinStorageKey="zyphorPinnedFriends.v2"
+const emojiList=["😀","😃","😄","😁","😆","😅","😂","🤣","😊","😇","🙂","🙃","😉","😌","😍","🥰","😘","😗","😎","🤓","🫡","🤔","🤨","😐","😑","😶","🙄","😏","😴","🤩","🥳","😇","😭","😢","😡","🤬","😱","😳","🤯","🥶","🥵","🤗","🤭","🫣","🤫","🤥","😈","👿","💀","☠️","👻","💯","🔥","✨","⚡","💙","💜","❤️","🩵","🖤","🤍","💎","🎉","🎯","🚀","🐢","👍","👎","🙏","👏","🙌","🤝","✅","❌","⭐","🌌","☁️","🫶","🗿"]
 
 const requestCount=document.getElementById("requestCount")
 const friendCount=document.getElementById("friendCount")
-const requestList=document.getElementById("requestList")
-const friendList=document.getElementById("friendList")
+const inboxList=document.getElementById("inboxList")
 const chatMessages=document.getElementById("chatMessages")
 const chatTitle=document.getElementById("chatTitle")
 const chatSub=document.getElementById("chatSub")
@@ -768,739 +1944,1505 @@ const messageBox=document.getElementById("messageBox")
 const sendBtn=document.getElementById("sendBtn")
 const imagePicker=document.getElementById("imagePicker")
 const unfriendBtn=document.getElementById("unfriendBtn")
+const attachButton=document.getElementById("attachButton")
+const emojiButton=document.getElementById("emojiButton")
+const emojiPanel=document.getElementById("emojiPanel")
+const emojiGrid=document.getElementById("emojiGrid")
+const attachmentsPreview=document.getElementById("attachmentsPreview")
+const draftStatus=document.getElementById("draftStatus")
+const draftStatusText=document.getElementById("draftStatusText")
+const charCount=document.getElementById("charCount")
 const statusText=document.getElementById("statusText")
-const attachBtn = document.getElementById("attachBtn");
+const appShell=document.getElementById("appShell")
+const jumpButton=document.getElementById("jumpButton")
+const typingIndicator=document.getElementById("typingIndicator")
+const typingText=document.getElementById("typingText")
+const chatAvatar=document.getElementById("chatAvatar")
+const chatAvatarInner=document.getElementById("chatAvatarInner")
+const copyUsernameBtn=document.getElementById("copyUsernameBtn")
+const clearDraftHeader=document.getElementById("clearDraftHeader")
+const searchUser=document.getElementById("searchUser")
+const clearSearch=document.getElementById("clearSearch")
+const notificationSound=new Audio("Sounds/Notification.mp3")
 
-function saveCurrentDraft(){
+notificationSound.preload="auto"
+notificationSound.volume=.9
+
+function escapeHTML(value){
+    return String(value??"").replace(/[&<>"']/g,m=>({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    }[m]))
+}
+
+function safeDecode(value){
+    try{return decodeURIComponent(value)}catch{return value}
+}
+
+function formatTime(time){
+    const date=new Date(time)
+    if(Number.isNaN(date.getTime())) return ""
+    return date.toLocaleTimeString([],{
+        hour:"2-digit",
+        minute:"2-digit"
+    })
+}
+
+function formatDay(time){
+    const date=new Date(time)
+    if(Number.isNaN(date.getTime())) return ""
+    const now=new Date()
+    const sameDay=date.toDateString()===now.toDateString()
+    if(sameDay) return "TODAY"
+    const yesterday=new Date()
+    yesterday.setDate(now.getDate()-1)
+    if(date.toDateString()===yesterday.toDateString()) return "YESTERDAY"
+    return date.toLocaleDateString([],{
+        day:"numeric",
+        month:"short",
+        year:date.getFullYear()===now.getFullYear()?undefined:"numeric"
+    }).toUpperCase()
+}
+
+function formatRelative(time){
+    const date=new Date(time)
+    if(Number.isNaN(date.getTime())) return ""
+    const diff=Date.now()-date.getTime()
+    const min=Math.floor(diff/60000)
+    if(min<1) return "now"
+    if(min<60) return min+"m"
+    const hrs=Math.floor(min/60)
+    if(hrs<24) return hrs+"h"
+    const days=Math.floor(hrs/24)
+    if(days<7) return days+"d"
+    return formatDay(time)
+}
+
+function getInitial(name){
+    return String(name||"?").charAt(0).toUpperCase()
+}
+
+function showToast(title,text,icon="✦"){
+    const stack=document.getElementById("toastStack")
+    const item=document.createElement("div")
+    item.className="toast"
+    item.innerHTML=`
+        <div class="toastIcon">${escapeHTML(icon)}</div>
+        <div class="toastContent">
+            <div class="toastTitle">${escapeHTML(title)}</div>
+            <div class="toastText">${escapeHTML(text)}</div>
+        </div>
+    `
+    stack.appendChild(item)
+    setTimeout(()=>{
+        item.style.opacity="0"
+        item.style.transform="translateY(6px)"
+        item.style.transition=".2s ease"
+        setTimeout(()=>item.remove(),220)
+    },3500)
+}
+
+async function getBackend(){
+    const r=await fetch("server.txt",{cache:"no-store"})
+    return (await r.text()).trim()
+}
+
+async function safeJson(res){
+    const text=await res.text()
+    try{return JSON.parse(text)}catch{return null}
+}
+
+async function api(path,options={}){
+    const liveToken=localStorage.getItem("Token")
+    if(!liveToken){
+        location.href="login.html"
+        throw new Error("unauthorized")
+    }
+
+    const headers=new Headers(options.headers||{})
+    headers.set("Authorization",liveToken)
+
+    return fetch(backend+path,{
+        ...options,
+        headers
+    })
+}
+
+async function trackPage(page){
+    try{
+        await api("/track/page",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({page})
+        })
+    }catch{}
+}
+
+function loadLocalState(){
+    try{
+        const savedDrafts=JSON.parse(localStorage.getItem(draftStorageKey)||"{}")
+        draftValues=savedDrafts&&typeof savedDrafts==="object"?savedDrafts:{}
+    }catch{
+        draftValues={}
+    }
+
+    try{
+        const savedPins=JSON.parse(localStorage.getItem(pinStorageKey)||"[]")
+        pinnedFriends=Array.isArray(savedPins)?savedPins:[]
+    }catch{
+        pinnedFriends=[]
+    }
+}
+
+function saveDrafts(){
+    try{
+        localStorage.setItem(draftStorageKey,JSON.stringify(draftValues))
+    }catch{}
+}
+
+function setDraftStatus(text,visible=true){
+    draftStatusText.textContent=text
+    draftStatus.classList.toggle("show",visible)
+}
+
+function saveCurrentDraft(immediate=false){
     if(!activeFriend) return
-    draftValues[activeFriend]=messageBox.value
-    localStorage.setItem("zyphorMessageDrafts",JSON.stringify(draftValues))
+    const value=messageBox.value
+    clearTimeout(draftSaveTimer)
+    const run=()=>{
+        if(value.trim()){
+            draftValues[activeFriend]=value
+        }else{
+            delete draftValues[activeFriend]
+        }
+        saveDrafts()
+        setDraftStatus(value.trim()?"Draft saved":"",Boolean(value.trim()))
+    }
+    if(immediate) run()
+    else draftSaveTimer=setTimeout(run,180)
 }
 
 function loadCurrentDraft(){
     if(!activeFriend){
         messageBox.value=""
+        setDraftStatus("",false)
+        updateComposer()
         return
     }
+
     messageBox.value=draftValues[activeFriend]||""
+    autoResizeTextarea()
+    updateComposer()
+    setDraftStatus(messageBox.value.trim()?"Draft restored":"",Boolean(messageBox.value.trim()))
+
+    requestAnimationFrame(()=>{
+        messageBox.selectionStart=messageBox.selectionEnd=messageBox.value.length
+    })
 }
 
-messageBox.addEventListener("input",saveCurrentDraft)
-
-const notificationSound=new Audio("Sounds/Notification.mp3")
-notificationSound.preload="auto"
-
-messageBox.addEventListener("keydown",e=>{
-if(e.key==="Enter" && !e.shiftKey){
-e.preventDefault()
-sendMessage()
-}
-})
-
-document.getElementById("searchUser").addEventListener("keydown",e=>{
-if(e.key==="Enter"){
-e.preventDefault()
-openFromSearch()
-}
-})
-
-async function trackPage(page){
-const token=localStorage.getItem("Token")
-if(!token) return
-
-await fetch(backend+"/track/page",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
-body:JSON.stringify({page})
-})
+function clearCurrentDraft(){
+    if(!activeFriend) return
+    delete draftValues[activeFriend]
+    saveDrafts()
+    messageBox.value=""
+    setDraftStatus("Draft cleared",true)
+    updateComposer()
+    setTimeout(()=>setDraftStatus("",false),1200)
 }
 
-
-function escapeHTML(value){
-return String(value ?? "").replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-"\"":"&quot;",
-"'":"&#39;"
-}[m]))
+function clearSearchInput(){
+    searchUser.value=""
+    clearSearch.classList.remove("show")
+    renderInbox()
+    searchUser.focus()
 }
 
-function formatTime(time){
-try{
-return new Date(time).toLocaleString()
-}catch{
-return ""
-}
-}
-
-async function getBackend(){
-const r=await fetch("server.txt")
-return (await r.text()).trim()
-}
-
-async function safeJson(res){
-const t=await res.text()
-try{return JSON.parse(t)}catch{return null}
-}
-
-function goProfile() {
-    const username = localStorage.getItem("username");
-    if (!username) return;
-
-    window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
-}  
-
-async function api(path,options={}){
-const liveToken=localStorage.getItem("Token")
-if(!liveToken){
-location.href="login.html"
-throw new Error("unauthorized")
-}
-
-const headers=new Headers(options.headers||{})
-headers.set("Authorization",liveToken)
-
-return fetch(backend+path,{
-...options,
-headers
-})
-}
-
-function playSound(){
-notificationSound.currentTime=0
-notificationSound.play().catch(()=>{})
+function updateSearchUI(){
+    clearSearch.classList.toggle("show",Boolean(searchUser.value))
 }
 
 function getChatSummary(friend){
-return state.chats.find(c=>c.with===friend) || {unread:0,lastMessage:"",lastAuthor:""}
+    return state.chats.find(c=>c.with===friend)||{
+        unread:0,
+        lastMessage:"",
+        lastAuthor:"",
+        lastTime:null,
+        messages:[]
+    }
 }
 
 function isPinned(friend){
-return pinnedFriends.includes(friend)
+    return pinnedFriends.includes(friend)
 }
 
 function savePinnedFriends(){
-localStorage.setItem("zyphorPinnedFriends",JSON.stringify(pinnedFriends))
+    try{
+        localStorage.setItem(pinStorageKey,JSON.stringify(pinnedFriends))
+    }catch{}
 }
 
 function togglePin(friend){
-if(isPinned(friend)){
-    pinnedFriends=pinnedFriends.filter(name=>name!==friend)
-}else{
-    pinnedFriends.push(friend)
-}
-savePinnedFriends()
-renderFriends()
-}
-
-function closeMessageContextMenu(){
-if(messageContextMenu){
-    messageContextMenu.remove()
-    messageContextMenu=null
-}
+    if(isPinned(friend)){
+        pinnedFriends=pinnedFriends.filter(name=>name!==friend)
+        showToast("Unpinned",friend,"📌")
+    }else{
+        pinnedFriends=[friend,...pinnedFriends]
+        showToast("Pinned",friend,"📌")
+    }
+    savePinnedFriends()
+    renderInbox()
 }
 
-async function copyMessageText(text){
-try{
-    await navigator.clipboard.writeText(text||"")
-}catch{
-    const textarea=document.createElement("textarea")
-    textarea.value=text||""
-    textarea.style.position="fixed"
-    textarea.style.left="-9999px"
-    document.body.appendChild(textarea)
-    textarea.select()
-    document.execCommand("copy")
-    textarea.remove()
+function setInboxTab(tab){
+    inboxTab=tab
+    document.querySelectorAll(".tab").forEach(button=>{
+        button.classList.toggle("active",button.dataset.tab===tab)
+    })
+    renderInbox()
 }
+
+function makeAvatar(name,subscription=null,large=false){
+    const shell=document.createElement("div")
+    shell.className="avatar"+(large?" large":"")
+    if(subscription){
+        const plan=String(subscription.plan||"").toLowerCase()
+        if(plan==="ascended") shell.classList.add("subscription-ascended")
+        if(plan==="infinity") shell.classList.add("subscription-infinity")
+        if(plan==="endless") shell.classList.add("subscription-endless")
+    }
+
+    const inner=document.createElement("div")
+    inner.className="avatarInner"
+    inner.textContent=getInitial(name)
+
+    shell.appendChild(inner)
+    return shell
+}
+
+function renderInbox(){
+    const query=searchUser.value.trim().toLowerCase()
+    updateSearchUI()
+
+    if(inboxTab==="requests"){
+        requestCount.textContent=String(state.incomingRequests.length)
+        friendCount.textContent=String(state.friends.length)
+        if(!state.incomingRequests.length){
+            inboxList.innerHTML='<div class="emptyState">No pending friend requests.<br>New requests will appear here.</div>'
+            return
+        }
+
+        inboxList.innerHTML=""
+        state.incomingRequests.forEach(request=>{
+            const card=document.createElement("div")
+            card.className="requestCard"
+
+            const avatar=document.createElement("div")
+            avatar.className="requestAvatar"
+            avatar.textContent=getInitial(request.from)
+
+            const info=document.createElement("div")
+            info.className="requestInfo"
+            info.innerHTML=`
+                <div class="requestName">${escapeHTML(request.from)}</div>
+                <div class="requestSub">Wants to add you</div>
+            `
+
+            const actions=document.createElement("div")
+            actions.className="requestActions"
+
+            const accept=document.createElement("button")
+            accept.className="requestAction accept"
+            accept.textContent="✓"
+            accept.title="Accept"
+            accept.onclick=async e=>{
+                e.stopPropagation()
+                await acceptRequest(request.id,request.from)
+            }
+
+            const decline=document.createElement("button")
+            decline.className="requestAction decline"
+            decline.textContent="×"
+            decline.title="Decline"
+            decline.onclick=async e=>{
+                e.stopPropagation()
+                await declineRequest(request.id)
+            }
+
+            actions.append(accept,decline)
+            card.append(avatar,info,actions)
+            inboxList.appendChild(card)
+        })
+
+        return
+    }
+
+    let friends=[...state.friends]
+
+    if(query){
+        friends=friends.filter(name=>name.toLowerCase().includes(query))
+    }
+
+    friends.sort((a,b)=>{
+        const ap=isPinned(a)
+        const bp=isPinned(b)
+        if(ap!==bp) return bp-ap
+
+        const aa=getChatSummary(a)
+        const bb=getChatSummary(b)
+
+        if((bb.unread||0)!==(aa.unread||0)){
+            return (bb.unread||0)-(aa.unread||0)
+        }
+
+        const bt=bb.lastTime?new Date(bb.lastTime).getTime():0
+        const at=aa.lastTime?new Date(aa.lastTime).getTime():0
+        if(bt!==at) return bt-at
+
+        return a.localeCompare(b)
+    })
+
+    requestCount.textContent=String(state.incomingRequests.length)
+    friendCount.textContent=String(state.friends.length)
+
+    if(!friends.length){
+        inboxList.innerHTML=query
+            ?'<div class="emptyState">No friends match that search.</div>'
+            :'<div class="emptyState">No friends yet.<br>Use the search box to add someone.</div>'
+        return
+    }
+
+    inboxList.innerHTML=""
+
+    friends.forEach(friend=>{
+        const summary=getChatSummary(friend)
+
+        const row=document.createElement("div")
+        row.className="friendRow"+(activeFriend===friend?" active":"")+(isPinned(friend)?" pinned":"")
+        row.dataset.friend=friend
+
+        const avatar=makeAvatar(friend)
+        avatar.style.width="42px"
+        avatar.style.height="42px"
+
+        const info=document.createElement("div")
+        info.className="friendInfo"
+
+        const nameLine=document.createElement("div")
+        nameLine.className="friendNameLine"
+
+        const name=document.createElement("div")
+        name.className="friendName"
+        name.textContent=friend
+
+        nameLine.appendChild(name)
+
+        const preview=document.createElement("div")
+        preview.className="friendPreview"
+
+        if(summary.lastMessage){
+            const author=summary.lastAuthor||""
+            preview.textContent=(author?author+": ":"")+summary.lastMessage
+        }else{
+            preview.textContent="No messages yet"
+        }
+
+        info.append(nameLine,preview)
+
+        const meta=document.createElement("div")
+        meta.className="friendMeta"
+
+        if(summary.unread>0){
+            const unread=document.createElement("span")
+            unread.className="unread"
+            unread.textContent=summary.unread>99?"99+":summary.unread
+            meta.appendChild(unread)
+        }
+
+        const pin=document.createElement("button")
+        pin.className="pinButton"+(isPinned(friend)?" pinned":"")
+        pin.textContent=isPinned(friend)?"★":"☆"
+        pin.title=isPinned(friend)?"Unpin":"Pin"
+        pin.onclick=e=>{
+            e.stopPropagation()
+            togglePin(friend)
+        }
+
+        meta.appendChild(pin)
+        row.append(avatar,info,meta)
+
+        row.onclick=()=>openChat(friend)
+        row.oncontextmenu=e=>{
+            e.preventDefault()
+            showFriendContextMenu(e,friend)
+        }
+
+        inboxList.appendChild(row)
+    })
+}
+
+function showFriendContextMenu(event,friend){
+    closeContextMenu()
+
+    const menu=document.createElement("div")
+    menu.className="contextMenu"
+
+    const open=document.createElement("button")
+    open.textContent="Open Chat"
+    open.onclick=()=>{
+        closeContextMenu()
+        openChat(friend)
+    }
+
+    const pin=document.createElement("button")
+    pin.textContent=isPinned(friend)?"Unpin Friend":"Pin Friend"
+    pin.onclick=()=>{
+        closeContextMenu()
+        togglePin(friend)
+    }
+
+    const copy=document.createElement("button")
+    copy.textContent="Copy Username"
+    copy.onclick=async()=>{
+        closeContextMenu()
+        await copyText(friend)
+        showToast("Copied","Username copied to clipboard","⧉")
+    }
+
+    const clear=document.createElement("button")
+    clear.textContent="Clear Local Draft"
+    clear.onclick=()=>{
+        closeContextMenu()
+        delete draftValues[friend]
+        saveDrafts()
+        if(activeFriend===friend) loadCurrentDraft()
+        showToast("Draft cleared","Local draft removed","⌫")
+    }
+
+    menu.append(open,pin,copy,clear)
+    document.body.appendChild(menu)
+    contextMenu=menu
+    positionContextMenu(menu,event.clientX,event.clientY)
+}
+
+function positionContextMenu(menu,x,y){
+    const maxX=window.innerWidth-menu.offsetWidth-8
+    const maxY=window.innerHeight-menu.offsetHeight-8
+    menu.style.left=Math.max(8,Math.min(x,maxX))+"px"
+    menu.style.top=Math.max(8,Math.min(y,maxY))+"px"
+}
+
+function closeContextMenu(){
+    if(contextMenu){
+        contextMenu.remove()
+        contextMenu=null
+    }
+}
+
+document.addEventListener("click",event=>{
+    if(contextMenu && !event.target.closest(".contextMenu")) closeContextMenu()
+})
+
+document.addEventListener("keydown",event=>{
+    if(event.key==="Escape"){
+        closeContextMenu()
+        closeSupport()
+        closeConfirm()
+        emojiPanel.classList.remove("show")
+    }
+})
+
+function setChatAvatar(name){
+    chatAvatar.className="avatar"
+    chatAvatarInner.textContent=getInitial(name)
+}
+
+function enableChatControls(enabled){
+    messageBox.disabled=!enabled
+    sendBtn.disabled=!enabled
+    imagePicker.disabled=!enabled
+    emojiButton.disabled=!enabled
+    attachButton.style.pointerEvents=enabled?"auto":"none"
+    attachButton.style.opacity=enabled?"1":".45"
+    unfriendBtn.disabled=!enabled
+    copyUsernameBtn.disabled=!enabled
+    clearDraftHeader.disabled=!enabled
+}
+
+function clearTyping(){
+    typingIndicator.classList.remove("show")
+}
+
+function renderActiveChat(chat,forceBottom=false){
+    activeChatData=chat
+
+    if(!chat){
+        activeFriend=""
+        chatTitle.textContent="Select a friend"
+        chatSub.textContent="Private messages"
+        setChatAvatar("?")
+        enableChatControls(false)
+        clearTyping()
+        chatMessages.innerHTML=`
+            <div class="emptyState">
+                Choose someone from your friends list to start chatting.
+            </div>
+            <button class="jumpButton" id="jumpButton" onclick="jumpToLatest()">↓</button>
+            <div class="typing" id="typingIndicator">
+                <span id="typingText">Typing</span>
+                <span class="typingDots"><span></span><span></span><span></span></span>
+            </div>
+        `
+        window.jumpButton=document.getElementById("jumpButton")
+        window.typingIndicator=document.getElementById("typingIndicator")
+        window.typingText=document.getElementById("typingText")
+        messageBox.value=""
+        updateComposer()
+        return
+    }
+
+    chatTitle.textContent=chat.with
+    chatSub.textContent=(chat.messages?.length||0)+" messages"
+
+    setChatAvatar(chat.with)
+    enableChatControls(true)
+
+    const previousScroll=chatMessages.scrollTop
+    const previousHeight=chatMessages.scrollHeight
+    const wasNearBottom=chatMessages.scrollHeight-chatMessages.scrollTop-chatMessages.clientHeight<180
+    const messages=Array.isArray(chat.messages)?chat.messages:[]
+
+    chatMessages.innerHTML=""
+
+    if(!messages.length){
+        chatMessages.innerHTML='<div class="emptyState">No messages yet.<br>Send the first message.</div>'
+    }else{
+        let lastDay=""
+        messages.forEach((message,index)=>{
+            const day=formatDay(message.time)
+
+            if(day!==lastDay){
+                const dayLabel=document.createElement("div")
+                dayLabel.className="messageDay"
+                dayLabel.textContent=day
+                chatMessages.appendChild(dayLabel)
+                lastDay=day
+            }
+
+            const me=message.author===myName
+            const wrap=document.createElement("div")
+            wrap.className="msgWrap"+(me?" me":"")
+            wrap.dataset.messageIndex=index
+
+            const msg=document.createElement("div")
+            msg.className="msg"
+
+            const head=document.createElement("div")
+            head.className="msgHead"
+
+            const author=document.createElement("span")
+            author.className="msgAuthor"
+            author.textContent=message.author||"Unknown"
+
+            const time=document.createElement("span")
+            time.className="msgTime"
+            time.textContent=formatTime(message.time)
+
+            head.append(author,time)
+
+            const text=document.createElement("div")
+            text.className="msgText"
+            text.textContent=message.text||""
+
+            msg.appendChild(head)
+
+            if(message.text){
+                msg.appendChild(text)
+            }
+
+            if(Array.isArray(message.images)&&message.images.length){
+                const images=document.createElement("div")
+                images.className="msgImages"
+
+                message.images.forEach(image=>{
+                    const img=document.createElement("img")
+                    img.className="msgImage"
+                    img.src=backend+image.url
+                    img.loading="lazy"
+                    img.onclick=()=>window.open(backend+image.url,"_blank")
+                    images.appendChild(img)
+                })
+
+                msg.appendChild(images)
+            }
+
+            if(me){
+                const other=(chat.users||[]).find(user=>user!==myName)||chat.with
+                const readTime=chat.lastRead?.[other]
+                const stateLabel=document.createElement("div")
+                stateLabel.className="msgState"
+                if(readTime&&new Date(readTime)>=new Date(message.time)){
+                    stateLabel.textContent="✓ Read"
+                }else{
+                    stateLabel.textContent="✓ Sent"
+                }
+                msg.appendChild(stateLabel)
+            }
+
+            const actions=document.createElement("div")
+            actions.className="msgActions"
+
+            const copy=document.createElement("button")
+            copy.className="messageAction"
+            copy.textContent="Copy"
+            copy.onclick=async()=>{
+                await copyText(message.text||"")
+                showToast("Copied","Message copied to clipboard","⧉")
+            }
+
+            const timeButton=document.createElement("button")
+            timeButton.className="messageAction"
+            timeButton.textContent="Time"
+            timeButton.onclick=()=>{
+                showToast("Message time",new Date(message.time).toLocaleString(),"◷")
+            }
+
+            actions.append(copy,timeButton)
+
+            wrap.append(msg,actions)
+
+            wrap.addEventListener("contextmenu",event=>{
+                event.preventDefault()
+                showMessageContextMenu(event,message)
+            })
+
+            chatMessages.appendChild(wrap)
+        })
+    }
+
+    const jump=document.createElement("button")
+    jump.className="jumpButton"
+    jump.id="jumpButton"
+    jump.textContent="↓"
+    jump.onclick=jumpToLatest
+    if(typeof window.jumpButton?.classList?.contains==="function"&&window.jumpButton.classList.contains("show")) jump.classList.add("show")
+    chatMessages.appendChild(jump)
+
+    const typing=document.createElement("div")
+    typing.className="typing"
+    typing.id="typingIndicator"
+    typing.innerHTML=`
+        <span id="typingText">${escapeHTML(chat.with)} is typing</span>
+        <span class="typingDots"><span></span><span></span><span></span></span>
+    `
+    chatMessages.appendChild(typing)
+
+    window.jumpButton=jump
+    window.typingIndicator=typing
+    window.typingText=typing.querySelector("#typingText")
+
+    const newKey=messages.map(m=>(m.time||"")+"|"+(m.author||"")+"|"+(m.text||"")).join("\u0001")
+
+    requestAnimationFrame(()=>{
+        if(forceBottom||wasNearBottom||newKey!==lastRenderedMessageKey&&previousHeight===0){
+            chatMessages.scrollTop=chatMessages.scrollHeight
+        }else{
+            const delta=chatMessages.scrollHeight-previousHeight
+            chatMessages.scrollTop=previousScroll+Math.max(0,delta)
+        }
+
+        updateJumpButton()
+    })
+
+    lastRenderedMessageKey=newKey
 }
 
 function showMessageContextMenu(event,message){
-event.preventDefault()
-closeMessageContextMenu()
+    closeContextMenu()
 
-const menu=document.createElement("div")
-menu.className="messageContextMenu"
+    const menu=document.createElement("div")
+    menu.className="contextMenu"
 
-const copyButton=document.createElement("button")
-copyButton.textContent="Copy Message"
-copyButton.onclick=async()=>{
-    await copyMessageText(message.text||"")
-    closeMessageContextMenu()
-}
-
-menu.appendChild(copyButton)
-document.body.appendChild(menu)
-messageContextMenu=menu
-
-const x=Math.min(event.clientX,window.innerWidth-menu.offsetWidth-8)
-const y=Math.min(event.clientY,window.innerHeight-menu.offsetHeight-8)
-menu.style.left=Math.max(8,x)+"px"
-menu.style.top=Math.max(8,y)+"px"
-}
-
-document.addEventListener("click",closeMessageContextMenu)
-document.addEventListener("contextmenu",event=>{
-if(!event.target.closest(".msg")) closeMessageContextMenu()
-})
-window.addEventListener("resize",closeMessageContextMenu)
-
-function renderRequests(){
-requestCount.textContent=String(state.incomingRequests.length)
-requestList.innerHTML=""
-
-if(!state.incomingRequests.length){
-requestList.innerHTML='<div class="empty">No requests.</div>'
-return
-}
-
-state.incomingRequests.forEach(r=>{
-const row=document.createElement("div")
-row.className="item"
-row.innerHTML=`
-<div class="itemMain">
-<div class="itemTitle">${escapeHTML(r.from)}</div>
-<div class="itemSub">Wants to add you</div>
-</div>
-<div class="itemActions">
-<button class="smallBtn" data-accept>Accept</button>
-<button class="smallBtn" data-decline>Decline</button>
-</div>
-`
-row.querySelector("[data-accept]").onclick=async e=>{
-e.stopPropagation()
-await acceptRequest(r.id,r.from)
-}
-row.querySelector("[data-decline]").onclick=async e=>{
-e.stopPropagation()
-await declineRequest(r.id)
-}
-requestList.appendChild(row)
-})
-}
-
-function renderFriends(){
-friendCount.textContent=String(state.friends.length)
-friendList.innerHTML=""
-
-if(!state.friends.length){
-friendList.innerHTML='<div class="empty">No friends yet.</div>'
-return
-}
-
-const sorted=[...state.friends].sort((a,b)=>{
-const ap=isPinned(a)
-const bp=isPinned(b)
-if(ap!==bp) return bp-ap
-
-const aa=getChatSummary(a)
-const bb=getChatSummary(b)
-if((bb.unread||0)!==(aa.unread||0)) return (bb.unread||0)-(aa.unread||0)
-return a.localeCompare(b)
-})
-
-sorted.forEach(friend=>{
-const summary=getChatSummary(friend)
-const row=document.createElement("div")
-row.className="item"+(activeFriend===friend ? " active" : "")+(isPinned(friend) ? " pinned" : "")
-row.innerHTML=`
-<div class="itemMain">
-<div class="itemTitle">${escapeHTML(friend)}</div>
-<div class="itemSub">${escapeHTML(summary.lastAuthor ? `${summary.lastAuthor}: ${summary.lastMessage}` : "No messages yet")}</div>
-</div>
-<div class="itemActions">
-<button class="pinBtn ${isPinned(friend) ? "pinned" : ""}" data-pin title="${isPinned(friend) ? "Unpin" : "Pin"}">${isPinned(friend) ? "📌" : "📍"}</button>
-${summary.unread>0 ? `<span class="badge">${summary.unread}</span>` : ""}
-</div>
-`
-row.onclick=()=>openChat(friend)
-row.querySelector("[data-pin]").onclick=e=>{
-    e.stopPropagation()
-    togglePin(friend)
-}
-friendList.appendChild(row)
-})
-}
-
-function openSupport(){
-document.getElementById("supportPopup").style.display="flex";
-}
-
-async function getMe(){
-
-    const token=localStorage.getItem("Token")
-
-    if(!token) return null
-
-    try{
-
-        const r=await fetch(backend+"/me",{
-            headers:{
-                Authorization:token
-            }
-        })
-
-        const data=await r.json()
-
-        if(data.error) return null
-
-        return data
-
-    }catch{
-
-        return null
-
+    const copy=document.createElement("button")
+    copy.textContent="Copy Message"
+    copy.onclick=async()=>{
+        closeContextMenu()
+        await copyText(message.text||"")
+        showToast("Copied","Message copied to clipboard","⧉")
     }
 
+    const info=document.createElement("button")
+    info.textContent="Message Time"
+    info.onclick=()=>{
+        closeContextMenu()
+        showToast("Sent",new Date(message.time).toLocaleString(),"◷")
+    }
+
+    menu.append(copy,info)
+    document.body.appendChild(menu)
+    contextMenu=menu
+    positionContextMenu(menu,event.clientX,event.clientY)
 }
 
-function renderActiveChat(chat, forceBottom = false){
-
-if(!chat){
-chatTitle.textContent="Select a friend"
-chatSub.textContent="Private messages"
-chatMessages.innerHTML='<div class="empty">Pick a friend to open the chat.</div>'
-
-messageBox.disabled=true
-sendBtn.disabled=true
-imagePicker.disabled=true
-attachBtn.style.pointerEvents="none"
-attachBtn.style.opacity="0.5"
-
-unfriendBtn.disabled=true
-messageBox.value=""
-imagePicker.value=""
-
-return
+async function copyText(value){
+    const text=String(value??"")
+    try{
+        await navigator.clipboard.writeText(text)
+    }catch{
+        const temp=document.createElement("textarea")
+        temp.value=text
+        temp.style.position="fixed"
+        temp.style.opacity="0"
+        document.body.appendChild(temp)
+        temp.select()
+        document.execCommand("copy")
+        temp.remove()
+    }
 }
 
-chatTitle.textContent=chat.with
-chatSub.textContent=`${chat.messages.length} messages`
+function updateComposer(){
+    const length=messageBox.value.length
+    charCount.textContent=length+" / "+MAX_MESSAGE_LENGTH
+    charCount.style.color=length>3900?"#ff8793":"#556177"
 
-messageBox.disabled=false
-sendBtn.disabled=false
-imagePicker.disabled=false
-attachBtn.style.pointerEvents="auto"
-attachBtn.style.opacity="1"
-
-unfriendBtn.disabled=false
-
-if(!chat.messages.length){
-chatMessages.innerHTML='<div class="empty">No messages yet.</div>'
-return
+    sendBtn.disabled=!activeFriend||(!messageBox.value.trim()&&!pendingAttachments.length)
+    autoResizeTextarea()
 }
 
-chatMessages.innerHTML=chat.messages.map((m,index)=>{
-const me=m.author===myName
-return `
-<div class="msg ${me ? "me" : ""}" data-message-index="${index}">
-<div class="msgHead">
-<strong>${escapeHTML(m.author)}</strong>
-<span class="msgTime">${escapeHTML(formatTime(m.time))}</span>
-</div>
-<div>${escapeHTML(m.text)}</div>
-
-${
-(m.images||[]).map(img=>`
-<img
-src="${backend}${img.url}"
-style="
-max-width:300px;
-max-height:300px;
-display:block;
-margin-top:8px;
-border-radius:10px;
-cursor:pointer;
-"
-onclick="window.open('${backend}${img.url}','_blank')">
-`).join("")
-}
-${me ? (() => {
-const other = chat.users.find(u => u !== myName)
-const readTime = chat.lastRead?.[other]
-
-if(readTime && new Date(readTime) >= new Date(m.time)){
-return `<div style="font-size:11px;opacity:.6;margin-top:4px">✓ Read</div>`
+function autoResizeTextarea(){
+    messageBox.style.height="auto"
+    messageBox.style.height=Math.min(messageBox.scrollHeight,150)+"px"
 }
 
-return `<div style="font-size:11px;opacity:.4;margin-top:4px">✓ Sent</div>`
-})() : ""}
-</div>
-`
-}).join("")
-
-chatMessages.querySelectorAll(".msg").forEach((element,index)=>{
-    const message=chat.messages[index]
-    if(!message) return
-    element.addEventListener("contextmenu",event=>showMessageContextMenu(event,message))
-})
-
-const nearBottom =
-    chatMessages.scrollHeight -
-    chatMessages.scrollTop -
-    chatMessages.clientHeight < 150;
-
-if (forceBottom || nearBottom) {
-    requestAnimationFrame(() => {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    });
-}
+function insertAtCursor(value){
+    if(messageBox.disabled) return
+    const start=messageBox.selectionStart
+    const end=messageBox.selectionEnd
+    const original=messageBox.value
+    messageBox.value=original.slice(0,start)+value+original.slice(end)
+    messageBox.selectionStart=messageBox.selectionEnd=start+value.length
+    messageBox.focus()
+    updateComposer()
+    saveCurrentDraft()
 }
 
-async function refreshState(){
-const r=await api("/dms/state")
-const data=await safeJson(r)
-
-if(!data || data.error){
-if(data && data.error==="unauthorized") location.href="login.html"
-return
+function insertQuickReply(text){
+    insertAtCursor(text)
 }
 
-state=data
-if (statusText) {
-    statusText.textContent = `Logged in as ${myName}`;
+function buildEmojiPicker(){
+    emojiGrid.innerHTML=""
+    emojiList.forEach(emoji=>{
+        const button=document.createElement("button")
+        button.className="emojiOption"
+        button.type="button"
+        button.textContent=emoji
+        button.onclick=()=>{
+            insertAtCursor(emoji)
+            emojiPanel.classList.remove("show")
+        }
+        emojiGrid.appendChild(button)
+    })
 }
 
-const totalUnread=(state.unreadMessages||0)+(state.unreadRequests||0)
-if(!firstStateLoad && totalUnread>lastUnreadTotal){
-playSound()
-}
-firstStateLoad=false
-lastUnreadTotal=totalUnread
-
-renderRequests()
-renderFriends()
-
-if(activeFriend){
-await refreshActiveChat(false)
-}else{
-renderActiveChat(null)
-}
+function toggleEmojiPanel(){
+    if(emojiButton.disabled) return
+    emojiPanel.classList.toggle("show")
 }
 
-async function refreshActiveChat(markSeenNow=true){
-if(!activeFriend) return
+function renderAttachmentPreview(){
+    attachmentsPreview.innerHTML=""
 
-const r=await api("/dms/chat?with="+encodeURIComponent(activeFriend))
-const data=await safeJson(r)
+    if(!pendingAttachments.length){
+        attachmentsPreview.classList.remove("show")
+        updateComposer()
+        return
+    }
 
-if(!data){
-return
+    attachmentsPreview.classList.add("show")
+
+    pendingAttachments.forEach((file,index)=>{
+        const chip=document.createElement("div")
+        chip.className="attachmentChip"
+
+        const img=document.createElement("img")
+        img.src=URL.createObjectURL(file)
+
+        const remove=document.createElement("button")
+        remove.className="removeAttachment"
+        remove.textContent="×"
+        remove.onclick=()=>{
+            pendingAttachments.splice(index,1)
+            syncFileInput()
+            renderAttachmentPreview()
+        }
+
+        chip.append(img,remove)
+        attachmentsPreview.appendChild(chip)
+    })
+
+    updateComposer()
 }
 
-if(data.error==="notfriends"){
-renderActiveChat(null)
-activeFriend=""
-await refreshState()
-return
+function syncFileInput(){
+    const transfer=new DataTransfer()
+    pendingAttachments.forEach(file=>transfer.items.add(file))
+    imagePicker.files=transfer.files
 }
 
-if(data.error){
-return
+function clearAttachments(){
+    pendingAttachments=[]
+    imagePicker.value=""
+    renderAttachmentPreview()
 }
 
-renderActiveChat(data.chat)
+function handleFiles(files){
+    if(!activeFriend) return
 
-if(markSeenNow){
-await api("/dms/seen",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chatId:activeFriend})
-})
-}
-}
+    const incoming=[...files].filter(file=>file.type.startsWith("image/"))
+    if(!incoming.length) return
 
-async function openChat(friend){
-const r=await api("/dms/chat?with="+encodeURIComponent(friend))
-const data=await safeJson(r)
+    const merged=[...pendingAttachments,...incoming]
+    const limited=merged.slice(0,8)
 
-if(data && data.error==="notfound"){
-alert("User not found")
-return
-}
+    if(merged.length>8){
+        showToast("Attachment limit","You can attach up to 8 images.","⌕")
+    }
 
-if(data && data.error==="notfriends"){
-alert("You need to be friends first")
-return
-}
-
-if(data && data.error){
-alert(data.error)
-return
-}
-
-activeFriend=friend
-location.hash=encodeURIComponent(friend)
-
-await api("/dms/activity",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-chatId:activeFriend,
-active:true
-})
-})
-
-renderActiveChat(data.chat, true)
-await api("/dms/seen",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chatId:activeFriend})
-})
-await refreshState()
-}
-
-async function openFromSearch(){
-const name=document.getElementById("searchUser").value.trim()
-if(!name) return
-await openChat(name)
-}
-
-async function addFriendFromSearch(){
-const name=document.getElementById("searchUser").value.trim()
-if(!name){
-alert("Enter a username")
-return
-}
-
-const r=await api("/friends/request",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-username:name
-})
-})
-
-const data=await safeJson(r)
-
-if(!data){
-alert("Server error")
-return
-}
-
-if(data.success){
-alert("Friend request sent")
-await refreshState()
-return
-}
-
-if(data.error==="notfound"){
-alert("User not found")
-}else if(data.error==="self"){
-alert("You cannot add yourself")
-}else if(data.error==="friends"){
-alert("You are already friends")
-}else if(data.error==="pending"){
-alert("Friend request already exists")
-}else{
-alert(data.error)
-}
-}
-
-async function requestFriend(username){
-const r=await api("/friends/request",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({username})
-})
-
-const data=await safeJson(r)
-
-if(!data) return
-
-if(data.error==="unauthorized"){
-location.href="login.html"
-return
-}
-
-if(data.error==="notfound") alert("User not found")
-else if(data.error==="self") alert("You cannot add yourself")
-else if(data.error==="friends") alert("Already friends")
-else if(data.error==="pending") alert("Friend request already exists")
-else if(data.success) alert("Friend request sent")
-
-await refreshState()
-}
-
-async function acceptRequest(requestId,from){
-const r=await api("/friends/accept",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({requestId})
-})
-const data=await safeJson(r)
-if(!data || data.error) return
-await refreshState()
-await openChat(from)
-}
-
-async function declineRequest(requestId){
-await api("/friends/decline",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({requestId})
-})
-await refreshState()
+    pendingAttachments=limited
+    syncFileInput()
+    renderAttachmentPreview()
 }
 
 async function sendMessage(){
+    if(!activeFriend||sendBtn.disabled) return
 
-if(!activeFriend) return
+    const text=messageBox.value.trim()
+    if(!text&&!pendingAttachments.length) return
 
-const text=messageBox.value.trim()
-if(
-!text &&
-imagePicker.files.length===0
-){
-return
+    sendBtn.disabled=true
+    sendBtn.textContent="Sending…"
+
+    const recipient=activeFriend
+    const form=new FormData()
+
+    form.append("chatId",recipient)
+    form.append("message",text)
+
+    pendingAttachments.forEach(file=>{
+        form.append("images",file)
+    })
+
+    try{
+        const r=await api("/dms/send",{
+            method:"POST",
+            body:form
+        })
+
+        const data=await safeJson(r)
+
+        if(data&&data.error){
+            showToast("Message failed",String(data.error),"!")
+            return
+        }
+
+        delete draftValues[recipient]
+        saveDrafts()
+        messageBox.value=""
+        clearAttachments()
+        setDraftStatus("",false)
+        forceNextScroll=true
+        await refreshActiveChat(false)
+        await refreshState()
+        messageBox.focus()
+    }catch{
+        showToast("Message failed","The server could not be reached.","!")
+    }finally{
+        sendBtn.textContent="Send"
+        updateComposer()
+    }
 }
 
-const form=new FormData()
+async function openChat(friend){
+    closeContextMenu()
+    emojiPanel.classList.remove("show")
+    saveCurrentDraft(true)
 
-form.append("chatId",activeFriend)
-form.append("message",text)
+    try{
+        const r=await api("/dms/chat?with="+encodeURIComponent(friend))
+        const data=await safeJson(r)
 
-for(const file of imagePicker.files){
-form.append("images",file)
-}
+        if(data&&data.error==="notfound"){
+            showToast("User not found","That username does not exist.","!")
+            return
+        }
 
-const r=await api("/dms/send",{
-method:"POST",
-body:form
-})
+        if(data&&data.error==="notfriends"){
+            showToast("Friends only","You need to be friends before messaging.","!")
+            return
+        }
 
-const data=await safeJson(r)
+        if(data&&data.error){
+            showToast("Unable to open chat",String(data.error),"!")
+            return
+        }
 
-if(data && data.error){
-alert(data.error)
-return
-}
+        activeFriend=friend
+        location.hash=encodeURIComponent(friend)
+        activeChatData=data.chat||null
 
-messageBox.value=""
-imagePicker.value=""
+        await api("/dms/activity",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                chatId:activeFriend,
+                active:true
+            })
+        })
 
-await refreshActiveChat(false)
-await refreshState()
+        renderActiveChat(data.chat,true)
+        loadCurrentDraft()
+        clearAttachments()
 
-}
-
-async function unfriendActive(){
-if(!activeFriend) return
-if(!confirm("Unfriend "+activeFriend+"?")) return
-await api("/friends/remove",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({username:activeFriend})
-})
-activeFriend=""
-location.hash=""
-renderActiveChat(null)
-await refreshState()
-}
-
-function logout(){
-localStorage.removeItem("Token")
-location.href="login.html"
-}
-
-window.addEventListener("beforeunload",()=>{
-
-if(!activeFriend) return
-
-navigator.sendBeacon(
-backend+"/dms/activity",
-new Blob([
-JSON.stringify({
-chatId:activeFriend,
-active:false,
-token:localStorage.getItem("Token")
-})
-],{
-type:"application/json"
-})
-)
-
-})
-
-
-document.addEventListener("visibilitychange",()=>{
-
-if(!activeFriend) return
-
-
-api("/dms/activity",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-chatId:activeFriend,
-active:!document.hidden
-})
-})
-
-
-})
-
-async function init(){
-backend=await getBackend()
-token=localStorage.getItem("Token")
-await trackPage("DMS.html")
-if(!token){
-location.href="login.html"
-return
-}
-
-const meRes=await api("/me")
-const me=await safeJson(meRes)
-
-if(!me || me.error){
-location.href="login.html"
-return
-}
-
-myName=me.username
-if (statusText) {
-    statusText.textContent = `Logged in as ${myName}`;
-}
-
-if(location.hash){
-const wanted=decodeURIComponent(location.hash.slice(1))
-if(wanted) activeFriend=wanted
-}
-
-await refreshState()
-
-setInterval(async ()=>{
-    await refreshState()
-
-    if(activeFriend){
         await api("/dms/seen",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify({chatId:activeFriend})
         })
+
+        appShell.classList.add("chatOpen")
+        lastRenderedMessageKey=""
+        forceNextScroll=false
+        await refreshState()
+    }catch{
+        showToast("Connection error","Could not load that chat.","!")
     }
-},2500)
+}
+
+function closeMobileChat(){
+    saveCurrentDraft(true)
+
+    if(activeFriend){
+        api("/dms/activity",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                chatId:activeFriend,
+                active:false
+            })
+        }).catch(()=>{})
+    }
+
+    appShell.classList.remove("chatOpen")
+}
+
+async function refreshActiveChat(markSeenNow=true){
+    if(!activeFriend) return
+
+    try{
+        const r=await api("/dms/chat?with="+encodeURIComponent(activeFriend))
+        const data=await safeJson(r)
+
+        if(!data) return
+
+        if(data.error==="notfriends"){
+            activeFriend=""
+            location.hash=""
+            renderActiveChat(null)
+            await refreshState()
+            return
+        }
+
+        if(data.error) return
+
+        const draft=messageBox.value
+        const selectionStart=messageBox.selectionStart
+        const selectionEnd=messageBox.selectionEnd
+
+        renderActiveChat(data.chat,forceNextScroll)
+        forceNextScroll=false
+
+        if(document.activeElement!==messageBox||messageBox.value!==draft){
+            messageBox.value=draft
+            messageBox.selectionStart=Math.min(selectionStart,draft.length)
+            messageBox.selectionEnd=Math.min(selectionEnd,draft.length)
+            updateComposer()
+        }
+
+        if(markSeenNow){
+            await api("/dms/seen",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({chatId:activeFriend})
+            })
+        }
+    }catch{}
+}
+
+async function refreshState(force=false){
+    if(force) showToast("Refreshing","Syncing your messages…","↻")
+
+    try{
+        const r=await api("/dms/state")
+        const data=await safeJson(r)
+
+        if(!data||data.error){
+            if(data&&data.error==="unauthorized") location.href="login.html"
+            return
+        }
+
+        const totalUnread=Number(data.unreadMessages||0)+Number(data.unreadRequests||0)
+
+        if(!firstStateLoad&&totalUnread>lastUnreadTotal){
+            notificationSound.currentTime=0
+            notificationSound.play().catch(()=>{})
+        }
+
+        firstStateLoad=false
+        lastUnreadTotal=totalUnread
+        state={
+            friends:Array.isArray(data.friends)?data.friends:[],
+            incomingRequests:Array.isArray(data.incomingRequests)?data.incomingRequests:[],
+            outgoingRequests:Array.isArray(data.outgoingRequests)?data.outgoingRequests:[],
+            chats:Array.isArray(data.chats)?data.chats:[]
+        }
+
+        if(myName){
+            statusText.textContent=`Logged in as ${myName} · ${state.friends.length} friends`
+        }
+
+        renderInbox()
+
+        if(activeFriend){
+            const stillFriend=state.friends.includes(activeFriend)
+            if(!stillFriend){
+                activeFriend=""
+                location.hash=""
+                renderActiveChat(null)
+            }else if(!activeChatData){
+                await refreshActiveChat(false)
+            }
+        }
+    }catch{
+        statusText.textContent="Connection interrupted · retrying"
+    }
+}
+
+async function addFriendFromSearch(){
+    const name=searchUser.value.trim()
+    if(!name){
+        showToast("Username required","Enter a username first.","!")
+        searchUser.focus()
+        return
+    }
+
+    try{
+        const r=await api("/friends/request",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({username:name})
+        })
+
+        const data=await safeJson(r)
+
+        if(!data){
+            showToast("Server error","No valid response was returned.","!")
+            return
+        }
+
+        if(data.success){
+            showToast("Request sent","Friend request sent to "+name+".","✓")
+            await refreshState()
+            return
+        }
+
+        if(data.error==="notfound"){
+            showToast("User not found","No account matches that username.","!")
+        }else if(data.error==="self"){
+            showToast("Not allowed","You cannot add yourself.","!")
+        }else if(data.error==="friends"){
+            showToast("Already friends","You are already connected.","✓")
+        }else if(data.error==="pending"){
+            showToast("Already pending","A friend request already exists.","!")
+        }else{
+            showToast("Request failed",String(data.error||"Unknown error"),"!")
+        }
+    }catch{
+        showToast("Request failed","The server could not be reached.","!")
+    }
+}
+
+async function openFromSearch(){
+    const name=searchUser.value.trim()
+    if(!name){
+        showToast("Username required","Enter a username first.","!")
+        searchUser.focus()
+        return
+    }
+
+    const knownFriend=state.friends.find(friend=>friend.toLowerCase()===name.toLowerCase())
+
+    if(knownFriend){
+        await openChat(knownFriend)
+        return
+    }
+
+    await openChat(name)
+}
+
+async function acceptRequest(requestId,from){
+    try{
+        const r=await api("/friends/accept",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({requestId})
+        })
+
+        const data=await safeJson(r)
+
+        if(!data||data.error){
+            showToast("Request failed",String(data?.error||"Could not accept request"),"!")
+            return
+        }
+
+        showToast("Friend added",from+" is now your friend.","✓")
+        await refreshState()
+        await openChat(from)
+    }catch{
+        showToast("Request failed","The server could not be reached.","!")
+    }
+}
+
+async function declineRequest(requestId){
+    try{
+        const r=await api("/friends/decline",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({requestId})
+        })
+
+        const data=await safeJson(r)
+
+        if(data&&data.error){
+            showToast("Request failed",String(data.error),"!")
+            return
+        }
+
+        showToast("Request declined","The request was removed.","")
+        await refreshState()
+    }catch{
+        showToast("Request failed","The server could not be reached.","!")
+    }
+}
+
+function openConfirm(title,text,action,label="Continue"){
+    document.getElementById("confirmTitle").textContent=title
+    document.getElementById("confirmText").textContent=text
+    document.getElementById("confirmAction").textContent=label
+    currentConfirmAction=action
+    document.getElementById("confirmPopup").classList.add("show")
+}
+
+function closeConfirm(){
+    document.getElementById("confirmPopup").classList.remove("show")
+    currentConfirmAction=null
+}
+
+document.getElementById("confirmAction").onclick=async()=>{
+    const action=currentConfirmAction
+    closeConfirm()
+    if(action) await action()
+}
+
+async function unfriendActive(){
+    if(!activeFriend) return
+
+    const friend=activeFriend
+
+    openConfirm(
+        "Remove friend?",
+        "This will remove "+friend+" from your friends list.",
+        async()=>{
+            try{
+                const r=await api("/friends/remove",{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({username:friend})
+                })
+
+                const data=await safeJson(r)
+
+                if(data&&data.error){
+                    showToast("Unable to remove",String(data.error),"!")
+                    return
+                }
+
+                delete draftValues[friend]
+                saveDrafts()
+                activeFriend=""
+                activeChatData=null
+                location.hash=""
+                renderActiveChat(null)
+                appShell.classList.remove("chatOpen")
+                showToast("Friend removed",friend+" was removed from your friends list.","×")
+                await refreshState()
+            }catch{
+                showToast("Unable to remove","The server could not be reached.","!")
+            }
+        },
+        "Remove"
+    )
+}
+
+async function copyActiveUsername(){
+    if(!activeFriend) return
+    await copyText(activeFriend)
+    showToast("Copied",activeFriend,"⧉")
+}
+
+function updateJumpButton(){
+    const button=document.getElementById("jumpButton")
+    if(!button) return
+    const hidden=chatMessages.scrollHeight-chatMessages.scrollTop-chatMessages.clientHeight>180
+    button.classList.toggle("show",hidden)
+}
+
+function jumpToLatest(){
+    chatMessages.scrollTo({
+        top:chatMessages.scrollHeight,
+        behavior:"smooth"
+    })
+}
+
+chatMessages.addEventListener("scroll",()=>{
+    lastKnownScrollTop=chatMessages.scrollTop
+    updateJumpButton()
+})
+
+messageBox.addEventListener("input",()=>{
+    autoResizeTextarea()
+    updateComposer()
+    saveCurrentDraft()
+})
+
+messageBox.addEventListener("keydown",event=>{
+    if(event.key==="Enter"&&!event.shiftKey){
+        event.preventDefault()
+        sendMessage()
+    }
+
+    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="k"){
+        event.preventDefault()
+        searchUser.focus()
+        searchUser.select()
+    }
+})
+
+searchUser.addEventListener("input",()=>{
+    updateSearchUI()
+    if(inboxTab!=="friends") setInboxTab("friends")
+    else renderInbox()
+})
+
+searchUser.addEventListener("keydown",event=>{
+    if(event.key==="Enter"){
+        event.preventDefault()
+        openFromSearch()
+    }
+})
+
+imagePicker.addEventListener("change",()=>{
+    pendingAttachments=[...imagePicker.files]
+    renderAttachmentPreview()
+})
+
+document.addEventListener("paste",event=>{
+    if(!activeFriend) return
+    const files=[...event.clipboardData.files].filter(file=>file.type.startsWith("image/"))
+    if(files.length){
+        handleFiles(files)
+        showToast("Image pasted","The image is ready to send.","⌕")
+    }
+})
+
+document.addEventListener("dragover",event=>{
+    if(activeFriend&&event.dataTransfer?.types?.includes("Files")){
+        event.preventDefault()
+        document.getElementById("composerArea").style.borderColor="rgba(0,213,255,.35)"
+    }
+})
+
+document.addEventListener("dragleave",event=>{
+    if(event.target===document.body||event.target===document.documentElement){
+        document.getElementById("composerArea").style.borderColor=""
+    }
+})
+
+document.addEventListener("drop",event=>{
+    if(activeFriend&&event.dataTransfer?.files?.length){
+        event.preventDefault()
+        document.getElementById("composerArea").style.borderColor=""
+        handleFiles(event.dataTransfer.files)
+    }
+})
+
+document.addEventListener("click",event=>{
+    if(!event.target.closest("#emojiPanel")&&!event.target.closest("#emojiButton")){
+        emojiPanel.classList.remove("show")
+    }
+})
+
+function overlayClose(event,id){
+    if(event.target.id===id){
+        document.getElementById(id).classList.remove("show")
+    }
+}
+
+function openSupport(){
+    document.getElementById("supportPopup").classList.add("show")
+}
+
+function closeSupport(){
+    document.getElementById("supportPopup").classList.remove("show")
+}
+
+function emailSupport(){
+    window.location.href="mailto:Zyphor@Zyphor.cc"
+}
+
+function goProfile(){
+    const username=localStorage.getItem("username")||myName
+    if(!username) return
+    window.location.href=`https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`
+}
+
+function logout(){
+    if(activeFriend){
+        navigator.sendBeacon(
+            backend+"/dms/activity",
+            new Blob([
+                JSON.stringify({
+                    chatId:activeFriend,
+                    active:false,
+                    token:localStorage.getItem("Token")
+                })
+            ],{type:"application/json"})
+        )
+    }
+    localStorage.removeItem("Token")
+    location.href="login.html"
+}
+
+document.addEventListener("visibilitychange",()=>{
+    if(!activeFriend) return
+
+    api("/dms/activity",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            chatId:activeFriend,
+            active:!document.hidden
+        })
+    }).catch(()=>{})
+
+    if(document.hidden){
+        saveCurrentDraft(true)
+    }
+})
+
+window.addEventListener("beforeunload",()=>{
+    saveCurrentDraft(true)
+    if(!activeFriend||!backend) return
+
+    navigator.sendBeacon(
+        backend+"/dms/activity",
+        new Blob([
+            JSON.stringify({
+                chatId:activeFriend,
+                active:false,
+                token:localStorage.getItem("Token")
+            })
+        ],{type:"application/json"})
+    )
+})
+
+window.addEventListener("resize",()=>{
+    closeContextMenu()
+})
 
 window.addEventListener("hashchange",()=>{
-const wanted=decodeURIComponent(location.hash.slice(1))
-if(wanted && wanted!==activeFriend){
-openChat(wanted)
-}
+    const wanted=safeDecode(location.hash.slice(1))
+    if(wanted&&wanted!==activeFriend&&state.friends.includes(wanted)){
+        openChat(wanted)
+    }
 })
+
+async function init(){
+    try{
+        backend=await getBackend()
+        token=localStorage.getItem("Token")
+
+        if(!token){
+            location.href="login.html"
+            return
+        }
+
+        loadLocalState()
+        buildEmojiPicker()
+        await trackPage("DMS.html")
+
+        const meRes=await api("/me")
+        const me=await safeJson(meRes)
+
+        if(!me||me.error){
+            localStorage.removeItem("Token")
+            location.href="login.html"
+            return
+        }
+
+        myName=me.username||"Unknown"
+        localStorage.setItem("username",myName)
+
+        statusText.textContent=`Logged in as ${myName}`
+        enableChatControls(false)
+        updateComposer()
+
+        if(location.hash){
+            const wanted=safeDecode(location.hash.slice(1))
+            if(wanted) activeFriend=wanted
+        }
+
+        await refreshState()
+
+        if(activeFriend&&state.friends.includes(activeFriend)){
+            await openChat(activeFriend)
+        }else if(activeFriend){
+            activeFriend=""
+            location.hash=""
+        }
+
+        refreshTimer=setInterval(async()=>{
+            await refreshState()
+
+            if(activeFriend){
+                await refreshActiveChat(true)
+                await api("/dms/seen",{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({chatId:activeFriend})
+                }).catch(()=>{})
+            }
+        },2500)
+
+    }catch{
+        statusText.textContent="Unable to connect"
+        showToast("Connection error","Could not load the Zyphor messaging service.","!")
+    }
 }
 
 init()
 </script>
-
 </body>
 </html>
