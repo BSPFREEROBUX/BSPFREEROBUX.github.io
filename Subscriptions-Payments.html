@@ -46,21 +46,21 @@ h1{font-size:clamp(42px,7vw,82px);margin:12px 0 10px;line-height:1;letter-spacin
 .ascended .purchase{background:linear-gradient(135deg,#ff2875,#a43cff)}
 .note{text-align:center;color:#66758c;font-size:11px;margin-top:25px}
 
-.preorder{position:relative;overflow:hidden;isolation:isolate;letter-spacing:1.2px;text-transform:uppercase}
-.preorder:before{content:"";position:absolute;inset:-3px;background:linear-gradient(90deg,transparent,#fff8,transparent);transform:translateX(-130%) skewX(-20deg);animation:shine 2.7s infinite;z-index:-1}
-.preorder:after{content:"";position:absolute;inset:0;border-radius:15px;box-shadow:inset 0 0 0 1px #fff4,0 0 35px #00d5ff44;opacity:.8;pointer-events:none}
-.preorder:hover{transform:translateY(-2px) scale(1.015);box-shadow:0 14px 45px #00d5ff44}
-.endless .preorder:hover{box-shadow:0 14px 45px #8b45ff55}
-.ascended .preorder:hover{box-shadow:0 14px 50px #ff2e7a55}
+.purchaseButton{position:relative;overflow:hidden;isolation:isolate;letter-spacing:1.2px;text-transform:uppercase}
+.purchaseButton:before{content:"";position:absolute;inset:-3px;background:linear-gradient(90deg,transparent,#fff8,transparent);transform:translateX(-130%) skewX(-20deg);animation:shine 2.7s infinite;z-index:-1}
+.purchaseButton:after{content:"";position:absolute;inset:0;border-radius:15px;box-shadow:inset 0 0 0 1px #fff4,0 0 35px #00d5ff44;opacity:.8;pointer-events:none}
+.purchaseButton:hover{transform:translateY(-2px) scale(1.015);box-shadow:0 14px 45px #00d5ff44}
+.endless .purchaseButton:hover{box-shadow:0 14px 45px #8b45ff55}
+.ascended .purchaseButton:hover{box-shadow:0 14px 50px #ff2e7a55}
 @keyframes shine{0%{transform:translateX(-130%) skewX(-20deg)}45%,100%{transform:translateX(130%) skewX(-20deg)}}
 
 .modal{display:none;
 position:fixed;inset:0;z-index:20;background:#000b;backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
 
-.preorderBox{height:auto;min-height:520px;max-width:690px;overflow:hidden}
+.purchaseBox{height:auto;min-height:520px;max-width:690px;overflow:hidden}
 .modalContent{position:relative;z-index:2;padding:42px 38px;text-align:center}
-.preorderIcon{width:62px;height:62px;margin:0 auto 15px;display:grid;place-items:center;border-radius:20px;font-size:30px;background:linear-gradient(135deg,#00d5ff22,#9b4dff33);border:1px solid #ffffff20;box-shadow:0 0 45px #00d5ff33;animation:iconPulse 2s ease-in-out infinite}
+.purchaseIcon{width:62px;height:62px;margin:0 auto 15px;display:grid;place-items:center;border-radius:20px;font-size:30px;background:linear-gradient(135deg,#00d5ff22,#9b4dff33);border:1px solid #ffffff20;box-shadow:0 0 45px #00d5ff33;animation:iconPulse 2s ease-in-out infinite}
 .modalKicker{font-size:9px;letter-spacing:3px;font-weight:900;color:#00d5ff}
 .modalTitle{font-size:28px;font-weight:900;margin:9px 45px 10px}
 .modalText{color:#8e9caf;font-size:12px;line-height:1.65;max-width:520px;margin:0 auto 18px}
@@ -92,11 +92,13 @@ position:fixed;inset:0;z-index:20;background:#000b;backdrop-filter:blur(12px);al
 <div class="brand"><img src="https://zyphor.cc/Logo1.png"><span>ZYPHOR</span></div>
 <a class="back" href="0dashboard.html">← Dashboard</a>
 </header>
+
 <section class="hero">
 <div class="kicker">LIFETIME MEMBERSHIPS</div>
 <h1>ZYPhor Infinity.</h1>
 <p>Three lifetime tiers built for members who want more rewards, recognition, priority and access across Zyphor.</p>
 </section>
+
 <section class="plans">
 
 <article class="plan infinity">
@@ -113,7 +115,7 @@ position:fixed;inset:0;z-index:20;background:#000b;backdrop-filter:blur(12px);al
 <div class="feature no"><span class="icon"></span><span>Endless 3× XP</span></div>
 <div class="feature no"><span class="icon"></span><span>Ascended-only early access</span></div>
 </div>
-<button class="purchase preorder" data-plan="Zyphor Infinity">✦ PREORDER INFINITY ✦</button>
+<button class="purchase purchaseButton" data-plan="Zyphor Infinity">✦ PURCHASE INFINITY ✦</button>
 </article>
 
 <article class="plan endless">
@@ -129,7 +131,7 @@ position:fixed;inset:0;z-index:20;background:#000b;backdrop-filter:blur(12px);al
 <div class="feature no"><span class="icon"></span><span>5× XP</span></div>
 <div class="feature no"><span class="icon"></span><span>Ascended early access</span></div>
 </div>
-<button class="purchase preorder" data-plan="Zyphor Endless">⚡ PREORDER ENDLESS ⚡</button>
+<button class="purchase purchaseButton" data-plan="Zyphor Endless">⚡ PURCHASE ENDLESS ⚡</button>
 </article>
 
 <article class="plan ascended">
@@ -148,57 +150,89 @@ position:fixed;inset:0;z-index:20;background:#000b;backdrop-filter:blur(12px);al
 <div class="feature yes"><span class="icon"></span><span><b>PFP Borders</b><br>Unlock exclusive profile picture borders.</span></div>
 <div class="feature yes"><span class="icon"></span><span><b>Special Recognition</b><br>Highest Zyphor membership tier.</span></div>
 </div>
-<button class="purchase preorder" data-plan="Zyphor Ascended">👑 PREORDER ASCENDED 👑</button>
+<button class="purchase purchaseButton" data-plan="Zyphor Ascended">👑 PURCHASE ASCENDED 👑</button>
 </article>
 
 </section>
-<div class="note">1 Zyphium = $1 · All plans are lifetime memberships · Purchasing is not currently implemented.</div>
+
+<div class="note">1 Zyphium = $1 · All plans are lifetime memberships · Purchases are currently handled manually by email.</div>
 </div>
 
 <div class="modal" id="modal">
-<div class="modalBox preorderBox">
-<div class="orb orb1"></div><div class="orb orb2"></div>
+<div class="modalBox purchaseBox">
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
 <button class="exit" id="exit" aria-label="Close">×</button>
+
 <div class="modalContent">
-<div class="preorderIcon">✦</div>
-<div class="modalKicker">LIFETIME PREORDER</div>
+<div class="purchaseIcon">✦</div>
+<div class="modalKicker">LIFETIME PURCHASE</div>
 <div class="modalTitle" id="modalTitle"></div>
-<p class="modalText">Preordering is currently handled manually. Send an email to the official Zyphor address with the information below.</p>
+<p class="modalText">Purchases are currently handled manually. Send an email to the official Zyphor address with the information below to purchase your lifetime membership.</p>
+
 <div class="emailCard">
-<div><span>EMAIL</span><b>zyphor@zyphor.cc</b></div>
+<div>
+<span>EMAIL</span>
+<b>zyphor@zyphor.cc</b>
+</div>
 <button id="copyEmail" type="button">COPY</button>
 </div>
+
 <div class="requirements">
 <div>1. Your Zyphor username</div>
 <div>2. The email linked to your account</div>
 <div>3. Your ZAccountID</div>
-<div>4. Which plan you want to preorder</div>
+<div>4. Which plan you want to purchase</div>
 </div>
+
 <div class="upgradeNote">↗ You can always upgrade your lifetime plan later.</div>
-<a class="emailButton" id="emailButton" href="#">✉ OPEN EMAIL</a>
+
+<a class="emailButton" id="emailButton" href="#">✉ PURCHASE VIA EMAIL</a>
 </div>
 </div>
 </div>
 
 <script>
 const modal=document.getElementById("modal"),title=document.getElementById("modalTitle"),emailButton=document.getElementById("emailButton");
-document.querySelectorAll(".preorder").forEach(btn=>btn.addEventListener("click",()=>{
- const plan=btn.dataset.plan;
- title.textContent=plan+" · Preorder";
- const subject=encodeURIComponent("Zyphor "+plan+" Lifetime Preorder");
- const body=encodeURIComponent(
- "Hello Zyphor,\n\nI would like to preorder "+plan+".\n\n"+
- "Username: \nEmail linked to account: \nZAccountID: \nPlan: "+plan+
- "\n\nThank you."
- );
- emailButton.href="mailto:zyphor@zyphor.cc?subject="+subject+"&body="+body;
- modal.classList.add("open");
+
+document.querySelectorAll(".purchaseButton").forEach(btn=>btn.addEventListener("click",()=>{
+const plan=btn.dataset.plan;
+
+title.textContent=plan+" · Purchase";
+
+const subject=encodeURIComponent("Zyphor "+plan+" Lifetime Purchase");
+
+const body=encodeURIComponent(
+"Hello Zyphor,\n\n"+
+"I would like to purchase "+plan+".\n\n"+
+"Username: \n"+
+"Email linked to account: \n"+
+"ZAccountID: \n"+
+"Plan: "+plan+
+"\n\nThank you."
+);
+
+emailButton.href="mailto:zyphor@zyphor.cc?subject="+subject+"&body="+body;
+
+modal.classList.add("open");
 }));
+
 document.getElementById("exit").onclick=()=>modal.classList.remove("open");
-modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")modal.classList.remove("open")});
+
+modal.addEventListener("click",e=>{
+if(e.target===modal)modal.classList.remove("open");
+});
+
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape")modal.classList.remove("open");
+});
+
 document.getElementById("copyEmail").onclick=async()=>{
- try{await navigator.clipboard.writeText("zyphor@zyphor.cc");document.getElementById("copyEmail").textContent="COPIED ✓";setTimeout(()=>document.getElementById("copyEmail").textContent="COPY",1400)}catch{}
+try{
+await navigator.clipboard.writeText("zyphor@zyphor.cc");
+document.getElementById("copyEmail").textContent="COPIED ✓";
+setTimeout(()=>document.getElementById("copyEmail").textContent="COPY",1400);
+}catch{}
 };
 </script>
 </body>
