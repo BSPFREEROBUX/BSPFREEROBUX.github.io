@@ -1931,6 +1931,8 @@ let contextMenu=null
 
 const MAX_MESSAGE_LENGTH=4000
 const draftStorageKey="zyphorMessageDrafts.v2"
+const legacyDraftStorageKey="zyphorMessageDrafts"
+const activeChatStorageKey="zyphorActiveChat.v1"
 const pinStorageKey="zyphorPinnedFriends.v2"
 const emojiList=["😀","😃","😄","😁","😆","😅","😂","🤣","😊","😇","🙂","🙃","😉","😌","😍","🥰","😘","😗","😎","🤓","🫡","🤔","🤨","😐","😑","😶","🙄","😏","😴","🤩","🥳","😇","😭","😢","😡","🤬","😱","😳","🤯","🥶","🥵","🤗","🤭","🫣","🤫","🤥","😈","👿","💀","☠️","👻","💯","🔥","✨","⚡","💙","💜","❤️","🩵","🖤","🤍","💎","🎉","🎯","🚀","🐢","👍","👎","🙏","👏","🙌","🤝","✅","❌","⭐","🌌","☁️","🫶","🗿"]
 
@@ -2083,7 +2085,17 @@ async function trackPage(page){
 
 function loadLocalState(){
     try{
-        const savedDrafts=JSON.parse(localStorage.getItem(draftStorageKey)||"{}")
+        let raw=localStorage.getItem(draftStorageKey)
+
+        if(!raw){
+            const legacy=localStorage.getItem(legacyDraftStorageKey)
+            if(legacy){
+                localStorage.setItem(draftStorageKey,legacy)
+                raw=legacy
+            }
+        }
+
+        const savedDrafts=JSON.parse(raw||"{}")
         draftValues=savedDrafts&&typeof savedDrafts==="object"?savedDrafts:{}
     }catch{
         draftValues={}
@@ -2094,6 +2106,24 @@ function loadLocalState(){
         pinnedFriends=Array.isArray(savedPins)?savedPins:[]
     }catch{
         pinnedFriends=[]
+    }
+}
+
+function saveActiveChat(){
+    try{
+        if(activeFriend){
+            localStorage.setItem(activeChatStorageKey,activeFriend)
+        }else{
+            localStorage.removeItem(activeChatStorageKey)
+        }
+    }catch{}
+}
+
+function getSavedActiveChat(){
+    try{
+        return localStorage.getItem(activeChatStorageKey)||""
+    }catch{
+        return ""
     }
 }
 
@@ -2110,17 +2140,30 @@ function setDraftStatus(text,visible=true){
 
 function saveCurrentDraft(immediate=false){
     if(!activeFriend) return
+
+    const friend=activeFriend
     const value=messageBox.value
+
     clearTimeout(draftSaveTimer)
+
     const run=()=>{
-        if(value.trim()){
-            draftValues[activeFriend]=value
+        if(activeFriend!==friend) return
+
+        if(value.length){
+            draftValues[friend]=value
         }else{
-            delete draftValues[activeFriend]
+            delete draftValues[friend]
         }
+
         saveDrafts()
-        setDraftStatus(value.trim()?"Draft saved":"",Boolean(value.trim()))
+
+        if(value.trim()){
+            setDraftStatus("Draft saved",true)
+        }else{
+            setDraftStatus("",false)
+        }
     }
+
     if(immediate) run()
     else draftSaveTimer=setTimeout(run,180)
 }
@@ -2133,13 +2176,24 @@ function loadCurrentDraft(){
         return
     }
 
-    messageBox.value=draftValues[activeFriend]||""
+    clearTimeout(draftSaveTimer)
+
+    const saved=draftValues[activeFriend]
+    messageBox.value=typeof saved==="string"?saved:""
+
     autoResizeTextarea()
     updateComposer()
-    setDraftStatus(messageBox.value.trim()?"Draft restored":"",Boolean(messageBox.value.trim()))
+
+    if(messageBox.value.trim()){
+        setDraftStatus("Draft restored",true)
+    }else{
+        setDraftStatus("",false)
+    }
 
     requestAnimationFrame(()=>{
-        messageBox.selectionStart=messageBox.selectionEnd=messageBox.value.length
+        const length=messageBox.value.length
+        messageBox.focus({preventScroll:true})
+        messageBox.selectionStart=messageBox.selectionEnd=length
     })
 }
 
@@ -2890,6 +2944,7 @@ async function openChat(friend){
         }
 
         activeFriend=friend
+        saveActiveChat()
         location.hash=encodeURIComponent(friend)
         activeChatData=data.chat||null
 
@@ -2949,6 +3004,7 @@ async function refreshActiveChat(markSeenNow=true){
 
         if(data.error==="notfriends"){
             activeFriend=""
+            saveActiveChat()
             location.hash=""
             renderActiveChat(null)
             await refreshState()
@@ -3019,6 +3075,7 @@ async function refreshState(force=false){
             const stillFriend=state.friends.includes(activeFriend)
             if(!stillFriend){
                 activeFriend=""
+                saveActiveChat()
                 location.hash=""
                 renderActiveChat(null)
             }else if(!activeChatData){
@@ -3227,6 +3284,10 @@ messageBox.addEventListener("input",()=>{
     saveCurrentDraft()
 })
 
+messageBox.addEventListener("blur",()=>{
+    saveCurrentDraft(true)
+})
+
 messageBox.addEventListener("keydown",event=>{
     if(event.key==="Enter"&&!event.shiftKey){
         event.preventDefault()
@@ -3352,8 +3413,14 @@ document.addEventListener("visibilitychange",()=>{
     }
 })
 
+window.addEventListener("pagehide",()=>{
+    saveCurrentDraft(true)
+    saveActiveChat()
+})
+
 window.addEventListener("beforeunload",()=>{
     saveCurrentDraft(true)
+    saveActiveChat()
     if(!activeFriend||!backend) return
 
     navigator.sendBeacon(
@@ -3409,9 +3476,18 @@ async function init(){
         enableChatControls(false)
         updateComposer()
 
+        let wantedChat=""
+
         if(location.hash){
-            const wanted=safeDecode(location.hash.slice(1))
-            if(wanted) activeFriend=wanted
+            wantedChat=safeDecode(location.hash.slice(1))
+        }
+
+        if(!wantedChat){
+            wantedChat=getSavedActiveChat()
+        }
+
+        if(wantedChat){
+            activeFriend=wantedChat
         }
 
         await refreshState()
@@ -3420,6 +3496,7 @@ async function init(){
             await openChat(activeFriend)
         }else if(activeFriend){
             activeFriend=""
+            saveActiveChat()
             location.hash=""
         }
 
