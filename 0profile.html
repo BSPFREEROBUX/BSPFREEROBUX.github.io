@@ -1,2358 +1,2156 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zyphor Profile</title>
-
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Zyphor">
-    <meta property="og:title" content="Zyphor Profile">
-    <meta property="og:description" content="View Zyphor profiles, badges, and account details.">
-    <meta property="og:url" content="https://zyphor.cc/0profile">
-    <meta property="og:image" content="https://zyphor.cc/Logo1.png">
-    <meta property="og:image:secure_url" content="https://zyphor.cc/Logo1.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="512">
-    <meta property="og:image:height" content="512">
-
-    <meta name="theme-color" content="#00d5ff">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Zyphor Profile">
-    <meta name="twitter:description" content="View Zyphor profiles, badges, and account details.">
-    <meta name="twitter:image" content="https://zyphor.cc/Logo1.png">
-
-    <link rel="icon" href="https://zyphor.cc/Logo1.png">
-    <link rel="apple-touch-icon" href="https://zyphor.cc/Logo1.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-</head>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Inter", sans-serif;
-            background:
-                radial-gradient(circle at top, #12224d 0%, #090b11 30%, #05070b 100%);
-            color: white;
-            min-height: 100vh;
-        }
-
-        .moderatorTip{
-    background:#4fc3f7;
-    color:#000;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#03060d">
+<meta name="color-scheme" content="dark">
+<title>Zyphor Profile</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zyphor">
+<meta property="og:title" content="Zyphor Profile">
+<meta property="og:description" content="View Zyphor profiles, badges, and account details.">
+<meta property="og:image" content="https://zyphor.cc/Logo1.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://zyphor.cc/Logo1.png">
+<link rel="apple-touch-icon" href="https://zyphor.cc/Logo1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#02040a;
+--bg2:#050812;
+--panel:rgba(10,15,26,.76);
+--panel2:rgba(16,22,36,.86);
+--panel3:rgba(21,29,46,.94);
+--line:rgba(255,255,255,.075);
+--line2:rgba(255,255,255,.13);
+--text:#f8fbff;
+--muted:#8a99b0;
+--muted2:#59677f;
+--cyan:#00e1ff;
+--cyan2:#48a4ff;
+--purple:#9c4dff;
+--purple2:#6d4cff;
+--green:#62efad;
+--red:#ff5e79;
+--yellow:#ffd36f;
+--orange:#ff9a63;
+--pink:#ff64c9;
+--radius:24px;
+--shadow:0 30px 110px rgba(0,0,0,.42);
 }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(0, 213, 255, .12), transparent 25%),
-                radial-gradient(circle at 80% 70%, rgba(154, 61, 255, .12), transparent 30%);
-            pointer-events: none;
-        }
-
-        .layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            min-height: 100vh;
-        }
-
-.supportPopup{
+html{scroll-behavior:smooth}
+body{
+min-height:100vh;
+font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+color:var(--text);
+background:
+radial-gradient(circle at 10% -5%,rgba(0,225,255,.13),transparent 24%),
+radial-gradient(circle at 95% 0%,rgba(156,77,255,.14),transparent 25%),
+radial-gradient(circle at 48% 105%,rgba(72,164,255,.08),transparent 25%),
+linear-gradient(180deg,#060910 0%,#02040a 58%,#010207 100%);
+overflow-x:hidden;
+}
+body:before{
+content:"";
 position:fixed;
 inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,.65);
-backdrop-filter:blur(8px);
-z-index:9999;
+pointer-events:none;
+z-index:-3;
+background-image:
+linear-gradient(rgba(255,255,255,.017) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.017) 1px,transparent 1px);
+background-size:46px 46px;
+mask-image:linear-gradient(to bottom,black,transparent 92%);
 }
-
-.supportCard{
-width:420px;
-max-width:90%;
-padding:30px;
-border-radius:24px;
-background:rgba(18,22,34,.95);
-border:1px solid rgba(255,255,255,.08);
-box-shadow:0 0 50px rgba(0,213,255,.12);
-text-align:center;
+body:after{
+content:"";
+position:fixed;
+inset:-25%;
+pointer-events:none;
+z-index:-2;
+background:
+conic-gradient(from 0deg at 48% 40%,transparent,rgba(0,225,255,.035),transparent 29%,rgba(156,77,255,.035),transparent 60%,rgba(72,164,255,.028),transparent);
+filter:blur(55px);
+animation:ambient 24s linear infinite;
 }
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+img{max-width:100%}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.11);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,225,255,.42)}
+@keyframes ambient{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes scan{0%{transform:translateX(-130%)}55%,100%{transform:translateX(130%)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes reveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+@keyframes rotate{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%,65%{transform:translateX(-130%)}85%,100%{transform:translateX(130%)}}
+@keyframes neonPulse{0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.08),0 18px 40px rgba(0,0,0,.34)}50%{box-shadow:0 0 0 1px rgba(0,225,255,.15),0 18px 40px rgba(0,0,0,.34),0 0 34px rgba(0,225,255,.10)}}
 
-.supportCard h2{
-margin-bottom:10px;
+.layout{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh}
+.sidebar{
+position:sticky;
+top:0;
+height:100vh;
+padding:17px 14px;
+background:rgba(5,8,14,.77);
+border-right:1px solid var(--line);
+backdrop-filter:blur(28px);
+-webkit-backdrop-filter:blur(28px);
+box-shadow:18px 0 90px rgba(0,0,0,.18);
+z-index:50;
 }
-
-.supportCard p{
-color:#9ea8bb;
-margin-bottom:25px;
-}
-
-.ownerReveal{
-    position:fixed;
-    inset:0;
-    display:none;
-    visibility:hidden;
-    pointer-events:none;
-    align-items:center;
-    justify-content:center;
-    z-index:100000;
-    background:rgba(2,4,10,.94);
-    backdrop-filter:blur(22px);
-    overflow:hidden;
-}
-
-.ownerReveal.active{
-    display:flex;
-    visibility:visible;
-    pointer-events:none;
-    animation:ownerFade 7s ease forwards;
-}
-
-.ownerBackground{
-    position:absolute;
-    inset:0;
-    overflow:hidden;
-    pointer-events:none;
-}
-
-.ownerGrid{
-    position:absolute;
-    inset:-50%;
-    background-image:
-        linear-gradient(rgba(0,213,255,.07) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,213,255,.07) 1px,transparent 1px);
-    background-size:55px 55px;
-    transform:perspective(500px) rotateX(60deg) translateY(80px);
-}
-
-.ownerReveal.active .ownerGrid{
-    animation:ownerGrid 5.5s linear forwards;
-}
-
-.ownerGlow{
-    position:absolute;
-    width:700px;
-    height:700px;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%) scale(.8);
-    border-radius:50%;
-    background:
-        radial-gradient(
-            circle,
-            rgba(0,213,255,.20) 0%,
-            rgba(139,61,255,.14) 32%,
-            rgba(0,213,255,.05) 52%,
-            transparent 72%
-        );
-    opacity:.5;
-}
-
-.ownerReveal.active .ownerGlow{
-    animation:ownerGlow 4s ease-in-out infinite;
-}
-
-.ownerScan{
-    position:absolute;
-    width:100%;
-    height:3px;
-    top:-10px;
-    left:0;
-    background:linear-gradient(
-        90deg,
-        transparent,
-        #00d5ff,
-        white,
-        #8b3dff,
-        transparent
-    );
-    box-shadow:
-        0 0 20px #00d5ff,
-        0 0 40px #8b3dff;
-    opacity:0;
-}
-
-.ownerReveal.active .ownerScan{
-    animation:ownerScan 1.1s ease-in-out .1s forwards;
-}
-
-.ownerRing{
-    position:absolute;
-    width:180px;
-    height:180px;
-    left:50%;
-    top:50%;
-    margin-left:-90px;
-    margin-top:-90px;
-    border-radius:50%;
-    border:2px solid rgba(0,213,255,.45);
-    box-shadow:
-        0 0 30px rgba(0,213,255,.25),
-        inset 0 0 30px rgba(139,61,255,.18);
-    opacity:0;
-    transform:scale(.2);
-}
-
-.ownerReveal.active .ownerRing{
-    animation:ownerRing 1.4s cubic-bezier(.16,1,.3,1) .4s forwards;
-}
-
-.ownerRing::before,
-.ownerRing::after{
-    content:"";
-    position:absolute;
-    border-radius:50%;
-    pointer-events:none;
-}
-
-.ownerRing::before{
-    inset:18px;
-    border:1px solid rgba(139,61,255,.55);
-}
-
-.ownerRing::after{
-    inset:40px;
-    border:1px solid rgba(255,255,255,.25);
-}
-
-.ownerSeal{
-    position:absolute;
-    width:270px;
-    height:270px;
-    left:50%;
-    top:50%;
-    margin-left:-135px;
-    margin-top:-135px;
-    border-radius:50%;
-    border:1px dashed rgba(0,213,255,.45);
-    opacity:0;
-    transform:scale(.4) rotate(0deg);
-    box-shadow:
-        0 0 25px rgba(0,213,255,.08),
-        inset 0 0 25px rgba(139,61,255,.08);
-}
-
-.ownerReveal.active .ownerSeal{
-    animation:
-        ownerSealIn 1s ease .9s forwards,
-        ownerSealSpin 8s linear 1.9s infinite;
-}
-
-.ownerSeal::before{
-    content:"ZYPHOR • VERIFIED OWNER • ZYPHOR • VERIFIED OWNER •";
-    position:absolute;
-    inset:-25px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:rgba(0,213,255,.65);
-    font-size:9px;
-    font-weight:800;
-    letter-spacing:4px;
-    word-spacing:10px;
-    text-align:center;
-}
-
-.ownerContent{
-    position:relative;
-    z-index:10;
-    width:min(900px,90vw);
-    text-align:center;
-    opacity:1;
-    transform:none;
-    pointer-events:none;
-}
-
-.ownerCrown{
-    font-size:76px;
-    opacity:0;
-    transform:translateY(-80px) scale(.3) rotate(-20deg);
-    filter:
-        drop-shadow(0 0 10px #ffd700)
-        drop-shadow(0 0 35px #ffd700);
-}
-
-.ownerReveal.active .ownerCrown{
-    animation:
-        ownerCrownIn .8s cubic-bezier(.16,1,.3,1) .2s forwards,
-        ownerCrownFloat 2s ease-in-out 1.1s infinite;
-}
-
-.ownerSmall{
-    margin-top:10px;
-    font-size:12px;
-    letter-spacing:9px;
-    text-transform:uppercase;
-    color:#8ea2be;
-    opacity:0;
-    transform:translateY(20px);
-}
-
-.ownerReveal.active .ownerSmall{
-    animation:ownerSmallIn .7s ease .85s forwards;
-}
-
-.ownerUsername{
-    margin-top:15px;
-    font-size:34px;
-    font-weight:800;
-    letter-spacing:8px;
-    color:white;
-    opacity:0;
-    transform:translateX(-80px);
-    text-shadow:
-        0 0 15px rgba(255,255,255,.4),
-        0 0 35px rgba(0,213,255,.4);
-}
-
-.ownerReveal.active .ownerUsername{
-    animation:ownerUsernameIn .8s cubic-bezier(.16,1,.3,1) 1.15s forwards;
-}
-
-.ownerTitle{
-    margin-top:14px;
-    font-size:clamp(48px,8vw,92px);
-    line-height:1;
-    font-weight:900;
-    letter-spacing:6px;
-    color:white;
-    opacity:0;
-    transform:scale(1.7);
-    filter:blur(10px);
-    text-shadow:
-        0 0 15px #00d5ff,
-        0 0 40px #8b3dff,
-        0 0 80px rgba(0,213,255,.4);
-}
-
-.ownerReveal.active .ownerTitle{
-    animation:
-        ownerTitleIn 1s cubic-bezier(.16,1,.3,1) 1.8s forwards,
-        ownerTitlePulse 2s ease-in-out 2.8s infinite;
-}
-
-.ownerLine{
-    width:0;
-    height:2px;
-    margin:28px auto 0;
-    background:linear-gradient(
-        90deg,
-        transparent,
-        #00d5ff,
-        white,
-        #8b3dff,
-        transparent
-    );
-    box-shadow:
-        0 0 12px #00d5ff,
-        0 0 25px #8b3dff;
-}
-
-.ownerReveal.active .ownerLine{
-    animation:ownerLineIn .8s ease 2.45s forwards;
-}
-
-.ownerStatus{
-    margin-top:20px;
-    font-size:11px;
-    letter-spacing:5px;
-    text-transform:uppercase;
-    color:#57f287;
-    opacity:0;
-    transform:translateY(15px);
-    text-shadow:0 0 15px rgba(87,242,135,.5);
-}
-
-.ownerReveal.active .ownerStatus{
-    animation:ownerStatusIn .7s ease 2.8s forwards;
-}
-
-.ownerFlash{
-    position:absolute;
-    inset:0;
-    background:white;
-    opacity:0;
-    pointer-events:none;
-}
-
-.ownerReveal.active .ownerFlash{
-    animation:ownerFlash .35s ease 1.8s forwards;
-}
-
-@keyframes ownerFade{
-    0%{
-        opacity:0;
-    }
-
-    8%{
-        opacity:1;
-    }
-
-    87%{
-        opacity:1;
-    }
-
-    100%{
-        opacity:0;
-    }
-}
-
-@keyframes ownerGrid{
-    0%{
-        transform:perspective(500px) rotateX(60deg) translateY(80px);
-    }
-
-    100%{
-        transform:perspective(500px) rotateX(60deg) translateY(-80px);
-    }
-}
-
-@keyframes ownerGlow{
-    0%,100%{
-        transform:translate(-50%,-50%) scale(.8);
-        opacity:.45;
-    }
-
-    50%{
-        transform:translate(-50%,-50%) scale(1.2);
-        opacity:1;
-    }
-}
-
-@keyframes ownerScan{
-    0%{
-        top:-10px;
-        opacity:0;
-    }
-
-    15%{
-        opacity:1;
-    }
-
-    100%{
-        top:100%;
-        opacity:0;
-    }
-}
-
-@keyframes ownerRing{
-    0%{
-        transform:scale(.2);
-        opacity:0;
-    }
-
-    25%{
-        opacity:1;
-    }
-
-    100%{
-        transform:scale(2.4);
-        opacity:0;
-    }
-}
-
-@keyframes ownerSealIn{
-    0%{
-        transform:scale(.4);
-        opacity:0;
-    }
-
-    100%{
-        transform:scale(1);
-        opacity:1;
-    }
-}
-
-@keyframes ownerSealSpin{
-    to{
-        transform:scale(1) rotate(360deg);
-    }
-}
-
-@keyframes ownerCrownIn{
-    0%{
-        opacity:0;
-        transform:translateY(-80px) scale(.3) rotate(-20deg);
-    }
-
-    70%{
-        opacity:1;
-        transform:translateY(8px) scale(1.15) rotate(5deg);
-    }
-
-    100%{
-        opacity:1;
-        transform:translateY(0) scale(1) rotate(0);
-    }
-}
-
-@keyframes ownerCrownFloat{
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-8px);
-    }
-}
-
-@keyframes ownerSmallIn{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-@keyframes ownerUsernameIn{
-    0%{
-        opacity:0;
-        transform:translateX(-80px);
-    }
-
-    100%{
-        opacity:1;
-        transform:translateX(0);
-    }
-}
-
-@keyframes ownerTitleIn{
-    0%{
-        opacity:0;
-        transform:scale(1.7);
-        filter:blur(10px);
-    }
-
-    60%{
-        opacity:1;
-        transform:scale(.95);
-        filter:blur(0);
-    }
-
-    100%{
-        opacity:1;
-        transform:scale(1);
-        filter:blur(0);
-    }
-}
-
-@keyframes ownerTitlePulse{
-    0%,100%{
-        text-shadow:
-            0 0 15px #00d5ff,
-            0 0 40px #8b3dff,
-            0 0 80px rgba(0,213,255,.4);
-    }
-
-    50%{
-        text-shadow:
-            0 0 25px #00d5ff,
-            0 0 60px #8b3dff,
-            0 0 110px rgba(0,213,255,.65);
-    }
-}
-
-@keyframes ownerLineIn{
-    from{
-        width:0;
-    }
-
-    to{
-        width:min(420px,70vw);
-    }
-}
-
-@keyframes ownerStatusIn{
-    from{
-        opacity:0;
-        transform:translateY(15px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-@keyframes ownerFlash{
-    0%{
-        opacity:0;
-    }
-
-    20%{
-        opacity:.16;
-    }
-
-    100%{
-        opacity:0;
-    }
-}
-
-.supportButtons{
+.logo{
 display:flex;
-flex-direction:column;
-gap:15px;
+align-items:center;
+gap:10px;
+padding:5px 7px 17px;
+border-bottom:1px solid rgba(255,255,255,.05);
 }
-
-.supportButtons button{
-padding:16px;
-border:none;
+.logoMark{
+position:relative;
+width:42px;height:42px;
+display:flex;
+align-items:center;
+justify-content:center;
 border-radius:14px;
-cursor:pointer;
-font-size:16px;
-font-weight:600;
-background:rgba(255,255,255,.05);
-color:white;
-transition:.2s;
+background:
+linear-gradient(145deg,rgba(0,225,255,.10),rgba(156,77,255,.11));
+border:1px solid rgba(255,255,255,.08);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 30px rgba(0,0,0,.22);
+overflow:hidden;
 }
-
-.supportButtons button:hover{
-background:linear-gradient(90deg,#00d5ff22,#8b3dff22);
-transform:translateY(-2px);
-}
-
-.closeSupport{
-margin-top:20px;
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-background:#20242f;
-color:white;
-cursor:pointer;
-}
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
-            background: rgba(10, 13, 20, .72);
-            backdrop-filter: blur(24px);
-            border-right: 1px solid rgba(255, 255, 255, .08);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 40px;
-        }
-
-        .logo img {
-            width: 56px;
-        }
-
-        .logo h2 {
-            letter-spacing: 2px;
-        }
-
-        .nav {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .item {
-            padding: 15px 18px;
-            border-radius: 16px;
-            color: #b8c2d5;
-            text-decoration: none;
-            border: 1px solid transparent;
-            transition: .25s;
-        }
-
-        .item:hover,
-        .active {
-            background: linear-gradient(90deg,
-                    rgba(0, 213, 255, .12),
-                    rgba(154, 61, 255, .12));
-            border-color: rgba(0, 213, 255, .25);
-            color: white;
-        }
-
-        .bottom {
-            margin-top: auto;
-        }
-
-        .main {
-            padding: 34px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .search {
-            display: flex;
-            gap: 12px;
-        }
-
-        .search input,
-        .search button {
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-        }
-
-        .search input {
-            width: 280px;
-            background: rgba(255, 255, 255, .05);
-            border: 1px solid rgba(255, 255, 255, .08);
-            color: white;
-        }
-
-        .search button {
-            background: linear-gradient(90deg, #00d5ff, #8b3dff);
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .profileCard {
-            padding: 30px;
-            border-radius: 24px;
-            background: rgba(18, 22, 34, .68);
-            border: 1px solid rgba(255, 255, 255, .08);
-            backdrop-filter: blur(28px);
-        }
-
-        .profileTop {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            margin-bottom: 30px;
-        }
-
-.avatar{
-width:90px;
-height:90px;
+.logoMark:after{
+content:"";
+position:absolute;
+inset:-14px;
+border:1px solid rgba(0,225,255,.16);
 border-radius:50%;
+animation:rotate 8s linear infinite;
+}
+.logoMark img{position:relative;z-index:1;width:32px;height:32px;object-fit:contain}
+.logoTitle{font-family:"Space Grotesk",Inter,sans-serif;font-size:16px;font-weight:700;letter-spacing:2.8px}
+.logoSub{font-size:7px;letter-spacing:1.7px;color:#65748b;margin-top:3px;font-weight:800}
+.logoLive{margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 13px rgba(98,239,173,.82);animation:pulse 2s ease-in-out infinite}
+.navLabel{padding:18px 8px 8px;font-size:7px;letter-spacing:1.7px;color:#4e5c73;font-weight:900}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav a,.navButton{
+position:relative;
+display:flex;
+align-items:center;
+gap:10px;
+min-height:43px;
+padding:8px 9px;
+border-radius:13px;
+border:1px solid transparent;
+color:#a4b0c3;
+text-decoration:none;
+transition:.2s ease;
 overflow:hidden;
 background:transparent;
-border:3px solid #00d5ff;
-flex-shrink:0;
-box-sizing:border-box;
 }
-
-.avatar img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-}
-
-        .profileName {
-            font-size: 34px;
-            font-weight: 800;
-        }
-
-        .infoGrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-        }
-
-        .infoCard {
-            padding: 20px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, .04);
-        }
-
-        .infoCard h3 {
-            color: #8ea2be;
-            font-size: 13px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .actions {
-            margin-top: 24px;
-        }
-
-        .roleIcons{
-font-size:24px;
-margin-left:8px;
-cursor:pointer;
-transition:.2s;
-}
-
-
-.badgesSection{
-    margin-top:24px;
-    padding-top:0;
-    min-width:0;
-    width:100%;
-}
-
-.badgesSection h2{
-    margin-bottom:18px;
-}
-
-#badgesList{
-    position:relative;
-    z-index:1;
-    display:flex;
-    flex-wrap:wrap;
-    align-items:flex-start;
-    gap:14px;
-    justify-content:flex-start;
-    min-width:0;
-    width:100%;
-    padding:2px 0 14px 0;
-}
-
-.badgesEmpty{
-    width:100%;
-    padding:20px;
-    border-radius:18px;
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.07);
-    color:#8ea2be;
-}
-
-.medalBadge{
-    --progress:0;
-    --tier:#9a6b45;
-    --tierGlow:rgba(154,107,69,.35);
-    position:relative;
-    width:96px;
-    height:96px;
-    flex:0 0 96px;
-    border:0;
-    padding:0;
-    border-radius:50%;
-    cursor:pointer;
-    background:
-        conic-gradient(
-            from -90deg,
-            var(--tier) calc(var(--progress) * 1%),
-            rgba(255,255,255,.055) 0
-        );
-    display:grid;
-    place-items:center;
-    isolation:isolate;
-    transition:transform .22s ease,filter .22s ease;
-    box-shadow:
-        0 0 0 1px rgba(255,255,255,.08),
-        0 10px 26px rgba(0,0,0,.28);
-}
-
-.medalBadge::before{
-    content:"";
-    position:absolute;
-    inset:7px;
-    border-radius:50%;
-    background:
-        radial-gradient(circle at 34% 26%,rgba(255,255,255,.15),transparent 27%),
-        linear-gradient(145deg,rgba(31,36,51,.99),rgba(8,12,20,.99));
-    z-index:-1;
-}
-
-.medalBadge::after{
-    content:"";
-    position:absolute;
-    inset:11px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.075);
-    pointer-events:none;
-}
-
-.medalBadge:hover,
-.medalBadge:focus-visible,
-.medalBadge.open{
-    z-index:1000;
-    transform:translateY(-5px) scale(1.045);
-    filter:drop-shadow(0 0 16px var(--tierGlow));
-    outline:none;
-}
-
-.medalBadge.complete{
-    animation:medalPulse 2.8s ease-in-out infinite;
-}
-
-.medalInner{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 30% 25%,rgba(255,255,255,.08),transparent 30%),
-        linear-gradient(145deg,#20283a,#0d1220);
-    border:1px solid rgba(255,255,255,.10);
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.08),
-        inset 0 -10px 20px rgba(0,0,0,.22);
-}
-
-.medalLogo{
-    width:62px;
-    height:62px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    user-select:none;
-}
-
-.medalLogo img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
-    filter:
-        drop-shadow(0 3px 5px rgba(0,0,0,.45))
-        drop-shadow(0 0 8px var(--tierGlow));
-}
-
-.medalDetails{
-    position:absolute;
-    left:50%;
-    top:calc(100% + 12px);
-    transform:translate(-50%,-6px) scale(.96);
-    transform-origin:center top;
-    width:min(270px,calc(100vw - 34px));
-    padding:16px 17px;
-    border-radius:16px;
-    background:linear-gradient(155deg,rgba(23,29,44,.98),rgba(9,13,22,.99));
-    border:1px solid rgba(255,255,255,.11);
-    box-shadow:
-        0 18px 45px rgba(0,0,0,.55),
-        0 0 30px var(--tierGlow);
-    text-align:left;
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-    z-index:10000;
-    transition:.18s ease;
-}
-
-.medalBadge:hover .medalDetails,
-.medalBadge:focus-visible .medalDetails,
-.medalBadge.open .medalDetails{
-    opacity:1;
-    visibility:visible;
-    pointer-events:auto;
-    transform:translate(-50%,0) scale(1);
-}
-
-.medalDetailsTitle{
-    font-size:15px;
-    font-weight:800;
-    color:#fff;
-    margin-bottom:5px;
-}
-
-.medalDetailsDescription{
-    font-size:12px;
-    line-height:1.45;
-    color:#8ea2be;
-    margin-bottom:11px;
-}
-
-.medalDetailsRow{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-top:7px;
-    font-size:12px;
-}
-
-.medalDetailsLabel{
-    color:#8491a6;
-}
-
-.medalDetailsValue{
-    color:#fff;
-    font-weight:800;
-}
-
-.medalBar{
-    margin-top:12px;
-    height:8px;
-    border-radius:999px;
-    overflow:hidden;
-    background:rgba(255,255,255,.07);
-}
-
-.medalBarFill{
-    height:100%;
-    width:calc(var(--progress) * 1%);
-    border-radius:inherit;
-    background:linear-gradient(90deg,var(--tier),#fff);
-    box-shadow:0 0 12px var(--tierGlow);
-}
-
-.medalHint{
-    display:block;
-    margin-top:9px;
-    color:#65738a;
-    font-size:10px;
-    text-align:center;
-}
-
-@keyframes medalPulse{
-    0%,100%{
-        box-shadow:
-            0 0 0 1px rgba(255,255,255,.08),
-            0 10px 26px rgba(0,0,0,.28),
-            0 0 0 rgba(255,255,255,0);
-    }
-    50%{
-        box-shadow:
-            0 0 0 1px rgba(255,255,255,.11),
-            0 10px 26px rgba(0,0,0,.28),
-            0 0 22px var(--tierGlow);
-    }
-}
-
-@media(max-width:600px){
-    #badgesList{
-        gap:14px;
-    }
-
-    .medalBadge{
-        width:92px;
-        height:92px;
-        flex-basis:92px;
-    }
-
-    .medalInner{
-        width:68px;
-        height:68px;
-    }
-
-    .medalLogo{
-        width:60px;
-        height:60px;
-    }
-
-    .medalDetails{
-        position:fixed;
-        left:50%;
-        top:auto;
-        bottom:18px;
-        transform:translate(-50%,10px) scale(.96);
-        transform-origin:center;
-        width:min(340px,calc(100vw - 30px));
-    }
-
-    .medalBadge:hover .medalDetails{
-        opacity:0;
-        visibility:hidden;
-        pointer-events:none;
-        transform:translate(-50%,10px) scale(.96);
-    }
-
-    .medalBadge.open .medalDetails,
-    .medalBadge:focus-visible .medalDetails{
-        opacity:1;
-        visibility:visible;
-        pointer-events:auto;
-        transform:translate(-50%,0) scale(1);
-    }
-}
-
-.roleIcons:hover{
-transform:scale(1.15);
-}
-
-#tooltip{
+.nav a:after,.navButton:after{
+content:"";
 position:absolute;
-padding:6px 10px;
-border-radius:8px;
-display:none;
-pointer-events:none;
-z-index:9999;
-font-weight:bold;
-font-size:12px;
+inset:0;
+background:linear-gradient(90deg,rgba(0,225,255,.07),rgba(156,77,255,.08));
+opacity:0;
+transition:.2s ease;
 }
-
-.staffTip{
-background:#2b2d31;
-color:#c9d1d9;
-}
-
-.supportTip{
-background:#57f287;
-color:#000;
-}
-
-.adminTip{
-background:#3498db;
+.nav a:hover,.navButton:hover,.nav a.active{
+transform:translateX(3px);
 color:#fff;
+border-color:rgba(255,255,255,.07);
+background:rgba(255,255,255,.025);
 }
-
-.vipTip{
-background:#ffd700;
-color:#000;
+.nav a:hover:after,.navButton:hover:after,.nav a.active:after{opacity:1}
+.nav a.active:before{
+content:"";
+position:absolute;
+left:0;
+top:8px;
+bottom:8px;
+width:3px;
+border-radius:99px;
+background:linear-gradient(180deg,var(--cyan),var(--purple));
+box-shadow:0 0 14px rgba(0,225,255,.6);
 }
-
-        .actions button {
-            padding: 14px 22px;
-            border: none;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, .08);
-            color: white;
-            cursor: pointer;
-        }
-    
-.reportFlag{width:34px;height:34px;display:none;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.04);color:#9aa7bb;cursor:pointer;font-size:18px;transition:.2s}
-.reportFlag:hover{color:#ff6b87;background:rgba(255,80,110,.12);border-color:rgba(255,80,110,.3)}
-.reportOverlay{position:fixed;inset:0;z-index:999999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,5,10,.78);backdrop-filter:blur(12px)}
-.reportOverlay.show{display:flex}
-.reportModal{position:relative;width:min(650px,100%);max-height:calc(100vh - 40px);overflow-y:auto;padding:26px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(160deg,#141a28,#090d15);box-shadow:0 30px 100px rgba(0,0,0,.7)}
-.reportClose{position:absolute;right:18px;top:18px;width:38px;height:38px;border:0;border-radius:11px;background:rgba(255,255,255,.06);color:#9aa7bb;font-size:24px;cursor:pointer}.reportClose:hover{background:rgba(255,255,255,.11);color:#fff}
-.reportHead{display:flex;align-items:center;gap:14px;margin-bottom:24px}.reportIcon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:15px;background:rgba(255,80,110,.13);color:#ff7791;font-size:25px}.reportHead h2{margin:0;color:#fff;font-size:23px}.reportHead p{margin:5px 45px 0 0;color:#8995a8;font-size:13px;line-height:1.4}
-.reportStep{margin:20px 0 10px;color:#dfe6f1;font-size:14px;font-weight:800}.reportCategories{display:grid;grid-template-columns:1fr 1fr;gap:10px}.reportCategory{min-height:58px;display:flex;align-items:center;gap:10px;padding:13px 14px;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:rgba(255,255,255,.035);color:#b7c2d2;font:inherit;text-align:left;cursor:pointer;transition:.18s}.reportCategory span{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.07)}.reportCategory:hover{background:rgba(255,255,255,.07);color:#fff}.reportCategory.selected{border-color:#00bce8;background:linear-gradient(135deg,rgba(0,188,232,.13),rgba(124,58,237,.11));color:#fff}.reportCategory.full{grid-column:1/-1}
-.reportCategory.botAccount{border-color:rgba(168,85,247,.18);background:linear-gradient(135deg,rgba(168,85,247,.06),rgba(0,188,232,.025))}
-.reportCategory.botAccount span{background:rgba(168,85,247,.14);color:#c084fc}
-.reportCategory.botAccount:hover{border-color:rgba(168,85,247,.5);background:linear-gradient(135deg,rgba(168,85,247,.14),rgba(0,188,232,.06))}
-.reportCategory.botAccount.selected{border-color:#a855f7;background:linear-gradient(135deg,rgba(168,85,247,.2),rgba(0,188,232,.12));box-shadow:0 0 20px rgba(168,85,247,.1)}
-.reportTextarea{width:100%;min-height:105px;padding:14px;box-sizing:border-box;resize:vertical;border:1px solid rgba(255,255,255,.09);border-radius:13px;outline:0;background:rgba(255,255,255,.035);color:#fff;font:inherit}.reportTextarea:focus{border-color:#00bce8}
-.reportUpload{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:135px;padding:18px;border:1px dashed rgba(0,188,232,.42);border-radius:15px;background:rgba(0,188,232,.025);color:#9aa7bb;text-align:center;cursor:pointer}.reportUpload:hover{border-color:#00bce8;background:rgba(0,188,232,.06)}.reportUpload strong{color:#e5ebf5}.reportUpload small{color:#758197}.reportFiles{display:flex;flex-direction:column;gap:8px;margin-top:10px}.reportFile{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.07);border-radius:11px;background:rgba(255,255,255,.035)}.reportFileInfo{flex:1;min-width:0}.reportFileName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e5ebf5;font-size:13px}.reportFileSize{margin-top:3px;color:#748096;font-size:11px}.reportRemove{border:0;background:transparent;color:#8490a4;font-size:20px;cursor:pointer}.reportRemove:hover{color:#ff6b87}
-.reportFooter{display:flex;gap:10px;margin-top:24px}.reportCancel,.reportSubmit{height:48px;border-radius:13px;font:inherit;font-weight:800;cursor:pointer}.reportCancel{flex:1;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);color:#cbd4e1}.reportSubmit{flex:2;border:0;background:linear-gradient(90deg,#008bd1,#7038c7);color:#fff}.reportSubmit:disabled{opacity:.65;cursor:wait}.reportStatus{min-height:18px;margin-top:11px;text-align:center;color:#9aa7bb;font-size:13px}
-@media(max-width:600px){.reportModal{padding:20px;border-radius:18px}.reportCategories{grid-template-columns:1fr}.reportCategory.full{grid-column:auto}.reportFooter{flex-direction:column}.reportCancel,.reportSubmit{flex:auto}}
-</style>
-</head>
-
-<body>
-
-<div id="ownerReveal" class="ownerReveal">
-    <div class="ownerBackground">
-        <div class="ownerGrid"></div>
-        <div class="ownerGlow"></div>
-        <div class="ownerScan"></div>
-        <div class="ownerRing"></div>
-        <div class="ownerSeal"></div>
-        <div class="ownerFlash"></div>
-    </div>
-
-    <div class="ownerContent">
-        <div class="ownerCrown">👑</div>
-
-        <div class="ownerSmall">
-            Identity Verified
-        </div>
-
-        <div class="ownerUsername">
-            @Somin
-        </div>
-
-        <div class="ownerTitle">
-            THE OWNER
-        </div>
-
-        <div class="ownerLine"></div>
-
-        <div class="ownerStatus">
-            ZYPHOR • OWNER X FOUNDER • VERIFIED
-        </div>
-    </div>
-</div>
-
-    <div class="layout">
-
-        <aside class="sidebar">
-
-            <div class="logo">
-                <img src="https://zyphor.cc/Logo1.png">
-                <h2>ZYPHOR</h2>
-            </div>
-
-<nav class="nav">
-<a class="item active" href="dashboard.html">Dashboard</a>
-<a class="item" href="#" onclick="goProfile(); return false;">Profile</a>
-<a class="item" href="dms.html">Messages</a>
-<a class="item" href="Wallet.html">Wallet</a>
-<a class="item" href="Cloud.html">Cloud</a>
-<a class="item" href="download.html">App Center</a>
-<a class="item" href="#" onclick="openSupport(); return false;">Support</a>
-<a class="item" href="#">Settings</a>
-</nav>
-
-<div id="supportPopup" class="supportPopup">
-
-<div class="supportCard">
-
-<h2>Support</h2>
-
-<p>Select how you'd like to contact the Zyphor team.</p>
-
-<div class="supportButtons">
-
-<button onclick="location.href='Support.html'">
-🌐 Website Tickets
-</button>
-
-<button onclick="emailSupport()">
-✉️ Email Support
-</button>
-
-</div>
-
-<button class="closeSupport" onclick="closeSupport()">
-Close
-</button>
-
-</div>
-
-</div>
-<div class="bottom">
-<a class="item" href="#" onclick="logout();return false;">Logout</a>
-</div>
-</aside>
-
-        <main class="main">
-
-            <div class="header">
-
-                <div>
-                    <h1>Profile</h1>
-                    <p style="color:#8ea2be;">
-                        View and manage Zyphor profiles.
-                    </p>
-                </div>
-
-                <div class="search">
-                    <input id="searchUser" placeholder="Search username...">
-                    <button onclick="searchProfile()">Find</button>
-                </div>
-
-            </div>
-
-<div id="profileBox" class="profileCard">
-
-    <div class="profileTop">
-
-        <div class="avatar">
-<img id="profilePfp" style="display:none">
-</div>
-
-        <div>
-            <div class="profileName">
-                <span id="profileUsername">Loading...</span>
-                <span id="profileIcons"></span>
-                <button id="reportFlag" class="reportFlag" type="button" title="Report this user" aria-label="Report this user" style="display:none" onclick="openReport()">⚑</button>
-            </div>
-
-            <p style="margin-top:10px;color:#8ea2be;">
-                Everything about this Zyphor profile.
-            </p>
-        </div>
-
-    </div>
-
-    <div class="infoGrid">
-
-        <div class="infoCard">
-            <h3>Account ID</h3>
-            <p id="accountId">Loading...</p>
-        </div>
-
-        <div class="infoCard">
-            <h3>Created</h3>
-            <p id="accountCreated">Loading...</p>
-        </div>
-
-        <div class="infoCard">
-            <h3>Discord</h3>
-            <p id="discordInfo">Loading...</p>
-        </div>
-
-        <div class="infoCard">
-            <h3>Roblox</h3>
-            <p id="robloxInfo">Loading...</p>
-        </div>
-
-        <div class="infoCard">
-            <h3>Quests Completed</h3>
-            <p id="questCount">Loading...</p>
-        </div>
-
-
-    </div>
-
-    <div class="badgesSection">
-        <h2>Badges</h2>
-        <div id="badgesList"></div>
-    </div>
-
-    <div class="actions" id="profileActions">
-    </div>
-
-</div>
-
-
-<div id="reportOverlay" class="reportOverlay" onclick="reportOverlayClick(event)">
-    <div class="reportModal">
-        <button class="reportClose" type="button" onclick="closeReport()">×</button>
-
-        <div class="reportHead">
-            <div class="reportIcon">⚑</div>
-            <div>
-                <h2>Report User</h2>
-                <p id="reportTarget">Help keep Zyphor safe by reporting inappropriate behavior.</p>
-            </div>
-        </div>
-
-        <div class="reportStep">1. Select a report category</div>
-
-        <div class="reportCategories">
-            <button class="reportCategory selected" type="button" data-category="Inappropriate Username" onclick="selectReportCategory(this)">
-                <span>♙</span> Inappropriate Username
-            </button>
-            <button class="reportCategory" type="button" data-category="Inappropriate Profile Picture" onclick="selectReportCategory(this)">
-                <span>▣</span> Inappropriate Profile Picture
-            </button>
-            <button class="reportCategory" type="button" data-category="Harassment" onclick="selectReportCategory(this)">
-                <span>⬡</span> Harassment or Bullying
-            </button>
-            <button class="reportCategory" type="button" data-category="Spam or Scam" onclick="selectReportCategory(this)">
-                <span>!</span> Spam or Scam
-    <button class="reportCategory botAccount" type="button" data-category="Botted Account" onclick="selectReportCategory(this)">
-        <span>🤖</span> Botted Account
-    </button>
-
-    <button class="reportCategory full" type="button" data-category="Other" onclick="selectReportCategory(this)">
-        <span>✎</span> Other — Please specify
-    </button>
-        </div>
-
-        <div class="reportStep">2. Please provide more details <span style="color:#7f8ca1;font-weight:500">(optional)</span></div>
-        <textarea id="reportReason" class="reportTextarea" maxlength="2000" placeholder="Describe what happened..."></textarea>
-
-        <div class="reportStep">3. Attach proof screenshots <span style="color:#7f8ca1;font-weight:500">(optional)</span></div>
-
-        <label id="reportUpload" class="reportUpload">
-            <input id="reportEvidence" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" multiple hidden>
-            <div style="font-size:29px">☁</div>
-            <strong>Click to upload or drag and drop</strong>
-            <small>PNG, JPG or WEBP — up to 10 MB total</small>
-        </label>
-
-        <div id="reportFiles" class="reportFiles"></div>
-
-        <div class="reportFooter">
-            <button class="reportCancel" type="button" onclick="closeReport()">Cancel</button>
-            <button id="reportSubmit" class="reportSubmit" type="button" onclick="submitReport()">⚑ &nbsp; Submit Report</button>
-        </div>
-
-        <div id="reportStatus" class="reportStatus"></div>
-    </div>
-</div>
-
-    <script src="theme.js"></script>
-
-<script>
-
-let backend=null
-let me=null
-
-async function getBackend(){
-
-    const r=await fetch("server.txt")
-
-    return (await r.text()).trim()
-
+.navIcon,.navText{position:relative;z-index:1}
+.navIcon{
+width:28px;height:28px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:9px;
+background:rgba(255,255,255,.035);
+border:1px solid rgba(255,255,255,.06);
+font-size:13px;
 }
-
-async function safeJson(res){
-
-    const t=await res.text()
-
-    try{
-
-        return JSON.parse(t)
-
-    }catch{
-
-        return null
-
-    }
-
+.navText{font-size:10px;font-weight:800}
+.sidebarFooter{margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)}
+.sidebarAccount{
+padding:10px;
+border:1px solid rgba(255,255,255,.055);
+border-radius:14px;
+background:rgba(255,255,255,.02);
+margin-bottom:8px;
 }
+.sidebarAccountLabel{font-size:7px;color:#58667d;letter-spacing:1px;text-transform:uppercase;font-weight:900}
+.sidebarAccountUser{font-size:10px;font-weight:800;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-function openSupport(){
-document.getElementById("supportPopup").style.display="flex";
+.main{min-width:0;padding:18px 22px 35px}
+.topbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:18px;
+min-height:52px;
+margin-bottom:14px;
 }
-
-async function getMe(){
-
-    const token=localStorage.getItem("Token")
-
-    if(!token) return null
-
-    try{
-
-        const r=await fetch(backend+"/me",{
-            headers:{
-                Authorization:token
-            }
-        })
-
-        const data=await r.json()
-
-        if(data.error) return null
-
-        return data
-
-    }catch{
-
-        return null
-
-    }
-
+.topbarLeft{display:flex;align-items:center;gap:10px;min-width:0}
+.pageIcon{
+width:35px;height:35px;
+border-radius:11px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(145deg,rgba(0,225,255,.09),rgba(156,77,255,.09));
+border:1px solid rgba(255,255,255,.07);
+color:#b8f3ff;
+font-size:15px;
 }
-
-function goProfile() {
-    const username = localStorage.getItem("username");
-    if (!username) return;
-
-    window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
-}  
-
-function getUsername(){
-
-    const params=new URLSearchParams(location.search)
-
-    return params.get("username")
-
+.topTitle{font-family:"Space Grotesk",Inter,sans-serif;font-size:14px;font-weight:700}
+.topSub{font-size:8px;color:#64738a;margin-top:3px}
+.topActions{display:flex;align-items:center;gap:7px}
+.topBtn{
+height:33px;padding:0 10px;
+display:flex;align-items:center;gap:7px;
+border:1px solid rgba(255,255,255,.07);
+border-radius:10px;
+background:rgba(255,255,255,.025);
+color:#91a0b6;
+font-size:8px;font-weight:800;
 }
+.topBtn:hover{color:#fff;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
 
-    function closeSupport(){
-document.getElementById("supportPopup").style.display="none";
+.profileHero{
+position:relative;
+overflow:hidden;
+padding:25px;
+border:1px solid var(--line);
+border-radius:28px;
+background:
+radial-gradient(circle at 80% 20%,rgba(0,225,255,.13),transparent 23%),
+radial-gradient(circle at 95% 90%,rgba(156,77,255,.13),transparent 28%),
+linear-gradient(145deg,rgba(22,29,46,.86),rgba(9,13,22,.82));
+box-shadow:var(--shadow);
 }
-
-async function trackPage(page){
-
-    const token=localStorage.getItem("Token")
-
-    if(!token) return
-
-    await fetch(backend+"/track/page",{
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":"application/json",
-            Authorization:token
-        },
-
-        body:JSON.stringify({
-            page
-        })
-
-    })
-
-}
-
-function showOwnerReveal(username){
-    if(!username || username.toLowerCase()!=="somin") return
-
-    const reveal=document.getElementById("ownerReveal")
-    if(!reveal) return
-
-    reveal.classList.remove("active")
-
-    void reveal.offsetWidth
-
-    reveal.classList.add("active")
-
-    setTimeout(()=>{
-        reveal.classList.remove("active")
-    },7000)
-}
-
-function showTip(text,type,x,y){
-
-    const tip=document.getElementById("tooltip")
-
-    tip.innerText=text
-
-    tip.className=""
-
-    if(type==="staff") tip.classList.add("staffTip")
-    if(type==="support") tip.classList.add("supportTip")
-    if(type==="admin") tip.classList.add("adminTip")
-    if(type==="vip") tip.classList.add("vipTip")
-
-    tip.style.left=x+10+"px"
-    tip.style.top=y+10+"px"
-    tip.style.display="block"
-
-}
-
-function hideTip(){
-
-    document.getElementById("tooltip").style.display="none"
-
-}
-
-function createRoleIcons(p){
-
-    let icons=""
-
-    if(p.support || p.admin){
-
-        icons+=`
-<span
-class="roleIcons"
-style="color:#8b949e"
-onmousemove="showTip('Staff Member','staff',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-⚒️
-</span>
-`
-
-    }
-
-    if(p.support){
-
-        icons+=`
-<span
-class="roleIcons"
-style="color:#57f287;text-shadow:0 0 10px #57f28788"
-onmousemove="showTip('Support','support',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-🧰
-</span>
-`
-
-    }
-
-    if(p.admin){
-
-        icons+=`
-<span
-class="roleIcons"
-style="color:#3498db;text-shadow:0 0 10px #3498db88"
-onmousemove="showTip('Administrator','admin',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-💎
-</span>
-`
-
-    }
-
-    if(p.moderator){
-
-    icons+=`
-<span
-class="roleIcons"
-style="color:#4fc3f7;text-shadow:0 0 10px #4fc3f7aa"
-onmousemove="showTip('Moderator','moderator',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-🛡️
-</span>
-`
-
-}
-
-    if(p.vip){
-
-        icons+=`
-<span
-class="roleIcons"
-style="color:#ffd700;text-shadow:0 0 12px #ffd700aa"
-onmousemove="showTip('VIP','vip',event.pageX,event.pageY)"
-onmouseleave="hideTip()"
->
-👑
-</span>
-`
-
-    }
-
-    return icons
-
-}
-
-function searchProfile(){
-
-    const input=document.getElementById("searchUser").value.trim()
-
-    if(!input) return
-
-    if(input.startsWith("(!") && input.endsWith("!)")){
-
-        const id=input.slice(2,-2).trim()
-
-        if(!/^\d+$/.test(id)){
-            alert("Invalid account ID.")
-            return
-        }
-
-        fetch(backend+"/account/by-id/"+encodeURIComponent(id))
-        .then(safeJson)
-        .then(data=>{
-
-            if(!data || data.error){
-                alert("No account found with that ID.")
-                return
-            }
-
-            location.href=
-                "profile.html?username="+
-                encodeURIComponent(data.username)
-
-        })
-        .catch(()=>{
-            alert("Could not search for that account.")
-        })
-
-        return
-    }
-
-    location.href=
-        "profile.html?username="+
-        encodeURIComponent(input)
-}
-
-document.getElementById("searchUser").addEventListener("keypress",e=>{
-
-    if(e.key==="Enter"){
-        searchProfile()
-    }
-
-})
-
-
-let reportTargetUsername=null
-let reportCategory="Inappropriate Username"
-let reportFiles=[]
-
-function openReport(){
-    if(!reportTargetUsername) return
-    if(!me){
-        alert("You must be logged in to submit a report.")
-        return
-    }
-
-    document.getElementById("reportTarget").textContent=`Reporting @${reportTargetUsername}. False reports may result in action against your account.`
-    document.getElementById("reportReason").value=""
-    document.getElementById("reportStatus").textContent=""
-    document.getElementById("reportEvidence").value=""
-    reportFiles=[]
-    reportCategory="Inappropriate Username"
-    document.querySelectorAll(".reportCategory").forEach((button,index)=>{
-        button.classList.toggle("selected",index===0)
-    })
-    renderReportFiles()
-    document.getElementById("reportOverlay").classList.add("show")
-}
-
-function closeReport(){
-    document.getElementById("reportOverlay").classList.remove("show")
-}
-
-function reportOverlayClick(event){
-    if(event.target===document.getElementById("reportOverlay")) closeReport()
-}
-
-function selectReportCategory(button){
-    reportCategory=button.dataset.category
-    document.querySelectorAll(".reportCategory").forEach(item=>{
-        item.classList.remove("selected")
-    })
-    button.classList.add("selected")
-}
-
-function formatReportSize(bytes){
-    if(bytes<1024*1024) return `${Math.ceil(bytes/1024)} KB`
-    return `${(bytes/(1024*1024)).toFixed(2)} MB`
-}
-
-function renderReportFiles(){
-    const box=document.getElementById("reportFiles")
-    box.innerHTML=reportFiles.map((file,index)=>`
-        <div class="reportFile">
-            <div class="reportFileIcon">▣</div>
-            <div class="reportFileInfo">
-                <div class="reportFileName">${escapeReportHtml(file.name)}</div>
-                <div class="reportFileSize">${formatReportSize(file.size)}</div>
-            </div>
-            <button class="reportRemove" type="button" onclick="removeReportFile(${index})">×</button>
-        </div>
-    `).join("")
-}
-
-function escapeReportHtml(value){
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;")
-}
-
-function removeReportFile(index){
-    reportFiles.splice(index,1)
-    renderReportFiles()
-}
-
-function addReportFiles(files){
-    const status=document.getElementById("reportStatus")
-    const allowed=["image/png","image/jpeg","image/jpg","image/webp"]
-
-    for(const file of files){
-        if(!allowed.includes(file.type)){
-            status.textContent="Only PNG, JPG, and WEBP images are allowed."
-            continue
-        }
-
-        if(!reportFiles.some(existing=>existing.name===file.name && existing.size===file.size)){
-            reportFiles.push(file)
-        }
-    }
-
-    const total=reportFiles.reduce((sum,file)=>sum+file.size,0)
-
-    if(total>10*1024*1024){
-        reportFiles=[]
-        status.textContent="Your screenshots exceed the 10 MB total limit."
-    }else{
-        status.textContent=""
-    }
-
-    renderReportFiles()
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
-    const upload=document.getElementById("reportEvidence")
-    const area=document.getElementById("reportUpload")
-
-    if(!upload || !area) return
-
-    upload.addEventListener("change",event=>{
-        addReportFiles([...event.target.files])
-        upload.value=""
-    })
-
-    ;["dragenter","dragover"].forEach(type=>{
-        area.addEventListener(type,event=>{
-            event.preventDefault()
-            area.classList.add("drag")
-        })
-    })
-
-    ;["dragleave","drop"].forEach(type=>{
-        area.addEventListener(type,event=>{
-            event.preventDefault()
-            area.classList.remove("drag")
-        })
-    })
-
-    area.addEventListener("drop",event=>{
-        addReportFiles([...event.dataTransfer.files])
-    })
-})
-
-async function submitReport(){
-    if(!reportTargetUsername) return
-
-    const reason=document.getElementById("reportReason").value.trim()
-    const status=document.getElementById("reportStatus")
-    const submit=document.getElementById("reportSubmit")
-
-    if(reportCategory==="Other" && !reason){
-        status.textContent="Please explain what you are reporting."
-        return
-    }
-
-    const form=new FormData()
-    form.append("targetUsername",reportTargetUsername)
-    form.append("category",reportCategory)
-    form.append("reason",reason)
-
-    for(const file of reportFiles){
-        form.append("evidence",file)
-    }
-
-    submit.disabled=true
-    status.textContent="Submitting report..."
-
-    try{
-        const response=await fetch(backend+"/reports/submit",{
-            method:"POST",
-            headers:{
-                Authorization:localStorage.getItem("Token")
-            },
-            body:form
-        })
-
-        const data=await safeJson(response)
-
-        if(!data || data.error){
-            status.textContent=(data&&data.error)||"Could not submit the report."
-            submit.disabled=false
-            return
-        }
-
-        status.textContent="Report submitted successfully."
-        setTimeout(closeReport,900)
-    }catch{
-        status.textContent="Could not connect to the server."
-    }
-
-    submit.disabled=false
-}
-
-
-function payoutPopup(username){
-
-document.body.insertAdjacentHTML("beforeend",`
-
-<div id="payoutPopup" style="
-position:fixed;
+.profileHero:before{
+content:"";
+position:absolute;
 top:0;
 left:0;
 width:100%;
+height:1px;
+background:linear-gradient(90deg,transparent,rgba(0,225,255,.5),rgba(156,77,255,.45),transparent);
+}
+.profileHero:after{
+content:"";
+position:absolute;
+top:0;
+left:-40%;
+width:35%;
 height:100%;
-background:rgba(0,0,0,.75);
+background:linear-gradient(100deg,transparent,rgba(255,255,255,.045),transparent);
+transform:skewX(-17deg);
+animation:shimmer 10s ease-in-out infinite;
+pointer-events:none;
+}
+.heroGrid{
+display:grid;
+grid-template-columns:auto minmax(0,1fr) auto;
+gap:22px;
+align-items:center;
+position:relative;
+z-index:1;
+}
+.avatarWrap{position:relative;width:126px;height:126px;display:grid;place-items:center}
+.avatarHalo{
+position:absolute;
+inset:-10px;
+border-radius:50%;
+background:conic-gradient(from 0deg,rgba(0,225,255,.16),rgba(156,77,255,.22),rgba(0,225,255,.12),rgba(156,77,255,.18));
+filter:blur(3px);
+animation:rotate 8s linear infinite;
+}
+.avatarRing{
+position:relative;
+width:118px;height:118px;
+padding:4px;
+border-radius:50%;
+background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.025));
+box-shadow:0 0 0 1px rgba(255,255,255,.06),0 18px 45px rgba(0,0,0,.36);
+}
+.avatarRing:before{
+content:"";
+position:absolute;
+inset:-5px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,.08);
+}
+.avatarRing.ascended{
+background:conic-gradient(from 25deg,#070203,#ff2841 40deg,#050202 93deg,#d71937 155deg,#070203 220deg,#ff3651 292deg,#070203);
+box-shadow:0 0 0 1px rgba(255,45,72,.17),0 0 34px rgba(255,45,72,.25);
+animation:rotate 7s linear infinite;
+}
+.avatarRing.infinity{
+background:conic-gradient(from 30deg,#03080e,#32d8ff 43deg,#05060b 102deg,#4b77ff 164deg,#03050a 233deg,#1bdfff 304deg,#03080e);
+box-shadow:0 0 0 1px rgba(0,225,255,.18),0 0 36px rgba(0,190,255,.24);
+animation:rotate 7s linear infinite;
+}
+.avatarRing.endless{
+background:conic-gradient(from 30deg,#09030f,#9c3dff 48deg,#050208 110deg,#c34eff 174deg,#050208 240deg,#713bff 306deg,#09030f);
+box-shadow:0 0 0 1px rgba(156,77,255,.19),0 0 38px rgba(156,77,255,.25);
+animation:rotate 7s linear infinite reverse;
+}
+.avatar{
+width:100%;height:100%;
+border-radius:50%;
+overflow:hidden;
 display:flex;
 align-items:center;
 justify-content:center;
-z-index:99999;
-">
-
-<div style="
-width:340px;
-background:#141923;
+background:linear-gradient(145deg,#151d30,#080c15);
 border:1px solid rgba(255,255,255,.08);
+}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatarFallback{font-family:"Space Grotesk",Inter,sans-serif;font-size:38px;font-weight:700;color:#dffbff}
+.onlineDot{
+position:absolute;
+right:4px;
+bottom:8px;
+width:17px;height:17px;
+border-radius:50%;
+background:#06110d;
+border:3px solid #06100e;
+box-shadow:0 0 0 1px rgba(98,239,173,.28),0 0 16px rgba(98,239,173,.62);
+}
+.heroIdentity{min-width:0}
+.heroEyebrow{
+display:flex;
+align-items:center;
+gap:8px;
+flex-wrap:wrap;
+font-size:8px;
+color:#6e7e96;
+letter-spacing:1.8px;
+font-weight:900;
+text-transform:uppercase;
+}
+.heroEyebrow .verifiedDot{
+width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px rgba(0,225,255,.8)
+}
+.usernameRow{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:8px}
+.profileUsername{
+font-family:"Space Grotesk",Inter,sans-serif;
+font-size:clamp(29px,3.2vw,52px);
+font-weight:700;
+letter-spacing:-1.6px;
+line-height:1;
+word-break:break-word;
+}
+.roleIcons{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.roleChip{
+display:inline-flex;
+align-items:center;
+gap:5px;
+height:25px;
+padding:0 8px;
+border-radius:8px;
+font-size:8px;
+font-weight:900;
+border:1px solid rgba(255,255,255,.07);
+background:rgba(255,255,255,.035);
+}
+.roleChip.staff{color:#b8c3d3}.roleChip.support{color:#7df2ba;border-color:rgba(98,239,173,.13);background:rgba(98,239,173,.045)}
+.roleChip.admin{color:#7dc8ff;border-color:rgba(73,164,255,.15);background:rgba(73,164,255,.045)}
+.roleChip.mod{color:#76e4ff;border-color:rgba(0,225,255,.15);background:rgba(0,225,255,.045)}
+.roleChip.vip{color:#ffe29a;border-color:rgba(255,211,111,.16);background:rgba(255,211,111,.045)}
+.profileDescription{margin-top:10px;color:#8c9ab0;font-size:11px;line-height:1.6;max-width:670px}
+.heroMeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:12px}
+.metaChip{
+display:inline-flex;
+align-items:center;
+gap:6px;
+padding:7px 9px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.065);
+background:rgba(255,255,255,.025);
+color:#8090a9;
+font-size:7px;
+font-weight:800;
+}
+.metaChip b{color:#d5dfec}
+.subscriptionChip.ascended{color:#ff9aa8;border-color:rgba(255,45,72,.18);background:rgba(255,45,72,.045)}
+.subscriptionChip.infinity{color:#86e8ff;border-color:rgba(0,225,255,.18);background:rgba(0,225,255,.045)}
+.subscriptionChip.endless{color:#d39cff;border-color:rgba(156,77,255,.19);background:rgba(156,77,255,.045)}
+.heroActions{display:flex;flex-direction:column;gap:7px;align-items:stretch;min-width:170px}
+.actionPrimary,.actionSecondary,.actionDanger{
+min-height:38px;
+padding:0 12px;
+border-radius:11px;
+font-size:9px;
+font-weight:900;
+border:1px solid rgba(255,255,255,.07);
+transition:.18s ease;
+}
+.actionPrimary{background:linear-gradient(100deg,#00badf,#754fff);color:#fff;border-color:rgba(0,225,255,.16);box-shadow:0 12px 30px rgba(0,225,255,.10)}
+.actionPrimary:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.actionSecondary{background:rgba(255,255,255,.035);color:#adb9cc}
+.actionSecondary:hover{background:rgba(255,255,255,.06);color:#fff}
+.actionDanger{background:rgba(255,94,121,.06);color:#ff9eae;border-color:rgba(255,94,121,.13)}
+.actionDanger:hover{background:rgba(255,94,121,.11)}
+
+.statStrip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:13px}
+.statCard{
+padding:13px;
+border:1px solid var(--line);
+border-radius:17px;
+background:
+linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.014)),
+var(--panel);
+box-shadow:0 20px 50px rgba(0,0,0,.20);
+transition:.2s ease;
+}
+.statCard:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.11)}
+.statTop{display:flex;align-items:center;justify-content:space-between;gap:7px}
+.statLabel{font-size:7px;text-transform:uppercase;letter-spacing:1px;color:#66758d;font-weight:900}
+.statIcon{width:27px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:11px}
+.statValue{margin-top:11px;font-family:"Space Grotesk",Inter,sans-serif;font-size:20px;font-weight:700;letter-spacing:-.5px}
+.statHint{margin-top:4px;font-size:7px;color:#56647b}
+
+.contentGrid{display:grid;grid-template-columns:minmax(0,1.52fr) minmax(320px,.84fr);gap:13px;margin-top:13px}
+.leftColumn,.rightColumn{min-width:0;display:flex;flex-direction:column;gap:13px}
+.card{
+position:relative;
+border:1px solid var(--line);
+border-radius:22px;
+background:
+linear-gradient(145deg,rgba(255,255,255,.036),rgba(255,255,255,.012)),
+var(--panel);
+box-shadow:var(--shadow);
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
+overflow:hidden;
+}
+.cardHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:17px 17px 13px}
+.cardHeader h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:15px;font-weight:700;letter-spacing:-.3px}
+.cardHeader p{font-size:8px;color:#65748c;line-height:1.45;margin-top:4px}
+.cardBody{padding:0 17px 17px}
+.headerPill{
+height:27px;padding:0 8px;display:flex;align-items:center;border-radius:999px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.025);color:#7b899f;font-size:7px;font-weight:900;letter-spacing:.6px
+}
+.identityGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.identityCell{
+padding:12px;
+border:1px solid rgba(255,255,255,.055);
+border-radius:14px;
+background:rgba(255,255,255,.018);
+min-width:0;
+}
+.identityLabel{font-size:7px;color:#5e6c83;text-transform:uppercase;letter-spacing:1px;font-weight:900}
+.identityValue{
+margin-top:6px;
+font-size:10px;
+font-weight:800;
+color:#dae3ef;
+word-break:break-word;
+line-height:1.45;
+}
+.identityValue.muted{color:#6e7d95;font-weight:700}
+.identityMono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9px}
+.inlineActions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.miniBtn{
+height:29px;
+padding:0 9px;
+border-radius:9px;
+border:1px solid rgba(255,255,255,.06);
+background:rgba(255,255,255,.03);
+color:#8897ad;
+font-size:7px;
+font-weight:900;
+}
+.miniBtn:hover{color:#fff;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.11)}
+.miniBtn.primary{background:rgba(0,225,255,.055);border-color:rgba(0,225,255,.12);color:#8cecff}
+
+.subscriptionPanel{
+position:relative;
+padding:16px;
+margin:0 17px 17px;
+border:1px solid rgba(255,255,255,.055);
 border-radius:18px;
-padding:24px;
-">
+overflow:hidden;
+background:
+radial-gradient(circle at 90% 10%,rgba(156,77,255,.09),transparent 25%),
+rgba(255,255,255,.018);
+}
+.subscriptionGlow{position:absolute;width:170px;height:170px;right:-80px;top:-90px;border-radius:50%;background:rgba(0,225,255,.07);filter:blur(20px)}
+.subscriptionTop{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.subscriptionName{font-size:12px;font-weight:900}
+.subscriptionSub{font-size:8px;color:#66748b;margin-top:4px}
+.subscriptionBadge{height:25px;padding:0 8px;border-radius:999px;font-size:7px;font-weight:900;display:flex;align-items:center;gap:5px}
+.subscriptionBadge:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;box-shadow:0 0 9px currentColor}
+.subscriptionBadge.ascended{color:#ff8393;background:rgba(255,94,121,.06);border:1px solid rgba(255,94,121,.12)}
+.subscriptionBadge.infinity{color:#78e5ff;background:rgba(0,225,255,.06);border:1px solid rgba(0,225,255,.12)}
+.subscriptionBadge.endless{color:#d096ff;background:rgba(156,77,255,.06);border:1px solid rgba(156,77,255,.13)}
+.subscriptionBadge.none{color:#79869a;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055)}
+.subscriptionFacts{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.subscriptionFact{padding:9px;border-radius:11px;background:rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.045)}
+.subscriptionFact small{display:block;font-size:6px;text-transform:uppercase;letter-spacing:.9px;color:#59677d;font-weight:900}
+.subscriptionFact b{display:block;margin-top:4px;font-size:9px;color:#cfd9e6}
 
-<h2 style="margin-bottom:18px">
-Payout
-</h2>
-
-<input
-id="amt"
-type="number"
-placeholder="Amount"
-style="
-width:100%;
-padding:12px;
-margin-bottom:12px;
-border:none;
-border-radius:10px;
-background:#202634;
-color:white;
-">
-
-<input
-id="reason"
-placeholder="Reason"
-style="
-width:100%;
-padding:12px;
-margin-bottom:18px;
-border:none;
-border-radius:10px;
-background:#202634;
-color:white;
-">
-
-<div style="display:flex;gap:10px">
-
-<button
-onclick="doPayout('${username}','add')"
-style="
-flex:1;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#00d5ff;
+.badgesWrap{padding:0 17px 17px}
+.badgeToolbar{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:11px}
+.badgeSearch{position:relative;flex:1}
+.badgeSearch input{
+height:33px;width:100%;padding:0 10px 0 29px;border-radius:10px;border:1px solid rgba(255,255,255,.065);background:rgba(0,0,0,.16);color:#edf4fc;outline:none;font-size:8px
+}
+.badgeSearch input:focus{border-color:rgba(0,225,255,.25);box-shadow:0 0 0 3px rgba(0,225,255,.035)}
+.badgeSearchIcon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:10px;color:#5d6b82;pointer-events:none}
+.badgeFilter{height:33px;padding:0 8px;border-radius:10px;border:1px solid rgba(255,255,255,.065);background:rgba(0,0,0,.16);color:#7f8ea5;font-size:8px;outline:none}
+.badgesList{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+align-items:flex-start;
+}
+.badgeCard{
+position:relative;
+width:90px;
+min-height:109px;
+border:0;
+padding:0;
+background:transparent;
+color:#fff;
 cursor:pointer;
-font-weight:700;
-">
-Insert
-</button>
-
-<button
-onclick="doPayout('${username}','take')"
-style="
-flex:1;
+}
+.badgeMedal{
+--progress:0;
+--tier:#9a6b45;
+--tierGlow:rgba(154,107,69,.28);
+position:relative;
+width:82px;height:82px;
+margin:0 auto;
+display:grid;place-items:center;
+border-radius:50%;
+background:conic-gradient(from -90deg,var(--tier) calc(var(--progress)*1%),rgba(255,255,255,.055) 0);
+box-shadow:0 12px 30px rgba(0,0,0,.28);
+transition:.2s ease;
+}
+.badgeMedal:before{
+content:"";
+position:absolute;
+inset:6px;
+border-radius:50%;
+background:
+radial-gradient(circle at 31% 24%,rgba(255,255,255,.12),transparent 28%),
+linear-gradient(145deg,#1a2234,#0a0f19);
+border:1px solid rgba(255,255,255,.09);
+}
+.badgeMedal:after{
+content:"";
+position:absolute;
+inset:11px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,.06);
+}
+.badgeCard:hover .badgeMedal,.badgeCard.open .badgeMedal{transform:translateY(-4px) scale(1.045);filter:drop-shadow(0 0 15px var(--tierGlow))}
+.badgeCard.complete .badgeMedal{animation:neonPulse 3s ease-in-out infinite}
+.badgeLogo{position:relative;z-index:2;width:55px;height:55px;display:grid;place-items:center}
+.badgeLogo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,.4)) drop-shadow(0 0 9px var(--tierGlow))}
+.badgeEmoji{font-size:27px;filter:drop-shadow(0 0 9px var(--tierGlow))}
+.badgeName{
+display:block;
+margin-top:7px;
+font-size:8px;
+font-weight:900;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+color:#cbd5e4;
+}
+.badgeTiny{display:block;margin-top:3px;font-size:6px;color:#5e6b82}
+.badgeDetails{
+position:absolute;
+left:50%;
+top:95px;
+transform:translate(-50%,-6px) scale(.97);
+width:240px;
 padding:12px;
-border:none;
+border-radius:14px;
+background:linear-gradient(155deg,rgba(20,27,42,.985),rgba(8,12,19,.995));
+border:1px solid rgba(255,255,255,.10);
+box-shadow:0 20px 50px rgba(0,0,0,.52),0 0 30px var(--tierGlow);
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+z-index:80;
+text-align:left;
+transition:.18s ease;
+}
+.badgeCard:hover .badgeDetails,.badgeCard.open .badgeDetails{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0) scale(1)}
+.badgeDetailsTitle{font-size:11px;font-weight:900}
+.badgeDetailsDescription{display:block;margin-top:4px;color:#718097;font-size:8px;line-height:1.45}
+.badgeDetailsRow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:7px;font-size:7px}
+.badgeDetailsRow span:first-child{color:#5e6d84}.badgeDetailsRow b{color:#d8e2ef}
+.badgeProgress{height:6px;margin-top:9px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.06)}
+.badgeProgressFill{height:100%;width:calc(var(--progress)*1%);border-radius:inherit;background:linear-gradient(90deg,var(--tier),#fff);box-shadow:0 0 10px var(--tierGlow)}
+.badgeEmpty{width:100%;padding:25px;text-align:center;border-radius:15px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.055);color:#66748b;font-size:9px}
+
+.activityList{display:flex;flex-direction:column;gap:7px;padding:0 17px 17px}
+.activityItem{
+display:flex;
+align-items:flex-start;
+gap:10px;
+padding:10px;
+border:1px solid rgba(255,255,255,.05);
+border-radius:13px;
+background:rgba(255,255,255,.018);
+}
+.activityIcon{width:30px;height:30px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:12px}
+.activityMain{min-width:0;flex:1}
+.activityTitle{font-size:9px;font-weight:900;color:#d8e1ed}
+.activityText{font-size:8px;line-height:1.45;color:#67748a;margin-top:3px}
+.activityTime{font-size:7px;color:#56647b;margin-top:5px}
+
+.linkPanel{
+padding:16px;
+}
+.linkBox{
+display:flex;
+align-items:center;
+gap:9px;
+padding:11px;
+border:1px solid rgba(0,225,255,.08);
+border-radius:14px;
+background:
+radial-gradient(circle at 15% 50%,rgba(0,225,255,.07),transparent 30%),
+rgba(255,255,255,.018);
+}
+.linkGlyph{width:34px;height:34px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(0,225,255,.06);border:1px solid rgba(0,225,255,.11);color:#9cefff}
+.linkMain{min-width:0;flex:1}
+.linkTitle{font-size:9px;font-weight:900}.linkValue{margin-top:4px;font-family:ui-monospace,monospace;font-size:7px;color:#66748a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toolsGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.toolBtn{
+min-height:54px;
+padding:9px;
+display:flex;
+align-items:center;
+gap:8px;
+text-align:left;
+border:1px solid rgba(255,255,255,.055);
+border-radius:12px;
+background:rgba(255,255,255,.018);
+color:#ced7e4;
+transition:.18s ease;
+}
+.toolBtn:hover{transform:translateY(-2px);background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)}
+.toolIcon{width:29px;height:29px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.04);font-size:12px}
+.toolTitle{font-size:8px;font-weight:900}.toolSub{font-size:7px;color:#5e6c83;margin-top:3px}
+
+.socialGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:0 17px 17px}
+.socialCard{
+padding:11px;
+border-radius:13px;
+border:1px solid rgba(255,255,255,.055);
+background:rgba(255,255,255,.018);
+min-width:0;
+}
+.socialTop{display:flex;align-items:center;gap:7px}
+.socialIcon{width:29px;height:29px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:12px}
+.socialTitle{font-size:8px;font-weight:900}.socialSub{font-size:7px;color:#606f86;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.socialValue{margin-top:9px;font-size:8px;color:#bdc8d8;font-weight:800;line-height:1.45;word-break:break-word}
+.socialActions{margin-top:8px;display:flex;gap:5px}
+
+.reportFlag{
+width:32px;height:32px;
+display:none;
+align-items:center;
+justify-content:center;
+border:1px solid rgba(255,255,255,.08);
 border-radius:10px;
-background:#ff4f6d;
-color:white;
+background:rgba(255,255,255,.03);
+color:#8d9bb0;
+font-size:15px;
+transition:.18s ease;
+}
+.reportFlag:hover{color:#ff8498;background:rgba(255,94,121,.08);border-color:rgba(255,94,121,.18)}
+
+.ownerReveal{
+position:fixed;
+inset:0;
+z-index:10000;
+display:none;
+align-items:center;
+justify-content:center;
+background:rgba(1,3,8,.95);
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
+overflow:hidden;
+}
+.ownerReveal.active{display:flex;animation:ownerFade 7s ease forwards}
+.ownerFX{position:absolute;inset:0}
+.ownerGrid{
+position:absolute;
+inset:-60%;
+background-image:
+linear-gradient(rgba(0,225,255,.07) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,225,255,.07) 1px,transparent 1px);
+background-size:55px 55px;
+transform:perspective(500px) rotateX(60deg) translateY(90px);
+animation:ownerGrid 5.5s linear forwards;
+}
+.ownerGlow{
+position:absolute;
+width:750px;height:750px;
+left:50%;top:50%;
+transform:translate(-50%,-50%);
+border-radius:50%;
+background:radial-gradient(circle,rgba(0,225,255,.22),rgba(156,77,255,.13) 31%,rgba(0,225,255,.05) 53%,transparent 74%);
+filter:blur(3px);
+animation:ownerGlow 4s ease-in-out infinite;
+}
+.ownerScan{
+position:absolute;
+left:0;top:-8px;width:100%;height:3px;
+background:linear-gradient(90deg,transparent,var(--cyan),#fff,var(--purple),transparent);
+box-shadow:0 0 20px var(--cyan),0 0 40px var(--purple);
+animation:ownerScan 1.2s ease .05s forwards;
+}
+.ownerRing{
+position:absolute;
+width:180px;height:180px;
+left:50%;top:50%;
+margin:-90px;
+border:2px solid rgba(0,225,255,.45);
+border-radius:50%;
+box-shadow:0 0 35px rgba(0,225,255,.25),inset 0 0 30px rgba(156,77,255,.17);
+animation:ownerRing 1.5s cubic-bezier(.16,1,.3,1) .35s forwards;
+}
+.ownerRing:before{content:"";position:absolute;inset:18px;border-radius:50%;border:1px solid rgba(156,77,255,.55)}
+.ownerRing:after{content:"";position:absolute;inset:40px;border-radius:50%;border:1px solid rgba(255,255,255,.25)}
+.ownerContent{position:relative;z-index:2;text-align:center;width:min(900px,90vw)}
+.ownerCrown{font-size:78px;filter:drop-shadow(0 0 12px #ffd700) drop-shadow(0 0 35px #ffd700);animation:crownIn .85s cubic-bezier(.16,1,.3,1) .2s forwards,float 2.2s ease 1.1s infinite;opacity:0}
+.ownerSmall{margin-top:8px;color:#8190a8;font-size:11px;letter-spacing:8px;text-transform:uppercase;opacity:0;animation:smallIn .7s ease .85s forwards}
+.ownerUser{margin-top:14px;font-size:33px;font-weight:900;letter-spacing:7px;text-shadow:0 0 18px rgba(255,255,255,.38),0 0 35px rgba(0,225,255,.38);opacity:0;animation:userIn .8s cubic-bezier(.16,1,.3,1) 1.12s forwards}
+.ownerTitle{margin-top:13px;font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(46px,8vw,96px);line-height:1;font-weight:700;letter-spacing:5px;text-shadow:0 0 17px var(--cyan),0 0 46px var(--purple),0 0 95px rgba(0,225,255,.48);opacity:0;transform:scale(1.65);filter:blur(9px);animation:titleIn 1s cubic-bezier(.16,1,.3,1) 1.8s forwards}
+.ownerLine{width:0;height:2px;margin:27px auto 0;background:linear-gradient(90deg,transparent,var(--cyan),#fff,var(--purple),transparent);box-shadow:0 0 12px var(--cyan),0 0 25px var(--purple);animation:lineIn .8s ease 2.45s forwards}
+.ownerStatus{margin-top:19px;color:#65f1ae;font-size:10px;letter-spacing:4px;text-transform:uppercase;text-shadow:0 0 15px rgba(101,241,174,.5);opacity:0;animation:statusIn .7s ease 2.8s forwards}
+@keyframes ownerFade{0%{opacity:0}8%{opacity:1}87%{opacity:1}100%{opacity:0}}
+@keyframes ownerGrid{to{transform:perspective(500px) rotateX(60deg) translateY(-90px)}}
+@keyframes ownerGlow{0%,100%{transform:translate(-50%,-50%) scale(.8);opacity:.48}50%{transform:translate(-50%,-50%) scale(1.2);opacity:1}}
+@keyframes ownerScan{0%{top:-8px;opacity:0}15%{opacity:1}100%{top:100%;opacity:0}}
+@keyframes ownerRing{0%{transform:scale(.2);opacity:0}22%{opacity:1}100%{transform:scale(2.4);opacity:0}}
+@keyframes crownIn{0%{opacity:0;transform:translateY(-80px) scale(.25) rotate(-20deg)}70%{opacity:1;transform:translateY(7px) scale(1.12) rotate(5deg)}100%{opacity:1;transform:none}}
+@keyframes smallIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes userIn{0%{opacity:0;transform:translateX(-70px)}100%{opacity:1;transform:none}}
+@keyframes titleIn{0%{opacity:0;transform:scale(1.65);filter:blur(9px)}60%{opacity:1;transform:scale(.96);filter:blur(0)}100%{opacity:1;transform:none;filter:blur(0)}}
+@keyframes lineIn{to{width:min(420px,70vw)}}
+@keyframes statusIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.modalOverlay{
+position:fixed;
+inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+padding:17px;
+background:rgba(1,4,9,.78);
+backdrop-filter:blur(13px);
+-webkit-backdrop-filter:blur(13px);
+z-index:500;
+}
+.modalOverlay.show{display:flex}
+.modal{
+position:relative;
+width:min(560px,100%);
+max-height:calc(100vh - 30px);
+overflow:auto;
+border:1px solid rgba(255,255,255,.10);
+border-radius:22px;
+background:
+radial-gradient(circle at top right,rgba(0,225,255,.065),transparent 27%),
+linear-gradient(145deg,rgba(19,27,43,.985),rgba(7,11,18,.99));
+box-shadow:0 35px 120px rgba(0,0,0,.66);
+animation:scaleIn .18s ease;
+}
+.modalHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:13px;padding:17px;border-bottom:1px solid rgba(255,255,255,.06)}
+.modalHeader h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:16px}
+.modalHeader p{font-size:8px;color:#67758c;margin-top:5px;line-height:1.5}
+.closeBtn{width:31px;height:31px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);color:#8795ab;font-size:17px}
+.closeBtn:hover{color:#fff;background:rgba(255,255,255,.07)}
+.modalBody{padding:16px}
+.formField{margin-bottom:11px}
+.formLabel{display:flex;justify-content:space-between;gap:8px;font-size:8px;color:#72819a;font-weight:800}
+.formLabel span:last-child{color:#56647a;font-weight:600}
+.formInput,.formSelect,.formArea{
+width:100%;
+margin-top:6px;
+border:1px solid rgba(255,255,255,.07);
+border-radius:11px;
+background:rgba(0,0,0,.18);
+color:#ecf3fb;
+outline:none;
+font-size:9px;
+}
+.formInput,.formSelect{height:40px;padding:0 10px}
+.formArea{min-height:115px;padding:10px;resize:vertical;line-height:1.55}
+.formInput:focus,.formSelect:focus,.formArea:focus{border-color:rgba(0,225,255,.3);box-shadow:0 0 0 3px rgba(0,225,255,.035)}
+.modalActions{display:flex;gap:7px;justify-content:flex-end;margin-top:13px}
+.modalActions button{min-width:92px}
+
+.searchResults{
+display:flex;
+flex-direction:column;
+gap:6px;
+margin-top:10px;
+max-height:260px;
+overflow:auto;
+}
+.searchResult{
+display:flex;
+align-items:center;
+gap:9px;
+padding:10px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,.05);
+background:rgba(255,255,255,.02);
 cursor:pointer;
-font-weight:700;
-">
-Take
-</button>
+transition:.18s ease;
+}
+.searchResult:hover{background:rgba(255,255,255,.05);border-color:rgba(0,225,255,.13)}
+.resultAvatar{width:31px;height:31px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(0,225,255,.1),rgba(156,77,255,.1));font-size:9px;font-weight:900}
+.resultName{font-size:9px;font-weight:900}.resultMeta{font-size:7px;color:#637189;margin-top:3px}
+.resultArrow{margin-left:auto;color:#68768d}
+
+.reportCategories{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.reportCategory{
+min-height:46px;
+padding:8px;
+display:flex;
+align-items:center;
+gap:7px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,.055);
+background:rgba(255,255,255,.018);
+color:#9eabc0;
+text-align:left;
+font-size:8px;
+font-weight:800;
+}
+.reportCategory span{width:25px;height:25px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,255,255,.04)}
+.reportCategory:hover{background:rgba(255,255,255,.045);color:#fff}
+.reportCategory.selected{color:#fff;border-color:rgba(0,225,255,.2);background:linear-gradient(135deg,rgba(0,225,255,.08),rgba(156,77,255,.07))}
+.reportUpload{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:5px;
+min-height:110px;
+padding:14px;
+border:1px dashed rgba(0,225,255,.28);
+border-radius:13px;
+background:rgba(0,225,255,.018);
+color:#8391a6;
+text-align:center;
+cursor:pointer;
+}
+.reportUpload:hover{border-color:rgba(0,225,255,.48);background:rgba(0,225,255,.04)}
+.reportUpload strong{font-size:9px;color:#dce5ef}.reportUpload small{font-size:7px;color:#64728a}
+.reportFiles{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.reportFile{display:flex;align-items:center;gap:8px;padding:8px;border-radius:10px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05)}
+.reportFileInfo{min-width:0;flex:1}.reportFileName{font-size:8px;color:#dce5ef;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.reportFileSize{font-size:7px;color:#5e6c83;margin-top:3px}
+.reportRemove{width:24px;height:24px;border:0;border-radius:7px;background:rgba(255,94,121,.06);color:#ff93a3;font-size:12px}
+.reportStatus{min-height:16px;margin-top:9px;font-size:8px;text-align:center;color:#73829a}
+
+.payoutGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.amountWrap{position:relative}.amountWrap .formInput{padding-right:68px}.amountUnit{position:absolute;right:10px;bottom:13px;color:#65738b;font-size:8px;font-weight:900}
+
+.toastContainer{position:fixed;right:17px;bottom:17px;display:flex;flex-direction:column;gap:7px;z-index:1000}
+.toast{
+display:flex;
+align-items:flex-start;
+gap:9px;
+min-width:260px;
+max-width:370px;
+padding:11px;
+border-radius:14px;
+background:rgba(7,12,19,.96);
+border:1px solid rgba(255,255,255,.09);
+box-shadow:0 22px 70px rgba(0,0,0,.5);
+backdrop-filter:blur(18px);
+animation:reveal .18s ease;
+}
+.toastIcon{width:29px;height:29px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.04);font-size:10px}
+.toastTitle{font-size:9px;font-weight:900}.toastText{font-size:8px;color:#68768d;line-height:1.45;margin-top:3px}
+.toast.success .toastIcon{background:rgba(98,239,173,.07);color:#82efba}.toast.error .toastIcon{background:rgba(255,94,121,.07);color:#ff93a4}.toast.info .toastIcon{background:rgba(0,225,255,.07);color:#86e8ff}
+
+.loadingState{
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:170px;
+color:#68768c;
+font-size:9px;
+gap:8px;
+}
+.spinner{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.08);border-top-color:var(--cyan);animation:rotate .8s linear infinite}
+
+@media(max-width:1250px){
+.heroGrid{grid-template-columns:auto minmax(0,1fr)}
+.heroActions{grid-column:2;display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.statStrip{grid-template-columns:repeat(5,1fr)}
+.contentGrid{grid-template-columns:1fr}
+.rightColumn{display:grid;grid-template-columns:1fr 1fr}
+.rightColumn .card:last-child{grid-column:1/-1}
+}
+@media(max-width:970px){
+.layout{grid-template-columns:1fr}
+.sidebar{
+position:relative;
+height:auto;
+padding:9px 10px;
+border-right:0;
+border-bottom:1px solid var(--line);
+}
+.logo{padding:2px 5px 8px}
+.logoMark{width:35px;height:35px}.logoMark img{width:27px;height:27px}
+.logoTitle{font-size:14px}.logoSub{font-size:6px}
+.navLabel{display:none}
+.nav{flex-direction:row;overflow-x:auto;padding:7px 1px 2px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a,.navButton{min-width:max-content}
+.navText{font-size:9px}
+.sidebarFooter{display:none}
+.main{padding:14px}
+}
+@media(max-width:760px){
+.topbar{min-height:46px}
+.topbarLeft .pageIcon{display:none}
+.topSub{display:none}
+.topActions .topBtn span{display:none}
+.topBtn{width:33px;padding:0;justify-content:center}
+.heroGrid{grid-template-columns:1fr}
+.profileHero{padding:19px}
+.avatarWrap{margin:0 auto}
+.heroIdentity{text-align:center}
+.heroEyebrow,.usernameRow,.heroMeta{justify-content:center}
+.profileDescription{margin-left:auto;margin-right:auto}
+.roleIcons{justify-content:center}
+.heroActions{grid-column:auto;display:grid;grid-template-columns:1fr 1fr}
+.statStrip{grid-template-columns:repeat(2,1fr)}
+.statCard:last-child{grid-column:1/-1}
+.rightColumn{display:flex}
+.contentGrid{margin-top:10px}
+.identityGrid{grid-template-columns:1fr}
+.badgesList{gap:8px}
+.badgeCard{width:82px}
+.badgeMedal{width:76px;height:76px}
+.badgeDetails{position:fixed;left:50%;top:auto;bottom:15px;width:min(340px,calc(100vw - 28px));transform:translate(-50%,10px) scale(.97)}
+.badgeCard:hover .badgeDetails{opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,10px) scale(.97)}
+.badgeCard.open .badgeDetails{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0) scale(1)}
+.socialGrid{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+.main{padding:11px}
+.profileHero{border-radius:21px}
+.profileUsername{font-size:31px}
+.heroActions{grid-template-columns:1fr}
+.statStrip{grid-template-columns:1fr 1fr}
+.statValue{font-size:19px}
+.subscriptionFacts{grid-template-columns:1fr}
+.reportCategories{grid-template-columns:1fr}
+.payoutGrid{grid-template-columns:1fr}
+.toastContainer{left:9px;right:9px;bottom:9px}
+.toast{min-width:0;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div id="ownerReveal" class="ownerReveal">
+<div class="ownerFX">
+<div class="ownerGrid"></div>
+<div class="ownerGlow"></div>
+<div class="ownerScan"></div>
+<div class="ownerRing"></div>
+</div>
+<div class="ownerContent">
+<div class="ownerCrown">👑</div>
+<div class="ownerSmall">Identity Verified</div>
+<div class="ownerUser">@Somin</div>
+<div class="ownerTitle">THE OWNER</div>
+<div class="ownerLine"></div>
+<div class="ownerStatus">ZYPHOR • OWNER X FOUNDER • VERIFIED</div>
+</div>
+</div>
+
+<div class="layout">
+
+<aside class="sidebar">
+<div class="logo">
+<div class="logoMark"><img src="https://zyphor.cc/Logo1.png"></div>
+<div>
+<div class="logoTitle">ZYPHOR</div>
+<div class="logoSub">PROFILE NEXUS</div>
+</div>
+<div class="logoLive"></div>
+</div>
+
+<div class="navLabel">Core</div>
+<nav class="nav">
+<a href="dashboard.html"><span class="navIcon">⌂</span><span class="navText">Dashboard</span></a>
+<a href="#" class="active"><span class="navIcon">◉</span><span class="navText">Profile</span></a>
+<a href="dms.html"><span class="navIcon">✦</span><span class="navText">Messages</span></a>
+<a href="Wallet.html"><span class="navIcon">◈</span><span class="navText">Wallet</span></a>
+<a href="Cloud.html"><span class="navIcon">☁</span><span class="navText">Cloud</span></a>
+<a href="download.html"><span class="navIcon">↓</span><span class="navText">App Center</span></a>
+<a href="Support.html"><span class="navIcon">?</span><span class="navText">Support</span></a>
+<a href="Settings.html"><span class="navIcon">⚙</span><span class="navText">Settings</span></a>
+</nav>
+
+<div class="navLabel">Tools</div>
+<nav class="nav">
+<button class="navButton" onclick="openSearch()"><span class="navIcon">⌕</span><span class="navText">Find Profile</span></button>
+<button class="navButton" onclick="shareProfile()"><span class="navIcon">⌁</span><span class="navText">Share Profile</span></button>
+<button class="navButton" onclick="openAbout()"><span class="navIcon">i</span><span class="navText">About</span></button>
+</nav>
+
+<div class="sidebarFooter">
+<div class="sidebarAccount">
+<div class="sidebarAccountLabel">Signed in</div>
+<div class="sidebarAccountUser" id="sidebarUser">Loading...</div>
+</div>
+<a class="navButton" href="#" onclick="logout();return false;"><span class="navIcon">↪</span><span class="navText">Logout</span></a>
+</div>
+</aside>
+
+<main class="main">
+
+<div class="topbar">
+<div class="topbarLeft">
+<div class="pageIcon">◉</div>
+<div>
+<div class="topTitle">Profile Nexus</div>
+<div class="topSub">Identity, social graph, badges and account intelligence</div>
+</div>
+</div>
+<div class="topActions">
+<button class="topBtn" onclick="openSearch()">⌕ <span>Find</span></button>
+<button class="topBtn" onclick="refreshProfile()">↻ <span>Refresh</span></button>
+<button class="topBtn" onclick="shareProfile()">⌁ <span>Share</span></button>
+</div>
+</div>
+
+<section class="profileHero">
+<div class="heroGrid">
+
+<div class="avatarWrap">
+<div class="avatarHalo"></div>
+<div class="avatarRing" id="avatarRing">
+<div class="avatar">
+<img id="profilePfp" style="display:none">
+<span id="avatarFallback" class="avatarFallback">Z</span>
+</div>
+</div>
+<div class="onlineDot"></div>
+</div>
+
+<div class="heroIdentity">
+<div class="heroEyebrow"><span class="verifiedDot"></span><span>ZYPhor identity record</span><span id="heroVisibility"></span></div>
+<div class="usernameRow">
+<h1 id="profileUsername" class="profileUsername">Loading...</h1>
+<div id="profileIcons" class="roleIcons"></div>
+<button id="reportFlag" class="reportFlag" type="button" title="Report this user" onclick="openReport()">⚑</button>
+</div>
+<p class="profileDescription" id="profileDescription">Loading profile intelligence...</p>
+<div class="heroMeta">
+<span class="metaChip">ID <b id="heroId">—</b></span>
+<span class="metaChip">Joined <b id="heroCreated">—</b></span>
+<span class="metaChip" id="heroSubscriptionChip">Subscription <b id="heroSubscription">None</b></span>
+</div>
+</div>
+
+<div class="heroActions">
+<button class="actionPrimary" onclick="copyAccountId()">Copy Account ID</button>
+<button class="actionSecondary" onclick="openDM()">Open Messages</button>
+<button class="actionSecondary" onclick="saveProfile()">Save Profile</button>
+<button class="actionSecondary" onclick="shareProfile()">Share Profile</button>
+</div>
+
+</div>
+</section>
+
+<section class="statStrip">
+<div class="statCard">
+<div class="statTop"><span class="statLabel">Quests</span><span class="statIcon">🎯</span></div>
+<div class="statValue" id="questStat">0</div>
+<div class="statHint">Completed quests</div>
+</div>
+<div class="statCard">
+<div class="statTop"><span class="statLabel">Badges</span><span class="statIcon">🏅</span></div>
+<div class="statValue" id="badgeStat">0</div>
+<div class="statHint" id="badgeStatHint">Unlocked achievements</div>
+</div>
+<div class="statCard">
+<div class="statTop"><span class="statLabel">Account</span><span class="statIcon">◉</span></div>
+<div class="statValue" id="accountAgeStat">—</div>
+<div class="statHint">Account age</div>
+</div>
+<div class="statCard">
+<div class="statTop"><span class="statLabel">Discord</span><span class="statIcon">◌</span></div>
+<div class="statValue" id="discordStat">—</div>
+<div class="statHint">Connection state</div>
+</div>
+<div class="statCard">
+<div class="statTop"><span class="statLabel">Roblox</span><span class="statIcon">▣</span></div>
+<div class="statValue" id="robloxStat">—</div>
+<div class="statHint">Connection state</div>
+</div>
+</section>
+
+<div class="contentGrid">
+
+<div class="leftColumn">
+
+<section class="card">
+<div class="cardHeader">
+<div>
+<h2>Identity Matrix</h2>
+<p>Public account information and linked identities.</p>
+</div>
+<div class="headerPill">LIVE RECORD</div>
+</div>
+<div class="cardBody">
+<div class="identityGrid">
+<div class="identityCell">
+<div class="identityLabel">Account ID</div>
+<div class="identityValue identityMono" id="accountId">Loading...</div>
+<div class="inlineActions">
+<button class="miniBtn primary" onclick="copyAccountId()">Copy</button>
+<button class="miniBtn" onclick="showAccountId()">Inspect</button>
+</div>
+</div>
+<div class="identityCell">
+<div class="identityLabel">Created</div>
+<div class="identityValue" id="accountCreated">Loading...</div>
+</div>
+<div class="identityCell">
+<div class="identityLabel">Discord</div>
+<div class="identityValue" id="discordInfo">Loading...</div>
+<div class="inlineActions"><button class="miniBtn" onclick="copyDiscord()">Copy</button></div>
+</div>
+<div class="identityCell">
+<div class="identityLabel">Roblox</div>
+<div class="identityValue" id="robloxInfo">Loading...</div>
+<div class="inlineActions"><button class="miniBtn" id="robloxCopyBtn" onclick="copyRoblox()">Copy ID</button></div>
+</div>
+<div class="identityCell">
+<div class="identityLabel">Quests Completed</div>
+<div class="identityValue" id="questCount">Loading...</div>
+</div>
+<div class="identityCell">
+<div class="identityLabel">Profile Link</div>
+<div class="identityValue identityMono" id="profileLinkValue">Loading...</div>
+<div class="inlineActions"><button class="miniBtn primary" onclick="copyProfileLink()">Copy Link</button></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="card">
+<div class="cardHeader">
+<div>
+<h2>Subscription Core</h2>
+<p>Current subscription tier and account privileges.</p>
+</div>
+<div class="headerPill" id="subscriptionHeaderPill">ACCOUNT</div>
+</div>
+<div id="subscriptionPanel" class="subscriptionPanel">
+<div class="subscriptionGlow"></div>
+<div class="subscriptionTop">
+<div>
+<div class="subscriptionName" id="subscriptionName">No active subscription</div>
+<div class="subscriptionSub" id="subscriptionDescription">This account has no active Zyphor subscription.</div>
+</div>
+<div id="subscriptionBadge" class="subscriptionBadge none">Inactive</div>
+</div>
+<div class="subscriptionFacts">
+<div class="subscriptionFact"><small>Plan</small><b id="subscriptionPlan">None</b></div>
+<div class="subscriptionFact"><small>Lifetime</small><b id="subscriptionLifetime">No</b></div>
+<div class="subscriptionFact"><small>State</small><b id="subscriptionState">Inactive</b></div>
+</div>
+</div>
+</section>
+
+<section class="card">
+<div class="cardHeader">
+<div>
+<h2>Achievement Vault</h2>
+<p>Explore every badge, completion state, tier and progression value.</p>
+</div>
+<div class="headerPill"><span id="badgeCountHeader">0</span>&nbsp; BADGES</div>
+</div>
+<div class="badgesWrap">
+<div class="badgeToolbar">
+<div class="badgeSearch">
+<span class="badgeSearchIcon">⌕</span>
+<input id="badgeSearch" placeholder="Filter achievements..." autocomplete="off">
+</div>
+<select id="badgeFilter" class="badgeFilter">
+<option value="all">All</option>
+<option value="complete">Completed</option>
+<option value="progress">In Progress</option>
+</select>
+</div>
+<div id="badgesList" class="badgesList"></div>
+</div>
+</section>
+
+<section class="card">
+<div class="cardHeader">
+<div>
+<h2>Profile Intelligence</h2>
+<p>Useful actions generated from the profile record.</p>
+</div>
+<div class="headerPill">TOOLS</div>
+</div>
+<div class="activityList" id="activityList"></div>
+</section>
 
 </div>
 
-<button
-onclick="document.getElementById('payoutPopup').remove()"
-style="
-margin-top:14px;
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#2a3242;
-color:white;
-cursor:pointer;
-">
-Close
+<div class="rightColumn">
+
+<section class="card">
+<div class="cardHeader">
+<div>
+<h2>Social Identity</h2>
+<p>Connected platform information.</p>
+</div>
+<div class="headerPill">LINKS</div>
+</div>
+<div class="socialGrid">
+<div class="socialCard">
+<div class="socialTop">
+<div class="socialIcon">◌</div>
+<div>
+<div class="socialTitle">Discord</div>
+<div class="socialSub">Community connection</div>
+</div>
+</div>
+<div class="socialValue" id="discordCardValue">Not linked</div>
+<div class="socialActions"><button class="miniBtn" onclick="copyDiscord()">Copy</button></div>
+</div>
+<div class="socialCard">
+<div class="socialTop">
+<div class="socialIcon">▣</div>
+<div>
+<div class="socialTitle">Roblox</div>
+<div class="socialSub">Game platform</div>
+</div>
+</div>
+<div class="socialValue" id="robloxCardValue">Not linked</div>
+<div class="socialActions"><button class="miniBtn" id="robloxSocialCopy" onclick="copyRoblox()">Copy ID</button></div>
+</div>
+</div>
+</section>
+
+<section class="card">
+<div class="cardHeader">
+<div>
+<h2>Identity Tools</h2>
+<p>Actions for this public profile.</p>
+</div>
+</div>
+<div class="linkPanel">
+<div class="linkBox">
+<div class="linkGlyph">⌁</div>
+<div class="linkMain">
+<div class="linkTitle">Public Profile URL</div>
+<div class="linkValue" id="publicLink">—</div>
+</div>
+<button class="miniBtn primary" onclick="copyProfileLink()">Copy</button>
+</div>
+<div class="toolsGrid">
+<button class="toolBtn" onclick="copyAccountId()">
+<span class="toolIcon">◈</span>
+<span><span class="toolTitle">Copy Account ID</span><span class="toolSub">Public identifier</span></span>
 </button>
+<button class="toolBtn" onclick="saveProfile()">
+<span class="toolIcon">★</span>
+<span><span class="toolTitle">Save Profile</span><span class="toolSub">Remember locally</span></span>
+</button>
+<button class="toolBtn" onclick="openDM()">
+<span class="toolIcon">✦</span>
+<span><span class="toolTitle">Message User</span><span class="toolSub">Open DMs</span></span>
+</button>
+<button class="toolBtn" onclick="shareProfile()">
+<span class="toolIcon">↗</span>
+<span><span class="toolTitle">Share Profile</span><span class="toolSub">Copy public link</span></span>
+</button>
+</div>
+</div>
+</section>
+
+<section class="card">
+<div class="cardHeader">
+<div>
+<h2>Profile Timeline</h2>
+<p>Key public milestones inferred from the profile record.</p>
+</div>
+<div class="headerPill">TIMELINE</div>
+</div>
+<div class="activityList" id="timelineList"></div>
+</section>
+
+<section class="card">
+<div class="cardHeader">
+<div>
+<h2>Safety & Reports</h2>
+<p>Help keep the Zyphor community safe.</p>
+</div>
+<div class="headerPill">MODERATION</div>
+</div>
+<div class="cardBody">
+<div style="padding:12px;border:1px solid rgba(255,255,255,.05);border-radius:13px;background:rgba(255,255,255,.018);color:#707f96;font-size:8px;line-height:1.55">
+Report this account only when you have a legitimate issue to report. You can optionally attach screenshots as evidence.
+</div>
+<button id="reportCardButton" class="actionDanger" style="width:100%;margin-top:8px" onclick="openReport()">⚑ Report User</button>
+</div>
+</section>
 
 </div>
-
 </div>
 
-`)
+</main>
+</div>
 
+<div class="modalOverlay" id="searchModal">
+<div class="modal">
+<div class="modalHeader">
+<div>
+<h2>Find Profile</h2>
+<p>Search by username or use the account ID lookup format.</p>
+</div>
+<button class="closeBtn" onclick="closeModal('searchModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="formField">
+<div class="formLabel"><span>Username or account ID</span><span>Press Enter to search</span></div>
+<input class="formInput" id="searchInput" placeholder="Username or (!123456789!)" autocomplete="off">
+</div>
+<div class="modalActions">
+<button class="actionSecondary" onclick="closeModal('searchModal')">Cancel</button>
+<button class="actionPrimary" onclick="searchProfile()">Search Profile</button>
+</div>
+<div id="searchStatus" style="min-height:16px;margin-top:9px;color:#69778d;font-size:8px"></div>
+<div id="savedProfiles" class="searchResults"></div>
+</div>
+</div>
+</div>
+
+<div class="modalOverlay" id="idModal">
+<div class="modal">
+<div class="modalHeader">
+<div><h2>Account Identity</h2><p>The public account identifier associated with this profile.</p></div>
+<button class="closeBtn" onclick="closeModal('idModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="identityCell">
+<div class="identityLabel">Account ID</div>
+<div class="identityValue identityMono" id="inspectAccountId">—</div>
+</div>
+<div class="modalActions">
+<button class="actionSecondary" onclick="closeModal('idModal')">Done</button>
+<button class="actionPrimary" onclick="copyAccountId()">Copy ID</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modalOverlay" id="aboutModal">
+<div class="modal">
+<div class="modalHeader">
+<div><h2>Profile Nexus</h2><p>Advanced public profile interface for Zyphor.</p></div>
+<button class="closeBtn" onclick="closeModal('aboutModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="identityGrid">
+<div class="identityCell"><div class="identityLabel">Profile Engine</div><div class="identityValue">Zyphor Profile Nexus</div></div>
+<div class="identityCell"><div class="identityLabel">Data Model</div><div class="identityValue">Live public profile record</div></div>
+<div class="identityCell"><div class="identityLabel">Badges</div><div class="identityValue">Tiered progression</div></div>
+<div class="identityCell"><div class="identityLabel">Sharing</div><div class="identityValue">Native share + copy link</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modalOverlay" id="reportModal">
+<div class="modal">
+<div class="modalHeader">
+<div><h2>Report User</h2><p id="reportTargetText">Submit a moderation report for this account.</p></div>
+<button class="closeBtn" onclick="closeReport()">×</button>
+</div>
+<div class="modalBody">
+<div class="formField">
+<div class="formLabel"><span>Category</span><span>Select one</span></div>
+<div class="reportCategories">
+<button class="reportCategory selected" data-category="Inappropriate Username" onclick="selectReportCategory(this)"><span>♙</span> Inappropriate Username</button>
+<button class="reportCategory" data-category="Inappropriate Profile Picture" onclick="selectReportCategory(this)"><span>▣</span> Inappropriate Profile Picture</button>
+<button class="reportCategory" data-category="Harassment" onclick="selectReportCategory(this)"><span>⬡</span> Harassment or Bullying</button>
+<button class="reportCategory" data-category="Spam or Scam" onclick="selectReportCategory(this)"><span>!</span> Spam or Scam</button>
+<button class="reportCategory" data-category="Botted Account" onclick="selectReportCategory(this)"><span>🤖</span> Botted Account</button>
+<button class="reportCategory" data-category="Other" onclick="selectReportCategory(this)"><span>✎</span> Other</button>
+</div>
+</div>
+<div class="formField">
+<div class="formLabel"><span>Details</span><span id="reportCount">0 / 2000</span></div>
+<textarea class="formArea" id="reportReason" maxlength="2000" placeholder="Describe what happened..."></textarea>
+</div>
+<div class="formField">
+<div class="formLabel"><span>Evidence</span><span>Optional</span></div>
+<label class="reportUpload">
+<input id="reportEvidence" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" multiple hidden>
+<div style="font-size:22px">☁</div>
+<strong>Upload screenshots</strong>
+<small>PNG, JPG or WEBP · up to 10 MB total</small>
+</label>
+<div class="reportFiles" id="reportFiles"></div>
+</div>
+<div class="reportStatus" id="reportStatus"></div>
+<div class="modalActions">
+<button class="actionSecondary" onclick="closeReport()">Cancel</button>
+<button class="actionDanger" id="reportSubmit" onclick="submitReport()">⚑ Submit Report</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modalOverlay" id="payoutModal">
+<div class="modal">
+<div class="modalHeader">
+<div><h2>Payout</h2><p>Administrator-only payout controls for the viewed account.</p></div>
+<button class="closeBtn" onclick="closeModal('payoutModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="payoutGrid">
+<div class="formField">
+<div class="formLabel"><span>Amount</span><span>Zyphium</span></div>
+<div class="amountWrap"><input class="formInput" id="payoutAmount" type="number" min="0" step="1" placeholder="0"><div class="amountUnit">ZYPHIUM</div></div>
+</div>
+<div class="formField">
+<div class="formLabel"><span>Type</span><span>Adjustment</span></div>
+<select class="formSelect" id="payoutType"><option value="add">Add</option><option value="remove">Remove</option></select>
+</div>
+</div>
+<div class="formField">
+<div class="formLabel"><span>Reason</span><span>Optional</span></div>
+<input class="formInput" id="payoutReason" maxlength="180" placeholder="Reason for adjustment">
+</div>
+<div id="payoutStatus" style="min-height:16px;color:#718098;font-size:8px"></div>
+<div class="modalActions">
+<button class="actionSecondary" onclick="closeModal('payoutModal')">Cancel</button>
+<button class="actionPrimary" onclick="submitPayout()">Execute Payout</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="toastContainer" id="toastContainer"></div>
+
+<script src="theme.js"></script>
+<script>
+let backend=null
+let me=null
+let profileData=null
+let reportTargetUsername=null
+let reportCategory="Inappropriate Username"
+let reportFiles=[]
+let badgeData={}
+let savedProfiles=loadSavedProfiles()
+
+function loadSavedProfiles(){
+try{
+const value=localStorage.getItem("zyphorSavedProfilesV5")
+return value?JSON.parse(value):[]
+}catch{return[]}
+}
+function saveSavedProfiles(){
+try{localStorage.setItem("zyphorSavedProfilesV5",JSON.stringify(savedProfiles.slice(0,30)))}catch{}
+}
+function token(){
+return localStorage.getItem("Token")||localStorage.getItem("SessionID")||""
+}
+async function getBackend(){
+const r=await fetch("server.txt",{cache:"no-store"})
+if(!r.ok)throw new Error("backend")
+return(await r.text()).trim()
+}
+async function safeJson(res){
+const text=await res.text()
+try{return JSON.parse(text)}catch{return null}
+}
+async function api(path,options={}){
+const liveToken=token()
+if(!liveToken){
+location.href="login.html"
+throw new Error("unauthorized")
+}
+const headers=new Headers(options.headers||{})
+headers.set("Authorization",liveToken)
+if(options.body&&!(options.body instanceof FormData)&&!headers.has("Content-Type"))headers.set("Content-Type","application/json")
+return fetch(backend+path,{...options,headers,cache:"no-store"})
+}
+async function trackPage(page){
+try{
+await api("/track/page",{method:"POST",body:JSON.stringify({page})})
+}catch{}
+}
+function escapeHTML(text){
+return String(text??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))
+}
+function openModal(id){document.getElementById(id).classList.add("show")}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+document.querySelectorAll(".modalOverlay").forEach(el=>el.addEventListener("click",e=>{if(e.target===el)el.classList.remove("show")}))
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape"){
+document.querySelectorAll(".modalOverlay.show").forEach(el=>el.classList.remove("show"))
+document.querySelectorAll(".badgeCard.open").forEach(el=>el.classList.remove("open"))
+}
+if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){
+e.preventDefault()
+openSearch()
+}
+if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==="r"){
+e.preventDefault()
+refreshProfile()
+}
+})
+function showToast(title,text,type="info"){
+const container=document.getElementById("toastContainer")
+const el=document.createElement("div")
+el.className="toast"
+el.innerHTML=`<div class="toastIcon">${type==="success"?"✓":type==="error"?"!":"i"}</div><div><div class="toastTitle">${escapeHTML(title)}</div><div class="toastText">${escapeHTML(text)}</div></div>`
+container.appendChild(el)
+setTimeout(()=>{
+el.style.opacity="0"
+el.style.transform="translateY(6px)"
+el.style.transition=".2s ease"
+setTimeout(()=>el.remove(),220)
+},3300)
+}
+function formatDate(value){
+if(!value)return"Unknown"
+const d=new Date(value)
+return Number.isNaN(d.getTime())?String(value):d.toLocaleString()
+}
+function formatShortDate(value){
+if(!value)return"Unknown"
+const d=new Date(value)
+return Number.isNaN(d.getTime())?"Unknown":d.toLocaleDateString([],{"day":"numeric","month":"short","year":"numeric"})
+}
+function accountAge(value){
+if(!value)return"—"
+const d=new Date(value)
+if(Number.isNaN(d.getTime()))return"—"
+let months=(Date.now()-d.getTime())/(1000*60*60*24*30.4375)
+if(months<1)return"<1 mo"
+if(months<12)return Math.floor(months)+" mo"
+return(Math.floor(months/12))+"y "+(Math.floor(months%12))+"m"
+}
+function getUsername(){
+return new URLSearchParams(location.search).get("username")
+}
+function profileUrl(username){
+return location.origin+location.pathname+"?username="+encodeURIComponent(username)
+}
+function goProfile(){
+const username=me?.username||localStorage.getItem("username")
+if(username)location.href="profile.html?username="+encodeURIComponent(username)
+}
+function logout(){
+localStorage.removeItem("Token")
+localStorage.removeItem("SessionID")
+location.href="login.html"
+}
+function showLoading(){
+document.getElementById("badgesList").innerHTML='<div class="loadingState"><span class="spinner"></span>Loading profile intelligence</div>'
+document.getElementById("activityList").innerHTML='<div class="loadingState"><span class="spinner"></span>Analyzing profile</div>'
+}
+async function getMe(){
+try{
+const r=await api("/me")
+const data=await safeJson(r)
+if(data?.error)return null
+return data
+}catch{return null}
 }
 
-function escapeBadgeHtml(value){
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;")
+function subscriptionInfo(data){
+const sub=data?.subscription||null
+if(!sub||sub.active!==true)return{plan:"none",name:"No active subscription",lifetime:false,active:false}
+const plan=String(sub.plan||"").toLowerCase()
+return{
+plan:plan||"none",
+name:sub.name||"Zyphor Subscription",
+lifetime:sub.lifetime===true,
+active:true
 }
-
+}
+function applySubscription(sub){
+const ring=document.getElementById("avatarRing")
+ring.classList.remove("ascended","infinity","endless")
+const info=subscriptionInfo({subscription:sub})
+const chip=document.getElementById("heroSubscriptionChip")
+chip.className="metaChip subscriptionChip "+(info.plan==="ascended"?"ascended":info.plan==="infinity"?"infinity":info.plan==="endless"?"endless":"")
+document.getElementById("heroSubscription").textContent=info.active?info.name+(info.lifetime?" • Lifetime":""):"None"
+document.getElementById("subscriptionName").textContent=info.name
+document.getElementById("subscriptionDescription").textContent=info.active?(info.lifetime?"Lifetime subscription active.":"Active Zyphor subscription."): "This account has no active Zyphor subscription."
+document.getElementById("subscriptionPlan").textContent=info.active?(info.plan||"custom").toUpperCase():"None"
+document.getElementById("subscriptionLifetime").textContent=info.lifetime?"Yes":"No"
+document.getElementById("subscriptionState").textContent=info.active?"Active":"Inactive"
+document.getElementById("subscriptionHeaderPill").textContent=info.active?"ACTIVE":"ACCOUNT"
+const badge=document.getElementById("subscriptionBadge")
+badge.className="subscriptionBadge "+(info.active?(info.plan==="ascended"?"ascended":info.plan==="infinity"?"infinity":info.plan==="endless"?"endless":"none"):"none")
+badge.textContent=info.active?(info.lifetime?"LIFETIME":"ACTIVE"):"INACTIVE"
+if(info.plan==="ascended")ring.classList.add("ascended")
+if(info.plan==="infinity")ring.classList.add("infinity")
+if(info.plan==="endless")ring.classList.add("endless")
+}
+function createRoleIcons(p={}){
+const icons=[]
+if(p.support||p.admin)icons.push('<span class="roleChip staff">⚒ Staff</span>')
+if(p.support)icons.push('<span class="roleChip support">🧰 Support</span>')
+if(p.admin)icons.push('<span class="roleChip admin">💎 Admin</span>')
+if(p.moderator)icons.push('<span class="roleChip mod">🛡 Mod</span>')
+if(p.vip)icons.push('<span class="roleChip vip">👑 VIP</span>')
+return icons.join("")
+}
 function badgeTierForPercent(percent){
-    if(percent >= 100){
-        return {
-            name:"Platinum",
-            short:"P",
-            color:"#f2f5ff",
-            glow:"rgba(226,236,255,.58)"
-        }
-    }
-
-    if(percent >= 75){
-        return {
-            name:"Diamond",
-            short:"D",
-            color:"#55d9ff",
-            glow:"rgba(85,217,255,.58)"
-        }
-    }
-
-    if(percent >= 50){
-        return {
-            name:"Gold",
-            short:"G",
-            color:"#ffd34f",
-            glow:"rgba(255,211,79,.55)"
-        }
-    }
-
-    if(percent >= 25){
-        return {
-            name:"Silver",
-            short:"S",
-            color:"#c8d1dc",
-            glow:"rgba(200,209,220,.45)"
-        }
-    }
-
-    return {
-        name:"Bronze",
-        short:"B",
-        color:"#c47b4d",
-        glow:"rgba(196,123,77,.48)"
-    }
+if(percent>=100)return{name:"Platinum",color:"#e5e7eb",glow:"rgba(229,231,235,.35)"}
+if(percent>=75)return{name:"Diamond",color:"#57d7ff",glow:"rgba(87,215,255,.34)"}
+if(percent>=50)return{name:"Gold",color:"#ffd45f",glow:"rgba(255,212,95,.34)"}
+if(percent>=25)return{name:"Silver",color:"#aeb9c9",glow:"rgba(174,185,201,.26)"}
+return{name:"Bronze",color:"#9a6b45",glow:"rgba(154,107,69,.28)"}
 }
-
-function badgeLogoForName(name,index,tier){
-    const normalized=String(name||"").toLowerCase()
-
-    if(normalized.includes("message") || normalized.includes("messenger")){
-        const messengerIcons={
-            Bronze:"/Images/Badges/Icons/MessengerBronze.png",
-            Silver:"/Images/Badges/Icons/MessengerSilver.png",
-            Gold:"/Images/Badges/Icons/MessengerGold.png",
-            Diamond:"/Images/Badges/Icons/MessengerDiamond.png",
-            Platinum:"/Images/Badges/Icons/MessengerPlatinum.png"
-        }
-
-        return messengerIcons[tier.name] || messengerIcons.Bronze
-    }
-
-    if(normalized.includes("superstar") || normalized.includes("friend")){
-        const superstarIcons={
-            Bronze:"/Images/Badges/Icons/SuperstarBronze.png",
-            Silver:"/Images/Badges/Icons/SuperstarSilver.png",
-            Gold:"/Images/Badges/Icons/SuperstarGold.png",
-            Diamond:"/Images/Badges/Icons/SuperstarDiamond.png",
-            Platinum:"/Images/Badges/Icons/SuperstarPlatinum.png"
-        }
-
-        return superstarIcons[tier.name] || superstarIcons.Bronze
-    }
-
-    const logos=[
-        "💬","⭐","🔥","⚡","🏆","🎯","💎","👑","🛡️","🚀",
-        "🎮","🧩","🌌","🗺️","🎁","💰","🧠","🌟","🗡️","🛡",
-        "🏹","🔮","☄️","🌈","🎖️","🏅","🐉","⚔️"
-    ]
-
-    if(normalized.includes("quest")) return "🎯"
-    if(normalized.includes("roblox")) return "🎮"
-    if(normalized.includes("wallet") || normalized.includes("earn")) return "💰"
-    if(normalized.includes("owner") || normalized.includes("king")) return "👑"
-    if(normalized.includes("admin")) return "💎"
-    if(normalized.includes("staff") || normalized.includes("mod")) return "🛡️"
-    if(normalized.includes("fire")) return "🔥"
-    if(normalized.includes("speed") || normalized.includes("fast")) return "⚡"
-
-    return logos[index % logos.length]
-}
-
 function badgeProgressValue(badge){
-    const required=Number(badge && badge.required)
-    const current=Number(badge && badge.current)
-
-    if(Number.isFinite(required) && required > 0 && Number.isFinite(current)){
-        return Math.max(0,Math.min(100,(current/required)*100))
-    }
-
-    return badge && badge.earned===true ? 100 : 0
+const required=Number(badge?.required)
+const current=Number(badge?.current)
+if(Number.isFinite(required)&&required>0&&Number.isFinite(current))return Math.max(0,Math.min(100,current/required*100))
+return badge?.earned===true?100:0
 }
-
+function badgeLogo(name,index,tier){
+const normalized=String(name||"").toLowerCase()
+if(normalized.includes("messenger")){
+const icons={Bronze:"/Images/Badges/Icons/MessengerBronze.png",Silver:"/Images/Badges/Icons/MessengerSilver.png",Gold:"/Images/Badges/Icons/MessengerGold.png",Diamond:"/Images/Badges/Icons/MessengerDiamond.png",Platinum:"/Images/Badges/Icons/MessengerPlatinum.png"}
+return icons[tier.name]||icons.Bronze
+}
+if(normalized.includes("superstar")||normalized.includes("friend")){
+const icons={Bronze:"/Images/Badges/Icons/SuperstarBronze.png",Silver:"/Images/Badges/Icons/SuperstarSilver.png",Gold:"/Images/Badges/Icons/SuperstarGold.png",Diamond:"/Images/Badges/Icons/SuperstarDiamond.png",Platinum:"/Images/Badges/Icons/SuperstarPlatinum.png"}
+return icons[tier.name]||icons.Bronze
+}
+if(normalized.includes("quest"))return"🎯"
+if(normalized.includes("roblox"))return"🎮"
+if(normalized.includes("wallet")||normalized.includes("earn"))return"💰"
+if(normalized.includes("owner")||normalized.includes("king"))return"👑"
+if(normalized.includes("admin"))return"💎"
+if(normalized.includes("staff")||normalized.includes("mod"))return"🛡️"
+if(normalized.includes("fire"))return"🔥"
+if(normalized.includes("speed")||normalized.includes("fast"))return"⚡"
+const emojis=["💬","⭐","🔥","⚡","🏆","🎯","💎","👑","🛡️","🚀","🎮","🧩","🌌","🗺️","🎁","💰","🧠","🌟","🗡️","🏹","🔮","☄️","🌈","🎖️","🏅","🐉","⚔️"]
+return emojis[index%emojis.length]
+}
+function badgeItem(name,badge,index){
+const percent=badgeProgressValue(badge)
+const tier=badgeTierForPercent(percent)
+const required=Number(badge?.required)
+const current=Number(badge?.current)
+const numeric=Number.isFinite(required)&&required>0&&Number.isFinite(current)
+const complete=percent>=100||badge?.earned===true
+const progressText=numeric?`${Math.max(0,current)}/${required}`:complete?"Completed":"Not completed"
+const filter=document.getElementById("badgeFilter").value
+const q=document.getElementById("badgeSearch").value.trim().toLowerCase()
+if(q&&!String(name).toLowerCase().includes(q))return""
+if(filter==="complete"&&!complete)return""
+if(filter==="progress"&&complete)return""
+const logo=badgeLogo(name,index,tier)
+const logoHtml=String(logo).startsWith("/")?`<img src="${logo}" alt="${escapeHTML(name)}">`:`<span class="badgeEmoji">${logo}</span>`
+return`
+<div class="badgeCard ${complete?"complete":""}" tabindex="0" onclick="toggleBadge(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBadge(this)}">
+<div class="badgeMedal" style="--progress:${percent.toFixed(2)};--tier:${tier.color};--tierGlow:${tier.glow}">
+<div class="badgeLogo">${logoHtml}</div>
+</div>
+<span class="badgeName">${escapeHTML(name)}</span>
+<span class="badgeTiny">${escapeHTML(tier.name)} · ${complete?"Complete":Math.round(percent)+"%"}</span>
+<div class="badgeDetails">
+<div class="badgeDetailsTitle">${escapeHTML(name)}</div>
+<span class="badgeDetailsDescription">${escapeHTML(badge?.description||"Achievement progression")}</span>
+<div class="badgeDetailsRow"><span>Progress</span><b>${escapeHTML(progressText)}</b></div>
+<div class="badgeDetailsRow"><span>Completion</span><b>${percent.toFixed(percent%1===0?0:1)}%</b></div>
+<div class="badgeDetailsRow"><span>Tier</span><b>${escapeHTML(tier.name)}</b></div>
+<div class="badgeProgress" style="--progress:${percent.toFixed(2)};--tier:${tier.color};--tierGlow:${tier.glow}"><div class="badgeProgressFill"></div></div>
+</div>
+</div>`
+}
 function renderBadges(badges){
-    const container=document.getElementById("badgesList")
-
-    if(!badges || !Object.keys(badges).length){
-        container.innerHTML=`
-            <div class="badgesEmpty">
-                No badges available.
-            </div>
-        `
-        return
-    }
-
-    const sortedBadges=Object.entries(badges).sort((a,b)=>{
-        return badgeProgressValue(b[1])-badgeProgressValue(a[1])
-    })
-
-    container.innerHTML=sortedBadges.map(([name,badge],index)=>{
-        const percent=badgeProgressValue(badge)
-        const tier=badgeTierForPercent(percent)
-        const required=Number(badge && badge.required)
-        const current=Number(badge && badge.current)
-        const hasNumbers=Number.isFinite(required) && required > 0 && Number.isFinite(current)
-        const completed=percent>=100 || badge.earned===true
-        const progressText=hasNumbers
-            ? `${Math.max(0,current)}/${required}`
-            : completed
-                ? "Completed"
-                : "Not completed"
-
-        const percentText=percent>=100
-            ? "100%"
-            : `${percent.toFixed(percent % 1 === 0 ? 0 : 1)}%`
-
-        const logo=badgeLogoForName(name,index,tier)
-
-        const logoHtml=String(logo).startsWith("/")
-            ? `<img src="${logo}" alt="${escapeBadgeHtml(name)}">`
-            : logo
-
-        return `
-            <button
-                class="medalBadge ${completed?"complete":""}"
-                type="button"
-                aria-label="${escapeBadgeHtml(name)}"
-                style="--progress:${percent.toFixed(2)};--tier:${tier.color};--tierGlow:${tier.glow}"
-                onclick="toggleBadgeDetails(this)"
-            >
-                <span class="medalInner">
-                    <span class="medalLogo">${logoHtml}</span>
-                </span>
-
-                <span class="medalDetails">
-                    <span class="medalDetailsTitle">${escapeBadgeHtml(name)}</span>
-                    <span class="medalDetailsDescription">${escapeBadgeHtml(badge.description || "Badge progress")}</span>
-
-                    <span class="medalDetailsRow">
-                        <span class="medalDetailsLabel">Progress</span>
-                        <span class="medalDetailsValue">${progressText}</span>
-                    </span>
-
-                    <span class="medalDetailsRow">
-                        <span class="medalDetailsLabel">Completion</span>
-                        <span class="medalDetailsValue">${percentText}</span>
-                    </span>
-
-                    <span class="medalDetailsRow">
-                        <span class="medalDetailsLabel">Medal</span>
-                        <span class="medalDetailsValue">${tier.name}</span>
-                    </span>
-
-                    <span class="medalBar">
-                        <span class="medalBarFill"></span>
-                    </span>
-
-                    <span class="medalHint">Hover or click the badge to view details</span>
-                </span>
-            </button>
-        `
-    }).join("")
+badgeData=badges&&typeof badges==="object"?badges:{}
+const entries=Object.entries(badgeData)
+const completed=entries.filter(([,b])=>badgeProgressValue(b)>=100||b?.earned===true).length
+document.getElementById("badgeStat").textContent=completed.toLocaleString()
+document.getElementById("badgeStatHint").textContent=completed===entries.length&&entries.length?"All badges completed":completed+" of "+entries.length+" completed"
+document.getElementById("badgeCountHeader").textContent=entries.length.toLocaleString()
+document.getElementById("badgeStat").textContent=completed.toLocaleString()
+const html=entries
+.sort((a,b)=>badgeProgressValue(b[1])-badgeProgressValue(a[1]))
+.map(([name,badge],index)=>badgeItem(name,badge,index))
+.join("")
+document.getElementById("badgesList").innerHTML=html||'<div class="badgeEmpty">No badges match this filter.</div>'
 }
-
-function toggleBadgeDetails(button){
-    const wasOpen=button.classList.contains("open")
-
-    document.querySelectorAll(".medalBadge.open").forEach(item=>{
-        item.classList.remove("open")
-    })
-
-    if(!wasOpen){
-        button.classList.add("open")
-    }
+function toggleBadge(card){
+const open=card.classList.contains("open")
+document.querySelectorAll(".badgeCard.open").forEach(el=>el.classList.remove("open"))
+if(!open)card.classList.add("open")
 }
-
-document.addEventListener("click",event=>{
-    if(!event.target.closest(".medalBadge")){
-        document.querySelectorAll(".medalBadge.open").forEach(item=>{
-            item.classList.remove("open")
-        })
-    }
+document.addEventListener("click",e=>{
+if(!e.target.closest(".badgeCard"))document.querySelectorAll(".badgeCard.open").forEach(el=>el.classList.remove("open"))
 })
 
-function loadProfilePfp(username){
-
+function renderIntelligence(){
+if(!profileData)return
+const activities=[]
+const sub=subscriptionInfo(profileData)
+if(sub.active)activities.push({icon:"◈",title:"Subscription active",text:`${sub.name}${sub.lifetime?" is active as a lifetime subscription.":" is active on this account."}`,time:"Current account state"})
+if(profileData.roblox)activities.push({icon:"▣",title:"Roblox identity linked",text:`Connected as ${profileData.roblox.username||"a Roblox account"}.`,time:"Public linkage"})
+if(profileData.linked)activities.push({icon:"◌",title:"Discord identity linked",text:`Connected Discord identity: ${profileData.linked.username||profileData.linked.id||"Linked account"}.`,time:"Public linkage"})
+if(Number(profileData.questsCompleted||0)>0)activities.push({icon:"🎯",title:"Quest progression",text:`${Number(profileData.questsCompleted||0).toLocaleString()} quests completed.`,time:"Achievement record"})
+const badgeCount=Object.keys(profileData.badges||{}).length
+if(badgeCount)activities.push({icon:"🏅",title:"Achievement vault",text:`${badgeCount.toLocaleString()} badge records are available on this profile.`,time:"Achievement record"})
+if(!activities.length)activities.push({icon:"◉",title:"Profile loaded",text:"This profile is available as a public Zyphor identity record.",time:"Current state"})
+document.getElementById("activityList").innerHTML=activities.map(x=>`<div class="activityItem"><div class="activityIcon">${x.icon}</div><div class="activityMain"><div class="activityTitle">${escapeHTML(x.title)}</div><div class="activityText">${escapeHTML(x.text)}</div><div class="activityTime">${escapeHTML(x.time)}</div></div></div>`).join("")
+const timeline=[]
+if(profileData.created)timeline.push({icon:"◉",title:"Account created",text:"This Zyphor identity was created.",time:formatDate(profileData.created)})
+if(profileData.linked)timeline.push({icon:"◌",title:"Discord connected",text:"A Discord identity is publicly linked to this profile.",time:"Linked identity"})
+if(profileData.roblox)timeline.push({icon:"▣",title:"Roblox connected",text:"A Roblox identity is publicly linked to this profile.",time:"Linked identity"})
+if(profileData.questsCompleted)timeline.push({icon:"🎯",title:"Quest milestones",text:`${Number(profileData.questsCompleted).toLocaleString()} completed quests recorded.`,time:"Achievement history"})
+timeline.push({icon:"✦",title:"Profile viewed",text:"This profile is being viewed from the Zyphor Profile Nexus.",time:"Now"})
+document.getElementById("timelineList").innerHTML=timeline.map(x=>`<div class="activityItem"><div class="activityIcon">${x.icon}</div><div class="activityMain"><div class="activityTitle">${escapeHTML(x.title)}</div><div class="activityText">${escapeHTML(x.text)}</div><div class="activityTime">${escapeHTML(x.time)}</div></div></div>`).join("")
+}
+function fillSocial(data){
+let discord="Not linked"
+if(data.linked)discord=data.linked.username||data.linked.id||"Linked"
+let roblox="Not linked"
+if(data.roblox)roblox=`${data.roblox.username||"Linked"}${data.roblox.id?` · ${data.roblox.id}`:""}`
+document.getElementById("discordInfo").textContent=discord
+document.getElementById("discordCardValue").textContent=discord
+document.getElementById("robloxInfo").textContent=roblox
+document.getElementById("robloxCardValue").textContent=roblox
+document.getElementById("discordStat").textContent=data.linked?"LINKED":"NONE"
+document.getElementById("robloxStat").textContent=data.roblox?"LINKED":"NONE"
+}
+function fillProfile(data){
+profileData=data
+const username=data.username||"Unknown"
+const created=data.created
+document.title=username+" • Zyphor Profile"
+document.getElementById("profileUsername").textContent=username
+document.getElementById("profileIcons").innerHTML=createRoleIcons(data.permissions||{})
+document.getElementById("sidebarUser").textContent=me?.username||"Signed in"
+document.getElementById("accountId").textContent=data.id||"Unavailable"
+document.getElementById("heroId").textContent=data.id||"—"
+document.getElementById("inspectAccountId").textContent=data.id||"Unavailable"
+document.getElementById("accountCreated").textContent=formatDate(created)
+document.getElementById("heroCreated").textContent=formatShortDate(created)
+document.getElementById("profileLinkValue").textContent=profileUrl(username)
+document.getElementById("publicLink").textContent=profileUrl(username)
+document.getElementById("questCount").textContent=Number(data.questsCompleted||0).toLocaleString()
+document.getElementById("questStat").textContent=Number(data.questsCompleted||0).toLocaleString()
+document.getElementById("accountAgeStat").textContent=accountAge(created)
+document.getElementById("profileDescription").textContent="Everything about this Zyphor profile."
+document.getElementById("reportFlag").style.display=me&&me.username!==data.username?"inline-flex":"none"
+document.getElementById("reportCardButton").style.display=me&&me.username!==data.username?"block":"none"
+fillSocial(data)
+applySubscription(data.subscription)
+renderBadges(data.badges)
+renderIntelligence()
+loadPfp(username)
+}
+function loadPfp(username){
 const image=document.getElementById("profilePfp")
-
-const url=
-backend+
-"/account/pfp/"+
-encodeURIComponent(username)+
-"?v="+Date.now()
-
+const fallback=document.getElementById("avatarFallback")
+const url=backend+"/account/pfp/"+encodeURIComponent(username)+"?v="+Date.now()
 image.onload=()=>{
-
 image.style.display="block"
-
+fallback.style.display="none"
 }
-
 image.onerror=()=>{
-
 image.style.display="none"
-
+fallback.style.display="block"
+fallback.textContent=(username||"Z").slice(0,1).toUpperCase()
 }
-
 image.src=url
-
 }
-
-async function doPayout(username,type){
-
-const amount=parseInt(document.getElementById("amt").value)
-
-const reason=document.getElementById("reason").value
-
-const token=localStorage.getItem("Token")
-
-await fetch(backend+"/admin/payout",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
-
-body:JSON.stringify({
-username,
-amount,
-reason,
-type
-})
-
-})
-
-location.reload()
-
+function showOwnerReveal(username){
+if(!username||username.toLowerCase()!=="somin")return
+const reveal=document.getElementById("ownerReveal")
+reveal.classList.remove("active")
+void reveal.offsetWidth
+reveal.classList.add("active")
+setTimeout(()=>reveal.classList.remove("active"),7000)
+}
+function startSominTheme(username){
+if(!username||username.toLowerCase()!=="somin")return
+let audio=document.getElementById("sominTheme")
+if(!audio){
+audio=document.createElement("audio")
+audio.id="sominTheme"
+audio.loop=true
+audio.volume=.5
+document.body.appendChild(audio)
+}
+const sounds=[
+"Sound/Somin/music_156768810827778_Tx1YhYxwmhTUXsRHhb3NF1_vrpiak.mp3",
+"Sound/Somin/music_156768810827778_Tx1YhYxwmhTUXsRHhb3NF1_mfjesn.mp3"
+]
+audio.src=sounds[Math.floor(Math.random()*sounds.length)]
+audio.load()
+const play=()=>audio.play().catch(()=>{})
+document.addEventListener("click",play,{once:true})
+document.addEventListener("keydown",play,{once:true})
 }
 
 async function loadProfile(){
-
-    backend=await getBackend()
-
-    await trackPage(
-        location.pathname.split("/").pop()+location.search
-    )
-
-    me=await getMe()
-
-    const username=getUsername()
-
-    if(!username){
-
-        document.getElementById("profileUsername").textContent="Search for a user"
-        return
-
-    }
-
-    document.getElementById("searchUser").value=username
-
-    const r=await fetch(
-        backend+"/profile?username="+encodeURIComponent(username)
-    )
-
-    const data=await safeJson(r)
-
-    if(!data || data.error){
-
-        const profileUsername=document.getElementById("profileUsername")
-        const reportFlag=document.getElementById("reportFlag")
-        const actions=document.getElementById("profileActions")
-
-        if(data && data.error==="banned"){
-            profileUsername.textContent="BANNED"
-            profileUsername.style.color="#ff1f1f"
-            profileUsername.style.fontSize="clamp(42px,8vw,100px)"
-            profileUsername.style.fontWeight="1000"
-            profileUsername.style.textAlign="center"
-            profileUsername.style.textShadow="0 0 20px rgba(255,0,0,.8)"
-            if(reportFlag) reportFlag.style.display="none"
-            if(actions) actions.innerHTML=""
-        }else{
-            profileUsername.textContent="User not found"
-            profileUsername.style.color=""
-            profileUsername.style.fontSize=""
-            profileUsername.style.fontWeight=""
-            profileUsername.style.textAlign=""
-            profileUsername.style.textShadow=""
-        }
-
-        return
-    }
-
-    const icons=createRoleIcons(data.permissions)
-
-    let roblox="Not linked"
-
-    if(data.roblox){
-
-        roblox=`${data.roblox.username} (ID: ${data.roblox.id})`
-
-    }
-
-    let discord="Not linked"
-
-    if(data.linked){
-
-        discord=data.linked.username || data.linked.id
-
-    }
-
-    reportTargetUsername=data.username
-    const reportFlag=document.getElementById("reportFlag")
-    reportFlag.style.display=me && me.username!==data.username ? "inline-flex" : "none"
-
-    document.getElementById("profileUsername").textContent=data.username
-    loadProfilePfp(data.username)
-    showOwnerReveal(data.username)
-
-    if(data.username.toLowerCase()==="somin"){
-    let sominTheme=document.getElementById("sominTheme")
-
-    if(!sominTheme){
-        sominTheme=document.createElement("audio")
-        sominTheme.id="sominTheme"
-        sominTheme.loop=true
-        sominTheme.volume=0.5
-        document.body.appendChild(sominTheme)
-    }
-
-const sominSounds=[
-    "Sound/Somin/music_156768810827778_Tx1YhYxwmhTUXsRHhb3NF1_vrpiak.mp3",
-    "Sound/Somin/music_156768810827778_Tx1YhYxwmhTUXsRHhb3NF1_mfjesn.mp3"
-]
-
-    sominTheme.src=sominSounds[Math.floor(Math.random()*sominSounds.length)]
-    sominTheme.load()
-
-    const startSominTheme=()=>{
-        sominTheme.play().catch(()=>{})
-    }
-
-    document.addEventListener("click",startSominTheme,{once:true})
-    document.addEventListener("keydown",startSominTheme,{once:true})
-    document.addEventListener("touchstart",startSominTheme,{once:true})
+showLoading()
+backend=backend||await getBackend()
+me=await getMe()
+if(!token()){
+location.href="login.html"
+return
 }
-    
-
-    document.getElementById("profileIcons").innerHTML=icons
-
-    document.getElementById("accountId").textContent=data.id
-
-    document.getElementById("accountCreated").textContent=
-        new Date(data.created).toLocaleString()
-
-    document.getElementById("discordInfo").innerHTML=discord
-
-    document.getElementById("robloxInfo").innerHTML=roblox
-
-    document.getElementById("questCount").textContent=
-        data.questsCompleted
-
-    renderBadges(data.badges)
-
-    const actions=document.getElementById("profileActions")
-
-    actions.innerHTML=""
-
-    if(me && me.permissions && me.permissions.admin){
-
-        actions.innerHTML=`
-<button onclick="payoutPopup('${data.username}')">
-Payout
-</button>
-`
-
-    }
-
+await trackPage(location.pathname.split("/").pop()+location.search)
+const username=getUsername()
+if(!username){
+document.getElementById("profileUsername").textContent="Search for a user"
+document.getElementById("profileDescription").textContent="Use Find Profile to locate a Zyphor account."
+document.getElementById("badgesList").innerHTML='<div class="badgeEmpty">No profile selected.</div>'
+document.getElementById("activityList").innerHTML='<div class="emptyList">No profile selected.</div>'
+return
 }
-document.addEventListener("click",event=>{
-    if(!event.target.closest(".medalBadge")){
-        document.querySelectorAll(".medalBadge.open").forEach(item=>{
-            item.classList.remove("open")
-        })
-    }
+document.getElementById("heroVisibility").textContent="PUBLIC PROFILE"
+const r=await fetch(backend+"/profile?username="+encodeURIComponent(username),{cache:"no-store"})
+const data=await safeJson(r)
+if(!data||data.error){
+if(data?.error==="banned"){
+document.getElementById("profileUsername").textContent="BANNED"
+document.getElementById("profileUsername").style.color="#ff303d"
+document.getElementById("profileDescription").textContent="This account is currently unavailable."
+document.getElementById("profileIcons").innerHTML=""
+document.getElementById("reportFlag").style.display="none"
+document.getElementById("reportCardButton").style.display="none"
+document.getElementById("badgesList").innerHTML='<div class="badgeEmpty">Profile data unavailable.</div>'
+document.getElementById("activityList").innerHTML='<div class="badgeEmpty">No profile intelligence available.</div>'
+}else{
+document.getElementById("profileUsername").textContent="User not found"
+document.getElementById("profileDescription").textContent="No public profile could be loaded for this username."
+}
+return
+}
+fillProfile(data)
+showOwnerReveal(data.username)
+startSominTheme(data.username)
+if(me?.permissions?.admin){
+const adminAction=document.createElement("button")
+adminAction.className="actionSecondary"
+adminAction.textContent="Administrator Payout"
+adminAction.onclick=()=>openPayout(data.username)
+document.querySelector(".heroActions").appendChild(adminAction)
+}
+}
+
+async function refreshProfile(){
+const username=getUsername()
+if(!username){
+showToast("No profile selected","Choose a username first.","info")
+return
+}
+showToast("Refreshing","Loading the latest profile record.","info")
+try{
+await loadProfile()
+showToast("Profile refreshed","The Profile Nexus has been synchronized.","success")
+}catch{
+showToast("Refresh failed","The profile could not be loaded.","error")
+}
+}
+function copyText(value,title="Copied"){
+if(!value)return
+navigator.clipboard?.writeText(String(value)).then(()=>showToast(title,"The value was copied to your clipboard.","success")).catch(()=>showToast("Copy failed","Your browser blocked clipboard access.","error"))
+}
+function copyAccountId(){
+copyText(profileData?.id,"Account ID copied")
+}
+function copyProfileLink(){
+copyText(profileData?profileUrl(profileData.username):location.href,"Profile link copied")
+}
+function copyDiscord(){
+const v=profileData?.linked?(profileData.linked.id||profileData.linked.username):""
+if(v)copyText(v,"Discord ID copied")
+else showToast("Not linked","This profile has no public Discord identity.","info")
+}
+function copyRoblox(){
+const v=profileData?.roblox?.id
+if(v)copyText(v,"Roblox ID copied")
+else showToast("Not linked","This profile has no public Roblox identity.","info")
+}
+function showAccountId(){
+document.getElementById("inspectAccountId").textContent=profileData?.id||"Unavailable"
+openModal("idModal")
+}
+function shareProfile(){
+const url=profileData?profileUrl(profileData.username):location.href
+if(navigator.share){
+navigator.share({title:(profileData?.username||"Zyphor")+" • Zyphor Profile",text:"View this Zyphor profile.",url}).catch(()=>{})
+}else{
+copyText(url,"Profile link copied")
+}
+}
+function saveProfile(){
+if(!profileData?.username)return
+const record={
+username:profileData.username,
+id:profileData.id,
+savedAt:new Date().toISOString()
+}
+savedProfiles=savedProfiles.filter(x=>x.username!==record.username)
+savedProfiles.unshift(record)
+saveSavedProfiles()
+showToast("Profile saved","You can find this profile again from Find Profile.","success")
+}
+function openDM(){
+if(!profileData?.username)return
+if(me?.username===profileData.username){
+location.href="dms.html"
+return
+}
+location.href="dms.html#"+encodeURIComponent(profileData.username)
+}
+function openSearch(){
+renderSavedProfiles()
+document.getElementById("searchStatus").textContent=""
+document.getElementById("searchInput").value=""
+openModal("searchModal")
+setTimeout(()=>document.getElementById("searchInput").focus(),60)
+}
+function renderSavedProfiles(){
+const box=document.getElementById("savedProfiles")
+if(!savedProfiles.length){
+box.innerHTML='<div style="color:#637189;font-size:8px;padding:12px">No locally saved profiles yet.</div>'
+return
+}
+box.innerHTML=savedProfiles.map(item=>`
+<div class="searchResult" onclick='location.href="profile.html?username="+encodeURIComponent(${JSON.stringify(item.username)})'>
+<div class="resultAvatar">${escapeHTML((item.username||"?").slice(0,1).toUpperCase())}</div>
+<div style="min-width:0;flex:1"><div class="resultName">${escapeHTML(item.username)}</div><div class="resultMeta">${escapeHTML(item.id||"No account ID")}</div></div>
+<div class="resultArrow">→</div>
+</div>`).join("")
+}
+async function searchProfile(){
+const input=document.getElementById("searchInput").value.trim()
+const status=document.getElementById("searchStatus")
+if(!input){
+status.textContent="Enter a username or account ID."
+return
+}
+if(input.startsWith("(!")&&input.endsWith("!)")){
+const id=input.slice(2,-2).trim()
+if(!/^\d+$/.test(id)){
+status.textContent="Invalid account ID."
+return
+}
+status.textContent="Searching account registry..."
+try{
+const r=await fetch(backend+"/account/by-id/"+encodeURIComponent(id),{cache:"no-store"})
+const data=await safeJson(r)
+if(!data||data.error){
+status.textContent="No public account was found for that ID."
+return
+}
+location.href="profile.html?username="+encodeURIComponent(data.username)
+}catch{
+status.textContent="Account lookup failed."
+}
+return
+}
+status.textContent="Opening profile..."
+location.href="profile.html?username="+encodeURIComponent(input)
+}
+
+document.getElementById("searchInput").addEventListener("keydown",e=>{
+if(e.key==="Enter"){
+e.preventDefault()
+searchProfile()
+}
+})
+document.getElementById("badgeSearch").addEventListener("input",()=>renderBadges(badgeData))
+document.getElementById("badgeFilter").addEventListener("change",()=>renderBadges(badgeData))
+document.getElementById("reportReason").addEventListener("input",e=>{
+document.getElementById("reportCount").textContent=e.target.value.length+" / 2000"
 })
 
-loadProfile()
+async function loadReportFiles(files){
+const allowed=["image/png","image/jpeg","image/jpg","image/webp"]
+const status=document.getElementById("reportStatus")
+for(const file of files){
+if(!allowed.includes(file.type)){
+status.textContent="Only PNG, JPG, and WEBP screenshots are supported."
+continue
+}
+if(!reportFiles.some(existing=>existing.name===file.name&&existing.size===file.size))reportFiles.push(file)
+}
+if(reportFiles.reduce((sum,file)=>sum+file.size,0)>10*1024*1024){
+reportFiles=[]
+status.textContent="The evidence selection exceeds the 10 MB total limit."
+}
+renderReportFiles()
+}
+function renderReportFiles(){
+const box=document.getElementById("reportFiles")
+box.innerHTML=reportFiles.map((file,index)=>`
+<div class="reportFile">
+<div class="reportFileInfo"><div class="reportFileName">${escapeHTML(file.name)}</div><div class="reportFileSize">${Math.ceil(file.size/1024)} KB</div></div>
+<button class="reportRemove" onclick="removeReportFile(${index})">×</button>
+</div>`).join("")
+}
+function removeReportFile(index){
+reportFiles.splice(index,1)
+renderReportFiles()
+}
+document.getElementById("reportEvidence").addEventListener("change",e=>{
+loadReportFiles([...e.target.files])
+e.target.value=""
+})
+function openReport(){
+if(!reportTargetUsername)return
+if(!me){
+showToast("Sign in required","You must be logged in to submit a report.","error")
+return
+}
+document.getElementById("reportTargetText").textContent=`Reporting @${reportTargetUsername}. False reports may result in action against your account.`
+document.getElementById("reportReason").value=""
+document.getElementById("reportCount").textContent="0 / 2000"
+document.getElementById("reportStatus").textContent=""
+reportFiles=[]
+reportCategory="Inappropriate Username"
+document.querySelectorAll(".reportCategory").forEach((button,index)=>button.classList.toggle("selected",index===0))
+renderReportFiles()
+openModal("reportModal")
+}
+function closeReport(){closeModal("reportModal")}
+function selectReportCategory(button){
+reportCategory=button.dataset.category
+document.querySelectorAll(".reportCategory").forEach(item=>item.classList.remove("selected"))
+button.classList.add("selected")
+}
+async function submitReport(){
+if(!reportTargetUsername)return
+const reason=document.getElementById("reportReason").value.trim()
+const status=document.getElementById("reportStatus")
+const button=document.getElementById("reportSubmit")
+if(reportCategory==="Other"&&!reason){
+status.textContent="Please explain what you are reporting."
+return
+}
+const form=new FormData()
+form.append("targetUsername",reportTargetUsername)
+form.append("category",reportCategory)
+form.append("reason",reason)
+reportFiles.forEach(file=>form.append("evidence",file))
+button.disabled=true
+status.textContent="Submitting report..."
+try{
+const r=await fetch(backend+"/reports/submit",{method:"POST",headers:{Authorization:token()},body:form})
+const data=await safeJson(r)
+if(!data||data.error){
+status.textContent=data?.error||"Could not submit the report."
+button.disabled=false
+return
+}
+status.textContent="Report submitted successfully."
+showToast("Report submitted","Your moderation report has been sent.","success")
+setTimeout(closeReport,900)
+}catch{
+status.textContent="Could not connect to the server."
+}finally{
+button.disabled=false
+}
+}
 
+function openPayout(username){
+if(!me?.permissions?.admin)return
+document.getElementById("payoutStatus").textContent=""
+document.getElementById("payoutAmount").value=""
+document.getElementById("payoutReason").value=""
+document.getElementById("payoutModal").dataset.username=username
+openModal("payoutModal")
+}
+async function submitPayout(){
+if(!me?.permissions?.admin)return
+const username=document.getElementById("payoutModal").dataset.username
+const amount=Number(document.getElementById("payoutAmount").value)
+const reason=document.getElementById("payoutReason").value.trim()
+const type=document.getElementById("payoutType").value
+const status=document.getElementById("payoutStatus")
+if(!username||!Number.isFinite(amount)||amount<=0){
+status.textContent="Enter a valid payout amount."
+return
+}
+status.textContent="Processing payout..."
+try{
+const r=await api("/admin/payout",{method:"POST",body:JSON.stringify({username,amount,reason,type})})
+const data=await safeJson(r)
+if(data?.success===false||data?.error){
+status.textContent=data?.error||"Payout failed."
+return
+}
+closeModal("payoutModal")
+showToast("Payout complete",`${amount} Zyphium was applied to ${username}.`,"success")
+}catch{
+status.textContent="Could not reach the server."
+}
+}
+function openAbout(){openModal("aboutModal")}
+
+async function init(){
+try{
+backend=await getBackend()
+if(!token()){
+location.href="login.html"
+return
+}
+await loadProfile()
+}catch{
+showToast("Profile error","The Profile Nexus could not connect to the Zyphor backend.","error")
+}
+}
+init()
 </script>
-
 </body>
-
 </html>
