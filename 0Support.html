@@ -1,1080 +1,1922 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zyphor Support</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#03050a">
+<title>Zyphor Support Nexus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#03050a;
+--bg2:#060a12;
+--panel:rgba(10,15,26,.78);
+--panel2:rgba(15,21,35,.86);
+--panel3:rgba(20,27,44,.9);
+--line:rgba(255,255,255,.075);
+--line2:rgba(255,255,255,.12);
+--text:#f7faff;
+--muted:#8795ac;
+--muted2:#5d6a82;
+--cyan:#00dcff;
+--cyan2:#497dff;
+--purple:#a34fff;
+--purple2:#744bff;
+--green:#5ee9aa;
+--red:#ff5f78;
+--yellow:#ffd06c;
+--pink:#ff66c4;
+--shadow:0 30px 100px rgba(0,0,0,.42);
+--radius:22px;
+}
+html,body{height:100%}
+body{
+font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+color:var(--text);
+background:
+radial-gradient(circle at 5% -10%,rgba(0,220,255,.13),transparent 24%),
+radial-gradient(circle at 100% 0%,rgba(163,79,255,.15),transparent 28%),
+radial-gradient(circle at 48% 115%,rgba(73,125,255,.08),transparent 27%),
+linear-gradient(180deg,#070a10 0%,#03050a 56%,#020308 100%);
+overflow:hidden;
+}
+body:before{
+content:"";
+position:fixed;
+inset:0;
+z-index:-3;
+pointer-events:none;
+background-image:
+linear-gradient(rgba(255,255,255,.017) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.017) 1px,transparent 1px);
+background-size:44px 44px;
+mask-image:linear-gradient(to bottom,black,transparent 94%);
+}
+body:after{
+content:"";
+position:fixed;
+inset:-20%;
+z-index:-2;
+pointer-events:none;
+background:
+conic-gradient(from 0deg at 45% 30%,transparent,rgba(0,220,255,.035),transparent 30%,rgba(163,79,255,.035),transparent 62%,rgba(0,220,255,.025),transparent);
+filter:blur(60px);
+animation:ambient 18s linear infinite;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,220,255,.4)}
+@keyframes ambient{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+@keyframes sweep{0%{transform:translateX(-130%)}58%,100%{transform:translateX(130%)}}
+@keyframes orbit{to{transform:rotate(360deg)}}
 
-      :root {
-        --bg: #090b13;
-        --panel: #131722;
-        --panel2: #181d2b;
-        --border: rgba(255, 255, 255, .08);
-        --accent: #4da3ff;
-        --accent2: #8b5cf6;
-        --text: #fff;
-        --muted: #9aa4b2;
-        --radius: 20px
-      }
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);height:100vh}
+.sidebar{
+position:relative;
+display:flex;
+flex-direction:column;
+padding:18px 14px;
+background:rgba(4,8,14,.78);
+border-right:1px solid var(--line);
+backdrop-filter:blur(28px);
+-webkit-backdrop-filter:blur(28px);
+box-shadow:18px 0 80px rgba(0,0,0,.2);
+z-index:20;
+}
+.logo{
+display:flex;
+align-items:center;
+gap:11px;
+padding:5px 8px 17px;
+border-bottom:1px solid rgba(255,255,255,.05);
+}
+.logoMark{
+position:relative;
+width:42px;
+height:42px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:14px;
+background:linear-gradient(145deg,rgba(0,220,255,.12),rgba(163,79,255,.12));
+border:1px solid rgba(255,255,255,.08);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 30px rgba(0,0,0,.2);
+overflow:hidden;
+}
+.logoMark:after{
+content:"";
+position:absolute;
+inset:-18px;
+border:1px solid rgba(0,220,255,.18);
+border-radius:50%;
+animation:orbit 8s linear infinite;
+}
+.logoMark img{width:34px;height:34px;object-fit:contain;position:relative;z-index:1}
+.logoTitle{font-size:16px;letter-spacing:2.4px;font-weight:900}
+.logoSub{font-size:8px;color:#66738b;letter-spacing:1.8px;margin-top:3px;font-weight:800}
+.logoLive{margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 14px rgba(94,233,170,.8);animation:pulse 2s ease-in-out infinite}
+.sidebarSectionLabel{padding:19px 9px 8px;font-size:8px;letter-spacing:1.7px;text-transform:uppercase;color:#4e5b73;font-weight:900}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav a{
+position:relative;
+display:flex;
+align-items:center;
+gap:10px;
+min-height:43px;
+padding:8px 9px;
+text-decoration:none;
+border-radius:13px;
+border:1px solid transparent;
+color:#a7b2c5;
+transition:.2s ease;
+overflow:hidden;
+}
+.nav a:after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(90deg,rgba(0,220,255,.08),rgba(163,79,255,.08));
+opacity:0;
+transition:.2s ease;
+}
+.nav a:hover,.nav a.active{transform:translateX(3px);border-color:rgba(255,255,255,.07);color:#fff;background:rgba(255,255,255,.025)}
+.nav a:hover:after,.nav a.active:after{opacity:1}
+.nav a.active:before{
+content:"";
+position:absolute;
+left:0;
+top:8px;
+bottom:8px;
+width:3px;
+border-radius:99px;
+background:linear-gradient(180deg,var(--cyan),var(--purple));
+box-shadow:0 0 14px rgba(0,220,255,.6);
+}
+.navIcon,.navText,.navBadge{position:relative;z-index:1}
+.navIcon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:13px}
+.navText{font-size:10px;font-weight:800}
+.navBadge{margin-left:auto;display:none;min-width:20px;height:20px;padding:0 6px;align-items:center;justify-content:center;border-radius:999px;background:rgba(255,95,120,.1);border:1px solid rgba(255,95,120,.15);color:#ff9aaa;font-size:8px;font-weight:900}
+.bottom{margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)}
 
-      body {
-        font-family: Inter, sans-serif;
-        background: radial-gradient(circle at top, #22345d 0%, #10131b 45%, #08090e 100%);
-        color: var(--text);
-        height: 100vh;
-        overflow: hidden
-      }
+.main{min-width:0;height:100vh;display:flex;flex-direction:column}
+.topbar{
+height:74px;
+flex:0 0 auto;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+padding:0 24px;
+background:rgba(6,9,15,.55);
+border-bottom:1px solid var(--line);
+backdrop-filter:blur(24px);
+-webkit-backdrop-filter:blur(24px);
+}
+.topbarLeft{display:flex;align-items:center;gap:13px;min-width:0}
+.pageGlyph{
+width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;
+background:linear-gradient(145deg,rgba(0,220,255,.1),rgba(163,79,255,.1));
+border:1px solid rgba(255,255,255,.07);
+color:#b7edff;font-size:16px;
+}
+.topTitle{font-size:15px;font-weight:900;letter-spacing:-.3px}
+.topSub{font-size:9px;color:#66738a;margin-top:3px}
+.topbarRight{display:flex;align-items:center;gap:9px}
+.liveChip{
+display:flex;align-items:center;gap:7px;
+height:34px;padding:0 10px;border:1px solid rgba(255,255,255,.07);border-radius:11px;
+background:rgba(255,255,255,.025);color:#78869e;font-size:8px;font-weight:900;letter-spacing:1px;
+}
+.liveChip i{display:block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(94,233,170,.8)}
+.topProfile{
+display:flex;align-items:center;gap:9px;padding:5px 9px 5px 5px;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:rgba(255,255,255,.025)
+}
+.topAvatar{
+width:30px;height:30px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--cyan),var(--purple));font-size:10px;font-weight:900
+}
+.topAvatar img{width:100%;height:100%;object-fit:cover}
+.topProfileName{font-size:9px;font-weight:800}
+.topProfileSub{font-size:7px;color:#61708a;margin-top:2px}
+.iconTopBtn{width:34px;height:34px;border-radius:11px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);color:#8290a7;font-size:13px}
+.iconTopBtn:hover{color:#fff;background:rgba(255,255,255,.06)}
 
-      .layout {
-        display: flex;
-        height: 100%
-      }
+.workspace{flex:1;min-height:0;display:grid;grid-template-columns:minmax(290px,350px) minmax(0,1fr);gap:14px;padding:14px}
+.panel{
+min-height:0;
+display:flex;
+flex-direction:column;
+background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--panel);
+border:1px solid var(--line);
+border-radius:22px;
+box-shadow:var(--shadow);
+backdrop-filter:blur(26px);
+-webkit-backdrop-filter:blur(26px);
+overflow:hidden;
+}
+.leftPanel{position:relative}
+.panelHead{
+padding:16px;
+border-bottom:1px solid var(--line);
+background:linear-gradient(180deg,rgba(255,255,255,.018),transparent);
+}
+.headRow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.headTitle{font-size:13px;font-weight:900;letter-spacing:-.2px}
+.headSub{font-size:9px;color:#6e7b92;margin-top:4px;line-height:1.45}
+.primaryBtn,.secondaryBtn,.dangerBtn,.ghostBtn{
+height:34px;
+padding:0 11px;
+border-radius:10px;
+font-size:9px;
+font-weight:900;
+border:1px solid rgba(255,255,255,.07);
+color:#fff;
+transition:.18s ease;
+}
+.primaryBtn{background:linear-gradient(100deg,#00b9e5,#7550ff);border-color:rgba(0,220,255,.16);box-shadow:0 10px 25px rgba(0,220,255,.12)}
+.primaryBtn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.secondaryBtn,.ghostBtn{background:rgba(255,255,255,.035);color:#b2bfd2}
+.secondaryBtn:hover,.ghostBtn:hover{background:rgba(255,255,255,.06);color:#fff}
+.dangerBtn{background:rgba(255,95,120,.08);color:#ff9aaa;border-color:rgba(255,95,120,.13)}
+.dangerBtn:hover{background:rgba(255,95,120,.14)}
 
-      .sidebar {
-        width: 280px;
-        display: flex;
-        flex-direction: column;
-        padding: 28px;
-        background: rgba(18, 22, 33, .82);
-        backdrop-filter: blur(20px);
-        border-right: 1px solid var(--border)
-      }
+.ticketTools{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:minmax(0,1fr) 93px;gap:7px}
+.searchBox{position:relative}
+.searchBox input,.filterSelect{
+height:34px;width:100%;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(0,0,0,.16);color:#edf2fb;outline:none;font-size:9px
+}
+.searchBox input{padding:0 10px 0 29px}
+.searchBox input:focus,.filterSelect:focus{border-color:rgba(0,220,255,.32);box-shadow:0 0 0 3px rgba(0,220,255,.04)}
+.searchIcon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:10px;color:#56647a;pointer-events:none}
+.filterSelect{padding:0 8px}
 
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 35px
-      }
+.queueSummary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 13px 3px}
+.queuePill{padding:9px 8px;border-radius:11px;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.055)}
+.queuePill span{display:block;font-size:7px;text-transform:uppercase;letter-spacing:1px;color:#5e6b82;font-weight:900}
+.queuePill b{display:block;font-size:13px;margin-top:4px}
+.queuePill.open b{color:#7bf0bb}
+.queuePill.closed b{color:#ff9aaa}
+.queuePill.unread b{color:#8ddfff}
 
-      .logo img {
-        width: 52px;
-        height: 52px;
-        border-radius: 14px
-      }
+.ticketList{flex:1;min-height:0;overflow:auto;padding:8px 10px 14px}
+.ticketSectionTitle{padding:10px 5px 7px;font-size:7px;letter-spacing:1.5px;color:#4f5d73;font-weight:900;text-transform:uppercase}
+.ticketItem{
+position:relative;
+display:flex;
+align-items:center;
+gap:9px;
+padding:10px;
+margin-bottom:6px;
+border:1px solid transparent;
+border-radius:14px;
+background:rgba(255,255,255,.018);
+cursor:pointer;
+transition:.18s ease;
+overflow:hidden;
+}
+.ticketItem:hover{transform:translateX(2px);background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.08)}
+.ticketItem.active{background:linear-gradient(135deg,rgba(0,220,255,.08),rgba(163,79,255,.07));border-color:rgba(0,220,255,.17);box-shadow:0 12px 28px rgba(0,0,0,.18)}
+.ticketItem.active:before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:2px;border-radius:99px;background:var(--cyan);box-shadow:0 0 10px rgba(0,220,255,.7)}
+.ticketIcon{width:34px;height:34px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:11px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:13px}
+.ticketMain{min-width:0;flex:1}
+.ticketTop{display:flex;align-items:center;gap:7px}
+.ticketTitle{font-size:9px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticketDot{width:5px;height:5px;border-radius:50%;background:#75839a}
+.ticketStatus{font-size:7px;font-weight:900;text-transform:uppercase;letter-spacing:.7px}
+.ticketStatus.open{color:#78efba}.ticketStatus.closed{color:#ff8f9f}
+.ticketMeta{margin-top:4px;font-size:7px;color:#627088;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticketUnread{min-width:18px;height:18px;padding:0 5px;display:flex;align-items:center;justify-content:center;border-radius:999px;background:rgba(255,95,120,.11);border:1px solid rgba(255,95,120,.14);color:#ff9baa;font-size:7px;font-weight:900}
+.priorityBar{width:2px;align-self:stretch;border-radius:99px;background:#66738a}
+.priorityBar.high{background:var(--red);box-shadow:0 0 9px rgba(255,95,120,.4)}
+.priorityBar.normal{background:var(--cyan);box-shadow:0 0 9px rgba(0,220,255,.3)}
+.priorityBar.low{background:#7786a1}
+.emptyList{text-align:center;padding:42px 16px;color:#64728a;font-size:9px;line-height:1.6}
+.emptyList strong{display:block;color:#9aa6ba;font-size:11px;margin-bottom:5px}
 
-      .nav {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        flex: 1
-      }
+.chatPanel{position:relative}
+.chatHeader{
+position:relative;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:14px 16px;
+border-bottom:1px solid var(--line);
+background:
+radial-gradient(circle at 15% 0%,rgba(0,220,255,.06),transparent 28%),
+linear-gradient(180deg,rgba(255,255,255,.018),transparent);
+}
+.chatIdentity{display:flex;align-items:center;gap:10px;min-width:0}
+.ticketOrb{
+position:relative;width:38px;height:38px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:12px;
+background:linear-gradient(145deg,rgba(0,220,255,.11),rgba(163,79,255,.11));
+border:1px solid rgba(255,255,255,.07);overflow:hidden;font-size:14px;
+}
+.ticketOrb:after{content:"";position:absolute;width:12px;height:12px;border:1px solid rgba(0,220,255,.22);border-radius:50%;animation:orbit 4s linear infinite}
+.chatTitle{font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chatSubtitle{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:8px;color:#66748c}
+.chatControls{display:flex;align-items:center;gap:7px}
+.statusPill{
+height:29px;display:flex;align-items:center;gap:6px;padding:0 9px;border-radius:999px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.065);font-size:7px;font-weight:900;letter-spacing:.7px;text-transform:uppercase
+}
+.statusPill i{width:5px;height:5px;border-radius:50%}
+.statusPill.open i{background:var(--green);box-shadow:0 0 10px rgba(94,233,170,.8)}
+.statusPill.closed i{background:var(--red);box-shadow:0 0 10px rgba(255,95,120,.7)}
+.staffActions{display:flex;gap:6px}
+.headerIconBtn{height:29px;padding:0 9px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);color:#8190a7;font-size:9px;font-weight:800}
+.headerIconBtn:hover{color:#fff;background:rgba(255,255,255,.065)}
 
-      .item {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 15px 18px;
-        border-radius: 16px;
-        color: #cdd5e2;
-        text-decoration: none;
-        font-weight: 600;
-        transition: .25s
-      }
+.ticketInfoBar{
+display:none;
+padding:9px 16px;
+gap:7px;
+border-bottom:1px solid rgba(255,255,255,.04);
+background:rgba(255,255,255,.012);
+}
+.infoChip{display:flex;align-items:center;gap:6px;min-height:25px;padding:0 8px;border-radius:8px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);color:#738199;font-size:7px}
+.infoChip b{color:#bac6d8}
+.ticketInfoBar.show{display:flex;flex-wrap:wrap}
 
-      .item:hover {
-        background: rgba(255, 255, 255, .05);
-        transform: translateX(4px)
-      }
+.chatArea{
+flex:1;
+min-height:0;
+overflow-y:auto;
+overflow-x:hidden;
+padding:19px 20px 22px;
+display:flex;
+flex-direction:column;
+gap:4px;
+scroll-behavior:smooth;
+}
+.emptyChat{height:100%;display:flex;align-items:center;justify-content:center;text-align:center}
+.emptyChatCard{max-width:360px;padding:30px;border:1px solid rgba(255,255,255,.055);border-radius:20px;background:rgba(255,255,255,.018)}
+.emptyChatIcon{width:58px;height:58px;margin:0 auto 13px;display:flex;align-items:center;justify-content:center;border-radius:19px;background:linear-gradient(145deg,rgba(0,220,255,.08),rgba(163,79,255,.08));border:1px solid rgba(255,255,255,.06);font-size:22px}
+.emptyChat h2{font-size:13px}
+.emptyChat p{margin-top:6px;color:#64728a;font-size:9px;line-height:1.55}
 
-      .item.active {
-        color: #fff;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        box-shadow: 0 15px 35px rgba(77, 163, 255, .35)
-      }
+.dateDivider{display:flex;align-items:center;gap:9px;margin:15px 0 8px;color:#59667d;font-size:7px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase}
+.dateDivider:before,.dateDivider:after{content:"";height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06))}
+.dateDivider:before{flex:1}.dateDivider:after{flex:1}
+.dateDivider span{padding:5px 8px;border:1px solid rgba(255,255,255,.05);border-radius:999px;background:rgba(255,255,255,.018)}
 
-      .main {
-        flex: 1;
-        display: flex;
-        flex-direction: column
-      }
+.messageRow{display:flex;align-items:flex-end;gap:8px;margin:2px 0;animation:rise .16s ease}
+.messageRow.me{justify-content:flex-end}
+.msgAvatar{width:25px;height:25px;flex:0 0 auto;border-radius:9px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.06);font-size:8px;color:#9eabc0}
+.messageBubble{
+position:relative;
+max-width:min(75%,620px);
+padding:10px 12px;
+border:1px solid rgba(255,255,255,.065);
+border-radius:15px 15px 15px 5px;
+background:rgba(255,255,255,.035);
+box-shadow:0 12px 28px rgba(0,0,0,.13);
+}
+.messageBubble.me{
+border-color:rgba(0,220,255,.13);
+background:linear-gradient(135deg,rgba(0,220,255,.11),rgba(163,79,255,.11));
+border-radius:15px 15px 5px 15px;
+}
+.messageTop{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.messageAuthor{font-size:8px;font-weight:900;color:#dce6f4}
+.messageBubble.me .messageAuthor{color:#effcff}
+.messageTime{font-size:7px;color:#68768d;margin-left:auto;white-space:nowrap}
+.messageText{font-size:9px;line-height:1.62;word-break:break-word;color:#d9e0ec}
+.messageText a{color:#7cdcff;text-decoration:none;border-bottom:1px solid rgba(124,220,255,.2)}
+.messageText a:hover{border-color:#7cdcff}
+.messageActions{display:none;position:absolute;top:-12px;right:5px;gap:4px;padding:4px;border-radius:9px;background:rgba(7,11,18,.94);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 25px rgba(0,0,0,.3)}
+.messageBubble:hover .messageActions{display:flex}
+.messageAction{width:24px;height:24px;border-radius:7px;border:0;background:rgba(255,255,255,.05);color:#95a2b6;font-size:9px}
+.messageAction:hover{background:rgba(255,255,255,.1);color:#fff}
+.attachment{
+margin-top:8px;
+border-radius:12px;
+overflow:hidden;
+border:1px solid rgba(255,255,255,.07);
+background:rgba(0,0,0,.15);
+}
+.attachment img{display:block;max-width:100%;max-height:370px;cursor:pointer}
+.attachment video{display:block;max-width:100%;max-height:370px}
+.fileAttachment{display:flex;align-items:center;gap:9px;padding:10px;color:#c7d2e2;text-decoration:none}
+.fileAttachment:hover{background:rgba(255,255,255,.035)}
+.fileIcon{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.04)}
+.fileName{font-size:8px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fileOpen{margin-left:auto;color:#62718a;font-size:8px}
+.messageStatus{margin-top:6px;font-size:7px;color:#64728a}
+.messageBubble.me .messageStatus{color:#7c9eb0}
 
-      .topbar {
-        height: 90px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 35px;
-        background: rgba(18, 22, 33, .55);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--border)
-      }
+.jumpBottom{
+position:absolute;
+right:18px;
+bottom:89px;
+display:none;
+align-items:center;
+gap:7px;
+padding:8px 10px;
+border-radius:999px;
+background:rgba(9,14,23,.93);
+border:1px solid rgba(255,255,255,.09);
+box-shadow:0 15px 35px rgba(0,0,0,.35);
+color:#bcefff;
+font-size:8px;
+font-weight:900;
+z-index:5;
+}
+.jumpBottom.show{display:flex}
+.jumpBottom:hover{border-color:rgba(0,220,255,.23)}
 
-      .profile {
-        display: flex;
-        align-items: center;
-        gap: 12px
-      }
+.composer{
+position:relative;
+display:flex;
+align-items:flex-end;
+gap:8px;
+padding:11px 13px 13px;
+border-top:1px solid var(--line);
+background:
+radial-gradient(circle at 20% 100%,rgba(0,220,255,.045),transparent 22%),
+rgba(8,12,20,.78);
+}
+.composerMain{
+position:relative;
+flex:1;
+min-width:0;
+display:flex;
+flex-direction:column;
+border:1px solid rgba(255,255,255,.07);
+border-radius:15px;
+background:rgba(0,0,0,.16);
+overflow:hidden;
+transition:.2s ease;
+}
+.composerMain:focus-within{border-color:rgba(0,220,255,.22);box-shadow:0 0 0 3px rgba(0,220,255,.035)}
+.composerTop{display:flex;align-items:center;gap:5px;padding:6px 7px 0}
+.composerTool{
+width:27px;height:27px;border:0;border-radius:8px;background:transparent;color:#718099;font-size:11px
+}
+.composerTool:hover,.composerTool.active{color:#d9faff;background:rgba(255,255,255,.05)}
+.composerSpacer{flex:1}
+.draftState{font-size:7px;color:#5e6d83;padding:0 6px;white-space:nowrap}
+#messageBox{
+width:100%;
+min-height:42px;
+max-height:180px;
+resize:none;
+border:0;
+outline:0;
+background:transparent;
+color:#edf4fd;
+padding:8px 11px 10px;
+font-size:9px;
+line-height:1.55;
+}
+#messageBox::placeholder{color:#56637a}
+.composerBottom{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 8px 7px;color:#55627a;font-size:7px}
+.charCounter{margin-left:auto}
+.sendButton{
+width:42px;height:42px;border:1px solid rgba(0,220,255,.14);border-radius:13px;background:linear-gradient(145deg,#00bfe8,#7650ff);color:#fff;font-size:15px;box-shadow:0 12px 30px rgba(0,220,255,.11);transition:.18s ease
+}
+.sendButton:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.sendButton:disabled{opacity:.4;cursor:not-allowed;transform:none}
 
-      .profile label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #cdd5e2;
-        font-size: 14px
-      }
+.attachmentBar{
+display:none;
+padding:8px 13px;
+border-top:1px solid rgba(255,255,255,.04);
+background:rgba(255,255,255,.012);
+}
+.attachmentBar.show{display:flex;align-items:center;gap:8px}
+.filePreview{
+display:flex;align-items:center;gap:7px;min-width:0;padding:7px 9px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.055)
+}
+.filePreviewThumb{width:28px;height:28px;border-radius:8px;object-fit:cover;background:#111722}
+.filePreviewName{font-size:8px;color:#aab7ca;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.removeFile{width:24px;height:24px;border-radius:7px;border:0;background:rgba(255,95,120,.07);color:#ff8f9f;font-size:10px}
+.uploadHint{font-size:7px;color:#5c6a81}
 
-.anonSwitchWrap {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    user-select: none;
+.emojiPanel{
+position:absolute;
+left:13px;
+bottom:71px;
+width:260px;
+display:none;
+padding:10px;
+border-radius:16px;
+background:rgba(10,15,24,.97);
+border:1px solid rgba(255,255,255,.09);
+box-shadow:0 25px 70px rgba(0,0,0,.52);
+z-index:20;
+animation:scaleIn .16s ease;
+}
+.emojiPanel.show{display:block}
+.emojiSearch{
+height:31px!important;
+width:100%!important;
+margin:0 0 8px!important;
+padding:0 9px!important;
+border:1px solid rgba(255,255,255,.07)!important;
+border-radius:9px!important;
+background:rgba(255,255,255,.025)!important;
+font-size:8px!important;
+}
+.emojiGrid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:180px;overflow:auto}
+.emojiBtn{height:28px;border:0;border-radius:8px;background:transparent;font-size:15px}
+.emojiBtn:hover{background:rgba(255,255,255,.07)}
+
+.previewStrip{
+display:none;
+padding:7px 13px;
+border-top:1px solid rgba(255,255,255,.04);
+background:rgba(255,255,255,.01);
+overflow:auto;
+}
+.previewStrip.show{display:flex;gap:7px}
+.previewImage{width:58px;height:58px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,.08)}
+
+.staffDrawer{
+position:absolute;
+top:65px;
+right:12px;
+width:280px;
+display:none;
+padding:13px;
+border:1px solid rgba(255,255,255,.09);
+border-radius:17px;
+background:rgba(8,13,22,.97);
+box-shadow:0 25px 70px rgba(0,0,0,.52);
+z-index:30;
+animation:scaleIn .16s ease;
+}
+.staffDrawer.show{display:block}
+.drawerTitle{font-size:10px;font-weight:900}
+.drawerSub{font-size:8px;color:#657289;margin-top:3px}
+.drawerGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.drawerAction{min-height:42px;padding:8px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:rgba(255,255,255,.025);color:#aab6c9;text-align:left}
+.drawerAction:hover{background:rgba(255,255,255,.06);color:#fff}
+.drawerAction span{display:block;font-size:8px;font-weight:900}
+.drawerAction small{display:block;margin-top:3px;color:#5d6b81;font-size:7px}
+
+.overlayModal{
+position:fixed;
+inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+padding:18px;
+background:rgba(0,0,0,.74);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+z-index:100;
+}
+.overlayModal.show{display:flex}
+.modalCard{
+width:520px;
+max-width:100%;
+border:1px solid rgba(255,255,255,.10);
+border-radius:22px;
+background:
+radial-gradient(circle at top right,rgba(0,220,255,.07),transparent 28%),
+linear-gradient(145deg,rgba(18,25,40,.98),rgba(7,11,18,.98));
+box-shadow:0 35px 120px rgba(0,0,0,.64);
+animation:scaleIn .18s ease;
+overflow:hidden;
+}
+.modalHead{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding:19px;border-bottom:1px solid rgba(255,255,255,.06)}
+.modalHead h2{font-size:17px;letter-spacing:-.4px}
+.modalHead p{margin-top:5px;font-size:8px;color:#66738a;line-height:1.5}
+.modalClose{width:31px;height:31px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);color:#8592a8}
+.modalClose:hover{background:rgba(255,255,255,.07);color:#fff}
+.modalBody{padding:17px}
+.formField{margin-bottom:11px}
+.formLabel{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:8px;color:#77869e;font-weight:800}
+.formLabel span:last-child{color:#526077;font-weight:600}
+.formInput,.formSelect,.formArea{
+width:100%;
+margin-top:6px;
+border:1px solid rgba(255,255,255,.07);
+border-radius:11px;
+background:rgba(0,0,0,.17);
+color:#edf4fc;
+outline:0;
+font-size:9px;
+}
+.formInput,.formSelect{height:39px;padding:0 10px}
+.formArea{min-height:130px;resize:vertical;padding:10px;line-height:1.5}
+.formInput:focus,.formSelect:focus,.formArea:focus{border-color:rgba(0,220,255,.29);box-shadow:0 0 0 3px rgba(0,220,255,.035)}
+.modalActions{display:flex;gap:7px;justify-content:flex-end}
+.modalActions button{min-width:94px}
+
+.categoryGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.categoryBtn{min-height:45px;padding:7px 9px;text-align:left;border:1px solid rgba(255,255,255,.055);border-radius:10px;background:rgba(255,255,255,.02);color:#99a7bc}
+.categoryBtn:hover,.categoryBtn.selected{border-color:rgba(0,220,255,.16);background:rgba(0,220,255,.045);color:#eaffff}
+.categoryBtn b{display:block;font-size:8px}.categoryBtn span{display:block;margin-top:3px;font-size:7px;color:#5e6b82}
+.modalStatus{margin-top:9px;min-height:16px;font-size:8px}
+.modalStatus.error{color:#ff8f9f}.modalStatus.ok{color:#7aefba}
+
+.ticketDetailBox{padding:12px;border-radius:13px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06)}
+.detailLine{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.045);font-size:8px}
+.detailLine:last-child{border-bottom:0}
+.detailLine span:first-child{color:#5f6d84}
+.detailLine strong{color:#dce5f1;text-align:right;max-width:70%;word-break:break-word}
+
+.shortcutBox{
+display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:11px
+}
+.shortcut{padding:9px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.018);font-size:7px;color:#637189;line-height:1.45}
+.shortcut kbd{padding:2px 5px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#aab7c9;font-family:ui-monospace,monospace}
+
+.toastContainer{position:fixed;right:18px;bottom:18px;z-index:200;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{
+display:flex;align-items:flex-start;gap:9px;min-width:260px;max-width:360px;padding:11px;border-radius:14px;
+background:rgba(8,13,21,.96);border:1px solid rgba(255,255,255,.09);box-shadow:0 20px 70px rgba(0,0,0,.48);backdrop-filter:blur(16px);animation:rise .18s ease;pointer-events:auto
+}
+.toastIcon{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.04);font-size:11px}
+.toastTitle{font-size:9px;font-weight:900}.toastText{margin-top:3px;color:#718097;font-size:8px;line-height:1.45}
+.toast.success .toastIcon{color:#83efbb;background:rgba(94,233,170,.07)}
+.toast.error .toastIcon{color:#ff8e9f;background:rgba(255,95,120,.07)}
+.toast.info .toastIcon{color:#83e4ff;background:rgba(0,220,255,.07)}
+
+.dropZone{
+position:absolute;
+inset:8px;
+display:none;
+align-items:center;
+justify-content:center;
+border:1px dashed rgba(0,220,255,.42);
+border-radius:16px;
+background:rgba(0,220,255,.055);
+z-index:15;
+pointer-events:none;
+}
+.dropZone.show{display:flex}
+.dropZoneBox{text-align:center;color:#9ceeff}
+.dropZoneBox div:first-child{font-size:22px}.dropZoneBox span{display:block;margin-top:5px;font-size:8px;font-weight:900;letter-spacing:1px}
+
+.mobileNav{display:none}
+
+@media(max-width:1180px){
+.layout{grid-template-columns:220px minmax(0,1fr)}
+.workspace{grid-template-columns:300px minmax(0,1fr)}
+}
+@media(max-width:920px){
+.layout{grid-template-columns:1fr}
+.sidebar{
+height:auto;
+padding:10px;
+position:relative;
+border-right:0;
+border-bottom:1px solid var(--line);
+}
+.logo{padding:3px 5px 8px}
+.logoMark{width:35px;height:35px}.logoMark img{width:28px;height:28px}
+.logoTitle{font-size:14px}.logoSub{font-size:7px}
+.nav{flex-direction:row;overflow-x:auto;padding:8px 2px 2px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.sidebarSectionLabel,.bottom{display:none}
+.nav a{min-width:max-content}
+.navText{font-size:9px}
+.main{height:calc(100vh - 89px)}
+}
+@media(max-width:760px){
+.topbar{height:62px;padding:0 13px}
+.topbarRight .liveChip{display:none}
+.topProfileSub{display:none}
+.workspace{display:block;padding:9px}
+.leftPanel,.chatPanel{height:calc(100vh - 80px)}
+.leftPanel{display:flex}
+.chatPanel{display:none}
+body.mobile-chat .leftPanel{display:none}
+body.mobile-chat .chatPanel{display:flex}
+.mobileNav{display:flex;position:fixed;left:9px;right:9px;bottom:8px;z-index:50;gap:6px;padding:6px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(6,10,17,.94);backdrop-filter:blur(18px)}
+.mobileNav button{flex:1;height:36px;border:1px solid rgba(255,255,255,.06);border-radius:9px;background:transparent;color:#728099;font-size:8px;font-weight:900}
+.mobileNav button.active{color:#fff;background:linear-gradient(90deg,rgba(0,220,255,.07),rgba(163,79,255,.07));border-color:rgba(0,220,255,.15)}
+.chatArea{padding:15px 13px 18px}
+.messageBubble{max-width:84%}
+.chatHeader{padding:11px}
+.staffActions .headerIconBtn{font-size:0;width:30px;padding:0}.staffActions .headerIconBtn:first-letter{font-size:10px}
+.jumpBottom{bottom:86px}
+}
+@media(max-width:540px){
+.pageGlyph{display:none}
+.topTitle{font-size:12px}.topSub{display:none}
+.topProfile{padding-right:5px}
+.topProfileName{display:none}
+.ticketTools{grid-template-columns:1fr}
+.queueSummary{grid-template-columns:repeat(3,1fr)}
+.chatControls .statusPill{display:none}
+.staffActions{gap:4px}
+.chatTitle{max-width:200px}
+.composer{padding-bottom:65px}
+.mobileNav{bottom:7px}
+.modalActions{flex-direction:column}.modalActions button{width:100%}
+.categoryGrid{grid-template-columns:1fr}
+.toastContainer{left:10px;right:10px;bottom:58px}.toast{min-width:0;max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+<div class="logo">
+<div class="logoMark"><img src="https://zyphor.cc/Logo1.png"></div>
+<div>
+<div class="logoTitle">ZYPHOR</div>
+<div class="logoSub">SUPPORT NEXUS</div>
+</div>
+<div class="logoLive"></div>
+</div>
+
+<div class="sidebarSectionLabel">Workspace</div>
+<nav class="nav">
+<a href="Dashboard.html"><span class="navIcon">⌂</span><span class="navText">Dashboard</span></a>
+<a href="#" onclick="goProfile();return false;"><span class="navIcon">◉</span><span class="navText">Profile</span></a>
+<a href="dms.html"><span class="navIcon">✦</span><span class="navText">Messages</span><span class="navBadge" id="dmBadge"></span></a>
+<a href="Wallet.html"><span class="navIcon">◈</span><span class="navText">Wallet</span></a>
+<a href="Cloud.html"><span class="navIcon">☁</span><span class="navText">Cloud</span></a>
+<a href="download.html"><span class="navIcon">↓</span><span class="navText">App Center</span></a>
+<a class="active" href="Support.html"><span class="navIcon">?</span><span class="navText">Support</span><span class="navBadge" id="supportBadge"></span></a>
+<a href="Settings.html"><span class="navIcon">⚙</span><span class="navText">Settings</span></a>
+</nav>
+
+<div class="sidebarSectionLabel">System</div>
+<nav class="nav">
+<a href="#" onclick="openShortcuts();return false;"><span class="navIcon">⌘</span><span class="navText">Shortcuts</span></a>
+<a href="#" onclick="openAbout();return false;"><span class="navIcon">i</span><span class="navText">About Support</span></a>
+</nav>
+
+<div class="bottom">
+<a class="nav" href="#" onclick="logout();return false;"><span class="navIcon">↪</span><span class="navText">Logout</span></a>
+</div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<div class="topbarLeft">
+<div class="pageGlyph">?</div>
+<div>
+<div class="topTitle">Support Center</div>
+<div class="topSub">Zyphor service desk · secure support communications</div>
+</div>
+</div>
+
+<div class="topbarRight">
+<div class="liveChip"><i></i> LIVE SYSTEM</div>
+<button class="iconTopBtn" onclick="refreshEverything()" title="Refresh">↻</button>
+<div class="topProfile">
+<div class="topAvatar"><img id="avatarImage" style="display:none"><span id="avatarFallback">Z</span></div>
+<div>
+<div class="topProfileName" id="profileName">Loading...</div>
+<div class="topProfileSub">Support account</div>
+</div>
+</div>
+</div>
+</header>
+
+<div class="workspace">
+
+<section class="panel leftPanel">
+<div class="panelHead">
+<div class="headRow">
+<div>
+<div class="headTitle">Ticket Queue</div>
+<div class="headSub">Your conversations and active support cases.</div>
+</div>
+<button class="primaryBtn" onclick="createTicket()">＋ New Ticket</button>
+</div>
+</div>
+
+<div class="ticketTools">
+<div class="searchBox">
+<span class="searchIcon">⌕</span>
+<input id="ticketSearch" placeholder="Search tickets..." autocomplete="off">
+</div>
+<select id="ticketFilter" class="filterSelect">
+<option value="all">All tickets</option>
+<option value="open">Open</option>
+<option value="closed">Closed</option>
+<option value="unread">Unread</option>
+</select>
+</div>
+
+<div class="queueSummary">
+<div class="queuePill open"><span>Open</span><b id="openCount">0</b></div>
+<div class="queuePill closed"><span>Closed</span><b id="closedCount">0</b></div>
+<div class="queuePill unread"><span>Unread</span><b id="unreadCount">0</b></div>
+</div>
+
+<div class="ticketList" id="ticketList"></div>
+</section>
+
+<section class="panel chatPanel">
+<div class="chatHeader">
+<div class="chatIdentity">
+<div class="ticketOrb">✦</div>
+<div style="min-width:0">
+<div class="chatTitle" id="ticketTitle">Select a ticket</div>
+<div class="chatSubtitle">
+<span id="ticketSub">Choose a conversation from your queue.</span>
+<span id="typingIndicator" style="display:none;color:#77e5ff">● typing</span>
+</div>
+</div>
+</div>
+<div class="chatControls">
+<div class="statusPill" id="statusPill" style="display:none"><i></i><span id="statusPillText">Open</span></div>
+<div class="staffActions">
+<button class="headerIconBtn" id="drawerBtn" style="display:none" onclick="toggleStaffDrawer()">Controls</button>
+<button class="headerIconBtn" id="closeBtn" style="display:none" onclick="closeTicket()">Close</button>
+<button class="headerIconBtn" id="lockBtn" style="display:none" onclick="lockTicket()">Lock</button>
+<button class="headerIconBtn" id="unlockBtn" style="display:none" onclick="unlockTicket()">Unlock</button>
+</div>
+</div>
+
+<div class="staffDrawer" id="staffDrawer">
+<div class="drawerTitle">Ticket Controls</div>
+<div class="drawerSub">Staff and administrator actions for the active case.</div>
+<div class="drawerGrid">
+<button class="drawerAction" onclick="closeTicket();toggleStaffDrawer()"><span>Close ticket</span><small>Mark conversation closed</small></button>
+<button class="drawerAction" onclick="lockTicket();toggleStaffDrawer()"><span>Lock ticket</span><small>Restrict further changes</small></button>
+<button class="drawerAction" onclick="unlockTicket();toggleStaffDrawer()"><span>Unlock ticket</span><small>Re-enable changes</small></button>
+<button class="drawerAction" onclick="openTicketDetails();toggleStaffDrawer()"><span>View details</span><small>Metadata and status</small></button>
+</div>
+</div>
+</div>
+
+<div class="ticketInfoBar" id="ticketInfoBar">
+<div class="infoChip">ID <b id="infoId">—</b></div>
+<div class="infoChip">Category <b id="infoCategory">—</b></div>
+<div class="infoChip">Created <b id="infoCreated">—</b></div>
+<div class="infoChip">Messages <b id="infoMessages">0</b></div>
+<div class="infoChip">Owner <b id="infoOwner">—</b></div>
+</div>
+
+<div class="chatArea" id="chatMessages">
+<div class="emptyChat">
+<div class="emptyChatCard">
+<div class="emptyChatIcon">💬</div>
+<h2>Select a ticket</h2>
+<p>Choose a support case from the queue to open the conversation workspace.</p>
+</div>
+</div>
+</div>
+
+<button class="jumpBottom" id="jumpBottom" onclick="scrollToBottom(true)">↓ Newest messages</button>
+
+<div class="attachmentBar" id="attachmentBar"></div>
+<div class="previewStrip" id="previewStrip"></div>
+
+<div class="composer">
+<div class="emojiPanel" id="emojiPanel">
+<input class="emojiSearch" id="emojiSearch" placeholder="Search emoji..." autocomplete="off">
+<div class="emojiGrid" id="emojiGrid"></div>
+</div>
+
+<div class="composerMain">
+<div class="composerTop">
+<button class="composerTool" onclick="toggleEmojiPanel()" title="Emoji">☺</button>
+<button class="composerTool" onclick="fileInput.click()" title="Attach">＋</button>
+<button class="composerTool" onclick="insertTemplate()" title="Insert template">✧</button>
+<div class="composerSpacer"></div>
+<div class="draftState" id="draftState"></div>
+</div>
+<textarea id="messageBox" maxlength="5000" placeholder="Write a secure support message..." disabled></textarea>
+<div class="composerBottom">
+<span id="composerHint">Enter to send · Shift+Enter for a new line</span>
+<span class="charCounter" id="charCounter">0 / 5000</span>
+</div>
+</div>
+<button class="sendButton" id="sendBtn" onclick="sendMessage()" disabled>➜</button>
+<input type="file" id="fileInput" hidden accept="image/*,video/*,.png,.jpg,.jpeg,.gif,.webp,.mp4,.mov,.webm,.txt,.log,.pdf">
+</div>
+
+<div class="dropZone" id="dropZone">
+<div class="dropZoneBox"><div>＋</div><span>DROP FILE TO ATTACH</span></div>
+</div>
+</section>
+
+</div>
+
+<div class="mobileNav">
+<button id="mobileTickets" class="active" onclick="mobileView('tickets')">Tickets</button>
+<button id="mobileChat" onclick="mobileView('chat')">Conversation</button>
+</div>
+</main>
+</div>
+
+<div class="overlayModal" id="ticketPopup">
+<div class="modalCard">
+<div class="modalHead">
+<div>
+<h2>Create Support Ticket</h2>
+<p>Open a new secure support conversation with the Zyphor team.</p>
+</div>
+<button class="modalClose" onclick="closeTicketPopup()">×</button>
+</div>
+<div class="modalBody">
+<div class="formField">
+<div class="formLabel"><span>Ticket title</span><span id="newTitleCount">0 / 80</span></div>
+<input id="ticketTitleInput" class="formInput" maxlength="80" placeholder="What do you need help with?">
+</div>
+
+<div class="formField">
+<div class="formLabel"><span>Category</span><span>Select one</span></div>
+<div class="categoryGrid" id="categoryGrid">
+<button class="categoryBtn selected" data-category="General Support" onclick="selectCategory(this)"><b>General Support</b><span>General questions</span></button>
+<button class="categoryBtn" data-category="Bug Report" onclick="selectCategory(this)"><b>Bug Report</b><span>Something is broken</span></button>
+<button class="categoryBtn" data-category="Billing" onclick="selectCategory(this)"><b>Billing</b><span>Payments and subscriptions</span></button>
+<button class="categoryBtn" data-category="Account" onclick="selectCategory(this)"><b>Account</b><span>Access and profile issues</span></button>
+<button class="categoryBtn" data-category="Website" onclick="selectCategory(this)"><b>Website</b><span>Zyphor website issues</span></button>
+<button class="categoryBtn" data-category="Android App" onclick="selectCategory(this)"><b>Android App</b><span>Mobile app issues</span></button>
+<button class="categoryBtn" data-category="Windows App" onclick="selectCategory(this)"><b>Windows App</b><span>Desktop app issues</span></button>
+<button class="categoryBtn" data-category="Other" onclick="selectCategory(this)"><b>Other</b><span>Anything else</span></button>
+</div>
+</div>
+
+<div class="formField">
+<div class="formLabel"><span>Description</span><span id="newReasonCount">0 / 2500</span></div>
+<textarea id="ticketReasonInput" class="formArea" maxlength="2500" placeholder="Describe your issue, what happened, and any useful details..."></textarea>
+</div>
+
+<div class="modalStatus" id="createStatus"></div>
+<div class="modalActions">
+<button class="secondaryBtn" onclick="closeTicketPopup()">Cancel</button>
+<button class="primaryBtn" onclick="submitTicket()">Create Ticket</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="overlayModal" id="detailModal">
+<div class="modalCard">
+<div class="modalHead">
+<div>
+<h2>Ticket Details</h2>
+<p>Metadata and state information for the selected support case.</p>
+</div>
+<button class="modalClose" onclick="closeModal('detailModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="ticketDetailBox" id="detailBox"></div>
+<div class="modalActions" style="margin-top:12px">
+<button class="secondaryBtn" onclick="closeModal('detailModal')">Done</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="overlayModal" id="shortcutsModal">
+<div class="modalCard">
+<div class="modalHead">
+<div>
+<h2>Support Shortcuts</h2>
+<p>Keyboard controls for faster support operations.</p>
+</div>
+<button class="modalClose" onclick="closeModal('shortcutsModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="shortcutBox">
+<div class="shortcut"><kbd>Enter</kbd> Send the current message</div>
+<div class="shortcut"><kbd>Shift+Enter</kbd> Add a new line</div>
+<div class="shortcut"><kbd>Ctrl+K</kbd> Focus ticket search</div>
+<div class="shortcut"><kbd>Esc</kbd> Close menus and dialogs</div>
+<div class="shortcut"><kbd>Ctrl+Shift+N</kbd> Create a new ticket</div>
+<div class="shortcut"><kbd>Ctrl+Shift+E</kbd> Toggle emoji picker</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="overlayModal" id="aboutModal">
+<div class="modalCard">
+<div class="modalHead">
+<div>
+<h2>Zyphor Support Nexus</h2>
+<p>A next-generation support workspace.</p>
+</div>
+<button class="modalClose" onclick="closeModal('aboutModal')">×</button>
+</div>
+<div class="modalBody">
+<div class="ticketDetailBox">
+<div class="detailLine"><span>Workspace</span><strong>Support Nexus</strong></div>
+<div class="detailLine"><span>Transport</span><strong>Secure Zyphor API</strong></div>
+<div class="detailLine"><span>Drafts</span><strong>Saved locally per ticket</strong></div>
+<div class="detailLine"><span>Attachments</span><strong>Images, video, and supported files</strong></div>
+<div class="detailLine"><span>Refresh</span><strong>Automatic ticket synchronization</strong></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="toastContainer" id="toastContainer"></div>
+
+<script>
+const messageBox=document.getElementById("messageBox")
+const fileInput=document.getElementById("fileInput")
+const attachmentBar=document.getElementById("attachmentBar")
+const previewStrip=document.getElementById("previewStrip")
+const chatMessages=document.getElementById("chatMessages")
+const ticketList=document.getElementById("ticketList")
+const ticketSearch=document.getElementById("ticketSearch")
+const ticketFilter=document.getElementById("ticketFilter")
+const ticketTitle=document.getElementById("ticketTitle")
+const ticketSub=document.getElementById("ticketSub")
+const sendBtn=document.getElementById("sendBtn")
+const statusPill=document.getElementById("statusPill")
+const statusPillText=document.getElementById("statusPillText")
+const jumpBottom=document.getElementById("jumpBottom")
+const emojiPanel=document.getElementById("emojiPanel")
+const emojiGrid=document.getElementById("emojiGrid")
+const emojiSearch=document.getElementById("emojiSearch")
+const dropZone=document.getElementById("dropZone")
+const charCounter=document.getElementById("charCounter")
+const draftState=document.getElementById("draftState")
+
+let backend=""
+let token=""
+let user=null
+let activeTicket=null
+let ticketsMine=[]
+let ticketsAll=[]
+let selectedFile=null
+let selectedFileUrl=""
+let loadingTickets=false
+let ticketRefreshTimer=null
+let activeRefreshTimer=null
+let lastTicketSignature=""
+let selectedCategory="General Support"
+let ticketDrafts=loadStore("zyphorSupportDraftsV4",{})
+let createDraft=loadStore("zyphorSupportCreateDraftV3",{title:"",reason:"",category:"General Support"})
+let recentSearches=loadStore("zyphorSupportSearchesV2",[])
+let lastUnreadTotal=0
+let notificationAudio=null
+let lastMessageCount=0
+let staffDrawerOpen=false
+
+const emojis=[
+"😀","😃","😄","😁","😆","😅","😂","🤣","😊","😇","🙂","🙃","😉","😌","😍","🥰",
+"😘","😎","🤓","🫡","🤔","🤨","😐","😑","😶","🙄","😏","😮","😲","🥳","🤯","😢",
+"😭","😤","😡","🤬","😱","😴","🤝","🙏","❤️","🩵","💜","💙","💚","💛","🧡","🩷",
+"✨","⚡","🔥","💯","✅","❌","⚠️","🚀","🎉","🔒","🔓","🛠️","💡","📌","📎","📂",
+"💻","📱","🌐","🐢","👀","👍","👎","👏","🙌","🎯","💎","🧠","🫶","☁️","🛰️","🌙"
+]
+
+function loadStore(key,fallback){
+try{
+const value=localStorage.getItem(key)
+return value?JSON.parse(value):fallback
+}catch{return fallback}
+}
+function saveStore(key,value){
+try{localStorage.setItem(key,JSON.stringify(value))}catch{}
+}
+function tokenValue(){
+return localStorage.getItem("Token")||localStorage.getItem("SessionID")||""
+}
+function escapeHTML(value){
+return String(value??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))
+}
+function formatDate(value){
+if(!value)return "Unknown"
+const d=new Date(value)
+return Number.isNaN(d.getTime())?String(value):d.toLocaleString()
+}
+function formatTime(value){
+if(!value)return ""
+const d=new Date(value)
+return Number.isNaN(d.getTime())?"":d.toLocaleTimeString([],{"hour":"2-digit","minute":"2-digit"})
+}
+function formatDay(value){
+if(!value)return ""
+const d=new Date(value)
+if(Number.isNaN(d.getTime()))return ""
+const now=new Date()
+if(d.toDateString()===now.toDateString())return "Today"
+const yesterday=new Date(now)
+yesterday.setDate(now.getDate()-1)
+if(d.toDateString()===yesterday.toDateString())return "Yesterday"
+return d.toLocaleDateString([],{"day":"numeric","month":"short","year":"numeric"})
+}
+function getFileName(path){
+if(!path)return "file"
+const parts=String(path).split("/")
+return parts[parts.length-1]||"file"
+}
+function getExt(name){
+const clean=String(name||"").split("?")[0].toLowerCase()
+const index=clean.lastIndexOf(".")
+return index===-1?"":clean.slice(index+1)
+}
+function isImage(value){
+const mime=String(value?.mime||value?.type||"").toLowerCase()
+return mime.startsWith("image/")||["png","jpg","jpeg","gif","webp","bmp","svg"].includes(getExt(value?.path||value?.name))
+}
+function isVideo(value){
+const mime=String(value?.mime||value?.type||"").toLowerCase()
+return mime.startsWith("video/")||["mp4","mov","webm","mkv","avi","m4v","ogg"].includes(getExt(value?.path||value?.name))
+}
+function totalUnread(){
+return [...ticketsMine,...ticketsAll].reduce((sum,t)=>sum+Number(t.unread||0),0)
+}
+function showToast(title,text,type="info"){
+const container=document.getElementById("toastContainer")
+const el=document.createElement("div")
+el.className="toast "+type
+el.innerHTML=`<div class="toastIcon">${type==="success"?"✓":type==="error"?"!":"i"}</div><div><div class="toastTitle">${escapeHTML(title)}</div><div class="toastText">${escapeHTML(text)}</div></div>`
+container.appendChild(el)
+setTimeout(()=>{
+el.style.opacity="0"
+el.style.transform="translateY(6px)"
+el.style.transition=".2s ease"
+setTimeout(()=>el.remove(),220)
+},3400)
+}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+function openModal(id){document.getElementById(id).classList.add("show")}
+document.querySelectorAll(".overlayModal").forEach(modal=>modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")}))
+
+async function getBackend(){
+const r=await fetch("server.txt",{cache:"no-store"})
+if(!r.ok)throw new Error("backend")
+return(await r.text()).trim()
+}
+async function api(path,options={}){
+const liveToken=tokenValue()
+if(!liveToken){
+location.href="login.html"
+throw new Error("unauthorized")
+}
+const headers=new Headers(options.headers||{})
+headers.set("Authorization",liveToken)
+if(options.body && !(options.body instanceof FormData) && !headers.has("Content-Type"))headers.set("Content-Type","application/json")
+return fetch(backend+path,{...options,headers,cache:"no-store"})
+}
+async function safeJson(response){
+const text=await response.text()
+try{return JSON.parse(text)}catch{return null}
+}
+function hasSupport(){
+return !!(user&&(user.permissions?.support||user.permissions?.admin))
+}
+function hasAdmin(){
+return !!(user&&user.permissions?.admin)
+}
+function goProfile(){
+const username=user?.username||localStorage.getItem("username")
+if(username)location.href="profile.html?username="+encodeURIComponent(username)
+}
+function logout(){
+clearIntervals()
+localStorage.removeItem("Token")
+localStorage.removeItem("SessionID")
+location.href="login.html"
+}
+function clearIntervals(){
+if(ticketRefreshTimer)clearInterval(ticketRefreshTimer)
+if(activeRefreshTimer)clearInterval(activeRefreshTimer)
 }
 
-.anonLabel {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+async function trackPage(page){
+try{await api("/track/page",{method:"POST",body:JSON.stringify({page})})}catch{}
 }
 
-.anonTitle {
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1;
+async function loadProfile(){
+const r=await api("/me")
+const data=await safeJson(r)
+if(!data||data.error){
+localStorage.removeItem("Token")
+localStorage.removeItem("SessionID")
+location.href="login.html"
+return false
+}
+user=data
+localStorage.setItem("username",data.username||"")
+document.getElementById("profileName").textContent=data.username||"Account"
+document.getElementById("avatarFallback").textContent=(data.username||"Z").slice(0,1).toUpperCase()
+if(data.username){
+const url=backend+"/account/pfp/"+encodeURIComponent(data.username)+"?v="+Date.now()
+const img=new Image()
+img.onload=()=>{
+document.getElementById("avatarImage").src=url
+document.getElementById("avatarImage").style.display="block"
+document.getElementById("avatarFallback").style.display="none"
+}
+img.src=url
+}
+return true
 }
 
-.anonSub {
-    color: #8b95a5;
-    font-size: 11px;
-    line-height: 1;
+function mergedTickets(){
+const map=new Map()
+for(const ticket of ticketsMine)map.set(String(ticket.id),{...ticket,_mine:true})
+for(const ticket of ticketsAll)if(!map.has(String(ticket.id)))map.set(String(ticket.id),{...ticket,_staff:true})
+return [...map.values()]
+}
+function normalizeTicketCategory(ticket){
+return ticket.category||ticket.type||"General Support"
+}
+function ticketMatches(ticket){
+const q=ticketSearch.value.trim().toLowerCase()
+const filter=ticketFilter.value
+const text=[
+ticket.id,ticket.title,ticket.status,ticket.category,ticket.type,ticket.reason,ticket.username,ticket.owner
+].filter(Boolean).join(" ").toLowerCase()
+if(q&&!text.includes(q))return false
+if(filter==="open"&&ticket.status!=="open")return false
+if(filter==="closed"&&ticket.status==="open")return false
+if(filter==="unread"&&Number(ticket.unread||0)<=0)return false
+return true
+}
+function ticketPriority(ticket){
+if(ticket.priority)return String(ticket.priority).toLowerCase()
+if(ticket.status==="open")return "normal"
+return "low"
+}
+function ticketIcon(ticket){
+const category=normalizeTicketCategory(ticket).toLowerCase()
+if(category.includes("billing"))return "◈"
+if(category.includes("bug"))return "⚠"
+if(category.includes("account"))return "◉"
+if(category.includes("website"))return "◎"
+if(category.includes("android"))return "◫"
+if(category.includes("windows"))return "▣"
+return "?"
+}
+function renderTicketItem(ticket,staffMode=false){
+const isActive=activeTicket&&String(activeTicket.id)===String(ticket.id)
+const statusOpen=ticket.status==="open"
+const unread=Number(ticket.unread||0)
+const last=ticket.messages?.[ticket.messages.length-1]
+const metaParts=[normalizeTicketCategory(ticket),last?.text||ticket.reason||"No messages yet"].filter(Boolean)
+return `
+<div class="ticketItem ${isActive?"active":""}" data-ticket="${escapeHTML(ticket.id)}">
+<div class="priorityBar ${ticketPriority(ticket)}"></div>
+<div class="ticketIcon">${ticketIcon(ticket)}</div>
+<div class="ticketMain">
+<div class="ticketTop">
+<div class="ticketTitle">${escapeHTML(ticket.title||"Untitled ticket")}</div>
+<div class="ticketDot"></div>
+<div class="ticketStatus ${statusOpen?"open":"closed"}">${statusOpen?"Open":"Closed"}</div>
+</div>
+<div class="ticketMeta">${escapeHTML(metaParts.join(" · "))}</div>
+</div>
+${unread>0?`<div class="ticketUnread">${unread>99?"99+":unread}</div>`:""}
+</div>`
 }
 
-.anonSwitchWrap input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
+function renderTickets(){
+const list=mergedTickets().filter(ticketMatches)
+list.sort((a,b)=>{
+const au=a.status==="open",bu=b.status==="open"
+if(au!==bu)return bu-au
+const ua=Number(a.unread||0),ub=Number(b.unread||0)
+if(ua!==ub)return ub-ua
+return new Date(b.updatedAt||b.createdAt||0)-new Date(a.updatedAt||a.createdAt||0)
+})
+const open=ticketsMine.filter(t=>t.status==="open").length
+const closed=ticketsMine.filter(t=>t.status!=="open").length
+const unread=ticketsMine.reduce((s,t)=>s+Number(t.unread||0),0)
+document.getElementById("openCount").textContent=open
+document.getElementById("closedCount").textContent=closed
+document.getElementById("unreadCount").textContent=unread
+const badge=document.getElementById("supportBadge")
+badge.style.display=unread>0?"flex":"none"
+badge.textContent=unread>99?"99+":unread
+ticketList.innerHTML=""
+if(!list.length){
+ticketList.innerHTML=`<div class="emptyList"><strong>${ticketSearch.value.trim()?"No matching tickets":"No tickets yet"}</strong>${ticketSearch.value.trim()?"Try another search or filter.":"Create a support ticket to start a secure conversation."}</div>`
+return
+}
+const mine=list.filter(t=>t._mine||!hasSupport())
+const staff=hasSupport()?list.filter(t=>!t._mine):[]
+if(mine.length){
+const heading=document.createElement("div")
+heading.className="ticketSectionTitle"
+heading.textContent=hasSupport()?"Your Tickets":"My Tickets"
+ticketList.appendChild(heading)
+mine.forEach(ticket=>{
+const wrapper=document.createElement("div")
+wrapper.innerHTML=renderTicketItem(ticket,false)
+const item=wrapper.firstElementChild
+item.onclick=()=>openTicket(ticket)
+ticketList.appendChild(item)
+})
+}
+if(staff.length){
+const heading=document.createElement("div")
+heading.className="ticketSectionTitle"
+heading.textContent="Support Queue"
+ticketList.appendChild(heading)
+staff.forEach(ticket=>{
+const wrapper=document.createElement("div")
+wrapper.innerHTML=renderTicketItem(ticket,true)
+const item=wrapper.firstElementChild
+item.onclick=()=>openTicket(ticket)
+ticketList.appendChild(item)
+})
+}
+}
+function updateTicketHeader(ticket){
+if(!ticket){
+ticketTitle.textContent="Select a ticket"
+ticketSub.textContent="Choose a conversation from your queue."
+statusPill.style.display="none"
+document.getElementById("ticketInfoBar").classList.remove("show")
+document.getElementById("drawerBtn").style.display="none"
+document.getElementById("closeBtn").style.display="none"
+document.getElementById("lockBtn").style.display="none"
+document.getElementById("unlockBtn").style.display="none"
+messageBox.disabled=true
+sendBtn.disabled=true
+return
+}
+ticketTitle.textContent=ticket.title||"Untitled ticket"
+ticketSub.textContent=`${normalizeTicketCategory(ticket)} · ${ticket.messages?.length||0} messages`
+statusPill.style.display="flex"
+statusPill.className="statusPill "+(ticket.status==="open"?"open":"closed")
+statusPillText.textContent=ticket.status==="open"?"Open":"Closed"
+document.getElementById("ticketInfoBar").classList.add("show")
+document.getElementById("infoId").textContent=ticket.id||"—"
+document.getElementById("infoCategory").textContent=normalizeTicketCategory(ticket)
+document.getElementById("infoCreated").textContent=formatDate(ticket.createdAt)
+document.getElementById("infoMessages").textContent=String(ticket.messages?.length||0)
+document.getElementById("infoOwner").textContent=ticket.username||ticket.owner||user?.username||"—"
+const canStaff=hasSupport()
+document.getElementById("drawerBtn").style.display=canStaff?"block":"none"
+document.getElementById("closeBtn").style.display=canStaff&&ticket.status==="open"?"block":"none"
+document.getElementById("lockBtn").style.display=canSupportControl(ticket)?"block":"none"
+document.getElementById("unlockBtn").style.display=canSupportControl(ticket)&&ticket.locked?"block":"none"
+messageBox.disabled=!!ticket.locked
+sendBtn.disabled=!!ticket.locked
+}
+function canSupportControl(ticket){
+return hasSupport()&&!!ticket
 }
 
-.anonSwitch {
-    position: relative;
-    width: 48px;
-    height: 26px;
-    flex-shrink: 0;
-    border-radius: 999px;
-    background: #252b3a;
-    border: 1px solid rgba(255,255,255,.10);
-    box-shadow:
-        inset 0 2px 5px rgba(0,0,0,.25),
-        0 3px 12px rgba(0,0,0,.15);
-    transition:
-        background .3s ease,
-        border-color .3s ease,
-        box-shadow .3s ease;
+function messageText(text){
+return escapeHTML(text).replace(/((https?:\/\/|www\.)[^\s<]+)/gi,url=>{
+let href=url.startsWith("http")?url:"https://"+url
+return `<a href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>`
+})
+}
+function renderAttachment(att){
+if(!att)return ""
+const path=att.path||""
+const url=backend+"/uploads/"+path
+const name=getFileName(path)
+if(isImage(att))return `<div class="attachment"><img src="${url}" alt="${escapeHTML(name)}" onclick="window.open(${JSON.stringify(url)},'_blank')"></div>`
+if(isVideo(att))return `<div class="attachment"><video controls preload="metadata" src="${url}"></video></div>`
+return `<div class="attachment"><a class="fileAttachment" href="${url}" target="_blank" rel="noopener noreferrer"><div class="fileIcon">📄</div><div class="fileName">${escapeHTML(name)}</div><div class="fileOpen">OPEN ↗</div></a></div>`
+}
+function messageKey(ticket,index,message){
+return String(message?.id||message?.messageId||`${ticket.id}:${index}:${message?.time||""}:${message?.author||""}:${message?.text||""}`)
+}
+function renderMessages(ticket,forceBottom=false){
+if(!ticket){
+chatMessages.innerHTML=`<div class="emptyChat"><div class="emptyChatCard"><div class="emptyChatIcon">💬</div><h2>Select a ticket</h2><p>Choose a support case from the queue to open the conversation workspace.</p></div></div>`
+return
+}
+const previousNearBottom=chatMessages.scrollHeight-chatMessages.scrollTop-chatMessages.clientHeight<120
+chatMessages.innerHTML=""
+let lastDay=""
+;(ticket.messages||[]).forEach((message,index)=>{
+const day=formatDay(message.time)
+if(day!==lastDay){
+lastDay=day
+const divider=document.createElement("div")
+divider.className="dateDivider"
+divider.innerHTML=`<span>${escapeHTML(day)}</span>`
+chatMessages.appendChild(divider)
+}
+const mine=message.author===user.username
+const wrapper=document.createElement("div")
+wrapper.className="messageRow "+(mine?"me":"")
+const avatar=document.createElement("div")
+avatar.className="msgAvatar"
+avatar.textContent=(message.author||"?").slice(0,1).toUpperCase()
+const bubble=document.createElement("div")
+bubble.className="messageBubble "+(mine?"me":"")
+bubble.dataset.messageKey=messageKey(ticket,index,message)
+bubble.innerHTML=`
+<div class="messageTop">
+<span class="messageAuthor">${escapeHTML(message.author||"Unknown")}</span>
+<span class="messageTime">${escapeHTML(formatTime(message.time))}</span>
+</div>
+${message.text?`<div class="messageText">${messageText(message.text)}</div>`:""}
+${message.attachment?renderAttachment(message.attachment):""}
+${message.file?renderAttachment(message.file):""}
+${mine?`<div class="messageStatus">Sent · ${escapeHTML(formatTime(message.time))}</div>`:""}
+<div class="messageActions">
+<button class="messageAction" onclick='copyMessage(${JSON.stringify(message.text||"")})'>⧉</button>
+</div>`
+if(mine)wrapper.appendChild(bubble)
+else{
+wrapper.appendChild(avatar)
+wrapper.appendChild(bubble)
+}
+if(mine)wrapper.appendChild(avatar)
+chatMessages.appendChild(wrapper)
+})
+if(!ticket.messages?.length)chatMessages.innerHTML=`<div class="emptyChat"><div class="emptyChatCard"><div class="emptyChatIcon">✦</div><h2>Conversation ready</h2><p>Send the first message to this ticket.</p></div></div>`
+requestAnimationFrame(()=>{
+if(forceBottom||previousNearBottom)chatMessages.scrollTop=chatMessages.scrollHeight
+})
+lastMessageCount=ticket.messages?.length||0
+}
+function buildTicketSignature(ticket){
+return ticket?JSON.stringify({id:ticket.id,status:ticket.status,locked:ticket.locked,updatedAt:ticket.updatedAt,messages:ticket.messages||[]}):""
+}
+function findTicketById(id){
+return mergedTickets().find(t=>String(t.id)===String(id))
 }
 
-.anonKnob {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #d9dee8;
-    box-shadow:
-        0 2px 6px rgba(0,0,0,.35),
-        0 0 0 1px rgba(255,255,255,.15);
-    transition:
-        transform .3s cubic-bezier(.4,0,.2,1),
-        background .3s ease,
-        box-shadow .3s ease;
+async function loadTickets(silent=false){
+if(loadingTickets)return
+loadingTickets=true
+try{
+const r=await api("/support/list")
+const data=await safeJson(r)
+if(!data){
+if(!silent)showToast("Support unavailable","The support server returned an invalid response.","error")
+return
+}
+ticketsMine=Array.isArray(data.mine)?data.mine:[]
+ticketsAll=Array.isArray(data.all)?data.all:[]
+renderTickets()
+const currentTotal=totalUnread()
+if(lastUnreadTotal&&currentTotal>lastUnreadTotal){
+if(!notificationAudio)notificationAudio=new Audio("Sounds/Notification.mp3")
+notificationAudio.currentTime=0
+notificationAudio.play().catch(()=>{})
+showToast("New support activity","A ticket has a new support message.","info")
+}
+lastUnreadTotal=currentTotal
+if(activeTicket){
+const latest=findTicketById(activeTicket.id)
+if(latest){
+const newSignature=buildTicketSignature(latest)
+if(newSignature!==lastTicketSignature){
+const oldCount=activeTicket.messages?.length||0
+activeTicket=latest
+lastTicketSignature=newSignature
+updateTicketHeader(latest)
+if((latest.messages?.length||0)>=oldCount)renderMessages(latest,(latest.messages?.length||0)>oldCount)
+}
+}else{
+activeTicket=null
+lastTicketSignature=""
+updateTicketHeader(null)
+renderMessages(null)
+}
+}
+}catch(e){
+if(!silent)showToast("Connection error","Unable to load support tickets.","error")
+}finally{
+loadingTickets=false
+}
 }
 
-.anonSwitchWrap:hover .anonSwitch {
-    border-color: rgba(77,163,255,.45);
+async function markTicketSeen(ticketId){
+try{
+await fetch(backend+"/notifications/seen",{
+method:"POST",
+headers:{"Content-Type":"application/json",Authorization:token},
+body:JSON.stringify({ticketId})
+})
+}catch{}
 }
 
-.anonSwitchWrap input:focus-visible + .anonSwitch {
-    outline: 2px solid rgba(77,163,255,.7);
-    outline-offset: 3px;
+async function openTicket(ticket){
+activeTicket=ticket
+lastTicketSignature=buildTicketSignature(ticket)
+history.replaceState(null,"","#"+encodeURIComponent(ticket.id))
+saveDraftForActive()
+loadDraftForActive()
+updateTicketHeader(ticket)
+renderMessages(ticket,true)
+renderTickets()
+await markTicketSeen(ticket.id)
+loadTickets(true)
+messageBox.focus()
+if(window.innerWidth<=760)document.body.classList.add("mobile-chat")
+}
+async function refreshActiveTicket(){
+if(!activeTicket)return
+try{
+const r=await api("/support/list")
+const data=await safeJson(r)
+if(!data)return
+const all=[...(data.mine||[]),...(data.all||[])]
+const latest=all.find(t=>String(t.id)===String(activeTicket.id))
+if(!latest)return
+const sig=buildTicketSignature(latest)
+if(sig===lastTicketSignature)return
+const previousCount=activeTicket.messages?.length||0
+activeTicket=latest
+lastTicketSignature=sig
+updateTicketHeader(latest)
+renderMessages(latest,(latest.messages?.length||0)>previousCount)
+}catch{}
 }
 
-.anonSwitchWrap input:checked + .anonSwitch {
-    background: linear-gradient(135deg, #4da3ff, #8b5cf6);
-    border-color: transparent;
-    box-shadow:
-        0 0 18px rgba(77,163,255,.35),
-        inset 0 1px 2px rgba(255,255,255,.2);
+function saveDraftForActive(){
+if(!activeTicket)return
+const value=messageBox.value
+ticketDrafts[String(activeTicket.id)]=value
+saveStore("zyphorSupportDraftsV4",ticketDrafts)
+updateDraftState(value)
+}
+function loadDraftForActive(){
+const value=activeTicket?String(ticketDrafts[String(activeTicket.id)]||""):""
+messageBox.value=value
+resizeComposer()
+updateDraftState(value)
+}
+function updateDraftState(value){
+if(!activeTicket){draftState.textContent="";return}
+const clean=(value||"").trim()
+draftState.textContent=clean?"Draft saved":""
+}
+function clearActiveDraft(){
+if(!activeTicket)return
+delete ticketDrafts[String(activeTicket.id)]
+saveStore("zyphorSupportDraftsV4",ticketDrafts)
+updateDraftState("")
+}
+function saveCreateDraft(){
+createDraft={
+title:document.getElementById("ticketTitleInput").value,
+reason:document.getElementById("ticketReasonInput").value,
+category:selectedCategory
+}
+saveStore("zyphorSupportCreateDraftV3",createDraft)
+}
+function restoreCreateDraft(){
+document.getElementById("ticketTitleInput").value=createDraft.title||""
+document.getElementById("ticketReasonInput").value=createDraft.reason||""
+selectedCategory=createDraft.category||"General Support"
+document.querySelectorAll(".categoryBtn").forEach(btn=>btn.classList.toggle("selected",btn.dataset.category===selectedCategory))
+updateCreateCounts()
+}
+function updateCreateCounts(){
+document.getElementById("newTitleCount").textContent=document.getElementById("ticketTitleInput").value.length+" / 80"
+document.getElementById("newReasonCount").textContent=document.getElementById("ticketReasonInput").value.length+" / 2500"
 }
 
-.anonSwitchWrap input:checked + .anonSwitch .anonKnob {
-    transform: translateX(22px);
-    background: #fff;
-    box-shadow:
-        0 3px 8px rgba(0,0,0,.3),
-        0 0 12px rgba(255,255,255,.25);
+function resizeComposer(){
+messageBox.style.height="auto"
+messageBox.style.height=Math.min(messageBox.scrollHeight,180)+"px"
+charCounter.textContent=messageBox.value.length+" / 5000"
+}
+messageBox.addEventListener("input",()=>{
+resizeComposer()
+saveDraftForActive()
+})
+messageBox.addEventListener("blur",saveDraftForActive)
+messageBox.addEventListener("keydown",e=>{
+if(e.key==="Enter"&&!e.shiftKey){
+e.preventDefault()
+sendMessage()
+}
+})
+window.addEventListener("beforeunload",()=>{
+saveDraftForActive()
+saveCreateDraft()
+})
+
+ticketSearch.addEventListener("input",()=>{
+renderTickets()
+})
+ticketFilter.addEventListener("change",renderTickets)
+document.getElementById("ticketTitleInput").addEventListener("input",()=>{updateCreateCounts();saveCreateDraft()})
+document.getElementById("ticketReasonInput").addEventListener("input",()=>{updateCreateCounts();saveCreateDraft()})
+
+function selectCategory(button){
+selectedCategory=button.dataset.category
+document.querySelectorAll(".categoryBtn").forEach(btn=>btn.classList.toggle("selected",btn===button))
+saveCreateDraft()
 }
 
-      .profile .btn {
-        padding: 9px 16px;
-        font-size: 14px
-      }
-
-      .content {
-        flex: 1;
-        display: grid;
-        grid-template-columns: 360px minmax(0, 1fr);
-        gap: 24px;
-        padding: 30px;
-        overflow: hidden
-      }
-
-      .card {
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        height: 100%;
-        background: rgba(19, 23, 34, .9);
-        backdrop-filter: blur(18px);
-        border: 1px solid var(--border);
-        border-radius: var(--radius)
-      }
-
-      .cardHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 22px;
-        border-bottom: 1px solid var(--border)
-      }
-
-      .btn {
-        padding: 10px 18px;
-        border: none;
-        border-radius: 12px;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        color: #fff;
-        font-weight: 700;
-        cursor: pointer
-      }
-
-      .ticketList {
-        flex: 1;
-        overflow: auto;
-        padding: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px
-      }
-
-      .sidebarUser {
-        color: #9aa4b2;
-        font-size: 13px;
-        margin-bottom: 18px
-      }
-
-      .ticketItem {
-        background: rgba(255, 255, 255, .05);
-        border: 1px solid rgba(255, 255, 255, .08);
-        border-radius: 14px;
-        padding: 16px;
-        margin-bottom: 12px;
-        cursor: pointer;
-        transition: .25s
-      }
-
-      .ticketItem:hover {
-        border-color: #4da3ff;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(77, 163, 255, .18)
-      }
-
-      .ticketStatusOpen {
-        color: #22c55e;
-        font-size: 12px;
-        font-weight: 700
-      }
-
-      .ticketStatusClosed {
-        color: #ef4444;
-        font-size: 12px;
-        font-weight: 700
-      }
-
-      .chatArea {
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 18px
-      }
-
-      .messageRow {
-        display: flex;
-        margin: 12px 0
-      }
-
-      .messageRow.me {
-        justify-content: flex-end
-      }
-
-      .messageBubble {
-        max-width: 72%;
-        background: #1b2130;
-        border: 1px solid rgba(255, 255, 255, .08);
-        border-radius: 18px;
-        padding: 14px 18px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
-        animation: fadeIn .18s ease
-      }
-
-      .messageBubble.me {
-        background: linear-gradient(135deg, #4da3ff, #8b5cf6);
-        border: none
-      }
-
-      .messageTop {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        gap: 18px
-      }
-
-      .messageAuthor {
-        font-weight: 700;
-        font-size: 14px
-      }
-
-      .messageTime {
-        font-size: 12px;
-        opacity: .65;
-        white-space: nowrap
-      }
-
-      .messageText {
-        line-height: 1.65;
-        word-break: break-word
-      }
-
-      .dateDivider {
-        display: flex;
-        justify-content: center;
-        margin: 22px 0
-      }
-
-      .dateDivider span {
-        padding: 6px 14px;
-        border-radius: 999px;
-        background: #101521;
-        border: 1px solid rgba(255, 255, 255, .08);
-        font-size: 12px;
-        color: #9aa4b2
-      }
-
-      .composer {
-        display: flex;
-        gap: 14px;
-        padding: 18px;
-        border-top: 1px solid rgba(255, 255, 255, .08);
-        background: #151a27;
-        flex-shrink: 0
-      }
-
-      .composer textarea {
-        flex: 1;
-        resize: none;
-        height: 56px;
-        padding: 16px;
-        border: none;
-        outline: none;
-        border-radius: 14px;
-        background: #161c28;
-        color: #fff;
-        font-family: inherit
-      }
-
-      .send {
-        width: 56px;
-        border: none;
-        border-radius: 14px;
-        cursor: pointer;
-        font-size: 20px;
-        color: #fff;
-        background: linear-gradient(135deg, #4da3ff, #8b5cf6)
-      }
-
-      .ticketPopup {
-        position: fixed;
-        inset: 0;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, .75);
-        backdrop-filter: blur(10px);
-        z-index: 9999
-      }
-
-      .ticketBox {
-        width: 520px;
-        max-width: 92%;
-        background: #171b27;
-        border: 1px solid rgba(255, 255, 255, .08);
-        border-radius: 22px;
-        padding: 28px;
-        box-shadow: 0 30px 80px rgba(0, 0, 0, .5)
-      }
-
-      .popupHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 24px
-      }
-
-      .popupHeader h2 {
-        font-size: 28px;
-        margin-bottom: 6px
-      }
-
-      .popupHeader p {
-        color: #94a3b8;
-        font-size: 14px;
-        line-height: 1.5
-      }
-
-      .popupClose {
-        width: 42px;
-        height: 42px;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 18px;
-        color: #fff;
-        background: rgba(255, 255, 255, .06)
-      }
-
-      .popupClose:hover {
-        background: #ef4444
-      }
-
-      .ticketInput {
-        width: 100%;
-        background: #0f1420;
-        border: 1px solid rgba(255, 255, 255, .08);
-        color: #fff;
-        padding: 16px;
-        font-size: 15px;
-        border-radius: 14px;
-        margin-bottom: 18px;
-        outline: none;
-        transition: .2s
-      }
-
-      .ticketInput:focus {
-        border-color: #4da3ff;
-        box-shadow: 0 0 0 4px rgba(77, 163, 255, .12)
-      }
-
-      .ticketReason {
-        height: 180px;
-        resize: none
-      }
-
-      .ticketFooter {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px
-      }
-
-      .ticketCount {
-        color: #94a3b8;
-        font-size: 13px
-      }
-
-      .ticketActions {
-        display: flex;
-        gap: 12px
-      }
-
-      .cancelTicket {
-        background: #20283a;
-        color: #fff;
-        border: none;
-        padding: 12px 18px;
-        border-radius: 12px;
-        cursor: pointer;
-        font-weight: 700
-      }
-
-      .createTicketBtn {
-        background: linear-gradient(135deg, #4da3ff, #8b5cf6);
-        color: #fff;
-        border: none;
-        padding: 12px 22px;
-        border-radius: 12px;
-        cursor: pointer;
-        font-weight: 700
-      }
-
-      .emptyChat {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: #94a3b8
-      }
-
-      .emptyIcon {
-        font-size: 56px;
-        margin-bottom: 18px;
-        opacity: .5
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(8px)
-        }
-
-        to {
-          opacity: 1;
-          transform: none
-        }
-      }
-
-      @media(max-width:900px) {
-        .sidebar {
-          width: 220px;
-          padding: 20px
-        }
-
-        .content {
-          grid-template-columns: 300px minmax(0, 1fr);
-          padding: 20px;
-          gap: 16px
-        }
-
-        .topbar {
-          padding: 0 20px
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="layout">
-      <aside class="sidebar">
-        <div class="logo">
-          <img src="https://zyphor.cc/Logo1.png">
-          <h2>ZYPHOR</h2>
-        </div>
-        <nav class="nav">
-          <a class="item" href="Dashboard.html">Dashboard</a>
-          <a class="item" href="#" onclick="goProfile();return false;">Profile</a>
-          <a class="item" href="dms.html">Messages</a>
-          <a class="item" href="Wallet.html">Wallet</a>
-          <a class="item" href="Cloud.html">Cloud</a>
-          <a class="item" href="download.html">App Center</a>
-          <a class="item active" href="Support.html">Support</a>
-          <a class="item" href="#">Settings</a>
-        </nav>
-      </aside>
-      <div class="main">
-        <header class="topbar">
-          <div>
-            <h1>Support Center</h1>
-            <p style="margin-top:6px;color:#9aa4b2">Need assistance? We're here to help.</p>
-          </div>
-          <div class="profile">
-<label id="anonWrap" class="anonSwitchWrap" style="display:none">
-    <span class="anonLabel">
-        <span class="anonTitle">Anonymous</span>
-        <span class="anonSub">Hide your name</span>
-    </span>
-
-    <input type="checkbox" id="anonToggle">
-    <span class="anonSwitch">
-        <span class="anonKnob"></span>
-    </span>
-</label>
-            <button class="btn" onclick="closeTicket()">Close</button>
-            <button class="btn" onclick="lockTicket()">Lock</button>
-            <button class="btn" onclick="unlockTicket()">Unlock</button>
-          </div>
-        </header>
-        <div class="content">
-          <div class="card">
-            <div class="cardHeader">
-              <h2>Tickets</h2>
-              <button class="btn" onclick="createTicket()">+ New Ticket</button>
-            </div>
-            <div class="ticketList">
-              <div class="sidebarUser" id="userDisplay"></div>
-              <div id="myTickets"></div>
-              <h3 id="staffTitle" style="display:none;margin-top:20px">All Tickets</h3>
-              <div id="allTickets"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="cardHeader">
-              <h2 id="ticketTitle">Select a ticket</h2>
-            </div>
-            <div id="ticketHeader" style="padding:18px;border-bottom:1px solid rgba(255,255,255,.08)"></div>
-            <div id="chatMessages" class="chatArea"></div>
-            <div id="previewBar"></div>
-            <div class="composer">
-              <button class="send" onclick="fileInput.click()">+</button>
-              <input type="file" id="fileInput" style="display:none" accept="image/*,video/*,.png,.jpg,.jpeg,.gif,.mp4,.mov,.webm">
-              <textarea id="messageBox" placeholder="Write a message..."></textarea>
-              <button class="send" onclick="sendMessage()">➜</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="ticketPopup" class="ticketPopup">
-      <div class="ticketBox">
-        <div class="popupHeader">
-          <div>
-            <h2>Create Support Ticket</h2>
-            <p>Tell us what's wrong and we'll respond as soon as possible.</p>
-          </div>
-          <button class="popupClose" onclick="closeTicketPopup()">✕</button>
-        </div>
-        <input id="ticketTitleInput" class="ticketInput" maxlength="80" placeholder="Ticket title">
-        <select id="ticketCategory" class="ticketInput">
-          <option>General Support</option>
-          <option>Bug Report</option>
-          <option>Billing</option>
-          <option>Account</option>
-          <option>Website</option>
-          <option>Android App</option>
-          <option>Windows App</option>
-          <option>Other</option>
-        </select>
-        <textarea id="ticketReasonInput" class="ticketInput ticketReason" maxlength="2500" placeholder="Describe your issue..."></textarea>
-        <div class="ticketFooter">
-          <div class="ticketCount">
-            <span id="ticketChars">0</span>/2500
-          </div>
-          <div class="ticketActions">
-            <button class="cancelTicket" onclick="closeTicketPopup()">Cancel</button>
-            <button class="createTicketBtn" onclick="submitTicket()">Create Ticket</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
-      const messageBox = document.getElementById("messageBox")
-      const fileInput = document.getElementById("fileInput")
-      const previewBar = document.getElementById("previewBar")
-      const chatMessages = document.getElementById("chatMessages")
-      const ticketHeader = document.getElementById("ticketHeader")
-      const userDisplay = document.getElementById("userDisplay")
-      const staffTitle = document.getElementById("staffTitle")
-      const anonToggle = document.getElementById("anonToggle")
-      let backend = null,
-        token = null,
-        user = null,
-        activeTicket = null,
-        selectedFile = null,
-        selectedFileUrl = null,
-        activeTicketSignature = "",
-        loadingTickets = false
-      async function getBackend() {
-        const r = await fetch("server.txt");
-        return (await r.text()).trim()
-      }
-      async function safeJson(res) {
-        const txt = await res.text();
-        try {
-          return JSON.parse(txt)
-        } catch {
-          return null
-        }
-      }
-
-      function hasSupport() {
-        return !!(user && (user.permissions.support || user.permissions.admin))
-      }
-
-      function hasAdmin() {
-        return !!(user && user.permissions.admin)
-      }
-
-      function escapeHTML(text) {
-        return String(text ?? "").replace(/[&<>"']/g, m => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        } [m]))
-      }
-
-      function goProfile() {
-        const username = localStorage.getItem("username");
-        if (!username) return;
-        window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`
-      }
-      async function trackPage(page) {
-        const t = localStorage.getItem("Token");
-        if (!t) return;
-        await fetch(backend + "/track/page", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: t
-          },
-          body: JSON.stringify({
-            page
-          })
-        })
-      }
-      async function init() {
-        backend = await getBackend();
-        token = localStorage.getItem("Token");
-        await trackPage("Support.html")
-        if (!token) {
-          location.href = "login.html";
-          return
-        }
-        const r = await fetch(backend + "/me", {
-          headers: {
-            Authorization: token
-          }
-        });
-        user = await safeJson(r)
-        if (!user || user.error) {
-          location.href = "login.html";
-          return
-        }
-        userDisplay.textContent = "Logged in as: " + user.username
-        if (hasSupport()) staffTitle.style.display = "block"
-        if (hasAdmin()) document.getElementById("anonWrap").style.display = "flex"
-        await loadTickets()
-        if (location.hash) {
-          setTimeout(() => {
-            const id = location.hash.slice(1);
-            const el = document.querySelector(`[data-ticket="${CSS.escape(id)}"]`);
-            if (el) el.click()
-          }, 100)
-        }
-      }
-      async function loadTickets() {
-        if (loadingTickets) return;
-        loadingTickets = true
-        try {
-          const r = await fetch(backend + "/support/list", {
-            headers: {
-              Authorization: token
-            }
-          });
-          const data = await safeJson(r) || {
-            mine: [],
-            all: []
-          };
-          renderTicketList(Array.isArray(data.mine) ? data.mine : [], "myTickets");
-          if (hasSupport()) renderTicketList(Array.isArray(data.all) ? data.all : [], "allTickets")
-        } catch (e) {
-          console.error(e)
-        }
-        loadingTickets = false
-      }
-
-      function renderTicketList(list, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = ""
-        list.sort((a, b) => a.status !== b.status ? (a.status === "open" ? -1 : 1) : new Date(b.createdAt) - new Date(a.createdAt))
-        list.forEach(ticket => {
-          const unread = ticket.unread || 0;
-          const div = document.createElement("div");
-          div.className = "ticketItem";
-          div.dataset.ticket = ticket.id;
-          div.innerHTML = `
-										<b>${escapeHTML(ticket.title)}</b>${unread>0?`
-										<span style="float:right;background:#ef4444;color:white;padding:3px 7px;border-radius:999px;font-size:11px">${unread}</span>`:""}
-										<br>
-											<span class="${ticket.status==="open"?"ticketStatusOpen":"ticketStatusClosed"}">${ticket.status.toUpperCase()}</span>`;
-          div.onclick = () => {
-            openTicket(ticket);
-            history.replaceState(null, "", "#" + ticket.id)
-          };
-          container.appendChild(div)
-        })
-      }
-
-      function getFileName(path) {
-        if (!path) return "file";
-        const p = String(path).split("/");
-        return p[p.length - 1] || "file"
-      }
-
-      function getExt(name) {
-        const clean = String(name || "").split("?")[0].toLowerCase();
-        const i = clean.lastIndexOf(".");
-        return i === -1 ? "" : clean.slice(i + 1)
-      }
-
-      function isImageFile(file) {
-        const name = getFileName(file?.path || file?.name || "");
-        const mime = String(file?.mime || file?.type || "").toLowerCase();
-        return mime.startsWith("image/") || ["png", "jpg", "jpeg", "gif", "webp", "bmp", "svg"].includes(getExt(name))
-      }
-
-      function isVideoFile(file) {
-        const name = getFileName(file?.path || file?.name || "");
-        const mime = String(file?.mime || file?.type || "").toLowerCase();
-        return mime.startsWith("video/") || ["mp4", "mov", "webm", "mkv", "avi", "m4v", "ogg"].includes(getExt(name))
-      }
-
-      function renderAttachment(att) {
-        if (!att) return "";
-        const path = att.path || "";
-        const url = backend + "/uploads/" + path;
-        const name = getFileName(path);
-        if (isImageFile(att)) return `
-											<div style="margin-top:10px">
-												<img src="${url}" style="max-width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.08)">
-												</div>`;
-        if (isVideoFile(att)) return `
-												<div style="margin-top:10px">
-													<video controls src="${url}" style="max-width:100%;border-radius:12px"></video>
-												</div>`;
-        return `
-												<div style="margin-top:10px">
-													<a href="${url}" target="_blank" style="color:#7ab7ff">📄 ${escapeHTML(name)}</a>
-												</div>`
-      }
-
-      function formatMessage(text) {
-        return escapeHTML(text).replace(/((https?:\/\/|www\.)[^\s<]+)/gi, url => {
-          let href = url;
-          if (!href.startsWith("http")) href = "https://" + href;
-          return `
-												<a href="${href}" target="_blank">${url}</a>`
-        })
-      }
-      async function openTicket(ticket) {
-        activeTicket = ticket;
-        await fetch(backend + "/notifications/seen", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token
-          },
-          body: JSON.stringify({
-            ticketId: ticket.id
-          })
-        });
-        activeTicketSignature = "";
-        renderMessages(ticket)
-      }
-
-      function renderMessages(ticket) {
-        chatMessages.innerHTML = ""
-        if (!ticket) {
-          chatMessages.innerHTML = `
-												<div class="emptyChat">
-													<div class="emptyIcon">💬</div>
-													<h2>Select a ticket</h2>
-													<p>Choose a ticket from the left to start viewing the conversation.</p>
-												</div>`;
-          return
-        }
-        document.getElementById("ticketTitle").textContent = ticket.title
-        ticketHeader.innerHTML = `
-												<b>${escapeHTML(ticket.title)}</b>
-												<br>
-													<span style="color:${ticket.status==="open"?"#22c55e":"#ef4444"}">${ticket.status.toUpperCase()}</span>${ticket.locked?" 🔒 Locked":""}`
-        let lastDate = "";
-        (ticket.messages || []).forEach(message => {
-          const date = new Date(message.time),
-            day = date.toLocaleDateString();
-          if (day !== lastDate) {
-            lastDate = day;
-            const sep = document.createElement("div");
-            sep.className = "dateDivider";
-            sep.innerHTML = `
-													<span>${day}</span>`;
-            chatMessages.appendChild(sep)
-          }
-          const mine = message.author === user.username;
-          const wrapper = document.createElement("div");
-          wrapper.className = mine ? "messageRow me" : "messageRow";
-          const bubble = document.createElement("div");
-          bubble.className = mine ? "messageBubble me" : "messageBubble";
-          bubble.innerHTML = `
-													<div class="messageTop">
-														<span class="messageAuthor">${escapeHTML(message.author)}</span>
-														<span class="messageTime">${date.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}</span>
-													</div>${message.text?`
-													<div class="messageText">${formatMessage(message.text)}</div>`:""}${message.attachment?renderAttachment(message.attachment):""}`;
-          wrapper.appendChild(bubble);
-          chatMessages.appendChild(wrapper)
-        })
-        requestAnimationFrame(() => chatMessages.scrollTop = chatMessages.scrollHeight)
-      }
-
-      function buildTicketSignature(ticket) {
-        return ticket ? JSON.stringify(ticket) : ""
-      }
-      async function refreshActiveTicket() {
-        if (!activeTicket) return
-        const r = await fetch(backend + "/support/list", {
-          headers: {
-            Authorization: token
-          }
-        });
-        const data = await safeJson(r);
-        if (!data) return
-        const tickets = [...(data.mine || []), ...(data.all || [])],
-          updated = tickets.find(t => t.id === activeTicket.id);
-        if (!updated) return
-        const sig = buildTicketSignature(updated);
-        if (sig === activeTicketSignature) return
-        const oldMessages = JSON.stringify(activeTicket.messages || []),
-          newMessages = JSON.stringify(updated.messages || []);
-        activeTicketSignature = sig;
-        activeTicket = updated
-        if (oldMessages !== newMessages) renderMessages(updated)
-      }
-      const ticketPopup = document.getElementById("ticketPopup"),
-        ticketTitleInput = document.getElementById("ticketTitleInput"),
-        ticketReasonInput = document.getElementById("ticketReasonInput"),
-        ticketChars = document.getElementById("ticketChars")
-      ticketReasonInput.addEventListener("input", () => ticketChars.textContent = ticketReasonInput.value.length)
-
-      function removePreview() {
-        selectedFile = null;
-        selectedFileUrl = null;
-        fileInput.value = "";
-        previewBar.innerHTML = "";
-        previewBar.style.display = "none"
-      }
-      fileInput.addEventListener("change", () => {
-        const file = fileInput.files[0];
-        if (!file) {
-          removePreview();
-          return
-        }
-        selectedFile = file;
-        if (selectedFileUrl) URL.revokeObjectURL(selectedFileUrl);
-        selectedFileUrl = URL.createObjectURL(file);
-        previewBar.style.display = "block";
-        previewBar.innerHTML = `
-													<div style="padding:12px">${file.type.startsWith("image/")?`
-														<img src="${selectedFileUrl}" style="max-height:120px;border-radius:12px;display:block;margin-bottom:10px">`:file.type.startsWith("video/")?`
-															<video controls src="${selectedFileUrl}" style="max-height:160px;border-radius:12px;display:block;margin-bottom:10px"></video>`:`📄 ${escapeHTML(file.name)}
-															<br>
-																<br>`}
-																	<button class="btn" onclick="removePreview()">Remove</button>
-																</div>`
-      })
-      async function sendMessage() {
-        if (!activeTicket) return;
-        const msg = messageBox.value;
-        const form = new FormData();
-        form.append("ticketId", activeTicket.id);
-        form.append("message", msg);
-        if (selectedFile) form.append("file", selectedFile);
-        if (anonToggle.checked) form.append("anonymous", true);
-        await fetch(backend + "/support/message", {
-          method: "POST",
-          headers: {
-            Authorization: token
-          },
-          body: form
-        });
-        messageBox.value = "";
-        removePreview();
-        await refreshActiveTicket()
-      }
-      async function closeTicket() {
-        if (!activeTicket) return;
-        await fetch(backend + "/support/close", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token
-          },
-          body: JSON.stringify({
-            ticketId: activeTicket.id
-          })
-        });
-        loadTickets()
-      }
-      async function lockTicket() {
-        if (!activeTicket) return;
-        await fetch(backend + "/support/lock", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token
-          },
-          body: JSON.stringify({
-            ticketId: activeTicket.id
-          })
-        });
-        loadTickets()
-      }
-      async function unlockTicket() {
-        if (!activeTicket) return;
-        await fetch(backend + "/support/unlock", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token
-          },
-          body: JSON.stringify({
-            ticketId: activeTicket.id
-          })
-        });
-        loadTickets()
-      }
-
-      function createTicket() {
-        ticketPopup.style.display = "flex"
-      }
-
-      function closeTicketPopup() {
-        ticketPopup.style.display = "none";
-        ticketTitleInput.value = "";
-        ticketReasonInput.value = ""
-      }
-      async function submitTicket() {
-        const title = ticketTitleInput.value.trim(),
-          reason = ticketReasonInput.value.trim();
-        if (!title || !reason) {
-          alert("Please enter a title and reason");
-          return
-        }
-        await fetch(backend + "/support/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token
-          },
-          body: JSON.stringify({
-            title,
-            reason
-          })
-        });
-        closeTicketPopup();
-        loadTickets()
-      }
-
-      function logout() {
-        localStorage.removeItem("Token");
-        location.href = "login.html"
-      }
-      setInterval(refreshActiveTicket, 500);
-      setInterval(loadTickets, 2000);
-      init()
-    </script>
-  </body>
+function createTicket(){
+restoreCreateDraft()
+document.getElementById("createStatus").textContent=""
+document.getElementById("createStatus").className="modalStatus"
+openModal("ticketPopup")
+document.getElementById("ticketTitleInput").focus()
+}
+function closeTicketPopup(){
+saveCreateDraft()
+document.getElementById("ticketPopup").classList.remove("show")
+}
+async function submitTicket(){
+const title=document.getElementById("ticketTitleInput").value.trim()
+const reason=document.getElementById("ticketReasonInput").value.trim()
+const status=document.getElementById("createStatus")
+if(!title||!reason){
+status.textContent="Please provide both a title and description."
+status.className="modalStatus error"
+return
+}
+status.textContent="Creating ticket..."
+status.className="modalStatus"
+try{
+const r=await api("/support/create",{method:"POST",body:JSON.stringify({title,reason,category:selectedCategory})})
+const data=await safeJson(r)
+if(!data||data.success===false){
+status.textContent=data?.error||"Unable to create the ticket."
+status.className="modalStatus error"
+return
+}
+createDraft={title:"",reason:"",category:"General Support"}
+saveStore("zyphorSupportCreateDraftV3",createDraft)
+document.getElementById("ticketTitleInput").value=""
+document.getElementById("ticketReasonInput").value=""
+selectedCategory="General Support"
+document.querySelectorAll(".categoryBtn").forEach(btn=>btn.classList.toggle("selected",btn.dataset.category==="General Support"))
+updateCreateCounts()
+closeTicketPopup()
+showToast("Ticket created","Your support conversation is ready.","success")
+await loadTickets()
+const newTicket=Array.isArray(data.ticket)?data.ticket:null
+const candidate=data.ticket||data.createdTicket||null
+if(candidate)await openTicket(candidate)
+else if(ticketsMine[0])await openTicket([...ticketsMine].sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0))[0])
+}catch{
+status.textContent="The support server could not be reached."
+status.className="modalStatus error"
+}
+}
+
+function currentTicketAllowsMessage(){
+return !!activeTicket&&!activeTicket.locked&&activeTicket.status==="open"
+}
+async function sendMessage(){
+if(!currentTicketAllowsMessage())return
+const text=messageBox.value.trim()
+if(!text&& !selectedFile){
+showToast("Empty message","Write a message or attach a file first.","error")
+return
+}
+sendBtn.disabled=true
+saveDraftForActive()
+try{
+const form=new FormData()
+form.append("ticketId",activeTicket.id)
+form.append("message",text)
+if(selectedFile)form.append("file",selectedFile)
+const anonymous=hasAdmin()&&document.body.dataset.anonymous==="true"
+if(anonymous)form.append("anonymous","true")
+const r=await api("/support/message",{method:"POST",body:form})
+const data=await safeJson(r)
+if(data?.success===false){
+showToast("Message failed",data.error||"The message could not be sent.","error")
+return
+}
+messageBox.value=""
+clearActiveDraft()
+removePreview()
+resizeComposer()
+showToast("Message sent","Your support message was delivered.","success")
+await refreshActiveTicket()
+await loadTickets(true)
+}catch{
+showToast("Message failed","The support server could not be reached.","error")
+}finally{
+sendBtn.disabled=!currentTicketAllowsMessage()
+}
+}
+
+async function ticketAction(path,successText){
+if(!activeTicket)return
+try{
+const r=await api(path,{method:"POST",body:JSON.stringify({ticketId:activeTicket.id})})
+const data=await safeJson(r)
+if(data?.success===false){
+showToast("Action failed",data.error||"The ticket could not be updated.","error")
+return
+}
+showToast("Ticket updated",successText,"success")
+await loadTickets(true)
+}catch{
+showToast("Action failed","The support server could not be reached.","error")
+}
+}
+function closeTicket(){ticketAction("/support/close","The ticket was closed.")}
+function lockTicket(){ticketAction("/support/lock","The ticket was locked.")}
+function unlockTicket(){ticketAction("/support/unlock","The ticket was unlocked.")}
+
+function removePreview(){
+selectedFile=null
+if(selectedFileUrl)URL.revokeObjectURL(selectedFileUrl)
+selectedFileUrl=""
+fileInput.value=""
+attachmentBar.innerHTML=""
+attachmentBar.classList.remove("show")
+previewStrip.innerHTML=""
+previewStrip.classList.remove("show")
+}
+fileInput.addEventListener("change",()=>handleSelectedFile(fileInput.files[0]))
+function handleSelectedFile(file){
+if(!file)return
+if(file.size>25*1024*1024){
+showToast("Attachment too large","The selected file exceeds the 25 MB client limit.","error")
+fileInput.value=""
+return
+}
+selectedFile=file
+if(selectedFileUrl)URL.revokeObjectURL(selectedFileUrl)
+selectedFileUrl=URL.createObjectURL(file)
+attachmentBar.classList.add("show")
+attachmentBar.innerHTML=`<div class="filePreview">${file.type.startsWith("image/")?`<img class="filePreviewThumb" src="${selectedFileUrl}">`:`<div class="filePreviewThumb" style="display:flex;align-items:center;justify-content:center">📄</div>`}<div class="filePreviewName">${escapeHTML(file.name)}</div><button class="removeFile" onclick="removePreview()">×</button></div><div class="uploadHint">Ready to send · ${Math.ceil(file.size/1024)} KB</div>`
+}
+document.addEventListener("dragover",e=>{
+if(activeTicket&&e.dataTransfer?.items?.length){
+e.preventDefault()
+dropZone.classList.add("show")
+}
+})
+document.addEventListener("dragleave",e=>{
+if(!e.relatedTarget||!document.body.contains(e.relatedTarget))dropZone.classList.remove("show")
+})
+document.addEventListener("drop",e=>{
+if(!activeTicket)return
+e.preventDefault()
+dropZone.classList.remove("show")
+const file=e.dataTransfer.files?.[0]
+if(file)handleSelectedFile(file)
+})
+document.addEventListener("paste",e=>{
+if(!activeTicket)return
+const items=[...(e.clipboardData?.items||[])]
+const imageItem=items.find(x=>x.type.startsWith("image/"))
+if(imageItem){
+const file=imageItem.getAsFile()
+if(file)handleSelectedFile(new File([file],`pasted-image-${Date.now()}.${getExt(file.type.replace("image/",""))||"png"}`,{type:file.type}))
+}
+})
+
+function scrollToBottom(force=false){
+if(force){
+chatMessages.scrollTo({top:chatMessages.scrollHeight,behavior:"smooth"})
+jumpBottom.classList.remove("show")
+}
+}
+chatMessages.addEventListener("scroll",()=>{
+const away=chatMessages.scrollHeight-chatMessages.scrollTop-chatMessages.clientHeight>160
+jumpBottom.classList.toggle("show",away)
+})
+
+function toggleEmojiPanel(){
+emojiPanel.classList.toggle("show")
+if(emojiPanel.classList.contains("show"))emojiSearch.focus()
+}
+function renderEmojis(){
+const q=emojiSearch.value.trim().toLowerCase()
+emojiGrid.innerHTML=emojis.filter(e=>!q||e.includes(q)).map(e=>`<button class="emojiBtn" onclick='insertEmoji(${JSON.stringify(e)})'>${e}</button>`).join("")
+}
+function insertEmoji(emoji){
+const start=messageBox.selectionStart
+const end=messageBox.selectionEnd
+const value=messageBox.value
+messageBox.value=value.slice(0,start)+emoji+value.slice(end)
+messageBox.focus()
+messageBox.selectionStart=messageBox.selectionEnd=start+emoji.length
+resizeComposer()
+saveDraftForActive()
+}
+emojiSearch.addEventListener("input",renderEmojis)
+document.addEventListener("click",e=>{
+if(!e.target.closest("#emojiPanel")&&!e.target.closest(".composerTool"))emojiPanel.classList.remove("show")
+if(!e.target.closest(".staffDrawer")&&!e.target.closest("#drawerBtn"))document.getElementById("staffDrawer").classList.remove("show")
+})
+
+function insertTemplate(){
+const templates=[
+"Hello! Thanks for contacting Zyphor Support. We'll look into this for you.",
+"Could you provide a screenshot or any additional details so we can investigate this further?",
+"We've received your message and are currently investigating the issue.",
+"Could you confirm whether the issue is still happening after refreshing or signing in again?"
+]
+const choice=templates[0]
+const start=messageBox.selectionStart
+const end=messageBox.selectionEnd
+messageBox.value=messageBox.value.slice(0,start)+choice+messageBox.value.slice(end)
+messageBox.focus()
+resizeComposer()
+saveDraftForActive()
+}
+
+async function copyMessage(text){
+try{
+await navigator.clipboard.writeText(text||"")
+showToast("Copied","Message text copied to your clipboard.","success")
+}catch{
+showToast("Copy failed","Your browser blocked clipboard access.","error")
+}
+}
+function openTicketDetails(){
+if(!activeTicket)return
+const box=document.getElementById("detailBox")
+box.innerHTML=`
+<div class="detailLine"><span>Ticket ID</span><strong>${escapeHTML(activeTicket.id||"—")}</strong></div>
+<div class="detailLine"><span>Title</span><strong>${escapeHTML(activeTicket.title||"—")}</strong></div>
+<div class="detailLine"><span>Status</span><strong>${escapeHTML(activeTicket.status||"—")}</strong></div>
+<div class="detailLine"><span>Category</span><strong>${escapeHTML(normalizeTicketCategory(activeTicket))}</strong></div>
+<div class="detailLine"><span>Created</span><strong>${escapeHTML(formatDate(activeTicket.createdAt))}</strong></div>
+<div class="detailLine"><span>Updated</span><strong>${escapeHTML(formatDate(activeTicket.updatedAt))}</strong></div>
+<div class="detailLine"><span>Messages</span><strong>${escapeHTML(activeTicket.messages?.length||0)}</strong></div>
+<div class="detailLine"><span>Locked</span><strong>${activeTicket.locked?"Yes":"No"}</strong></div>
+${activeTicket.username?`<div class="detailLine"><span>User</span><strong>${escapeHTML(activeTicket.username)}</strong></div>`:""}
+`
+openModal("detailModal")
+}
+function toggleStaffDrawer(){
+if(!hasSupport())return
+staffDrawerOpen=!staffDrawerOpen
+document.getElementById("staffDrawer").classList.toggle("show",staffDrawerOpen)
+}
+function openShortcuts(){openModal("shortcutsModal")}
+function openAbout(){openModal("aboutModal")}
+
+function mobileView(mode){
+if(mode==="chat"){
+document.body.classList.add("mobile-chat")
+document.getElementById("mobileTickets").classList.remove("active")
+document.getElementById("mobileChat").classList.add("active")
+}else{
+document.body.classList.remove("mobile-chat")
+document.getElementById("mobileTickets").classList.add("active")
+document.getElementById("mobileChat").classList.remove("active")
+}
+}
+
+function refreshEverything(){
+loadTickets()
+if(activeTicket)refreshActiveTicket()
+showToast("Refreshed","Support workspace was synchronized.","info")
+}
+
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape"){
+emojiPanel.classList.remove("show")
+document.getElementById("staffDrawer").classList.remove("show")
+document.querySelectorAll(".overlayModal.show").forEach(x=>x.classList.remove("show"))
+}
+if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){
+e.preventDefault()
+ticketSearch.focus()
+}
+if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==="n"){
+e.preventDefault()
+createTicket()
+}
+if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==="e"){
+e.preventDefault()
+toggleEmojiPanel()
+}
+})
+
+window.addEventListener("hashchange",()=>{
+const id=decodeURIComponent(location.hash.slice(1))
+if(id){
+const ticket=findTicketById(id)
+if(ticket)openTicket(ticket)
+}
+})
+
+async function init(){
+try{
+backend=await getBackend()
+token=tokenValue()
+if(!token){
+location.href="login.html"
+return
+}
+const ok=await loadProfile()
+if(!ok)return
+await trackPage("Support.html")
+restoreCreateDraft()
+renderEmojis()
+await loadTickets()
+const hash=decodeURIComponent(location.hash.slice(1))
+if(hash){
+const ticket=findTicketById(hash)
+if(ticket)await openTicket(ticket)
+}
+ticketRefreshTimer=setInterval(()=>loadTickets(true),2500)
+activeRefreshTimer=setInterval(()=>refreshActiveTicket(),700)
+}catch{
+showToast("Support unavailable","The Support Nexus could not connect to the Zyphor backend.","error")
+}
+}
+init()
+</script>
+</body>
 </html>
