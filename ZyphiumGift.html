@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#050811">
+<title>Zyphor Gift</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#04060a;color:#f7fbff}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;overflow-x:hidden;padding:22px;background:
+radial-gradient(circle at 20% 10%,rgba(0,217,255,.12),transparent 28%),
+radial-gradient(circle at 80% 20%,rgba(150,77,255,.14),transparent 30%),
+linear-gradient(180deg,#070a12,#03050a 75%,#020307)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+.wrap{position:relative;width:min(720px,100%);z-index:1}
+.card{border:1px solid rgba(255,255,255,.09);border-radius:28px;padding:28px;background:linear-gradient(145deg,rgba(23,29,46,.88),rgba(8,12,20,.92));box-shadow:0 35px 120px rgba(0,0,0,.45);backdrop-filter:blur(22px)}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid rgba(0,217,255,.13);background:rgba(0,217,255,.05);color:#90eaff;font-size:10px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}
+h1{font-size:38px;letter-spacing:-1.5px;margin-top:14px}
+.sub{color:#8090a9;font-size:13px;line-height:1.55;margin-top:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+label{display:block;color:#7e8ba1;font-size:10px;font-weight:800;margin-bottom:7px}
+.input{width:100%;height:45px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.2);color:#fff;padding:0 12px;outline:none;font-size:12px}
+textarea.input{height:110px;padding:12px;resize:vertical}
+.input:focus{border-color:rgba(0,217,255,.35);box-shadow:0 0 0 3px rgba(0,217,255,.05)}
+.actions{display:flex;gap:8px;margin-top:14px}
+button{border:0;border-radius:12px;min-height:45px;padding:0 15px;color:#fff;font-size:11px;font-weight:900;cursor:pointer}
+.primary{flex:1;background:linear-gradient(95deg,#00b9e3,#7650ff);box-shadow:0 14px 35px rgba(0,217,255,.13)}
+.ghost{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.status{min-height:19px;margin-top:11px;color:#76849b;font-size:10px;line-height:1.5}
+.linkBox{display:none;margin-top:15px;padding:14px;border-radius:15px;background:rgba(0,217,255,.04);border:1px solid rgba(0,217,255,.11)}
+.linkBox.show{display:block}
+.link{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;color:#9feeff;word-break:break-all;line-height:1.5}
+.claim{display:flex;flex-direction:column;align-items:center;text-align:center;padding:10px}
+.giftScene{position:relative;width:230px;height:235px;margin:15px auto 4px}
+.gift{position:absolute;left:50%;top:67px;transform:translateX(-50%);width:142px;height:112px}
+.box{position:absolute;left:0;right:0;bottom:0;height:88px;border-radius:11px 11px 16px 16px;background:linear-gradient(145deg,#18bce8,#7752ff);box-shadow:0 25px 55px rgba(0,217,255,.15),inset 0 1px rgba(255,255,255,.25)}
+.box::after{content:"";position:absolute;left:calc(50% - 12px);top:0;width:24px;height:100%;background:rgba(255,255,255,.18)}
+.lid{position:absolute;left:-6px;right:-6px;top:6px;height:37px;border-radius:10px;background:linear-gradient(145deg,#29cbef,#8a63ff);transform-origin:center bottom;z-index:3}
+.lid::after{content:"";position:absolute;left:calc(50% - 12px);top:0;width:24px;height:100%;background:rgba(255,255,255,.19)}
+.bow{position:absolute;left:50%;top:-16px;transform:translateX(-50%);width:72px;height:38px;z-index:4}
+.bow::before,.bow::after{content:"";position:absolute;top:3px;width:34px;height:25px;border:7px solid #ffd76b}
+.bow::before{right:31px;border-radius:18px 4px 16px 18px;transform:rotate(-25deg)}
+.bow::after{left:31px;border-radius:4px 18px 18px 16px;transform:rotate(25deg)}
+.knot{position:absolute;left:50%;top:11px;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;background:#ffe08c}
+.giftScene.open .lid{animation:lidOpen .8s cubic-bezier(.2,.85,.25,1) forwards}
+.giftScene.open .gift{animation:giftFloat 1.2s ease forwards}
+.giftScene.open .box{animation:boxPulse .9s ease}
+@keyframes lidOpen{0%{transform:rotate(0)}55%{transform:rotate(-17deg) translate(-9px,-22px)}100%{transform:rotate(-30deg) translate(-18px,-30px);opacity:.2}}
+@keyframes giftFloat{0%{transform:translateX(-50%)}45%{transform:translate(-50%,-17px) scale(1.03)}100%{transform:translate(-50%,0)}}
+@keyframes boxPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.35)}}
+.amount{font-size:53px;font-weight:900;letter-spacing:-2.4px}
+.amount small{font-size:18px;color:#aebbd0;letter-spacing:0}
+.from{margin-top:7px;color:#7e8da5;font-size:11px}
+.message{margin-top:18px;padding:14px 16px;width:100%;border-radius:15px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);color:#e7edf7;font-size:12px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.openBtn{margin-top:14px;width:100%;background:linear-gradient(95deg,#00b9e3,#7650ff)}
+.claimed{margin-top:13px;padding:10px 13px;border-radius:12px;background:rgba(255,99,125,.05);border:1px solid rgba(255,99,125,.12);color:#ff9aab;font-size:10px}
+.success{margin-top:13px;padding:11px 13px;border-radius:12px;background:rgba(98,239,175,.05);border:1px solid rgba(98,239,175,.13);color:#99efc5;font-size:10px}
+.hidden{display:none!important}
+.error{color:#ff91a4}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.card{padding:22px}h1{font-size:31px}.amount{font-size:45px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="card">
+<div id="creator" class="hidden">
+<div class="badge">🎁 Zyphor Gift</div>
+<h1>Create a gift</h1>
+<div class="sub">Choose an amount, write a message, and generate a one-time Zyphor gift link.</div>
+<div class="grid">
+<div>
+<label for="amount">Zyphium Amount</label>
+<input id="amount" class="input" type="number" min="0.01" step="0.01" value="1">
+</div>
+<div>
+<label for="message">Gift Message</label>
+<textarea id="message" class="input" maxlength="1000" placeholder="A message for whoever opens your gift..."></textarea>
+</div>
+</div>
+<div class="actions">
+<button class="primary" id="createBtn">Create Gift Link</button>
+<button class="ghost" id="copyBtn" disabled>Copy</button>
+</div>
+<div class="status" id="creatorStatus"></div>
+<div class="linkBox" id="linkBox">
+<div style="font-size:9px;color:#73829a;margin-bottom:7px;font-weight:900;text-transform:uppercase;letter-spacing:1px">Gift Link</div>
+<div class="link" id="giftLink"></div>
+</div>
+</div>
+
+<div id="recipient" class="claim hidden">
+<div class="badge">✨ Zyphium Gift</div>
+<div class="giftScene" id="giftScene">
+<div class="gift">
+<div class="bow"><div class="knot"></div></div>
+<div class="lid"></div>
+<div class="box"></div>
+</div>
+</div>
+<div id="recipientState">
+<div class="amount" id="giftAmount">0 <small>Zyphium</small></div>
+<div class="from" id="giftFrom"></div>
+<div class="message" id="giftMessage"></div>
+<button class="openBtn" id="openBtn">Open Gift</button>
+<div class="status" id="recipientStatus"></div>
+</div>
+</div>
+</section>
+</div>
+<script src="ZyphiumGift.js"></script>
+</body>
+</html>
