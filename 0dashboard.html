@@ -4,647 +4,1802 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zyphor Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root{
+    --bg:#05070c;
+    --bg-soft:#090d16;
+    --panel:rgba(15,19,30,.72);
+    --panel-strong:rgba(19,24,38,.88);
+    --line:rgba(255,255,255,.08);
+    --line-bright:rgba(255,255,255,.14);
+    --text:#f7f9ff;
+    --muted:#929db2;
+    --muted-2:#68748b;
+    --cyan:#00d5ff;
+    --blue:#4d7cff;
+    --purple:#8d4dff;
+    --green:#2ee6a6;
+    --red:#ff3d4f;
+    --shadow:0 24px 80px rgba(0,0,0,.34);
 }
 
-body {
-    font-family: Inter, sans-serif;
-    background: radial-gradient(
-        circle at top,
-        #12224d 0%,
-        #090b11 30%,
-        #05070b 100%
-    );
-    color: #fff;
-    min-height: 100vh;
-    overflow-x: hidden;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--text);
     background:
-        radial-gradient(circle at 20% 20%, rgba(0,213,255,.12), transparent 25%),
-        radial-gradient(circle at 80% 70%, rgba(154,61,255,.12), transparent 30%);
-    pointer-events: none;
+        radial-gradient(circle at 12% 8%,rgba(0,213,255,.09),transparent 24%),
+        radial-gradient(circle at 88% 10%,rgba(141,77,255,.10),transparent 25%),
+        radial-gradient(circle at 50% 100%,rgba(77,124,255,.08),transparent 28%),
+        linear-gradient(180deg,#080b12 0%,#05070c 50%,#03050a 100%);
 }
 
-.layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    min-height: 100vh;
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    opacity:.65;
+    background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:46px 46px;
+    mask-image:linear-gradient(to bottom,black,transparent 90%);
 }
 
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
-    background: rgba(10,13,20,.72);
-    backdrop-filter: blur(24px);
-    border-right: 1px solid rgba(255,255,255,.08);
+body::after{
+    content:"";
+    position:fixed;
+    inset:-20%;
+    pointer-events:none;
+    z-index:-2;
+    background:
+        radial-gradient(circle at 25% 30%,rgba(0,213,255,.06),transparent 20%),
+        radial-gradient(circle at 70% 45%,rgba(141,77,255,.05),transparent 22%);
+    filter:blur(70px);
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 40px;
+button,
+a,
+input{
+    font:inherit;
 }
 
-.logo img {
-    width: 56px;
+button,
+a{
+    -webkit-tap-highlight-color:transparent;
 }
 
-.logo h2 {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: 2px;
+.layout{
+    display:grid;
+    grid-template-columns:270px minmax(0,1fr);
+    min-height:100vh;
 }
 
-.nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.sidebar{
+    position:sticky;
+    top:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding:24px 18px;
+    background:rgba(7,10,16,.76);
+    backdrop-filter:blur(26px);
+    -webkit-backdrop-filter:blur(26px);
+    border-right:1px solid var(--line);
+    box-shadow:18px 0 70px rgba(0,0,0,.18);
 }
 
-.item {
-    padding: 15px 18px;
-    border: 1px solid transparent;
-    border-radius: 16px;
-    color: #b8c2d5;
-    text-decoration: none;
-    transition: .25s;
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 10px 24px;
+    margin-bottom:8px;
+}
+
+.logo img{
+    width:48px;
+    height:48px;
+    object-fit:contain;
+    filter:drop-shadow(0 0 18px rgba(0,213,255,.20));
+}
+
+.logo h2{
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:3px;
+}
+
+.logoBadge{
+    margin-left:auto;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 16px rgba(46,230,166,.8);
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.item{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-height:48px;
+    padding:11px 13px;
+    border:1px solid transparent;
+    border-radius:15px;
+    color:#aab4c8;
+    text-decoration:none;
+    transition:.22s ease;
+    overflow:hidden;
+}
+
+.item::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:linear-gradient(90deg,rgba(0,213,255,.10),rgba(141,77,255,.10));
+    opacity:0;
+    transition:.22s ease;
+    pointer-events:none;
 }
 
 .item:hover,
-.item.active {
-    background: linear-gradient(
-        90deg,
-        rgba(0,213,255,.12),
-        rgba(154,61,255,.12)
+.item.active{
+    color:#fff;
+    border-color:rgba(255,255,255,.08);
+    background:rgba(255,255,255,.025);
+    transform:translateX(4px);
+}
+
+.item:hover::after,
+.item.active::after{
+    opacity:1;
+}
+
+.item.active{
+    box-shadow:inset 0 0 0 1px rgba(0,213,255,.06),0 12px 28px rgba(0,0,0,.13);
+}
+
+.item.active::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:10px;
+    bottom:10px;
+    width:3px;
+    border-radius:999px;
+    background:linear-gradient(180deg,var(--cyan),var(--purple));
+    box-shadow:0 0 16px rgba(0,213,255,.55);
+}
+
+.itemText{
+    position:relative;
+    z-index:1;
+}
+
+.zy-emoji{
+    position:relative;
+    z-index:1;
+    width:30px;
+    height:30px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.08);
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 7px 18px rgba(0,0,0,.15);
+    font-size:15px;
+    flex-shrink:0;
+}
+
+.zy-emoji.cyan{
+    border-color:rgba(0,213,255,.20);
+    background:linear-gradient(145deg,rgba(0,213,255,.16),rgba(0,213,255,.03));
+}
+
+.zy-emoji.purple{
+    border-color:rgba(141,77,255,.22);
+    background:linear-gradient(145deg,rgba(141,77,255,.16),rgba(141,77,255,.03));
+}
+
+.zy-emoji.red{
+    border-color:rgba(255,61,79,.20);
+    background:linear-gradient(145deg,rgba(255,61,79,.16),rgba(255,61,79,.03));
+}
+
+.zy-emoji.green{
+    border-color:rgba(46,230,166,.20);
+    background:linear-gradient(145deg,rgba(46,230,166,.14),rgba(46,230,166,.03));
+}
+
+.bottom{
+    margin-top:auto;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,.05);
+}
+
+.logoutItem{
+    color:#a2aabc;
+}
+
+.main{
+    min-width:0;
+    padding:30px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:26px;
+}
+
+.welcome h1{
+    font-size:38px;
+    line-height:1.05;
+    letter-spacing:-1.7px;
+    font-weight:900;
+}
+
+.welcome p{
+    margin-top:9px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    min-width:0;
+    padding:9px 12px 9px 9px;
+    background:rgba(255,255,255,.035);
+    border:1px solid var(--line);
+    border-radius:20px;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    box-shadow:0 15px 35px rgba(0,0,0,.16);
+}
+
+.avatar-shell{
+    position:relative;
+    width:62px;
+    height:62px;
+    padding:3px;
+    border-radius:50%;
+    background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.03));
+    box-shadow:0 0 0 1px rgba(255,255,255,.04);
+    transition:.25s ease;
+    flex-shrink:0;
+}
+
+.avatar-shell::before{
+    content:"";
+    position:absolute;
+    inset:-7px;
+    border-radius:inherit;
+    opacity:0;
+    transition:.25s ease;
+    pointer-events:none;
+}
+
+.avatar-shell.subscription-ascended{
+    background:conic-gradient(
+        from 20deg,
+        #110305 0deg,
+        #ff263f 55deg,
+        #050202 110deg,
+        #e31334 170deg,
+        #090304 230deg,
+        #ff3147 300deg,
+        #110305 360deg
     );
-    border-color: rgba(0,213,255,.25);
-    color: #fff;
-    transform: translateX(6px);
+    box-shadow:
+        0 0 0 1px rgba(255,61,79,.20),
+        0 0 22px rgba(255,49,71,.28);
 }
 
-.bottom {
-    margin-top: auto;
+.avatar-shell.subscription-ascended::before{
+    opacity:1;
+    background:conic-gradient(
+        from 180deg,
+        transparent 0deg,
+        rgba(255,49,71,.28) 55deg,
+        transparent 130deg,
+        rgba(255,49,71,.18) 240deg,
+        transparent 320deg
+    );
+    filter:blur(9px);
 }
 
-.main {
-    padding: 34px;
+.avatar-shell.subscription-infinity{
+    background:conic-gradient(
+        from 30deg,
+        #04080e 0deg,
+        #249dff 55deg,
+        #05070c 115deg,
+        #4176ff 175deg,
+        #03050a 240deg,
+        #25d7ff 305deg,
+        #04080e 360deg
+    );
+    animation:ringFlowBlue 5s linear infinite;
+    box-shadow:
+        0 0 0 1px rgba(55,158,255,.20),
+        0 0 28px rgba(39,137,255,.28);
 }
 
-.top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
+.avatar-shell.subscription-infinity::before{
+    opacity:1;
+    background:conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(0,213,255,.26) 60deg,
+        transparent 140deg,
+        rgba(60,113,255,.24) 220deg,
+        transparent 330deg
+    );
+    filter:blur(10px);
+    animation:ringPulse 2.8s ease-in-out infinite;
 }
 
-.welcome h1 {
-    font-size: 40px;
-    font-weight: 800;
+.avatar-shell.subscription-endless{
+    background:conic-gradient(
+        from 30deg,
+        #09040f 0deg,
+        #8b35ff 52deg,
+        #050208 112deg,
+        #b04dff 175deg,
+        #050209 235deg,
+        #6f38ff 300deg,
+        #09040f 360deg
+    );
+    animation:ringFlowPurple 5s linear infinite;
+    box-shadow:
+        0 0 0 1px rgba(141,77,255,.20),
+        0 0 28px rgba(141,77,255,.28);
 }
 
-.welcome p {
-    margin-top: 6px;
-    color: #9fa8b6;
+.avatar-shell.subscription-endless::before{
+    opacity:1;
+    background:conic-gradient(
+        from 10deg,
+        transparent 0deg,
+        rgba(141,77,255,.26) 55deg,
+        transparent 135deg,
+        rgba(176,77,255,.24) 240deg,
+        transparent 332deg
+    );
+    filter:blur(10px);
+    animation:ringPulse 2.8s ease-in-out infinite;
 }
 
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 18px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 18px;
+@keyframes ringFlowBlue{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes ringFlowPurple{
+    to{transform:rotate(-360deg)}
+}
+
+@keyframes ringPulse{
+    0%,100%{opacity:.72}
+    50%{opacity:1}
 }
 
 .avatar{
-width:48px;
-height:48px;
-border-radius:50%;
-background:linear-gradient(135deg,#00d5ff,#7a3cff);
-position:relative;
-overflow:hidden;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-transition:.2s;
-flex-shrink:0;
+    position:relative;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 30% 20%,rgba(255,255,255,.18),transparent 25%),
+        linear-gradient(135deg,#101827,#1b2334);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.2s ease;
+    z-index:1;
+}
+
+.avatar::after{
+    content:"Change";
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.58);
+    color:#fff;
+    opacity:0;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.8px;
+    transition:.2s ease;
 }
 
 .avatar:hover{
-transform:scale(1.06);
-box-shadow:0 0 20px rgba(0,213,255,.35);
-}
-
-.avatar img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-}
-
-#avatarUploadText{
-font-size:22px;
-font-weight:700;
-color:white;
-pointer-events:none;
+    transform:scale(1.035);
 }
 
 .avatar:hover::after{
-content:"Change";
-position:absolute;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-background:rgba(0,0,0,.55);
-font-size:10px;
-font-weight:700;
+    opacity:1;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 24px;
+.avatar img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
 }
 
-.card {
-    padding: 24px;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 24px;
-    background: rgba(18,22,34,.68);
-    backdrop-filter: blur(28px);
-    box-shadow: 0 0 40px rgba(0,213,255,.08);
-    transition: .25s;
+#avatarUploadText{
+    font-size:22px;
+    font-weight:800;
+    color:#fff;
 }
 
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0 60px rgba(0,213,255,.15);
+.profileMeta{
+    min-width:0;
 }
 
-.hero {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 220px;
-    background: linear-gradient(
-        135deg,
-        rgba(0,213,255,.16),
-        rgba(61,108,255,.10),
-        rgba(154,61,255,.18)
-    );
+.profileMeta b{
+    display:block;
+    max-width:170px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:14px;
+    font-weight:800;
 }
 
-.hero h2 {
-    font-size: 36px;
+.profileStatus{
+    display:block;
+    margin-top:3px;
+    color:#7f8da5;
+    font-size:11px;
 }
 
-.hero p {
-    margin-top: 10px;
-    color: #b9c5d8;
+.subscriptionPill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:7px;
+    padding:5px 9px;
+    border-radius:999px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    color:#c7d0e0;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.4px;
+    white-space:nowrap;
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-top: 24px;
+.subscriptionPill .dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#7d8799;
 }
 
-.stat h3 {
-    font-size: 14px;
-    color: #8e99aa;
+.subscriptionPill.ascended{
+    color:#ff8b98;
+    border-color:rgba(255,61,79,.22);
+    background:rgba(255,61,79,.06);
 }
 
-.stat h1 {
-    margin-top: 12px;
-    font-size: 36px;
+.subscriptionPill.ascended .dot{
+    background:#ff3d4f;
+    box-shadow:0 0 10px rgba(255,61,79,.85);
 }
 
-.placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 260px;
-    border: 2px dashed rgba(255,255,255,.08);
-    color: #6d7a91;
-    font-size: 26px;
-    font-weight: 700;
+.subscriptionPill.infinity{
+    color:#6ecbff;
+    border-color:rgba(0,213,255,.20);
+    background:rgba(0,213,255,.05);
 }
 
-.rightcol {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.subscriptionPill.infinity .dot{
+    background:#00d5ff;
+    box-shadow:0 0 10px rgba(0,213,255,.85);
 }
 
-.list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 16px;
+.subscriptionPill.endless{
+    color:#cf9bff;
+    border-color:rgba(141,77,255,.22);
+    background:rgba(141,77,255,.06);
 }
 
-.row {
-    padding: 14px;
-    border-radius: 14px;
-    background: rgba(255,255,255,.03);
+.subscriptionPill.endless .dot{
+    background:#9a55ff;
+    box-shadow:0 0 10px rgba(141,77,255,.85);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:minmax(0,2fr) minmax(310px,1fr);
+    gap:22px;
+    align-items:start;
+}
+
+.leftcol,
+.rightcol{
+    min-width:0;
+}
+
+.rightcol{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+.card{
+    position:relative;
+    padding:22px;
+    border:1px solid var(--line);
+    border-radius:24px;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),
+        var(--panel);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    transition:.24s ease;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.04),transparent 25%),
+        radial-gradient(circle at top right,rgba(0,213,255,.06),transparent 22%);
+}
+
+.card:hover{
+    border-color:rgba(255,255,255,.12);
+    transform:translateY(-3px);
+    box-shadow:0 28px 90px rgba(0,0,0,.42);
+}
+
+.hero{
+    min-height:250px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    background:
+        radial-gradient(circle at 78% 26%,rgba(0,213,255,.16),transparent 26%),
+        radial-gradient(circle at 90% 80%,rgba(141,77,255,.14),transparent 27%),
+        linear-gradient(135deg,rgba(0,213,255,.08),rgba(141,77,255,.08)),
+        var(--panel);
+}
+
+.heroTop{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:auto;
+}
+
+.heroBrand{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 11px;
+    border-radius:999px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    color:#b8c5d9;
+    font-size:10px;
+    letter-spacing:1.4px;
+    font-weight:900;
+}
+
+.heroBrand .heroDot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 14px rgba(0,213,255,.85);
+}
+
+.hero h2{
+    position:relative;
+    z-index:1;
+    font-size:40px;
+    line-height:1;
+    letter-spacing:-1.8px;
+    font-weight:900;
+}
+
+.hero p{
+    position:relative;
+    z-index:1;
+    margin-top:11px;
+    max-width:620px;
+    color:#a4afc2;
+    line-height:1.65;
+    font-size:14px;
+}
+
+.heroSubscription{
+    position:relative;
+    z-index:1;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    width:max-content;
+    margin-top:18px;
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(0,0,0,.16);
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.7px;
+    color:#d8dfeb;
+}
+
+.heroSubscription .subDot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#798397;
+}
+
+.heroSubscription.ascended{
+    color:#ff9ba5;
+    border-color:rgba(255,61,79,.22);
+}
+
+.heroSubscription.ascended .subDot{
+    background:#ff3d4f;
+    box-shadow:0 0 12px rgba(255,61,79,.85);
+}
+
+.heroSubscription.infinity{
+    color:#76d1ff;
+    border-color:rgba(0,213,255,.22);
+}
+
+.heroSubscription.infinity .subDot{
+    background:#00d5ff;
+    box-shadow:0 0 12px rgba(0,213,255,.85);
+}
+
+.heroSubscription.endless{
+    color:#d29cff;
+    border-color:rgba(141,77,255,.22);
+}
+
+.heroSubscription.endless .subDot{
+    background:#9b52ff;
+    box-shadow:0 0 12px rgba(141,77,255,.85);
+}
+
+.squirtleDashCard{
+    position:relative;
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:16px;
+    margin-top:22px;
+    padding:18px 20px;
+    border:1px solid rgba(0,213,255,.14);
+    border-radius:22px;
+    text-decoration:none;
+    color:#fff;
+    background:
+        radial-gradient(circle at 12% 50%,rgba(0,213,255,.12),transparent 30%),
+        linear-gradient(135deg,rgba(0,213,255,.07),rgba(141,77,255,.07)),
+        rgba(17,22,34,.76);
+    box-shadow:0 18px 50px rgba(0,0,0,.20);
+    overflow:hidden;
+    transition:.24s ease;
+}
+
+.squirtleDashCard::after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-100px;
+    top:-100px;
+    border-radius:50%;
+    background:rgba(0,213,255,.09);
+    filter:blur(10px);
+}
+
+.squirtleDashCard:hover{
+    transform:translateY(-3px);
+    border-color:rgba(0,213,255,.24);
+    box-shadow:0 26px 60px rgba(0,0,0,.28);
+}
+
+.squirtleDashIcon{
+    position:relative;
+    z-index:1;
+    width:54px;
+    height:54px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    border:1px solid rgba(0,213,255,.18);
+    background:linear-gradient(145deg,rgba(0,213,255,.16),rgba(0,213,255,.04));
+    font-size:28px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 22px rgba(0,0,0,.16);
+}
+
+.squirtleDashCard > div:nth-child(2){
+    position:relative;
+    z-index:1;
+    min-width:0;
+}
+
+.squirtleDashEyebrow{
+    color:var(--cyan);
+    font-size:9px;
+    letter-spacing:2px;
+    font-weight:900;
+}
+
+.squirtleDashCard h2{
+    margin-top:4px;
+    font-size:22px;
+    letter-spacing:-.6px;
+}
+
+.squirtleDashCard p{
+    margin-top:5px;
+    color:#99a5b9;
+    font-size:12px;
+    line-height:1.45;
+}
+
+.squirtleDashArrow{
+    position:relative;
+    z-index:1;
+    font-size:26px;
+    color:#6be8ff;
+    transition:.2s ease;
+}
+
+.squirtleDashCard:hover .squirtleDashArrow{
+    transform:translateX(5px);
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:14px;
+    margin-top:22px;
+}
+
+.stat{
+    min-height:145px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.statHeader{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+}
+
+.stat h3{
+    color:#8894a9;
+    font-size:11px;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    font-weight:800;
+}
+
+.statIcon{
+    width:34px;
+    height:34px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+    font-size:15px;
+}
+
+.stat h1{
+    margin-top:20px;
+    font-size:32px;
+    line-height:1;
+    letter-spacing:-1.1px;
+}
+
+.statMeta{
+    margin-top:10px;
+    color:#68748a;
+    font-size:10px;
+}
+
+.sectionHeader{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.sectionHeader h2{
+    font-size:19px;
+    letter-spacing:-.4px;
+}
+
+.sectionSubtitle{
+    margin-top:5px;
+    color:#758096;
+    font-size:11px;
+}
+
+.iconTitle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.titleIcon{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    font-size:17px;
+}
+
+.discordCard{
+    margin-top:22px;
+}
+
+.linkCodeBox{
+    position:relative;
+    z-index:1;
+    min-height:230px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:11px;
+    padding:26px;
+    text-align:center;
+    border:1px dashed rgba(255,255,255,.10);
+    border-radius:19px;
+    background:
+        radial-gradient(circle at 50% 20%,rgba(0,213,255,.05),transparent 35%),
+        rgba(255,255,255,.018);
+}
+
+.discordIcon{
+    width:58px;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:17px;
+    font-size:28px;
+    background:rgba(88,101,242,.11);
+    border:1px solid rgba(88,101,242,.20);
+    box-shadow:0 0 28px rgba(88,101,242,.12);
+}
+
+.discordConnected{
+    color:#8fe8c6;
+    font-size:12px;
+    font-weight:800;
+}
+
+.discordName{
+    font-size:20px;
+    font-weight:900;
+}
+
+.discordId{
+    color:#7f8ba0;
+    font-size:11px;
+    word-break:break-all;
+}
+
+.linkTitle{
+    color:#8793a9;
+    font-size:11px;
+    letter-spacing:1px;
+    font-weight:800;
+    text-transform:uppercase;
+}
+
+.linkCode{
+    font-size:42px;
+    line-height:1;
+    font-weight:900;
+    letter-spacing:5px;
+    color:var(--cyan);
+    text-shadow:0 0 28px rgba(0,213,255,.24);
+    word-break:break-all;
+}
+
+.linkHint{
+    color:#7f8ba0;
+    font-size:11px;
+}
+
+.notificationsHeader{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+}
+
+.notificationTitle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.notificationBadge{
+    display:none;
+    min-width:23px;
+    height:23px;
+    padding:0 7px;
+    align-items:center;
+    justify-content:center;
+    border-radius:999px;
+    background:rgba(255,61,79,.13);
+    border:1px solid rgba(255,61,79,.20);
+    color:#ff8692;
+    font-size:10px;
+    font-weight:900;
+}
+
+.list{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.row{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-height:53px;
+    padding:11px 12px;
+    border:1px solid rgba(255,255,255,.055);
+    border-radius:15px;
+    background:rgba(255,255,255,.025);
+    color:#c5cede;
+    font-size:12px;
+    transition:.20s ease;
+}
+
+.row:hover{
+    background:rgba(255,255,255,.045);
+    border-color:rgba(255,255,255,.09);
+    transform:translateY(-1px);
+}
+
+.rowIcon{
+    width:32px;
+    height:32px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+    font-size:14px;
+}
+
+.rowText{
+    min-width:0;
+    flex:1;
+    line-height:1.45;
+}
+
+.emptyState{
+    justify-content:center;
+    min-height:80px;
+    color:#6d7890;
+    text-align:center;
 }
 
 .changelog{
-display:flex;
-flex-direction:column;
+    min-height:100%;
 }
 
 .cardHeader{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:10px;
 }
 
 .cardSubtitle{
-font-size:11px;
-letter-spacing:2px;
-color:#8ea2be;
+    color:#6f809c;
+    font-size:9px;
+    letter-spacing:2px;
+    font-weight:900;
 }
 
 .versionButton{
-padding:8px 16px;
-border-radius:999px;
-background:linear-gradient(90deg,#00d5ff,#8b3dff);
-font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    min-height:32px;
+    padding:7px 11px;
+    border-radius:999px;
+    background:linear-gradient(90deg,rgba(0,213,255,.12),rgba(141,77,255,.12));
+    border:1px solid rgba(255,255,255,.08);
+    color:#d4def0;
+    font-size:10px;
+    font-weight:900;
 }
 
 .timeline{
-display:flex;
-flex-direction:column;
-gap:18px;
-margin:20px 0;
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin:17px 0;
 }
 
 .changeItem{
-display:flex;
-gap:16px;
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
 }
 
 .dot{
-width:16px;
-height:16px;
-border-radius:50%;
-background:#00d5ff;
-box-shadow:0 0 18px #00d5ff;
-margin-top:5px;
-flex-shrink:0;
+    width:10px;
+    height:10px;
+    margin-top:18px;
+    border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 18px rgba(0,213,255,.8);
+    flex-shrink:0;
 }
 
 .changeContent{
-flex:1;
-padding:16px;
-background:rgba(255,255,255,.03);
-border-radius:16px;
+    flex:1;
+    min-width:0;
+    padding:14px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:16px;
+    background:rgba(255,255,255,.02);
 }
 
 .changeTop{
-display:flex;
-justify-content:space-between;
-margin-bottom:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:8px;
+}
+
+.changeTop h3{
+    font-size:13px;
+    line-height:1.35;
 }
 
 .changeTop span{
-color:#8ea2be;
-font-size:13px;
+    color:#7b879d;
+    font-size:10px;
+    white-space:nowrap;
+}
+
+.changeText{
+    color:#9ca8bc;
+    font-size:11px;
+    line-height:1.6;
 }
 
 .tags{
-display:flex;
-gap:10px;
-margin-top:14px;
+    display:flex;
+    gap:8px;
+    margin-top:11px;
+    flex-wrap:wrap;
 }
 
 .tag{
-padding:5px 10px;
-border-radius:999px;
-font-size:11px;
-font-weight:700;
+    padding:5px 8px;
+    border-radius:999px;
+    font-size:9px;
+    letter-spacing:.7px;
+    font-weight:900;
 }
 
 .new{
-background:#00d5ff22;
-color:#00d5ff;
+    background:rgba(0,213,255,.07);
+    color:var(--cyan);
+    border:1px solid rgba(0,213,255,.13);
 }
 
 .changeFooter{
-display:flex;
-gap:10px;
+    position:relative;
+    z-index:1;
+    display:flex;
+    gap:10px;
 }
 
 .navButton{
-flex:1;
-padding:12px;
-border:none;
-border-radius:12px;
-background:rgba(255,255,255,.05);
-color:white;
-cursor:pointer;
+    flex:1;
+    min-height:42px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:13px;
+    background:rgba(255,255,255,.025);
+    color:#d9dfeb;
+    cursor:pointer;
+    transition:.2s ease;
 }
 
 .navButton:hover{
-background:rgba(255,255,255,.1);
+    background:linear-gradient(90deg,rgba(0,213,255,.06),rgba(141,77,255,.06));
+    border-color:rgba(255,255,255,.12);
+    transform:translateY(-1px);
+}
+
+.quickActions{
+    display:grid;
+    gap:9px;
+}
+
+.quickAction{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    min-height:56px;
+    padding:10px 12px;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:15px;
+    background:rgba(255,255,255,.025);
+    text-decoration:none;
+    color:#e7ebf4;
+    transition:.2s ease;
+}
+
+.quickAction:hover{
+    transform:translateX(3px);
+    border-color:rgba(255,255,255,.10);
+    background:rgba(255,255,255,.045);
+}
+
+.quickActionText{
+    flex:1;
+    min-width:0;
+}
+
+.quickActionTitle{
+    font-size:12px;
+    font-weight:800;
+}
+
+.quickActionDescription{
+    margin-top:3px;
+    color:#748096;
+    font-size:10px;
+}
+
+.quickArrow{
+    color:#75839b;
+    font-size:15px;
 }
 
 .supportPopup{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,.65);
-backdrop-filter:blur(8px);
-z-index:9999;
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:rgba(0,0,0,.70);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    z-index:9999;
 }
 
 .supportCard{
-width:420px;
-max-width:90%;
-padding:30px;
-border-radius:24px;
-background:rgba(18,22,34,.95);
-border:1px solid rgba(255,255,255,.08);
-box-shadow:0 0 50px rgba(0,213,255,.12);
-text-align:center;
+    width:440px;
+    max-width:100%;
+    padding:27px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:25px;
+    background:
+        radial-gradient(circle at top right,rgba(0,213,255,.09),transparent 28%),
+        rgba(13,17,28,.95);
+    box-shadow:0 35px 110px rgba(0,0,0,.55);
+    animation:popupIn .20s ease;
+}
+
+@keyframes popupIn{
+    from{opacity:0;transform:translateY(8px) scale(.98)}
+    to{opacity:1;transform:none}
+}
+
+.supportHeader{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
 }
 
 .supportCard h2{
-margin-bottom:10px;
+    font-size:22px;
+    letter-spacing:-.7px;
 }
 
 .supportCard p{
-color:#9ea8bb;
-margin-bottom:25px;
+    margin-top:7px;
+    color:#8b97aa;
+    font-size:12px;
+    line-height:1.6;
 }
 
 .supportButtons{
-display:flex;
-flex-direction:column;
-gap:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:22px;
 }
 
 .supportButtons button{
-padding:16px;
-border:none;
-border-radius:14px;
-cursor:pointer;
-font-size:16px;
-font-weight:600;
-background:rgba(255,255,255,.05);
-color:white;
-transition:.2s;
+    min-height:52px;
+    padding:13px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:15px;
+    cursor:pointer;
+    color:#fff;
+    background:rgba(255,255,255,.035);
+    transition:.2s ease;
+    text-align:left;
+    font-size:12px;
+    font-weight:800;
 }
 
 .supportButtons button:hover{
-background:linear-gradient(90deg,#00d5ff22,#8b3dff22);
-transform:translateY(-2px);
+    transform:translateY(-2px);
+    border-color:rgba(0,213,255,.18);
+    background:linear-gradient(90deg,rgba(0,213,255,.07),rgba(141,77,255,.07));
 }
 
 .closeSupport{
-margin-top:20px;
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-background:#20242f;
-color:white;
-cursor:pointer;
+    margin-top:10px;
+    width:100%;
+    min-height:46px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:14px;
+    background:rgba(255,255,255,.025);
+    color:#aeb8c9;
+    cursor:pointer;
 }
 
-.squirtleDashCard{display:flex;align-items:center;gap:18px;margin-top:24px;padding:22px 24px;border-radius:24px;text-decoration:none;color:#fff;background:linear-gradient(135deg,rgba(0,213,255,.14),rgba(76,44,180,.18));border:1px solid rgba(0,213,255,.22);box-shadow:0 0 40px rgba(0,213,255,.07);transition:.25s;position:relative;overflow:hidden}.squirtleDashCard:hover{transform:translateY(-4px);box-shadow:0 0 60px rgba(0,213,255,.14)}.squirtleDashIcon{font-size:52px;filter:drop-shadow(0 0 18px rgba(0,213,255,.45))}.squirtleDashCard>div:nth-child(2){flex:1}.squirtleDashEyebrow{font-size:10px;letter-spacing:2px;color:#00d5ff;font-weight:800}.squirtleDashCard h2{font-size:25px;margin-top:4px}.squirtleDashCard p{margin-top:5px;color:#aebbd0}.squirtleDashArrow{font-size:30px;color:#00d5ff}
-@media (max-width: 1200px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.closeSupport:hover{
+    background:rgba(255,255,255,.045);
 }
 
-@media (max-width: 900px) {
-    .layout {
-        grid-template-columns: 1fr;
+@media (max-width:1280px){
+    .layout{
+        grid-template-columns:235px minmax(0,1fr);
     }
 
-    .sidebar {
-        flex-direction: row;
-        overflow: auto;
-        gap: 20px;
+    .stats{
+        grid-template-columns:repeat(2,minmax(0,1fr));
     }
 
-    .logo {
-        margin-bottom: 0;
-    }
-
-    .nav {
-        flex-direction: row;
-    }
-
-    .bottom {
-        margin: 0 0 0 auto;
+    .grid{
+        grid-template-columns:1fr;
     }
 }
 
-@media (max-width: 700px) {
-    .stats {
-        grid-template-columns: 1fr;
+@media (max-width:980px){
+    .layout{
+        grid-template-columns:1fr;
     }
 
-    .top {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
+    .sidebar{
+        position:relative;
+        top:auto;
+        height:auto;
+        padding:14px;
+        border-right:none;
+        border-bottom:1px solid var(--line);
+    }
+
+    .logo{
+        padding:4px 4px 12px;
+        margin-bottom:0;
+    }
+
+    .logo img{
+        width:40px;
+        height:40px;
+    }
+
+    .logo h2{
+        font-size:18px;
+    }
+
+    .nav{
+        flex-direction:row;
+        overflow-x:auto;
+        padding-bottom:2px;
+        scrollbar-width:none;
+    }
+
+    .nav::-webkit-scrollbar{
+        display:none;
+    }
+
+    .nav .item{
+        min-width:max-content;
+    }
+
+    .bottom{
+        display:none;
+    }
+
+    .main{
+        padding:22px;
+    }
+}
+
+@media (max-width:700px){
+    .main{
+        padding:16px;
+    }
+
+    .top{
+        flex-direction:column;
+        align-items:flex-start;
+        margin-bottom:18px;
+    }
+
+    .welcome h1{
+        font-size:31px;
+    }
+
+    .profile{
+        width:100%;
+    }
+
+    .profileMeta b{
+        max-width:none;
+    }
+
+    .hero{
+        min-height:225px;
+    }
+
+    .hero h2{
+        font-size:34px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .squirtleDashCard{
+        grid-template-columns:auto minmax(0,1fr);
+    }
+
+    .squirtleDashArrow{
+        display:none;
+    }
+
+    .card{
+        padding:18px;
+        border-radius:21px;
+    }
+
+    .changeTop{
+        flex-direction:column;
+    }
+
+    .linkCode{
+        font-size:31px;
+        letter-spacing:4px;
+    }
+}
+
+@media (max-width:460px){
+    .logo h2{
+        letter-spacing:2px;
+    }
+
+    .nav .item{
+        padding:9px 11px;
+    }
+
+    .zy-emoji{
+        width:27px;
+        height:27px;
+    }
+
+    .hero{
+        min-height:205px;
+    }
+
+    .hero h2{
+        font-size:28px;
+    }
+
+    .hero p{
+        font-size:12px;
     }
 }
 </style>
 </head>
 <body>
+
 <div class="layout">
+
 <aside class="sidebar">
-<div class="logo">
-<img src="https://Zyphor.cc/Logo1.png">
-<h2>ZYPHOR</h2>
-</div>
+    <div class="logo">
+        <img src="https://Zyphor.cc/Logo1.png">
+        <h2>ZYPHOR</h2>
+        <div class="logoBadge"></div>
+    </div>
 
-<nav class="nav">
-<a class="item active" href="#">Dashboard</a>
-<a class="item" href="SquirtleEvent.html">🐢 Squirtle Event</a>
-<a class="item" href="#" onclick="goProfile(); return false;">Profile</a>
-<a class="item" href="dms.html">Messages</a>
-<a class="item" href="Wallet.html">Wallet</a>
-<a class="item" href="Cloud.html">Cloud</a>
-<a class="item" href="download.html">App Center</a>
-<a class="item" href="#" onclick="openSupport(); return false;">Support</a>
-<a class="item" href="Settings.html">Settings</a>
-</nav>
+    <nav class="nav">
+        <a class="item active" href="#">
+            <span class="zy-emoji cyan">⌂</span>
+            <span class="itemText">Dashboard</span>
+        </a>
 
-<div class="bottom">
-<a class="item" href="#" onclick="logout();return false;">Logout</a>
-</div>
+        <a class="item" href="SquirtleEvent.html">
+            <span class="zy-emoji">🐢</span>
+            <span class="itemText">Squirtle Event</span>
+        </a>
+
+        <a class="item" href="#" onclick="goProfile(); return false;">
+            <span class="zy-emoji purple">◉</span>
+            <span class="itemText">Profile</span>
+        </a>
+
+        <a class="item" href="dms.html">
+            <span class="zy-emoji">✦</span>
+            <span class="itemText">Messages</span>
+        </a>
+
+        <a class="item" href="Wallet.html">
+            <span class="zy-emoji green">◈</span>
+            <span class="itemText">Wallet</span>
+        </a>
+
+        <a class="item" href="Cloud.html">
+            <span class="zy-emoji cyan">☁</span>
+            <span class="itemText">Cloud</span>
+        </a>
+
+        <a class="item" href="download.html">
+            <span class="zy-emoji">↓</span>
+            <span class="itemText">App Center</span>
+        </a>
+
+        <a class="item" href="#" onclick="openSupport(); return false;">
+            <span class="zy-emoji purple">?</span>
+            <span class="itemText">Support</span>
+        </a>
+
+        <a class="item" href="Settings.html">
+            <span class="zy-emoji">⚙</span>
+            <span class="itemText">Settings</span>
+        </a>
+    </nav>
+
+    <div class="bottom">
+        <a class="item logoutItem" href="#" onclick="logout(); return false;">
+            <span class="zy-emoji red">↪</span>
+            <span class="itemText">Logout</span>
+        </a>
+    </div>
 </aside>
 
 <main class="main">
-<div class="top">
-<div class="welcome">
-<h1>Welcome Back</h1>
-<p>Your central hub for everything Zyphor.</p>
-</div>
-<div class="profile">
-<div class="avatar" id="avatar" onclick="selectPfp()" title="Click to change profile picture">
-<img id="avatarImage" style="display:none">
-<div id="avatarUploadText">+</div>
-</div>
 
-<input type="file" id="pfpInput" accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif" style="display:none" onchange="uploadPfp(event)">
+    <div class="top">
+        <div class="welcome">
+            <h1>Welcome Back</h1>
+            <p>Your central hub for everything Zyphor.</p>
+        </div>
 
-<div>
-<b id="profileName">Loading...</b>
-<br>
-<span id="profileStatus" style="color:#8ea2be">Online</span>
-</div>
-</div>
-</div>
+        <div class="profile">
+            <div class="avatar-shell" id="avatarShell">
+                <div class="avatar" id="avatar" onclick="selectPfp()" title="Click to change profile picture">
+                    <img id="avatarImage" style="display:none">
+                    <div id="avatarUploadText">+</div>
+                </div>
+            </div>
 
-<div class="grid">
-<div>
-<div class="card hero">
-<h2>Welcome to Zyphor.</h2>
-<p>Your central hub for everything Zyphor.</p>
-</div>
+            <input
+                type="file"
+                id="pfpInput"
+                accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif"
+                style="display:none"
+                onchange="uploadPfp(event)"
+            >
 
-<a href="SquirtleEvent.html" class="squirtleDashCard"><div class="squirtleDashIcon">🐢</div><div><div class="squirtleDashEyebrow">LIVE GLOBAL EVENT</div><h2>Squirtle Event</h2><p>Team up with everyone and defeat the Squirtle Boss.</p></div><div class="squirtleDashArrow">→</div></a>
-
-<div class="stats">
-<div class="card stat"><h3>Users</h3><h1>0</h1></div>
-<div class="card stat">
-    <h3>Wallet</h3>
-    <h1 id="walletBalance">$0</h1>
-</div>
-<div class="card stat">
-    <h3>Messages</h3>
-    <h1 id="messageCount">0</h1>
-</div>
-<div class="card stat"><h3>Cloud</h3><h1>0</h1></div>
-</div>
-
-<div class="card" style="margin-top:24px">
-    <h2>Discord</h2>
-
-    <div id="linkCodeBox" style="
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        height:260px;
-        border:2px dashed rgba(255,255,255,.08);
-        border-radius:18px;
-        text-align:center;
-        gap:12px;
-    ">
-        Loading...
+            <div class="profileMeta">
+                <b id="profileName">Loading...</b>
+                <span class="profileStatus">Online</span>
+                <span class="subscriptionPill" id="subscriptionPill">
+                    <span class="dot"></span>
+                    <span id="subscriptionText">No Subscription</span>
+                </span>
+            </div>
+        </div>
     </div>
-</div>
-</div>
 
-<div class="rightcol">
-<div class="card">
-<h2>
-Notifications
-<span id="notificationBadge" style="
-display:none;
-background:#ff3b30;
-color:white;
-padding:2px 8px;
-border-radius:999px;
-font-size:12px;
-margin-left:8px;
-"></span>
-</h2>
-<div id="notificationList" class="list">
-    <div class="row">Loading...</div>
-</div>
-</div>
+    <div class="grid">
 
-<div class="card changelog">
+        <div class="leftcol">
 
-<div class="cardHeader">
-<div>
-<div class="cardSubtitle">LATEST RELEASE</div>
-<h2>Changelog</h2>
-</div>
+            <div class="card hero">
+                <div class="heroTop">
+                    <div class="heroBrand">
+                        <span class="heroDot"></span>
+                        ZYPHOR CONTROL CENTER
+                    </div>
+                </div>
 
-<div id="clVersion" class="versionButton"></div>
-</div>
+                <h2>Welcome to Zyphor.</h2>
+                <p>Manage your account, messages, cloud storage, wallet, events, applications and everything else from one place.</p>
 
-<div id="cl_box" class="timeline"></div>
+                <div class="heroSubscription" id="heroSubscription">
+                    <span class="subDot"></span>
+                    <span id="heroSubscriptionText">Account Active</span>
+                </div>
+            </div>
 
-<div class="changeFooter">
-<button class="navButton" onclick="prevCL()">← Previous</button>
-<button class="navButton" onclick="nextCL()">Next →</button>
-</div>
+            <a href="SquirtleEvent.html" class="squirtleDashCard">
+                <div class="squirtleDashIcon">🐢</div>
 
-</div>
+                <div>
+                    <div class="squirtleDashEyebrow">LIVE GLOBAL EVENT</div>
+                    <h2>Squirtle Event</h2>
+                    <p>Team up with everyone and defeat the Squirtle Boss.</p>
+                </div>
 
-<div class="card">
-<h2>Quick Actions</h2>
-<div class="list">
-<div class="row">Cloud</div>
-<div class="row">Support</div>
-<div class="row">Downloads</div>
-</div>
-</div>
-</div>
-</div>
+                <div class="squirtleDashArrow">→</div>
+            </a>
+
+            <div class="stats">
+
+                <div class="card stat">
+                    <div class="statHeader">
+                        <h3>Users</h3>
+                        <div class="statIcon">◉</div>
+                    </div>
+                    <h1>0</h1>
+                    <div class="statMeta">Zyphor platform</div>
+                </div>
+
+                <div class="card stat">
+                    <div class="statHeader">
+                        <h3>Wallet</h3>
+                        <div class="statIcon">◈</div>
+                    </div>
+                    <h1 id="walletBalance">$0</h1>
+                    <div class="statMeta">Available balance</div>
+                </div>
+
+                <div class="card stat">
+                    <div class="statHeader">
+                        <h3>Messages</h3>
+                        <div class="statIcon">✦</div>
+                    </div>
+                    <h1 id="messageCount">0</h1>
+                    <div class="statMeta">Unread messages</div>
+                </div>
+
+                <div class="card stat">
+                    <div class="statHeader">
+                        <h3>Cloud</h3>
+                        <div class="statIcon">☁</div>
+                    </div>
+                    <h1>0</h1>
+                    <div class="statMeta">Cloud items</div>
+                </div>
+
+            </div>
+
+            <div class="card discordCard">
+
+                <div class="sectionHeader">
+                    <div class="iconTitle">
+                        <div class="titleIcon">◌</div>
+                        <div>
+                            <h2>Discord</h2>
+                            <div class="sectionSubtitle">Manage your Zyphor Discord connection</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="linkCodeBox" class="linkCodeBox">
+                    Loading...
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="rightcol">
+
+            <div class="card">
+
+                <div class="notificationsHeader">
+                    <div class="notificationTitle">
+                        <div class="titleIcon">✦</div>
+                        <div>
+                            <h2>Notifications</h2>
+                            <div class="sectionSubtitle">Recent activity on your account</div>
+                        </div>
+                    </div>
+
+                    <span class="notificationBadge" id="notificationBadge"></span>
+                </div>
+
+                <div id="notificationList" class="list" style="margin-top:17px">
+                    <div class="row emptyState">Loading...</div>
+                </div>
+
+            </div>
+
+            <div class="card changelog">
+
+                <div class="cardHeader">
+                    <div>
+                        <div class="cardSubtitle">LATEST RELEASE</div>
+                        <h2 style="margin-top:4px">Changelog</h2>
+                    </div>
+
+                    <div id="clVersion" class="versionButton"></div>
+                </div>
+
+                <div id="cl_box" class="timeline"></div>
+
+                <div class="changeFooter">
+                    <button class="navButton" onclick="prevCL()">← Previous</button>
+                    <button class="navButton" onclick="nextCL()">Next →</button>
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="sectionHeader">
+                    <div class="iconTitle">
+                        <div class="titleIcon">✧</div>
+                        <div>
+                            <h2>Quick Actions</h2>
+                            <div class="sectionSubtitle">Jump into your most used areas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quickActions">
+
+                    <a class="quickAction" href="Cloud.html">
+                        <span class="zy-emoji cyan">☁</span>
+                        <span class="quickActionText">
+                            <span class="quickActionTitle">Open Cloud</span>
+                            <span class="quickActionDescription">Manage your files</span>
+                        </span>
+                        <span class="quickArrow">→</span>
+                    </a>
+
+                    <a class="quickAction" href="#" onclick="openSupport(); return false;">
+                        <span class="zy-emoji purple">?</span>
+                        <span class="quickActionText">
+                            <span class="quickActionTitle">Contact Support</span>
+                            <span class="quickActionDescription">Get help from Zyphor</span>
+                        </span>
+                        <span class="quickArrow">→</span>
+                    </a>
+
+                    <a class="quickAction" href="download.html">
+                        <span class="zy-emoji green">↓</span>
+                        <span class="quickActionText">
+                            <span class="quickActionTitle">App Center</span>
+                            <span class="quickActionDescription">View Zyphor apps</span>
+                        </span>
+                        <span class="quickArrow">→</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 </main>
 </div>
 
 <div id="supportPopup" class="supportPopup">
 
-<div class="supportCard">
+    <div class="supportCard">
 
-<h2>Support</h2>
+        <div class="supportHeader">
+            <div>
+                <h2>Support</h2>
+                <p>Select how you'd like to contact the Zyphor team.</p>
+            </div>
 
-<p>Select how you'd like to contact the Zyphor team.</p>
+            <div class="zy-emoji cyan">?</div>
+        </div>
 
-<div class="supportButtons">
+        <div class="supportButtons">
 
-<button onclick="location.href='Support.html'">
-🌐 Website Tickets
-</button>
+            <button onclick="location.href='Support.html'">
+                🌐&nbsp;&nbsp; Website Tickets
+            </button>
 
-<button onclick="emailSupport()">
-✉️ Email Support
-</button>
+            <button onclick="emailSupport()">
+                ✉️&nbsp;&nbsp; Email Support
+            </button>
 
-</div>
+        </div>
 
-<button class="closeSupport" onclick="closeSupport()">
-Close
-</button>
+        <button class="closeSupport" onclick="closeSupport()">
+            Close
+        </button>
 
-</div>
+    </div>
 
 </div>
 
@@ -652,19 +1807,30 @@ Close
 let backend
 let changelogs=[]
 let clIndex=0
-let lastUnread = 0
+let lastUnread=0
+
 const notificationSound = new Audio("Sounds/Notification.mp3")
-notificationSound.preload = "auto"
+notificationSound.preload="auto"
 notificationSound.load()
-notificationSound.volume = 1
+notificationSound.volume=1
+
+function escapeHtml(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;")
+}
 
 async function getBackend(){
-const r=await fetch("server.txt")
-return(await r.text()).trim()
+    const r=await fetch("server.txt")
+    return (await r.text()).trim()
 }
 
 async function safeJson(res){
-    const text = await res.text()
+    const text=await res.text()
+
     try{
         return JSON.parse(text)
     }catch{
@@ -673,205 +1839,259 @@ async function safeJson(res){
 }
 
 async function trackPage(page){
-    const token = localStorage.getItem("Token")
+    const token=localStorage.getItem("Token")
+
     if(!token) return
 
-    await fetch(backend + "/track/page",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json",
-            Authorization:token
-        },
-        body:JSON.stringify({page})
-    })
+    try{
+        await fetch(backend+"/track/page",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:token
+            },
+            body:JSON.stringify({page})
+        })
+    }catch{}
+}
+
+function applySubscriptionTheme(subscription){
+
+    const avatarShell=document.getElementById("avatarShell")
+    const subscriptionPill=document.getElementById("subscriptionPill")
+    const subscriptionText=document.getElementById("subscriptionText")
+    const heroSubscription=document.getElementById("heroSubscription")
+    const heroSubscriptionText=document.getElementById("heroSubscriptionText")
+
+    avatarShell.classList.remove(
+        "subscription-ascended",
+        "subscription-infinity",
+        "subscription-endless"
+    )
+
+    subscriptionPill.classList.remove(
+        "ascended",
+        "infinity",
+        "endless"
+    )
+
+    heroSubscription.classList.remove(
+        "ascended",
+        "infinity",
+        "endless"
+    )
+
+    if(!subscription || subscription.active!==true){
+        subscriptionText.textContent="No Subscription"
+        heroSubscriptionText.textContent="Account Active"
+        return
+    }
+
+    const plan=String(subscription.plan||"").toLowerCase()
+    const name=subscription.name || "Zyphor Subscription"
+    const lifetime=subscription.lifetime===true
+
+    if(plan==="ascended"){
+        avatarShell.classList.add("subscription-ascended")
+        subscriptionPill.classList.add("ascended")
+        heroSubscription.classList.add("ascended")
+    }
+
+    if(plan==="infinity"){
+        avatarShell.classList.add("subscription-infinity")
+        subscriptionPill.classList.add("infinity")
+        heroSubscription.classList.add("infinity")
+    }
+
+    if(plan==="endless"){
+        avatarShell.classList.add("subscription-endless")
+        subscriptionPill.classList.add("endless")
+        heroSubscription.classList.add("endless")
+    }
+
+    const lifetimeText=lifetime ? " • Lifetime" : ""
+
+    subscriptionText.textContent=name+lifetimeText
+    heroSubscriptionText.textContent=name+lifetimeText
 }
 
 async function loadPfp(){
 
-const avatarImage=document.getElementById("avatarImage")
-const avatarUploadText=document.getElementById("avatarUploadText")
+    const avatarImage=document.getElementById("avatarImage")
+    const avatarUploadText=document.getElementById("avatarUploadText")
 
-try{
+    try{
 
-const token=localStorage.getItem("Token")
+        const token=localStorage.getItem("Token")
 
-const me=await fetch(backend+"/me",{
-headers:{
-Authorization:token
-}
-})
+        const me=await fetch(backend+"/me",{
+            headers:{
+                Authorization:token
+            }
+        })
 
-const data=await safeJson(me)
+        const data=await safeJson(me)
 
-if(!data||!data.username) return
+        if(!data || !data.username) return
 
-const url=backend+"/account/pfp/"+encodeURIComponent(data.username)+"?v="+Date.now()
+        const url=
+            backend+"/account/pfp/"+encodeURIComponent(data.username)+"?v="+Date.now()
 
-const testImage=new Image()
+        const testImage=new Image()
 
-testImage.onload=()=>{
+        testImage.onload=()=>{
+            avatarImage.src=url
+            avatarImage.style.display="block"
+            avatarUploadText.style.display="none"
+        }
 
-avatarImage.src=url
-avatarImage.style.display="block"
-avatarUploadText.style.display="none"
+        testImage.onerror=()=>{
+            avatarImage.removeAttribute("src")
+            avatarImage.style.display="none"
+            avatarUploadText.style.display="block"
+        }
 
-}
+        testImage.src=url
 
-testImage.onerror=()=>{
-
-avatarImage.removeAttribute("src")
-avatarImage.style.display="none"
-avatarUploadText.style.display="block"
-
-}
-
-testImage.src=url
-
-}catch{}
-
+    }catch{}
 }
 
 async function selectPfp(){
 
-const token=localStorage.getItem("Token")
+    const token=localStorage.getItem("Token")
 
-if(!token) return
+    if(!token) return
 
-try{
+    try{
 
-const r=await fetch(backend+"/account/pfp/status",{
-headers:{
-Authorization:token
-}
-})
+        const r=await fetch(backend+"/account/pfp/status",{
+            headers:{
+                Authorization:token
+            }
+        })
 
-const data=await safeJson(r)
+        const data=await safeJson(r)
 
-if(!data){
-alert("Failed to check PFP permissions.")
-return
-}
+        if(!data){
+            alert("Failed to check PFP permissions.")
+            return
+        }
 
-if(!data.permission||data.permission.enabled!==true){
+        if(!data.permission || data.permission.enabled!==true){
+            alert("You do not have permission to upload a profile picture.")
+            return
+        }
 
-alert("You do not have permission to upload a profile picture.")
-return
+        if(data.cooldownRemaining>0){
 
-}
+            const hours=Math.floor(data.cooldownRemaining/3600000)
+            const minutes=Math.ceil(
+                (data.cooldownRemaining%3600000)/60000
+            )
 
-if(data.cooldownRemaining>0){
+            alert(
+                "You can change your profile picture again in "+
+                hours+"h "+minutes+"m."
+            )
 
-const hours=Math.floor(data.cooldownRemaining/3600000)
-const minutes=Math.ceil((data.cooldownRemaining%3600000)/60000)
+            return
+        }
 
-alert(
-"You can change your profile picture again in "+
-hours+"h "+minutes+"m."
-)
+        document.getElementById("pfpInput").click()
 
-return
-
-}
-
-document.getElementById("pfpInput").click()
-
-}catch{
-
-alert("Failed to check PFP status.")
-
-}
-
+    }catch{
+        alert("Failed to check PFP status.")
+    }
 }
 
 async function uploadPfp(event){
 
-const file=event.target.files[0]
+    const file=event.target.files[0]
 
-if(!file) return
+    if(!file) return
 
-const token=localStorage.getItem("Token")
+    const token=localStorage.getItem("Token")
 
-if(!token) return
+    if(!token) return
 
-const formData=new FormData()
+    const formData=new FormData()
+    formData.append("pfp",file)
 
-formData.append("pfp",file)
+    const avatar=document.getElementById("avatar")
 
-const avatar=document.getElementById("avatar")
+    avatar.style.opacity=".6"
+    avatar.style.pointerEvents="none"
 
-avatar.style.opacity=".6"
-avatar.style.pointerEvents="none"
+    try{
 
-try{
+        const r=await fetch(
+            backend+"/account/pfp/upload",
+            {
+                method:"POST",
+                headers:{
+                    Authorization:token
+                },
+                body:formData
+            }
+        )
 
-const r=await fetch(
-backend+"/account/pfp/upload",
-{
-method:"POST",
-headers:{
-Authorization:token
-},
-body:formData
-}
-)
+        const data=await safeJson(r)
 
-const data=await safeJson(r)
+        if(!r.ok){
 
-if(!r.ok){
+            if(data && data.error==="cooldown"){
 
-if(data&&data.error==="cooldown"){
+                const hours=Math.floor(data.remaining/3600000)
+                const minutes=Math.ceil(
+                    (data.remaining%3600000)/60000
+                )
 
-const hours=Math.floor(data.remaining/3600000)
-const minutes=Math.ceil((data.remaining%3600000)/60000)
+                alert(
+                    "You can change your profile picture again in "+
+                    hours+"h "+minutes+"m."
+                )
 
-alert(
-"You can change your profile picture again in "+
-hours+"h "+minutes+"m."
-)
+            }else if(data && data.error==="no_pfp_permission"){
 
-}else if(data&&data.error==="no_pfp_permission"){
+                alert("You do not have permission to upload a profile picture.")
 
-alert("You do not have permission to upload a profile picture.")
+            }else if(data && data.error==="gif_requires_administrator"){
 
-}else if(data&&data.error==="gif_requires_administrator"){
+                alert("Only administrators can use GIF profile pictures.")
 
-alert("Only administrators can use GIF profile pictures.")
+            }else if(data && data.error==="file_too_large"){
 
-}else if(data&&data.error==="file_too_large"){
+                const max=Math.round(data.maxSize/1024/1024)
 
-const max=Math.round(data.maxSize/1024/1024)
+                alert("This file is too large. Maximum size: "+max+" MB.")
 
-alert("This file is too large. Maximum size: "+max+" MB.")
+            }else{
 
-}else{
+                alert("Failed to upload profile picture.")
 
-alert("Failed to upload profile picture.")
+            }
 
-}
+            return
+        }
 
-return
+        const avatarImage=document.getElementById("avatarImage")
+        const avatarUploadText=document.getElementById("avatarUploadText")
 
-}
+        avatarImage.src=backend+data.url
+        avatarImage.style.display="block"
+        avatarUploadText.style.display="none"
 
-const avatarImage=document.getElementById("avatarImage")
-const avatarUploadText=document.getElementById("avatarUploadText")
+    }catch{
 
-avatarImage.src=backend+data.url
-avatarImage.style.display="block"
-avatarUploadText.style.display="none"
+        alert("Failed to upload profile picture.")
 
-}catch{
+    }finally{
 
-alert("Failed to upload profile picture.")
+        avatar.style.opacity="1"
+        avatar.style.pointerEvents="auto"
+        event.target.value=""
 
-}finally{
-
-avatar.style.opacity="1"
-avatar.style.pointerEvents="auto"
-event.target.value=""
-
-}
-
+    }
 }
 
 function logout(){
@@ -881,124 +2101,156 @@ function logout(){
 
 async function loadWallet(){
 
-    const token = localStorage.getItem("Token")
+    const token=localStorage.getItem("Token")
+
     if(!token) return
 
     try{
 
-        const r = await fetch(backend + "/balance",{
+        const r=await fetch(backend+"/balance",{
             headers:{
                 Authorization:token
             }
         })
 
-        const d = await r.json()
+        const d=await r.json()
 
-        document.getElementById("walletBalance").textContent =
-            "$" + Number(d.balance).toLocaleString()
+        document.getElementById("walletBalance").textContent=
+            "$"+Number(d.balance).toLocaleString()
 
     }catch{
 
         document.getElementById("walletBalance").textContent="$0"
 
     }
-
 }
 
 function convertTime(time){
-return new Date(time).toLocaleString()
+    return new Date(time).toLocaleString()
 }
 
 async function loadChangelogs(){
-const r=await fetch(backend+"/changelogs")
-changelogs=await r.json()
-clIndex=0
-renderCL()
+
+    try{
+
+        const r=await fetch(backend+"/changelogs")
+
+        changelogs=await r.json()
+
+        if(!Array.isArray(changelogs)){
+            changelogs=[]
+        }
+
+        clIndex=0
+        renderCL()
+
+    }catch{
+
+        changelogs=[]
+        renderCL()
+
+    }
 }
 
 function renderCL(){
 
-const box=document.getElementById("cl_box")
+    const box=document.getElementById("cl_box")
 
-if(!changelogs.length){
-box.innerHTML="No changelogs."
-return
-}
+    if(!changelogs.length){
 
-const cl=changelogs[clIndex]
+        box.innerHTML=
+            "<div class='row emptyState'>No changelogs.</div>"
 
-document.getElementById("clVersion").textContent="v"+cl.version
+        document.getElementById("clVersion").textContent=""
 
-box.innerHTML=`
-<div class="changeItem">
+        return
+    }
 
-<div class="dot"></div>
+    const cl=changelogs[clIndex]
 
-<div class="changeContent">
+    document.getElementById("clVersion").textContent=
+        "v"+escapeHtml(cl.version)
 
-<div class="changeTop">
-<h3>${cl.title}</h3>
-<span>${convertTime(cl.time)}</span>
-</div>
+    box.innerHTML=`
+        <div class="changeItem">
+            <div class="dot"></div>
 
-<p style="white-space:pre-wrap">${cl.text}</p>
+            <div class="changeContent">
 
-<div class="tags">
-<span class="tag new">UPDATE</span>
-</div>
+                <div class="changeTop">
+                    <h3>${escapeHtml(cl.title)}</h3>
+                    <span>${escapeHtml(convertTime(cl.time))}</span>
+                </div>
 
-</div>
+                <p class="changeText">${escapeHtml(cl.text)}</p>
 
-</div>
-`
+                <div class="tags">
+                    <span class="tag new">UPDATE</span>
+                </div>
+
+            </div>
+        </div>
+    `
 }
 
 function prevCL(){
 
-    if(clIndex < changelogs.length - 1){
-        clIndex++;
-        renderCL();
+    if(clIndex < changelogs.length-1){
+        clIndex++
+        renderCL()
     }
 
 }
 
 function nextCL(){
 
-    if(clIndex > 0){
-        clIndex--;
-        renderCL();
+    if(clIndex>0){
+        clIndex--
+        renderCL()
     }
 
 }
 
 function openSupport(){
-document.getElementById("supportPopup").style.display="flex";
+    document.getElementById("supportPopup").style.display="flex"
 }
 
 function closeSupport(){
-document.getElementById("supportPopup").style.display="none";
+    document.getElementById("supportPopup").style.display="none"
 }
 
 function emailSupport(){
 
-alert(
-"Please email:\n\nZyphor@Zyphor.cc\n\nWe'll get back to you as soon as possible."
-);
+    alert(
+        "Please email:\n\nZyphor@Zyphor.cc\n\nWe'll get back to you as soon as possible."
+    )
 
-window.location.href="mailto:Zyphor@Zyphor.cc";
-
+    window.location.href="mailto:Zyphor@Zyphor.cc"
 }
 
-function goProfile() {
-    const username = localStorage.getItem("username");
-    if (!username) return;
+function goProfile(){
 
-    window.location.href = `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`;
-}  
+    const username=localStorage.getItem("username")
+
+    if(!username) return
+
+    window.location.href=
+        `https://zyphor.cc/profile.html?username=${encodeURIComponent(username)}`
+}
+
+function getNotificationIcon(type){
+
+    if(type==="friend") return "♣"
+    if(type==="dm") return "✦"
+    if(type==="support") return "?"
+    if(type==="report") return "!"
+    return "•"
+}
 
 async function loadNotifications(){
 
     const token=localStorage.getItem("Token")
+
     if(!token) return
 
     let notifications=[]
@@ -1031,10 +2283,9 @@ async function loadNotifications(){
                 }
 
             })
-
         }
 
-        unread+=data.unread||0
+        unread+=Number(data.unread||0)
 
     }catch{}
 
@@ -1071,7 +2322,8 @@ async function loadNotifications(){
 
                     notifications.push({
                         type:"dm",
-                        message:`${chat.unread} unread message${chat.unread===1?"":"s"} from ${chat.with}`
+                        message:
+                            `${chat.unread} unread message${chat.unread===1?"":"s"} from ${chat.with}`
                     })
 
                     unread+=chat.unread
@@ -1085,14 +2337,14 @@ async function loadNotifications(){
 
     }catch{}
 
-    const badge=document.getElementById("notificationBadge")
-
     document.getElementById("messageCount").textContent=
         unreadMessages.toLocaleString()
 
+    const badge=document.getElementById("notificationBadge")
+
     if(unread>0){
 
-        badge.style.display="inline-block"
+        badge.style.display="inline-flex"
         badge.textContent=unread
 
     }else{
@@ -1110,29 +2362,46 @@ async function loadNotifications(){
 
     lastUnread=unread
 
-    document.getElementById("notificationList").innerHTML=
-        notifications.map(n=>{
+    const list=document.getElementById("notificationList")
 
-            let click=""
+    if(!notifications.length){
 
-            if(n.type==="support" && n.ticketId){
-                click=`location.href='Support.html#${n.ticketId}'`
-            }else if(
-                n.type==="dm" ||
-                n.type==="friend"
-            ){
-                click=`location.href='dms.html'`
-            }
+        list.innerHTML=
+            "<div class='row emptyState'>You're all caught up.</div>"
 
-            return `
-                <div class="row"
-                    style="${click?"cursor:pointer":""}"
-                    ${click?`onclick="${click}"`:""}>
-                    ${n.message}
-                </div>
-            `
+    }else{
 
-        }).join("") || "<div class='row'>No notifications.</div>"
+        list.innerHTML=
+            notifications.map(n=>{
+
+                let click=""
+
+                if(n.type==="support" && n.ticketId){
+
+                    click=`location.href='Support.html#${encodeURIComponent(n.ticketId)}'`
+
+                }else if(
+                    n.type==="dm" ||
+                    n.type==="friend"
+                ){
+
+                    click=`location.href='dms.html'`
+
+                }
+
+                return `
+                    <div
+                        class="row"
+                        style="${click?"cursor:pointer":""}"
+                        ${click?`onclick="${click}"`:""}
+                    >
+                        <div class="rowIcon">${escapeHtml(getNotificationIcon(n.type))}</div>
+                        <div class="rowText">${escapeHtml(n.message)}</div>
+                    </div>
+                `
+
+            }).join("")
+    }
 
     if(hasReportNotifications){
 
@@ -1149,83 +2418,112 @@ async function loadNotifications(){
 }
 
 async function init(){
-backend=await getBackend()
 
-await trackPage("dashboard.html")
+    try{
 
-const token = localStorage.getItem("Token")
+        backend=await getBackend()
 
-if(!token){
-    location.href="login.html"
-    return
+        const token=localStorage.getItem("Token")
+
+        if(!token){
+
+            location.href="login.html"
+            return
+
+        }
+
+        await trackPage("dashboard.html")
+
+        const r=await fetch(backend+"/me",{
+            headers:{
+                Authorization:token
+            }
+        })
+
+        const data=await safeJson(r)
+
+        if(!data || data.error){
+
+            localStorage.removeItem("Token")
+            location.href="login.html"
+            return
+
+        }
+
+        document.getElementById("profileName").textContent=
+            data.username || "Unknown"
+
+        localStorage.setItem("username",data.username || "")
+
+        applySubscriptionTheme(data.subscription)
+
+        await loadPfp()
+
+        if(data.linkedDiscord){
+
+            const discordName=
+                data.linkedDiscord.username || "Unknown User"
+
+            const discordId=
+                data.linkedDiscord.id || ""
+
+            document.getElementById("linkCodeBox").innerHTML=`
+                <div class="discordIcon">◌</div>
+                <div class="discordConnected">CONNECTED</div>
+                <div class="discordName">${escapeHtml(discordName)}</div>
+                <div class="discordId">${escapeHtml(discordId)}</div>
+            `
+
+        }else if(data.linkCode){
+
+            document.getElementById("linkCodeBox").innerHTML=`
+                <div class="discordIcon">◌</div>
+                <div class="linkTitle">Your Discord Link Code</div>
+                <div class="linkCode">${escapeHtml(data.linkCode)}</div>
+                <div class="linkHint">
+                    Use <b>/linkdiscord</b> in the Zyphor Discord server.
+                </div>
+            `
+
+        }else{
+
+            document.getElementById("linkCodeBox").innerHTML=`
+                <div class="discordIcon">×</div>
+                <div class="discordName">No Link Code</div>
+                <div class="discordId">Your Discord account is not linked.</div>
+            `
+
+        }
+
+        await loadWallet()
+        await loadNotifications()
+
+        setInterval(loadNotifications,5000)
+
+        await loadChangelogs()
+
+    }catch{
+
+        const token=localStorage.getItem("Token")
+
+        if(!token){
+            location.href="login.html"
+        }
+
+    }
 }
 
-const r = await fetch(backend + "/me",{
-    headers:{
-        Authorization:token
+document.getElementById("supportPopup").addEventListener("click",event=>{
+    if(event.target.id==="supportPopup"){
+        closeSupport()
     }
 })
 
-const data = await safeJson(r)
-
-if(!data || data.error){
-    localStorage.removeItem("Token")
-    location.href="login.html"
-    return
-}
-
-document.getElementById("profileName").textContent = data.username
-
-await loadPfp()
-
-if(data.linkedDiscord){
-
-    const discordName = data.linkedDiscord.username || "Unknown User";
-
-    document.getElementById("linkCodeBox").innerHTML = `
-        <div style="font-size:60px">✅</div>
-        <h2>Discord Linked</h2>
-        <div style="font-size:20px">${discordName}</div>
-        <div style="color:#8ea2be">${data.linkedDiscord.id}</div>
-    `;
-
-}else if(data.linkCode){
-
-    document.getElementById("linkCodeBox").innerHTML = `
-        <div style="color:#8ea2be">
-            Your Discord Link Code
-        </div>
-
-        <div style="
-            font-size:52px;
-            font-weight:800;
-            letter-spacing:5px;
-            color:#00d5ff;
-        ">
-            ${data.linkCode}
-        </div>
-
-        <div style="color:#8ea2be">
-            Use <b>/linkdiscord</b> in the Zyphor Discord server.
-        </div>
-    `;
-
-}else{
-
-    document.getElementById("linkCodeBox").innerHTML = `
-        <div style="font-size:60px">❌</div>
-        <h2>No Link Code</h2>
-    `;
-
-}
-
-await loadWallet()
-
-await loadNotifications()
-setInterval(loadNotifications,5000)
-
-await loadChangelogs()
-}
+document.addEventListener("keydown",event=>{
+    if(event.key==="Escape"){
+        closeSupport()
+    }
+})
 
 init()
 </script>
