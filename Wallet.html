@@ -408,6 +408,19 @@ transition:.18s ease;
 .iconBtn.danger:hover{color:#ff9aaa;border-color:rgba(255,99,125,.17);background:rgba(255,99,125,.06)}
 .contactStar{color:var(--yellow)}
 
+.activeGifts{display:flex;flex-direction:column;gap:9px;max-height:390px;overflow:auto}
+.giftEntry{padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.055);background:linear-gradient(145deg,rgba(255,255,255,.026),rgba(255,255,255,.015));transition:.18s ease}
+.giftEntry:hover{background:rgba(255,255,255,.04);border-color:rgba(0,217,255,.13)}
+.giftEntryTop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.giftEntryAmount{font-size:15px;font-weight:900}
+.giftEntryAmount small{font-size:9px;color:#8c9ab0;font-weight:800}
+.giftEntryDate{font-size:8px;color:#64728a;margin-top:4px}
+.giftEntryMessage{margin-top:9px;font-size:9px;color:#aebbd0;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.giftEntryLink{margin-top:9px;padding:8px 9px;border-radius:10px;background:rgba(0,0,0,.17);border:1px solid rgba(255,255,255,.05);font-family:ui-monospace,monospace;font-size:8px;color:#87def0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.giftEntryActions{display:flex;gap:6px;margin-top:9px}
+.giftEntryActions button{flex:1}
+.activeGiftEmpty{text-align:center;padding:30px 12px;color:#68758b;font-size:10px}
+
 .quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .quickAction{
 display:flex;
@@ -763,6 +776,19 @@ border-bottom:1px solid var(--border);
 <button class="smallBtn" onclick="openAddressBook()">Manage</button>
 </div>
 <div class="contacts" id="contacts"></div>
+</section>
+
+<section class="card cardPad">
+<div class="cardHeader">
+<div>
+<h2>Active gift links</h2>
+<p>View gift links you created that have not been claimed yet.</p>
+</div>
+<button class="smallBtn" onclick="loadActiveGiftLinks()">Refresh</button>
+</div>
+<div class="activeGifts" id="activeGiftLinks">
+<div class="activeGiftEmpty">Loading active gift links...</div>
+</div>
 </section>
 
 <section class="card cardPad">
@@ -1652,6 +1678,63 @@ setTimeout(()=>openTransactionDetails(tx[0]),120)
 async function refreshWallet(){
 toast("Refreshing","Loading the newest wallet data.","info")
 await loadAccount()
+await loadActiveGiftLinks()
+}
+
+async function loadActiveGiftLinks(){
+const container=document.getElementById("activeGiftLinks")
+if(!container)return
+
+container.innerHTML=`<div class="activeGiftEmpty">Loading active gift links...</div>`
+
+try{
+const r=await api("/zyphium/gift/active")
+const data=await safeJson(r)
+
+if(!data||!data.success){
+container.innerHTML=`<div class="activeGiftEmpty">Could not load your active gift links.</div>`
+return
+}
+
+if(!Array.isArray(data.gifts)||!data.gifts.length){
+container.innerHTML=`<div class="activeGiftEmpty">You have no active gift links.</div>`
+return
+}
+
+container.innerHTML=data.gifts.map(gift=>{
+const amount=formatAmount(gift.amount)
+const message=gift.message?escapeHtml(gift.message):"No gift message"
+const link=escapeHtml(gift.link||"")
+return `
+<div class="giftEntry">
+<div class="giftEntryTop">
+<div>
+<div class="giftEntryAmount">🎁 ${amount} <small>Zyphium</small></div>
+<div class="giftEntryDate">Created ${escapeHtml(formatDate(gift.createdAt))}</div>
+</div>
+<div class="accountBadge"><span class="dot"></span> ACTIVE</div>
+</div>
+<div class="giftEntryMessage">${message}</div>
+<div class="giftEntryLink" title="${link}">${link}</div>
+<div class="giftEntryActions">
+<button class="smallBtn" onclick='copyGiftLink(${JSON.stringify(gift.link||"")})'>Copy Link</button>
+<button class="smallBtn" onclick='window.open(${JSON.stringify(gift.link||"")},"_blank")'>Open</button>
+</div>
+</div>`
+}).join("")
+}catch{
+container.innerHTML=`<div class="activeGiftEmpty">Could not connect to the Zyphor server.</div>`
+}
+}
+
+async function copyGiftLink(link){
+if(!link)return
+try{
+await navigator.clipboard.writeText(link)
+toast("Gift link copied","Your active Zyphium gift link is on your clipboard.","success")
+}catch{
+toast("Copy failed","The gift link could not be copied automatically.","error")
+}
 }
 
 function openGiftCreator(){
@@ -1730,6 +1813,7 @@ document.getElementById("giftPreviewText").textContent=formatAmount(data.amount)
 preview.classList.add("show")
 status.textContent="Gift created successfully."
 status.style.color="#75efb4"
+await loadActiveGiftLinks()
 button.textContent="Create Another"
 button.disabled=false
 button.onclick=()=>{
@@ -1776,6 +1860,7 @@ return
 await loadProfile()
 await trackPage("Wallet.html")
 await loadAccount()
+await loadActiveGiftLinks()
 renderContacts()
 const payTo=new URLSearchParams(location.search).get("payTo")
 if(payTo){
@@ -1784,7 +1869,7 @@ updateRecipientPreview()
 document.getElementById("amount").focus()
 toast("Payment recipient loaded","The payment link filled in the recipient for you.","info")
 }
-walletRefreshTimer=setInterval(()=>loadAccount(),15000)
+walletRefreshTimer=setInterval(()=>{loadAccount();loadActiveGiftLinks()},15000)
 }catch{
 toast("Wallet error","The dashboard could not connect to the Zyphor server.","error")
 }
