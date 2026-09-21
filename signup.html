@@ -94,7 +94,15 @@ button{cursor:pointer}
 </main>
 <div id="modal" class="modal" aria-hidden="true"><div class="backdrop" id="modalBackdrop"></div><div class="modal-box"><div class="modal-head"><div><small id="modalType">FULL DOCUMENT</small><h3 id="modalTitle">Policy</h3></div><button id="closeModal" class="close" type="button">×</button></div><div id="modalBody" class="modal-body"></div></div></div>
 <script>
-const BACKEND_BASE="https://zyphor.cc";
+let BACKEND_BASE="";
+
+async function getBackend(){
+    const r=await fetch("server.txt",{cache:"no-store"});
+    if(!r.ok) throw new Error("Backend URL unavailable");
+    const text=(await r.text()).trim();
+    if(!text) throw new Error("Backend URL missing");
+    return text.replace(/\\/+$/,"");
+}
 let tosRead=false;
 let ppRead=false;
 let tosData=null;
@@ -171,6 +179,7 @@ if(!agreeTos.checked){showMessage("You must accept the Terms of Service.","bad")
 if(!agreePp.checked){showMessage("You must accept the Privacy Policy.","bad");agreePp.focus();return}
 setLoading(true);
 try{
+BACKEND_BASE=await getBackend();
 const r=await fetch(BACKEND_BASE+"/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:user,password:pass,agreedToTos:true,agreedToPrivacyPolicy:true})});
 const text=await r.text();let d=null;try{d=JSON.parse(text)}catch{}
 if(d&&d.success){showMessage("Zyphor account created successfully. Redirecting...","good");setTimeout(()=>location.href="login.html",700);return}
@@ -179,7 +188,14 @@ showMessage((d&&d.error)||"Signup failed. Please try again.","bad");setLoading(f
 }catch(e){showMessage("Network error. Please check your connection and try again.","bad");setLoading(false)}
 }
 function openModal(data,title){modalTitle.textContent=title;modalType.textContent=title.toUpperCase();modalBody.innerHTML=createDocument(data);modal.classList.add("open");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden"}
-function closeModal(){modal.classList.remove("open");modal.setAttribute("aria-hidden","true");document.body.style.overflow=""}
+function closeModal(){
+if(document.activeElement && modal.contains(document.activeElement)){
+document.activeElement.blur();
+}
+modal.classList.remove("open");
+modal.setAttribute("aria-hidden","true");
+document.body.style.overflow="";
+}
 tosbox.addEventListener("scroll",()=>updateDocProgress(tosbox,$("tosProgress"),$("tosProgressText"),{get value(){return tosRead},set value(v){tosRead=v}}));
 ppbox.addEventListener("scroll",()=>updateDocProgress(ppbox,$("ppProgress"),$("ppProgressText"),{get value(){return ppRead},set value(v){ppRead=v}}));
 $("passwordToggle").addEventListener("click",()=>{const hidden=password.type==="password";password.type=hidden?"text":"password";$("passwordToggle").textContent=hidden?"HIDE":"SHOW"});
