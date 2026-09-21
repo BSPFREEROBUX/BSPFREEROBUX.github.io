@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zyphor Dashboard</title>
+<link rel="icon" type="image/png" href="/Logo1.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -985,6 +986,36 @@ a{
     gap:10px;
 }
 
+.notificationHeaderActions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.notificationReadAll{
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.035);
+    color:var(--text);
+    border-radius:10px;
+    padding:8px 10px;
+    font-size:10px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.18s ease;
+}
+
+.notificationReadAll:hover{
+    background:rgba(0,213,255,.08);
+    border-color:rgba(0,213,255,.22);
+}
+
+.notificationReadAll:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+}
+
 .notificationBadge{
     display:none;
     min-width:23px;
@@ -1704,7 +1735,10 @@ a{
                         </div>
                     </div>
 
-                    <span class="notificationBadge" id="notificationBadge"></span>
+                    <div class="notificationHeaderActions">
+                        <span class="notificationBadge" id="notificationBadge"></span>
+                        <button id="readAllNotificationsButton" class="notificationReadAll" type="button" onclick="readAllNotifications()">Read All Notifications</button>
+                    </div>
                 </div>
 
                 <div id="notificationList" class="list" style="margin-top:17px">
@@ -2531,6 +2565,44 @@ function getNotificationIcon(type){
     return "•"
 }
 
+async function readAllNotifications(){
+    const token=localStorage.getItem("Token")
+    if(!token || !backend) return
+
+    const button=document.getElementById("readAllNotificationsButton")
+    if(button){
+        button.disabled=true
+        button.textContent="Marking Read..."
+    }
+
+    try{
+        const r=await fetch(backend+"/notifications/read-all",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:token
+            },
+            body:JSON.stringify({})
+        })
+
+        let data={}
+        try{data=await r.json()}catch{}
+
+        if(!r.ok || !data.success){
+            throw new Error(data.error||"Unable to mark notifications as read")
+        }
+
+        await loadNotifications()
+    }catch(err){
+        alert(err?.message||"Unable to mark notifications as read")
+    }finally{
+        if(button){
+            button.disabled=false
+            button.textContent="Read All Notifications"
+        }
+    }
+}
+
 async function loadNotifications(){
 
     const token=localStorage.getItem("Token")
@@ -2635,6 +2707,11 @@ async function loadNotifications(){
 
         badge.style.display="none"
 
+    }
+
+    const readAllButton=document.getElementById("readAllNotificationsButton")
+    if(readAllButton){
+        readAllButton.disabled=unread===0
     }
 
     if(unread>lastUnread){
