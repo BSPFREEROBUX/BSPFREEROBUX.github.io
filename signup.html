@@ -101,7 +101,7 @@ async function getBackend(){
     if(!r.ok) throw new Error("Backend URL unavailable");
     const text=(await r.text()).trim();
     if(!text) throw new Error("Backend URL missing");
-    return text.replace(/\\/+$/,"");
+    return text.replace(/\/+$/,"");
 }
 let tosRead=false;
 let ppRead=false;
