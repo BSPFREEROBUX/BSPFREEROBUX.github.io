@@ -2259,6 +2259,112 @@ button,a,input{font-family:Inter,sans-serif}
 }
 </style>
 
+
+<style id="zy-visual-refinement">
+:root{
+    --ui-accent:#28b8ff;
+    --ui-accent-2:#8c6cff;
+    --ui-bg:#05080d;
+    --ui-surface:rgba(15,21,30,.72);
+    --ui-surface-2:rgba(20,27,38,.82);
+    --ui-line:rgba(255,255,255,.075);
+    --ui-line-strong:rgba(255,255,255,.13);
+    --ui-text:#f7f9fc;
+    --ui-muted:#8e98aa;
+    --ui-radius:18px;
+    --ui-blur:22px;
+    --ui-shadow-alpha:.34;
+    --ui-font-scale:1;
+}
+html{font-size:calc(16px * var(--ui-font-scale))}
+body{
+    background:
+        radial-gradient(900px 500px at 8% -8%,color-mix(in srgb,var(--ui-accent) 14%,transparent),transparent 62%),
+        radial-gradient(760px 500px at 96% 3%,color-mix(in srgb,var(--ui-accent-2) 12%,transparent),transparent 60%),
+        linear-gradient(180deg,#080b11 0%,var(--ui-bg) 55%,#030508 100%);
+}
+body::before{opacity:.10;background-size:72px 72px}
+body::after{opacity:.28;filter:blur(110px)}
+.layout{grid-template-columns:224px minmax(0,1fr)}
+.sidebar{
+    border-right:1px solid var(--ui-line);
+    background:linear-gradient(180deg,rgba(9,13,19,.88),rgba(6,9,14,.75));
+    backdrop-filter:blur(calc(var(--ui-blur) + 6px));
+}
+.main{max-width:1580px;padding:24px 26px 48px}
+.top{margin-bottom:14px}
+.welcome h1{font-size:36px;letter-spacing:-1.8px}
+.profile{border:1px solid var(--ui-line);background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.02));backdrop-filter:blur(var(--ui-blur));box-shadow:0 16px 45px rgba(0,0,0,.20)}
+.zy-shortbar{padding:8px;border:1px solid var(--ui-line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.032),rgba(255,255,255,.018));backdrop-filter:blur(var(--ui-blur));box-shadow:0 18px 46px rgba(0,0,0,.18)}
+.zy-shortbar a,.zy-shortbar button{border-color:transparent;background:transparent;min-height:38px;border-radius:11px}
+.zy-shortbar a:hover,.zy-shortbar button:hover{background:rgba(255,255,255,.06);border-color:var(--ui-line);transform:none}
+.zy-shortbar .search{background:rgba(255,255,255,.032);border:1px solid var(--ui-line);margin-left:auto}
+.zy-appearance-trigger{width:40px;min-width:40px!important;padding:0!important;display:grid!important;place-items:center;color:#c5ccda!important;font-size:16px}
+.zy-balanceCard{
+    margin:12px 0 16px;
+    padding:16px 18px;
+    border-radius:16px;
+    border:1px solid color-mix(in srgb,var(--ui-accent) 19%,var(--ui-line));
+    background:linear-gradient(110deg,color-mix(in srgb,var(--ui-accent) 7%,transparent),rgba(255,255,255,.018));
+    box-shadow:0 18px 50px rgba(0,0,0,.15);
+}
+.zy-balanceValue{color:color-mix(in srgb,var(--ui-accent) 64%,#e8f7ff)}
+.grid{gap:16px}
+.card{
+    border-radius:var(--ui-radius);
+    border:1px solid var(--ui-line);
+    background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--ui-surface);
+    box-shadow:0 22px 68px rgba(0,0,0,var(--ui-shadow-alpha));
+    backdrop-filter:blur(var(--ui-blur));
+}
+.card:hover{border-color:var(--ui-line-strong);box-shadow:0 26px 78px rgba(0,0,0,calc(var(--ui-shadow-alpha) + .05))}
+.hero{
+    min-height:236px;
+    padding:25px;
+    background:
+        radial-gradient(420px 220px at 88% 22%,color-mix(in srgb,var(--ui-accent) 16%,transparent),transparent 72%),
+        radial-gradient(320px 220px at 78% 92%,color-mix(in srgb,var(--ui-accent-2) 12%,transparent),transparent 70%),
+        linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015)),var(--ui-surface-2);
+    overflow:hidden;
+}
+.hero::after{content:"";position:absolute;inset:auto -80px -90px auto;width:240px;height:240px;border-radius:50%;background:color-mix(in srgb,var(--ui-accent) 12%,transparent);filter:blur(28px);pointer-events:none}
+.hero h2{font-size:42px;letter-spacing:-2.1px}
+.hero p{font-size:13px;max-width:680px}
+.heroBrand{border-color:var(--ui-line);background:rgba(255,255,255,.035)}
+.heroDot{background:var(--ui-accent)!important;box-shadow:0 0 14px color-mix(in srgb,var(--ui-accent) 80%,transparent)!important}
+.squirtleDashCard{border-color:color-mix(in srgb,var(--ui-accent) 20%,var(--ui-line));background:linear-gradient(110deg,color-mix(in srgb,var(--ui-accent) 7%,transparent),rgba(255,255,255,.018)),rgba(17,22,31,.75)}
+.stat{min-height:122px}
+.statIcon,.titleIcon,.rowIcon,.zy-emoji{background:rgba(255,255,255,.045);border-color:var(--ui-line)}
+.quickAction,.row,.changeContent,.linkCodeBox{background:rgba(255,255,255,.022);border-color:var(--ui-line)}
+.quickAction:hover,.row:hover{background:rgba(255,255,255,.05);border-color:var(--ui-line-strong)}
+.notificationReadAll,.navButton,.versionButton{border-color:var(--ui-line)}
+.zy-appearance-overlay{position:fixed;inset:0;display:none;justify-content:flex-end;background:rgba(0,0,0,.44);backdrop-filter:blur(14px);z-index:10080}
+.zy-appearance-overlay.open{display:flex}
+.zy-appearance-sheet{width:min(470px,100%);height:100%;background:linear-gradient(180deg,rgba(15,20,29,.98),rgba(8,11,16,.985));border-left:1px solid var(--ui-line-strong);box-shadow:-28px 0 100px rgba(0,0,0,.48);display:flex;flex-direction:column;transform:translateX(20px);animation:zyAppearanceIn .2s ease forwards}
+@keyframes zyAppearanceIn{to{transform:none}}
+.zy-appearance-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:22px 22px 16px;border-bottom:1px solid var(--ui-line);background:linear-gradient(180deg,rgba(255,255,255,.035),transparent)}
+.zy-appearance-kicker{font-size:9px;letter-spacing:1.7px;color:var(--ui-accent);font-weight:900}
+.zy-appearance-header h2{font-size:24px;letter-spacing:-.8px;margin-top:4px}.zy-appearance-header p{color:var(--ui-muted);font-size:10px;margin-top:6px;line-height:1.5}
+.zy-icon-button{width:34px;height:34px;border:1px solid var(--ui-line);border-radius:10px;background:rgba(255,255,255,.03);color:#cbd2de;cursor:pointer;font-size:20px;line-height:1}
+.zy-appearance-scroll{overflow:auto;padding:6px 20px 36px}
+.zy-setting-section{padding:17px 0;border-bottom:1px solid rgba(255,255,255,.055)}
+.zy-setting-section:last-child{border-bottom:0}.zy-setting-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}.zy-setting-heading strong{display:block;font-size:12px}.zy-setting-heading span,.zy-setting-heading small{display:block;color:#737e91;font-size:9px;margin-top:4px;line-height:1.45}
+.zy-text-button{background:none;border:0;color:var(--ui-accent);font-size:9px;font-weight:800;cursor:pointer}
+.zy-theme-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.zy-theme-tile{display:grid;grid-template-columns:40px minmax(0,1fr);grid-template-rows:auto auto;column-gap:9px;text-align:left;border:1px solid var(--ui-line);border-radius:13px;background:rgba(255,255,255,.02);padding:9px;cursor:pointer;color:#e5e9f1}.zy-theme-tile:hover,.zy-theme-tile.active{border-color:color-mix(in srgb,var(--ui-accent) 48%,var(--ui-line));background:rgba(255,255,255,.045)}.zy-theme-tile strong{font-size:10px;align-self:end}.zy-theme-tile small{font-size:8px;color:#707a8c;margin-top:2px}.zy-theme-preview{grid-row:1/3;width:40px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}.zy-theme-preview.midnight{background:linear-gradient(135deg,#0b1018,#172330)}.zy-theme-preview.arctic{background:linear-gradient(135deg,#0b1621,#1f5a82)}.zy-theme-preview.violet{background:linear-gradient(135deg,#120d1f,#5b3d9a)}.zy-theme-preview.forest{background:linear-gradient(135deg,#081613,#1b7b62)}.zy-theme-preview.ember{background:linear-gradient(135deg,#1a0d0d,#9a3f26)}.zy-theme-preview.rose{background:linear-gradient(135deg,#1d0d18,#9f416e)}.zy-theme-preview.graphite{background:linear-gradient(135deg,#0d0f12,#32363d)}.zy-theme-preview.ocean{background:linear-gradient(135deg,#07121e,#116c9a)}
+.zy-color-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.zy-color-swatch{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:var(--sw);cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}.zy-color-swatch.active{outline:2px solid var(--ui-accent);outline-offset:2px}.zy-color-custom{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--ui-line);border-radius:10px;color:#aab3c1;font-size:9px}.zy-color-custom input{width:26px;height:24px;border:0;padding:0;background:none;cursor:pointer}
+.zy-segment{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.zy-segment button{border:1px solid var(--ui-line);background:rgba(255,255,255,.02);color:#8f99aa;border-radius:10px;padding:8px 7px;font-size:9px;font-weight:800;cursor:pointer}.zy-segment button.active{background:color-mix(in srgb,var(--ui-accent) 10%,transparent);border-color:color-mix(in srgb,var(--ui-accent) 32%,var(--ui-line));color:#dceaff}
+.zy-range-row{margin-top:11px}.zy-range-row>div{display:flex;justify-content:space-between;font-size:9px;color:#9ba5b5;margin-bottom:6px}.zy-range-row small{color:#6f7889}.zy-range-row input{width:100%;accent-color:var(--ui-accent)}
+.zy-toggle-row,.zy-danger-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0}.zy-toggle-row>div span,.zy-danger-row>div span{display:block;font-size:10px;color:#cbd2dd}.zy-toggle-row>div small,.zy-danger-row>div small{display:block;font-size:8px;color:#6f788a;margin-top:3px}.zy-switch{width:38px;height:22px;border:1px solid var(--ui-line-strong);border-radius:999px;background:rgba(255,255,255,.08);padding:2px;cursor:pointer;transition:.2s ease}.zy-switch span{display:block;width:16px;height:16px;border-radius:50%;background:#8590a2;transition:.2s ease}.zy-switch.on{background:color-mix(in srgb,var(--ui-accent) 25%,transparent);border-color:color-mix(in srgb,var(--ui-accent) 42%,var(--ui-line));}.zy-switch.on span{transform:translateX(16px);background:var(--ui-accent);box-shadow:0 0 12px color-mix(in srgb,var(--ui-accent) 55%,transparent)}
+.zy-advanced-toggle{width:100%;display:flex;justify-content:space-between;border:0;background:none;color:#c8cfda;padding:4px 0;font-size:10px;font-weight:800;cursor:pointer}.zy-advanced-body{display:none;padding-top:8px}.zy-advanced-body.open{display:block}.zy-danger-button{border:1px solid rgba(255,91,105,.24);background:rgba(255,91,105,.07);color:#ff929e;border-radius:9px;padding:7px 10px;font-size:9px;font-weight:800;cursor:pointer}
+.zyx-focus-mode .card{opacity:.76}.zyx-focus-mode .card:hover,.zyx-focus-mode .card:focus-within{opacity:1}.zyx-minimal .card::before,.zyx-minimal body::before{display:none!important}.zyx-minimal .heroSubscription,.zyx-minimal .statMeta,.zyx-minimal .sectionSubtitle,.zyx-minimal .quickActionDescription{opacity:.55}.zyx-no-glow *{box-shadow:none!important;text-shadow:none!important}.zyx-no-motion *{animation:none!important;transition:none!important}.zyx-no-vignette body::after{display:none!important}.zyx-thin-borders .card,.zyx-thin-borders .zy-shortbar,.zyx-thin-borders .profile{border-color:rgba(255,255,255,.05)!important}.zyx-high-contrast .sectionSubtitle,.zyx-high-contrast .statMeta,.zyx-high-contrast .zy-setting-heading span{color:#9da8b9!important}.zyx-soft-contrast .item,.zyx-soft-contrast .statMeta{color:#788396!important}
+body.zyx-sidebar-collapsed .layout{grid-template-columns:76px minmax(0,1fr)}body.zyx-sidebar-collapsed .sidebar{padding:16px 10px}body.zyx-sidebar-collapsed .logo{justify-content:center;padding-left:0;padding-right:0}body.zyx-sidebar-collapsed .logo h2,body.zyx-sidebar-collapsed .logoBadge,body.zyx-sidebar-collapsed .itemText{display:none}body.zyx-sidebar-collapsed .item{justify-content:center;padding-left:0;padding-right:0}body.zyx-sidebar-collapsed .zy-emoji{margin:0}
+body.zyx-nav-compact .item{min-height:38px;padding-top:6px;padding-bottom:6px}body.zyx-nav-compact .nav{gap:2px}
+body.zyx-surface-solid .card{background:#121821}body.zyx-surface-soft .card{background:rgba(255,255,255,.024)}
+body.zyx-bg-mesh{background:radial-gradient(circle at 20% 0%,color-mix(in srgb,var(--ui-accent) 10%,transparent),transparent 24%),linear-gradient(135deg,rgba(255,255,255,.018) 25%,transparent 25%) 0 0/34px 34px,linear-gradient(315deg,rgba(255,255,255,.012) 25%,transparent 25%) 0 0/34px 34px,#070a10!important}
+body.zyx-bg-plain{background:#07090d!important}body.zyx-bg-plain::before,body.zyx-bg-plain::after{display:none!important}
+@media(max-width:980px){body.zyx-sidebar-collapsed .layout{grid-template-columns:1fr}body.zyx-sidebar-collapsed .logo h2{display:block}body.zyx-sidebar-collapsed .logoBadge{display:block}body.zyx-sidebar-collapsed .itemText{display:inline}body.zyx-sidebar-collapsed .item{justify-content:flex-start;padding-left:10px;padding-right:10px}}
+</style>
+
 </head>
 <body>
 
@@ -2374,7 +2480,7 @@ button,a,input{font-family:Inter,sans-serif}
     <a href="Wallet.html" class="zy-balance">◈ <span id="zyHeaderZyphium">Loading Zyphium…</span></a>
     <a href="Cloud.html">☁ <span>Cloud</span></a>
     <a href="download.html">↓ <span>Apps</span></a>
-    <button type="button" id="zyCommandButton" class="search"><span>Search</span><span class="zy-key">Ctrl K</span></button><button id="zyFeatureButton" type="button" title="More" aria-label="More"><span>•••</span></button>
+    <button type="button" id="zyCommandButton" class="search"><span>Search</span><span class="zy-key">Ctrl K</span></button><button type="button" id="zyAppearanceButton" class="zy-appearance-trigger" aria-label="Appearance" title="Appearance"><span>◐</span></button><button id="zyFeatureButton" type="button" title="More" aria-label="More"><span>•••</span></button>
 </div>
 
 <div class="zy-balanceCard">
@@ -2588,6 +2694,111 @@ button,a,input{font-family:Inter,sans-serif}
         </div>
 
     </div>
+
+
+<div id="zyAppearanceOverlay" class="zy-appearance-overlay" aria-hidden="true">
+    <aside class="zy-appearance-sheet" aria-label="Appearance settings">
+        <div class="zy-appearance-header">
+            <div>
+                <div class="zy-appearance-kicker">PERSONALIZE</div>
+                <h2>Appearance</h2>
+                <p>Changes are saved for your account on this device.</p>
+            </div>
+            <button id="zyAppearanceClose" class="zy-icon-button" type="button" aria-label="Close">×</button>
+        </div>
+
+        <div class="zy-appearance-scroll">
+            <section class="zy-setting-section">
+                <div class="zy-setting-heading">
+                    <div><strong>Theme</strong><span>Choose a complete visual preset</span></div>
+                    <button class="zy-text-button" type="button" id="zyAppearanceResetTheme">Reset</button>
+                </div>
+                <div class="zy-theme-grid" id="zyThemeGrid">
+                    <button class="zy-theme-tile" data-theme="midnight" type="button"><span class="zy-theme-preview midnight"></span><strong>Midnight</strong><small>Deep neutral</small></button>
+                    <button class="zy-theme-tile" data-theme="arctic" type="button"><span class="zy-theme-preview arctic"></span><strong>Arctic</strong><small>Cool blue</small></button>
+                    <button class="zy-theme-tile" data-theme="violet" type="button"><span class="zy-theme-preview violet"></span><strong>Violet</strong><small>Soft purple</small></button>
+                    <button class="zy-theme-tile" data-theme="forest" type="button"><span class="zy-theme-preview forest"></span><strong>Forest</strong><small>Emerald</small></button>
+                    <button class="zy-theme-tile" data-theme="ember" type="button"><span class="zy-theme-preview ember"></span><strong>Ember</strong><small>Warm red</small></button>
+                    <button class="zy-theme-tile" data-theme="rose" type="button"><span class="zy-theme-preview rose"></span><strong>Rose</strong><small>Pink glow</small></button>
+                    <button class="zy-theme-tile" data-theme="graphite" type="button"><span class="zy-theme-preview graphite"></span><strong>Graphite</strong><small>Minimal</small></button>
+                    <button class="zy-theme-tile" data-theme="ocean" type="button"><span class="zy-theme-preview ocean"></span><strong>Ocean</strong><small>Blue glass</small></button>
+                </div>
+            </section>
+
+            <section class="zy-setting-section">
+                <div class="zy-setting-heading"><div><strong>Accent</strong><span>Control the interface highlight color</span></div></div>
+                <div class="zy-color-row">
+                    <button class="zy-color-swatch" data-accent="#28b8ff" style="--sw:#28b8ff" type="button" aria-label="Blue"></button>
+                    <button class="zy-color-swatch" data-accent="#8c6cff" style="--sw:#8c6cff" type="button" aria-label="Purple"></button>
+                    <button class="zy-color-swatch" data-accent="#39d99d" style="--sw:#39d99d" type="button" aria-label="Green"></button>
+                    <button class="zy-color-swatch" data-accent="#ff8a4c" style="--sw:#ff8a4c" type="button" aria-label="Orange"></button>
+                    <button class="zy-color-swatch" data-accent="#ff5e79" style="--sw:#ff5e79" type="button" aria-label="Rose"></button>
+                    <label class="zy-color-custom"><span>Custom</span><input id="zyCustomAccent" type="color" value="#28b8ff" aria-label="Custom accent"></label>
+                </div>
+            </section>
+
+            <section class="zy-setting-section">
+                <div class="zy-setting-heading"><div><strong>Surface</strong><span>Cards, glass and depth</span></div></div>
+                <div class="zy-segment" data-setting="surface">
+                    <button type="button" data-value="glass">Glass</button>
+                    <button type="button" data-value="solid">Solid</button>
+                    <button type="button" data-value="soft">Soft</button>
+                </div>
+                <div class="zy-range-row"><div><span>Blur</span><small id="zyBlurValue">22px</small></div><input id="zyBlurRange" type="range" min="0" max="40" step="1" value="22"></div>
+                <div class="zy-range-row"><div><span>Depth</span><small id="zyShadowValue">Medium</small></div><input id="zyShadowRange" type="range" min="0" max="3" step="1" value="2"></div>
+            </section>
+
+            <section class="zy-setting-section">
+                <div class="zy-setting-heading"><div><strong>Shape & spacing</strong><span>Control the rhythm of the layout</span></div></div>
+                <div class="zy-range-row"><div><span>Corner radius</span><small id="zyRadiusValue">18px</small></div><input id="zyRadiusRange" type="range" min="8" max="28" step="1" value="18"></div>
+                <div class="zy-segment" data-setting="density">
+                    <button type="button" data-value="airy">Airy</button>
+                    <button type="button" data-value="comfortable">Comfortable</button>
+                    <button type="button" data-value="compact">Compact</button>
+                </div>
+            </section>
+
+            <section class="zy-setting-section">
+                <div class="zy-setting-heading"><div><strong>Navigation</strong><span>Keep your workspace focused</span></div></div>
+                <div class="zy-toggle-row"><div><span>Collapse sidebar</span><small>Use icons until you need labels</small></div><button class="zy-switch" data-toggle="sidebarCollapsed" type="button" role="switch" aria-checked="false"><span></span></button></div>
+                <div class="zy-toggle-row"><div><span>Compact navigation</span><small>Reduce nav height and spacing</small></div><button class="zy-switch" data-toggle="navCompact" type="button" role="switch" aria-checked="false"><span></span></button></div>
+                <div class="zy-toggle-row"><div><span>Sticky navigation</span><small>Keep navigation available while scrolling</small></div><button class="zy-switch" data-toggle="navSticky" type="button" role="switch" aria-checked="true"><span></span></button></div>
+            </section>
+
+            <section class="zy-setting-section">
+                <div class="zy-setting-heading"><div><strong>Effects</strong><span>Optional background and motion details</span></div></div>
+                <div class="zy-segment" data-setting="background">
+                    <button type="button" data-value="aurora">Aurora</button>
+                    <button type="button" data-value="mesh">Mesh</button>
+                    <button type="button" data-value="plain">Plain</button>
+                </div>
+                <div class="zy-toggle-row"><div><span>Glow</span><small>Soft accent lighting around surfaces</small></div><button class="zy-switch" data-toggle="glow" type="button" role="switch" aria-checked="true"><span></span></button></div>
+                <div class="zy-toggle-row"><div><span>Motion</span><small>Hover movement and subtle transitions</small></div><button class="zy-switch" data-toggle="motion" type="button" role="switch" aria-checked="true"><span></span></button></div>
+                <div class="zy-toggle-row"><div><span>Focus highlights</span><small>Accent the section you interact with</small></div><button class="zy-switch" data-toggle="focus" type="button" role="switch" aria-checked="true"><span></span></button></div>
+            </section>
+
+            <section class="zy-setting-section">
+                <div class="zy-setting-heading"><div><strong>Interface</strong><span>Typography and contrast</span></div></div>
+                <div class="zy-segment" data-setting="contrast">
+                    <button type="button" data-value="soft">Soft</button>
+                    <button type="button" data-value="normal">Normal</button>
+                    <button type="button" data-value="high">High</button>
+                </div>
+                <div class="zy-range-row"><div><span>Text scale</span><small id="zyTextValue">100%</small></div><input id="zyTextRange" type="range" min="90" max="115" step="1" value="100"></div>
+            </section>
+
+            <section class="zy-setting-section zy-advanced-section">
+                <button id="zyAdvancedToggle" type="button" class="zy-advanced-toggle"><span>Advanced</span><span>⌄</span></button>
+                <div id="zyAdvancedBody" class="zy-advanced-body">
+                    <div class="zy-toggle-row"><div><span>Reduce visual noise</span><small>Hide non-essential decorative details</small></div><button class="zy-switch" data-toggle="minimal" type="button" role="switch" aria-checked="false"><span></span></button></div>
+                    <div class="zy-toggle-row"><div><span>Thin borders</span><small>Use subtle edges around surfaces</small></div><button class="zy-switch" data-toggle="thinBorders" type="button" role="switch" aria-checked="true"><span></span></button></div>
+                    <div class="zy-toggle-row"><div><span>Edge vignette</span><small>Darken the outer edge of the screen</small></div><button class="zy-switch" data-toggle="vignette" type="button" role="switch" aria-checked="true"><span></span></button></div>
+                    <div class="zy-danger-row"><div><span>Reset appearance</span><small>Restore this account's local visual settings</small></div><button id="zyAppearanceResetAll" class="zy-danger-button" type="button">Reset</button></div>
+                </div>
+            </section>
+        </div>
+    </aside>
+</div>
 
 <div id="zyFeatureLayer">
     <div id="zyFeatureOverlay" class="zyx-overlay" aria-hidden="true">
@@ -9691,6 +9902,146 @@ if(
 }
 })();
 </script>
+
+
+<script id="zy-appearance-script">
+(function(){
+    const root=document.documentElement;
+    const body=document.body;
+    const $=id=>document.getElementById(id);
+    const themes={
+        midnight:{accent:'#28b8ff',accent2:'#8c6cff',bg:'#05080d',surface:'rgba(15,21,30,.72)',surface2:'rgba(20,27,38,.82)'},
+        arctic:{accent:'#6bd9ff',accent2:'#4b8cff',bg:'#071018',surface:'rgba(12,25,35,.74)',surface2:'rgba(17,36,49,.84)'},
+        violet:{accent:'#aa8cff',accent2:'#6d5ce7',bg:'#09070f',surface:'rgba(23,18,35,.74)',surface2:'rgba(31,24,47,.86)'},
+        forest:{accent:'#43e0a7',accent2:'#28a676',bg:'#050c0a',surface:'rgba(13,25,21,.75)',surface2:'rgba(17,36,30,.86)'},
+        ember:{accent:'#ff9367',accent2:'#ff5d5d',bg:'#100807',surface:'rgba(30,17,15,.75)',surface2:'rgba(43,23,20,.86)'},
+        rose:{accent:'#ff78a7',accent2:'#b66cff',bg:'#0f080d',surface:'rgba(29,17,25,.74)',surface2:'rgba(42,23,36,.86)'},
+        graphite:{accent:'#b9c1cc',accent2:'#7d8795',bg:'#070809',surface:'rgba(20,22,25,.78)',surface2:'rgba(28,30,34,.88)'},
+        ocean:{accent:'#3fd0ff',accent2:'#1e83ff',bg:'#050b12',surface:'rgba(11,23,33,.76)',surface2:'rgba(15,34,48,.86)'}
+    };
+    const defaults={theme:'midnight',accent:themes.midnight.accent,surface:'glass',blur:22,shadow:2,radius:18,density:'comfortable',sidebarCollapsed:false,navCompact:false,navSticky:true,background:'aurora',glow:true,motion:true,focus:true,contrast:'normal',text:100,minimal:false,thinBorders:true,vignette:true};
+    let account='guest';
+    let settings={...defaults};
+    function accountFromDOM(){
+        const name=($('profileName')?.textContent||'').trim();
+        return name && name!=='Loading...' ? name : 'guest';
+    }
+    function storageKey(){return 'zyphor:appearance:'+encodeURIComponent(account)}
+    function load(){
+        try{const raw=localStorage.getItem(storageKey());settings={...defaults,...(raw?JSON.parse(raw):{})}}catch{settings={...defaults}}
+    }
+    function save(){try{localStorage.setItem(storageKey(),JSON.stringify(settings))}catch{}}
+    function setTheme(name){
+        const t=themes[name]||themes.midnight;settings.theme=name;applyThemeVars(t);save();render();
+    }
+    function applyThemeVars(t){
+        root.style.setProperty('--ui-accent',settings.accent||t.accent);
+        root.style.setProperty('--ui-accent-2',t.accent2);
+        root.style.setProperty('--ui-bg',t.bg);
+        root.style.setProperty('--ui-surface',t.surface);
+        root.style.setProperty('--ui-surface-2',t.surface2);
+        root.style.setProperty('--cyan',settings.accent||t.accent);
+        root.style.setProperty('--purple',t.accent2);
+        root.style.setProperty('--green',settings.accent||t.accent);
+    }
+    function apply(){
+        const t=themes[settings.theme]||themes.midnight;
+        applyThemeVars(t);
+        root.style.setProperty('--ui-blur',settings.blur+'px');
+        root.style.setProperty('--ui-radius',settings.radius+'px');
+        root.style.setProperty('--ui-font-scale',(Number(settings.text)||100)/100);
+        root.style.setProperty('--ui-shadow-alpha',(['.06','.18','.34','.48'][Number(settings.shadow)]||'.34'));
+        const classes=['zyx-sidebar-collapsed','zyx-nav-compact','zyx-surface-solid','zyx-surface-soft','zyx-bg-mesh','zyx-bg-plain','zyx-no-glow','zyx-no-motion','zyx-no-vignette','zyx-high-contrast','zyx-soft-contrast','zyx-minimal','zyx-thin-borders'];
+        classes.forEach(c=>body.classList.remove(c));
+        if(settings.sidebarCollapsed)body.classList.add('zyx-sidebar-collapsed');
+        if(settings.navCompact)body.classList.add('zyx-nav-compact');
+        if(settings.surface==='solid')body.classList.add('zyx-surface-solid');
+        if(settings.surface==='soft')body.classList.add('zyx-surface-soft');
+        if(settings.background==='mesh')body.classList.add('zyx-bg-mesh');
+        if(settings.background==='plain')body.classList.add('zyx-bg-plain');
+        if(!settings.glow)body.classList.add('zyx-no-glow');
+        if(!settings.motion)body.classList.add('zyx-no-motion');
+        if(!settings.vignette)body.classList.add('zyx-no-vignette');
+        if(settings.contrast==='high')body.classList.add('zyx-high-contrast');
+        if(settings.contrast==='soft')body.classList.add('zyx-soft-contrast');
+        if(settings.minimal)body.classList.add('zyx-minimal');
+        if(settings.thinBorders)body.classList.add('zyx-thin-borders');
+        if(settings.navSticky)document.querySelector('.sidebar')?.style.setProperty('top','0');
+        else document.querySelector('.sidebar')?.style.setProperty('top','auto');
+        render();
+    }
+    function render(){
+        document.querySelectorAll('.zy-theme-tile').forEach(x=>x.classList.toggle('active',x.dataset.theme===settings.theme));
+        document.querySelectorAll('.zy-color-swatch').forEach(x=>x.classList.toggle('active',(settings.accent||'').toLowerCase()===String(x.dataset.accent||'').toLowerCase()));
+        document.querySelectorAll('.zy-segment').forEach(group=>{
+            const key=group.dataset.setting;const value=settings[key];
+            group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.value===value));
+        });
+        document.querySelectorAll('.zy-switch[data-toggle]').forEach(b=>{
+            const value=!!settings[b.dataset.toggle];b.classList.toggle('on',value);b.setAttribute('aria-checked',String(value));
+        });
+        if($('zyBlurRange'))$('zyBlurRange').value=settings.blur;
+        if($('zyBlurValue'))$('zyBlurValue').textContent=settings.blur+'px';
+        if($('zyShadowRange'))$('zyShadowRange').value=settings.shadow;
+        if($('zyShadowValue'))$('zyShadowValue').textContent=['Off','Low','Medium','High'][settings.shadow]||'Medium';
+        if($('zyRadiusRange'))$('zyRadiusRange').value=settings.radius;
+        if($('zyRadiusValue'))$('zyRadiusValue').textContent=settings.radius+'px';
+        if($('zyTextRange'))$('zyTextRange').value=settings.text;
+        if($('zyTextValue'))$('zyTextValue').textContent=settings.text+'%';
+        if($('zyCustomAccent'))$('zyCustomAccent').value=settings.accent||themes.midnight.accent;
+    }
+    function open(){
+        const o=$('zyAppearanceOverlay');if(!o)return;o.classList.add('open');o.setAttribute('aria-hidden','false');render();
+    }
+    function close(){const o=$('zyAppearanceOverlay');if(!o)return;o.classList.remove('open');o.setAttribute('aria-hidden','true')}
+    function reset(){settings={...defaults};save();apply();}
+    function bind(){
+        $('zyAppearanceButton')?.addEventListener('click',open);
+        $('zyAppearanceClose')?.addEventListener('click',close);
+        $('zyAppearanceOverlay')?.addEventListener('click',e=>{if(e.target.id==='zyAppearanceOverlay')close()});
+        $('zyAppearanceResetAll')?.addEventListener('click',reset);
+        $('zyAppearanceResetTheme')?.addEventListener('click',()=>{settings.theme='midnight';settings.accent=themes.midnight.accent;save();apply()});
+        document.querySelectorAll('.zy-theme-tile').forEach(b=>b.addEventListener('click',()=>setTheme(b.dataset.theme)));
+        document.querySelectorAll('.zy-color-swatch').forEach(b=>b.addEventListener('click',()=>{settings.accent=b.dataset.accent;save();apply()}));
+        $('zyCustomAccent')?.addEventListener('input',e=>{settings.accent=e.target.value;save();apply()});
+        document.querySelectorAll('.zy-segment').forEach(group=>group.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{settings[group.dataset.setting]=b.dataset.value;save();apply()})));
+        document.querySelectorAll('.zy-switch[data-toggle]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.toggle;settings[k]=!settings[k];save();apply()}));
+        $('zyBlurRange')?.addEventListener('input',e=>{settings.blur=Number(e.target.value);apply();save()});
+        $('zyShadowRange')?.addEventListener('input',e=>{settings.shadow=Number(e.target.value);apply();save()});
+        $('zyRadiusRange')?.addEventListener('input',e=>{settings.radius=Number(e.target.value);apply();save()});
+        $('zyTextRange')?.addEventListener('input',e=>{settings.text=Number(e.target.value);apply();save()});
+        $('zyAdvancedToggle')?.addEventListener('click',()=>$('zyAdvancedBody')?.classList.toggle('open'));
+        document.addEventListener('keydown',e=>{if(e.key==='Escape')close();if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='a'){e.preventDefault();open()}});
+    }
+    function boot(){
+        account=accountFromDOM();load();apply();bind();
+        const observer=new MutationObserver(()=>{
+            const next=accountFromDOM();
+            if(next!==account){account=next;load();apply()}
+        });
+        const node=$('profileName');if(node)observer.observe(node,{childList:true,characterData:true,subtree:true});
+    }
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+
+
+<style id="zy-premium-polish">
+body:has(.zy-appearance-overlay.open){overflow:hidden}
+.zy-shortbar a:nth-child(1),.zy-shortbar a:nth-child(2),.zy-shortbar a:nth-child(3),.zy-shortbar a:nth-child(4),.zy-shortbar a:nth-child(5){position:relative}
+.zy-shortbar a:nth-child(1)::after,.zy-shortbar a:nth-child(2)::after,.zy-shortbar a:nth-child(3)::after,.zy-shortbar a:nth-child(4)::after,.zy-shortbar a:nth-child(5)::after{content:"";position:absolute;left:12px;right:12px;bottom:3px;height:1px;background:linear-gradient(90deg,transparent,var(--ui-accent),transparent);opacity:0;transform:scaleX(.35);transition:.2s ease}
+.zy-shortbar a:hover::after{opacity:.6;transform:none}
+.card{position:relative;overflow:hidden}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.035),transparent 26%,transparent 72%,color-mix(in srgb,var(--ui-accent) 3%,transparent));opacity:.65}
+.stat h1,.zy-balanceValue,.linkCode{font-variant-numeric:tabular-nums}
+.hero,.zy-balanceCard,.squirtleDashCard{isolation:isolate}
+.zy-balanceCard::before{content:"";position:absolute;width:170px;height:170px;right:-85px;top:-80px;border-radius:50%;background:color-mix(in srgb,var(--ui-accent) 10%,transparent);filter:blur(18px);pointer-events:none}
+.zy-balanceCard{position:relative;overflow:hidden}
+.profile::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(120deg,color-mix(in srgb,var(--ui-accent) 11%,transparent),transparent 44%);pointer-events:none}
+.zy-appearance-sheet{--sheet-accent:var(--ui-accent)}
+.zy-appearance-sheet button:focus-visible,.zy-appearance-sheet input:focus-visible{outline:2px solid color-mix(in srgb,var(--ui-accent) 58%,transparent);outline-offset:2px}
+@media(max-width:700px){.zy-appearance-sheet{width:100%}.zy-theme-grid{grid-template-columns:1fr 1fr}.main{padding-left:14px;padding-right:14px}}
+</style>
 
 </body>
 </html>
