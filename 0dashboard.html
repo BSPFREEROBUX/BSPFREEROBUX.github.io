@@ -2385,7 +2385,7 @@ body.zy-booting .layout,body.zy-booting #adminCenter{opacity:0!important;visibil
 .zy-loader-sub{margin-top:7px;color:#7f8b9e;font-size:11px;min-height:17px}
 .zy-loader-track{height:5px;margin-top:23px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
 .zy-loader-progress{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--zy-loader-accent,#27b9ff),var(--zy-loader-accent2,#7f6cff));box-shadow:0 0 20px color-mix(in srgb,var(--zy-loader-accent,#27b9ff) 45%,transparent);transition:width .28s ease}
-.zy-loader-stage{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:#aeb8c7;font-size:10px}
+.zy-loader-stage{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:#aeb8c7;font-size:10px}.zy-loader-meta{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#96a1b2;font-size:10px;font-variant-numeric:tabular-nums}.zy-loader-detail{margin-top:8px;color:#657083;font-size:10px;line-height:1.45;min-height:28px}
 .zy-loader-dot{width:6px;height:6px;border-radius:50%;background:var(--zy-loader-accent,#27b9ff);box-shadow:0 0 11px color-mix(in srgb,var(--zy-loader-accent,#27b9ff) 75%,transparent);animation:zyLoaderPulse 1s ease-in-out infinite}
 @keyframes zyLoaderPulse{0%,100%{transform:scale(.7);opacity:.45}50%{transform:scale(1);opacity:1}}
 .zy-server-load{opacity:0;transform:translateY(14px) scale(.992);transition:opacity .36s ease,transform .36s ease}
@@ -2403,64 +2403,75 @@ body.zy-booting .layout,body.zy-booting #adminCenter{opacity:0!important;visibil
 "use strict";
 const root=document.documentElement;
 root.classList.add("zy-booting");
-const boot={config:null,backend:null,token:null,me:null,zyphium:null,notifications:null,changelogs:null,ready:false};
+const boot={config:null,backend:null,token:null,me:null,zyphium:null,notifications:null,changelogs:null,ready:false,sessionChecked:false,sessionValid:false};
 window.__zyServerUI=boot;
 const loader=document.createElement("div");
 loader.id="zyServerLoader";
-loader.innerHTML=`<div class="zy-loader-bg"></div><div class="zy-loader-grid"></div><div class="zy-loader-card"><div class="zy-loader-mark"><img src="/Logo1.png" alt="Zyphor"></div><div class="zy-loader-title">Preparing Zyphor</div><div class="zy-loader-sub" id="zyLoaderSub">Connecting to the server…</div><div class="zy-loader-track"><div class="zy-loader-progress" id="zyLoaderProgress"></div></div><div class="zy-loader-stage"><span class="zy-loader-dot"></span><span id="zyLoaderStage">Starting secure session</span></div><button class="zy-loader-retry" id="zyLoaderRetry" type="button">Retry</button></div>`;
+loader.innerHTML=`<div class="zy-loader-bg"></div><div class="zy-loader-grid"></div><div class="zy-loader-card"><div class="zy-loader-mark"><img src="/Logo1.png" alt="Zyphor"></div><div class="zy-loader-title">Preparing Zyphor</div><div class="zy-loader-sub" id="zyLoaderSub">Starting secure startup</div><div class="zy-loader-track"><div class="zy-loader-progress" id="zyLoaderProgress"></div></div><div class="zy-loader-meta"><span id="zyLoaderStage">Initializing</span><span id="zyLoaderCount">0 / 1000</span></div><div class="zy-loader-detail" id="zyLoaderDetail">Preparing the dashboard</div><button class="zy-loader-retry" id="zyLoaderRetry" type="button">Retry</button></div>`;
 document.body.prepend(loader);
-const sub=()=>document.getElementById("zyLoaderSub");
-const stage=()=>document.getElementById("zyLoaderStage");
-const progress=()=>document.getElementById("zyLoaderProgress");
-const setStage=(text,p)=>{if(sub())sub().textContent=text;if(stage())stage().textContent=text;if(progress())progress().style.width=Math.max(0,Math.min(100,p))+"%"};
+const $=id=>document.getElementById(id);
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
-async function jsonFetch(url,opt){const r=await fetch(url,opt);if(!r.ok)throw new Error("HTTP "+r.status);return await r.json();}
-function defaultConfig(){return {version:1,appearance:{theme:"midnight",accent:"#27b9ff",accent2:"#7f6cff",bg:"#05080d",surface:"rgba(15,21,30,.72)",surface2:"rgba(20,27,38,.82)",radius:18,blur:22,shadow:2,density:"comfortable",background:"aurora",glow:true,motion:true,vignette:true,text:100},labels:{welcome:"Welcome Back",subtitle:"Your central hub for everything Zyphor.",event:"Squirtle Event",eventHint:"Team up with everyone and defeat the Squirtle Boss.",cloud:"Cloud",wallet:"Wallet",messages:"Messages",apps:"Apps",support:"Support"},buttons:{primaryRadius:12,style:"glass",weight:800},loader:{minDuration:900,stepDelay:85,children:true},sequence:[".sidebar .logo",".sidebar .nav .item",".bottom .item",".welcome",".profile",".zy-balanceCard",".hero",".squirtleDashCard",".stats .stat",".discordCard",".rightcol>.card"]};}
-function merge(a,b){if(!b||typeof b!=="object")return a;const out={...a};for(const [k,v] of Object.entries(b)){if(v&&typeof v==="object"&&!Array.isArray(v)&&out[k]&&typeof out[k]==="object")out[k]=merge(out[k],v);else out[k]=v;}return out;}
-function applyConfig(cfg){
- const a=cfg.appearance||{};
- if(a.accent)root.style.setProperty("--ui-accent",a.accent);
- if(a.accent2)root.style.setProperty("--ui-accent-2",a.accent2);
- if(a.bg)root.style.setProperty("--ui-bg",a.bg);
- if(a.surface)root.style.setProperty("--ui-surface",a.surface);
- if(a.surface2)root.style.setProperty("--ui-surface-2",a.surface2);
- if(Number.isFinite(Number(a.radius)))root.style.setProperty("--ui-radius",Number(a.radius)+"px");
- if(Number.isFinite(Number(a.blur)))root.style.setProperty("--ui-blur",Number(a.blur)+"px");
- if(Number.isFinite(Number(a.shadow)))root.style.setProperty("--ui-shadow-alpha",[".06",".18",".34",".48"][Number(a.shadow)]||".34");
- if(Number.isFinite(Number(a.text)))root.style.setProperty("--ui-font-scale",Number(a.text)/100);
- root.style.setProperty("--zy-loader-accent",a.accent||"#27b9ff");root.style.setProperty("--zy-loader-accent2",a.accent2||"#7f6cff");
- const labels=cfg.labels||{};
- const labelMap={event:".squirtleDashCard h2",cloud:".stats .stat:nth-child(4) h3",wallet:".stats .stat:nth-child(2) h3",messages:".stats .stat:nth-child(3) h3"};
- for(const [key,sel] of Object.entries(labelMap)){if(labels[key])document.querySelectorAll(sel).forEach(n=>n.textContent=labels[key]);}
- const title=document.querySelector(".welcome h1");if(title&&labels.welcome)title.textContent=labels.welcome;
- const subtitle=document.querySelector(".welcome p");if(subtitle&&labels.subtitle)subtitle.textContent=labels.subtitle;
- const eventHint=document.querySelector(".squirtleDashCard p");if(eventHint&&labels.eventHint)eventHint.textContent=labels.eventHint;
- document.querySelectorAll("button,.quickAction,.navButton,.notificationReadAll,.versionButton").forEach(el=>{el.style.borderRadius=(Number(cfg.buttons?.primaryRadius)||12)+"px";el.style.fontWeight=String(cfg.buttons?.weight||800);});
-}
-function getLoadTargets(cfg){
- const seen=new Set(),items=[];for(const sel of (cfg.sequence||[])){document.querySelectorAll(sel).forEach(el=>{if(!seen.has(el)){seen.add(el);items.push(el);}})}
- if(!items.length){document.querySelectorAll(".layout .sidebar .logo,.layout .sidebar .nav .item,.layout .main .welcome,.layout .main .profile,.layout .main>*").forEach(el=>{if(!seen.has(el)){seen.add(el);items.push(el);}})}
- return items;
-}
-async function reveal(cfg){
- const items=getLoadTargets(cfg);const children=cfg.loader?.children!==false;items.forEach(el=>el.classList.add("zy-server-load"));
- let done=0;for(const el of items){el.classList.add("zy-loaded");done++;setStage("Loading interface "+done+" / "+items.length,20+Math.round(done/items.length*72));await wait(Number(cfg.loader?.stepDelay)||70);if(children){const child=[...el.querySelectorAll("h1,h2,h3,h4,p,a,button,.statIcon,.titleIcon,.zy-emoji,.row,.quickAction")].slice(0,7);for(const c of child){c.classList.add("zy-server-load","zy-server-load-child");requestAnimationFrame(()=>c.classList.add("zy-loaded"));await wait(18);}}}
-}
+const setStage=(text,p,detail)=>{const a=$("zyLoaderSub"),b=$("zyLoaderStage"),c=$("zyLoaderProgress"),d=$("zyLoaderDetail");if(a)a.textContent=text;if(b)b.textContent=text;if(d)d.textContent=detail||"Preparing the dashboard";if(c)c.style.width=Math.max(0,Math.min(100,p))+"%"};
+const setCount=(n)=>{const el=$("zyLoaderCount");if(el)el.textContent=Math.max(0,Math.min(1000,n))+" / 1000"};
+function readSessionToken(){const keys=["Token","token","loginToken","sessionToken","authToken"];for(const storage of [localStorage,sessionStorage]){for(const key of keys){try{const value=storage.getItem(key);if(value){const normalized=String(value).trim().replace(/^Bearer\s+/i,"");if(normalized)return normalized;}}catch{}}}return ""}
+function clearSession(){const keys=["Token","token","loginToken","sessionToken","authToken"];for(const storage of [localStorage,sessionStorage])for(const key of keys){try{storage.removeItem(key)}catch{}}}
+async function request(url,opt={}){const r=await fetch(url,opt);const text=await r.text();let data=null;try{data=JSON.parse(text)}catch{}return {r,data,text}}
+function defaultConfig(){return {version:1,appearance:{theme:"midnight",accent:"#27b9ff",accent2:"#7f6cff",bg:"#05080d",surface:"rgba(15,21,30,.72)",surface2:"rgba(20,27,38,.82)",radius:18,blur:22,shadow:2,density:"comfortable",background:"aurora",glow:true,motion:true,vignette:true,text:100},labels:{welcome:"Welcome Back",subtitle:"Your central hub for everything Zyphor.",event:"Squirtle Event",eventHint:"Team up with everyone and defeat the Squirtle Boss.",cloud:"Cloud",wallet:"Wallet",messages:"Messages",apps:"Apps",support:"Support"},buttons:{primaryRadius:12,style:"glass",weight:800},loader:{stepDelay:7,children:true},sequence:[".sidebar .logo",".sidebar .nav .item",".bottom .item",".welcome",".profile",".zy-balanceCard",".hero",".squirtleDashCard",".stats .stat",".discordCard",".rightcol>.card"]}}
+function merge(a,b){if(!b||typeof b!=="object")return a;const out={...a};for(const [k,v] of Object.entries(b)){if(v&&typeof v==="object"&&!Array.isArray(v)&&out[k]&&typeof out[k]==="object")out[k]=merge(out[k],v);else out[k]=v}return out}
+function flattenConfig(obj,prefix="",out=[]){if(obj&&typeof obj==="object"){for(const [k,v] of Object.entries(obj)){const path=prefix?prefix+"."+k:k;if(v&&typeof v==="object"&&!Array.isArray(v))flattenConfig(v,path,out);else out.push({path,value:v})}}return out}
+function pathGet(obj,path){return path.split(".").reduce((a,k)=>a==null?undefined:a[k],obj)}
+function applyOneConfig(path,value){const a=boot.config?.appearance||{};if(path==="appearance.accent")root.style.setProperty("--ui-accent",String(value));if(path==="appearance.accent2")root.style.setProperty("--ui-accent-2",String(value));if(path==="appearance.bg")root.style.setProperty("--ui-bg",String(value));if(path==="appearance.surface")root.style.setProperty("--ui-surface",String(value));if(path==="appearance.surface2")root.style.setProperty("--ui-surface-2",String(value));if(path==="appearance.radius")root.style.setProperty("--ui-radius",Number(value)+"px");if(path==="appearance.blur")root.style.setProperty("--ui-blur",Number(value)+"px");if(path==="appearance.text")root.style.setProperty("--ui-font-scale",Number(value)/100);if(path==="appearance.accent"||path==="appearance.accent2"){root.style.setProperty("--zy-loader-accent",a.accent||"#27b9ff");root.style.setProperty("--zy-loader-accent2",a.accent2||"#7f6cff")}if(path==="labels.welcome"){const n=document.querySelector(".welcome h1");if(n)n.textContent=String(value)}if(path==="labels.subtitle"){const n=document.querySelector(".welcome p");if(n)n.textContent=String(value)}if(path==="labels.event"){document.querySelectorAll(".squirtleDashCard h2").forEach(n=>n.textContent=String(value))}if(path==="labels.eventHint"){document.querySelectorAll(".squirtleDashCard p").forEach(n=>n.textContent=String(value))}if(path==="labels.wallet"){document.querySelectorAll(".stats .stat:nth-child(2) h3").forEach(n=>n.textContent=String(value))}if(path==="labels.messages"){document.querySelectorAll(".stats .stat:nth-child(3) h3").forEach(n=>n.textContent=String(value))}if(path==="labels.cloud"){document.querySelectorAll(".stats .stat:nth-child(4) h3").forEach(n=>n.textContent=String(value))}if(path==="buttons.primaryRadius"){document.querySelectorAll("button,.quickAction,.navButton,.notificationReadAll,.versionButton").forEach(n=>n.style.borderRadius=Number(value)+"px")}if(path==="buttons.weight"){document.querySelectorAll("button,.quickAction,.navButton,.notificationReadAll,.versionButton").forEach(n=>n.style.fontWeight=String(value))}}
+async function taskDOM(el){if(!(el instanceof HTMLElement))return;void getComputedStyle(el).display;void el.getBoundingClientRect();void el.textContent.length;void el.classList.length;if(el.tagName==="IMG"&&el.complete){try{if(el.decode)await el.decode()}catch{}}el.classList.add("zy-server-load");await new Promise(r=>requestAnimationFrame(r));el.classList.add("zy-loaded")}
+async function taskStyle(el,property){void getComputedStyle(el).getPropertyValue(property);void el.getBoundingClientRect()}
+async function validateSession(){const token=readSessionToken();if(!token)return {valid:false,invalid:true};boot.token=token;if(!boot.backend)return {valid:false,invalid:false};let last=null;for(let attempt=0;attempt<2;attempt++){try{const result=await request(boot.backend+"/me",{cache:"no-store",headers:{Authorization:token}});last=result;if(result.r.status===401||result.r.status===403)return {valid:false,invalid:true};if(result.r.ok&&result.data&&!result.data.error)return {valid:true,invalid:false,data:result.data};if(result.data?.error&&/invalid|expired|unauthorized|session/i.test(String(result.data.error)))return {valid:false,invalid:true}}catch(error){last=error}if(attempt===0)await wait(450)}if(last?.r)return {valid:false,invalid:false};return {valid:false,invalid:false}}
 async function start(){
  try{
-   setStage("Reading server configuration",8);const text=await (await fetch("server.txt",{cache:"no-store"})).text();boot.backend=text.trim();if(!boot.backend)throw new Error("Missing backend");
-   const token=localStorage.getItem("Token");if(!token){location.href="login.html";return;}boot.token=token;
-   setStage("Authenticating account",18);boot.me=await jsonFetch(boot.backend+"/me",{headers:{Authorization:token}});if(!boot.me||boot.me.error)throw new Error("Unauthorized");
-   setStage("Loading your interface",30);let cfg=defaultConfig();try{const serverCfg=await jsonFetch(boot.backend+"/dashboard/ui-config",{headers:{Authorization:token}});cfg=merge(cfg,serverCfg.config||serverCfg||{});}catch{}
-   boot.config=cfg;applyConfig(cfg);
-   try{boot.zyphium=await jsonFetch(boot.backend+"/zyphium/account",{headers:{Authorization:token}});}catch{boot.zyphium={balance:0};}
-   setStage("Loading live account data",46);try{boot.notifications=await jsonFetch(boot.backend+"/notifications",{headers:{Authorization:token}});}catch{boot.notifications=null;}
-   try{boot.changelogs=await jsonFetch(boot.backend+"/changelogs",{headers:{Authorization:token}});}catch{boot.changelogs=null;}
-   setStage("Applying your theme",58);await wait(120);reveal(cfg);
-   const min=Number(cfg.loader?.minDuration)||900;await wait(min);setStage("Ready",100);await wait(180);boot.ready=true;root.classList.remove("zy-booting");loader.classList.add("hide");setTimeout(()=>loader.remove(),500);window.dispatchEvent(new CustomEvent("zyDashboardReady",{detail:boot}));
- }catch(err){loader.classList.add("zy-error");setStage("Unable to load your dashboard. Retry to continue",0);if(stage())stage().textContent=String(err.message||"Connection error");}
+  if(document.readyState!=="loading"){}else{await new Promise(resolve=>document.addEventListener("DOMContentLoaded",resolve,{once:true}))}
+  let cfg=defaultConfig();let serverText="";let resourceData={};
+  const early=[
+   {label:"Connect to configuration server",detail:"Loading server.txt",run:async()=>{const r=await fetch("server.txt",{cache:"no-store"});if(!r.ok)throw new Error("Server configuration unavailable");serverText=(await r.text()).trim().replace(/\/+$/,"/");if(!serverText)throw new Error("Missing backend") ;boot.backend=serverText.replace(/\/$/,"")}},
+   {label:"Read browser session",detail:"Reading the stored session without invalidating it",run:async()=>{boot.token=readSessionToken()}},
+   {label:"Load remote interface configuration",detail:"Fetching theme, labels and interface settings",run:async()=>{const headers=boot.token?{Authorization:boot.token}:{ };try{const result=await request(boot.backend+"/dashboard/ui-config",{cache:"no-store",headers});if(result.r.ok&&result.data)cfg=merge(cfg,result.data.config||result.data||{})}catch{}}},
+   {label:"Apply server appearance",detail:"Applying the first layer of server-driven styling",run:async()=>{boot.config=cfg;for(const item of flattenConfig({appearance:cfg.appearance}))applyOneConfig(item.path,item.value)}},
+   {label:"Apply server labels",detail:"Preparing account-facing text",run:async()=>{for(const item of flattenConfig({labels:cfg.labels}))applyOneConfig(item.path,item.value)}},
+   {label:"Apply server button settings",detail:"Preparing button geometry and typography",run:async()=>{for(const item of flattenConfig({buttons:cfg.buttons}))applyOneConfig(item.path,item.value)}},
+   {label:"Load Zyphium account data",detail:"Fetching the account-specific Zyphium balance",run:async()=>{if(!boot.token)return;try{const result=await request(boot.backend+"/zyphium/account",{cache:"no-store",headers:{Authorization:boot.token}});if(result.r.ok&&result.data)boot.zyphium=result.data}catch{}}},
+   {label:"Load account notifications",detail:"Fetching notifications for this account",run:async()=>{if(!boot.token)return;try{const result=await request(boot.backend+"/notifications",{cache:"no-store",headers:{Authorization:boot.token}});if(result.r.ok&&result.data)boot.notifications=result.data}catch{}}},
+   {label:"Load account changelog data",detail:"Fetching release data",run:async()=>{if(!boot.token)return;try{const result=await request(boot.backend+"/changelogs",{cache:"no-store",headers:{Authorization:boot.token}});if(result.r.ok&&result.data)boot.changelogs=result.data}catch{}}},
+   {label:"Prepare local resources",detail:"Indexing loaded interface resources",run:async()=>{resourceData.images=[...document.images].length;resourceData.styles=[...document.styleSheets].length;resourceData.links=[...document.querySelectorAll("link")].length;resourceData.scripts=[...document.scripts].length;resourceData.fonts=document.fonts?document.fonts.size:0}}
+  ];
+  const tasks=[...early];
+  const elements=[...document.querySelectorAll(".layout *,#adminCenter *")].filter(el=>el.id!=="zyServerLoader"&&!el.closest("#zyServerLoader"));
+  for(let i=0;i<elements.length;i++){const el=elements[i];tasks.push({label:"Load interface element",detail:(el.tagName.toLowerCase()+" • "+(el.id?"#"+el.id:el.className&&typeof el.className==="string"?"."+el.className.split(/\s+/).filter(Boolean).slice(0,2).join("."):"element")),run:()=>taskDOM(el)})}
+  for(const link of [...document.querySelectorAll("link")])tasks.push({label:"Verify stylesheet resource",detail:link.href||"local stylesheet",run:async()=>{void link.sheet}});
+  for(const style of [...document.querySelectorAll("style")])tasks.push({label:"Resolve embedded style layer",detail:style.id||"inline style",run:async()=>{void style.textContent.length}});
+  for(const img of [...document.images])tasks.push({label:"Prepare image resource",detail:img.alt||img.src||"image",run:async()=>{try{if(img.decode)await img.decode()}catch{}}});
+  for(const key of ["Token","username","Phone","AppearanceSettings","zyphorTheme","zyphorAccent","loginToken","sessionToken","authToken","ZyphorToken"])tasks.push({label:"Read local preference",detail:key,run:async()=>{try{void localStorage.getItem(key);void sessionStorage.getItem(key)}catch{}}});
+  const rootStyles=getComputedStyle(root);const styleProperties=[];for(let i=0;i<rootStyles.length&&styleProperties.length<160;i++)styleProperties.push(rootStyles[i]);for(const property of styleProperties)tasks.push({label:"Resolve root style",detail:property,run:()=>taskStyle(root,property)});
+  const verificationSelectors=[".layout",".sidebar",".sidebar .nav",".main",".top",".welcome",".profile",".hero",".squirtleDashCard",".stats",".discordCard",".rightcol","#adminCenter",".zy-balanceCard",".zy-shortbar",".zy-command-overlay",".zy-appearance-overlay","#avatar","#profileName","#linkCodeBox","#readAllNotificationsButton","#zyHeaderZyphium","#zyMainZyphium","body","html"];
+  for(const selector of verificationSelectors)tasks.push({label:"Verify interface region",detail:selector,run:async()=>{const nodes=[...document.querySelectorAll(selector)];for(const node of nodes){void getComputedStyle(node).opacity;void node.getBoundingClientRect().width}}});
+  const sessionTask={label:"Validate secure session",detail:"The session is checked only after all other loading tasks complete",run:async()=>{const result=await validateSession();boot.sessionChecked=true;boot.sessionValid=result.valid;if(result.data){boot.me=result.data}else if(result.invalid){boot.me=null}return result}};
+  const target=999;
+  if(tasks.length>target){tasks.splice(target)}
+  if(tasks.length<target){const allElements=[...document.querySelectorAll(".layout *,#adminCenter *")].filter(el=>el.id!=="zyServerLoader"&&!el.closest("#zyServerLoader"));let index=0;while(tasks.length<target){const el=allElements[index%Math.max(1,allElements.length)];tasks.push({label:"Finalize interface state",detail:(el?.tagName||"element")+" consistency check",run:async()=>{if(el){void el.matches(":defined");void el.getBoundingClientRect().height;void getComputedStyle(el).visibility}}});index++}}
+  tasks.push(sessionTask);
+  const total=tasks.length;
+  if(total!==1000)throw new Error("Startup task plan is not 1000 steps");
+  boot.config=cfg;
+  for(let i=0;i<tasks.length;i++){
+    const task=tasks[i];const step=i+1;setCount(step);setStage(task.label,(step/1000)*100,task.detail);await task.run();await wait(Number(cfg.loader?.stepDelay)||7)
+  }
+  if(!boot.sessionValid){
+    if(boot.sessionChecked){
+      const token=readSessionToken();if(!token){clearSession();setStage("Session required",100,"Your session is not valid");await wait(650);location.href="login.html";return}
+      const result=await validateSession();if(result.invalid){clearSession();setStage("Session expired",100,"Redirecting to sign in");await wait(650);location.href="login.html";return}
+    }
+    throw new Error("Session could not be confirmed");
+  }
+  setCount(1000);setStage("Ready",100,"Your session is valid and the dashboard is ready");await wait(320);boot.ready=true;root.classList.remove("zy-booting");loader.classList.add("hide");setTimeout(()=>loader.remove(),500);window.dispatchEvent(new CustomEvent("zyDashboardReady",{detail:boot}));
+ }catch(err){loader.classList.add("zy-error");setStage("Unable to finish startup",0,String(err?.message||"Connection error"));const retry=$("zyLoaderRetry");if(retry)retry.style.display="block"}
 }
-document.addEventListener("click",e=>{if(e.target&&e.target.id==="zyLoaderRetry")location.reload();});
+document.addEventListener("click",e=>{if(e.target&&e.target.id==="zyLoaderRetry")location.reload()});
 start();
 })();
 </script>
@@ -3279,7 +3290,7 @@ async function safeJson(res){
 }
 
 async function trackPage(page){
-    const token=localStorage.getItem("Token")
+    const token=readSessionToken()
 
     if(!token) return
 
@@ -3907,27 +3918,28 @@ async function init(){
 
     try{
 
+        if(window.__zyServerUI && !window.__zyServerUI.ready){
+            await new Promise(resolve=>window.addEventListener("zyDashboardReady",resolve,{once:true}))
+        }
+
         backend=window.__zyServerUI?.backend || await getBackend()
 
-        const token=window.__zyServerUI?.token || localStorage.getItem("Token")
+        const token=window.__zyServerUI?.token || readSessionToken()
 
         if(!token){
-
-            location.href="login.html"
             return
-
         }
 
         await trackPage("dashboard.html")
 
-        const data=window.__zyServerUI?.me || await (async()=>{const r=await fetch(backend+"/me",{headers:{Authorization:token}});return await safeJson(r)})()
+        const data=window.__zyServerUI?.me || await (async()=>{
+            const r=await fetch(backend+"/me",{headers:{Authorization:token}})
+            return await safeJson(r)
+        })()
 
         if(!data || data.error){
-
-            localStorage.removeItem("Token")
-            location.href="login.html"
+            window.__zyServerUISessionWarning=true
             return
-
         }
 
         document.getElementById("profileName").textContent=
@@ -3989,13 +4001,7 @@ async function init(){
         await loadChangelogs()
 
     }catch{
-
-        const token=localStorage.getItem("Token")
-
-        if(!token){
-            location.href="login.html"
-        }
-
+        window.__zyServerUISessionWarning=true
     }
 }
 
@@ -4098,7 +4104,12 @@ function tuneOriginalLayout(){
  const nav=document.querySelectorAll(".sidebar .item");
  nav.forEach(x=>x.addEventListener("click",()=>{document.querySelectorAll(".sidebar .item").forEach(y=>y.classList.remove("active"));x.classList.add("active")},{passive:true}));
 }
-function boot(){wireCommand();loadZyphium();tuneOriginalLayout();setInterval(loadZyphium,20000);}
+async function boot(){
+    if(window.__zyServerUI && !window.__zyServerUI.ready){
+        await new Promise(resolve=>window.addEventListener("zyDashboardReady",resolve,{once:true}))
+    }
+    wireCommand();loadZyphium();tuneOriginalLayout();setInterval(loadZyphium,20000);
+}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 })();
 </script>
