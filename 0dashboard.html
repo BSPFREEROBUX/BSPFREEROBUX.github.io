@@ -1522,6 +1522,2008 @@ a{
 #adminCenter .admin-wrap{width:100%;}
 #adminCenter .admin-content{min-width:0;}
 </style>
+
+<style id="zyphor-modern-10x-css">
+
+:root{
+    --zmx-accent:#00d5ff;
+    --zmx-accent-2:#8d4dff;
+    --zmx-accent-3:#2ee6a6;
+    --zmx-danger:#ff3d4f;
+    --zmx-warning:#ffc857;
+    --zmx-surface:rgba(11,16,29,.72);
+    --zmx-surface-2:rgba(16,22,38,.78);
+    --zmx-surface-3:rgba(255,255,255,.045);
+    --zmx-border:rgba(255,255,255,.085);
+    --zmx-border-bright:rgba(255,255,255,.15);
+    --zmx-text:#f5f8ff;
+    --zmx-muted:#7f8ba0;
+    --zmx-muted-2:#5d687c;
+    --zmx-radius:22px;
+    --zmx-radius-sm:14px;
+    --zmx-shadow:0 28px 100px rgba(0,0,0,.42);
+    --zmx-transition:all .22s cubic-bezier(.2,.75,.2,1);
+}
+
+body.zmx-modern{
+    background:
+        radial-gradient(circle at 8% 8%,rgba(0,213,255,.13),transparent 20%),
+        radial-gradient(circle at 92% 4%,rgba(141,77,255,.14),transparent 22%),
+        radial-gradient(circle at 52% 108%,rgba(47,110,255,.12),transparent 28%),
+        linear-gradient(145deg,#04070d 0%,#060a13 38%,#03050a 100%);
+}
+
+body.zmx-modern::before{
+    opacity:.42;
+    background-size:34px 34px;
+    mask-image:linear-gradient(to bottom,black 0%,rgba(0,0,0,.82) 42%,transparent 100%);
+}
+
+body.zmx-modern::after{
+    opacity:.9;
+    filter:blur(90px);
+    animation:zmxNebula 18s ease-in-out infinite alternate;
+}
+
+@keyframes zmxNebula{
+    0%{transform:translate3d(-2%,-1%,0) scale(1)}
+    50%{transform:translate3d(2%,2%,0) scale(1.06)}
+    100%{transform:translate3d(-1%,1%,0) scale(1.02)}
+}
+
+.layout.zmx-shell{
+    position:relative;
+}
+
+.layout.zmx-shell::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    background:
+        linear-gradient(115deg,transparent 0%,rgba(0,213,255,.03) 44%,transparent 57%),
+        linear-gradient(295deg,transparent 0%,rgba(141,77,255,.03) 46%,transparent 58%);
+    mix-blend-mode:screen;
+}
+
+.sidebar.zmx-sidebar{
+    background:
+        linear-gradient(180deg,rgba(7,11,19,.9),rgba(5,8,14,.82)),
+        radial-gradient(circle at 20% 5%,rgba(0,213,255,.07),transparent 22%),
+        radial-gradient(circle at 75% 80%,rgba(141,77,255,.07),transparent 25%);
+    border-right:1px solid rgba(255,255,255,.085);
+    box-shadow:30px 0 100px rgba(0,0,0,.25);
+}
+
+.sidebar.zmx-sidebar::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,.025),transparent 22%,transparent 76%,rgba(0,213,255,.02));
+}
+
+.main.zmx-main{
+    position:relative;
+}
+
+.top.zmx-top{
+    position:relative;
+    z-index:2;
+}
+
+.welcome.zmx-welcome h1{
+    font-size:clamp(36px,4vw,64px);
+    letter-spacing:-3px;
+    line-height:.94;
+    background:linear-gradient(110deg,#fff 5%,#bcefff 42%,#b99cff 92%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 0 55px rgba(0,213,255,.09);
+}
+
+.welcome.zmx-welcome p{
+    color:#94a1b7;
+    max-width:640px;
+    font-size:13px;
+}
+
+.profile.zmx-profile{
+    position:relative;
+    overflow:hidden;
+    min-width:290px;
+    border-color:rgba(255,255,255,.1);
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),
+        rgba(8,12,20,.72);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 25px 70px rgba(0,0,0,.28);
+}
+
+.profile.zmx-profile::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-90px;
+    top:-110px;
+    border-radius:50%;
+    background:rgba(0,213,255,.1);
+    filter:blur(20px);
+    pointer-events:none;
+}
+
+.zmx-command{
+    display:grid;
+    grid-template-columns:minmax(0,1.6fr) auto minmax(240px,1fr);
+    gap:12px;
+    align-items:center;
+    margin:-4px 0 20px;
+}
+
+.zmx-commandGroup{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+}
+
+.zmx-commandButton,
+.zmx-searchButton,
+.zmx-statusButton{
+    min-height:46px;
+    border:1px solid var(--zmx-border);
+    border-radius:15px;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),
+        rgba(8,12,20,.64);
+    color:var(--zmx-text);
+    cursor:pointer;
+    transition:var(--zmx-transition);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.045);
+}
+
+.zmx-commandButton{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:0 15px;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.55px;
+}
+
+.zmx-commandButton:hover,
+.zmx-searchButton:hover,
+.zmx-statusButton:hover{
+    transform:translateY(-2px);
+    border-color:rgba(0,213,255,.28);
+    box-shadow:0 14px 34px rgba(0,0,0,.24),0 0 0 1px rgba(0,213,255,.05);
+}
+
+.zmx-key{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:22px;
+    height:21px;
+    padding:0 6px;
+    border-radius:7px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.035);
+    color:#93a0b5;
+    font-size:9px;
+    letter-spacing:.3px;
+}
+
+.zmx-miniStats{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.zmx-miniPill{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    min-height:42px;
+    padding:0 12px;
+    border:1px solid var(--zmx-border);
+    border-radius:14px;
+    background:rgba(255,255,255,.025);
+    color:#bcc7d7;
+    font-size:10px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.zmx-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#7f8ca1;
+    box-shadow:0 0 0 4px rgba(127,140,161,.08);
+}
+
+.zmx-dot.live{
+    background:var(--zmx-accent-3);
+    box-shadow:0 0 16px rgba(46,230,166,.7),0 0 0 4px rgba(46,230,166,.08);
+    animation:zmxPulse 2.1s ease-in-out infinite;
+}
+
+.zmx-dot.warn{
+    background:var(--zmx-warning);
+    box-shadow:0 0 16px rgba(255,200,87,.55);
+}
+
+.zmx-dot.bad{
+    background:var(--zmx-danger);
+    box-shadow:0 0 16px rgba(255,61,79,.55);
+}
+
+@keyframes zmxPulse{
+    0%,100%{transform:scale(1);opacity:1}
+    50%{transform:scale(.72);opacity:.72}
+}
+
+.zmx-clock{
+    justify-self:end;
+    min-height:46px;
+    padding:0 14px;
+    border:1px solid var(--zmx-border);
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.024);
+    color:#9facbf;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.5px;
+}
+
+.zmx-clock strong{
+    color:#edf4ff;
+    font-size:11px;
+    margin-right:8px;
+}
+
+.zmx-heroGrid{
+    display:grid;
+    grid-template-columns:minmax(0,1.7fr) minmax(310px,.9fr);
+    gap:16px;
+    margin-bottom:18px;
+}
+
+.zmx-heroCard{
+    position:relative;
+    min-height:240px;
+    padding:25px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:26px;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 84% 18%,rgba(0,213,255,.17),transparent 24%),
+        radial-gradient(circle at 92% 78%,rgba(141,77,255,.14),transparent 28%),
+        linear-gradient(135deg,rgba(0,213,255,.075),rgba(141,77,255,.055)),
+        rgba(10,15,26,.76);
+    box-shadow:var(--zmx-shadow);
+}
+
+.zmx-heroCard::before{
+    content:"";
+    position:absolute;
+    inset:-30%;
+    background:
+        conic-gradient(from 0deg,transparent 0 32%,rgba(0,213,255,.08) 38%,transparent 46% 63%,rgba(141,77,255,.08) 70%,transparent 77%);
+    filter:blur(28px);
+    animation:zmxSpin 16s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes zmxSpin{
+    to{transform:rotate(360deg)}
+}
+
+.zmx-heroContent{
+    position:relative;
+    z-index:1;
+    max-width:720px;
+}
+
+.zmx-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 10px;
+    border:1px solid rgba(0,213,255,.16);
+    border-radius:999px;
+    background:rgba(0,213,255,.055);
+    color:#8eeeff;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:1.5px;
+}
+
+.zmx-title{
+    margin-top:15px;
+    font-size:clamp(28px,3vw,48px);
+    line-height:.98;
+    letter-spacing:-2px;
+    font-weight:950;
+}
+
+.zmx-title span{
+    background:linear-gradient(120deg,#fff 0%,#b7f5ff 48%,#c6a8ff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.zmx-copy{
+    margin-top:12px;
+    color:#92a0b7;
+    max-width:650px;
+    font-size:12px;
+    line-height:1.75;
+}
+
+.zmx-heroActions{
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+.zmx-action{
+    min-height:40px;
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:0 13px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.03);
+    color:#e7edf8;
+    text-decoration:none;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:900;
+    transition:var(--zmx-transition);
+}
+
+.zmx-action:hover{
+    transform:translateY(-2px);
+    border-color:rgba(0,213,255,.22);
+    background:rgba(0,213,255,.06);
+}
+
+.zmx-action.primary{
+    color:#06131a;
+    border-color:rgba(0,213,255,.5);
+    background:linear-gradient(100deg,#66edff,#9e8cff);
+    box-shadow:0 12px 30px rgba(0,213,255,.15);
+}
+
+.zmx-action.primary:hover{
+    box-shadow:0 16px 38px rgba(0,213,255,.23);
+}
+
+.zmx-sessionCard{
+    position:relative;
+    min-height:240px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:26px;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),
+        rgba(9,13,22,.72);
+    box-shadow:var(--zmx-shadow);
+    overflow:hidden;
+}
+
+.zmx-sessionCard::after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-85px;
+    bottom:-115px;
+    border-radius:50%;
+    background:rgba(141,77,255,.09);
+    filter:blur(18px);
+    pointer-events:none;
+}
+
+.zmx-sessionTop{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.zmx-sessionLabel{
+    color:#77859b;
+    font-size:9px;
+    letter-spacing:1.25px;
+    font-weight:900;
+}
+
+.zmx-sessionState{
+    padding:5px 8px;
+    border:1px solid rgba(46,230,166,.16);
+    border-radius:999px;
+    background:rgba(46,230,166,.05);
+    color:#88edc6;
+    font-size:8px;
+    font-weight:900;
+    letter-spacing:.8px;
+}
+
+.zmx-sessionValue{
+    margin-top:16px;
+    font-size:33px;
+    line-height:1;
+    font-weight:950;
+    letter-spacing:-1.5px;
+}
+
+.zmx-sessionValue small{
+    margin-left:3px;
+    color:#66748c;
+    font-size:11px;
+    letter-spacing:0;
+}
+
+.zmx-progress{
+    height:8px;
+    margin-top:13px;
+    border-radius:99px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.06);
+    background:rgba(255,255,255,.03);
+}
+
+.zmx-progress > span{
+    display:block;
+    width:68%;
+    height:100%;
+    border-radius:inherit;
+    background:linear-gradient(90deg,#00d5ff,#8d4dff);
+    box-shadow:0 0 24px rgba(0,213,255,.28);
+    transition:width .5s ease;
+}
+
+.zmx-statGrid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:12px;
+    margin:0 0 18px;
+}
+
+.zmx-statCard{
+    position:relative;
+    min-height:122px;
+    padding:16px;
+    border:1px solid rgba(255,255,255,.075);
+    border-radius:20px;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.016)),
+        rgba(8,12,20,.72);
+    overflow:hidden;
+    transition:var(--zmx-transition);
+}
+
+.zmx-statCard::before{
+    content:"";
+    position:absolute;
+    inset:auto -30px -50px auto;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:rgba(0,213,255,.08);
+    filter:blur(12px);
+}
+
+.zmx-statCard:hover{
+    transform:translateY(-3px);
+    border-color:rgba(0,213,255,.18);
+    box-shadow:0 25px 65px rgba(0,0,0,.25);
+}
+
+.zmx-statHeader{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.zmx-statName{
+    color:#8390a4;
+    font-size:9px;
+    letter-spacing:1px;
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+.zmx-statIcon{
+    width:30px;
+    height:30px;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.03);
+    color:#d7e0ee;
+    font-size:13px;
+}
+
+.zmx-statValue{
+    margin-top:18px;
+    font-size:26px;
+    font-weight:950;
+    letter-spacing:-1px;
+}
+
+.zmx-statMeta{
+    margin-top:5px;
+    color:#5f6b7f;
+    font-size:9px;
+}
+
+.zmx-panels{
+    display:grid;
+    grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr);
+    gap:16px;
+    margin-bottom:18px;
+}
+
+.zmx-panel{
+    position:relative;
+    min-width:0;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:23px;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.038),rgba(255,255,255,.014)),
+        rgba(8,12,20,.7);
+    box-shadow:0 24px 80px rgba(0,0,0,.32);
+    overflow:hidden;
+}
+
+.zmx-panelHead{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:14px;
+    padding:18px 19px 14px;
+    border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.zmx-panelTitle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.zmx-panelIcon{
+    width:34px;
+    height:34px;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    background:linear-gradient(145deg,rgba(0,213,255,.12),rgba(141,77,255,.08));
+    border:1px solid rgba(0,213,255,.12);
+    font-size:14px;
+}
+
+.zmx-panelTitle h3{
+    font-size:13px;
+    line-height:1.25;
+}
+
+.zmx-panelTitle p{
+    margin-top:3px;
+    color:#68768a;
+    font-size:9px;
+}
+
+.zmx-panelAction{
+    min-height:31px;
+    padding:0 9px;
+    border-radius:9px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.025);
+    color:#aeb9cb;
+    font-size:9px;
+    font-weight:800;
+    cursor:pointer;
+    transition:var(--zmx-transition);
+}
+
+.zmx-panelAction:hover{
+    color:#fff;
+    border-color:rgba(0,213,255,.2);
+    background:rgba(0,213,255,.05);
+}
+
+.zmx-panelBody{
+    padding:15px 16px 17px;
+}
+
+.zmx-activity{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.zmx-activityItem{
+    position:relative;
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:10px;
+    min-height:56px;
+    padding:9px 10px;
+    border:1px solid rgba(255,255,255,.055);
+    border-radius:14px;
+    background:rgba(255,255,255,.018);
+    transition:var(--zmx-transition);
+}
+
+.zmx-activityItem:hover{
+    transform:translateX(3px);
+    border-color:rgba(255,255,255,.1);
+    background:rgba(255,255,255,.03);
+}
+
+.zmx-activityIcon{
+    width:31px;
+    height:31px;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    background:rgba(0,213,255,.06);
+    border:1px solid rgba(0,213,255,.12);
+    font-size:12px;
+}
+
+.zmx-activityText{
+    min-width:0;
+}
+
+.zmx-activityText strong{
+    display:block;
+    color:#e6edf8;
+    font-size:10px;
+    font-weight:850;
+}
+
+.zmx-activityText span{
+    display:block;
+    margin-top:3px;
+    color:#68758a;
+    font-size:9px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.zmx-activityTime{
+    color:#566174;
+    font-size:8px;
+    white-space:nowrap;
+}
+
+.zmx-healthGrid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+}
+
+.zmx-healthItem{
+    padding:12px;
+    border:1px solid rgba(255,255,255,.055);
+    border-radius:14px;
+    background:rgba(255,255,255,.018);
+}
+
+.zmx-healthTop{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:7px;
+}
+
+.zmx-healthTop span{
+    color:#77849a;
+    font-size:9px;
+    font-weight:800;
+}
+
+.zmx-healthTop b{
+    color:#cfe8dc;
+    font-size:9px;
+}
+
+.zmx-healthBar{
+    height:5px;
+    margin-top:9px;
+    border-radius:99px;
+    background:rgba(255,255,255,.04);
+    overflow:hidden;
+}
+
+.zmx-healthBar span{
+    display:block;
+    height:100%;
+    width:94%;
+    border-radius:inherit;
+    background:linear-gradient(90deg,#2ee6a6,#00d5ff);
+    box-shadow:0 0 18px rgba(46,230,166,.22);
+}
+
+.zmx-healthBar.purple span{
+    width:89%;
+    background:linear-gradient(90deg,#8d4dff,#00d5ff);
+}
+
+.zmx-healthBar.gold span{
+    width:98%;
+    background:linear-gradient(90deg,#ffc857,#ff8d5c);
+}
+
+.zmx-healthBar.blue span{
+    width:96%;
+    background:linear-gradient(90deg,#00d5ff,#4d7cff);
+}
+
+.zmx-featureGrid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+}
+
+.zmx-feature{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-height:72px;
+    padding:11px;
+    border:1px solid rgba(255,255,255,.055);
+    border-radius:15px;
+    background:rgba(255,255,255,.018);
+    color:#ecf2fb;
+    text-decoration:none;
+    transition:var(--zmx-transition);
+    overflow:hidden;
+}
+
+.zmx-feature::after{
+    content:"→";
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%) translateX(4px);
+    color:#556174;
+    opacity:0;
+    transition:var(--zmx-transition);
+}
+
+.zmx-feature:hover{
+    transform:translateY(-2px);
+    border-color:rgba(0,213,255,.18);
+    background:linear-gradient(110deg,rgba(0,213,255,.05),rgba(141,77,255,.035));
+}
+
+.zmx-feature:hover::after{
+    opacity:1;
+    transform:translateY(-50%) translateX(0);
+}
+
+.zmx-featureIcon{
+    width:36px;
+    height:36px;
+    display:grid;
+    place-items:center;
+    flex-shrink:0;
+    border-radius:11px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    font-size:14px;
+}
+
+.zmx-featureBody{
+    min-width:0;
+    padding-right:18px;
+}
+
+.zmx-featureBody b{
+    display:block;
+    font-size:10px;
+    font-weight:900;
+}
+
+.zmx-featureBody span{
+    display:block;
+    margin-top:3px;
+    color:#68758a;
+    font-size:8px;
+}
+
+.zmx-liveStrip{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:12px;
+    min-height:68px;
+    margin-bottom:18px;
+    padding:10px 14px;
+    border:1px solid rgba(0,213,255,.13);
+    border-radius:19px;
+    background:
+        linear-gradient(90deg,rgba(0,213,255,.06),rgba(141,77,255,.045)),
+        rgba(9,14,24,.72);
+    box-shadow:0 20px 65px rgba(0,0,0,.24);
+}
+
+.zmx-livePulse{
+    width:34px;
+    height:34px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    border:1px solid rgba(46,230,166,.16);
+    background:rgba(46,230,166,.06);
+    color:#66e9bb;
+    animation:zmxFloat 3.5s ease-in-out infinite;
+}
+
+@keyframes zmxFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-3px)}
+}
+
+.zmx-liveCopy strong{
+    display:block;
+    font-size:10px;
+}
+
+.zmx-liveCopy span{
+    display:block;
+    margin-top:3px;
+    color:#69768a;
+    font-size:9px;
+}
+
+.zmx-liveMeta{
+    color:#718096;
+    font-size:9px;
+    white-space:nowrap;
+}
+
+.zmx-footerBar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:20px;
+    padding:14px 17px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    background:rgba(255,255,255,.017);
+    color:#68758a;
+    font-size:9px;
+}
+
+.zmx-footerLinks{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.zmx-footerLinks a{
+    color:#8794aa;
+    text-decoration:none;
+    transition:var(--zmx-transition);
+}
+
+.zmx-footerLinks a:hover{
+    color:#dce7f6;
+}
+
+.zmx-scrollProgress{
+    position:fixed;
+    top:0;
+    left:0;
+    width:0;
+    height:2px;
+    z-index:10001;
+    background:linear-gradient(90deg,#00d5ff,#8d4dff);
+    box-shadow:0 0 18px rgba(0,213,255,.7);
+    pointer-events:none;
+}
+
+.zmx-radialMenu{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    padding:11vh 20px 20px;
+    background:rgba(1,4,9,.74);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    z-index:99990;
+}
+
+.zmx-radialMenu.open{
+    display:flex;
+}
+
+.zmx-commandModal{
+    width:min(760px,100%);
+    border:1px solid rgba(255,255,255,.11);
+    border-radius:24px;
+    background:
+        radial-gradient(circle at top right,rgba(0,213,255,.09),transparent 24%),
+        rgba(8,12,21,.95);
+    box-shadow:0 40px 140px rgba(0,0,0,.65);
+    overflow:hidden;
+    animation:zmxModalIn .18s ease-out;
+}
+
+@keyframes zmxModalIn{
+    from{opacity:0;transform:translateY(10px) scale(.985)}
+    to{opacity:1;transform:none}
+}
+
+.zmx-commandSearch{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border-bottom:1px solid rgba(255,255,255,.065);
+}
+
+.zmx-commandSearch input{
+    flex:1;
+    min-width:0;
+    height:44px;
+    padding:0 13px;
+    border:1px solid rgba(255,255,255,.075);
+    border-radius:12px;
+    outline:none;
+    background:rgba(255,255,255,.025);
+    color:#fff;
+    font-size:12px;
+}
+
+.zmx-commandSearch input:focus{
+    border-color:rgba(0,213,255,.24);
+    box-shadow:0 0 0 4px rgba(0,213,255,.04);
+}
+
+.zmx-commandResults{
+    max-height:min(62vh,560px);
+    overflow:auto;
+    padding:8px;
+}
+
+.zmx-commandResult{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:11px;
+    min-height:56px;
+    padding:9px 10px;
+    border:1px solid transparent;
+    border-radius:13px;
+    color:#d8e1ee;
+    cursor:pointer;
+    transition:var(--zmx-transition);
+}
+
+.zmx-commandResult:hover,
+.zmx-commandResult.active{
+    background:rgba(255,255,255,.04);
+    border-color:rgba(0,213,255,.1);
+}
+
+.zmx-commandResultIcon{
+    width:32px;
+    height:32px;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    background:rgba(0,213,255,.06);
+    border:1px solid rgba(0,213,255,.11);
+}
+
+.zmx-commandResultText strong{
+    display:block;
+    font-size:10px;
+}
+
+.zmx-commandResultText span{
+    display:block;
+    margin-top:3px;
+    color:#66748a;
+    font-size:8px;
+}
+
+.zmx-commandShortcut{
+    min-width:27px;
+    height:24px;
+    display:grid;
+    place-items:center;
+    padding:0 6px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:7px;
+    background:rgba(255,255,255,.02);
+    color:#7e8b9e;
+    font-size:8px;
+}
+
+.zmx-commandFooter{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 12px;
+    border-top:1px solid rgba(255,255,255,.055);
+    color:#606d81;
+    font-size:8px;
+}
+
+.zmx-toastHost{
+    position:fixed;
+    top:20px;
+    right:20px;
+    width:min(380px,calc(100vw - 32px));
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    z-index:100000;
+    pointer-events:none;
+}
+
+.zmx-toast{
+    position:relative;
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:10px;
+    min-height:64px;
+    padding:10px 11px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:15px;
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),
+        rgba(9,13,22,.94);
+    box-shadow:0 25px 80px rgba(0,0,0,.38);
+    pointer-events:auto;
+    animation:zmxToastIn .22s ease;
+}
+
+@keyframes zmxToastIn{
+    from{opacity:0;transform:translateX(18px)}
+    to{opacity:1;transform:none}
+}
+
+.zmx-toastIcon{
+    width:32px;
+    height:32px;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    background:rgba(0,213,255,.07);
+    border:1px solid rgba(0,213,255,.13);
+}
+
+.zmx-toastBody strong{
+    display:block;
+    color:#f0f5fc;
+    font-size:10px;
+}
+
+.zmx-toastBody span{
+    display:block;
+    margin-top:3px;
+    color:#768398;
+    font-size:8px;
+    line-height:1.45;
+}
+
+.zmx-toastClose{
+    width:26px;
+    height:26px;
+    display:grid;
+    place-items:center;
+    border:none;
+    border-radius:8px;
+    background:rgba(255,255,255,.03);
+    color:#8290a3;
+    cursor:pointer;
+}
+
+.zmx-toast.success .zmx-toastIcon{
+    background:rgba(46,230,166,.07);
+    border-color:rgba(46,230,166,.13);
+}
+
+.zmx-toast.warning .zmx-toastIcon{
+    background:rgba(255,200,87,.07);
+    border-color:rgba(255,200,87,.13);
+}
+
+.zmx-toast.danger .zmx-toastIcon{
+    background:rgba(255,61,79,.07);
+    border-color:rgba(255,61,79,.13);
+}
+
+.zmx-toast.closing{
+    animation:zmxToastOut .18s ease forwards;
+}
+
+@keyframes zmxToastOut{
+    to{opacity:0;transform:translateX(18px)}
+}
+
+.zmx-settingsDrawer{
+    position:fixed;
+    inset:0;
+    z-index:99980;
+    display:none;
+    justify-content:flex-end;
+    background:rgba(0,0,0,.56);
+    backdrop-filter:blur(7px);
+}
+
+.zmx-settingsDrawer.open{
+    display:flex;
+}
+
+.zmx-settingsPanel{
+    width:min(390px,100%);
+    height:100%;
+    padding:20px;
+    overflow:auto;
+    border-left:1px solid rgba(255,255,255,.09);
+    background:
+        radial-gradient(circle at top,rgba(0,213,255,.07),transparent 25%),
+        #070b13;
+    box-shadow:-30px 0 100px rgba(0,0,0,.38);
+    animation:zmxSlideIn .2s ease;
+}
+
+@keyframes zmxSlideIn{
+    from{transform:translateX(100%)}
+    to{transform:none}
+}
+
+.zmx-settingsHead{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.zmx-settingsHead h3{
+    font-size:18px;
+}
+
+.zmx-settingsHead p{
+    margin-top:4px;
+    color:#6d798d;
+    font-size:9px;
+}
+
+.zmx-close{
+    width:36px;
+    height:36px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:11px;
+    background:rgba(255,255,255,.025);
+    color:#9ba8bb;
+    cursor:pointer;
+}
+
+.zmx-settingGroup{
+    margin-top:20px;
+}
+
+.zmx-settingGroup > label{
+    display:block;
+    margin-bottom:8px;
+    color:#7b879c;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+}
+
+.zmx-settingRow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.zmx-settingInfo{
+    min-width:0;
+}
+
+.zmx-settingInfo strong{
+    display:block;
+    color:#dce5f2;
+    font-size:10px;
+}
+
+.zmx-settingInfo span{
+    display:block;
+    margin-top:3px;
+    color:#606c80;
+    font-size:8px;
+    line-height:1.4;
+}
+
+.zmx-toggle{
+    position:relative;
+    width:42px;
+    height:24px;
+    flex-shrink:0;
+}
+
+.zmx-toggle input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.zmx-toggleTrack{
+    position:absolute;
+    inset:0;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:99px;
+    background:#101624;
+    cursor:pointer;
+    transition:var(--zmx-transition);
+}
+
+.zmx-toggleThumb{
+    position:absolute;
+    left:3px;
+    top:3px;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:#738096;
+    transition:var(--zmx-transition);
+}
+
+.zmx-toggle input:checked + .zmx-toggleTrack{
+    background:linear-gradient(90deg,rgba(0,213,255,.28),rgba(141,77,255,.28));
+    border-color:rgba(0,213,255,.24);
+}
+
+.zmx-toggle input:checked + .zmx-toggleTrack .zmx-toggleThumb{
+    left:21px;
+    background:#f1fbff;
+    box-shadow:0 0 14px rgba(0,213,255,.55);
+}
+
+.zmx-accentGrid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:7px;
+}
+
+.zmx-accent{
+    height:32px;
+    border-radius:9px;
+    border:1px solid rgba(255,255,255,.08);
+    cursor:pointer;
+}
+
+.zmx-accent[data-accent="cyan"]{
+    background:linear-gradient(135deg,#00d5ff,#4d7cff);
+}
+
+.zmx-accent[data-accent="purple"]{
+    background:linear-gradient(135deg,#8d4dff,#d061ff);
+}
+
+.zmx-accent[data-accent="green"]{
+    background:linear-gradient(135deg,#2ee6a6,#4dffbf);
+}
+
+.zmx-accent[data-accent="orange"]{
+    background:linear-gradient(135deg,#ffc857,#ff6e4d);
+}
+
+.zmx-shortcuts{
+    display:grid;
+    gap:7px;
+}
+
+.zmx-shortcutRow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 10px;
+    border-radius:10px;
+    background:rgba(255,255,255,.025);
+    border:1px solid rgba(255,255,255,.045);
+}
+
+.zmx-shortcutRow span{
+    color:#727f93;
+    font-size:8px;
+}
+
+.zmx-shortcutKeys{
+    display:flex;
+    gap:4px;
+}
+
+.zmx-shortcutKeys kbd{
+    min-width:23px;
+    height:21px;
+    display:grid;
+    place-items:center;
+    padding:0 5px;
+    border-radius:6px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.03);
+    color:#b0bbca;
+    font-size:8px;
+}
+
+.zmx-mobileDock{
+    display:none;
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:12px;
+    z-index:9990;
+    grid-template-columns:repeat(5,1fr);
+    gap:5px;
+    padding:7px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:18px;
+    background:rgba(7,11,18,.88);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    box-shadow:0 20px 60px rgba(0,0,0,.36);
+}
+
+.zmx-mobileDock a,
+.zmx-mobileDock button{
+    min-height:42px;
+    display:grid;
+    place-items:center;
+    gap:2px;
+    border:none;
+    border-radius:11px;
+    background:transparent;
+    color:#77859a;
+    text-decoration:none;
+    cursor:pointer;
+    font-size:8px;
+}
+
+.zmx-mobileDock a span:first-child,
+.zmx-mobileDock button span:first-child{
+    font-size:15px;
+}
+
+.zmx-mobileDock a.active,
+.zmx-mobileDock button:hover{
+    color:#eef6ff;
+    background:rgba(255,255,255,.045);
+}
+
+.zmx-focus body{
+    --zmx-shadow:0 20px 50px rgba(0,0,0,.28);
+}
+
+body.zmx-compact .card{
+    padding:17px;
+}
+
+body.zmx-compact .top{
+    margin-bottom:17px;
+}
+
+body.zmx-compact .zmx-statCard{
+    min-height:104px;
+}
+
+body.zmx-compact .zmx-feature{
+    min-height:63px;
+}
+
+body.zmx-lowMotion *,
+body.zmx-lowMotion *::before,
+body.zmx-lowMotion *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+}
+
+body.zmx-spotlight .card,
+body.zmx-spotlight .zmx-panel,
+body.zmx-spotlight .zmx-statCard{
+    box-shadow:0 24px 100px rgba(0,0,0,.5),0 0 0 1px rgba(0,213,255,.025);
+}
+
+.zmx-dividerGlow{
+    height:1px;
+    margin:10px 0 16px;
+    background:linear-gradient(90deg,transparent,rgba(0,213,255,.22),rgba(141,77,255,.22),transparent);
+}
+
+.zmx-hidden{
+    display:none !important;
+}
+
+.zmx-fadeIn{
+    animation:zmxFade .3s ease both;
+}
+
+@keyframes zmxFade{
+    from{opacity:0;transform:translateY(6px)}
+    to{opacity:1;transform:none}
+}
+
+.zmx-rise1{animation-delay:.03s}
+.zmx-rise2{animation-delay:.07s}
+.zmx-rise3{animation-delay:.11s}
+.zmx-rise4{animation-delay:.15s}
+.zmx-rise5{animation-delay:.19s}
+
+.zmx-glowBorder{
+    position:relative;
+}
+
+.zmx-glowBorder::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    padding:1px;
+    background:linear-gradient(120deg,rgba(0,213,255,.25),transparent 25%,transparent 70%,rgba(141,77,255,.2));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    pointer-events:none;
+}
+
+.zmx-metricLine{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:9px;
+    color:#647187;
+    font-size:8px;
+}
+
+.zmx-metricLine b{
+    color:#a6b1c2;
+}
+
+.zmx-trend{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#2ee6a6;
+    box-shadow:0 0 9px rgba(46,230,166,.6);
+}
+
+.zmx-trend.down{
+    background:#ff3d4f;
+    box-shadow:0 0 9px rgba(255,61,79,.5);
+}
+
+.zmx-trend.flat{
+    background:#7c889a;
+    box-shadow:none;
+}
+
+.zmx-chart{
+    width:100%;
+    height:120px;
+    display:block;
+    margin-top:12px;
+}
+
+.zmx-chartLegend{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    margin-top:8px;
+    color:#647187;
+    font-size:8px;
+}
+
+.zmx-chartLegend span{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+}
+
+.zmx-legendDot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--zmx-accent);
+    box-shadow:0 0 8px rgba(0,213,255,.45);
+}
+
+.zmx-legendDot.purple{
+    background:var(--zmx-accent-2);
+    box-shadow:0 0 8px rgba(141,77,255,.4);
+}
+
+.zmx-meterStack{
+    display:grid;
+    gap:10px;
+}
+
+.zmx-meterRow{
+    display:grid;
+    grid-template-columns:92px minmax(0,1fr) 34px;
+    align-items:center;
+    gap:8px;
+}
+
+.zmx-meterRow label{
+    color:#6d7a8f;
+    font-size:8px;
+}
+
+.zmx-meterBar{
+    height:6px;
+    overflow:hidden;
+    border-radius:99px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.04);
+}
+
+.zmx-meterBar span{
+    display:block;
+    width:74%;
+    height:100%;
+    border-radius:inherit;
+    background:linear-gradient(90deg,#00d5ff,#8d4dff);
+}
+
+.zmx-meterValue{
+    text-align:right;
+    color:#bcc7d6;
+    font-size:8px;
+}
+
+.zmx-commandHint{
+    color:#566276;
+    font-size:8px;
+}
+
+.zmx-cardBadge{
+    display:inline-flex;
+    align-items:center;
+    min-height:22px;
+    padding:0 7px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.025);
+    color:#7e8b9e;
+    font-size:8px;
+    font-weight:850;
+}
+
+.zmx-cardBadge.green{
+    color:#8de9c4;
+    border-color:rgba(46,230,166,.12);
+    background:rgba(46,230,166,.045);
+}
+
+.zmx-cardBadge.cyan{
+    color:#8eeeff;
+    border-color:rgba(0,213,255,.12);
+    background:rgba(0,213,255,.045);
+}
+
+.zmx-cardBadge.purple{
+    color:#cba8ff;
+    border-color:rgba(141,77,255,.12);
+    background:rgba(141,77,255,.045);
+}
+
+.zmx-empty{
+    display:grid;
+    place-items:center;
+    min-height:150px;
+    padding:20px;
+    text-align:center;
+    color:#566276;
+}
+
+.zmx-empty strong{
+    display:block;
+    color:#9aa7bb;
+    font-size:10px;
+}
+
+.zmx-empty span{
+    display:block;
+    margin-top:4px;
+    font-size:8px;
+}
+
+.zmx-pulseText{
+    animation:zmxTextPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes zmxTextPulse{
+    0%,100%{opacity:.75}
+    50%{opacity:1}
+}
+
+.zmx-logoMark{
+    position:relative;
+    display:grid;
+    place-items:center;
+    width:32px;
+    height:32px;
+    flex-shrink:0;
+    border-radius:10px;
+    background:linear-gradient(145deg,rgba(0,213,255,.16),rgba(141,77,255,.1));
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.zmx-logoMark::before{
+    content:"";
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 14px rgba(0,213,255,.85);
+}
+
+.zmx-density{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.zmx-density button{
+    width:32px;
+    height:30px;
+    border-radius:9px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.025);
+    color:#6f7c90;
+    cursor:pointer;
+}
+
+.zmx-density button.active{
+    color:#e7f5ff;
+    background:rgba(0,213,255,.07);
+    border-color:rgba(0,213,255,.15);
+}
+
+.zmx-tip{
+    padding:10px 11px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.055);
+    background:rgba(255,255,255,.016);
+    color:#6f7b8f;
+    font-size:8px;
+    line-height:1.55;
+}
+
+.zmx-tip strong{
+    color:#b8c4d5;
+}
+
+.zmx-hoverLift{
+    transition:var(--zmx-transition);
+}
+
+.zmx-hoverLift:hover{
+    transform:translateY(-2px);
+}
+
+.zmx-deep{
+    box-shadow:0 35px 100px rgba(0,0,0,.42);
+}
+
+.zmx-sheen{
+    position:relative;
+    overflow:hidden;
+}
+
+.zmx-sheen::after{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:-70%;
+    width:48%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);
+    transform:skewX(-18deg);
+    transition:transform .75s ease;
+    pointer-events:none;
+}
+
+.zmx-sheen:hover::after{
+    transform:translateX(290%) skewX(-18deg);
+}
+
+.zmx-subtleGrid{
+    background-image:
+        linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
+    background-size:26px 26px;
+}
+
+.zmx-ring{
+    width:58px;
+    height:58px;
+    position:relative;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:conic-gradient(#00d5ff 0 72%,rgba(255,255,255,.05) 72% 100%);
+    box-shadow:0 0 32px rgba(0,213,255,.12);
+}
+
+.zmx-ring::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border-radius:50%;
+    background:#0a0f18;
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.zmx-ring strong{
+    position:relative;
+    z-index:1;
+    font-size:11px;
+}
+
+.zmx-reviewList{
+    display:grid;
+    gap:8px;
+}
+
+.zmx-reviewItem{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:8px 10px;
+    border-radius:12px;
+    background:rgba(255,255,255,.018);
+    border:1px solid rgba(255,255,255,.045);
+}
+
+.zmx-reviewIcon{
+    width:28px;
+    height:28px;
+    display:grid;
+    place-items:center;
+    border-radius:9px;
+    background:rgba(141,77,255,.07);
+    border:1px solid rgba(141,77,255,.11);
+}
+
+.zmx-reviewText{
+    min-width:0;
+    flex:1;
+}
+
+.zmx-reviewText b{
+    display:block;
+    font-size:9px;
+}
+
+.zmx-reviewText span{
+    display:block;
+    margin-top:2px;
+    color:#626f83;
+    font-size:8px;
+}
+
+.zmx-reviewBadge{
+    color:#8ce8c3;
+    font-size:8px;
+    font-weight:900;
+}
+
+.zmx-navBadge{
+    margin-left:auto;
+    min-width:19px;
+    height:19px;
+    padding:0 5px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:999px;
+    background:rgba(255,61,79,.11);
+    border:1px solid rgba(255,61,79,.17);
+    color:#ff8692;
+    font-size:8px;
+    font-weight:900;
+}
+
+.zmx-tooltip{
+    position:fixed;
+    z-index:100000;
+    max-width:220px;
+    padding:7px 9px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:9px;
+    background:rgba(7,10,17,.96);
+    box-shadow:0 15px 50px rgba(0,0,0,.4);
+    color:#cbd5e3;
+    font-size:8px;
+    pointer-events:none;
+    opacity:0;
+    transform:translateY(4px);
+    transition:.12s ease;
+}
+
+.zmx-tooltip.open{
+    opacity:1;
+    transform:none;
+}
+
+.zmx-noSelect{
+    user-select:none;
+    -webkit-user-select:none;
+}
+
+.zmx-mobileOnly{
+    display:none;
+}
+
+@media(max-width:1250px){
+    .zmx-command{
+        grid-template-columns:1fr auto;
+    }
+    .zmx-clock{
+        justify-self:start;
+    }
+    .zmx-heroGrid{
+        grid-template-columns:1fr;
+    }
+    .zmx-panels{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:980px){
+    .zmx-command{
+        grid-template-columns:1fr;
+    }
+    .zmx-commandGroup{
+        width:100%;
+    }
+    .zmx-clock{
+        justify-self:stretch;
+    }
+    .zmx-statGrid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .zmx-featureGrid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .zmx-miniStats{
+        width:100%;
+    }
+    .zmx-miniPill{
+        flex:1;
+    }
+}
+
+@media(max-width:700px){
+    .welcome.zmx-welcome h1{
+        font-size:34px;
+        letter-spacing:-1.6px;
+    }
+    .zmx-command{
+        margin-top:0;
+    }
+    .zmx-commandGroup{
+        flex-wrap:wrap;
+    }
+    .zmx-commandButton{
+        flex:1;
+        justify-content:center;
+    }
+    .zmx-miniStats{
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .zmx-miniPill{
+        justify-content:center;
+    }
+    .zmx-statGrid{
+        grid-template-columns:1fr;
+    }
+    .zmx-featureGrid{
+        grid-template-columns:1fr;
+    }
+    .zmx-liveStrip{
+        grid-template-columns:auto minmax(0,1fr);
+    }
+    .zmx-liveMeta{
+        grid-column:2;
+    }
+    .zmx-healthGrid{
+        grid-template-columns:1fr;
+    }
+    .zmx-mobileDock{
+        display:grid;
+    }
+    .zmx-footerBar{
+        padding-bottom:70px;
+    }
+    .zmx-sessionValue{
+        font-size:29px;
+    }
+}
+
+@media(max-width:460px){
+    .zmx-commandButton{
+        min-width:0;
+        padding:0 10px;
+    }
+    .zmx-commandButton .zmx-key{
+        display:none;
+    }
+    .zmx-miniStats{
+        grid-template-columns:1fr;
+    }
+    .zmx-liveStrip{
+        padding:9px 11px;
+    }
+    .zmx-heroCard,
+    .zmx-sessionCard{
+        min-height:220px;
+    }
+    .zmx-title{
+        font-size:29px;
+    }
+    .zmx-toastHost{
+        top:12px;
+        right:12px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    body.zmx-modern *,
+    body.zmx-modern *::before,
+    body.zmx-modern *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
+    }
+}
+
+</style>
+
 </head>
 <body>
 
@@ -1629,6 +3631,413 @@ a{
         </div>
     </div>
 
+
+<div class="zmx-scrollProgress" id="zmxScrollProgress"></div>
+<div class="zmx-command zmx-fadeIn zmx-rise1">
+    <div class="zmx-commandGroup">
+        <button class="zmx-commandButton" type="button" id="zmxCommandButton">
+            <span>⌘</span>
+            <span>Command Center</span>
+            <span class="zmx-key">Ctrl K</span>
+        </button>
+        <button class="zmx-commandButton" type="button" id="zmxFocusButton">
+            <span>◎</span>
+            <span>Focus Mode</span>
+        </button>
+        <button class="zmx-commandButton" type="button" id="zmxSettingsButton">
+            <span>⚙</span>
+            <span>Appearance</span>
+        </button>
+        <div class="zmx-miniStats">
+            <div class="zmx-miniPill">
+                <span class="zmx-dot live"></span>
+                <span>Platform Online</span>
+            </div>
+            <div class="zmx-miniPill">
+                <span class="zmx-dot live"></span>
+                <span>Session Secure</span>
+            </div>
+        </div>
+    </div>
+    <div class="zmx-commandHint">Fast access to every Zyphor surface</div>
+    <div class="zmx-clock" id="zmxClock">
+        <strong id="zmxClockTime">--:--:--</strong>
+        <span id="zmxClockDate">Loading time</span>
+    </div>
+</div>
+
+<div class="zmx-heroGrid zmx-fadeIn zmx-rise2">
+    <section class="zmx-heroCard zmx-glowBorder zmx-sheen zmx-subtleGrid">
+        <div class="zmx-heroContent">
+            <div class="zmx-eyebrow">
+                <span class="zmx-dot live"></span>
+                NEXT-GENERATION DASHBOARD
+            </div>
+            <h2 class="zmx-title">Everything Zyphor.<br><span>One modern control center.</span></h2>
+            <p class="zmx-copy">Your account, wallet, messages, cloud, applications, events and support tools are now presented through a cleaner high-density interface built for fast navigation.</p>
+            <div class="zmx-heroActions">
+                <a href="Cloud.html" class="zmx-action primary">☁ Open Cloud</a>
+                <a href="dms.html" class="zmx-action">✦ Open Messages</a>
+                <button type="button" class="zmx-action" onclick="openSupport()">? Support</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="zmx-sessionCard zmx-fadeIn zmx-rise3">
+        <div class="zmx-sessionTop">
+            <div class="zmx-sessionLabel">ACCOUNT SESSION</div>
+            <div class="zmx-sessionState">ACTIVE</div>
+        </div>
+        <div class="zmx-sessionValue" id="zmxSessionTime">00:00:00<small>session</small></div>
+        <div class="zmx-progress"><span id="zmxSessionProgress"></span></div>
+        <div class="zmx-dividerGlow"></div>
+        <div class="zmx-meterStack">
+            <div class="zmx-meterRow">
+                <label>Security</label>
+                <div class="zmx-meterBar"><span style="width:96%"></span></div>
+                <div class="zmx-meterValue">96%</div>
+            </div>
+            <div class="zmx-meterRow">
+                <label>Connection</label>
+                <div class="zmx-meterBar"><span style="width:99%"></span></div>
+                <div class="zmx-meterValue">99%</div>
+            </div>
+            <div class="zmx-meterRow">
+                <label>Interface</label>
+                <div class="zmx-meterBar"><span style="width:91%"></span></div>
+                <div class="zmx-meterValue">91%</div>
+            </div>
+        </div>
+        <div class="zmx-tip" style="margin-top:13px">
+            <strong>Live session:</strong> this panel updates locally while the dashboard stays open.
+        </div>
+    </section>
+</div>
+
+<div class="zmx-statGrid zmx-fadeIn zmx-rise3">
+    <div class="zmx-statCard zmx-sheen">
+        <div class="zmx-statHeader">
+            <span class="zmx-statName">Wallet</span>
+            <span class="zmx-statIcon">◈</span>
+        </div>
+        <div class="zmx-statValue" id="zmxWalletValue">—</div>
+        <div class="zmx-metricLine"><span class="zmx-trend"></span><b>Live account balance</b></div>
+    </div>
+    <div class="zmx-statCard zmx-sheen">
+        <div class="zmx-statHeader">
+            <span class="zmx-statName">Messages</span>
+            <span class="zmx-statIcon">✦</span>
+        </div>
+        <div class="zmx-statValue" id="zmxMessageValue">0</div>
+        <div class="zmx-metricLine"><span class="zmx-trend"></span><b>Notification activity</b></div>
+    </div>
+    <div class="zmx-statCard zmx-sheen">
+        <div class="zmx-statHeader">
+            <span class="zmx-statName">Account</span>
+            <span class="zmx-statIcon">◉</span>
+        </div>
+        <div class="zmx-statValue" id="zmxAccountState">LIVE</div>
+        <div class="zmx-metricLine"><span class="zmx-trend"></span><b>Authenticated session</b></div>
+    </div>
+    <div class="zmx-statCard zmx-sheen">
+        <div class="zmx-statHeader">
+            <span class="zmx-statName">Event</span>
+            <span class="zmx-statIcon">🐢</span>
+        </div>
+        <div class="zmx-statValue" id="zmxEventState">LIVE</div>
+        <div class="zmx-metricLine"><span class="zmx-trend"></span><b>Squirtle Event shortcut</b></div>
+    </div>
+</div>
+
+<div class="zmx-liveStrip zmx-fadeIn zmx-rise4 zmx-hoverLift">
+    <div class="zmx-livePulse">⚡</div>
+    <div class="zmx-liveCopy">
+        <strong class="zmx-pulseText">Zyphor systems are ready</strong>
+        <span>Use the command center, keyboard shortcuts or the quick surfaces below to move around the platform.</span>
+    </div>
+    <div class="zmx-liveMeta" id="zmxLiveMeta">Refreshing interface…</div>
+</div>
+
+<div class="zmx-panels zmx-fadeIn zmx-rise4">
+    <section class="zmx-panel zmx-sheen">
+        <div class="zmx-panelHead">
+            <div class="zmx-panelTitle">
+                <div class="zmx-panelIcon">◒</div>
+                <div>
+                    <h3>Account Activity</h3>
+                    <p>Latest dashboard signals</p>
+                </div>
+            </div>
+            <button class="zmx-panelAction" id="zmxRefreshActivity" type="button">Refresh</button>
+        </div>
+        <div class="zmx-panelBody">
+            <div class="zmx-activity" id="zmxActivityFeed">
+                <div class="zmx-empty">
+                    <div>
+                        <strong>Loading activity</strong>
+                        <span>Reading current dashboard state…</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="zmx-panel zmx-sheen">
+        <div class="zmx-panelHead">
+            <div class="zmx-panelTitle">
+                <div class="zmx-panelIcon">⌁</div>
+                <div>
+                    <h3>System Health</h3>
+                    <p>Interface-level telemetry</p>
+                </div>
+            </div>
+            <span class="zmx-cardBadge green">OPERATIONAL</span>
+        </div>
+        <div class="zmx-panelBody">
+            <div class="zmx-healthGrid">
+                <div class="zmx-healthItem">
+                    <div class="zmx-healthTop"><span>Dashboard</span><b>94%</b></div>
+                    <div class="zmx-healthBar"><span></span></div>
+                </div>
+                <div class="zmx-healthItem">
+                    <div class="zmx-healthTop"><span>Navigation</span><b>99%</b></div>
+                    <div class="zmx-healthBar blue"><span></span></div>
+                </div>
+                <div class="zmx-healthItem">
+                    <div class="zmx-healthTop"><span>Animations</span><b>89%</b></div>
+                    <div class="zmx-healthBar purple"><span></span></div>
+                </div>
+                <div class="zmx-healthItem">
+                    <div class="zmx-healthTop"><span>Runtime</span><b>98%</b></div>
+                    <div class="zmx-healthBar gold"><span></span></div>
+                </div>
+            </div>
+            <div class="zmx-dividerGlow"></div>
+            <div class="zmx-tip">
+                <strong>Local telemetry:</strong> these indicators reflect UI state and are not server-side performance guarantees.
+            </div>
+        </div>
+    </section>
+</div>
+
+<section class="zmx-panel zmx-sheen zmx-fadeIn zmx-rise5" style="margin-bottom:18px">
+    <div class="zmx-panelHead">
+        <div class="zmx-panelTitle">
+            <div class="zmx-panelIcon">✦</div>
+            <div>
+                <h3>Launchpad</h3>
+                <p>Your most important Zyphor surfaces</p>
+            </div>
+        </div>
+        <span class="zmx-cardBadge cyan">FAST ACCESS</span>
+    </div>
+    <div class="zmx-panelBody">
+        <div class="zmx-featureGrid">
+            <a class="zmx-feature" href="SquirtleEvent.html">
+                <div class="zmx-featureIcon">🐢</div>
+                <div class="zmx-featureBody"><b>Squirtle Event</b><span>Live global event</span></div>
+            </a>
+            <a class="zmx-feature" href="#" onclick="goProfile();return false">
+                <div class="zmx-featureIcon">◉</div>
+                <div class="zmx-featureBody"><b>Profile</b><span>Account identity</span></div>
+            </a>
+            <a class="zmx-feature" href="dms.html">
+                <div class="zmx-featureIcon">✦</div>
+                <div class="zmx-featureBody"><b>Messages</b><span>Direct messages</span></div>
+            </a>
+            <a class="zmx-feature" href="Wallet.html">
+                <div class="zmx-featureIcon">◈</div>
+                <div class="zmx-featureBody"><b>Wallet</b><span>Balance & transfers</span></div>
+            </a>
+            <a class="zmx-feature" href="Cloud.html">
+                <div class="zmx-featureIcon">☁</div>
+                <div class="zmx-featureBody"><b>Cloud</b><span>Files & storage</span></div>
+            </a>
+            <a class="zmx-feature" href="download.html">
+                <div class="zmx-featureIcon">↓</div>
+                <div class="zmx-featureBody"><b>App Center</b><span>Desktop & mobile apps</span></div>
+            </a>
+            <a class="zmx-feature" href="#" onclick="openSupport();return false">
+                <div class="zmx-featureIcon">?</div>
+                <div class="zmx-featureBody"><b>Support</b><span>Get help quickly</span></div>
+            </a>
+            <a class="zmx-feature" href="Settings.html">
+                <div class="zmx-featureIcon">⚙</div>
+                <div class="zmx-featureBody"><b>Settings</b><span>Account preferences</span></div>
+            </a>
+            <button class="zmx-feature" type="button" id="zmxAppearanceLaunch">
+                <div class="zmx-featureIcon">✧</div>
+                <div class="zmx-featureBody"><b>Appearance</b><span>Customize the dashboard</span></div>
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="zmx-panel zmx-sheen zmx-fadeIn zmx-rise5" style="margin-bottom:18px">
+    <div class="zmx-panelHead">
+        <div class="zmx-panelTitle">
+            <div class="zmx-panelIcon">⌁</div>
+            <div>
+                <h3>Session Overview</h3>
+                <p>Live interface metrics collected in your browser</p>
+            </div>
+        </div>
+        <span class="zmx-cardBadge purple" id="zmxSessionBadge">TRACKING</span>
+    </div>
+    <div class="zmx-panelBody">
+        <div class="zmx-reviewList">
+            <div class="zmx-reviewItem">
+                <div class="zmx-reviewIcon">✓</div>
+                <div class="zmx-reviewText"><b>Authentication</b><span>Local token detected and dashboard active.</span></div>
+                <div class="zmx-reviewBadge">READY</div>
+            </div>
+            <div class="zmx-reviewItem">
+                <div class="zmx-reviewIcon">↻</div>
+                <div class="zmx-reviewText"><b>Notifications</b><span>Existing notification service continues in the original dashboard.</span></div>
+                <div class="zmx-reviewBadge">LIVE</div>
+            </div>
+            <div class="zmx-reviewItem">
+                <div class="zmx-reviewIcon">◈</div>
+                <div class="zmx-reviewText"><b>Wallet surface</b><span>Balance is mirrored into the modern overview when available.</span></div>
+                <div class="zmx-reviewBadge">SYNC</div>
+            </div>
+            <div class="zmx-reviewItem">
+                <div class="zmx-reviewIcon">⌘</div>
+                <div class="zmx-reviewText"><b>Command Center</b><span>Press Ctrl + K from anywhere on this page.</span></div>
+                <div class="zmx-reviewBadge">FAST</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="zmx-footerBar">
+    <div>ZYPhor modern dashboard layer · <span id="zmxBuildLabel">10X UI</span></div>
+    <div class="zmx-footerLinks">
+        <a href="Settings.html">Settings</a>
+        <a href="download.html">Apps</a>
+        <a href="Cloud.html">Cloud</a>
+        <a href="dms.html">Messages</a>
+        <a href="#" onclick="openSupport();return false">Support</a>
+    </div>
+</div>
+
+<div class="zmx-mobileDock" id="zmxMobileDock">
+    <a href="#" class="active"><span>⌂</span><small>Home</small></a>
+    <a href="dms.html"><span>✦</span><small>Messages</small></a>
+    <a href="Wallet.html"><span>◈</span><small>Wallet</small></a>
+    <a href="Cloud.html"><span>☁</span><small>Cloud</small></a>
+    <button type="button" id="zmxDockMore"><span>⌘</span><small>More</small></button>
+</div>
+
+<div class="zmx-radialMenu" id="zmxCommandOverlay">
+    <div class="zmx-commandModal">
+        <div class="zmx-commandSearch">
+            <span class="zmx-logoMark"></span>
+            <input id="zmxCommandInput" type="search" autocomplete="off" placeholder="Search Zyphor actions…">
+            <button class="zmx-close" type="button" id="zmxCommandClose">×</button>
+        </div>
+        <div class="zmx-commandResults" id="zmxCommandResults"></div>
+        <div class="zmx-commandFooter">
+            <span>↑ ↓ navigate · Enter select · Esc close</span>
+            <span>Zyphor Command Center</span>
+        </div>
+    </div>
+</div>
+
+<div class="zmx-settingsDrawer" id="zmxSettingsDrawer">
+    <aside class="zmx-settingsPanel">
+        <div class="zmx-settingsHead">
+            <div>
+                <h3>Appearance</h3>
+                <p>Customize your dashboard surface</p>
+            </div>
+            <button class="zmx-close" type="button" id="zmxSettingsClose">×</button>
+        </div>
+
+        <div class="zmx-settingGroup">
+            <label>Interface</label>
+            <div class="zmx-settingRow">
+                <div class="zmx-settingInfo">
+                    <strong>Enhanced glow</strong>
+                    <span>Keep the animated glass and ambient lighting effects.</span>
+                </div>
+                <label class="zmx-toggle">
+                    <input id="zmxGlowToggle" type="checkbox" checked>
+                    <span class="zmx-toggleTrack"><span class="zmx-toggleThumb"></span></span>
+                </label>
+            </div>
+            <div class="zmx-settingRow">
+                <div class="zmx-settingInfo">
+                    <strong>Compact spacing</strong>
+                    <span>Reduce card padding and overall dashboard density.</span>
+                </div>
+                <label class="zmx-toggle">
+                    <input id="zmxCompactToggle" type="checkbox">
+                    <span class="zmx-toggleTrack"><span class="zmx-toggleThumb"></span></span>
+                </label>
+            </div>
+            <div class="zmx-settingRow">
+                <div class="zmx-settingInfo">
+                    <strong>Low motion</strong>
+                    <span>Minimize animated effects and transitions.</span>
+                </div>
+                <label class="zmx-toggle">
+                    <input id="zmxMotionToggle" type="checkbox">
+                    <span class="zmx-toggleTrack"><span class="zmx-toggleThumb"></span></span>
+                </label>
+            </div>
+            <div class="zmx-settingRow">
+                <div class="zmx-settingInfo">
+                    <strong>Spotlight cards</strong>
+                    <span>Increase contrast around dashboard panels.</span>
+                </div>
+                <label class="zmx-toggle">
+                    <input id="zmxSpotlightToggle" type="checkbox" checked>
+                    <span class="zmx-toggleTrack"><span class="zmx-toggleThumb"></span></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="zmx-settingGroup">
+            <label>Accent</label>
+            <div class="zmx-accentGrid">
+                <button class="zmx-accent" type="button" data-accent="cyan" aria-label="Cyan accent"></button>
+                <button class="zmx-accent" type="button" data-accent="purple" aria-label="Purple accent"></button>
+                <button class="zmx-accent" type="button" data-accent="green" aria-label="Green accent"></button>
+                <button class="zmx-accent" type="button" data-accent="orange" aria-label="Orange accent"></button>
+            </div>
+        </div>
+
+        <div class="zmx-settingGroup">
+            <label>Density</label>
+            <div class="zmx-density">
+                <button type="button" data-density="cozy">Cozy</button>
+                <button type="button" data-density="compact">Compact</button>
+                <button type="button" data-density="focus">Focus</button>
+            </div>
+        </div>
+
+        <div class="zmx-settingGroup">
+            <label>Keyboard shortcuts</label>
+            <div class="zmx-shortcuts">
+                <div class="zmx-shortcutRow"><span>Open command center</span><div class="zmx-shortcutKeys"><kbd>Ctrl</kbd><kbd>K</kbd></div></div>
+                <div class="zmx-shortcutRow"><span>Toggle focus mode</span><div class="zmx-shortcutKeys"><kbd>Ctrl</kbd><kbd>.</kbd></div></div>
+                <div class="zmx-shortcutRow"><span>Open appearance</span><div class="zmx-shortcutKeys"><kbd>Ctrl</kbd><kbd>,</kbd></div></div>
+                <div class="zmx-shortcutRow"><span>Close overlay</span><div class="zmx-shortcutKeys"><kbd>Esc</kbd></div></div>
+            </div>
+        </div>
+
+        <div class="zmx-settingGroup">
+            <label>Notes</label>
+            <div class="zmx-tip">These controls modify the local dashboard presentation only. Your original navigation and account functionality remain available underneath this UI layer.</div>
+        </div>
+    </aside>
+</div>
+
+<div class="zmx-toastHost" id="zmxToastHost"></div>
+<div class="zmx-tooltip" id="zmxTooltip"></div>
+
+
     <div class="grid">
 
         <div class="leftcol">
@@ -1678,8 +4087,8 @@ a{
                         <h3>Wallet</h3>
                         <div class="statIcon">◈</div>
                     </div>
-                    <h1 id="walletBalance">$0</h1>
-                    <div class="statMeta">Available balance</div>
+                    <h1 id="walletBalance">0 Zyphium</h1>
+                    <div class="statMeta">Available Zyphium</div>
                 </div>
 
                 <div class="card stat">
@@ -2425,20 +4834,23 @@ async function loadWallet(){
 
     try{
 
-        const r=await fetch(backend+"/balance",{
+        const r=await fetch(backend+"/zyphium/account",{
             headers:{
                 Authorization:token
             }
         })
 
+        if(!r.ok) throw new Error("Zyphium request failed")
+
         const d=await r.json()
+        const zyphium=Number(d.balance)
 
         document.getElementById("walletBalance").textContent=
-            "$"+Number(d.balance).toLocaleString()
+            (Number.isFinite(zyphium)?zyphium:0).toLocaleString()+" Zyphium"
 
     }catch{
 
-        document.getElementById("walletBalance").textContent="$0"
+        document.getElementById("walletBalance").textContent="0 Zyphium"
 
     }
 }
@@ -2894,5 +5306,680 @@ document.addEventListener("keydown",event=>{
 
 init()
 </script>
+
+<script id="zyphor-modern-10x-js">
+
+(function(){
+"use strict";
+
+const ZMX={
+    startedAt:Date.now(),
+    commands:[],
+    commandIndex:0,
+    pointerTimer:null,
+    lastActivityHash:"",
+    refreshTimer:null,
+    accent:"cyan",
+    settings:{
+        glow:true,
+        compact:false,
+        motion:false,
+        spotlight:true
+    }
+};
+
+function zmx$(id){
+    return document.getElementById(id);
+}
+
+function zmxStorageGet(key,fallback){
+    try{
+        const raw=localStorage.getItem(key);
+        return raw===null?fallback:raw;
+    }catch{
+        return fallback;
+    }
+}
+
+function zmxStorageSet(key,value){
+    try{
+        localStorage.setItem(key,value);
+    }catch{}
+}
+
+function zmxBool(value,fallback){
+    if(value===null||value===undefined)return fallback;
+    return value==="1"||value==="true"||value===true;
+}
+
+function zmxEscape(value){
+    return String(value??"")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function zmxToast(title,message,type="info"){
+    const host=zmx$("zmxToastHost");
+    if(!host)return;
+    const toast=document.createElement("div");
+    toast.className="zmx-toast "+type;
+    const icon=type==="success"?"✓":type==="warning"?"!":type==="danger"?"×":"✦";
+    toast.innerHTML=`
+        <div class="zmx-toastIcon">${icon}</div>
+        <div class="zmx-toastBody">
+            <strong>${zmxEscape(title)}</strong>
+            <span>${zmxEscape(message)}</span>
+        </div>
+        <button class="zmx-toastClose" type="button" aria-label="Close">×</button>
+    `;
+    const close=()=>{
+        toast.classList.add("closing");
+        setTimeout(()=>toast.remove(),180);
+    };
+    toast.querySelector(".zmx-toastClose").addEventListener("click",close);
+    host.appendChild(toast);
+    setTimeout(close,4200);
+}
+
+function zmxApplyAccent(accent){
+    const root=document.documentElement;
+    const map={
+        cyan:["#00d5ff","#8d4dff","#2ee6a6"],
+        purple:["#9b6bff","#00d5ff","#2ee6a6"],
+        green:["#2ee6a6","#00d5ff","#8d4dff"],
+        orange:["#ffc857","#ff6b5c","#00d5ff"]
+    };
+    const values=map[accent]||map.cyan;
+    root.style.setProperty("--zmx-accent",values[0]);
+    root.style.setProperty("--zmx-accent-2",values[1]);
+    root.style.setProperty("--zmx-accent-3",values[2]);
+    ZMX.accent=accent;
+    zmxStorageSet("zmxAccent",accent);
+    document.querySelectorAll(".zmx-accent").forEach(button=>{
+        button.style.outline=button.dataset.accent===accent?"2px solid rgba(255,255,255,.35)":"none";
+        button.style.outlineOffset="2px";
+    });
+}
+
+function zmxApplySettings(){
+    document.body.classList.toggle("zmx-lowMotion",!ZMX.settings.motion);
+    document.body.classList.toggle("zmx-compact",ZMX.settings.compact);
+    document.body.classList.toggle("zmx-spotlight",ZMX.settings.spotlight);
+    if(!ZMX.settings.glow){
+        document.body.classList.add("zmx-lowMotion");
+    }
+    zmxStorageSet("zmxSettings",JSON.stringify(ZMX.settings));
+    const glow=zmx$("zmxGlowToggle");
+    const compact=zmx$("zmxCompactToggle");
+    const motion=zmx$("zmxMotionToggle");
+    const spotlight=zmx$("zmxSpotlightToggle");
+    if(glow)glow.checked=ZMX.settings.glow;
+    if(compact)compact.checked=ZMX.settings.compact;
+    if(motion)motion.checked=ZMX.settings.motion;
+    if(spotlight)spotlight.checked=ZMX.settings.spotlight;
+}
+
+function zmxLoadSettings(){
+    const raw=zmxStorageGet("zmxSettings","");
+    if(raw){
+        try{
+            const parsed=JSON.parse(raw);
+            ZMX.settings={
+                glow:parsed.glow!==false,
+                compact:parsed.compact===true,
+                motion:parsed.motion===true,
+                spotlight:parsed.spotlight!==false
+            };
+        }catch{}
+    }
+    const accent=zmxStorageGet("zmxAccent","cyan");
+    zmxApplyAccent(accent);
+    zmxApplySettings();
+}
+
+function zmxSetText(id,value){
+    const node=zmx$(id);
+    if(node)node.textContent=value;
+}
+
+function zmxFormatDuration(seconds){
+    const total=Math.max(0,Math.floor(seconds));
+    const hours=Math.floor(total/3600);
+    const minutes=Math.floor((total%3600)/60);
+    const secs=total%60;
+    const pad=n=>String(n).padStart(2,"0");
+    return `${pad(hours)}:${pad(minutes)}:${pad(secs)}`;
+}
+
+function zmxUpdateClock(){
+    const now=new Date();
+    const time=now.toLocaleTimeString([],{
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit"
+    });
+    const date=now.toLocaleDateString([],{
+        weekday:"short",
+        month:"short",
+        day:"numeric"
+    });
+    zmxSetText("zmxClockTime",time);
+    zmxSetText("zmxClockDate",date);
+    zmxSetText("zmxLiveMeta",`${date} · ${time}`);
+}
+
+function zmxUpdateSession(){
+    const elapsed=(Date.now()-ZMX.startedAt)/1000;
+    zmxSetText("zmxSessionTime",`${zmxFormatDuration(elapsed)}session`);
+    const progress=Math.min(96,38+(elapsed/90));
+    const bar=zmx$("zmxSessionProgress");
+    if(bar)bar.style.width=`${progress}%`;
+}
+
+function zmxMirrorCoreStats(){
+    const wallet=document.getElementById("walletBalance");
+    const message=document.getElementById("messageCount");
+    const walletValue=zmx$("zmxWalletValue");
+    const messageValue=zmx$("zmxMessageValue");
+    if(walletValue){
+        const value=wallet?.textContent?.trim();
+        walletValue.textContent=value&&value!=="0 Zyphium"?value:"0 Zyphium";
+    }
+    if(messageValue){
+        const value=message?.textContent?.trim();
+        messageValue.textContent=value||"0";
+    }
+}
+
+function zmxReadNotifications(){
+    const list=document.getElementById("notificationList");
+    if(!list)return [];
+    const rows=[...list.querySelectorAll(".row")];
+    return rows
+        .filter(row=>!row.classList.contains("emptyState"))
+        .slice(0,6)
+        .map((row,index)=>{
+            const text=(row.textContent||"").trim().replace(/\s+/g," ");
+            return{
+                id:`notification-${index}-${text}`,
+                title:text.slice(0,72)||"Notification",
+                subtitle:text.length>72?text.slice(72,150):"Zyphor account activity",
+                icon:index%3===0?"✦":index%3===1?"◈":"⌁",
+                time:"recent"
+            };
+        });
+}
+
+function zmxRenderActivity(){
+    const feed=zmx$("zmxActivityFeed");
+    if(!feed)return;
+    const notes=zmxReadNotifications();
+    const username=(document.getElementById("profileName")?.textContent||"Account").trim();
+    const items=[
+        {
+            icon:"◉",
+            title:"Account session active",
+            subtitle:`${username} is using the upgraded dashboard`,
+            time:"now"
+        },
+        ...notes
+    ];
+    if(items.length===1){
+        feed.innerHTML=`
+            <div class="zmx-activityItem">
+                <div class="zmx-activityIcon">✓</div>
+                <div class="zmx-activityText">
+                    <strong>Dashboard ready</strong>
+                    <span>Your modern control center is loaded.</span>
+                </div>
+                <div class="zmx-activityTime">now</div>
+            </div>
+        `;
+        return;
+    }
+    feed.innerHTML=items.slice(0,7).map(item=>`
+        <div class="zmx-activityItem">
+            <div class="zmx-activityIcon">${zmxEscape(item.icon)}</div>
+            <div class="zmx-activityText">
+                <strong>${zmxEscape(item.title)}</strong>
+                <span>${zmxEscape(item.subtitle)}</span>
+            </div>
+            <div class="zmx-activityTime">${zmxEscape(item.time)}</div>
+        </div>
+    `).join("");
+}
+
+function zmxActivitySignature(){
+    return zmxReadNotifications().map(item=>item.id).join("|");
+}
+
+function zmxMaybeRefreshActivity(force=false){
+    const signature=zmxActivitySignature();
+    if(force||signature!==ZMX.lastActivityHash){
+        ZMX.lastActivityHash=signature;
+        zmxRenderActivity();
+    }
+    zmxMirrorCoreStats();
+}
+
+function zmxOpenCommand(){
+    const overlay=zmx$("zmxCommandOverlay");
+    const input=zmx$("zmxCommandInput");
+    if(!overlay)return;
+    overlay.classList.add("open");
+    zmxRenderCommandResults("");
+    setTimeout(()=>{
+        input?.focus();
+        input?.select();
+    },40);
+}
+
+function zmxCloseCommand(){
+    zmx$("zmxCommandOverlay")?.classList.remove("open");
+}
+
+function zmxOpenSettings(){
+    zmx$("zmxSettingsDrawer")?.classList.add("open");
+}
+
+function zmxCloseSettings(){
+    zmx$("zmxSettingsDrawer")?.classList.remove("open");
+}
+
+function zmxFocusMode(){
+    document.body.classList.toggle("zmx-lowMotion");
+    const enabled=document.body.classList.contains("zmx-lowMotion");
+    const button=zmx$("zmxFocusButton");
+    if(button){
+        button.querySelector("span:last-child").textContent=enabled?"Normal Mode":"Focus Mode";
+    }
+    zmxToast(
+        enabled?"Focus mode enabled":"Focus mode disabled",
+        enabled?"Animations and visual noise are reduced.":"The full animated presentation is restored.",
+        "success"
+    );
+}
+
+function zmxNavigate(target){
+    if(target==="home"){
+        window.scrollTo({top:0,behavior:"smooth"});
+        return;
+    }
+    if(target==="profile"){
+        if(typeof window.goProfile==="function"){
+            window.goProfile();
+        }else{
+            window.location.href="Settings.html";
+        }
+        return;
+    }
+    if(target==="support"){
+        if(typeof window.openSupport==="function"){
+            window.openSupport();
+        }
+        return;
+    }
+    if(target==="logout"){
+        if(typeof window.logout==="function"){
+            window.logout();
+        }else{
+            localStorage.removeItem("Token");
+            window.location.href="login.html";
+        }
+        return;
+    }
+    window.location.href=target;
+}
+
+function zmxBuildCommands(){
+    ZMX.commands=[
+        {label:"Dashboard Home",description:"Return to the top of the control center",icon:"⌂",shortcut:"↵",action:()=>zmxNavigate("home")},
+        {label:"Squirtle Event",description:"Open the live global event",icon:"🐢",shortcut:"↵",action:()=>zmxNavigate("SquirtleEvent.html")},
+        {label:"Profile",description:"Open your account profile surface",icon:"◉",shortcut:"↵",action:()=>zmxNavigate("profile")},
+        {label:"Messages",description:"Open your direct messages",icon:"✦",shortcut:"↵",action:()=>zmxNavigate("dms.html")},
+        {label:"Wallet",description:"Open your wallet and transfer tools",icon:"◈",shortcut:"↵",action:()=>zmxNavigate("Wallet.html")},
+        {label:"Cloud",description:"Open your Zyphor cloud files",icon:"☁",shortcut:"↵",action:()=>zmxNavigate("Cloud.html")},
+        {label:"App Center",description:"Open downloads and platform apps",icon:"↓",shortcut:"↵",action:()=>zmxNavigate("download.html")},
+        {label:"Settings",description:"Open account and interface settings",icon:"⚙",shortcut:"↵",action:()=>zmxNavigate("Settings.html")},
+        {label:"Support",description:"Open the support selector",icon:"?",shortcut:"↵",action:()=>zmxNavigate("support")},
+        {label:"Appearance",description:"Customize the modern dashboard",icon:"✧",shortcut:"↵",action:()=>{zmxCloseCommand();zmxOpenSettings()}},
+        {label:"Refresh Activity",description:"Refresh the modern account activity panel",icon:"↻",shortcut:"↵",action:()=>{zmxMaybeRefreshActivity(true);zmxToast("Activity refreshed","The modern activity feed was refreshed.","success")}},
+        {label:"Focus Mode",description:"Reduce motion and interface noise",icon:"◎",shortcut:"Ctrl .",action:()=>{zmxCloseCommand();zmxFocusMode()}},
+        {label:"Logout",description:"Sign out of the current Zyphor session",icon:"↪",shortcut:"↵",action:()=>zmxNavigate("logout")}
+    ];
+}
+
+function zmxFilterCommands(query){
+    const q=query.trim().toLowerCase();
+    if(!q)return ZMX.commands;
+    return ZMX.commands.filter(command=>{
+        const haystack=`${command.label} ${command.description}`.toLowerCase();
+        return haystack.includes(q);
+    });
+}
+
+function zmxRenderCommandResults(query){
+    const result=zmx$("zmxCommandResults");
+    if(!result)return;
+    const list=zmxFilterCommands(query);
+    ZMX.commandIndex=Math.min(ZMX.commandIndex,Math.max(0,list.length-1));
+    if(!list.length){
+        result.innerHTML=`
+            <div class="zmx-empty">
+                <div>
+                    <strong>No command found</strong>
+                    <span>Try wallet, cloud, messages, settings or support.</span>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    result.innerHTML=list.map((command,index)=>`
+        <div class="zmx-commandResult ${index===ZMX.commandIndex?"active":""}" data-command-index="${index}">
+            <div class="zmx-commandResultIcon">${zmxEscape(command.icon)}</div>
+            <div class="zmx-commandResultText">
+                <strong>${zmxEscape(command.label)}</strong>
+                <span>${zmxEscape(command.description)}</span>
+            </div>
+            <div class="zmx-commandShortcut">${zmxEscape(command.shortcut)}</div>
+        </div>
+    `).join("");
+    result.querySelectorAll(".zmx-commandResult").forEach(row=>{
+        row.addEventListener("mouseenter",()=>{
+            ZMX.commandIndex=Number(row.dataset.commandIndex||0);
+            zmxRenderCommandResults(query);
+        });
+        row.addEventListener("click",()=>{
+            const command=list[Number(row.dataset.commandIndex||0)];
+            if(command){
+                zmxCloseCommand();
+                command.action();
+            }
+        });
+    });
+}
+
+function zmxExecuteSelected(query){
+    const list=zmxFilterCommands(query);
+    const command=list[ZMX.commandIndex];
+    if(!command)return;
+    zmxCloseCommand();
+    command.action();
+}
+
+function zmxCommandKeydown(event){
+    if(event.key==="ArrowDown"){
+        event.preventDefault();
+        const list=zmxFilterCommands(zmx$("zmxCommandInput")?.value||"");
+        if(!list.length)return;
+        ZMX.commandIndex=(ZMX.commandIndex+1)%list.length;
+        zmxRenderCommandResults(zmx$("zmxCommandInput")?.value||"");
+        return;
+    }
+    if(event.key==="ArrowUp"){
+        event.preventDefault();
+        const list=zmxFilterCommands(zmx$("zmxCommandInput")?.value||"");
+        if(!list.length)return;
+        ZMX.commandIndex=(ZMX.commandIndex-1+list.length)%list.length;
+        zmxRenderCommandResults(zmx$("zmxCommandInput")?.value||"");
+        return;
+    }
+    if(event.key==="Enter"){
+        event.preventDefault();
+        zmxExecuteSelected(zmx$("zmxCommandInput")?.value||"");
+        return;
+    }
+    if(event.key==="Escape"){
+        zmxCloseCommand();
+        return;
+    }
+}
+
+function zmxBindShortcuts(){
+    document.addEventListener("keydown",event=>{
+        const key=event.key.toLowerCase();
+        const modifier=event.ctrlKey||event.metaKey;
+        if(modifier&&key==="k"){
+            event.preventDefault();
+            zmxOpenCommand();
+            return;
+        }
+        if(modifier&&event.key==="."){
+            event.preventDefault();
+            zmxFocusMode();
+            return;
+        }
+        if(modifier&&event.key===","){
+            event.preventDefault();
+            zmxOpenSettings();
+            return;
+        }
+        if(event.key==="Escape"){
+            zmxCloseCommand();
+            zmxCloseSettings();
+        }
+    });
+}
+
+function zmxBindUi(){
+    zmx$("zmxCommandButton")?.addEventListener("click",zmxOpenCommand);
+    zmx$("zmxCommandClose")?.addEventListener("click",zmxCloseCommand);
+    zmx$("zmxCommandOverlay")?.addEventListener("click",event=>{
+        if(event.target.id==="zmxCommandOverlay"){
+            zmxCloseCommand();
+        }
+    });
+    zmx$("zmxCommandInput")?.addEventListener("input",event=>{
+        ZMX.commandIndex=0;
+        zmxRenderCommandResults(event.target.value||"");
+    });
+    zmx$("zmxCommandInput")?.addEventListener("keydown",zmxCommandKeydown);
+    zmx$("zmxFocusButton")?.addEventListener("click",zmxFocusMode);
+    zmx$("zmxSettingsButton")?.addEventListener("click",zmxOpenSettings);
+    zmx$("zmxAppearanceLaunch")?.addEventListener("click",zmxOpenSettings);
+    zmx$("zmxSettingsClose")?.addEventListener("click",zmxCloseSettings);
+    zmx$("zmxSettingsDrawer")?.addEventListener("click",event=>{
+        if(event.target.id==="zmxSettingsDrawer"){
+            zmxCloseSettings();
+        }
+    });
+    zmx$("zmxRefreshActivity")?.addEventListener("click",()=>{
+        zmxMaybeRefreshActivity(true);
+        zmxToast("Activity refreshed","The latest visible dashboard signals were re-read.","success");
+    });
+    zmx$("zmxDockMore")?.addEventListener("click",zmxOpenCommand);
+    zmx$("zmxGlowToggle")?.addEventListener("change",event=>{
+        ZMX.settings.glow=event.target.checked;
+        if(!ZMX.settings.glow){
+            ZMX.settings.motion=false;
+        }
+        zmxApplySettings();
+    });
+    zmx$("zmxCompactToggle")?.addEventListener("change",event=>{
+        ZMX.settings.compact=event.target.checked;
+        zmxApplySettings();
+    });
+    zmx$("zmxMotionToggle")?.addEventListener("change",event=>{
+        ZMX.settings.motion=event.target.checked;
+        zmxApplySettings();
+    });
+    zmx$("zmxSpotlightToggle")?.addEventListener("change",event=>{
+        ZMX.settings.spotlight=event.target.checked;
+        zmxApplySettings();
+    });
+    document.querySelectorAll(".zmx-accent").forEach(button=>{
+        button.addEventListener("click",()=>zmxApplyAccent(button.dataset.accent));
+    });
+    document.querySelectorAll("[data-density]").forEach(button=>{
+        button.addEventListener("click",()=>{
+            const density=button.dataset.density;
+            if(density==="compact"){
+                ZMX.settings.compact=true;
+                ZMX.settings.motion=true;
+            }else if(density==="focus"){
+                ZMX.settings.compact=true;
+                ZMX.settings.motion=false;
+            }else{
+                ZMX.settings.compact=false;
+                ZMX.settings.motion=true;
+            }
+            zmxApplySettings();
+            zmxToast("Density updated",`${density} dashboard density is active.`,"success");
+        });
+    });
+}
+
+function zmxUpdateScrollProgress(){
+    const node=zmx$("zmxScrollProgress");
+    if(!node)return;
+    const scrollTop=window.scrollY||document.documentElement.scrollTop;
+    const height=document.documentElement.scrollHeight-window.innerHeight;
+    const percentage=height>0?(scrollTop/height)*100:0;
+    node.style.width=`${Math.min(100,Math.max(0,percentage))}%`;
+}
+
+function zmxObserveCoreNodes(){
+    const targets=[
+        document.getElementById("walletBalance"),
+        document.getElementById("messageCount"),
+        document.getElementById("notificationList"),
+        document.getElementById("profileName")
+    ].filter(Boolean);
+    if(window.MutationObserver){
+        const observer=new MutationObserver(()=>{
+            zmxMaybeRefreshActivity(false);
+        });
+        targets.forEach(target=>{
+            observer.observe(target,{subtree:true,childList:true,characterData:true});
+        });
+    }
+}
+
+function zmxAnimateNumbers(){
+    document.querySelectorAll(".zmx-statValue").forEach(node=>{
+        node.classList.add("zmx-pulseText");
+    });
+}
+
+function zmxInitMobileDock(){
+    const dock=zmx$("zmxMobileDock");
+    if(!dock)return;
+    dock.querySelectorAll("a").forEach(link=>{
+        link.addEventListener("click",()=>{
+            dock.querySelectorAll("a").forEach(item=>item.classList.remove("active"));
+            link.classList.add("active");
+        });
+    });
+}
+
+function zmxInstallTooltips(){
+    const tooltip=zmx$("zmxTooltip");
+    if(!tooltip)return;
+    const targets=document.querySelectorAll("[data-zmx-tip]");
+    targets.forEach(target=>{
+        target.addEventListener("mouseenter",()=>{
+            tooltip.textContent=target.dataset.zmxTip||"";
+            tooltip.classList.add("open");
+            const rect=target.getBoundingClientRect();
+            tooltip.style.left=`${Math.min(window.innerWidth-240,Math.max(8,rect.left))}px`;
+            tooltip.style.top=`${Math.min(window.innerHeight-60,rect.bottom+8)}px`;
+        });
+        target.addEventListener("mouseleave",()=>{
+            tooltip.classList.remove("open");
+        });
+    });
+}
+
+function zmxEnhanceOriginalNav(){
+    const nav=document.querySelector(".nav");
+    if(!nav)return;
+    const notificationBadge=document.getElementById("notificationBadge");
+    if(!notificationBadge)return;
+    const observer=new MutationObserver(()=>{
+        const value=parseInt(notificationBadge.textContent||"0",10);
+        const messages=[...nav.querySelectorAll(".item")].find(item=>(item.textContent||"").includes("Messages"));
+        if(!messages)return;
+        let badge=messages.querySelector(".zmx-navBadge");
+        if(value>0){
+            if(!badge){
+                badge=document.createElement("span");
+                badge.className="zmx-navBadge";
+                messages.appendChild(badge);
+            }
+            badge.textContent=value>99?"99+":String(value);
+        }else if(badge){
+            badge.remove();
+        }
+    });
+    observer.observe(notificationBadge,{subtree:true,childList:true,characterData:true});
+}
+
+function zmxPatchTopProfile(){
+    const profile=document.querySelector(".profile");
+    if(profile)profile.classList.add("zmx-profile");
+    const top=document.querySelector(".top");
+    if(top)top.classList.add("zmx-top");
+    const welcome=document.querySelector(".welcome");
+    if(welcome)welcome.classList.add("zmx-welcome");
+    const main=document.querySelector(".main");
+    if(main)main.classList.add("zmx-main");
+    const sidebar=document.querySelector(".sidebar");
+    if(sidebar)sidebar.classList.add("zmx-sidebar");
+    const layout=document.querySelector(".layout");
+    if(layout)layout.classList.add("zmx-shell");
+}
+
+function zmxDecorateCards(){
+    document.querySelectorAll(".card").forEach((card,index)=>{
+        if(index%3===0){
+            card.classList.add("zmx-hoverLift");
+        }
+    });
+}
+
+function zmxBootVisualState(){
+    document.body.classList.add("zmx-modern");
+    zmxPatchTopProfile();
+    zmxDecorateCards();
+    zmxLoadSettings();
+    zmxBuildCommands();
+    zmxBindUi();
+    zmxBindShortcuts();
+    zmxObserveCoreNodes();
+    zmxInitMobileDock();
+    zmxInstallTooltips();
+    zmxEnhanceOriginalNav();
+    zmxAnimateNumbers();
+    zmxRenderCommandResults("");
+    zmxMaybeRefreshActivity(true);
+    zmxUpdateClock();
+    zmxUpdateSession();
+    zmxUpdateScrollProgress();
+    window.addEventListener("scroll",zmxUpdateScrollProgress,{passive:true});
+    setInterval(zmxUpdateClock,1000);
+    setInterval(zmxUpdateSession,1000);
+    setInterval(zmxMaybeRefreshActivity,1800);
+    setInterval(zmxMirrorCoreStats,2200);
+}
+
+function zmxWaitForDashboard(){
+    const ready=document.querySelector(".top")&&document.querySelector(".grid");
+    if(ready){
+        zmxBootVisualState();
+        return;
+    }
+    setTimeout(zmxWaitForDashboard,80);
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+    zmxWaitForDashboard();
+});
+})();
+
+</script>
+
 </body>
 </html>
