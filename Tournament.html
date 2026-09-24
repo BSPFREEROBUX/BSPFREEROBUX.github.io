@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Tournament Bracket</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b0d13;color:#fff;font-family:Arial,Helvetica,sans-serif;min-height:100vh}
+header{padding:24px 30px;border-bottom:1px solid #252a36;background:#10131b;display:flex;align-items:center;justify-content:space-between;gap:20px}
+h1{margin:0;font-size:25px}
+.container{padding:25px;max-width:1800px;margin:auto}
+.panel{background:#11151e;border:1px solid #282e3b;border-radius:16px;padding:20px;margin-bottom:25px}
+.panel h2{margin:0 0 15px;font-size:18px}
+.input-row{display:flex;gap:10px}
+input{flex:1;background:#0b0e15;border:1px solid #303746;color:white;padding:13px 15px;border-radius:10px;outline:none;font-size:15px}
+input:focus{border-color:#667cff}
+button{border:0;border-radius:10px;padding:12px 17px;color:#fff;background:#586cff;font-weight:bold;cursor:pointer;transition:.15s}
+button:hover{filter:brightness(1.12);transform:translateY(-1px)}
+button.secondary{background:#252b38}
+button.danger{background:#d34b5d}
+button.green{background:#26a269}
+.players{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.player{background:#1a1f2a;border:1px solid #303746;border-radius:9px;padding:9px 12px;display:flex;gap:10px;align-items:center}
+.player button{padding:4px 8px;background:#303746;font-size:12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.bracket-wrapper{overflow:auto;padding:20px 5px 50px}
+.bracket{display:flex;gap:80px;align-items:stretch;min-width:max-content}
+.round{display:flex;flex-direction:column;justify-content:space-around;gap:25px;min-width:210px}
+.round-title{text-align:center;color:#9ca6bb;font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.match{position:relative;width:210px;background:#151a24;border:1px solid #303746;border-radius:12px;overflow:visible;box-shadow:0 5px 20px #0004}
+.team{height:42px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2b313d;cursor:pointer;transition:.15s}
+.team:last-child{border-bottom:0}
+.team:hover{background:#1e2531}
+.team.winner{background:#173a2a;color:#6ff0a8}
+.team.loser{opacity:.4}
+.team.empty{color:#5f6879;cursor:default}
+.team span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.score{font-size:12px;color:#858fa3;margin-left:8px}
+.match::after{content:"";position:absolute;right:-80px;top:50%;width:80px;height:1px;background:#41495a}
+.round:last-child .match::after{display:none}
+.round:not(:first-child) .match::before{content:"";position:absolute;left:-80px;top:25%;width:80px;height:50%;border-top:1px solid #41495a;border-bottom:1px solid #41495a}
+.round:not(:first-child) .match:after{display:none}
+.final .match{border-color:#8c75ff;box-shadow:0 0 25px #7561ff22}
+.champion{margin-top:25px;text-align:center;padding:30px;border:1px solid #5549a5;background:#17152a;border-radius:18px}
+.champion h2{margin:0 0 10px}
+.champion-name{font-size:28px;font-weight:bold;color:#b9afff}
+.empty-state{text-align:center;padding:70px 20px;color:#697386}
+.hint{color:#7d879a;font-size:13px;margin-top:10px}
+@media(max-width:700px){
+header{padding:18px;flex-direction:column;align-items:flex-start}
+.container{padding:15px}
+.bracket{gap:60px}
+.round{min-width:180px}
+.match{width:180px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🏆 Tournament Bracket</h1>
+<div class="actions">
+<button class="secondary" onclick="shufflePlayers()">Shuffle</button>
+<button class="danger" onclick="resetTournament()">Reset</button>
+</div>
+</header>
+
+<div class="container">
+
+<div class="panel">
+<h2>Add Players</h2>
+<div class="input-row">
+<input id="playerInput" placeholder="Enter player name..." maxlength="40">
+<button onclick="addPlayer()">Add Player</button>
+</div>
+<div class="hint">Add at least 2 players. Players are automatically placed into the first round.</div>
+<div id="players" class="players"></div>
+</div>
+
+<div class="panel">
+<div class="actions">
+<button onclick="generateTournament()">Generate Tournament</button>
+<button class="secondary" onclick="addRandomPlayers()">Add 8 Random Players</button>
+</div>
+<div class="hint">Click a player's name in a match to advance them to the next round.</div>
+</div>
+
+<div id="bracketArea" class="panel">
+<div class="empty-state">
+<h2>No Tournament Yet</h2>
+<p>Add players and generate the bracket.</p>
+</div>
+</div>
+
+</div>
+
+<script>
+let players=[];
+let rounds=[];
+let tournamentStarted=false;
+
+const input=document.getElementById("playerInput");
+input.addEventListener("keydown",e=>{
+if(e.key==="Enter") addPlayer();
+});
+
+function addPlayer(){
+const name=input.value.trim();
+if(!name)return;
+if(players.some(p=>p.toLowerCase()===name.toLowerCase()))return;
+players.push(name);
+input.value="";
+renderPlayers();
+}
+
+function removePlayer(index){
+if(tournamentStarted)return;
+players.splice(index,1);
+renderPlayers();
+}
+
+function renderPlayers(){
+const box=document.getElementById("players");
+box.innerHTML="";
+players.forEach((p,i)=>{
+const el=document.createElement("div");
+el.className="player";
+el.innerHTML=`<span>${escapeHtml(p)}</span><button onclick="removePlayer(${i})">×</button>`;
+box.appendChild(el);
+});
+}
+
+function shufflePlayers(){
+if(tournamentStarted)return;
+for(let i=players.length-1;i>0;i--){
+const j=Math.floor(Math.random()*(i+1));
+[players[i],players[j]]=[players[j],players[i]];
+}
+renderPlayers();
+}
+
+function addRandomPlayers(){
+if(tournamentStarted)return;
+const names=["Alex","Max","Shadow","Dragon","Squirtle","Blaze","Hunter","Ghost"];
+names.forEach(n=>{
+if(!players.includes(n))players.push(n);
+});
+renderPlayers();
+}
+
+function nextPowerOfTwo(n){
+let x=1;
+while(x<n)x*=2;
+return x;
+}
+
+function generateTournament(){
+if(players.length<2)return;
+
+tournamentStarted=true;
+
+const size=nextPowerOfTwo(players.length);
+let list=[...players];
+
+while(list.length<size)list.push(null);
+
+rounds=[];
+
+const first=[];
+for(let i=0;i<list.length;i+=2){
+first.push({
+a:list[i],
+b:list[i+1],
+winner:null
+});
+}
+rounds.push(first);
+
+let count=first.length;
+while(count>1){
+count/=2;
+const r=[];
+for(let i=0;i<count;i++){
+r.push({
+a:null,
+b:null,
+winner:null
+});
+}
+rounds.push(r);
+}
+
+updateBracket();
+}
+
+function updateBracket(){
+for(let r=1;r<rounds.length;r++){
+const previous=rounds[r-1];
+for(let m=0;m<rounds[r].length;m++){
+const p1=previous[m*2];
+const p2=previous[m*2+1];
+
+rounds[r][m].a=p1?.winner||null;
+rounds[r][m].b=p2?.winner||null;
+
+if(rounds[r][m].winner &&
+rounds[r][m].winner!==rounds[r][m].a &&
+rounds[r][m].winner!==rounds[r][m].b){
+rounds[r][m].winner=null;
+}
+}
+}
+renderBracket();
+}
+
+function selectWinner(roundIndex,matchIndex,player){
+if(!player)return;
+
+const match=rounds[roundIndex][matchIndex];
+
+if(match.winner===player){
+match.winner=null;
+}else{
+match.winner=player;
+}
+
+for(let r=roundIndex+1;r<rounds.length;r++){
+for(let m=0;m<rounds[r].length;m++){
+rounds[r][m].winner=null;
+}
+}
+
+updateBracket();
+}
+
+function renderBracket(){
+const area=document.getElementById("bracketArea");
+
+let html=`<div class="bracket-wrapper"><div class="bracket">`;
+
+rounds.forEach((round,r)=>{
+const title=r===rounds.length-1?"Final":r===rounds.length-2?"Semi Finals":`Round ${r+1}`;
+
+html+=`<div class="round ${r===rounds.length-1?"final":""}">
+<div class="round-title">${title}</div>`;
+
+round.forEach((match,m)=>{
+html+=`
+<div class="match">
+${teamHTML(match.a,match.winner===match.a,match.b&&match.winner===match.b&&match.winner!==match.a, r,m)}
+${teamHTML(match.b,match.winner===match.b,match.a&&match.winner===match.a&&match.winner!==match.b, r,m)}
+</div>`;
+});
+
+html+=`</div>`;
+});
+
+html+=`</div></div>`;
+
+const finalMatch=rounds[rounds.length-1][0];
+
+if(finalMatch&&finalMatch.winner){
+html+=`
+<div class="champion">
+<h2>🏆 Tournament Champion</h2>
+<div class="champion-name">${escapeHtml(finalMatch.winner)}</div>
+</div>`;
+}
+
+area.innerHTML=html;
+}
+
+function teamHTML(name,winner,loser,r,m){
+if(!name){
+return `<div class="team empty"><span>Waiting...</span></div>`;
+}
+
+return `<div class="team ${winner?"winner":""} ${loser?"loser":""}" onclick="selectWinner(${r},${m},${JSON.stringify(name)})">
+<span>${escapeHtml(name)}</span>
+<span class="score">${winner?"✓":"→"}</span>
+</div>`;
+}
+
+function resetTournament(){
+players=[];
+rounds=[];
+tournamentStarted=false;
+renderPlayers();
+
+document.getElementById("bracketArea").innerHTML=`
+<div class="empty-state">
+<h2>No Tournament Yet</h2>
+<p>Add players and generate the bracket.</p>
+</div>`;
+}
+
+function escapeHtml(str){
+return String(str)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+</script>
+
+</body>
+</html>
