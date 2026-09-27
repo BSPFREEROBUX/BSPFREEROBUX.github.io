@@ -1967,6 +1967,56 @@ body.theme-animations-off *::after{
     }
 }
 
+
+
+.zyphorModalMessage{color:#d8e0ef;font-size:13px;line-height:1.7;padding:14px 0 2px;white-space:normal;word-break:break-word}.zyphorModalMessage pre{white-space:pre-wrap}
+.zyphorModalOverlay{
+    position:fixed;
+    inset:0;
+    z-index:100000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:22px;
+    background:rgba(1,3,8,.78);
+    backdrop-filter:blur(18px) saturate(125%);
+    -webkit-backdrop-filter:blur(18px) saturate(125%);
+    opacity:0;
+    transition:opacity .2s ease;
+}
+.zyphorModalOverlay.open{display:flex;opacity:1}
+.zyphorModal{
+    position:relative;
+    width:min(520px,100%);
+    border:1px solid rgba(255,255,255,.11);
+    border-radius:26px;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 85% 0%,rgba(0,213,255,.12),transparent 30%),
+        radial-gradient(circle at 0% 100%,rgba(141,77,255,.10),transparent 34%),
+        linear-gradient(145deg,rgba(19,25,39,.98),rgba(8,12,21,.98));
+    box-shadow:0 45px 140px rgba(0,0,0,.62),0 0 0 1px rgba(0,213,255,.035) inset;
+    transform:translateY(12px) scale(.97);
+    transition:transform .22s cubic-bezier(.2,.8,.2,1);
+}
+.zyphorModalOverlay.open .zyphorModal{transform:none}
+.zyphorModalGlow{position:absolute;inset:-80px -60px auto auto;width:190px;height:190px;border-radius:50%;background:rgba(0,213,255,.10);filter:blur(55px);pointer-events:none}
+.zyphorModalHeader{position:relative;display:flex;align-items:center;gap:13px;padding:23px 24px 17px}
+.zyphorModalIcon{width:46px;height:46px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:15px;background:linear-gradient(145deg,rgba(0,213,255,.17),rgba(141,77,255,.12));border:1px solid rgba(0,213,255,.20);box-shadow:0 10px 28px rgba(0,0,0,.22);font-size:19px}
+.zyphorModalTitle{min-width:0;flex:1}.zyphorModalTitle h2{font-size:18px;line-height:1.2;letter-spacing:-.4px}.zyphorModalTitle p{margin-top:4px;color:#7f8ca3;font-size:11px;line-height:1.45}
+.zyphorModalClose{width:36px;height:36px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.035);color:#aeb8ca;cursor:pointer;font-size:16px;transition:.18s ease}.zyphorModalClose:hover{color:#fff;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14)}
+.zyphorModalBody{position:relative;padding:4px 24px 22px}
+.zyphorModalLabel{display:block;margin:0 0 8px;color:#9ba7ba;font-size:10px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase}
+.zyphorModalInput,.zyphorModalTextarea{width:100%;border:1px solid rgba(255,255,255,.09);outline:none;border-radius:14px;background:rgba(3,7,14,.68);color:#fff;padding:13px 14px;font:inherit;font-size:12px;transition:.18s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.zyphorModalInput:focus,.zyphorModalTextarea:focus{border-color:rgba(0,213,255,.42);box-shadow:0 0 0 3px rgba(0,213,255,.07)}
+.zyphorModalTextarea{min-height:112px;resize:vertical;line-height:1.55}
+.zyphorModalHint{margin-top:8px;color:#65738b;font-size:10px;line-height:1.5}
+.zyphorModalActions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+.zyphorModalButton{min-height:43px;padding:0 15px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);color:#dfe6f2;cursor:pointer;font-size:11px;font-weight:900;transition:.18s ease}.zyphorModalButton:hover{transform:translateY(-1px);background:rgba(255,255,255,.065);border-color:rgba(255,255,255,.13)}
+.zyphorModalButton.primary{background:linear-gradient(135deg,rgba(0,213,255,.18),rgba(77,124,255,.16));border-color:rgba(0,213,255,.28);color:#fff;box-shadow:0 12px 28px rgba(0,0,0,.18)}
+.zyphorModalButton.danger{background:linear-gradient(135deg,rgba(255,61,79,.16),rgba(141,77,255,.08));border-color:rgba(255,61,79,.26)}
+.zyphorLinkBox{display:flex;gap:8px;align-items:stretch;margin-top:4px}.zyphorLinkValue{flex:1;min-width:0;padding:14px;border:1px solid rgba(0,213,255,.15);border-radius:14px;background:rgba(0,213,255,.035);color:#71dcff;font-size:11px;line-height:1.55;word-break:break-all;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.zyphorCopyButton{width:48px;flex-shrink:0;border:1px solid rgba(0,213,255,.17);border-radius:14px;background:rgba(0,213,255,.07);color:#76ddff;cursor:pointer;font-size:16px;transition:.18s ease}.zyphorCopyButton:hover{background:rgba(0,213,255,.13);transform:translateY(-1px)}
+@media(max-width:560px){.zyphorModalOverlay{padding:12px}.zyphorModal{border-radius:21px}.zyphorModalHeader{padding:19px 18px 14px}.zyphorModalBody{padding:4px 18px 18px}.zyphorModalActions{flex-direction:column-reverse}.zyphorModalButton{width:100%}.zyphorLinkBox{flex-direction:column}.zyphorCopyButton{width:100%;min-height:43px}}
 </style>
 <style>
 
@@ -2608,8 +2658,8 @@ tabs.forEach(x=>x.addEventListener('click',()=>{tabs.forEach(t=>t.classList.remo
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target?.id==='admin-targetInput'){e.preventDefault();searchAndSelectTarget()}})
 function fmt(v){if(!v)return 'None';const d=new Date(v);return Number.isFinite(d.getTime())?d.toLocaleString():String(v)}
-async function api(path,opt={}){const base=String(backend||'').trim().replace(/\/+$/,'');const target=/^https?:\/\//i.test(path)?path:base+(path.startsWith('/')?path:'/'+path);opt.headers=Object.assign({'Authorization':token},selectedUser?{'X-Admin-Target':selectedUser}:{},opt.headers||{});let r;try{r=await fetch(target,opt)}catch(e){return {success:false,error:'backend_unreachable'}}let d;try{d=await r.json()}catch{d={success:false,error:'invalid_json',status:r.status}}if(r.status===401||r.status===403){alert('Administrator authorization failed.');return {success:false,error:'unauthorized'}}if(r.status===409&&d?.error==='selected_user_mismatch'){alert('Selected user changed. Please use the current selected user shown at the top of the Admin Center.');return {success:false,error:'selected_user_mismatch'}}return d}
-async function postAction(action,data={},confirmIt=false){if(!selectedUser)return {success:false,error:'no_user'};if(confirmIt&&!confirm('Are you sure?'))return {success:false,error:'cancelled'};return await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({action,username:selectedUser},data))})}
+async function api(path,opt={}){const base=String(backend||'').trim().replace(/\/+$/,'');const target=/^https?:\/\//i.test(path)?path:base+(path.startsWith('/')?path:'/'+path);opt.headers=Object.assign({'Authorization':token},selectedUser?{'X-Admin-Target':selectedUser}:{},opt.headers||{});let r;try{r=await fetch(target,opt)}catch(e){return {success:false,error:'backend_unreachable'}}let d;try{d=await r.json()}catch{d={success:false,error:'invalid_json',status:r.status}}if(r.status===401||r.status===403){zyphorAlert('Administrator authorization failed.');return {success:false,error:'unauthorized'}}if(r.status===409&&d?.error==='selected_user_mismatch'){zyphorAlert('Selected user changed. Please use the current selected user shown at the top of the Admin Center.');return {success:false,error:'selected_user_mismatch'}}return d}
+async function postAction(action,data={},confirmIt=false){if(!selectedUser)return {success:false,error:'no_user'};if(confirmIt&&!await zyphorConfirm('Are you sure?'))return {success:false,error:'cancelled'};return await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({action,username:selectedUser},data))})}
 function updateTargetUI(){
 const nameEl=document.getElementById('admin-selectedUserDisplay')
 const metaEl=document.getElementById('admin-selectedUserMeta')
@@ -2669,25 +2719,25 @@ refreshUser();
 async function loadUsers(){const q=encodeURIComponent(document.getElementById('admin-userSearch').value.trim());const status=encodeURIComponent(document.getElementById('admin-userStatus').value);const d=await api('/admin/control/users?q='+q+'&status='+status+'&limit=500');const box=document.getElementById('admin-userResults');box.innerHTML=(d.users||[]).map(u=>`<div class="admin-item admin-clickable ${selectedUser===u.username?'admin-selected':''}" onclick="selectUser('${encodeURIComponent(u.username)}')"><b>${esc(u.username)}</b><div class="admin-small">ID ${esc(u.id)} • ${u.sessionActive?'Online':'Offline'} • ${u.subscription?esc(u.subscription):'No subscription'} • ${u.banned?'BANNED':''}${u.frozen?' • FROZEN':''}</div></div>`).join('')||'<div class="admin-item">No users.</div>'}
 async function refreshUser(){if(!selectedUser)return;const d=await api('/admin/control/user?username='+encodeURIComponent(selectedUser));if(!d.success)return;userData=d.user;updateTargetUI();renderUser();loadSocial();loadTickets();loadSelectedHistory();loadCloudLogs();loadSystemMetrics()}
 function renderUser(){document.getElementById('admin-emptyUser').style.display='none';document.getElementById('admin-userPanel').style.display='block';document.getElementById('admin-selUserName').textContent=userData.username;document.getElementById('admin-selUserMeta').textContent='ID '+userData.id+' • Joined '+fmt(userData.createdAt);document.getElementById('admin-renameInput').value=userData.username;document.getElementById('admin-emailInput').value=userData.email||'';document.getElementById('admin-identityBox').textContent=JSON.stringify({username:userData.username,id:userData.id,createdAt:userData.createdAt,email:userData.email,emailVerifiedAt:userData.emailVerifiedAt,linkedDiscord:userData.linkedDiscord,roblox:userData.roblox,devicesCount:userData.devicesCount,permissions:userData.permissions},null,2);document.getElementById('admin-securityBox').textContent=JSON.stringify({twofa:userData.twofa,banned:userData.banned,banReason:userData.banReason,banMessage:userData.banMessage,banExpires:userData.banExpires,disabled:userData.disabled,muted:userData.muted,shadowBanned:userData.shadowBanned,frozen:userData.frozen,sessionActive:userData.sessionActive,latestIP:userData.latestIP,latestLoginAt:userData.latestLoginAt,latestSessionId:userData.latestSessionId,passwordSet:userData.passwordSet,passwordLength:userData.passwordLength,passwordChangedAt:userData.passwordChangedAt,activeResetCount:userData.activeResetCount},null,2);document.getElementById('admin-userKpis').innerHTML=[['Balance',userData.zyphium?.balance??0],['Transactions',(userData.zyphium?.transactions||[]).length],['Friends',(socialData?.friends||[]).length],['Tickets',(userData.tickets||[]).length],['Badges',Object.values(userData.badges||{}).filter(x=>x.earned).length],['Notifications',(userData.notifications||[]).length]].map(x=>`<div class="admin-kpi"><b>${esc(x[0])}</b><strong>${esc(x[1])}</strong></div>`).join('');document.getElementById('admin-permBox').innerHTML=Object.entries(userData.permissions||{}).map(([p,v])=>`<div class="admin-feature"><b>${esc(p)}</b><span>${v?'Granted':'Not granted'}</span><button class="admin-btn ${v?'red':'green'}" onclick="permission('${encodeURIComponent(p)}',${!v})">${v?'Revoke':'Grant'}</button></div>`).join('');document.getElementById('admin-badgeBox').innerHTML=Object.entries(userData.badges||{}).map(([n,b])=>`<div class="admin-item"><b>${esc(n)}</b><div class="admin-small">${b.earned?'Earned':'Not earned'} • Progress ${esc(b.current||0)}</div></div>`).join('')||'<div class="admin-item">No badges.</div>';document.getElementById('admin-badgesLarge').textContent=JSON.stringify(userData.badges||{},null,2);document.getElementById('admin-subscriptionBox').textContent=JSON.stringify(userData.subscription||{},null,2);document.getElementById('admin-resetBox').innerHTML=(userData.resetLinks||[]).map(x=>`<div class="admin-item"><b>Active reset link hidden</b><div class="admin-small">Expires ${fmt(x.expires)} • Prefix ${esc(x.tokenPrefix)}</div><button class="admin-btn red" onclick="revokeReset('${encodeURIComponent(x.tokenPrefix)}')">Revoke</button></div>`).join('')||'<div class="admin-item">No active reset links.</div>';document.getElementById('admin-giftBox').innerHTML=(userData.giftLinks||[]).map(g=>`<div class="admin-item"><b>${esc(g.amount)} Zyphium</b><div class="admin-small">${esc(g.link)} • ${g.claimed?'Claimed':'Active'}${g.revoked?' • Revoked':''}<br>${esc(g.message||'')}</div>${!g.claimed&&!g.revoked?`<button class="admin-btn red" onclick="revokeGift('${encodeURIComponent(g.id)}')">Revoke</button>`:''}</div>`).join('')||'<div class="admin-item">No gift links.</div>';document.getElementById('admin-notificationsBox').innerHTML=(userData.notifications||[]).map(n=>`<div class="admin-item"><b>${esc(n.type||'system')}</b><div class="admin-small">${fmt(n.time)} • ${n.seen?'Read':'Unread'}</div><div>${esc(n.message||'')}</div><button class="admin-btn red" onclick="deleteNotification('${encodeURIComponent(n.id||'')}')">Clear</button></div>`).join('')||'<div class="admin-item">No stored notifications.</div>';document.getElementById('admin-notesBox').innerHTML=(userData.adminNotes||[]).map(n=>`<div class="admin-item"><b>${fmt(n.time)}</b><div class="admin-small">${esc(n.by)}</div><div>${esc(n.text)}</div><button class="admin-btn red" onclick="clearNote('${encodeURIComponent(n.id)}')">Delete Note</button></div>`).join('')||'<div class="admin-item">No admin notes.</div>';document.getElementById('admin-loginHistory').textContent=JSON.stringify(userData.loginHistory||[],null,2);document.getElementById('admin-punishmentHistory').textContent=JSON.stringify({banHistory:userData.banHistory||[],punishmentHistory:userData.punishmentHistory||[]},null,2);document.getElementById('admin-storageBox').textContent=JSON.stringify(userData.storage||{},null,2);document.getElementById('admin-quickRelations').textContent=JSON.stringify({friends:socialData?.friends||[],incomingRequests:socialData?.incomingRequests||[],outgoingRequests:socialData?.outgoingRequests||[],dmCount:socialData?.chats?.length||0,tickets:userData.tickets||[]},null,2)}
-async function act(action,data={},confirmIt=false){const d=await postAction(action,data,confirmIt);if(d.success){await refreshUser();await loadUsers();await loadAudit()}else if(d.error!=='cancelled')alert(d.error||'Action failed');return d}
+async function act(action,data={},confirmIt=false){const d=await postAction(action,data,confirmIt);if(d.success){await refreshUser();await loadUsers();await loadAudit()}else if(d.error!=='cancelled')zyphorAlert(d.error||'Action failed');return d}
 async function toggle(field){await act('toggle',{field})}
-async function renameUser(){const v=document.getElementById('admin-renameInput').value.trim();if(!v||!selectedUser)return;const d=await postAction('rename',{newUsername:v});if(d.success){selectedUser=v;document.getElementById('admin-socialUser').value=v;document.getElementById('admin-ticketUser').value=v;await refreshUser();await loadUsers();await loadAudit()}else alert(d.error||'Action failed')}
+async function renameUser(){const v=document.getElementById('admin-renameInput').value.trim();if(!v||!selectedUser)return;const d=await postAction('rename',{newUsername:v});if(d.success){selectedUser=v;document.getElementById('admin-socialUser').value=v;document.getElementById('admin-ticketUser').value=v;await refreshUser();await loadUsers();await loadAudit()}else zyphorAlert(d.error||'Action failed')}
 async function setEmail(){const v=document.getElementById('admin-emailInput').value.trim();if(v)await act('set_email',{email:v,verified:false})}
 async function rotateSession(){await act('rotate_session')}
-async function newAccountCode(){const d=await act('reset_code');if(d.code)prompt('New account code',d.code)}
+async function newAccountCode(){const d=await act('reset_code');if(d.code)await zyphorPrompt('New account code',d.code)}
 async function banSelected(){await act('ban',{reason:document.getElementById('admin-banReason').value,banMessage:document.getElementById('admin-banMessage').value,durationMs:document.getElementById('admin-banDuration').value?Number(document.getElementById('admin-banDuration').value):null})}
 async function unbanSelected(){await act('unban')}
 async function permission(p,e){await act('set_permission',{permission:decodeURIComponent(p),enabled:e})}
 async function setBadgeFromInputs(earned){const name=document.getElementById('admin-badgeName').value.trim();const current=Number(document.getElementById('admin-badgeCurrent').value);if(name)await act('set_badge',{badge:name,earned,current})}
 async function reset2fa(){await act('reset_2fa',{},true)}
 async function logoutTarget(){await act('logout')}
-async function generateReset(){const d=await act('generate_reset');if(d.link)prompt('Password reset link',d.link)}
+async function generateReset(){const d=await act('generate_reset');if(d.link)await openZyphorResetLink(d.link)}
 async function revokeReset(prefix){await act('revoke_reset',{tokenPrefix:decodeURIComponent(prefix)})}
 async function revokeAllResets(){await act('revoke_all_resets',{},true)}
 async function money(action){if(!selectedUser){openUserSelector();return}const amount=Number(document.getElementById('admin-moneyAmount').value);const reason=document.getElementById('admin-moneyReason').value;const silent=document.getElementById('admin-moneySilent').checked;await act(action,{amount,reason,silent})}
-async function generateCodes(){const plan=document.getElementById('admin-codePlan').value;const quantity=Math.max(1,Math.min(100,Number(document.getElementById('admin-codeQuantity').value)||1));const durationValue=Math.max(1,Number(document.getElementById('admin-codeDuration').value)||1);const durationUnit=document.getElementById('admin-codeUnit').value;const lifetime=document.getElementById('admin-codeLifetime').checked;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'generate_codes',plan,quantity,durationValue,durationUnit,lifetime})});if(!d.success){alert(d.error||'Failed');return}document.getElementById('admin-codesBox').innerHTML=(d.codes||[]).map(x=>`<div class="admin-item"><b>${esc(x.code)}</b><div class="admin-small">${esc(x.planName||x.plan)} • ${x.lifetime?'Lifetime':esc(String(x.durationValue||''))+' '+esc(x.durationUnit||'')}</div><button class="admin-btn red" onclick="deleteCode('${encodeURIComponent(x.code)}')">Delete</button></div>`).join('')||'<div class="admin-item">No codes generated.</div>';await loadAudit()}
+async function generateCodes(){const plan=document.getElementById('admin-codePlan').value;const quantity=Math.max(1,Math.min(100,Number(document.getElementById('admin-codeQuantity').value)||1));const durationValue=Math.max(1,Number(document.getElementById('admin-codeDuration').value)||1);const durationUnit=document.getElementById('admin-codeUnit').value;const lifetime=document.getElementById('admin-codeLifetime').checked;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'generate_codes',plan,quantity,durationValue,durationUnit,lifetime})});if(!d.success){zyphorAlert(d.error||'Failed');return}document.getElementById('admin-codesBox').innerHTML=(d.codes||[]).map(x=>`<div class="admin-item"><b>${esc(x.code)}</b><div class="admin-small">${esc(x.planName||x.plan)} • ${x.lifetime?'Lifetime':esc(String(x.durationValue||''))+' '+esc(x.durationUnit||'')}</div><button class="admin-btn red" onclick="deleteCode('${encodeURIComponent(x.code)}')">Delete</button></div>`).join('')||'<div class="admin-item">No codes generated.</div>';await loadAudit()}
 async function loadCodes(){const d=await api('/admin/control/codes');document.getElementById('admin-codesBox').innerHTML=(d.codes||[]).slice(0,200).map(x=>`<div class="admin-item"><b>${esc(x.code)}</b><div class="admin-small">${esc(x.planName||x.plan)} • ${x.redeemedAt?'Redeemed':'Unused'} • ${x.lifetime?'Lifetime':esc(String(x.durationValue||''))+' '+esc(x.durationUnit||'')}</div><button class="admin-btn red" onclick="deleteCode('${encodeURIComponent(x.code)}')">Delete</button></div>`).join('')||'<div class="admin-item">No codes.</div>'}
-async function deleteCode(code){if(!confirm('Delete this subscription code?'))return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete_code',code:decodeURIComponent(code)})});if(!d.success)alert(d.error||'Failed');await loadCodes();await loadAudit()}
+async function deleteCode(code){if(!await zyphorConfirm('Delete this subscription code?'))return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete_code',code:decodeURIComponent(code)})});if(!d.success)zyphorAlert(d.error||'Failed');await loadCodes();await loadAudit()}
 async function assignSub(){await act('set_subscription',{plan:document.getElementById('admin-subPlan').value,lifetime:document.getElementById('admin-subLifetime').checked,durationValue:Number(document.getElementById('admin-subDuration').value),durationUnit:document.getElementById('admin-subUnit').value})}
 async function removeSub(){await act('remove_subscription')}
 async function setPfp(enabled){await act('set_pfp_permission',{enabled})}
@@ -2705,7 +2755,7 @@ async function clearNote(id){await act('clear_note',{noteId:decodeURIComponent(i
 async function completeQuest(){await act('complete_quest',{questId:document.getElementById('admin-questId').value.trim()})}
 async function exportUser(){if(!userData)return;downloadText((userData.username||'user')+'_admin_snapshot.json',JSON.stringify(userData,null,2),'application/json')}
 function downloadText(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-async function loadSocial(){if(!selectedUser){openUserSelector();return}const name=selectedUser.trim();const d=await api('/admin/control/social?username='+encodeURIComponent(name));if(!d.success){alert(d.error||'Failed');return}socialData=d;document.getElementById('admin-friendsBox').innerHTML=`<div class="admin-item"><b>Friends: ${d.friends.length}</b><div class="admin-small">Incoming ${d.incomingRequests.length} • Outgoing ${d.outgoingRequests.length} • Chats ${d.chats.length}</div></div>`+d.friends.map(x=>`<div class="admin-item admin-clickable" onclick="document.getElementById('admin-friendTarget').value='${esc(x)}'">${esc(x)}</div>`).join('');renderDms();if(userData)renderUser()}
+async function loadSocial(){if(!selectedUser){openUserSelector();return}const name=selectedUser.trim();const d=await api('/admin/control/social?username='+encodeURIComponent(name));if(!d.success){zyphorAlert(d.error||'Failed');return}socialData=d;document.getElementById('admin-friendsBox').innerHTML=`<div class="admin-item"><b>Friends: ${d.friends.length}</b><div class="admin-small">Incoming ${d.incomingRequests.length} • Outgoing ${d.outgoingRequests.length} • Chats ${d.chats.length}</div></div>`+d.friends.map(x=>`<div class="admin-item admin-clickable" onclick="document.getElementById('admin-friendTarget').value='${esc(x)}'">${esc(x)}</div>`).join('');renderDms();if(userData)renderUser()}
 function renderDms(){const q=document.getElementById('admin-dmSearch').value.trim().toLowerCase();if(!socialData){document.getElementById('admin-dmsBox').textContent='No user selected.';return}const chats=(socialData.chats||[]).map(c=>{const messages=(c.messages||[]).filter(m=>!q||String(m.text||'').toLowerCase().includes(q)||String(m.author||'').toLowerCase().includes(q));return Object.assign({},c,{messages})}).filter(c=>c.messages.length||!q);document.getElementById('admin-dmsBox').innerHTML=chats.map(c=>`<div style="margin-bottom:18px"><div><b>${esc(c.with)}</b> <span class="admin-pill">${c.areFriends?'Friends':'Not Friends'}</span><span class="admin-pill">${c.messages.length} shown</span></div>${c.messages.map(m=>`<div class="admin-msg"><div class="admin-meta">${fmt(m.time)} • ${esc(m.author||'Unknown')}</div><div>${esc(m.text||'')}</div>${m.attachment?`<div class="admin-small">Attachment: ${esc(m.attachment.name||'file')}</div>`:''}</div>`).join('')||'<div class="admin-small">No messages.</div>'}</div>`).join('')||'<div class="admin-small">No matching chats.</div>'}
 async function forceFriend(){const other=document.getElementById('admin-friendTarget').value.trim();if(other)await act('force_friend',{otherUsername:other})}
 async function removeFriend(){const other=document.getElementById('admin-friendTarget').value.trim();if(other)await act('remove_friend',{otherUsername:other},true)}
@@ -2714,20 +2764,20 @@ async function clearFriendRequests(){await act('clear_friend_requests',{},true)}
 async function loadTickets(){if(!selectedUser){openUserSelector();return}const name=selectedUser.trim();const d=await api('/admin/control/tickets?username='+encodeURIComponent(name)+'&status='+encodeURIComponent(document.getElementById('admin-ticketStatus').value));ticketData=d;ticketsRender()}
 function ticketsRender(){if(!ticketData){return}const q=document.getElementById('admin-ticketQuery').value.trim().toLowerCase();const list=(ticketData.tickets||[]).filter(t=>!q||String(t.title||'').toLowerCase().includes(q)||JSON.stringify(t.messages||[]).toLowerCase().includes(q));document.getElementById('admin-ticketList').innerHTML=list.map(t=>`<div class="admin-item admin-clickable ${selectedTicketId===t.id?'admin-selected':''}" onclick="selectTicket('${encodeURIComponent(t.id)}')"><b>${esc(t.title||'Untitled')}</b><div class="admin-small">${esc(t.id)} • ${esc(t.status)} • ${t.locked?'Locked':''}</div></div>`).join('')||'<div class="admin-item">No tickets.</div>'}
 function selectTicket(id){selectedTicketId=decodeURIComponent(id);const t=(ticketData.tickets||[]).find(x=>x.id===selectedTicketId);if(!t)return;document.getElementById('admin-ticketViewer').innerHTML=`<div><b>${esc(t.title||'Untitled')}</b> <span class="admin-pill">${esc(t.status)}</span> <span class="admin-pill">${t.locked?'Locked':'Unlocked'}</span></div><div class="admin-small">Ticket ${esc(t.id)} • Created ${fmt(t.createdAt)} • Closed ${fmt(t.closedAt)}</div><div style="margin-top:10px">${(t.messages||[]).map(m=>`<div class="admin-msg"><div class="admin-meta">${fmt(m.time)} • ${esc(m.author||'Unknown')}</div><div>${esc(m.text||'')}</div></div>`).join('')||'<div class="admin-small">No messages.</div>'}</div>`}
-async function ticketAction(action,confirmIt=false){if(!selectedTicketId)return;if(confirmIt&&!confirm('Are you sure?'))return;const data={action, ticketId:selectedTicketId};if(action==='assign')data.assignedTo=document.getElementById('admin-ticketAssign').value.trim();if(action==='tag')data.tag=document.getElementById('admin-ticketTag').value.trim();const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({username:selectedUser},data))});if(d.success){await loadTickets();await loadAudit()}else alert(d.error||'Action failed')}
-async function addChangelog(){const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_add',version:document.getElementById('admin-clVersion').value,title:document.getElementById('admin-clTitle').value,text:document.getElementById('admin-clText').value,published:document.getElementById('admin-clPublished').checked,pinned:document.getElementById('admin-clPinned').checked})});if(!d.success)alert(d.error||'Failed');await adminLoadChangelogs();await loadAudit()}
+async function ticketAction(action,confirmIt=false){if(!selectedTicketId)return;if(confirmIt&&!await zyphorConfirm('Are you sure?'))return;const data={action, ticketId:selectedTicketId};if(action==='assign')data.assignedTo=document.getElementById('admin-ticketAssign').value.trim();if(action==='tag')data.tag=document.getElementById('admin-ticketTag').value.trim();const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({username:selectedUser},data))});if(d.success){await loadTickets();await loadAudit()}else zyphorAlert(d.error||'Action failed')}
+async function addChangelog(){const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_add',version:document.getElementById('admin-clVersion').value,title:document.getElementById('admin-clTitle').value,text:document.getElementById('admin-clText').value,published:document.getElementById('admin-clPublished').checked,pinned:document.getElementById('admin-clPinned').checked})});if(!d.success)zyphorAlert(d.error||'Failed');await adminLoadChangelogs();await loadAudit()}
 async function adminLoadChangelogs(){const d=await api('/admin/control/changelogs');adminChangelogs=d.logs||[];document.getElementById('admin-changelogBox').innerHTML=adminChangelogs.map(c=>`<div class="admin-item admin-clickable ${selectedChangelogId===c.id?'admin-selected':''}" onclick="selectChangelog('${encodeURIComponent(c.id)}')"><b>${esc(c.version)} • ${esc(c.title)}</b><div class="admin-small">${c.published===false?'Unpublished':'Published'} • ${c.pinned?'Pinned':'Unpinned'} • ${fmt(c.time)}</div></div>`).join('')||'<div class="admin-item">No changelogs.</div>'}
 function selectChangelog(id){selectedChangelogId=decodeURIComponent(id);const c=adminChangelogs.find(x=>x.id===selectedChangelogId);if(!c)return;document.getElementById('admin-editClVersion').value=c.version||'';document.getElementById('admin-editClTitle').value=c.title||'';document.getElementById('admin-editClText').value=c.text||'';adminLoadChangelogs()}
-async function editChangelog(){if(!selectedChangelogId)return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_edit',changelogId:selectedChangelogId,version:document.getElementById('admin-editClVersion').value,title:document.getElementById('admin-editClTitle').value,text:document.getElementById('admin-editClText').value})});if(!d.success)alert(d.error||'Failed');await adminLoadChangelogs();await loadAudit()}
-async function toggleChangelog(action){if(!selectedChangelogId)return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_'+action,changelogId:selectedChangelogId})});if(!d.success)alert(d.error||'Failed');await adminLoadChangelogs();await loadAudit()}
-async function deleteChangelog(confirmIt=false){if(!selectedChangelogId)return;if(confirmIt&&!confirm('Delete selected changelog?'))return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_delete',changelogId:selectedChangelogId})});if(!d.success)alert(d.error||'Failed');selectedChangelogId='';await adminLoadChangelogs();await loadAudit()}
-async function duplicateChangelog(){if(!selectedChangelogId)return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_duplicate',changelogId:selectedChangelogId})});if(!d.success)alert(d.error||'Failed');await adminLoadChangelogs();await loadAudit()}
+async function editChangelog(){if(!selectedChangelogId)return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_edit',changelogId:selectedChangelogId,version:document.getElementById('admin-editClVersion').value,title:document.getElementById('admin-editClTitle').value,text:document.getElementById('admin-editClText').value})});if(!d.success)zyphorAlert(d.error||'Failed');await adminLoadChangelogs();await loadAudit()}
+async function toggleChangelog(action){if(!selectedChangelogId)return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_'+action,changelogId:selectedChangelogId})});if(!d.success)zyphorAlert(d.error||'Failed');await adminLoadChangelogs();await loadAudit()}
+async function deleteChangelog(confirmIt=false){if(!selectedChangelogId)return;if(confirmIt&&!await zyphorConfirm('Delete selected changelog?'))return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_delete',changelogId:selectedChangelogId})});if(!d.success)zyphorAlert(d.error||'Failed');selectedChangelogId='';await adminLoadChangelogs();await loadAudit()}
+async function duplicateChangelog(){if(!selectedChangelogId)return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changelog_duplicate',changelogId:selectedChangelogId})});if(!d.success)zyphorAlert(d.error||'Failed');await adminLoadChangelogs();await loadAudit()}
 function exportChangelogs(){downloadText('zyphor_changelogs.json',JSON.stringify(adminChangelogs,null,2),'application/json')}
 async function loadBulkUsers(){const q=encodeURIComponent(document.getElementById('admin-bulkQuery').value.trim());const status=encodeURIComponent(document.getElementById('admin-bulkStatus').value);const d=await api('/admin/control/users?q='+q+'&status='+status+'&limit=500');document.getElementById('admin-bulkUsers').innerHTML=(d.users||[]).map(u=>`<label class="admin-item"><input type="checkbox" ${bulkSelected.has(u.username)?'checked':''} onchange="toggleBulk('${encodeURIComponent(u.username)}',this.checked)"> <b>${esc(u.username)}</b><div class="admin-small">${u.subscription?esc(u.subscription):'No subscription'} • ${u.sessionActive?'Online':'Offline'}</div></label>`).join('')||'<div class="admin-item">No users.</div>'}
 function toggleBulk(name,checked){name=decodeURIComponent(name);if(checked)bulkSelected.add(name);else bulkSelected.delete(name)}
 function selectAllBulk(){document.querySelectorAll('#admin-bulkUsers input[type=checkbox]').forEach(x=>{x.checked=true;const name=decodeURIComponent(x.closest('label').querySelector('b').textContent);bulkSelected.add(name)})}
 function clearBulkSelection(){bulkSelected.clear();loadBulkUsers()}
-async function bulkAction(subAction){const usernames=[...bulkSelected];if(!usernames.length){alert('Select at least one user.');return}const d=await api('/admin/control/bulk-action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:subAction,usernames})});document.getElementById('admin-bulkResult').textContent=JSON.stringify(d,null,2);await loadUsers();await loadBulkUsers();await loadAudit()}
+async function bulkAction(subAction){const usernames=[...bulkSelected];if(!usernames.length){zyphorAlert('Select at least one user.');return}const d=await api('/admin/control/bulk-action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:subAction,usernames})});document.getElementById('admin-bulkResult').textContent=JSON.stringify(d,null,2);await loadUsers();await loadBulkUsers();await loadAudit()}
 async function globalSearch(){const q=document.getElementById('admin-globalQuery').value.trim();if(!q)return;const d=await api('/admin/control/search-all?q='+encodeURIComponent(q));document.getElementById('admin-globalResults').textContent=JSON.stringify(d,null,2)}
 async function loadSelectedHistory(){if(!selectedUser)return;const d=await api('/admin/page-history?username='+encodeURIComponent(selectedUser));document.getElementById('admin-pageHistoryBox').textContent=JSON.stringify(d,null,2)}
 async function exportHistory(){const txt=document.getElementById('admin-pageHistoryBox').textContent||'[]';downloadText((selectedUser||'user')+'_page_history.json',txt,'application/json')}
@@ -2738,7 +2788,7 @@ function visitPreset(days){const to=new Date();const from=new Date(Date.now()-da
 function applyAnalyticsRange(){const from=document.getElementById('admin-analyticsFrom').value;const to=document.getElementById('admin-analyticsTo').value;if(from)document.getElementById('admin-visitFrom').value=from;if(to)document.getElementById('admin-visitTo').value=to;loadVisits()}
 async function loadSystemMetrics(){const d=await api('/admin/control/metrics');document.getElementById('admin-systemMetrics').textContent=JSON.stringify(d,null,2)}
 async function loadAudit(){const d=await api('/admin/control/audit?limit=1000');document.getElementById('admin-auditBox').innerHTML=(d.logs||[]).map(x=>`<div class="admin-item"><b>${esc(x.action)}</b><div class="admin-small">${fmt(x.time)} • ${esc(x.admin)} → ${esc(x.target||'System')}</div><div class="admin-pre" style="margin-top:8px">${esc(JSON.stringify(x.details||{},null,2))}</div></div>`).join('')||'<div class="admin-item">No audit entries.</div>'}
-async function clearAudit(confirmIt=false){if(confirmIt&&!confirm('Clear the administrator audit log?'))return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'audit_cleanup'})});if(!d.success)alert(d.error||'Failed');await loadAudit()}
+async function clearAudit(confirmIt=false){if(confirmIt&&!await zyphorConfirm('Clear the administrator audit log?'))return;const d=await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'audit_cleanup'})});if(!d.success)zyphorAlert(d.error||'Failed');await loadAudit()}
 async function loadOverview(){await loadSystemMetrics();await loadVisits();document.getElementById('admin-recentActivity').innerHTML=(userData?.pageHistory||[]).slice(0,20).map(x=>`<div class="admin-item"><b>${esc(x.page||'Unknown')}</b><div class="admin-small">${fmt(x.time)}</div></div>`).join('')||'<div class="admin-item">Select a user to show user activity.</div>'}
 async function refreshEverything(){await loadUsers();await adminLoadChangelogs();await loadAudit();await loadSystemMetrics();await loadVisits();if(selectedUser)await refreshUser();}
 async function logoutAdmin(){localStorage.removeItem('Token');location.href='/login.html'}
@@ -2758,43 +2808,43 @@ async function powerExecute(encoded){
     const key=decodeURIComponent(encoded);
     if(['ban','ban_perm','ban_1h','ban_24h','ban_7d','ban_30d','unban','logout','rotate_session','disable','enable','mute','unmute','shadow','unshadow','freeze','unfreeze','vip','unvip','reset_2fa','revoke_all_resets','generate_reset','resend_link_code','reset_code','unlink_discord','unlink_roblox','remove_pfp','grant_pfp','revoke_pfp','send_notification','send_push','clear_notifications','mark_notifications_read','set_email','verify_email','clear_pending_email','remove_subscription','sub_infinity','sub_endless','sub_ascended','sub_inf_life','sub_end_life','sub_asc_life','sub_7d','sub_30d','sub_90d','set_balance','credit','debit','send_gift','revoke_all_gifts','set_note','clear_notes','complete_quest','badge_earn','badge_revoke','force_friend','remove_friend','force_friend_request','clear_friend_requests','ticket_close','ticket_reopen','ticket_lock','ticket_unlock','ticket_escalate','ticket_archive','ticket_unarchive','ticket_delete','perm_Administrator_on','perm_Support_on','perm_VIP_on','perm_Family_on','perm_Moderator_on','perm_Administrator_off','perm_Support_off','perm_VIP_off','perm_Family_off','perm_Moderator_off'].includes(key) && !powerNeedUser())return;
     const generic={};
-    if(key==='ban'||key.startsWith('ban_')){const durations={ban_perm:null,ban_1h:3600000,ban_24h:86400000,ban_7d:604800000,ban_30d:2592000000};const reason=prompt('Ban reason',userData?.banReason||'Administrative action')||'Administrative action';const message=prompt('Ban screen message',userData?.banMessage||reason)||reason;await act('ban',{reason,banMessage:message,durationMs:durations[key]??null});return}
-    if(key==='generate_reset'){const d=await act('generate_reset');if(d.link)prompt('One-time reset link. It will not be stored in the admin panel.',d.link);return}
+    if(key==='ban'||key.startsWith('ban_')){await zyphorBanFlow(key);return}
+    if(key==='generate_reset'){const d=await act('generate_reset');if(d.link)await openZyphorResetLink(d.link);return}
     if(key.startsWith('perm_')){const [_,perm,state]=key.split('_');await act('set_permission',{permission:perm,enabled:state==='on'});return}
     if(key.startsWith('sub_')){const plan=key.includes('infinity')||key.includes('inf_')?'infinity':key.includes('endless')||key.includes('end_')?'endless':'ascended';const life=key.includes('_life');const days=key==='sub_7d'?7:key==='sub_30d'?30:key==='sub_90d'?90:30;await act('set_subscription',{plan,lifetime:life,durationValue:days,durationUnit:'days'});return}
-    if(key==='set_balance'||key==='credit'||key==='debit'||key==='send_gift'){const amount=Number(prompt('Amount','0'));if(!Number.isFinite(amount)||amount<=0)return;await act(key,{amount,reason:prompt('Reason','Admin action')||''});return}
-    if(key==='set_note'){const text=prompt('Admin note');if(text)await act('set_note',{reason:text});return}
-    if(key==='clear_notes'){if(confirm('Delete all admin notes for the selected user?')){const notes=userData?.adminNotes||[];for(const n of notes)await act('clear_note',{noteId:n.id});}return}
-    if(key==='complete_quest'){const q=prompt('Quest ID');if(q)await act('complete_quest',{questId:q});return}
-    if(key==='badge_earn'||key==='badge_revoke'){const name=prompt('Badge name');if(name)await act('set_badge',{badge:name,earned:key==='badge_earn'});return}
-    if(key.startsWith('ticket_')){const ticketId=prompt('Ticket ID',userData?.tickets?.[0]?.id||'');if(ticketId)await act(key,{ticketId});return}
-    if(key==='force_friend'||key==='remove_friend'||key==='force_friend_request'){const other=prompt('Other username');if(other)await act(key,{otherUsername:other});return}
-    if(key==='set_email'){const email=prompt('Email',userData?.email||'');if(email)await act('set_email',{email,verified:false});return}
+    if(key==='set_balance'||key==='credit'||key==='debit'||key==='send_gift'){const amount=Number(await zyphorPrompt('Amount','0'));if(!Number.isFinite(amount)||amount<=0)return;await act(key,{amount,reason:await zyphorPrompt('Reason','Admin action')||''});return}
+    if(key==='set_note'){const text=await zyphorPrompt('Admin note');if(text)await act('set_note',{reason:text});return}
+    if(key==='clear_notes'){if(await zyphorConfirm('Delete all admin notes for the selected user?')){const notes=userData?.adminNotes||[];for(const n of notes)await act('clear_note',{noteId:n.id});}return}
+    if(key==='complete_quest'){const q=await zyphorPrompt('Quest ID');if(q)await act('complete_quest',{questId:q});return}
+    if(key==='badge_earn'||key==='badge_revoke'){const name=await zyphorPrompt('Badge name');if(name)await act('set_badge',{badge:name,earned:key==='badge_earn'});return}
+    if(key.startsWith('ticket_')){const ticketId=await zyphorPrompt('Ticket ID',userData?.tickets?.[0]?.id||'');if(ticketId)await act(key,{ticketId});return}
+    if(key==='force_friend'||key==='remove_friend'||key==='force_friend_request'){const other=await zyphorPrompt('Other username');if(other)await act(key,{otherUsername:other});return}
+    if(key==='set_email'){const email=await zyphorPrompt('Email',userData?.email||'');if(email)await act('set_email',{email,verified:false});return}
     if(key==='verify_email'){await act('set_email',{email:userData?.email||'',verified:true});return}
     if(key==='clear_pending_email'){await act('set_field',{field:'pendingEmail',value:false});return}
     if(key==='disable'||key==='enable'||key==='mute'||key==='unmute'||key==='shadow'||key==='unshadow'||key==='freeze'||key==='unfreeze'||key==='vip'||key==='unvip'){
         const map={disable:['disabled',true],enable:['disabled',false],mute:['muted',true],unmute:['muted',false],shadow:['shadowBanned',true],unshadow:['shadowBanned',false],freeze:['frozen',true],unfreeze:['frozen',false],vip:['vip',true],unvip:['vip',false]};const [field,value]=map[key];await act('set_field',{field,value});return;
     }
     if(key==='grant_pfp'||key==='revoke_pfp'){await act('set_pfp_permission',{enabled:key==='grant_pfp'});return}
-    if(key==='send_notification'){const message=prompt('Notification');if(message)await act('send_notification',{title:'Zyphor',message,type:'admin',silent:false});return}
-    if(key==='send_push'){const message=prompt('Push notification');if(message)await act('send_push',{title:'Zyphor',message});return}
+    if(key==='send_notification'){const message=await zyphorPrompt('Notification');if(message)await act('send_notification',{title:'Zyphor',message,type:'admin',silent:false});return}
+    if(key==='send_push'){const message=await zyphorPrompt('Push notification');if(message)await act('send_push',{title:'Zyphor',message});return}
     if(key==='social'){await loadSocial();return} if(key==='tickets'){await loadTickets();return} if(key==='cloud'){await loadCloudLogs();return} if(key==='history'){await loadSelectedHistory();return}
-    if(key==='export'){exportUser();return} if(key==='reload'){await refreshUser();return} if(key==='metrics'){await loadSystemMetrics();return} if(key==='audit'){await loadAudit();return} if(key==='audit_clear'){await clearAudit(true);return} if(key==='visits'){await loadVisits();return} if(key==='search'){const q=prompt('Global search');if(q){document.getElementById('admin-globalQuery').value=q;await globalSearch()}return}
-    if(key==='message_create'){document.getElementById('admin-globalTitle').focus();alert('Use the Global Website Messages composer below to publish with a duration.');return}
+    if(key==='export'){exportUser();return} if(key==='reload'){await refreshUser();return} if(key==='metrics'){await loadSystemMetrics();return} if(key==='audit'){await loadAudit();return} if(key==='audit_clear'){await clearAudit(true);return} if(key==='visits'){await loadVisits();return} if(key==='search'){const q=await zyphorPrompt('Global search');if(q){document.getElementById('admin-globalQuery').value=q;await globalSearch()}return}
+    if(key==='message_create'){document.getElementById('admin-globalTitle').focus();zyphorAlert('Use the Global Website Messages composer below to publish with a duration.');return}
     if(key==='message_expire'){await expireAllGlobalMessages();return} if(key==='message_clear'){await clearAllGlobalMessages();return}
     if(key==='message_pin_latest'||key==='message_unpin_latest'){const d=await api('/admin/control/site-messages');const last=(d.messages||[]).sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0))[0];if(last)await adminSystemAction(key==='message_pin_latest'?'site_message_pin':'site_message_unpin',{messageId:last.id});await loadPowerMessages();return}
     if(key==='maintenance'||key==='readonly'||key==='registration'||key==='login_lock'){const k={maintenance:'maintenance',readonly:'readOnly',registration:'registrationLocked',login_lock:'loginLocked'}[key];const d=await api('/admin/control/system-settings');const current=d.settings?.[k]===true;await adminSystemAction('system_toggle',{key:k,enabled:!current});return}
-    if(key==='health'){await loadSystemMetrics();const d=await api('/admin/control/system-settings');alert('System health loaded.\n\n'+JSON.stringify(d,null,2));return}
-    if(key==='message_refresh'){await loadPowerMessages();return} if(key==='settings_refresh'){const d=await api('/admin/control/system-settings');alert(JSON.stringify(d.settings||{},null,2));return} if(key==='everything'){await refreshEverything();return} if(key==='dashboard'){openDashboardHome();return}
+    if(key==='health'){await loadSystemMetrics();const d=await api('/admin/control/system-settings');zyphorAlert('System health loaded.\n\n'+JSON.stringify(d,null,2));return}
+    if(key==='message_refresh'){await loadPowerMessages();return} if(key==='settings_refresh'){const d=await api('/admin/control/system-settings');zyphorAlert(JSON.stringify(d.settings||{},null,2));return} if(key==='everything'){await refreshEverything();return} if(key==='dashboard'){openDashboardHome();return}
     await act(key,generic);
 }
 
 async function adminSystemAction(action,data={}){return await api('/admin/control/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({action},data))})}
 
-async function createGlobalMessage(){const title=document.getElementById('admin-globalTitle').value.trim();const message=document.getElementById('admin-globalMessage').value.trim();const type=document.getElementById('admin-globalType').value;const start=document.getElementById('admin-globalStart').value;const end=document.getElementById('admin-globalEnd').value;const d=await adminSystemAction('site_message_create',{title,message,type,startAt:start?new Date(start).toISOString():new Date().toISOString(),endAt:end?new Date(end).toISOString():null,pinned:false});if(d.success){document.getElementById('admin-globalMessage').value='';await loadPowerMessages()}else alert(d.error||'Failed')}
+async function createGlobalMessage(){const title=document.getElementById('admin-globalTitle').value.trim();const message=document.getElementById('admin-globalMessage').value.trim();const type=document.getElementById('admin-globalType').value;const start=document.getElementById('admin-globalStart').value;const end=document.getElementById('admin-globalEnd').value;const d=await adminSystemAction('site_message_create',{title,message,type,startAt:start?new Date(start).toISOString():new Date().toISOString(),endAt:end?new Date(end).toISOString():null,pinned:false});if(d.success){document.getElementById('admin-globalMessage').value='';await loadPowerMessages()}else zyphorAlert(d.error||'Failed')}
 async function loadPowerMessages(){const d=await api('/admin/control/site-messages');const list=document.getElementById('admin-globalMessagesList');if(!list)return;list.innerHTML=(d.messages||[]).sort((a,b)=>{const pa=a.pinned===true?1:0;const pb=b.pinned===true?1:0;if(pa!==pb)return pb-pa;return new Date(b.createdAt||0)-new Date(a.createdAt||0)}).map(m=>`<div class="admin-item"><b>${esc(m.title||'Zyphor')} <span class="admin-pill">${esc(m.type||'info')}</span>${m.pinned?'<span class="admin-pill admin-warn">Pinned • Top</span>':''}</b><div class="admin-small">${fmt(m.createdAt)} • Starts ${fmt(m.startAt)} • Ends ${m.endAt?fmt(m.endAt):'No expiry'} • ${m.active===false?'Inactive':'Active'}</div><div style="margin-top:5px">${esc(m.message||'')}</div><div class="admin-toolbar" style="margin-top:8px"><button class="admin-btn" onclick="adminSystemAction('site_message_update',{messageId:'${encodeURIComponent(m.id)}',active:${m.active===false}}).then(loadPowerMessages)">${m.active===false?'Enable':'Disable'}</button><button class="admin-btn cyan" onclick="adminSystemAction('${m.pinned?'site_message_unpin':'site_message_pin'}',{messageId:'${encodeURIComponent(m.id)}'}).then(loadPowerMessages)">${m.pinned?'Unpin from Top':'Pin to Top'}</button><button class="admin-btn red" onclick="adminSystemAction('site_message_delete',{messageId:'${encodeURIComponent(m.id)}'}).then(loadPowerMessages)">Delete</button></div></div>`).join('')||'<div class="admin-item">No website messages.</div>'}
-async function expireAllGlobalMessages(){if(!confirm('Expire every global website message now?'))return;await adminSystemAction('site_message_expire_all');await loadPowerMessages()}
-async function clearAllGlobalMessages(){if(!confirm('Delete every global website message?'))return;await adminSystemAction('site_message_clear_all');await loadPowerMessages()}
+async function expireAllGlobalMessages(){if(!await zyphorConfirm('Expire every global website message now?'))return;await adminSystemAction('site_message_expire_all');await loadPowerMessages()}
+async function clearAllGlobalMessages(){if(!await zyphorConfirm('Delete every global website message?'))return;await adminSystemAction('site_message_clear_all');await loadPowerMessages()}
 
 let adminInitialized=false
 async function adminInit(){
@@ -3051,7 +3101,7 @@ function importTheme(event){
             applyTheme(imported,true)
             toggleThemeDrawer(true)
         }catch{
-            alert("Invalid Zyphor theme JSON.")
+            zyphorAlert("Invalid Zyphor theme JSON.")
         }
         event.target.value=""
     }
@@ -3319,12 +3369,12 @@ async function selectPfp(){
         const data=await safeJson(r)
 
         if(!data){
-            alert("Failed to check PFP permissions.")
+            zyphorAlert("Failed to check PFP permissions.")
             return
         }
 
         if(!data.permission || data.permission.enabled!==true){
-            alert("You do not have permission to upload a profile picture.")
+            zyphorAlert("You do not have permission to upload a profile picture.")
             return
         }
 
@@ -3335,7 +3385,7 @@ async function selectPfp(){
                 (data.cooldownRemaining%3600000)/60000
             )
 
-            alert(
+            zyphorAlert(
                 "You can change your profile picture again in "+
                 hours+"h "+minutes+"m."
             )
@@ -3346,7 +3396,7 @@ async function selectPfp(){
         document.getElementById("pfpInput").click()
 
     }catch{
-        alert("Failed to check PFP status.")
+        zyphorAlert("Failed to check PFP status.")
     }
 }
 
@@ -3392,28 +3442,28 @@ async function uploadPfp(event){
                     (data.remaining%3600000)/60000
                 )
 
-                alert(
+                zyphorAlert(
                     "You can change your profile picture again in "+
                     hours+"h "+minutes+"m."
                 )
 
             }else if(data && data.error==="no_pfp_permission"){
 
-                alert("You do not have permission to upload a profile picture.")
+                zyphorAlert("You do not have permission to upload a profile picture.")
 
             }else if(data && data.error==="gif_requires_administrator"){
 
-                alert("Only administrators can use GIF profile pictures.")
+                zyphorAlert("Only administrators can use GIF profile pictures.")
 
             }else if(data && data.error==="file_too_large"){
 
                 const max=Math.round(data.maxSize/1024/1024)
 
-                alert("This file is too large. Maximum size: "+max+" MB.")
+                zyphorAlert("This file is too large. Maximum size: "+max+" MB.")
 
             }else{
 
-                alert("Failed to upload profile picture.")
+                zyphorAlert("Failed to upload profile picture.")
 
             }
 
@@ -3429,7 +3479,7 @@ async function uploadPfp(event){
 
     }catch{
 
-        alert("Failed to upload profile picture.")
+        zyphorAlert("Failed to upload profile picture.")
 
     }finally{
 
@@ -3571,7 +3621,7 @@ function closeSupport(){
 
 function emailSupport(){
 
-    alert(
+    zyphorAlert(
         "Please email:\n\nZyphor@Zyphor.cc\n\nWe'll get back to you as soon as possible."
     )
 
@@ -3626,7 +3676,7 @@ async function readAllNotifications(){
 
         await loadNotifications()
     }catch(err){
-        alert(err?.message||"Unable to mark notifications as read")
+        zyphorAlert(err?.message||"Unable to mark notifications as read")
     }finally{
         if(button){
             button.disabled=false
@@ -4043,6 +4093,138 @@ document.addEventListener("keydown",event=>{
 })
 
 init()
+</script>
+
+<div id="zyphorModalOverlay" class="zyphorModalOverlay" aria-hidden="true">
+    <div class="zyphorModal" role="dialog" aria-modal="true" aria-labelledby="zyphorModalTitle">
+        <div class="zyphorModalGlow"></div>
+        <div class="zyphorModalHeader">
+            <div id="zyphorModalIcon" class="zyphorModalIcon">✦</div>
+            <div class="zyphorModalTitle">
+                <h2 id="zyphorModalTitle">Zyphor</h2>
+                <p id="zyphorModalSubtitle">Zyphor administrative action</p>
+            </div>
+            <button class="zyphorModalClose" type="button" onclick="closeZyphorModal()">×</button>
+        </div>
+        <div id="zyphorModalBody" class="zyphorModalBody"></div>
+    </div>
+</div>
+
+
+<script>
+let zyphorModalResolver=null;
+let zyphorModalKeyHandler=null;
+
+function closeZyphorModal(value=null){
+    const overlay=document.getElementById('zyphorModalOverlay');
+    if(!overlay)return;
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    if(zyphorModalKeyHandler){document.removeEventListener('keydown',zyphorModalKeyHandler);zyphorModalKeyHandler=null}
+    const resolver=zyphorModalResolver;
+    zyphorModalResolver=null;
+    if(resolver)resolver(value);
+}
+
+
+async function zyphorAlert(message,options={}){
+    const {title='Zyphor',subtitle='System notification',icon='✦',buttonText='OK'}=options;
+    return new Promise(resolve=>{
+        const overlay=document.getElementById('zyphorModalOverlay');
+        const body=document.getElementById('zyphorModalBody');
+        if(!overlay||!body){resolve();return}
+        document.getElementById('zyphorModalIcon').textContent=icon;
+        document.getElementById('zyphorModalTitle').textContent=title;
+        document.getElementById('zyphorModalSubtitle').textContent=subtitle;
+        body.innerHTML=`<div class="zyphorModalMessage">${esc(String(message)).replace(/\n/g,'<br>')}</div><div class="zyphorModalActions"><button type="button" class="zyphorModalButton primary" onclick="closeZyphorModal(true)">${esc(buttonText)}</button></div>`;
+        zyphorModalResolver=resolve;
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+        zyphorModalKeyHandler=e=>{if(e.key==='Escape'||e.key==='Enter')closeZyphorModal(true)};
+        document.addEventListener('keydown',zyphorModalKeyHandler);
+        requestAnimationFrame(()=>document.querySelector('.zyphorModalButton.primary')?.focus());
+    });
+}
+
+async function zyphorConfirm(message,options={}){
+    const {title='Confirm action',subtitle='Please confirm this Zyphor action.',icon='⚠️',confirmText='Confirm',danger=false}=options;
+    return new Promise(resolve=>{
+        const overlay=document.getElementById('zyphorModalOverlay');
+        const body=document.getElementById('zyphorModalBody');
+        if(!overlay||!body){resolve(false);return}
+        document.getElementById('zyphorModalIcon').textContent=icon;
+        document.getElementById('zyphorModalTitle').textContent=title;
+        document.getElementById('zyphorModalSubtitle').textContent=subtitle;
+        body.innerHTML=`<div class="zyphorModalMessage">${esc(String(message)).replace(/\n/g,'<br>')}</div><div class="zyphorModalActions"><button type="button" class="zyphorModalButton" onclick="closeZyphorModal(false)">Cancel</button><button type="button" class="zyphorModalButton ${danger?'danger':'primary'}" onclick="closeZyphorModal(true)">${esc(confirmText)}</button></div>`;
+        zyphorModalResolver=resolve;
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+        zyphorModalKeyHandler=e=>{if(e.key==='Escape')closeZyphorModal(false);else if(e.key==='Enter')closeZyphorModal(true)};
+        document.addEventListener('keydown',zyphorModalKeyHandler);
+        requestAnimationFrame(()=>document.querySelector('.zyphorModalButton.primary,.zyphorModalButton.danger')?.focus());
+    });
+}
+
+async function zyphorPrompt(message,defaultValue='',options={}){
+    return await openZyphorInput({title:options.title||'Zyphor input',subtitle:options.subtitle||message,icon:options.icon||'✎',label:options.label||'Value',value:defaultValue,placeholder:options.placeholder||'',hint:options.hint||'',multiline:!!options.multiline,confirmText:options.confirmText||'Continue',danger:!!options.danger});
+}
+
+function openZyphorInput({title='Zyphor',subtitle='Enter the requested information.',icon='✦',label='Value',value='',placeholder='',hint='',multiline=false,confirmText='Continue',danger=false}={}){
+    return new Promise(resolve=>{
+        const overlay=document.getElementById('zyphorModalOverlay');
+        const body=document.getElementById('zyphorModalBody');
+        document.getElementById('zyphorModalIcon').textContent=icon;
+        document.getElementById('zyphorModalTitle').textContent=title;
+        document.getElementById('zyphorModalSubtitle').textContent=subtitle;
+        const field=multiline?`<textarea id="zyphorModalField" class="zyphorModalTextarea" placeholder="${esc(String(placeholder))}">${esc(String(value))}</textarea>`:`<input id="zyphorModalField" class="zyphorModalInput" value="${esc(String(value))}" placeholder="${esc(String(placeholder))}" autocomplete="off">`;
+        body.innerHTML=`<label class="zyphorModalLabel" for="zyphorModalField">${esc(label)}</label>${field}${hint?`<div class="zyphorModalHint">${esc(hint)}</div>`:''}<div class="zyphorModalActions"><button type="button" class="zyphorModalButton" onclick="closeZyphorModal(null)">Cancel</button><button type="button" class="zyphorModalButton ${danger?'danger':'primary'}" onclick="submitZyphorInput()">${esc(confirmText)}</button></div>`;
+        zyphorModalResolver=resolve;
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+        zyphorModalKeyHandler=e=>{if(e.key==='Escape'){closeZyphorModal(null)}else if(e.key==='Enter'&&!multiline&&document.activeElement?.id==='zyphorModalField'){e.preventDefault();submitZyphorInput()}};
+        document.addEventListener('keydown',zyphorModalKeyHandler);
+        requestAnimationFrame(()=>{const input=document.getElementById('zyphorModalField');input?.focus();input?.select()});
+    });
+}
+
+function submitZyphorInput(){const input=document.getElementById('zyphorModalField');closeZyphorModal(input?input.value:null)}
+
+function openZyphorResetLink(link){
+    return new Promise(resolve=>{
+        const overlay=document.getElementById('zyphorModalOverlay');
+        const body=document.getElementById('zyphorModalBody');
+        document.getElementById('zyphorModalIcon').textContent='🔐';
+        document.getElementById('zyphorModalTitle').textContent='Password reset link';
+        document.getElementById('zyphorModalSubtitle').textContent='A secure one-time link has been generated for the selected account.';
+        body.innerHTML=`<div class="zyphorModalLabel">One-time reset link</div><div class="zyphorLinkBox"><div id="zyphorResetLinkValue" class="zyphorLinkValue">${esc(String(link))}</div><button type="button" class="zyphorCopyButton" title="Copy reset link" onclick="copyZyphorResetLink()">⧉</button></div><div class="zyphorModalHint">This link is shown here only so you can copy it. It is not stored in the admin panel.</div><div class="zyphorModalActions"><button type="button" class="zyphorModalButton primary" onclick="closeZyphorModal(true)">Done</button></div>`;
+        zyphorModalResolver=resolve;
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+        zyphorModalKeyHandler=e=>{if(e.key==='Escape')closeZyphorModal(true)};
+        document.addEventListener('keydown',zyphorModalKeyHandler);
+        requestAnimationFrame(()=>document.querySelector('.zyphorModalButton.primary')?.focus());
+    });
+}
+
+async function copyZyphorResetLink(){
+    const value=document.getElementById('zyphorResetLinkValue')?.textContent||'';
+    try{await navigator.clipboard.writeText(value);const b=document.querySelector('.zyphorCopyButton');if(b){b.textContent='✓';setTimeout(()=>{if(b)b.textContent='⧉'},1200)}}catch{}
+}
+
+async function zyphorBanFlow(key){
+    const durations={ban_perm:null,ban_1h:3600000,ban_24h:86400000,ban_7d:604800000,ban_30d:2592000000};
+    const reason=await openZyphorInput({title:'Ban user',subtitle:selectedUser?`Choose the reason for banning ${selectedUser}.`:'Choose a ban reason.',icon:'⛔',label:'Ban reason',value:userData?.banReason||'Administrative action',placeholder:'Enter the ban reason...',hint:'This reason is recorded with the moderation action.',confirmText:'Continue',danger:true});
+    if(reason===null)return;
+    const cleanReason=String(reason).trim()||'Administrative action';
+    const message=await openZyphorInput({title:'Ban screen message',subtitle:'Choose what the banned user will see on the ban screen.',icon:'💬',label:'Ban screen message',value:userData?.banMessage||cleanReason,placeholder:'Enter the message...',hint:'This message is displayed to the affected account.',confirmText:'Ban user',danger:true,multiline:true});
+    if(message===null)return;
+    await act('ban',{reason:cleanReason,banMessage:String(message).trim()||cleanReason,durationMs:durations[key]??null});
+}
 </script>
 </body>
 </html>
