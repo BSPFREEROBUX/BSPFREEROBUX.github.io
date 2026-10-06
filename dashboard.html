@@ -24,9 +24,6 @@ body {
 }
 
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     min-height: 100vh;
     overflow: hidden;
 }
@@ -46,9 +43,9 @@ body {
 }
 
 .spinner {
-    width: 52px;
-    height: 52px;
-    border: 5px solid rgba(255,255,255,.15);
+    width: 54px;
+    height: 54px;
+    border: 5px solid rgba(255,255,255,.12);
     border-top-color: #fff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -57,6 +54,22 @@ body {
 .loading-text {
     font-size: 18px;
     color: #aaa;
+    text-align: center;
+}
+
+.progress {
+    width: min(420px, 90%);
+    height: 5px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #fff;
+    transition: width .3s ease;
 }
 
 .video-screen {
@@ -78,6 +91,12 @@ video {
     width: 100%;
     max-height: 75vh;
     background: #000;
+}
+
+.video-title {
+    font-size: 18px;
+    color: #aaa;
+    text-align: center;
 }
 
 .continue {
@@ -115,14 +134,18 @@ video {
 
 <div class="screen loading" id="loadingScreen">
     <div class="spinner"></div>
-    <div class="loading-text" id="loadingText">Loading your dashboard...</div>
+    <div class="loading-text" id="loadingText">Initializing secure session...</div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
 </div>
 
 <div class="screen video-screen" id="videoScreen">
+    <div class="video-title" id="videoTitle"></div>
+
     <div class="video-wrapper">
-        <video id="introVideo" playsinline preload="auto">
-            <source src="Images/ssstik.io_1791315223498.mp4" type="video/mp4">
-        </video>
+        <video id="introVideo" playsinline preload="auto"></video>
     </div>
 
     <button class="continue" id="continueButton">Continue</button>
@@ -132,59 +155,216 @@ video {
 (function() {
     const loadingScreen = document.getElementById("loadingScreen");
     const loadingText = document.getElementById("loadingText");
+    const progressBar = document.getElementById("progressBar");
     const videoScreen = document.getElementById("videoScreen");
     const video = document.getElementById("introVideo");
+    const videoTitle = document.getElementById("videoTitle");
     const continueButton = document.getElementById("continueButton");
 
     const phone = localStorage.getItem("Phone");
     const page = phone === "1" ? "1dashboard.html" : "0dashboard.html";
     const destination = "https://zyphor.cc/" + page;
 
-    let videoFinished = false;
-
-    const loadingMessages = [
-        "Loading your dashboard...",
-        "Preparing your session...",
-        "Checking your account...",
-        "Loading Zyphor...",
-        "Almost ready..."
+    const stages = [
+        {
+            video: "Images/ssstik.io_1791315223498.mp4",
+            title: "Preparing your Zyphor session..."
+        },
+        {
+            video: "Images/s2.mp4",
+            title: "Loading your account environment..."
+        },
+        {
+            video: "Images/s3.mp4",
+            title: "Synchronizing your session..."
+        },
+        {
+            video: "Images/s4.mp4",
+            title: "Finalizing security checks..."
+        },
+        {
+            video: "Images/s5.mp4",
+            title: "Preparing your dashboard..."
+        }
     ];
 
-    let messageIndex = 0;
-
-    const messageInterval = setInterval(function() {
-        messageIndex++;
-
-        if (messageIndex < loadingMessages.length) {
-            loadingText.textContent = loadingMessages[messageIndex];
+    const loadingStages = [
+        {
+            duration: 8000,
+            messages: [
+                "Initializing secure session...",
+                "Connecting to Zyphor...",
+                "Checking session information...",
+                "Preparing your dashboard...",
+                "Loading account environment...",
+                "Almost ready..."
+            ]
+        },
+        {
+            duration: 6500,
+            messages: [
+                "Processing session data...",
+                "Synchronizing account information...",
+                "Checking dashboard configuration...",
+                "Preparing interface...",
+                "Almost finished..."
+            ]
+        },
+        {
+            duration: 7000,
+            messages: [
+                "Verifying dashboard access...",
+                "Loading user configuration...",
+                "Preparing your experience...",
+                "Synchronizing services...",
+                "Finishing setup..."
+            ]
+        },
+        {
+            duration: 7500,
+            messages: [
+                "Final security verification...",
+                "Checking system configuration...",
+                "Preparing final resources...",
+                "Loading dashboard components...",
+                "Everything is nearly ready..."
+            ]
+        },
+        {
+            duration: 8500,
+            messages: [
+                "Finalizing your session...",
+                "Loading remaining resources...",
+                "Preparing dashboard navigation...",
+                "Completing initialization...",
+                "Redirect preparation complete..."
+            ]
         }
-    }, 1000);
+    ];
 
-    setTimeout(function() {
-        clearInterval(messageInterval);
+    let currentStage = 0;
+    let videoFinished = false;
+    let maxWatched = 0;
+    let waitingForPlay = false;
+
+    function runLoading(stage) {
+        loadingScreen.style.display = "flex";
+        videoScreen.style.display = "none";
+
+        const config = loadingStages[stage];
+        const start = Date.now();
+
+        let messageIndex = 0;
+
+        loadingText.textContent = config.messages[0];
+        progressBar.style.width = "0%";
+
+        const interval = setInterval(function() {
+            const elapsed = Date.now() - start;
+            const percentage = Math.min((elapsed / config.duration) * 100, 100);
+
+            progressBar.style.width = percentage + "%";
+
+            const newIndex = Math.min(
+                Math.floor((elapsed / config.duration) * config.messages.length),
+                config.messages.length - 1
+            );
+
+            if (newIndex !== messageIndex) {
+                messageIndex = newIndex;
+                loadingText.textContent = config.messages[messageIndex];
+            }
+
+            if (elapsed >= config.duration) {
+                clearInterval(interval);
+                progressBar.style.width = "100%";
+
+                setTimeout(function() {
+                    showVideo();
+                }, 900);
+            }
+        }, 100);
+    }
+
+    function showVideo() {
         loadingScreen.style.display = "none";
         videoScreen.style.display = "flex";
 
-        video.currentTime = 0;
-        video.play().catch(function() {});
-    }, 5000);
+        videoFinished = false;
+        maxWatched = 0;
+        waitingForPlay = false;
 
-    video.addEventListener("ended", function() {
-        videoFinished = true;
-        continueButton.classList.add("ready");
+        continueButton.classList.remove("ready");
+        videoTitle.textContent = stages[currentStage].title;
+
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+
+        video.src = stages[currentStage].video;
+        video.load();
+
+        video.play().catch(function() {
+            waitingForPlay = true;
+            videoTitle.textContent = stages[currentStage].title + " Tap the video to begin.";
+        });
+    }
+
+    video.addEventListener("click", function() {
+        if (waitingForPlay) {
+            waitingForPlay = false;
+            video.play().catch(function() {});
+        }
     });
 
     video.addEventListener("timeupdate", function() {
-        if (video.duration && video.currentTime >= video.duration - 0.05) {
+        if (!video.duration || !isFinite(video.duration)) {
+            return;
+        }
+
+        if (video.currentTime > maxWatched + 0.7) {
+            video.currentTime = maxWatched;
+            return;
+        }
+
+        if (video.currentTime > maxWatched) {
+            maxWatched = video.currentTime;
+        }
+
+        if (video.currentTime >= video.duration - 0.15) {
             videoFinished = true;
             continueButton.classList.add("ready");
         }
     });
 
-    continueButton.addEventListener("click", function() {
-        if (!videoFinished) return;
-        window.location.replace(destination);
+    video.addEventListener("seeking", function() {
+        if (video.currentTime > maxWatched + 0.7) {
+            video.currentTime = maxWatched;
+        }
     });
+
+    video.addEventListener("ended", function() {
+        videoFinished = true;
+        maxWatched = video.duration;
+        continueButton.classList.add("ready");
+    });
+
+    continueButton.addEventListener("click", function() {
+        if (!videoFinished) {
+            return;
+        }
+
+        currentStage++;
+
+        if (currentStage < stages.length) {
+            continueButton.classList.remove("ready");
+            runLoading(currentStage);
+        } else {
+            window.location.replace(destination);
+        }
+    });
+
+    runLoading(0);
 })();
 </script>
 
