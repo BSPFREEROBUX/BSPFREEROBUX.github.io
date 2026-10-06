@@ -99,15 +99,26 @@ video {
     text-align: center;
 }
 
-.continue {
+.actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+button {
     border: 0;
     border-radius: 12px;
     padding: 14px 30px;
     font-size: 16px;
     font-weight: 700;
+    cursor: pointer;
+}
+
+.continue {
     background: #fff;
     color: #000;
-    cursor: pointer;
     opacity: .35;
     pointer-events: none;
     transition: .2s;
@@ -118,8 +129,14 @@ video {
     pointer-events: auto;
 }
 
-.continue.ready:hover {
-    transform: translateY(-2px);
+.skip {
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+.skip:hover {
+    background: #333;
 }
 
 @keyframes spin {
@@ -148,7 +165,10 @@ video {
         <video id="introVideo" playsinline preload="auto"></video>
     </div>
 
-    <button class="continue" id="continueButton">Continue</button>
+    <div class="actions">
+        <button class="continue" id="continueButton">Continue</button>
+        <button class="skip" id="skipButton">Skip</button>
+    </div>
 </div>
 
 <script>
@@ -160,123 +180,87 @@ video {
     const video = document.getElementById("introVideo");
     const videoTitle = document.getElementById("videoTitle");
     const continueButton = document.getElementById("continueButton");
+    const skipButton = document.getElementById("skipButton");
 
     const phone = localStorage.getItem("Phone");
     const page = phone === "1" ? "1dashboard.html" : "0dashboard.html";
     const destination = "https://zyphor.cc/" + page;
 
-    const stages = [
+    const videos = [
         {
             video: "Images/ssstik.io_1791315223498.mp4",
             title: "Preparing your Zyphor session..."
         },
-        {
-            video: "Images/s2.mp4",
-            title: "Loading your account environment..."
-        },
-        {
-            video: "Images/s3.mp4",
-            title: "Synchronizing your session..."
-        },
-        {
-            video: "Images/s4.mp4",
-            title: "Finalizing security checks..."
-        },
-        {
-            video: "Images/s5.mp4",
-            title: "Preparing your dashboard..."
-        }
+        ...Array.from({ length: 13 }, (_, i) => ({
+            video: "Images/s" + (i + 2) + ".mp4",
+            title: "Loading Zyphor stage " + (i + 2) + "..."
+        }))
     ];
 
     const loadingStages = [
-        {
-            duration: 8000,
-            messages: [
-                "Initializing secure session...",
-                "Connecting to Zyphor...",
-                "Checking session information...",
-                "Preparing your dashboard...",
-                "Loading account environment...",
-                "Almost ready..."
-            ]
-        },
-        {
-            duration: 6500,
-            messages: [
-                "Processing session data...",
-                "Synchronizing account information...",
-                "Checking dashboard configuration...",
-                "Preparing interface...",
-                "Almost finished..."
-            ]
-        },
-        {
-            duration: 7000,
-            messages: [
-                "Verifying dashboard access...",
-                "Loading user configuration...",
-                "Preparing your experience...",
-                "Synchronizing services...",
-                "Finishing setup..."
-            ]
-        },
-        {
-            duration: 7500,
-            messages: [
-                "Final security verification...",
-                "Checking system configuration...",
-                "Preparing final resources...",
-                "Loading dashboard components...",
-                "Everything is nearly ready..."
-            ]
-        },
-        {
-            duration: 8500,
-            messages: [
-                "Finalizing your session...",
-                "Loading remaining resources...",
-                "Preparing dashboard navigation...",
-                "Completing initialization...",
-                "Redirect preparation complete..."
-            ]
-        }
+        ["Initializing secure session...", "Connecting to Zyphor...", "Checking session information...", "Preparing your dashboard..."],
+        ["Processing session data...", "Synchronizing account information...", "Checking dashboard configuration...", "Preparing interface..."],
+        ["Verifying dashboard access...", "Loading user configuration...", "Preparing your experience...", "Synchronizing services..."],
+        ["Checking security configuration...", "Loading secure resources...", "Preparing account services...", "Finalizing checks..."],
+        ["Loading dashboard components...", "Synchronizing services...", "Preparing navigation...", "Almost finished..."],
+        ["Checking session integrity...", "Loading interface resources...", "Preparing your workspace...", "Continuing initialization..."],
+        ["Synchronizing account state...", "Loading preferences...", "Preparing dashboard data...", "Almost ready..."],
+        ["Loading remaining resources...", "Checking configuration...", "Preparing final components...", "Continuing..."],
+        ["Optimizing dashboard...", "Loading user interface...", "Synchronizing services...", "Almost there..."],
+        ["Preparing final resources...", "Checking account state...", "Loading dashboard...", "Finalizing..."],
+        ["Completing initialization...", "Loading remaining components...", "Preparing your session...", "Almost done..."],
+        ["Performing final checks...", "Loading final resources...", "Preparing dashboard access...", "Finishing..."],
+        ["Finalizing your session...", "Preparing dashboard navigation...", "Completing setup...", "Ready soon..."],
+        ["Final dashboard preparation...", "Finishing initialization...", "Loading final interface...", "Redirect preparation complete..."]
     ];
 
+    const skipCode = "SominRules";
     let currentStage = 0;
     let videoFinished = false;
     let maxWatched = 0;
     let waitingForPlay = false;
+    let loadingTimer = null;
+
+    function hasSkipPermission() {
+        return localStorage.getItem("ZyphorSkipRules") === skipCode;
+    }
+
+    function saveSkipPermission() {
+        localStorage.setItem("ZyphorSkipRules", skipCode);
+    }
 
     function runLoading(stage) {
         loadingScreen.style.display = "flex";
         videoScreen.style.display = "none";
 
-        const config = loadingStages[stage];
+        const messages = loadingStages[Math.min(stage, loadingStages.length - 1)];
+        const duration = 8000 + stage * 350;
         const start = Date.now();
-
         let messageIndex = 0;
 
-        loadingText.textContent = config.messages[0];
+        loadingText.textContent = messages[0];
         progressBar.style.width = "0%";
 
-        const interval = setInterval(function() {
+        clearInterval(loadingTimer);
+
+        loadingTimer = setInterval(function() {
             const elapsed = Date.now() - start;
-            const percentage = Math.min((elapsed / config.duration) * 100, 100);
+            const percentage = Math.min((elapsed / duration) * 100, 100);
 
             progressBar.style.width = percentage + "%";
 
             const newIndex = Math.min(
-                Math.floor((elapsed / config.duration) * config.messages.length),
-                config.messages.length - 1
+                Math.floor((elapsed / duration) * messages.length),
+                messages.length - 1
             );
 
             if (newIndex !== messageIndex) {
                 messageIndex = newIndex;
-                loadingText.textContent = config.messages[messageIndex];
+                loadingText.textContent = messages[messageIndex];
             }
 
-            if (elapsed >= config.duration) {
-                clearInterval(interval);
+            if (elapsed >= duration) {
+                clearInterval(loadingTimer);
                 progressBar.style.width = "100%";
 
                 setTimeout(function() {
@@ -295,19 +279,31 @@ video {
         waitingForPlay = false;
 
         continueButton.classList.remove("ready");
-        videoTitle.textContent = stages[currentStage].title;
+        videoTitle.textContent = videos[currentStage].title;
 
         video.pause();
         video.removeAttribute("src");
         video.load();
 
-        video.src = stages[currentStage].video;
+        video.src = videos[currentStage].video;
         video.load();
 
         video.play().catch(function() {
             waitingForPlay = true;
-            videoTitle.textContent = stages[currentStage].title + " Tap the video to begin.";
+            videoTitle.textContent = videos[currentStage].title + " Tap the video to begin.";
         });
+    }
+
+    function nextStage() {
+        currentStage++;
+
+        if (currentStage >= videos.length) {
+            window.location.replace(destination);
+            return;
+        }
+
+        continueButton.classList.remove("ready");
+        runLoading(currentStage);
     }
 
     video.addEventListener("click", function() {
@@ -354,14 +350,24 @@ video {
             return;
         }
 
-        currentStage++;
+        nextStage();
+    });
 
-        if (currentStage < stages.length) {
-            continueButton.classList.remove("ready");
-            runLoading(currentStage);
-        } else {
-            window.location.replace(destination);
+    skipButton.addEventListener("click", function() {
+        if (!hasSkipPermission()) {
+            const code = prompt("Enter the skip code:");
+
+            if (code !== skipCode) {
+                alert("Invalid code.");
+                return;
+            }
+
+            saveSkipPermission();
         }
+
+        video.pause();
+        clearInterval(loadingTimer);
+        nextStage();
     });
 
     runLoading(0);
