@@ -8,13 +8,185 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5179004241080538"
         crossorigin="anonymous"></script>
 
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.screen {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.loading {
+    flex-direction: column;
+    gap: 24px;
+}
+
+.spinner {
+    width: 52px;
+    height: 52px;
+    border: 5px solid rgba(255,255,255,.15);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    font-size: 18px;
+    color: #aaa;
+}
+
+.video-screen {
+    display: none;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.video-wrapper {
+    width: min(900px, 100%);
+    border-radius: 18px;
+    overflow: hidden;
+    background: #111;
+    box-shadow: 0 20px 70px rgba(0,0,0,.5);
+}
+
+video {
+    display: block;
+    width: 100%;
+    max-height: 75vh;
+    background: #000;
+}
+
+.continue {
+    border: 0;
+    border-radius: 12px;
+    padding: 14px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    opacity: .35;
+    pointer-events: none;
+    transition: .2s;
+}
+
+.continue.ready {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.continue.ready:hover {
+    transform: translateY(-2px);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="screen loading" id="loadingScreen">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">Loading your dashboard...</div>
+</div>
+
+<div class="screen video-screen" id="videoScreen">
+    <div class="video-wrapper">
+        <video id="introVideo" playsinline preload="auto">
+            <source src="Images/ssstik.io_1791315223498.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <button class="continue" id="continueButton">Continue</button>
+</div>
+
 <script>
-(function(){
+(function() {
+    const loadingScreen = document.getElementById("loadingScreen");
+    const loadingText = document.getElementById("loadingText");
+    const videoScreen = document.getElementById("videoScreen");
+    const video = document.getElementById("introVideo");
+    const continueButton = document.getElementById("continueButton");
+
     const phone = localStorage.getItem("Phone");
     const page = phone === "1" ? "1dashboard.html" : "0dashboard.html";
-    window.location.replace("https://zyphor.cc/" + page);
+    const destination = "https://zyphor.cc/" + page;
+
+    let videoFinished = false;
+
+    const loadingMessages = [
+        "Loading your dashboard...",
+        "Preparing your session...",
+        "Checking your account...",
+        "Loading Zyphor...",
+        "Almost ready..."
+    ];
+
+    let messageIndex = 0;
+
+    const messageInterval = setInterval(function() {
+        messageIndex++;
+
+        if (messageIndex < loadingMessages.length) {
+            loadingText.textContent = loadingMessages[messageIndex];
+        }
+    }, 1000);
+
+    setTimeout(function() {
+        clearInterval(messageInterval);
+        loadingScreen.style.display = "none";
+        videoScreen.style.display = "flex";
+
+        video.currentTime = 0;
+        video.play().catch(function() {});
+    }, 5000);
+
+    video.addEventListener("ended", function() {
+        videoFinished = true;
+        continueButton.classList.add("ready");
+    });
+
+    video.addEventListener("timeupdate", function() {
+        if (video.duration && video.currentTime >= video.duration - 0.05) {
+            videoFinished = true;
+            continueButton.classList.add("ready");
+        }
+    });
+
+    continueButton.addEventListener("click", function() {
+        if (!videoFinished) return;
+        window.location.replace(destination);
+    });
 })();
 </script>
-</head>
-<body></body>
+
+</body>
 </html>
