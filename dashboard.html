@@ -234,7 +234,7 @@ button {
         videoScreen.style.display = "none";
 
         const messages = loadingStages[Math.min(stage, loadingStages.length - 1)];
-        const duration = 8000 + stage * 350;
+        const duration = Math.random() * 800 + 400;
         const start = Date.now();
         let messageIndex = 0;
 
@@ -262,12 +262,9 @@ button {
             if (elapsed >= duration) {
                 clearInterval(loadingTimer);
                 progressBar.style.width = "100%";
-
-                setTimeout(function() {
-                    showVideo();
-                }, 900);
+                showVideo();
             }
-        }, 100);
+        }, 30);
     }
 
     function showVideo() {
