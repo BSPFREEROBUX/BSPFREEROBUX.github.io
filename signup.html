@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#06070b">
 <meta name="color-scheme" content="dark">
 <title>Zyphor — Create Account</title>
@@ -45,10 +45,193 @@ button{cursor:pointer}
 .submit{width:100%;height:58px;margin-top:16px;border:1px solid rgba(255,255,255,.1);border-radius:17px;background:linear-gradient(110deg,#7e50f0,#6f78ff 52%,#42c5ef);font-size:11px;font-weight:900;box-shadow:0 18px 45px rgba(96,74,230,.26),inset 0 1px 0 rgba(255,255,255,.3);transition:.22s ease}.submit:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 25px 55px rgba(96,74,230,.34),inset 0 1px 0 rgba(255,255,255,.34)}.submit:disabled{opacity:.56;cursor:not-allowed}.submit-row{display:flex;align-items:center;justify-content:center;gap:12px}.arrow{font-size:16px;transition:.2s}.submit:hover:not(:disabled) .arrow{transform:translateX(4px)}
 .message{min-height:18px;padding-top:8px;font-size:9px;font-weight:800;line-height:1.4}.bad{color:var(--red)}.good{color:var(--green)}
 .bottom{display:flex;justify-content:center;align-items:center;gap:6px;padding-top:13px;color:#646e81;font-size:9px}.bottom a{color:#af98ff;text-decoration:none;font-weight:900}.bottom a:hover{text-decoration:underline}.secure-note{display:flex;align-items:flex-start;justify-content:center;gap:7px;text-align:center;font-size:8px;color:#545e71;line-height:1.5;margin:13px auto 0;max-width:500px}.shield{width:14px;height:14px;border-radius:50%;display:grid;place-items:center;flex:0 0 14px;border:1px solid rgba(75,224,166,.13);color:var(--green);font-size:7px}
+.site-footer{position:relative;z-index:1;width:min(1220px,calc(100% - 40px));margin:0 auto;padding:0 0 24px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 18px;color:#697286;font-size:10px;text-align:center}.site-footer .copyright{color:#929bad}.site-footer .credit{color:#697286}.site-footer a{color:#b6a0ff;text-decoration:none;font-weight:800;transition:color .2s ease}.site-footer a:hover{color:#65d7ff;text-decoration:underline}.site-footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}.site-footer .separator{color:#353b4a}@media(max-width:620px){.site-footer{width:100%;padding:16px 16px 22px;gap:10px 14px;font-size:10px}.site-footer .links{width:100%;gap:18px}}
 .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.backdrop{position:absolute;inset:0;background:rgba(2,2,7,.78);backdrop-filter:blur(14px)}.modal-box{position:relative;width:min(820px,100%);max-height:calc(100vh - 40px);display:flex;flex-direction:column;border:1px solid var(--line2);border-radius:24px;background:linear-gradient(155deg,rgba(22,25,38,.98),rgba(9,10,16,.99));box-shadow:0 45px 120px rgba(0,0,0,.65);overflow:hidden}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:19px 22px;border-bottom:1px solid var(--line)}.modal-head small{display:block;color:#6f798c;font-size:7px;font-weight:900;letter-spacing:.16em;margin-bottom:4px}.modal-head h3{margin:0;font-family:"Space Grotesk",sans-serif;font-size:21px}.close{width:38px;height:38px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);color:#8993a5;font-size:20px}.close:hover{color:#fff;background:rgba(255,255,255,.07)}.modal-body{padding:22px;overflow:auto;color:#9aa3b3;font-size:10px;line-height:1.75}.modal-body h2{margin:0 0 12px;font-family:"Space Grotesk",sans-serif;color:#f3f5f8;font-size:25px}.modal-body h3{margin:18px 0 6px;font-size:12px;color:#e0e4ea}.modal-body p{margin:6px 0}.modal-body ul{padding-left:20px}
 @media(max-width:1050px){.shell{grid-template-columns:1fr;max-width:760px}.hero{display:none}.form{padding:44px}.policy-grid{grid-template-columns:1fr}}
 @media(max-width:620px){.topbar{top:12px;left:13px;right:13px}.brand span{display:none}.logo{width:39px;height:39px;border-radius:12px}.live{width:36px;height:36px;padding:0;justify-content:center}.live span{display:none}.page{padding:62px 0 0}.shell{min-height:100vh;border:0;border-radius:0}.form{padding:34px 15px 24px}.form h2{font-size:31px}.form-head{margin-bottom:22px}.policy-card{padding:13px}.doc{height:205px}.submit{height:56px}.bottom{padding-top:14px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+:root{
+  --line:rgba(178,190,255,.12);
+  --line2:rgba(188,198,255,.22);
+  --shadow:0 48px 140px rgba(0,0,0,.62);
+  --radius:30px;
+  color-scheme:dark;
+  -webkit-tap-highlight-color:transparent;
+}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{min-width:280px;background-color:#05060a;background-image:radial-gradient(ellipse at 14% 8%,rgba(127,82,255,.2),transparent 34%),radial-gradient(ellipse at 87% 78%,rgba(50,164,255,.15),transparent 36%),radial-gradient(ellipse at 50% 115%,rgba(117,70,205,.09),transparent 38%),linear-gradient(135deg,#04050a,#090b13 50%,#05060a)}
+body:before{opacity:.7;background-size:48px 48px;mask-image:linear-gradient(to bottom,#000 0%,transparent 90%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,transparent 90%)}
+body:after{z-index:0}
+.topbar{top:15px;left:clamp(12px,2.2vw,30px);right:clamp(12px,2.2vw,30px);padding:10px 13px;border:1px solid rgba(255,255,255,.075);border-radius:20px;background:rgba(7,8,14,.56);box-shadow:0 12px 44px rgba(0,0,0,.18);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+.logo{position:relative;overflow:hidden;isolation:isolate;border:1px solid rgba(255,255,255,.24);background:linear-gradient(145deg,#c0a0ff 0%,#8270ff 48%,#52dcff 100%);box-shadow:0 10px 35px rgba(116,87,255,.34),inset 0 1px 0 rgba(255,255,255,.5)}
+.logo:after,.hero-mark:after{pointer-events:none}
+.brand strong{font-family:"Space Grotesk",sans-serif;font-size:13px}
+.brand span{font-size:8px;letter-spacing:.2em}
+.live{border-color:rgba(75,224,166,.13);background:rgba(75,224,166,.045);padding:10px 13px}
+.page{position:relative;z-index:1;padding:100px 26px 34px;min-height:100svh;min-height:100vh}
+.shell{isolation:isolate;border-color:rgba(176,184,255,.14);background:linear-gradient(135deg,rgba(255,255,255,.055),transparent 28%),linear-gradient(145deg,rgba(17,19,31,.97),rgba(6,7,12,.98));box-shadow:0 38px 110px rgba(0,0,0,.55),0 0 0 1px rgba(155,119,255,.035),inset 0 1px 0 rgba(255,255,255,.055)}
+.shell:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 76% 0%,rgba(119,98,255,.075),transparent 42%),radial-gradient(ellipse at 100% 65%,rgba(59,195,255,.04),transparent 40%)}
+.hero{background:radial-gradient(circle at 22% 22%,rgba(148,96,255,.14),transparent 34%),linear-gradient(180deg,rgba(255,255,255,.012),transparent);}
+.eyebrow{box-shadow:inset 0 1px 0 rgba(255,255,255,.035);letter-spacing:.14em}
+.hero-mark{border:1px solid rgba(255,255,255,.18);background:linear-gradient(145deg,#c0a0ff 0%,#8270ff 48%,#52dcff 100%);box-shadow:0 25px 65px rgba(111,76,247,.34),inset 0 1px 0 rgba(255,255,255,.42)}
+.feature{transition:transform .22s ease,border-color .22s ease,background .22s ease}
+.feature:hover{transform:translateX(3px);border-color:rgba(173,145,255,.2);background:rgba(255,255,255,.03)}
+.form{padding:54px clamp(28px,4.5vw,58px) 40px}
+.form-head{align-items:center;flex-wrap:wrap}
+.kicker{color:#a3acc1}
+.secure{border:1px solid rgba(75,224,166,.12);background:rgba(75,224,166,.035);border-radius:99px;padding:8px 10px}
+.form h2{font-size:clamp(32px,3.1vw,42px);line-height:1.04}
+.intro{max-width:540px;font-size:12px;line-height:1.85}
+.fields{gap:18px}
+.field label{font-size:11px;gap:12px}
+.meta{font-size:8px;white-space:nowrap}
+.control{height:59px;border-radius:17px;border-color:rgba(255,255,255,.09);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.control:focus-within{border-color:rgba(166,130,255,.78);box-shadow:0 0 0 4px rgba(135,91,255,.12),0 16px 38px rgba(0,0,0,.2)}
+.control input{font-size:13px;min-width:0}
+.control input::placeholder{color:#727b8f;opacity:.8}
+.prefix{flex:0 0 44px}
+.password-toggle{font-size:9px;letter-spacing:.06em;border-radius:10px;margin-right:5px;padding:0 12px;min-width:54px}
+.password-toggle:hover{background:rgba(255,255,255,.055)}
+.strength{margin-top:11px;grid-template-columns:minmax(0,1fr) auto}
+.strength span{font-size:8px;letter-spacing:.035em;min-width:94px}
+.bar{height:5px}
+.policy-grid{gap:14px;margin-top:26px}
+.policy-card{border-color:rgba(176,184,255,.11);border-radius:21px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012));box-shadow:inset 0 1px 0 rgba(255,255,255,.025);transition:border-color .2s ease,background .2s ease}
+.policy-card:focus-within{border-color:rgba(158,123,255,.33)}
+.policy-head{align-items:flex-start}
+.policy-title strong{font-size:13px}
+.num{flex:0 0 26px;width:26px;height:26px;font-size:9px}
+.tag{padding:6px 7px;border:1px solid rgba(255,255,255,.055);border-radius:8px;background:rgba(255,255,255,.018);text-align:center;white-space:nowrap}
+.doc{height:205px;font-size:10px;line-height:1.8;overscroll-behavior:contain;scrollbar-gutter:stable;scroll-padding:8px}
+.doc h2{font-size:18px;letter-spacing:-.025em}
+.doc h3{font-size:11px;line-height:1.45}
+.doc-status{margin-top:12px}
+.track{height:4px}
+.doc-status span{font-size:8px;min-width:78px}
+.accept{padding:13px;border-radius:14px;font-size:9px;line-height:1.65;border-color:rgba(255,255,255,.07);background:rgba(255,255,255,.022);cursor:pointer;opacity:.58;user-select:none;-webkit-user-select:none}
+.accept.ready{border-color:rgba(75,224,166,.18);background:linear-gradient(120deg,rgba(75,224,166,.045),rgba(143,103,255,.035))}
+.accept button{color:#c2aaff;text-decoration:underline;text-decoration-color:rgba(194,170,255,.35);text-underline-offset:3px}
+.accept button:hover{color:#fff}
+.check{width:19px;height:19px;flex-basis:19px;border-radius:6px;margin-top:1px}
+.accept input:focus-visible+.check{outline:2px solid #b6a0ff;outline-offset:3px}
+.submit{height:61px;margin-top:19px;border-radius:18px;border-color:rgba(255,255,255,.17);background:linear-gradient(105deg,#8453f6 0%,#7774ff 53%,#44c9f5 100%);box-shadow:0 18px 42px rgba(104,78,239,.25),inset 0 1px 0 rgba(255,255,255,.35);font-size:12px;letter-spacing:.01em;position:relative;overflow:hidden}
+.submit:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 10%,rgba(255,255,255,.14) 46%,transparent 66%);transform:translateX(-110%);transition:transform .65s ease}
+.submit:hover:not(:disabled):before{transform:translateX(110%)}
+.submit:active:not(:disabled){transform:translateY(0) scale(.995)}
+.submit:disabled{filter:saturate(.7)}
+.arrow{margin-left:9px}
+.message{min-height:24px;font-size:10px;overflow-wrap:anywhere}
+.bottom{flex-wrap:wrap;font-size:10px;line-height:1.6}
+.bottom a{padding:2px 0}
+.secure-note{font-size:9px;max-width:470px;line-height:1.7}
+.site-footer{padding:8px 0 28px;gap:10px 15px;font-size:10px;line-height:1.7}
+.site-footer .credit strong{color:#aeb7c9}
+.site-footer .links a{padding:2px 0;text-underline-offset:4px}
+.site-footer .links a:focus-visible,.bottom a:focus-visible,.accept button:focus-visible{outline:2px solid #b6a0ff;outline-offset:4px;border-radius:3px}
+button:focus-visible,a:focus-visible,input:focus-visible{outline-color:#b6a0ff;outline-offset:3px}
+.modal{padding:clamp(10px,3vw,24px);padding-top:max(10px,env(safe-area-inset-top));padding-bottom:max(10px,env(safe-area-inset-bottom))}
+.modal-box{border-radius:24px;max-height:calc(100svh - 48px);max-height:calc(100vh - 48px)}
+.modal-body{font-size:12px;line-height:1.8;overscroll-behavior:contain}
+@media(max-width:1050px){
+  .page{padding-top:91px;padding-left:18px;padding-right:18px}
+  .shell{max-width:780px}
+  .form{padding:42px clamp(24px,5vw,46px) 36px}
+  .policy-grid{grid-template-columns:1fr}
+  .policy-card{padding:18px}
+  .doc{height:220px}
+  .hero{display:none}
+}
+@media(max-width:620px){
+  html,body{width:100%;min-height:100%;}
+  .topbar{top:max(8px,env(safe-area-inset-top));left:10px;right:10px;padding:8px 9px;border-radius:17px;gap:10px;min-height:56px}
+  .brand{gap:9px;min-width:0}
+  .logo{width:38px;height:38px;border-radius:12px;flex:0 0 38px;font-size:12px}
+  .brand strong{font-size:12px}
+  .brand span{display:block;font-size:7px;letter-spacing:.13em}
+  .live{height:34px;min-width:34px;width:auto;padding:0 10px;justify-content:center;gap:0;flex:0 0 auto}
+  .live span{display:none}
+  .live i{width:7px;height:7px}
+  .page{display:block;min-height:0;padding:78px 10px 18px}
+  .shell{width:100%;min-height:0;border:1px solid rgba(176,184,255,.14);border-radius:24px;overflow:hidden}
+  .form{padding:27px 16px 24px}
+  .form-head{gap:10px;margin-bottom:23px;align-items:flex-start}
+  .kicker{font-size:9px;line-height:1.5;max-width:50%}
+  .secure{font-size:8px;padding:7px 8px;gap:6px;max-width:58%;line-height:1.25}
+  .form h2{font-size:clamp(29px,8vw,37px);line-height:1.08;letter-spacing:-.06em}
+  .intro{font-size:12px;line-height:1.8;margin:11px 0 23px}
+  .fields{gap:19px}
+  .field label{font-size:11px;margin-bottom:8px;align-items:flex-start}
+  .meta{font-size:7px;letter-spacing:.025em;white-space:normal;text-align:right}
+  .control{height:58px;border-radius:15px}
+  .prefix{flex-basis:40px;font-size:13px}
+  .control input{font-size:16px;padding-right:4px;min-width:0}
+  .control input::placeholder{font-size:13px}
+  .password-toggle{font-size:9px;min-width:49px;margin-right:4px;padding:0 9px}
+  .strength{grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:11px}
+  .strength span{font-size:7px;min-width:74px;max-width:95px;line-height:1.2}
+  .bars{gap:4px}
+  .bar{height:4px}
+  .policy-grid{margin-top:24px;gap:13px}
+  .policy-card{padding:14px;border-radius:18px}
+  .policy-head{gap:8px;margin-bottom:12px}
+  .policy-title{gap:8px;min-width:0}
+  .policy-title strong{font-size:13px;line-height:1.3}
+  .num{flex-basis:25px;width:25px;height:25px}
+  .tag{font-size:7px;letter-spacing:.04em;padding:6px 5px;white-space:normal;max-width:96px;line-height:1.3}
+  .doc{height:clamp(200px,32svh,285px);font-size:12px;line-height:1.8;padding-right:7px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;}
+  .doc h2{font-size:19px;line-height:1.2}
+  .doc h3{font-size:13px;line-height:1.45;margin-top:15px}
+  .doc p{margin:7px 0}
+  .doc li{margin:4px 0}
+  .doc-status{gap:8px;margin-top:11px}
+  .doc-status span{font-size:8px;min-width:79px}
+  .accept{font-size:10px;line-height:1.7;padding:12px 10px;margin-top:12px;gap:10px}
+  .check{width:20px;height:20px;flex-basis:20px}
+  .accept input:checked+.check:after{left:6px;top:2px}
+  .submit{height:59px;border-radius:16px;margin-top:16px;font-size:12px}
+  .message{font-size:10px;line-height:1.6;min-height:23px}
+  .bottom{padding-top:11px;font-size:10px;gap:5px}
+  .secure-note{font-size:9px;line-height:1.75;margin-top:13px;padding:0 3px}
+  .site-footer{width:100%;padding:12px 14px max(20px,env(safe-area-inset-bottom));gap:7px 11px;font-size:10px;line-height:1.6}
+  .site-footer .separator{display:none}
+  .site-footer .copyright,.site-footer .credit{width:100%;}
+  .site-footer .links{gap:22px;width:100%;padding-top:2px}
+  .site-footer .links a{padding:5px 0}
+  .modal{padding:8px;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom))}
+  .modal-box{max-height:calc(100svh - 16px);border-radius:19px}
+  .modal-head{padding:14px 15px}
+  .modal-head h3{font-size:18px}
+  .close{width:40px;height:40px;flex:0 0 40px}
+  .modal-body{padding:17px 15px;font-size:12px;line-height:1.8}
+  .modal-body h2{font-size:23px}
+}
+@media(max-width:380px){
+  .topbar{left:7px;right:7px;padding:7px 8px}
+  .brand span{font-size:6px}
+  .page{padding-left:6px;padding-right:6px}
+  .form{padding:24px 12px 20px}
+  .form-head{display:grid;grid-template-columns:1fr;gap:8px}
+  .kicker{max-width:none}
+  .secure{max-width:max-content}
+  .form h2{font-size:29px}
+  .policy-card{padding:12px}
+  .policy-title strong{font-size:12px}
+  .tag{max-width:79px;font-size:6px}
+  .doc{height:210px;font-size:11px}
+  .accept{font-size:9px}
+  .site-footer{padding-left:10px;padding-right:10px}
+}
+@media(hover:none){
+  .feature:hover{transform:none}
+  .submit:hover:not(:disabled){transform:none;filter:none}
+}
+@media(prefers-reduced-motion:no-preference){
+  .logo{animation:logo-breathe 6s ease-in-out infinite}
+  @keyframes logo-breathe{0%,100%{box-shadow:0 10px 35px rgba(116,87,255,.28),inset 0 1px 0 rgba(255,255,255,.5)}50%{box-shadow:0 12px 40px rgba(116,87,255,.42),0 0 22px rgba(75,206,255,.08),inset 0 1px 0 rgba(255,255,255,.5)}}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.submit:before{display:none}}
+
 </style>
 </head>
 <body>
@@ -92,6 +275,13 @@ button{cursor:pointer}
 </section>
 </section>
 </main>
+<footer class="site-footer" aria-label="Site footer">
+<span class="copyright">© <span id="copyrightYear"></span> <a href="https://zyphor.cc" target="_blank" rel="noopener noreferrer">zyphor.cc</a></span>
+<span class="separator">•</span>
+<span class="credit">Made by <strong>Team Vaprix</strong></span>
+<span class="separator">•</span>
+<nav class="links" aria-label="Legal links"><a href="tos.html">Terms of Service</a><a href="pp.html">Privacy Policy</a></nav>
+</footer>
 <div id="modal" class="modal" aria-hidden="true"><div class="backdrop" id="modalBackdrop"></div><div class="modal-box"><div class="modal-head"><div><small id="modalType">FULL DOCUMENT</small><h3 id="modalTitle">Policy</h3></div><button id="closeModal" class="close" type="button">×</button></div><div id="modalBody" class="modal-body"></div></div></div>
 <script>
 let BACKEND_BASE="";
@@ -204,6 +394,7 @@ $("signupForm").addEventListener("submit",e=>{e.preventDefault();signup()});
 $("termsButton").addEventListener("click",()=>tosData&&openModal(tosData,"Terms of Service"));
 $("privacyButton").addEventListener("click",()=>ppData&&openModal(ppData,"Privacy Policy"));
 $("closeModal").addEventListener("click",closeModal);$("modalBackdrop").addEventListener("click",closeModal);document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+$("copyrightYear").textContent=new Date().getFullYear();
 loadPolicies();passwordStrength();validateUsername();
 </script>
 </body>
