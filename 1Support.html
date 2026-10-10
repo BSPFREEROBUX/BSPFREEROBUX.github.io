@@ -77,6 +77,98 @@ body{height:100dvh;overflow:hidden}
 .ticketFooter{display:flex;flex-direction:column;align-items:stretch;gap:10px}.ticketActions{width:100%}.ticketActions button{flex:1}
 .createTicketBtn,.cancelTicket{padding:12px}
 }
+
+
+:root{color-scheme:dark}
+html,body{width:100%;min-width:0;min-height:0;margin:0}
+button,textarea,input,select{font:inherit}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.chatCardHeader{gap:12px}
+.chatActions{display:flex;gap:8px}
+.mobileBack{display:none}
+#previewBar:empty{display:none!important}
+.messageText a{color:#d9e8ff;overflow-wrap:anywhere}
+
+@media(max-width:700px){
+  html,body{height:100%;height:100dvh;overflow:hidden;overscroll-behavior:none}
+  body{background:#0a0d15}
+  .layout,.main{height:100%;height:100dvh;min-height:0;width:100%;min-width:0}
+  .sidebar{display:none!important}
+  .main{display:flex;flex-direction:column;padding:0}
+  .topbar{flex:none;min-height:0;height:auto;padding:18px 17px 16px;align-items:center;gap:10px;background:linear-gradient(135deg,#182641,#111622);border-bottom:1px solid rgba(255,255,255,.08)}
+  .topbar h1{font-size:clamp(23px,6vw,30px);line-height:1.15;letter-spacing:-.8px}
+  .topbar p{font-size:13px!important;line-height:1.4;margin-top:6px!important;max-width:250px}
+  .profile{flex:none;gap:6px;align-items:center}
+  .profile .btn{display:none}
+  #anonWrap{font-size:12px;white-space:nowrap}
+  .content{position:relative;display:flex;flex:1;flex-direction:column;gap:0;padding:12px;overflow:hidden;min-height:0}
+  .card{height:100%;min-height:0;flex:1;border-radius:20px;background:#111620;border:1px solid rgba(255,255,255,.09);box-shadow:0 10px 35px rgba(0,0,0,.14)}
+  .content>.card:first-child{height:100%;min-height:0;flex:1;display:flex}
+  .content>.card:last-child{display:none;height:100%;min-height:0;flex:1}
+  body.ticket-open .content>.card:first-child{display:none}
+  body.ticket-open .content>.card:last-child{display:flex}
+  .cardHeader{padding:16px;min-height:0;gap:10px;flex-wrap:wrap}
+  .cardHeader h2{font-size:19px;line-height:1.2;min-width:0;overflow-wrap:anywhere}
+  .cardHeader .btn{padding:11px 13px;font-size:13px;border-radius:12px;white-space:nowrap}
+  .ticketList{padding:12px;gap:9px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .sidebarUser{font-size:12px;line-height:1.4;margin:1px 2px 7px;overflow-wrap:anywhere}
+  .ticketItem{padding:16px;margin:0;border-radius:15px;font-size:15px;line-height:1.4;background:#1a202d;border:1px solid rgba(255,255,255,.07);min-height:78px}
+  .ticketItem b{display:inline-block;max-width:calc(100% - 38px);overflow-wrap:anywhere}
+  .ticketStatusOpen,.ticketStatusClosed{display:inline-block;margin-top:5px;font-size:12px}
+  #staffTitle{font-size:14px;margin:16px 2px 4px!important}
+  .chatCardHeader{display:grid;grid-template-columns:40px minmax(0,1fr);align-items:center;padding:12px;gap:10px}
+  .mobileBack{display:flex;width:40px;height:40px;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.09);border-radius:13px;background:#20283a;color:#fff;font-size:32px;line-height:1;cursor:pointer}
+  #ticketTitle{font-size:17px;line-height:1.25;overflow-wrap:anywhere}
+  .chatActions{grid-column:1/-1;display:flex;width:100%;gap:8px}
+  .chatActions .btn{flex:1;padding:9px 8px;font-size:12px}
+  #ticketHeader{padding:11px 14px!important;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+  .chatArea{flex:1;min-height:0;padding:14px 10px;gap:6px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .messageRow{margin:5px 0;width:100%;min-width:0}
+  .messageBubble{max-width:88%;min-width:0;padding:11px 12px;border-radius:16px;overflow-wrap:anywhere;box-shadow:none}
+  .messageBubble.me{border-bottom-right-radius:5px}
+  .messageRow:not(.me) .messageBubble{border-bottom-left-radius:5px}
+  .messageTop{gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .messageAuthor{font-size:12px;overflow-wrap:anywhere}
+  .messageTime{font-size:10px}
+  .messageText{font-size:14px;line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}
+  .messageBubble img,.messageBubble video{max-width:100%;height:auto}
+  .dateDivider{margin:12px 0}
+  .dateDivider span{font-size:11px;padding:5px 10px}
+  .composer{flex:none;display:flex;align-items:flex-end;gap:8px;padding:10px;background:#151a27;border-top:1px solid rgba(255,255,255,.08);padding-bottom:max(10px,env(safe-area-inset-bottom))}
+  .composer textarea{flex:1;min-width:0;min-height:46px;height:46px;max-height:120px;padding:13px 12px;border:1px solid rgba(255,255,255,.06);border-radius:14px;font-size:16px;line-height:1.35;resize:none}
+  .send{width:46px;height:46px;min-width:46px;border-radius:14px;font-size:21px;flex:none}
+  #previewBar{flex:none;max-height:130px;overflow:auto;background:#151a27}
+  #previewBar img,#previewBar video{max-width:100%;object-fit:contain}
+  .ticketPopup{padding:12px;align-items:flex-end}
+  .ticketBox{width:100%;max-width:520px;max-height:calc(100dvh - 24px - env(safe-area-inset-top));overflow:auto;padding:20px 16px calc(16px + env(safe-area-inset-bottom));border-radius:22px;background:#171b27}
+  .popupHeader{gap:12px;margin-bottom:18px}
+  .popupHeader h2{font-size:22px;line-height:1.2}
+  .popupHeader p{font-size:13px;line-height:1.5;margin-top:6px}
+  .popupClose{flex:none;width:40px;height:40px}
+  .ticketInput{padding:14px;font-size:16px;border-radius:13px;margin-bottom:12px}
+  .ticketReason{height:140px;min-height:100px;resize:vertical}
+  .ticketFooter{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:4px}
+  .ticketCount{font-size:12px}
+  .ticketActions{display:grid;grid-template-columns:1fr 1.4fr;width:100%;gap:9px}
+  .ticketActions button{min-width:0;padding:13px 10px;font-size:14px}
+  .emptyChat{padding:20px}
+  .emptyIcon{font-size:42px;margin-bottom:12px}
+}
+@media(max-width:380px){
+  .topbar{padding:15px 13px}
+  .content{padding:8px}
+  .cardHeader{padding:12px}
+  .cardHeader h2{font-size:17px}
+  .cardHeader .btn{padding:10px;font-size:12px}
+  .ticketList{padding:9px}
+  .composer{gap:6px;padding:8px}
+  .send{width:42px;height:42px;min-width:42px}
+  .composer textarea{height:42px;min-height:42px;padding:10px;font-size:16px}
+}
+@media(min-width:701px){
+  .mobileBack{display:none}
+  .chatActions{display:none}
+}
 </style>
 </head>
 <body>
@@ -110,7 +202,7 @@ body{height:100dvh;overflow:hidden}
 <div class="ticketList"><div class="sidebarUser" id="userDisplay"></div><div id="myTickets"></div><h3 id="staffTitle" style="display:none;margin-top:20px">All Tickets</h3><div id="allTickets"></div></div>
 </div>
 <div class="card">
-<div class="cardHeader"><h2 id="ticketTitle">Select a ticket</h2></div>
+<div class="cardHeader chatCardHeader"><button class="mobileBack" type="button" onclick="backToTickets()" aria-label="Back to tickets">‹</button><h2 id="ticketTitle">Select a ticket</h2><div class="chatActions"><button class="btn" onclick="closeTicket()">Close</button><button class="btn" onclick="lockTicket()">Lock</button><button class="btn" onclick="unlockTicket()">Unlock</button></div></div>
 <div id="ticketHeader" style="padding:18px;border-bottom:1px solid rgba(255,255,255,.08)"></div>
 <div id="chatMessages" class="chatArea"></div>
 <div id="previewBar"></div>
@@ -177,7 +269,7 @@ function isImageFile(file){const name=getFileName(file?.path||file?.name||"");co
 function isVideoFile(file){const name=getFileName(file?.path||file?.name||"");const mime=String(file?.mime||file?.type||"").toLowerCase();return mime.startsWith("video/")||["mp4","mov","webm","mkv","avi","m4v","ogg"].includes(getExt(name))}
 function renderAttachment(att){if(!att)return"";const path=att.path||"";const url=backend+"/uploads/"+path;const name=getFileName(path);if(isImageFile(att))return`<div style="margin-top:10px"><img src="${url}" style="max-width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.08)"></div>`;if(isVideoFile(att))return`<div style="margin-top:10px"><video controls src="${url}" style="max-width:100%;border-radius:12px"></video></div>`;return`<div style="margin-top:10px"><a href="${url}" target="_blank" style="color:#7ab7ff">📄 ${escapeHTML(name)}</a></div>`}
 function formatMessage(text){return escapeHTML(text).replace(/((https?:\/\/|www\.)[^\s<]+)/gi,url=>{let href=url;if(!href.startsWith("http"))href="https://"+href;return`<a href="${href}" target="_blank">${url}</a>`})}
-async function openTicket(ticket){activeTicket=ticket;await fetch(backend+"/notifications/seen",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({ticketId:ticket.id})});activeTicketSignature="";renderMessages(ticket)}
+async function openTicket(ticket){activeTicket=ticket;document.body.classList.add("ticket-open");await fetch(backend+"/notifications/seen",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({ticketId:ticket.id})});activeTicketSignature="";renderMessages(ticket)}
 function renderMessages(ticket){
 chatMessages.innerHTML=""
 if(!ticket){chatMessages.innerHTML=`<div class="emptyChat"><div class="emptyIcon">💬</div><h2>Select a ticket</h2><p>Choose a ticket from the left to start viewing the conversation.</p></div>`;return}
@@ -206,6 +298,7 @@ async function lockTicket(){if(!activeTicket)return;await fetch(backend+"/suppor
 async function unlockTicket(){if(!activeTicket)return;await fetch(backend+"/support/unlock",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({ticketId:activeTicket.id})});loadTickets()}
 function createTicket(){ticketPopup.style.display="flex"}function closeTicketPopup(){ticketPopup.style.display="none";ticketTitleInput.value="";ticketReasonInput.value=""}
 async function submitTicket(){const title=ticketTitleInput.value.trim(),reason=ticketReasonInput.value.trim();if(!title||!reason){alert("Please enter a title and reason");return}await fetch(backend+"/support/create",{method:"POST",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({title,reason})});closeTicketPopup();loadTickets()}
+function backToTickets(){document.body.classList.remove("ticket-open");history.replaceState(null,"",location.pathname)}
 function logout(){localStorage.removeItem("Token");location.href="login.html"}
 setInterval(refreshActiveTicket,500);setInterval(loadTickets,2000);init()
 </script>
