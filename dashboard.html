@@ -9,12 +9,12 @@
 html,body{margin:0;width:100%;height:100%;background:#000;color:#fff;font-family:Arial,sans-serif}
 body{min-height:100vh;overflow:hidden}
 .loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden}
-.logo-stage{position:relative;width:min(72vw,420px);height:min(72vw,420px);max-width:75vh;max-height:75vh}
-.logo-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;pointer-events:none}
+.logo-stage{position:relative;width:min(90vw,720px,160vh);aspect-ratio:3/2;max-height:80vh;overflow:hidden;isolation:isolate}
+.logo-stage img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;object-position:center;opacity:0;clip-path:inset(0 0 100% 0);pointer-events:none}
 .logo-stage img.visible{opacity:1;clip-path:inset(0 0 0 0)}
-.logo-stage img.wipe{opacity:1;clip-path:inset(0 0 100% 0);animation:wipeDown 2.6s linear forwards}
-@keyframes wipeDown{0%{clip-path:inset(0 0 100% 0)}100%{clip-path:inset(0 0 0 0)}}
-@media(max-width:600px){.logo-stage{width:min(78vw,360px);height:min(78vw,360px)}}
+.logo-stage img.wipe{z-index:2;opacity:1;animation:wipeDown 2.6s linear forwards}
+@keyframes wipeDown{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@media(max-width:600px){.logo-stage{width:92vw;max-height:70vh}}
 @media(prefers-reduced-motion:reduce){.logo-stage img.wipe{animation-duration:.1s}}
 </style>
 </head>
@@ -35,19 +35,20 @@ body{min-height:100vh;overflow:hidden}
     const page=phone==="1"?"1dashboard.html":"0dashboard.html";
     const destination="https://zyphor.cc/"+page;
 
+    function transition(from,to,delay){
+        setTimeout(function(){
+            to.className="wipe";
+            to.addEventListener("animationend",function(){
+                from.className="";
+                to.className="visible";
+            },{once:true});
+        },delay);
+    }
+
     loadOne.className="visible";
-
-    setTimeout(function(){
-        loadTwo.className="wipe";
-    },1400);
-
-    setTimeout(function(){
-        mainLogo.className="wipe";
-    },4400);
-
-    setTimeout(function(){
-        window.location.replace(destination);
-    },7100);
+    transition(loadOne,loadTwo,1400);
+    transition(loadTwo,mainLogo,4400);
+    setTimeout(function(){window.location.replace(destination)},7300);
 })();
 </script>
 </body>
