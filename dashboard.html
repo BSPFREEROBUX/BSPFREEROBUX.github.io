@@ -29,8 +29,6 @@ video{display:block;width:100%;max-height:75vh;background:#000}
 button{border:0;border-radius:12px;padding:14px 30px;font-size:16px;font-weight:700;cursor:pointer}
 .continue{background:#fff;color:#000;opacity:.35;pointer-events:none;transition:.2s}
 .continue.ready{opacity:1;pointer-events:auto}
-.skip{background:#222;color:#fff;border:1px solid #444}
-.skip:hover{background:#333}
 @media(max-width:600px){.screen{padding:14px}.logo-stage{width:min(78vw,360px);height:min(78vw,360px)}.video-wrapper{border-radius:12px}}
 @media(prefers-reduced-motion:reduce){.logo-stage img.wipe{animation-duration:.1s}.logo-stage img.fade{animation-duration:.1s}}
 </style>
@@ -55,7 +53,6 @@ button{border:0;border-radius:12px;padding:14px 30px;font-size:16px;font-weight:
 
     <div class="actions">
         <button class="continue" id="continueButton">Continue</button>
-        <button class="skip" id="skipButton">Skip</button>
     </div>
 </div>
 
@@ -69,7 +66,6 @@ button{border:0;border-radius:12px;padding:14px 30px;font-size:16px;font-weight:
     const video = document.getElementById("introVideo");
     const videoTitle = document.getElementById("videoTitle");
     const continueButton = document.getElementById("continueButton");
-    const skipButton = document.getElementById("skipButton");
 
     const phone = localStorage.getItem("Phone");
     const page = phone === "1" ? "1dashboard.html" : "0dashboard.html";
@@ -86,21 +82,11 @@ button{border:0;border-radius:12px;padding:14px 30px;font-size:16px;font-weight:
         }))
     ];
 
-    const skipCode = "SominRules";
     let currentStage = 0;
     let videoFinished = false;
     let maxWatched = 0;
     let waitingForPlay = false;
-    let loadingTimer = null;
     let introStarted = false;
-
-    function hasSkipPermission() {
-        return localStorage.getItem("ZyphorSkipRules") === skipCode;
-    }
-
-    function saveSkipPermission() {
-        localStorage.setItem("ZyphorSkipRules", skipCode);
-    }
 
     function runLoading() {
         loadingScreen.style.display = "flex";
@@ -137,59 +123,6 @@ button{border:0;border-radius:12px;padding:14px 30px;font-size:16px;font-weight:
                 showVideo();
             }
         }, 4400);
-    }
-
-    const skipCode = "SominRules";
-    let currentStage = 0;
-    let videoFinished = false;
-    let maxWatched = 0;
-    let waitingForPlay = false;
-    let loadingTimer = null;
-
-    function hasSkipPermission() {
-        return localStorage.getItem("ZyphorSkipRules") === skipCode;
-    }
-
-    function saveSkipPermission() {
-        localStorage.setItem("ZyphorSkipRules", skipCode);
-    }
-
-    function runLoading(stage) {
-        loadingScreen.style.display = "flex";
-        videoScreen.style.display = "none";
-
-        const messages = loadingStages[Math.min(stage, loadingStages.length - 1)];
-        const duration = Math.random() * 800 + 400;
-        const start = Date.now();
-        let messageIndex = 0;
-
-        loadingText.textContent = messages[0];
-        progressBar.style.width = "0%";
-
-        clearInterval(loadingTimer);
-
-        loadingTimer = setInterval(function() {
-            const elapsed = Date.now() - start;
-            const percentage = Math.min((elapsed / duration) * 100, 100);
-
-            progressBar.style.width = percentage + "%";
-
-            const newIndex = Math.min(
-                Math.floor((elapsed / duration) * messages.length),
-                messages.length - 1
-            );
-
-            if (newIndex !== messageIndex) {
-                messageIndex = newIndex;
-                loadingText.textContent = messages[messageIndex];
-            }
-
-            if (elapsed >= duration) {
-                clearInterval(loadingTimer);
-                progressBar.style.width = "100%";
-                showVideo();
-            }
-        }, 30);
     }
 
     function showVideo() {
@@ -275,22 +208,6 @@ button{border:0;border-radius:12px;padding:14px 30px;font-size:16px;font-weight:
         nextStage();
     });
 
-    skipButton.addEventListener("click", function() {
-        if (!hasSkipPermission()) {
-            const code = prompt("Enter the skip code:");
-
-            if (code !== skipCode) {
-                alert("Invalid code.");
-                return;
-            }
-
-            saveSkipPermission();
-        }
-
-        video.pause();
-        clearInterval(loadingTimer);
-        nextStage();
-    });
 
     runLoading();
 })();
