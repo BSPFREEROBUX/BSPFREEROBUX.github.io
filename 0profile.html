@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#03050b">
+<meta name="theme-color" content="#05070c">
 <meta name="color-scheme" content="dark">
+<meta name="description" content="Zyphor account profiles, achievements, connected identities and public account details.">
 <title>Zyphor · Profile</title>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zyphor">
@@ -13,6 +14,7 @@
 <meta property="og:image" content="https://zyphor.cc/Logo1.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="https://zyphor.cc/Logo1.png">
+<link id="betaTesterStylesheet" rel="stylesheet" href="beta-tester.css" disabled>
 <link rel="apple-touch-icon" href="https://zyphor.cc/Logo1.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -909,53 +911,22 @@ body{min-width:1200px;background-color:#03050b}
 .toastTitle{font-size:10px}
 .toastText{font-size:9px;line-height:1.5}
 
-/* Beta Tester: a reserved identity treatment, enabled only by the API permission. */
-.role.beta{
- position:relative;color:#e7dcff;border-color:rgba(174,132,255,.42);
- background:linear-gradient(120deg,rgba(112,73,197,.18),rgba(39,182,208,.10));
- box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 0 18px rgba(139,103,255,.08);
- overflow:hidden;
-}
-.role.beta::after{
- content:"";position:absolute;inset:0;pointer-events:none;
- background:linear-gradient(110deg,transparent 15%,rgba(255,255,255,.13) 45%,transparent 70%);
- transform:translateX(-120%);animation:betaBadgeSweep 6s ease-in-out infinite;
-}
-.betaMark{position:relative;z-index:1;width:16px;height:16px;display:inline-grid;place-items:center;flex:0 0 auto;border-radius:5px;background:linear-gradient(145deg,#d6c1ff,#73efff);box-shadow:0 0 12px rgba(163,129,255,.28)}
-.betaMark svg{width:11px;height:11px;fill:#141228;display:block}
-.hero.beta-tester{
- border-color:rgba(166,130,255,.40);
- background:radial-gradient(ellipse at 10% 0%,rgba(153,103,255,.14),transparent 38%),radial-gradient(ellipse at 85% 8%,rgba(67,222,244,.11),transparent 30%),linear-gradient(145deg,rgba(19,20,40,.98),rgba(7,11,20,.98));
- box-shadow:0 18px 54px rgba(0,0,0,.3),0 0 0 1px rgba(148,113,255,.06),0 0 38px rgba(133,101,255,.07);
-}
-.hero.beta-tester::before{background:linear-gradient(130deg,rgba(206,186,255,.05),transparent 35%),radial-gradient(circle at 15% 92%,rgba(72,224,242,.07),transparent 28%)}
-.hero.beta-tester .heroScan{background:linear-gradient(90deg,transparent,#b69aff,#d8faff,#8eeefa,#c5a2ff,transparent);box-shadow:0 0 11px rgba(163,129,255,.75);opacity:.75}
-.avatarRing.beta-tester{background:conic-gradient(from 0deg,#7a5ce0,#8eeefa,#f2dcff,#8c73ff,#7deaf1,#7a5ce0);box-shadow:0 0 0 1px rgba(177,151,255,.35),0 0 32px rgba(144,111,255,.28),0 0 54px rgba(67,222,244,.08);animation:betaFrameSpin 10s linear infinite}
-.avatarRing.beta-tester .avatar{border-color:rgba(214,202,255,.45)}
-.hero.beta-tester .avatarOuter{background:conic-gradient(from 0deg,rgba(174,139,255,.92),rgba(107,239,255,.74),rgba(255,255,255,.45),rgba(152,115,255,.94));filter:blur(4px);opacity:.72;animation:betaFrameSpin 15s linear infinite}
-.hero.beta-tester .avatarOuter::before{border-color:rgba(210,196,255,.33)}
+/* Beta Tester is a standard account role; no exclusive avatar frame or emblem. */
+.role.beta{color:#8ce9ff;border-color:rgba(0,213,255,.19);background:rgba(0,213,255,.055);box-shadow:none;overflow:visible}
 .betaTesterPanel{
- position:relative;display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:15px;
- margin-top:12px;padding:16px 19px;border:1px solid rgba(164,132,255,.23);border-radius:16px;
- background:radial-gradient(ellipse at 0 50%,rgba(146,104,255,.12),transparent 43%),linear-gradient(120deg,rgba(17,18,35,.97),rgba(8,14,23,.97));
- box-shadow:0 12px 35px rgba(0,0,0,.16);overflow:hidden;
+ position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px;
+ margin-top:14px;padding:20px 22px;border:1px solid var(--line);border-radius:24px;
+ background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--panel);
+ box-shadow:var(--shadow);overflow:hidden;
 }
 .betaTesterPanel[hidden]{display:none}
-.betaTesterPanel::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(168,145,255,.055) 50%,transparent 70%);animation:betaPanelSweep 12s ease-in-out infinite}
-.betaPanelGlyph{position:relative;z-index:1;width:52px;height:52px;display:grid;place-items:center;border:1px solid rgba(188,163,255,.38);border-radius:15px;background:linear-gradient(145deg,rgba(146,106,255,.22),rgba(74,222,239,.1));box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 0 26px rgba(139,103,255,.10)}
-.betaPanelGlyph svg{width:29px;height:29px;fill:none;stroke:#d9d0ff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.betaPanelKicker{position:relative;z-index:1;color:#b5a2ff;font-size:9px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}
-.betaPanelTitle{position:relative;z-index:1;margin-top:3px;font-family:"Space Grotesk",Inter,sans-serif;font-size:15px;font-weight:700;color:#f4efff}
-.betaPanelText{position:relative;z-index:1;margin-top:5px;font-size:10px;line-height:1.55;color:#929db5;max-width:720px}
-.betaPanelActions{position:relative;z-index:1;display:flex;gap:7px}
-.betaPanelTag{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 8px;border-radius:7px;border:1px solid rgba(153,126,255,.2);background:rgba(130,96,221,.07);font-size:8px;font-weight:800;color:#c5b6ff;letter-spacing:.3px}
-.betaPanelTag::before{content:"";width:5px;height:5px;border-radius:50%;background:#a88aff;box-shadow:0 0 9px #a88aff}
-.badgeCard.beta-badge .medal{background:conic-gradient(from -90deg,#ab8cff,#74eaf5,#eadcff,#8c7bff,#ab8cff);box-shadow:0 12px 28px rgba(0,0,0,.26),0 0 20px rgba(146,111,255,.16)}
-.badgeCard.beta-badge .medal::before{background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.18),transparent 26%),linear-gradient(145deg,#201b38,#090d19);border-color:rgba(195,173,255,.32)}
-.badgeCard.beta-badge .badgeName{color:#d8ceff}
-@keyframes betaBadgeSweep{0%,68%{transform:translateX(-120%)}86%,100%{transform:translateX(120%)}}
-@keyframes betaFrameSpin{to{transform:rotate(360deg)}}
-@keyframes betaPanelSweep{0%,76%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.betaTesterPanel::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 92% 0,rgba(0,213,255,.07),transparent 30%)}
+.betaPanelKicker{position:relative;z-index:1;color:var(--cyan);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.betaPanelTitle{position:relative;z-index:1;margin-top:6px;font-family:"Space Grotesk",Inter,sans-serif;font-size:20px;font-weight:700;color:var(--text)}
+.betaPanelText{position:relative;z-index:1;margin-top:6px;font-size:12px;line-height:1.6;color:var(--muted);max-width:720px}
+.betaPanelActions{position:relative;z-index:1;display:flex;gap:8px}
+.betaPanelTag{display:inline-flex;align-items:center;gap:7px;margin-top:11px;padding:6px 9px;border-radius:8px;border:1px solid rgba(0,213,255,.14);background:rgba(0,213,255,.045);font-size:9px;font-weight:800;color:#9deaff;letter-spacing:.4px}
+.betaPanelTag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 9px rgba(0,213,255,.55)}
 
 .siteFooter{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:20px;padding:17px 5px 3px;border-top:1px solid rgba(150,174,210,.12);color:#718098}
 .footerBrand{display:flex;align-items:center;gap:10px;min-width:0}
@@ -964,8 +935,7 @@ body{min-width:1200px;background-color:#03050b}
 .footerCopy{font-size:10px;line-height:1.6}
 .footerCopy strong{color:#c5cfdd;font-weight:700}
 .footerMade{margin-top:2px;font-size:9px;color:#6c7a91}
-.footerMade a{color:#a8b9d2;text-decoration:none}
-.footerMade a:hover{color:#d9caff}
+.footerMade strong{color:#a8b9d2;font-weight:800}
 .footerLinks{display:flex;align-items:center;gap:7px;white-space:nowrap}
 .footerLinks a,.footerLinks button{display:inline-flex;align-items:center;min-height:31px;padding:0 10px;border:1px solid rgba(150,174,210,.12);border-radius:8px;background:rgba(255,255,255,.018);color:#8492a9;text-decoration:none;font-size:9px;font-weight:700;transition:background .18s,border-color .18s,color .18s}
 .footerLinks a:hover,.footerLinks button:hover{color:#eaf2ff;border-color:rgba(0,229,255,.24);background:rgba(0,229,255,.045)}
@@ -984,6 +954,129 @@ body{min-width:1200px;background-color:#03050b}
  .profileDescription,.cardHeader p,.timelineText,.timelineTime,.statHint{color:#444!important}
  .statStrip{grid-template-columns:repeat(5,1fr)}
  a{color:#111!important;text-decoration:none}
+}
+
+
+
+/* Zyphor Dashboard design system */
+:root{
+ --bg:#05070c;--bg2:#090d16;--panel:rgba(15,19,30,.72);--panel2:rgba(19,24,38,.88);
+ --line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--text:#f7f9ff;--muted:#929db2;
+ --muted2:#68748b;--cyan:#00d5ff;--cyan2:#4d7cff;--purple:#8d4dff;--green:#2ee6a6;--red:#ff3d4f;
+ --shadow:0 24px 80px rgba(0,0,0,.34);--radius:24px;
+}
+body{min-height:100vh;overflow-x:auto;color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 12% 8%,rgba(0,213,255,.09),transparent 24%),radial-gradient(circle at 88% 10%,rgba(141,77,255,.10),transparent 25%),radial-gradient(circle at 50% 100%,rgba(77,124,255,.08),transparent 28%),linear-gradient(180deg,#080b12 0%,#05070c 50%,#03050a 100%)}
+body::before{background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:46px 46px;opacity:.65;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+body::after{background:radial-gradient(circle at 25% 30%,rgba(0,213,255,.06),transparent 20%),radial-gradient(circle at 70% 45%,rgba(141,77,255,.05),transparent 22%);filter:blur(70px);animation:none}
+.layout{grid-template-columns:270px minmax(0,1fr);min-width:1200px}
+.sidebar{padding:24px 18px;background:rgba(7,10,16,.76);border-right:1px solid var(--line);box-shadow:18px 0 70px rgba(0,0,0,.18);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px)}
+.logo{gap:12px;padding:10px 10px 24px;margin-bottom:8px}
+.logoMark{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,rgba(0,213,255,.12),rgba(141,77,255,.13));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 26px rgba(0,0,0,.18)}
+.logoMark img{width:37px;height:37px}
+.logoTitle{font-family:Inter,sans-serif;font-size:18px;letter-spacing:3px;font-weight:900}
+.logoSub{font-size:8px;letter-spacing:1.5px;color:#758198}
+.navLabel{padding:20px 10px 10px;font-size:9px;letter-spacing:1.5px;color:#69768b}
+.nav{gap:8px}
+.nav a,.nav button{min-height:48px;padding:9px 11px;border-radius:15px;color:#aab4c8}
+.nav a:hover,.nav button:hover,.nav a.active{background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.08)}
+.navIcon{width:30px;height:30px;border-radius:10px;font-size:14px}
+.navText{font-size:11px;font-weight:800}
+.sidebarFooter{padding-top:18px}
+.sideUser{padding:13px;border-radius:15px}
+.sideLabel{font-size:8px}.sideName{font-size:12px}
+.main{padding:30px 32px 28px}
+.topbar{min-height:50px;margin-bottom:22px;gap:20px}
+.pageIcon{width:42px;height:42px;border-radius:13px;font-size:17px;background:linear-gradient(145deg,rgba(0,213,255,.10),rgba(141,77,255,.11))}
+.pageName{font-family:Inter,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.35px}
+.pageSub{font-size:11px;color:#8793a9;margin-top:5px}
+.topActions{gap:9px}
+.topBtn{height:40px;padding:0 13px;border-radius:12px;font-size:11px}
+.profilePageNav{display:flex;align-items:center;gap:8px;margin:-7px 0 17px;padding:0 2px}
+.profilePageNav button{min-height:34px;padding:0 12px;border:1px solid rgba(255,255,255,.065);border-radius:10px;background:rgba(255,255,255,.025);color:#929db2;font-size:10px;font-weight:800;transition:.2s ease}
+.profilePageNav button:hover{color:#fff;border-color:rgba(0,213,255,.22);background:linear-gradient(90deg,rgba(0,213,255,.06),rgba(141,77,255,.06));transform:translateY(-1px)}
+.hero{padding:26px;min-height:246px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(circle at 78% 24%,rgba(0,213,255,.14),transparent 27%),radial-gradient(circle at 90% 82%,rgba(141,77,255,.12),transparent 28%),linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--panel);box-shadow:var(--shadow)}
+.hero::before{background:linear-gradient(135deg,rgba(255,255,255,.04),transparent 25%),radial-gradient(circle at 12% 82%,rgba(77,124,255,.06),transparent 26%)}
+.hero::after{opacity:.7}
+.heroScan{background:linear-gradient(90deg,transparent,var(--cyan),#fff,var(--purple),transparent);box-shadow:0 0 15px rgba(0,213,255,.5),0 0 28px rgba(141,77,255,.25)}
+.heroLayout{gap:24px}
+.avatarStage{width:138px;height:138px}
+.avatarRing{width:124px;height:124px;background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(255,255,255,.035));box-shadow:0 0 0 1px rgba(255,255,255,.06),0 17px 42px rgba(0,0,0,.35)}
+.avatarOuter{background:conic-gradient(from 0deg,rgba(0,213,255,.18),rgba(141,77,255,.22),rgba(77,124,255,.15),rgba(0,213,255,.18));filter:blur(3px)}
+.username{font-size:clamp(34px,3vw,48px);letter-spacing:-1.6px}
+.identityKicker{font-size:9px;letter-spacing:1.6px}
+.role{height:29px;padding:0 10px;border-radius:9px;font-size:10px}
+.role.beta{color:#8ce9ff;border-color:rgba(0,213,255,.20);background:rgba(0,213,255,.055);box-shadow:none}
+.profileDescription{font-size:13px;line-height:1.65;color:#a4afc2;max-width:760px}
+.metaRow{gap:8px;margin-top:15px}
+.meta{padding:7px 10px;font-size:9px;border-color:rgba(255,255,255,.075);background:rgba(255,255,255,.03)}
+.heroActions{min-width:200px;gap:8px}
+.heroBtn{min-height:40px;padding:0 13px;border-radius:12px;font-size:10px}
+.heroBtn.primary{background:linear-gradient(120deg,#00aee0,#7151e8);border-color:rgba(0,213,255,.18);box-shadow:0 12px 26px rgba(0,213,255,.09)}
+.heroBtn.secondary{background:rgba(255,255,255,.035);color:#c3ccda;border-color:rgba(255,255,255,.075)}
+.heroBtn.secondary:hover{background:rgba(255,255,255,.065);border-color:rgba(255,255,255,.14)}
+.heroBtn.danger{background:rgba(255,61,79,.07);color:#ff9da6;border-color:rgba(255,61,79,.18)}
+.betaTesterPanel{margin-top:14px;padding:20px 22px;border-radius:24px;border-color:var(--line);background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--panel);box-shadow:var(--shadow)}
+.betaTesterPanel::before{background:radial-gradient(circle at 92% 0,rgba(0,213,255,.07),transparent 30%)}
+.betaPanelKicker{font-size:10px;letter-spacing:1.5px;color:var(--cyan)}
+.betaPanelTitle{font-size:20px;color:var(--text)}
+.betaPanelText{font-size:12px;color:var(--muted);line-height:1.6}
+.betaPanelTag{font-size:9px;color:#9deaff;border-color:rgba(0,213,255,.14);background:rgba(0,213,255,.045)}
+.betaPanelTag::before{background:var(--cyan);box-shadow:0 0 9px rgba(0,213,255,.55)}
+.statStrip{grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:22px}
+.stat{min-height:130px;padding:19px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--panel);box-shadow:var(--shadow)}
+.stat:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
+.statLabel{font-size:9px;letter-spacing:.8px;color:#8894a9}
+.statIcon{width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.04);font-size:15px}
+.statValue{font-size:29px;letter-spacing:-1px;margin-top:14px}
+.statHint{font-size:10px;color:#68748a;line-height:1.4}
+.snapshotCard{margin-top:20px}
+.snapshotGrid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:0 22px 22px}
+.snapshotMetric{min-width:0;padding:16px 17px;border:1px solid rgba(255,255,255,.065);border-radius:16px;background:rgba(255,255,255,.022)}
+.snapshotMetricTop{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#8a96aa;font-size:11px;font-weight:700}
+.snapshotMetricTop strong{color:#f0f4fb;font-family:"Space Grotesk",Inter,sans-serif;font-size:18px;white-space:nowrap}
+.snapshotTrack{height:6px;margin-top:13px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+.snapshotTrack span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));box-shadow:0 0 12px rgba(0,213,255,.22);transition:width .45s ease}
+.snapshotMeta{margin-top:8px;color:#68758c;font-size:10px;line-height:1.5}
+.contentGrid{grid-template-columns:minmax(0,1.5fr) minmax(340px,.84fr);gap:22px;margin-top:22px}
+.column{gap:22px}
+.card{border-radius:24px;border-color:var(--line);background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--panel);box-shadow:var(--shadow);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+.card::before{background:linear-gradient(135deg,rgba(255,255,255,.04),transparent 25%),radial-gradient(circle at top right,rgba(0,213,255,.055),transparent 23%)}
+.card:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px);box-shadow:0 28px 90px rgba(0,0,0,.38)}
+.cardHeader{padding:22px 22px 13px;gap:16px;margin-bottom:0}
+.cardHeader h2{font-family:Inter,sans-serif;font-size:19px;letter-spacing:-.4px;font-weight:800}
+.cardHeader p{font-size:11px;line-height:1.55;color:#758096;margin-top:5px}
+.cardPill{height:29px;padding:0 10px;border-radius:999px;font-size:9px;letter-spacing:.7px}
+.cardBody{padding:0 22px 22px}
+.completeness{padding:17px;border-radius:16px;background:radial-gradient(circle at 90% 0,rgba(0,213,255,.06),transparent 25%),rgba(255,255,255,.022)}
+.completeTitle{font-size:12px}.completePercent{font-size:22px}.completeSub{font-size:10px}.completeChip{font-size:8px}
+.identityGrid{gap:10px}.identityCell{padding:15px;border-radius:14px;background:rgba(255,255,255,.022)}
+.identityLabel{font-size:9px;letter-spacing:.9px}.identityValue{font-size:12px;line-height:1.5}.identityValue.mono{font-size:10px}
+.mini{height:31px;padding:0 11px;border-radius:9px;font-size:9px}
+.subscriptionBox{margin:0 22px 22px;padding:18px;border-radius:17px;background:radial-gradient(circle at 95% 0,rgba(141,77,255,.09),transparent 26%),rgba(255,255,255,.02)}
+.subName{font-size:14px}.subDescription{font-size:11px}.subBadge{height:28px;font-size:8px}.subFact{padding:11px;border-radius:11px}.subFact small{font-size:7px}.subFact b{font-size:10px}
+.badgeToolbar{margin:0 22px 14px}.badgeSearch input{height:39px;font-size:11px}.badgeSelect{height:39px;font-size:11px}
+.badges{gap:15px;padding:0 22px 22px}.badgeCard{width:100px;min-height:126px}.medal{width:82px;height:82px}.badgeVisual{width:53px;height:53px}.badgeName{font-size:10px}.badgeTiny{font-size:8px}.badgeDetailsTitle{font-size:12px}.badgeDetailsText{font-size:10px}
+.socialGrid{gap:10px;padding:0 22px 22px}.socialCard{padding:15px;border-radius:15px;background:rgba(255,255,255,.022)}.socialTitle{font-size:11px}.socialSub{font-size:9px}.socialValue{font-size:11px}
+.toolGrid{gap:9px;padding:0 22px 22px}.tool{min-height:69px;padding:12px;border-radius:14px;background:rgba(255,255,255,.022)}.toolIcon{width:36px;height:36px;border-radius:11px;font-size:15px}.toolTitle{font-size:10px}.toolSub{font-size:9px;line-height:1.45}
+.localSaved{padding:13px;margin:0 22px 22px;border-radius:14px}.savedTitle{font-size:10px}.savedText{font-size:9px}
+.timeline{padding:0 22px 22px}.timelineItem{gap:12px;padding-bottom:15px}.timelineIcon{width:31px;height:31px;border-radius:10px}.timelineTitle{font-size:11px}.timelineText{font-size:10px;line-height:1.6}.timelineTime{font-size:9px}
+.quickLink{padding:0 22px 22px}.linkBox{padding:13px;border-radius:15px}.linkIcon{width:36px;height:36px}.linkTitle{font-size:10px}.linkValue{font-size:9px}
+.profileNote{width:100%;min-height:128px;resize:vertical;padding:14px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(4,8,15,.62);color:var(--text);font:inherit;font-size:12px;line-height:1.65;outline:none}
+.profileNote:focus{border-color:rgba(0,213,255,.28);box-shadow:0 0 0 3px rgba(0,213,255,.045)}
+.profileNote::placeholder{color:#566379}
+.profileNoteMeta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;color:#68758b;font-size:10px}
+.profileNoteActions{display:flex;gap:8px;margin-top:12px}
+.profileNoteDisclosure{margin-top:10px;color:#66748b;font-size:10px;line-height:1.55}
+.siteFooter{margin-top:24px;padding:20px 5px 4px;border-top-color:rgba(255,255,255,.08)}
+.footerCopy{font-size:11px}.footerMade{font-size:10px}.footerLinks{gap:8px}.footerLinks a,.footerLinks button{min-height:34px;padding:0 12px;border-radius:10px;font-size:10px}
+.modal{border-radius:24px}.modalHeader{padding:22px}.modalHeader h2{font-size:19px}.modalHeader p{font-size:11px}.modalBody{padding:22px}.formLabel{font-size:10px}.formInput,.formSelect,.formArea{font-size:12px}.formInput,.formSelect{height:42px}
+.searchResult{padding:12px;border-radius:13px}.resultName{font-size:11px}.resultId{font-size:9px}
+.toast{padding:13px;border-radius:15px}.toastTitle{font-size:11px}.toastText{font-size:10px;line-height:1.5}
+@media print{
+ body{min-width:0;background:#fff;color:#111;overflow:visible}
+ .layout{min-width:0;grid-template-columns:1fr}
+ .profilePageNav,.snapshotCard,#privateNotesCard{display:none!important}
+ .snapshotGrid{grid-template-columns:repeat(3,1fr)}
 }
 
 </style>
@@ -1055,6 +1148,13 @@ body{min-width:1200px;background-color:#03050b}
 </div>
 </div>
 
+<nav class="profilePageNav" aria-label="Profile sections">
+<button type="button" onclick="scrollToSection('profileHero')">Overview</button>
+<button type="button" onclick="scrollToBadges()">Achievements</button>
+<button type="button" onclick="scrollToSection('timelineSection')">Timeline</button>
+<button type="button" onclick="scrollToSection('privateNotesCard')">Private notes</button>
+</nav>
+
 <section class="hero" id="profileHero">
 <div class="heroScan"></div>
 <div class="heroLayout">
@@ -1096,15 +1196,125 @@ body{min-width:1200px;background-color:#03050b}
 </div>
 </section>
 
-<section class="betaTesterPanel" id="betaTesterPanel" hidden aria-label="Beta Tester recognition">
-<div class="betaPanelGlyph" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3.5 19.7 11l8.2 1.2-5.9 5.8 1.4 8.1-7.4-3.9-7.4 3.9 1.4-8.1-5.9-5.8 8.2-1.2L16 3.5Z"/><path d="m11.8 16 2.8 2.8 5.7-6"/></svg></div>
-<div>
-<div class="betaPanelKicker">ZYPhOR · RECOGNIZED CONTRIBUTOR</div>
-<div class="betaPanelTitle">Beta Tester</div>
-<div class="betaPanelText">This account is included in Zyphor’s beta testing programme. Its exclusive profile frame and insignia identify the tester status. </div>
-<div class="betaPanelTag">BETA COHORT · VERIFIED BY ACCOUNT PERMISSION</div>
+<section class="betaTesterPanel betaWorkspace" id="betaTesterPanel" hidden aria-label="Beta Tester workspace">
+<header class="bt-header">
+  <div class="bt-headerCopy">
+    <div class="bt-eyebrow"><span class="bt-liveDot"></span> ZYPHOR / EARLY ACCESS WORKSPACE</div>
+    <div class="bt-titleRow"><h2>Beta Tester Control Room</h2><span class="bt-accessPill">ACCESS ENABLED</span></div>
+    <p class="bt-lead">A dedicated testing workspace for validating releases, recording issues, drafting feature proposals and personalising the local preview experience.</p>
+    <div class="bt-headerMeta"><span>Local workspace</span><span>·</span><span id="btLastSaved">Changes stay on this device</span><span>·</span><span id="btAccessSince">Tester tools available</span></div>
+  </div>
+  <div class="bt-sessionBlock">
+    <div class="bt-sessionLabel">CURRENT TEST SESSION</div>
+    <div class="bt-sessionTime" id="btSessionTime">00:00:00</div>
+    <div class="bt-sessionState" id="btSessionState"><span></span> Not running</div>
+    <div class="bt-sessionButtons"><button type="button" class="bt-button bt-buttonPrimary" id="btSessionStart" onclick="startBetaSession()">Start session</button><button type="button" class="bt-button" id="btSessionStop" onclick="stopBetaSession()" disabled>Finish</button></div>
+  </div>
+</header>
+<div class="bt-metricGrid">
+  <article class="bt-metric"><div class="bt-metricTop"><span>QA CHECKLIST</span><span class="bt-metricIcon">✓</span></div><div class="bt-metricValue" id="btQaMetric">0%</div><div class="bt-metricTrack"><span id="btQaMetricBar"></span></div><div class="bt-metricMeta" id="btQaMetricMeta">0 of 12 checks complete</div></article>
+  <article class="bt-metric"><div class="bt-metricTop"><span>ISSUE LOG</span><span class="bt-metricIcon">⌁</span></div><div class="bt-metricValue" id="btIssueMetric">0</div><div class="bt-metricMeta">Local observations and bugs</div></article>
+  <article class="bt-metric"><div class="bt-metricTop"><span>IDEA BOARD</span><span class="bt-metricIcon">✦</span></div><div class="bt-metricValue" id="btIdeaMetric">0</div><div class="bt-metricMeta">Feature proposals drafted</div></article>
+  <article class="bt-metric"><div class="bt-metricTop"><span>TEST TIME</span><span class="bt-metricIcon">◷</span></div><div class="bt-metricValue" id="btTimeMetric">0m</div><div class="bt-metricMeta">Tracked in this browser</div></article>
 </div>
-<div class="betaPanelActions"><a class="heroBtn secondary" href="Support.html" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">Send Feedback ↗</a></div>
+<nav class="bt-anchorNav" aria-label="Beta workspace sections"><button type="button" onclick="scrollToSection('btQaCard')">QA checklist</button><button type="button" onclick="scrollToSection('btIssueCard')">Issue log</button><button type="button" onclick="scrollToSection('btIdeaCard')">Feature ideas</button><button type="button" onclick="scrollToSection('btPreferencesCard')">Preview preferences</button><button type="button" onclick="scrollToSection('btDiagnosticsCard')">Diagnostics</button></nav>
+<div class="bt-contentGrid">
+  <div class="bt-column">
+    <section class="bt-card" id="btQaCard">
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">01 / VALIDATION</div><h3>Release readiness checklist</h3><p>Mark each test after you have personally checked it. Progress is saved locally for your account.</p></div><button type="button" class="bt-textButton" onclick="resetBetaChecklist()">Reset checklist</button></div>
+      <div class="bt-progressSummary"><div><strong id="btQaProgressText">0 / 12</strong><span>checks complete</span></div><div class="bt-progressRail"><span id="btQaProgressBar"></span></div></div>
+      <div class="bt-checkGrid">
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="login"><span class="bt-checkMark">✓</span><span><strong>Sign-in and session</strong><small>Login, logout and expired-session handling</small></span><em>ACCOUNT</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="profile"><span class="bt-checkMark">✓</span><span><strong>Profile and roles</strong><small>Names, badges, permissions and public details</small></span><em>IDENTITY</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="messages"><span class="bt-checkMark">✓</span><span><strong>Direct messages</strong><small>Conversation open, send, scroll and refresh</small></span><em>MESSAGING</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="notifications"><span class="bt-checkMark">✓</span><span><strong>Notifications</strong><small>Unread state, open action and duplicates</small></span><em>MESSAGING</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="wallet"><span class="bt-checkMark">✓</span><span><strong>Wallet and history</strong><small>Balance display and transaction history</small></span><em>ACCOUNT</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="cloud"><span class="bt-checkMark">✓</span><span><strong>Cloud storage</strong><small>Upload, list, preview and delete workflow</small></span><em>STORAGE</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="quests"><span class="bt-checkMark">✓</span><span><strong>Quests and rewards</strong><small>Progress update, verification and reward display</small></span><em>GAMEPLAY</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="badges"><span class="bt-checkMark">✓</span><span><strong>Badge progression</strong><small>Earned state, progress, filters and details</small></span><em>GAMEPLAY</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="integrations"><span class="bt-checkMark">✓</span><span><strong>External integrations</strong><small>Linked-account labels and copy actions</small></span><em>INTEGRATIONS</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="support"><span class="bt-checkMark">✓</span><span><strong>Support and reporting</strong><small>Validation, evidence handling and feedback flow</small></span><em>SAFETY</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="errors"><span class="bt-checkMark">✓</span><span><strong>Error and empty states</strong><small>Offline, missing data and failed-request messages</small></span><em>QUALITY</em></label>
+        <label class="bt-checkItem"><input type="checkbox" data-beta-check="accessibility"><span class="bt-checkMark">✓</span><span><strong>Keyboard and readability</strong><small>Focus, shortcuts, contrast and reduced motion</small></span><em>QUALITY</em></label>
+      </div>
+      <div class="bt-cardFooter"><span id="btQaStatus">No checks recorded yet.</span><button type="button" class="bt-button" onclick="downloadBetaReport()">Export test report ↓</button></div>
+    </section>
+    <section class="bt-card" id="btIssueCard">
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">02 / OBSERVATIONS</div><h3>Issue and bug notebook</h3><p>Capture reproducible problems while testing. Draft entries remain in this browser until you export or share them.</p></div><span class="bt-countPill" id="btIssueCount">0 entries</span></div>
+      <form id="btIssueForm" class="bt-form" onsubmit="addBetaIssue(event)">
+        <div class="bt-formRow"><label class="bt-field"><span>Issue title</span><input id="btIssueTitle" maxlength="100" required placeholder="e.g. Profile badge filter resets"></label><label class="bt-field"><span>Area</span><select id="btIssueArea"><option>Profile</option><option>Authentication</option><option>Messages</option><option>Notifications</option><option>Wallet</option><option>Cloud</option><option>Quests</option><option>Badges</option><option>Support</option><option>Other</option></select></label></div>
+        <div class="bt-formRow"><label class="bt-field"><span>Severity</span><select id="btIssueSeverity"><option value="Low">Low — cosmetic</option><option value="Medium" selected>Medium — workflow issue</option><option value="High">High — major feature broken</option><option value="Critical">Critical — blocker</option></select></label><label class="bt-field"><span>Reproducibility</span><select id="btIssueRepro"><option>Every time</option><option>Intermittent</option><option>Once</option><option>Not confirmed</option></select></label></div>
+        <label class="bt-field"><span>Steps, expected behaviour, and actual result</span><textarea id="btIssueNotes" maxlength="2500" rows="4" required placeholder="1. Open…
+2. Select…
+Expected: …
+Actual: …"></textarea></label>
+        <div class="bt-formActions"><span id="btIssueFormHint">Add the shortest reliable reproduction you can.</span><button class="bt-button bt-buttonPrimary" type="submit">Save issue draft +</button></div>
+      </form>
+      <div class="bt-listToolbar"><div class="bt-searchBox"><span>⌕</span><input id="btIssueSearch" type="search" placeholder="Filter issue drafts…" oninput="renderBetaIssues()"></div><select id="btIssueFilter" class="bt-smallSelect" onchange="renderBetaIssues()"><option value="all">All statuses</option><option value="Open">Open</option><option value="Re-test">Re-test</option><option value="Resolved locally">Resolved locally</option></select><button type="button" class="bt-textButton" onclick="exportBetaIssues()">Export JSON</button></div>
+      <div id="btIssueList" class="bt-recordList"><div class="bt-empty">No issue drafts yet. Add an observation above.</div></div>
+    </section>
+    <section class="bt-card" id="btIdeaCard">
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">03 / PRODUCT INPUT</div><h3>Feature proposal workshop</h3><p>Write down improvements with the user problem and expected impact. Ideas are personal drafts, not public votes.</p></div><span class="bt-countPill" id="btIdeaCount">0 proposals</span></div>
+      <form id="btIdeaForm" class="bt-form" onsubmit="addBetaIdea(event)">
+        <label class="bt-field"><span>Proposal title</span><input id="btIdeaTitle" maxlength="100" required placeholder="What should Zyphor do better?"></label>
+        <div class="bt-formRow"><label class="bt-field"><span>Priority</span><select id="btIdeaPriority"><option value="Nice to have">Nice to have</option><option value="Useful" selected>Useful</option><option value="Important">Important</option><option value="Critical need">Critical need</option></select></label><label class="bt-field"><span>Primary area</span><select id="btIdeaArea"><option>Profile</option><option>Messaging</option><option>Account</option><option>Wallet</option><option>Cloud</option><option>Quests and games</option><option>Accessibility</option><option>Developer tools</option><option>Other</option></select></label></div>
+        <label class="bt-field"><span>User problem and proposed solution</span><textarea id="btIdeaDescription" maxlength="2500" rows="4" required placeholder="Problem: …
+Proposed solution: …
+Expected benefit: …"></textarea></label>
+        <div class="bt-formActions"><span id="btIdeaFormHint">Specific use cases help prioritise an idea.</span><button class="bt-button bt-buttonPrimary" type="submit">Save proposal +</button></div>
+      </form>
+      <div id="btIdeaList" class="bt-recordList"><div class="bt-empty">No proposals saved yet.</div></div>
+    </section>
+  </div>
+  <div class="bt-column">
+    <section class="bt-card" id="btPreferencesCard">
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">04 / PREVIEW LAB</div><h3>Local interface preferences</h3><p>Experiment with the beta workspace styling. These settings affect this browser only, not other users or the server.</p></div><span class="bt-countPill">LOCAL</span></div>
+      <div class="bt-preferenceList">
+        <label class="bt-prefRow"><span><strong>Accent palette</strong><small>Apply a visual accent to the tester workspace.</small></span><select id="btAccentSelect" onchange="applyBetaPreferences(true)"><option value="cyan">Cyan / Violet</option><option value="ocean">Ocean Blue</option><option value="violet">Violet / Indigo</option><option value="emerald">Emerald</option><option value="amber">Amber</option><option value="rose">Rose</option></select></label>
+        <label class="bt-prefRow"><span><strong>Information density</strong><small>Change the spacing of tester cards.</small></span><select id="btDensitySelect" onchange="applyBetaPreferences(true)"><option value="comfortable">Comfortable</option><option value="compact">Compact</option><option value="spacious">Spacious</option></select></label>
+        <label class="bt-prefRow"><span><strong>Motion effects</strong><small>Disable workspace animations for reduced motion.</small></span><input id="btMotionToggle" type="checkbox" checked onchange="applyBetaPreferences(true)"></label>
+        <label class="bt-prefRow"><span><strong>Ambient highlights</strong><small>Show subtle accent lighting on cards.</small></span><input id="btGlowToggle" type="checkbox" checked onchange="applyBetaPreferences(true)"></label>
+      </div>
+      <div class="bt-buttonRow"><button type="button" class="bt-button bt-buttonPrimary" onclick="applyBetaPreferences(true)">Apply preferences</button><button type="button" class="bt-button" onclick="resetBetaPreferences()">Reset defaults</button></div>
+      <div class="bt-statusLine" id="btPreferenceStatus">Default preview is active.</div>
+    </section>
+    <section class="bt-card" id="btDiagnosticsCard">
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">05 / ENVIRONMENT</div><h3>Client diagnostics</h3><p>Collect basic browser context to help reproduce a client-side issue. No login token or password is included.</p></div><span class="bt-countPill" id="btOnlinePill">Checking…</span></div>
+      <div class="bt-diagnosticGrid">
+        <div class="bt-diagnostic"><span>Browser / platform</span><strong id="btDiagBrowser">—</strong></div>
+        <div class="bt-diagnostic"><span>Viewport</span><strong id="btDiagViewport">—</strong></div>
+        <div class="bt-diagnostic"><span>Display</span><strong id="btDiagScreen">—</strong></div>
+        <div class="bt-diagnostic"><span>Language / locale</span><strong id="btDiagLocale">—</strong></div>
+        <div class="bt-diagnostic"><span>Time zone</span><strong id="btDiagTimezone">—</strong></div>
+        <div class="bt-diagnostic"><span>Device scale</span><strong id="btDiagScale">—</strong></div>
+      </div>
+      <div class="bt-buttonRow"><button type="button" class="bt-button bt-buttonPrimary" onclick="copyBetaDiagnostics()">Copy diagnostics</button><button type="button" class="bt-button" onclick="downloadBetaDiagnostics()">Download JSON</button></div>
+      <div class="bt-privacyHint">Review diagnostics before sharing. The report omits Zyphor authentication tokens and passwords.</div>
+    </section>
+    <section class="bt-card" id="btScratchpadCard">
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">06 / TEST NOTES</div><h3>Session scratchpad</h3><p>Write temporary observations, release questions or steps to revisit.</p></div><span class="bt-countPill">AUTOSAVE</span></div>
+      <textarea id="btScratchpad" class="bt-scratchpad" maxlength="8000" rows="9" placeholder="Session notes…
+
+What did you test?
+What worked?
+What should be checked again?"></textarea>
+      <div class="bt-scratchMeta"><span id="btScratchCount">0 / 8000</span><span id="btScratchSaved">Saved in this browser</span></div>
+      <div class="bt-buttonRow"><button type="button" class="bt-button bt-buttonPrimary" onclick="downloadBetaScratchpad()">Export notes</button><button type="button" class="bt-button" onclick="clearBetaScratchpad()">Clear notes</button></div>
+    </section>
+    <section class="bt-card bt-quickLinksCard">
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">07 / TEST ROUTES</div><h3>Quick testing routes</h3><p>Open core areas and validate the workflows you use most.</p></div></div>
+      <div class="bt-routeGrid">
+        <a href="dashboard.html"><span>⌂</span><strong>Dashboard</strong><small>Overview and account state</small><b>↗</b></a>
+        <a href="dms.html"><span>✦</span><strong>Messages</strong><small>Compose and conversation UI</small><b>↗</b></a>
+        <a href="Wallet.html"><span>◈</span><strong>Wallet</strong><small>Balance and transaction history</small><b>↗</b></a>
+        <a href="Cloud.html"><span>☁</span><strong>Cloud</strong><small>File management flows</small><b>↗</b></a>
+        <a href="Quests.html"><span>🎯</span><strong>Quests</strong><small>Quest completion and rewards</small><b>↗</b></a>
+        <a href="Support.html"><span>?</span><strong>Support</strong><small>Share a considered report</small><b>↗</b></a>
+      </div>
+    </section>
+    <section class="bt-notice"><span class="bt-noticeIcon">i</span><div><strong>How this workspace works</strong><p>Checklist state, issue drafts, proposals, preferences, session totals and scratchpad are stored in this browser using local storage. They are not submitted automatically and may be lost if browser storage is cleared. Use Support to contact the team; export a draft first if you need to keep a record.</p></div></section>
+  </div>
+</div>
 </section>
 
 <section class="statStrip">
@@ -1132,6 +1342,30 @@ body{min-width:1200px;background-color:#03050b}
 <div class="statTop"><span class="statLabel">Roblox</span><span class="statIcon">▣</span></div>
 <div class="statValue" id="robloxStat">—</div>
 <div class="statHint">Linked identity</div>
+</div>
+</section>
+
+<section class="card snapshotCard" id="snapshotSection">
+<div class="cardHeader">
+<div><h2>Profile Snapshot</h2><p>A quick read of the public information available for this account.</p></div>
+<div class="cardPill" id="snapshotUpdatedAt">WAITING FOR DATA</div>
+</div>
+<div class="snapshotGrid">
+<div class="snapshotMetric">
+<div class="snapshotMetricTop"><span>Achievements earned</span><strong id="snapshotBadgesValue">—</strong></div>
+<div class="snapshotTrack"><span id="snapshotBadgesBar"></span></div>
+<div class="snapshotMeta" id="snapshotBadgesMeta">Badge data will appear here.</div>
+</div>
+<div class="snapshotMetric">
+<div class="snapshotMetricTop"><span>Connected identities</span><strong id="snapshotLinksValue">—</strong></div>
+<div class="snapshotTrack"><span id="snapshotLinksBar"></span></div>
+<div class="snapshotMeta" id="snapshotLinksMeta">Discord and Roblox link state.</div>
+</div>
+<div class="snapshotMetric">
+<div class="snapshotMetricTop"><span>Public details</span><strong id="snapshotFieldsValue">—</strong></div>
+<div class="snapshotTrack"><span id="snapshotFieldsBar"></span></div>
+<div class="snapshotMeta" id="snapshotFieldsMeta">Username, ID, creation date and bio.</div>
+</div>
 </div>
 </section>
 
@@ -1241,7 +1475,7 @@ body{min-width:1200px;background-color:#03050b}
 <div id="badgesList" class="badges"></div>
 </section>
 
-<section class="card">
+<section class="card" id="timelineSection">
 <div class="cardHeader">
 <div><h2>Account Timeline</h2><p>Public milestones derived from the available account record.</p></div>
 <div class="cardPill">TIMELINE</div>
@@ -1278,6 +1512,9 @@ body{min-width:1200px;background-color:#03050b}
 </div>
 <div class="toolGrid">
 <button class="tool" onclick="copyAccountId()"><span class="toolIcon">◈</span><span><span class="toolTitle">Copy Account ID</span><span class="toolSub">Public identifier</span></span></button>
+<button class="tool" onclick="copyUsername()"><span class="toolIcon">@</span><span><span class="toolTitle">Copy Username</span><span class="toolSub">Account handle</span></span></button>
+<button class="tool" onclick="copyBio()"><span class="toolIcon">✎</span><span><span class="toolTitle">Copy Bio</span><span class="toolSub">Public profile text</span></span></button>
+<button class="tool" onclick="copyProfileSummary()"><span class="toolIcon">≡</span><span><span class="toolTitle">Copy Summary</span><span class="toolSub">Identity and public stats</span></span></button>
 <button class="tool" onclick="saveProfile()"><span class="toolIcon">★</span><span><span class="toolTitle">Save Profile</span><span class="toolSub">Remember locally</span></span></button>
 <button class="tool" onclick="openDM()"><span class="toolIcon">✦</span><span><span class="toolTitle">Message User</span><span class="toolSub">Open private messages</span></span></button>
 <button class="tool" onclick="shareProfile()"><span class="toolIcon">↗</span><span><span class="toolTitle">Share Profile</span><span class="toolSub">Copy or share URL</span></span></button>
@@ -1303,6 +1540,22 @@ body{min-width:1200px;background-color:#03050b}
 <div class="linkMain"><div class="linkTitle">Public Profile URL</div><div class="linkValue" id="publicLink">—</div></div>
 <button class="mini primary" onclick="copyProfileLink()">Copy</button>
 </div>
+</div>
+</section>
+
+<section class="card" id="privateNotesCard">
+<div class="cardHeader">
+<div><h2>Private Profile Notes</h2><p>Keep a personal reminder about this account on this device.</p></div>
+<div class="cardPill">LOCAL ONLY</div>
+</div>
+<div class="cardBody">
+<textarea id="profileNote" class="profileNote" maxlength="1200" rows="5" placeholder="Write a private note about this profile..."></textarea>
+<div class="profileNoteMeta"><span id="profileNoteCount">0 / 1200</span><span id="profileNoteState">Stored only in this browser</span></div>
+<div class="profileNoteActions">
+<button type="button" class="heroBtn primary" onclick="saveProfileNote()">Save note</button>
+<button type="button" class="heroBtn secondary" onclick="clearProfileNote()">Clear note</button>
+</div>
+<p class="profileNoteDisclosure">Notes are saved in this browser’s local storage and are not sent to Zyphor’s server.</p>
 </div>
 </section>
 
@@ -1335,7 +1588,7 @@ Only submit a report when you have a legitimate concern. Optional screenshots ca
 <div class="footerMark"><img src="https://zyphor.cc/Logo1.png" alt="Zyphor"></div>
 <div>
 <div class="footerCopy"><strong>© 2026 Zyphor.</strong> All rights reserved.</div>
-<div class="footerMade">Made by <a href="profile.html?username=Somin">Somin</a> · Built for the Zyphor community</div>
+<div class="footerMade">Made by <strong>Team Vaprix</strong> · Built for the Zyphor community</div>
 </div>
 </div>
 <nav class="footerLinks" aria-label="Legal and profile links">
@@ -1412,7 +1665,7 @@ Only submit a report when you have a legitimate concern. Optional screenshots ca
 <div class="modalOverlay" id="aboutModal">
 <div class="modal">
 <div class="modalHeader">
-<div><h2>Zyphor Profile</h2><p>A high-density identity and achievement interface for Zyphor.</p></div>
+<div><h2>Zyphor Profile</h2><p>A public account overview with achievements, linked identities, private local notes, and sharing tools.</p></div>
 <button class="closeBtn" onclick="closeModal('aboutModal')">×</button>
 </div>
 <div class="modalBody">
@@ -1477,6 +1730,13 @@ let profileData=null
 let badgeData={}
 let savedProfiles=loadSavedProfiles()
 let reportTargetUsername=null
+let profileNoteSavedValue=""
+let betaTesterEnabled=false
+let betaSessionTimer=null
+let betaSessionState={runningSince:null,accumulatedMs:0}
+let betaIssues=[]
+let betaIdeas=[]
+let betaPreferenceState={accent:"cyan",density:"comfortable",motion:true,glow:true}
 let reportCategory="Inappropriate Username"
 let reportFiles=[]
 
@@ -1611,7 +1871,7 @@ if(p.support)r.push('<span class="role support">🧰 Support</span>')
 if(p.admin)r.push('<span class="role admin">💎 Admin</span>')
 if(p.moderator)r.push('<span class="role mod">🛡 Mod</span>')
 if(p.vip)r.push('<span class="role vip">👑 VIP</span>')
-if(p.betaTester===true)r.push('<span class="role beta" title="Recognized Zyphor Beta Tester"><span class="betaMark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 14.7 8l6.2.9-4.5 4.4 1.1 6.2-5.5-2.9-5.5 2.9 1.1-6.2-4.5-4.4L9.3 8 12 2.4Z"/></svg></span>Beta Tester</span>')
+if(p.betaTester===true)r.push('<span class="role beta" title="Zyphor Beta Tester">Beta Tester</span>')
 return r.join("")
 }
 
@@ -1650,11 +1910,10 @@ const filter=document.getElementById("badgeFilter").value
 if(q&&!String(name).toLowerCase().includes(q))return""
 if(filter==="complete"&&!complete)return""
 if(filter==="progress"&&complete)return""
-const isBetaBadge=String(name).trim().toLowerCase()==="beta tester"
-const visual=isBetaBadge?{emoji:"✦"}:badgeVisual(name,index,t)
+const visual=badgeVisual(name,index,t)
 const visualHtml=visual.image?`<img src="${visual.image}" alt="${escapeHTML(name)}">`:`<span class="badgeEmoji">${visual.emoji}</span>`
 return`
-<div class="badgeCard ${complete?"complete":""} ${isBetaBadge?"beta-badge":""}" tabindex="0" onclick="toggleBadge(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBadge(this)}">
+<div class="badgeCard ${complete?"complete":""}" tabindex="0" onclick="toggleBadge(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBadge(this)}">
 <div class="medal" style="--progress:${percent.toFixed(2)};--tier:${t.color};--glow:${t.glow}">
 <div class="badgeVisual">${visualHtml}</div>
 </div>
@@ -1761,15 +2020,28 @@ document.getElementById("intelligenceList").innerHTML=out.map(x=>`
 </div>`).join("")
 }
 
+function fillSnapshot(data){
+const badgeEntries=Object.values(data.badges&&typeof data.badges==="object"?data.badges:{})
+const earned=badgeEntries.filter(b=>b?.earned===true||badgeProgress(b)>=100).length
+const total=badgeEntries.length
+const linkedCount=Number(!!data.linked)+Number(!!data.roblox)
+const publicFields=[data.username,data.id,data.created,data.bio||data.description].filter(v=>v!==undefined&&v!==null&&String(v).trim()!=="").length
+const pct=(n,d)=>d>0?Math.round(Math.max(0,Math.min(1,n/d))*100):0
+const setMetric=(valueId,barId,metaId,value,percent,meta)=>{
+ document.getElementById(valueId).textContent=value
+ document.getElementById(barId).style.width=percent+"%"
+ document.getElementById(metaId).textContent=meta
+}
+setMetric("snapshotBadgesValue","snapshotBadgesBar","snapshotBadgesMeta",total?`${earned} / ${total}`:"0 / 0",pct(earned,total),total?`${pct(earned,total)}% of recorded achievements completed`:"No badge records are available")
+setMetric("snapshotLinksValue","snapshotLinksBar","snapshotLinksMeta",`${linkedCount} / 2`,pct(linkedCount,2),linkedCount===2?"Discord and Roblox are both linked":linkedCount===1?"One external identity is linked":"No external identities are linked")
+setMetric("snapshotFieldsValue","snapshotFieldsBar","snapshotFieldsMeta",`${publicFields} / 4`,pct(publicFields,4),`${publicFields} of 4 public profile details are present`)
+document.getElementById("snapshotUpdatedAt").textContent="UPDATED "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
+}
+
 function fillProfile(data){
 profileData=data
 const username=data.username||"Unknown"
-const isBetaTester=data.permissions?.betaTester===true
-const profileHero=document.getElementById("profileHero")
-const avatarRing=document.getElementById("avatarRing")
-profileHero.classList.toggle("beta-tester",isBetaTester)
-avatarRing.classList.toggle("beta-tester",isBetaTester)
-document.getElementById("betaTesterPanel").hidden=!isBetaTester
+
 document.title=username+" • Zyphor Profile"
 document.getElementById("profileUsername").textContent=username
 document.getElementById("profileRoles").innerHTML=roleHtml(data.permissions||{})
@@ -1795,6 +2067,8 @@ applySubscription(data.subscription)
 renderBadges(data.badges)
 fillTimeline(data)
 fillIntelligence(data)
+fillSnapshot(data)
+loadProfileNote()
 updateSavedUI()
 const canReport=!!me&&me.username!==username
 document.getElementById("reportFlag").style.display=canReport?"inline-flex":"none"
@@ -1861,6 +2135,31 @@ toast(title||"Copied","The value was copied to your clipboard.","success")
 }catch{toast("Copy failed","Your browser blocked clipboard access.","error")}
 }
 function copyAccountId(){copyText(profileData?.id,"Account ID copied")}
+function copyUsername(){copyText(profileData?.username,"Username copied")}
+function copyBio(){
+const bio=profileData?.bio||profileData?.description||""
+if(bio)copyText(bio,"Profile bio copied")
+else toast("No bio available","This profile has no public bio to copy.","info")
+}
+function copyProfileSummary(){
+if(!profileData?.username){toast("No profile loaded","Load a public profile before copying its summary.","error");return}
+const sub=subscriptionInfo(profileData.subscription)
+const badges=Object.values(profileData.badges&&typeof profileData.badges==="object"?profileData.badges:{})
+const earned=badges.filter(b=>b?.earned===true||badgeProgress(b)>=100).length
+const lines=[
+`Zyphor Profile: ${profileData.username}`,
+`Account ID: ${profileData.id||"Unavailable"}`,
+`Joined: ${formatShortDate(profileData.created)}`,
+`Account age: ${ageLabel(profileData.created)}`,
+`Quests completed: ${Number(profileData.questsCompleted||0).toLocaleString()}`,
+`Achievements: ${earned}/${badges.length}`,
+`Subscription: ${sub.active?sub.name+(sub.lifetime?" (Lifetime)":"") : "None"}`,
+`Discord linked: ${profileData.linked?"Yes":"No"}`,
+`Roblox linked: ${profileData.roblox?"Yes":"No"}`,
+`Profile: ${profileUrl(profileData.username)}`
+]
+copyText(lines.join("\n"),"Profile summary copied")
+}
 function copyProfileLink(){copyText(profileData?profileUrl(profileData.username):location.href,"Profile link copied")}
 function copyDiscord(){
 const value=profileData?.linked?(profileData.linked.id||profileData.linked.username):""
@@ -1904,6 +2203,47 @@ function printProfile(){
 if(!profileData?.username){toast("No profile loaded","Load a public profile before printing it.","error");return}
 window.print()
 }
+function profileNoteKey(){
+return "zyphorProfileNotesV1:"+String(profileData?.username||"").trim().toLowerCase()
+}
+function updateProfileNoteMeta(){
+const input=document.getElementById("profileNote")
+if(!input)return
+const value=input.value||""
+document.getElementById("profileNoteCount").textContent=`${value.length} / 1200`
+document.getElementById("profileNoteState").textContent=value===profileNoteSavedValue?"Saved locally":"Unsaved changes"
+}
+function loadProfileNote(){
+const input=document.getElementById("profileNote")
+if(!input)return
+try{profileNoteSavedValue=localStorage.getItem(profileNoteKey())||""}catch{profileNoteSavedValue=""}
+input.value=profileNoteSavedValue
+updateProfileNoteMeta()
+}
+function saveProfileNote(){
+if(!profileData?.username){toast("No profile loaded","Load a profile before saving a private note.","error");return}
+const value=document.getElementById("profileNote").value.slice(0,1200)
+try{
+localStorage.setItem(profileNoteKey(),value)
+profileNoteSavedValue=value
+updateProfileNoteMeta()
+toast("Note saved","Your note is stored locally in this browser.","success")
+}catch{toast("Could not save note","Browser storage may be unavailable or full.","error")}
+}
+function clearProfileNote(){
+if(!profileData?.username)return
+try{localStorage.removeItem(profileNoteKey())}catch{}
+document.getElementById("profileNote").value=""
+profileNoteSavedValue=""
+updateProfileNoteMeta()
+toast("Note cleared","The local note for this profile was removed.","success")
+}
+document.getElementById("profileNote").addEventListener("input",updateProfileNoteMeta)
+function scrollToSection(id){
+const el=document.getElementById(id)
+if(el)el.scrollIntoView({behavior:"smooth",block:"start"})
+}
+
 function saveProfile(){
 if(!profileData?.username)return
 savedProfiles=savedProfiles.filter(x=>x.username!==profileData.username)
@@ -2081,6 +2421,120 @@ status.textContent="Could not connect to the server."
 }finally{button.disabled=false}
 }
 
+const BETA_CHECK_IDS=["login","profile","messages","notifications","wallet","cloud","quests","badges","integrations","support","errors","accessibility"]
+function betaKey(name){return "zyphorBetaWorkspaceV3:"+String(me?.username||"tester").trim().toLowerCase()+":"+name}
+function betaRead(name,fallback){try{const value=localStorage.getItem(betaKey(name));return value===null?fallback:JSON.parse(value)}catch{return fallback}}
+function betaWrite(name,value){try{localStorage.setItem(betaKey(name),JSON.stringify(value));const label=document.getElementById("btLastSaved");if(label)label.textContent="Last saved "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});return true}catch{return false}}
+async function resolveViewerBetaTester(){
+ if(me?.permissions?.betaTester===true)return true
+ if(!me?.username)return false
+ try{
+  const response=await fetch(backend+"/profile?username="+encodeURIComponent(me.username),{cache:"no-store"})
+  const data=await safeJson(response)
+  return data?.permissions?.betaTester===true
+ }catch{return false}
+}
+function updateBetaTesterVisibility(){
+ const panel=document.getElementById("betaTesterPanel")
+ const sheet=document.getElementById("betaTesterStylesheet")
+ if(panel)panel.hidden=!betaTesterEnabled
+ if(sheet)sheet.disabled=!betaTesterEnabled
+ if(betaTesterEnabled)initializeBetaWorkspace()
+}
+function betaChecks(){return betaRead("checks",{})||{}}
+function updateBetaChecklist(){
+ const checks=betaChecks()
+ document.querySelectorAll("[data-beta-check]").forEach(input=>{input.checked=checks[input.dataset.betaCheck]===true})
+ const complete=BETA_CHECK_IDS.filter(id=>checks[id]===true).length
+ const pct=Math.round(complete/BETA_CHECK_IDS.length*100)
+ const value=document.getElementById("btQaMetric")
+ if(value)value.textContent=pct+"%"
+ const bar=document.getElementById("btQaMetricBar");if(bar)bar.style.width=pct+"%"
+ const text=document.getElementById("btQaProgressText");if(text)text.textContent=complete+" / "+BETA_CHECK_IDS.length
+ const prog=document.getElementById("btQaProgressBar");if(prog)prog.style.width=pct+"%"
+ const meta=document.getElementById("btQaMetricMeta");if(meta)meta.textContent=complete+" of "+BETA_CHECK_IDS.length+" checks complete"
+ const status=document.getElementById("btQaStatus");if(status)status.textContent=complete===BETA_CHECK_IDS.length?"All checks marked complete. Re-run any checks affected by recent changes.":complete===0?"No checks recorded yet.":(BETA_CHECK_IDS.length-complete)+" checks still need validation."
+}
+function resetBetaChecklist(){if(!confirm("Reset all checklist progress stored for this tester?"))return;betaWrite("checks",{});updateBetaChecklist();toast("Checklist reset","Local QA progress has been cleared.","success")}
+function betaFormatDuration(ms){const seconds=Math.max(0,Math.floor(ms/1000));const h=Math.floor(seconds/3600);const m=Math.floor(seconds%3600/60);const s=seconds%60;return [h,m,s].map(v=>String(v).padStart(2,"0")).join(":")}
+function betaTotalSessionMs(){return Math.max(0,Number(betaSessionState.accumulatedMs)||0)+(betaSessionState.runningSince?Math.max(0,Date.now()-Number(betaSessionState.runningSince)):0)}
+function updateBetaSessionUI(){
+ const total=betaTotalSessionMs(),time=document.getElementById("btSessionTime"),metric=document.getElementById("btTimeMetric"),state=document.getElementById("btSessionState"),start=document.getElementById("btSessionStart"),stop=document.getElementById("btSessionStop")
+ if(time)time.textContent=betaFormatDuration(total)
+ if(metric){const mins=Math.floor(total/60000);metric.textContent=mins>=60?Math.floor(mins/60)+"h "+(mins%60)+"m":mins+"m"}
+ if(state){state.classList.toggle("isRunning",!!betaSessionState.runningSince);state.innerHTML=betaSessionState.runningSince?"<span></span> Session running":"<span></span> Not running"}
+ if(start)start.disabled=!!betaSessionState.runningSince
+ if(stop)stop.disabled=!betaSessionState.runningSince
+}
+function startBetaSession(){if(!betaTesterEnabled)return;if(!betaSessionState.runningSince)betaSessionState.runningSince=Date.now();betaWrite("session",betaSessionState);updateBetaSessionUI();toast("Test session started","Timer is tracked locally in this browser.","success")}
+function stopBetaSession(){if(!betaSessionState.runningSince)return;betaSessionState.accumulatedMs=betaTotalSessionMs();betaSessionState.runningSince=null;betaWrite("session",betaSessionState);updateBetaSessionUI();toast("Test session finished","Elapsed time was added to your local testing total.","success")}
+function betaSetMetric(id,value){const el=document.getElementById(id);if(el)el.textContent=value}
+function betaIssueId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function addBetaIssue(event){
+ event.preventDefault();if(!betaTesterEnabled)return
+ const title=document.getElementById("btIssueTitle").value.trim(),notes=document.getElementById("btIssueNotes").value.trim();if(!title||!notes)return
+ betaIssues.unshift({id:betaIssueId(),title,notes,area:document.getElementById("btIssueArea").value,severity:document.getElementById("btIssueSeverity").value,repro:document.getElementById("btIssueRepro").value,status:"Open",createdAt:new Date().toISOString()})
+ betaWrite("issues",betaIssues);event.target.reset();document.getElementById("btIssueSeverity").value="Medium";renderBetaIssues();toast("Issue draft saved","The draft is stored locally. Export it or share it through Support when ready.","success")
+}
+function setBetaIssueStatus(id,status){const item=betaIssues.find(x=>x.id===id);if(!item)return;item.status=status;betaWrite("issues",betaIssues);renderBetaIssues()}
+function deleteBetaIssue(id){betaIssues=betaIssues.filter(x=>x.id!==id);betaWrite("issues",betaIssues);renderBetaIssues()}
+function renderBetaIssues(){
+ const box=document.getElementById("btIssueList");if(!box)return
+ const query=(document.getElementById("btIssueSearch")?.value||"").trim().toLowerCase(),filter=document.getElementById("btIssueFilter")?.value||"all"
+ const filtered=betaIssues.filter(x=>(filter==="all"||x.status===filter)&&[x.title,x.notes,x.area,x.severity].some(v=>String(v||"").toLowerCase().includes(query)))
+ betaSetMetric("btIssueMetric",betaIssues.length);betaSetMetric("btIssueCount",betaIssues.length+" entr"+(betaIssues.length===1?"y":"ies"))
+ if(!filtered.length){box.innerHTML='<div class="bt-empty">'+(betaIssues.length?'No drafts match these filters.':'No issue drafts yet. Add an observation above.')+'</div>';return}
+ box.innerHTML=filtered.map(x=>`<article class="bt-record"><div class="bt-recordMain"><div class="bt-recordMeta"><span class="bt-severity bt-severity${escapeHTML(x.severity)}">${escapeHTML(x.severity)}</span><span>${escapeHTML(x.area)}</span><span>${escapeHTML(new Date(x.createdAt).toLocaleString())}</span></div><h4>${escapeHTML(x.title)}</h4><p>${escapeHTML(x.notes)}</p><div class="bt-recordFoot"><label>Status <select onchange="setBetaIssueStatus('${x.id}',this.value)">${["Open","Re-test","Resolved locally"].map(s=>`<option ${x.status===s?'selected':''}>${s}</option>`).join("")}</select></label><button type="button" class="bt-textButton bt-dangerText" onclick="deleteBetaIssue('${x.id}')">Delete</button></div></div></article>`).join("")
+}
+function addBetaIdea(event){
+ event.preventDefault();if(!betaTesterEnabled)return
+ const title=document.getElementById("btIdeaTitle").value.trim(),description=document.getElementById("btIdeaDescription").value.trim();if(!title||!description)return
+ betaIdeas.unshift({id:betaIssueId(),title,description,priority:document.getElementById("btIdeaPriority").value,area:document.getElementById("btIdeaArea").value,status:"Draft",createdAt:new Date().toISOString()})
+ betaWrite("ideas",betaIdeas);event.target.reset();document.getElementById("btIdeaPriority").value="Useful";renderBetaIdeas();toast("Proposal saved","Your feature proposal is stored locally.","success")
+}
+function deleteBetaIdea(id){betaIdeas=betaIdeas.filter(x=>x.id!==id);betaWrite("ideas",betaIdeas);renderBetaIdeas()}
+function renderBetaIdeas(){
+ const box=document.getElementById("btIdeaList");if(!box)return
+ betaSetMetric("btIdeaMetric",betaIdeas.length);betaSetMetric("btIdeaCount",betaIdeas.length+" proposal"+(betaIdeas.length===1?"":"s"))
+ if(!betaIdeas.length){box.innerHTML='<div class="bt-empty">No proposals saved yet.</div>';return}
+ box.innerHTML=betaIdeas.map(x=>`<article class="bt-record bt-ideaRecord"><div class="bt-recordMain"><div class="bt-recordMeta"><span class="bt-priority">${escapeHTML(x.priority)}</span><span>${escapeHTML(x.area)}</span><span>${escapeHTML(new Date(x.createdAt).toLocaleDateString())}</span></div><h4>${escapeHTML(x.title)}</h4><p>${escapeHTML(x.description)}</p><div class="bt-recordFoot"><span class="bt-localTag">LOCAL DRAFT</span><button type="button" class="bt-textButton bt-dangerText" onclick="deleteBetaIdea('${x.id}')">Delete</button></div></div></article>`).join("")
+}
+function downloadBetaJson(filename,data){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function downloadBetaReport(){const checks=betaChecks();downloadBetaJson("zyphor-beta-test-report.json",{createdAt:new Date().toISOString(),tester:me?.username||null,checks:BETA_CHECK_IDS.map(id=>({id,complete:checks[id]===true})),issues:betaIssues,ideas:betaIdeas,session:{...betaSessionState,totalMs:betaTotalSessionMs()},environment:betaEnvironment()});toast("Report exported","Your checklist, drafts and basic environment context were exported.","success")}
+function exportBetaIssues(){downloadBetaJson("zyphor-beta-issues.json",{createdAt:new Date().toISOString(),issues:betaIssues});toast("Issues exported","Issue drafts downloaded as JSON.","success")}
+function betaEnvironment(){return {capturedAt:new Date().toISOString(),browser:navigator.userAgent,platform:navigator.platform||"Unknown",language:navigator.language||"Unknown",languages:navigator.languages||[],timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||"Unknown",viewport:{width:innerWidth,height:innerHeight},screen:{width:screen.width,height:screen.height},devicePixelRatio:devicePixelRatio||1,online:navigator.onLine,colorScheme:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light",reducedMotion:matchMedia("(prefers-reduced-motion: reduce)").matches,hardwareConcurrency:navigator.hardwareConcurrency||null}}
+function paintBetaDiagnostics(){const d=betaEnvironment();betaSetMetric("btDiagBrowser",(navigator.userAgentData?.brands?.map(x=>x.brand+" "+x.version).join(", ")||navigator.userAgent).slice(0,100));betaSetMetric("btDiagViewport",d.viewport.width+" × "+d.viewport.height);betaSetMetric("btDiagScreen",d.screen.width+" × "+d.screen.height);betaSetMetric("btDiagLocale",d.language);betaSetMetric("btDiagTimezone",d.timezone);betaSetMetric("btDiagScale",d.devicePixelRatio+"×");betaSetMetric("btOnlinePill",d.online?"ONLINE":"OFFLINE");const el=document.getElementById("btOnlinePill");if(el)el.classList.toggle("isOffline",!d.online)}
+function copyBetaDiagnostics(){const d=betaEnvironment();const text=["Zyphor Beta Client Diagnostics","Captured: "+d.capturedAt,"Browser: "+d.browser,"Platform: "+d.platform,"Viewport: "+d.viewport.width+"x"+d.viewport.height,"Screen: "+d.screen.width+"x"+d.screen.height,"DPR: "+d.devicePixelRatio,"Language: "+d.language,"Timezone: "+d.timezone,"Online: "+d.online,"Color scheme: "+d.colorScheme,"Reduced motion: "+d.reducedMotion,"Hardware threads: "+(d.hardwareConcurrency??"Not reported")].join("\n");copyText(text,"Diagnostics copied")}
+function downloadBetaDiagnostics(){downloadBetaJson("zyphor-beta-diagnostics.json",betaEnvironment());toast("Diagnostics exported","Basic client diagnostics downloaded.","success")}
+function betaPreferenceKey(){return betaKey("preferences")}
+function applyBetaPreferences(save=true){
+ const accent=document.getElementById("btAccentSelect")?.value||betaPreferenceState.accent,density=document.getElementById("btDensitySelect")?.value||betaPreferenceState.density,motion=document.getElementById("btMotionToggle")?.checked??betaPreferenceState.motion,glow=document.getElementById("btGlowToggle")?.checked??betaPreferenceState.glow
+ betaPreferenceState={accent,density,motion,glow}
+ const palettes={cyan:["#00d5ff","#8d4dff"],ocean:["#45a8ff","#4d7cff"],violet:["#a879ff","#6556e8"],emerald:["#2ee6a6","#00bfa5"],amber:["#ffc36a","#ff8b43"],rose:["#ff7ca8","#9f6bff"]}
+ const palette=palettes[accent]||palettes.cyan;const root=document.documentElement
+ root.style.setProperty("--bt-accent",palette[0]);root.style.setProperty("--bt-accent-alt",palette[1]);root.style.setProperty("--bt-card-gap",density==="compact"?"10px":density==="spacious"?"22px":"15px");root.style.setProperty("--bt-card-pad",density==="compact"?"15px":density==="spacious"?"24px":"19px")
+ document.body.classList.toggle("bt-motion-off",!motion);document.body.classList.toggle("bt-glow-off",!glow)
+ if(save){betaWrite("preferences",betaPreferenceState);betaSetMetric("btPreferenceStatus","Preview preferences saved locally.");toast("Preview updated","Only the Beta Tester workspace appearance has changed.","success")}
+}
+function resetBetaPreferences(){betaPreferenceState={accent:"cyan",density:"comfortable",motion:true,glow:true};betaWrite("preferences",betaPreferenceState);syncBetaPreferenceControls();applyBetaPreferences(false);betaSetMetric("btPreferenceStatus","Default preview restored.")}
+function syncBetaPreferenceControls(){const s=document.getElementById("btAccentSelect"),d=document.getElementById("btDensitySelect"),m=document.getElementById("btMotionToggle"),g=document.getElementById("btGlowToggle");if(s)s.value=betaPreferenceState.accent;if(d)d.value=betaPreferenceState.density;if(m)m.checked=betaPreferenceState.motion;if(g)g.checked=betaPreferenceState.glow}
+function downloadBetaScratchpad(){const value=document.getElementById("btScratchpad")?.value||"";if(!value.trim()){toast("No notes yet","Write a note before exporting.","info");return}const blob=new Blob([value],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="zyphor-beta-session-notes.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast("Notes exported","Scratchpad saved as a text file.","success")}
+function clearBetaScratchpad(){if(!confirm("Clear the locally saved beta scratchpad?"))return;const input=document.getElementById("btScratchpad");if(input)input.value="";betaWrite("scratchpad","");updateBetaScratchpadMeta();toast("Scratchpad cleared","Local session notes removed.","success")}
+function updateBetaScratchpadMeta(){const input=document.getElementById("btScratchpad"),count=document.getElementById("btScratchCount"),saved=document.getElementById("btScratchSaved");if(count&&input)count.textContent=input.value.length+" / 8000";if(saved)saved.textContent="Autosaved locally · "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
+function initializeBetaWorkspace(){
+ if(!betaTesterEnabled)return
+ betaIssues=betaRead("issues",[]);if(!Array.isArray(betaIssues))betaIssues=[]
+ betaIdeas=betaRead("ideas",[]);if(!Array.isArray(betaIdeas))betaIdeas=[]
+ betaSessionState=betaRead("session",{runningSince:null,accumulatedMs:0})||{runningSince:null,accumulatedMs:0}
+ betaPreferenceState={...betaPreferenceState,...(betaRead("preferences",{})||{})}
+ updateBetaChecklist();document.querySelectorAll("[data-beta-check]").forEach(input=>{input.onchange=()=>{const c=betaChecks();c[input.dataset.betaCheck]=input.checked;betaWrite("checks",c);updateBetaChecklist()}})
+ renderBetaIssues();renderBetaIdeas();syncBetaPreferenceControls();applyBetaPreferences(false);paintBetaDiagnostics()
+ const scratch=document.getElementById("btScratchpad");if(scratch){scratch.value=betaRead("scratchpad","")||"";updateBetaScratchpadMeta();scratch.oninput=()=>{betaWrite("scratchpad",scratch.value);updateBetaScratchpadMeta()}}
+ updateBetaSessionUI();if(betaSessionTimer)clearInterval(betaSessionTimer);betaSessionTimer=setInterval(updateBetaSessionUI,1000)
+ const access=document.getElementById("btAccessSince");if(access)access.textContent="Signed in as "+(me?.username||"Beta Tester")
+}
+window.addEventListener("online",paintBetaDiagnostics);window.addEventListener("offline",paintBetaDiagnostics);window.addEventListener("resize",paintBetaDiagnostics)
+
 async function init(){
 try{
 backend=await getBackend()
@@ -2093,6 +2547,8 @@ if(!me){
 location.href="login.html"
 return
 }
+betaTesterEnabled=await resolveViewerBetaTester()
+updateBetaTesterVisibility()
 await trackPage(location.pathname.split("/").pop()+location.search)
 await loadProfile()
 }catch(e){
