@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#03050b">
 <meta name="color-scheme" content="dark">
-<title>Zyphor · Profile</title>
+<title>Zyphor Profile</title>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zyphor">
-<meta property="og:title" content="Zyphor · Profile">
-<meta property="og:description" content="Profiles, achievements, and connected accounts on Zyphor.">
+<meta property="og:title" content="Zyphor Profile">
+<meta property="og:description" content="View Zyphor profiles, badges, and account details.">
 <meta property="og:image" content="https://zyphor.cc/Logo1.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="https://zyphor.cc/Logo1.png">
@@ -823,716 +823,6 @@ body{padding-bottom:53px}
 @media(prefers-reduced-motion:reduce){
 *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}
 }
-
-
-:root {
-  --beta-ice: #d7fbff;
-  --beta-cyan: #76f0ff;
-  --beta-blue: #739aff;
-  --beta-violet: #b4a2ff;
-  --beta-shadow: rgba(78, 174, 255, .18);
-  --beta-line: rgba(158, 220, 255, .26);
-}
-
-.main {
-  max-width: 1800px;
-  margin-inline: auto;
-}
-
-.topbar {
-  padding-inline: 2px;
-}
-
-.pageName {
-  letter-spacing: -.35px;
-}
-
-.pageSub {
-  line-height: 1.55;
-  letter-spacing: .05px;
-}
-
-.hero {
-  isolation: isolate;
-  transition: border-color .28s ease, box-shadow .28s ease, background .28s ease;
-}
-
-.heroLayout,
-.heroIdentity,
-.avatarStage,
-.avatarRing {
-  isolation: isolate;
-}
-
-.profileDescription {
-  max-width: 64ch;
-  font-size: 12px;
-  line-height: 1.75;
-  letter-spacing: .02px;
-}
-
-.username {
-  letter-spacing: -1.7px;
-  text-wrap: pretty;
-}
-
-.role {
-  min-height: 25px;
-  padding-inline: 9px;
-  font-size: 8px;
-  letter-spacing: .05px;
-  white-space: nowrap;
-}
-
-.cardHeader h2 {
-  letter-spacing: -.35px;
-}
-
-.cardHeader p {
-  max-width: 48ch;
-  font-size: 8px;
-  line-height: 1.65;
-}
-
-.statLabel,
-.identityLabel,
-.detailLabel {
-  letter-spacing: 1.15px;
-}
-
-.statValue {
-  font-variant-numeric: tabular-nums;
-}
-
-.hero.beta-tester-hero {
-  border-color: rgba(133, 218, 255, .30);
-  background:
-    radial-gradient(ellipse at 12% 110%, rgba(54, 117, 255, .16), transparent 39%),
-    radial-gradient(ellipse at 82% 5%, rgba(104, 246, 255, .20), transparent 30%),
-    radial-gradient(ellipse at 100% 100%, rgba(151, 116, 255, .19), transparent 36%),
-    linear-gradient(125deg, rgba(10, 19, 34, .98), rgba(7, 14, 28, .96) 48%, rgba(14, 17, 39, .97));
-  box-shadow:
-    0 24px 90px rgba(0, 0, 0, .34),
-    0 0 0 1px rgba(182, 236, 255, .045),
-    0 0 42px rgba(83, 175, 255, .085),
-    inset 0 1px 0 rgba(224, 248, 255, .13);
-}
-
-.hero.beta-tester-hero::before {
-  opacity: .88;
-  background:
-    linear-gradient(125deg, rgba(255,255,255,.055), transparent 28%),
-    repeating-linear-gradient(135deg, rgba(174,220,255,.025) 0 1px, transparent 1px 11px),
-    radial-gradient(circle at 25% 16%, rgba(116, 208, 255, .075), transparent 25%);
-}
-
-.hero.beta-tester-hero::after {
-  width: 42%;
-  left: -48%;
-  background: linear-gradient(100deg, transparent, rgba(198, 246, 255, .105), rgba(164, 193, 255, .035), transparent);
-  animation: betaFrameShimmer 8.5s cubic-bezier(.42, 0, .2, 1) infinite;
-}
-
-.hero.beta-tester-hero .heroScan {
-  height: 1px;
-  opacity: .85;
-  background: linear-gradient(90deg, transparent, #7df3ff 22%, #fff 50%, #a6a0ff 77%, transparent);
-  box-shadow: 0 0 12px rgba(125, 243, 255, .75), 0 0 30px rgba(146, 136, 255, .35);
-  animation-duration: 6.5s;
-}
-
-.hero.beta-tester-hero .identityKicker {
-  color: #a9c9e5;
-}
-
-.hero.beta-tester-hero .identityDot {
-  background: var(--beta-cyan);
-  box-shadow: 0 0 0 4px rgba(118, 240, 255, .08), 0 0 14px rgba(118, 240, 255, .92);
-}
-
-.hero.beta-tester-hero .username {
-  text-shadow: 0 0 24px rgba(122, 205, 255, .10);
-}
-
-.hero.beta-tester-hero .meta {
-  border-color: rgba(171, 219, 255, .10);
-  background: rgba(4, 9, 22, .28);
-  color: #91a9c2;
-}
-
-.hero.beta-tester-hero .meta b {
-  color: #e5f8ff;
-}
-
-.avatarRing.beta-tester-ring {
-  padding: 3px;
-  background: conic-gradient(
-    from 0deg,
-    #6eeeff,
-    #eafcff 12%,
-    #769bff 28%,
-    #161b38 43%,
-    #b9a5ff 57%,
-    #dffcff 70%,
-    #50ccf4 85%,
-    #6eeeff
-  );
-  box-shadow:
-    0 0 0 1px rgba(153, 230, 255, .42),
-    0 0 19px rgba(80, 205, 255, .24),
-    0 0 42px rgba(131, 135, 255, .14),
-    0 16px 46px rgba(0, 0, 0, .42);
-  animation: betaRingDrift 12s linear infinite;
-}
-
-.avatarRing.beta-tester-ring .avatar {
-  border: 2px solid rgba(8, 16, 30, .95);
-  box-shadow: inset 0 0 0 1px rgba(217, 249, 255, .15);
-}
-
-.avatarStage.beta-tester-stage::before,
-.avatarStage.beta-tester-stage::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.avatarStage.beta-tester-stage::before {
-  inset: -13px;
-  border: 1px solid rgba(136, 225, 255, .14);
-  transform: rotate(-18deg) scaleX(.86);
-  animation: betaOrbit 18s linear infinite;
-}
-
-.avatarStage.beta-tester-stage::after {
-  inset: -19px;
-  border: 1px dashed rgba(178, 168, 255, .22);
-  transform: rotate(12deg) scaleX(.8);
-  animation: betaOrbit 26s linear infinite reverse;
-}
-
-.avatarStage.beta-tester-stage .avatarStatus {
-  border-color: #0a1424;
-}
-
-.role.beta-tester {
-  position: relative;
-  gap: 6px;
-  min-height: 28px;
-  padding: 0 10px 0 7px;
-  color: #dffaff;
-  border: 1px solid rgba(129, 226, 255, .42);
-  border-radius: 9px;
-  background:
-    linear-gradient(110deg, rgba(91, 200, 255, .13), rgba(153, 143, 255, .13)),
-    rgba(5, 14, 30, .88);
-  box-shadow: 0 0 0 1px rgba(179, 238, 255, .035), inset 0 1px 0 rgba(255,255,255,.09);
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.role.beta-tester::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(110deg, transparent 10%, rgba(212, 250, 255, .13) 45%, transparent 72%);
-  transform: translateX(-130%);
-  animation: betaBadgeSheen 6s ease-in-out infinite;
-}
-
-.betaTesterIcon {
-  display: inline-grid;
-  width: 18px;
-  height: 18px;
-  flex: 0 0 18px;
-  place-items: center;
-  color: #dcfbff;
-  filter: drop-shadow(0 0 5px rgba(108, 230, 255, .48));
-}
-
-.betaTesterIcon svg {
-  display: block;
-  width: 18px;
-  height: 18px;
-  overflow: visible;
-}
-
-.betaTesterText {
-  position: relative;
-  font-size: 8px;
-  font-weight: 900;
-  letter-spacing: .18px;
-}
-
-.betaTesterSigil {
-  display: inline-grid;
-  width: 13px;
-  height: 13px;
-  margin-left: 1px;
-  place-items: center;
-  border: 1px solid rgba(194, 242, 255, .27);
-  border-radius: 4px;
-  color: #a4f2ff;
-  font-size: 8px;
-  line-height: 1;
-}
-
-.betaAccessPanel {
-  position: relative;
-  display: none;
-  overflow: hidden;
-  margin-top: 10px;
-  padding: 17px 18px 16px;
-  border: 1px solid rgba(132, 210, 255, .22);
-  border-radius: 19px;
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(125, 135, 255, .14), transparent 34%),
-    radial-gradient(ellipse at 0% 100%, rgba(87, 210, 255, .09), transparent 40%),
-    linear-gradient(118deg, rgba(11, 20, 36, .98), rgba(10, 14, 29, .97));
-  box-shadow: 0 18px 52px rgba(0, 0, 0, .20), inset 0 1px 0 rgba(230, 249, 255, .07);
-  isolation: isolate;
-  animation: betaPanelIn .55s cubic-bezier(.2,.8,.2,1) both;
-}
-
-.betaAccessPanel.is-visible {
-  display: block;
-}
-
-.betaAccessPanel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: .42;
-  pointer-events: none;
-  background-image: radial-gradient(rgba(190, 235, 255, .50) .75px, transparent .75px);
-  background-size: 23px 23px;
-  mask-image: linear-gradient(125deg, black, transparent 66%);
-}
-
-.betaAccessPanel::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -35%;
-  width: 22%;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(179, 235, 255, .055), transparent);
-  transform: skewX(-18deg);
-  animation: betaPanelSweep 10s ease-in-out infinite;
-}
-
-.betaPanelTop {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.betaPanelIdentity {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  min-width: 0;
-}
-
-.betaPanelEmblem {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
-  place-items: center;
-  border: 1px solid rgba(156, 229, 255, .30);
-  border-radius: 13px;
-  background: linear-gradient(145deg, rgba(122, 225, 255, .16), rgba(144, 129, 255, .14));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 0 23px rgba(89, 192, 255, .07);
-  color: #ddfaff;
-}
-
-.betaPanelEmblem svg {
-  width: 25px;
-  height: 25px;
-  filter: drop-shadow(0 0 7px rgba(128, 230, 255, .28));
-}
-
-.betaEyebrow {
-  color: #83dff2;
-  font-size: 7px;
-  font-weight: 900;
-  letter-spacing: 1.7px;
-  line-height: 1.5;
-  text-transform: uppercase;
-}
-
-.betaPanelTitle {
-  margin-top: 4px;
-  color: #f2fbff;
-  font-family: "Space Grotesk", Inter, sans-serif;
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -.45px;
-  line-height: 1.15;
-}
-
-.betaPanelDescription {
-  max-width: 62ch;
-  margin-top: 9px;
-  color: #9aaec7;
-  font-size: 9px;
-  line-height: 1.7;
-}
-
-.betaSerial {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex: 0 0 auto;
-  padding: 7px 9px;
-  border: 1px solid rgba(136, 215, 255, .18);
-  border-radius: 8px;
-  background: rgba(3, 10, 22, .45);
-  color: #9cbdd4;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 7px;
-  letter-spacing: .7px;
-}
-
-.betaSerial::before {
-  content: "";
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #7cedff;
-  box-shadow: 0 0 10px rgba(124, 237, 255, .7);
-}
-
-.betaPerks {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
-  margin-top: 15px;
-}
-
-.betaPerk {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  min-width: 0;
-  padding: 10px;
-  border: 1px solid rgba(176, 221, 255, .09);
-  border-radius: 11px;
-  background: rgba(3, 9, 20, .30);
-}
-
-.betaPerkIcon {
-  display: grid;
-  width: 25px;
-  height: 25px;
-  flex: 0 0 25px;
-  place-items: center;
-  border: 1px solid rgba(132, 220, 255, .12);
-  border-radius: 8px;
-  background: rgba(109, 194, 255, .07);
-  color: #a7ecff;
-  font-size: 11px;
-}
-
-.betaPerkTitle {
-  color: #e2f2ff;
-  font-size: 8px;
-  font-weight: 900;
-  line-height: 1.4;
-}
-
-.betaPerkText {
-  margin-top: 3px;
-  color: #778fa9;
-  font-size: 7px;
-  line-height: 1.55;
-}
-
-.betaPanelBottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-top: 13px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(182, 224, 255, .085);
-  color: #6f88a2;
-  font-size: 7px;
-  line-height: 1.6;
-}
-
-.betaPanelBottom strong {
-  color: #bdeeff;
-  font-weight: 800;
-}
-
-.siteFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  margin-top: 18px;
-  padding: 18px 2px 6px;
-  border-top: 1px solid rgba(255, 255, 255, .065);
-  color: #67748a;
-}
-
-.footerBrand {
-  min-width: 0;
-}
-
-.footerCopyright {
-  color: #9ba7b8;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: .1px;
-}
-
-.footerMadeBy {
-  margin-top: 5px;
-  color: #56647b;
-  font-size: 7px;
-  line-height: 1.5;
-}
-
-.footerMadeBy strong {
-  color: #a7b7ca;
-  font-weight: 800;
-}
-
-.footerLinks {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 7px 14px;
-}
-
-.footerLinks a {
-  color: #728198;
-  font-size: 8px;
-  text-decoration: none;
-  text-underline-offset: 3px;
-  transition: color .18s ease;
-}
-
-.footerLinks a:hover,
-.footerLinks a:focus-visible {
-  color: #d3e9ff;
-  text-decoration: underline;
-}
-
-.footerLinks a:focus-visible {
-  outline: 2px solid rgba(118, 240, 255, .6);
-  outline-offset: 4px;
-  border-radius: 3px;
-}
-
-button:focus-visible,
-a:focus-visible,
-.badgeCard:focus-visible {
-  outline: 2px solid rgba(118, 220, 255, .72);
-  outline-offset: 3px;
-}
-
-.nav a,
-.nav button,
-.heroBtn,
-.topBtn,
-.tool,
-.mini {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.nav a,
-.nav button {
-  transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
-}
-
-.heroBtn,
-.topBtn,
-.mini,
-.tool,
-.stat,
-.socialCard,
-.identityCell {
-  transition: transform .18s ease, border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
-}
-
-.identityCell:hover,
-.socialCard:hover {
-  border-color: rgba(255, 255, 255, .095);
-  background-color: rgba(255, 255, 255, .027);
-}
-
-.formInput,
-.formSelect,
-.formArea,
-.badgeSearch input,
-.badgeSelect {
-  font-size: 12px;
-}
-
-.formLabel,
-.formLabel span:last-child {
-  font-size: 9px;
-}
-
-.modalHeader h2 {
-  letter-spacing: -.3px;
-}
-
-.modalHeader p {
-  max-width: 54ch;
-  font-size: 9px;
-  line-height: 1.6;
-}
-
-.toastTitle {
-  letter-spacing: -.1px;
-}
-
-.toastText {
-  font-size: 9px;
-  line-height: 1.55;
-}
-
-@keyframes betaFrameShimmer {
-  0%, 58% { left: -48%; }
-  88%, 100% { left: 125%; }
-}
-
-@keyframes betaRingDrift {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes betaOrbit {
-  to { rotate: 360deg; }
-}
-
-@keyframes betaBadgeSheen {
-  0%, 58% { transform: translateX(-130%); }
-  86%, 100% { transform: translateX(130%); }
-}
-
-@keyframes betaPanelIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes betaPanelSweep {
-  0%, 70% { left: -35%; }
-  100% { left: 125%; }
-}
-
-@media (max-width: 900px) {
-  .betaPerks {
-    grid-template-columns: 1fr;
-  }
-
-  .betaPerk {
-    align-items: center;
-    padding: 9px 10px;
-  }
-
-  .betaPerkText {
-    margin-top: 2px;
-  }
-}
-
-@media (max-width: 760px) {
-  .profileDescription {
-    font-size: 11px;
-  }
-
-  .hero.beta-tester-hero {
-    box-shadow: 0 17px 52px rgba(0, 0, 0, .30), 0 0 29px rgba(83, 175, 255, .075), inset 0 1px 0 rgba(224, 248, 255, .10);
-  }
-
-  .betaPanelTop {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .betaPanelTitle {
-    font-size: 16px;
-  }
-
-  .betaPanelBottom {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .siteFooter {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-    padding-top: 15px;
-    padding-bottom: 6px;
-  }
-
-  .footerLinks {
-    justify-content: flex-start;
-    gap: 8px 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .role.beta-tester {
-    min-height: 27px;
-  }
-
-  .betaAccessPanel {
-    padding: 14px;
-    border-radius: 16px;
-  }
-
-  .betaPanelIdentity {
-    align-items: flex-start;
-    gap: 9px;
-  }
-
-  .betaPanelEmblem {
-    width: 37px;
-    height: 37px;
-    flex-basis: 37px;
-    border-radius: 11px;
-  }
-
-  .betaPanelDescription {
-    font-size: 8px;
-  }
-
-  .betaSerial {
-    max-width: 100%;
-    font-size: 6px;
-  }
-
-  .footerLinks a {
-    font-size: 8px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero.beta-tester-hero::after,
-  .hero.beta-tester-hero .heroScan,
-  .avatarRing.beta-tester-ring,
-  .avatarStage.beta-tester-stage::before,
-  .avatarStage.beta-tester-stage::after,
-  .role.beta-tester::before,
-  .betaAccessPanel,
-  .betaAccessPanel::after {
-    animation: none !important;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -1556,7 +846,7 @@ a:focus-visible,
 <aside class="sidebar">
 <div class="logo">
 <div class="logoMark"><img src="https://zyphor.cc/Logo1.png"></div>
-<div><div class="logoTitle">ZYPHOR</div><div class="logoSub">YOUR SPACE</div></div>
+<div><div class="logoTitle">ZYPHOR</div><div class="logoSub">PROFILE NEXUS</div></div>
 <div class="logoLive"></div>
 </div>
 
@@ -1593,7 +883,7 @@ a:focus-visible,
 <div class="topbar">
 <div class="topLeft">
 <div class="pageIcon">◉</div>
-<div><div class="pageName">Profile</div><div class="pageSub">Your account, achievements, and connected accounts</div></div>
+<div><div class="pageName">Profile Nexus</div><div class="pageSub">Identity · achievements · connected accounts · public data</div></div>
 </div>
 <div class="topActions">
 <button class="topBtn" onclick="openSearch()">⌕ <span>Find</span></button>
@@ -1618,13 +908,13 @@ a:focus-visible,
 </div>
 
 <div class="heroIdentity">
-<div class="identityKicker"><span class="identityDot"></span><span>Zyphor member</span><span id="heroVisibility">LIVE RECORD</span></div>
+<div class="identityKicker"><span class="identityDot"></span><span>Public Zyphor Identity</span><span id="heroVisibility">LIVE RECORD</span></div>
 <div class="usernameRow">
 <h1 class="username" id="profileUsername">Loading...</h1>
 <div class="roleRow" id="profileRoles"></div>
 <button id="reportFlag" class="heroBtn danger" style="display:none" onclick="openReport()">⚑ Report</button>
 </div>
-<p class="profileDescription" id="profileDescription">Loading profile…</p>
+<p class="profileDescription" id="profileDescription">Loading profile intelligence...</p>
 <div class="metaRow">
 <span class="meta">ID <b id="heroId">—</b></span>
 <span class="meta">Joined <b id="heroCreated">—</b></span>
@@ -1641,43 +931,6 @@ a:focus-visible,
 </div>
 
 </div>
-</section>
-
-<section class="betaAccessPanel" id="betaAccessPanel" aria-label="Beta Tester recognition" aria-hidden="true">
-  <div class="betaPanelTop">
-    <div>
-      <div class="betaPanelIdentity">
-        <div class="betaPanelEmblem" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 2.8 19.4 11.5 28.8 12.1 21.5 18.1 23.9 27.2 16 22 8.1 27.2 10.5 18.1 3.2 12.1 12.6 11.5 16 2.8Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
-            <path d="M16 8.5 18.1 14 24 14.4 19.4 18.2 20.9 24 16 20.7 11.1 24 12.6 18.2 8 14.4 13.9 14 16 8.5Z" fill="currentColor" fill-opacity=".18"/>
-            <circle cx="16" cy="16" r="2.1" fill="currentColor"/>
-          </svg>
-        </div>
-        <div>
-          <div class="betaEyebrow">Zyphor · Early access program</div>
-          <div class="betaPanelTitle">Beta Tester</div>
-        </div>
-      </div>
-      <p class="betaPanelDescription">This account is part of the Zyphor Beta Tester group. The profile frame and insignia recognize participation in testing and helping improve the platform.</p>
-    </div>
-    <div class="betaSerial">BETA ACCESS · VERIFIED ROLE</div>
-  </div>
-  <div class="betaPerks">
-    <div class="betaPerk">
-      <span class="betaPerkIcon" aria-hidden="true">✦</span>
-      <div><div class="betaPerkTitle">Early access recognition</div><div class="betaPerkText">A distinct profile identity for members of the testing group.</div></div>
-    </div>
-    <div class="betaPerk">
-      <span class="betaPerkIcon" aria-hidden="true">⌁</span>
-      <div><div class="betaPerkTitle">Feedback contributor</div><div class="betaPerkText">Recognizes participation in testing and product feedback.</div></div>
-    </div>
-    <div class="betaPerk">
-      <span class="betaPerkIcon" aria-hidden="true">◇</span>
-      <div><div class="betaPerkTitle">Exclusive profile styling</div><div class="betaPerkText">Custom insignia, animated frame, and a limited visual theme.</div></div>
-    </div>
-  </div>
-  <div class="betaPanelBottom"><span><strong>Thank you for helping shape Zyphor.</strong> Your tester status is supplied by the account permissions system.</span><span>ROLE · BETA TESTER</span></div>
 </section>
 
 <section class="statStrip">
@@ -1714,13 +967,13 @@ a:focus-visible,
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Profile details</h2><p>A quick look at what you have added to your profile.</p></div>
+<div><h2>Profile Completeness</h2><p>Public data currently available for this identity.</p></div>
 <div class="cardPill" id="completenessPill">0%</div>
 </div>
 <div class="cardBody">
 <div class="completeness">
 <div class="completeTop">
-<div><div class="completeTitle">Profile coverage</div><div class="completeSub" id="completeText">Analyzing profile fields...</div></div>
+<div><div class="completeTitle">Identity Coverage</div><div class="completeSub" id="completeText">Analyzing profile fields...</div></div>
 <div class="completePercent" id="completePercent">0%</div>
 </div>
 <div class="completeBar"><div class="completeFill" id="completeFill"></div></div>
@@ -1736,7 +989,7 @@ a:focus-visible,
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Account details</h2><p>Account information and connected identities.</p></div>
+<div><h2>Identity Matrix</h2><p>Account information and linked public identities.</p></div>
 <div class="cardPill">LIVE</div>
 </div>
 <div class="cardBody">
@@ -1785,7 +1038,7 @@ a:focus-visible,
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Subscription</h2><p>Your current plan and account status.</p></div>
+<div><h2>Subscription Core</h2><p>Current subscription and lifetime state.</p></div>
 <div class="cardPill" id="subscriptionHeaderPill">ACCOUNT</div>
 </div>
 <div class="subscriptionBox">
@@ -1804,7 +1057,7 @@ a:focus-visible,
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Achievements</h2><p>View your badges, progress, and milestones.</p></div>
+<div><h2>Achievement Vault</h2><p>Inspect badge progression, completion and tier details.</p></div>
 <div class="cardPill"><span id="badgeCountHeader">0</span>&nbsp; BADGES</div>
 </div>
 <div class="badgeToolbar">
@@ -1816,7 +1069,7 @@ a:focus-visible,
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Activity</h2><p>Milestones recorded on this profile.</p></div>
+<div><h2>Profile Timeline</h2><p>Public milestones derived from the available account record.</p></div>
 <div class="cardPill">TIMELINE</div>
 </div>
 <div class="timeline" id="timelineList"></div>
@@ -1828,7 +1081,7 @@ a:focus-visible,
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Connected accounts</h2><p>External accounts connected to this profile.</p></div>
+<div><h2>Connected Identity</h2><p>Linked external identities visible on this profile.</p></div>
 <div class="cardPill">LINKS</div>
 </div>
 <div class="socialGrid">
@@ -1847,7 +1100,7 @@ a:focus-visible,
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Quick actions</h2><p>Useful shortcuts for this profile.</p></div>
+<div><h2>Identity Tools</h2><p>Fast actions for this public profile.</p></div>
 </div>
 <div class="toolGrid">
 <button class="tool" onclick="copyAccountId()"><span class="toolIcon">◈</span><span><span class="toolTitle">Copy Account ID</span><span class="toolSub">Public identifier</span></span></button>
@@ -1879,7 +1132,7 @@ a:focus-visible,
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Account overview</h2><p>A summary of the public information available here.</p></div>
+<div><h2>Profile Intelligence</h2><p>Useful signals generated from the public record.</p></div>
 <div class="cardPill">AUTO</div>
 </div>
 <div class="timeline" id="intelligenceList"></div>
@@ -1900,18 +1153,6 @@ Only submit a report when you have a legitimate concern. Optional screenshots ca
 
 </div>
 </div>
-
-<footer class="siteFooter" aria-label="Site information">
-  <div class="footerBrand">
-    <div class="footerCopyright">© <span id="copyrightYear">2026</span> Zyphor. All rights reserved.</div>
-    <div class="footerMadeBy">Made by <strong>Somin</strong> · Crafted for the community.</div>
-  </div>
-  <nav class="footerLinks" aria-label="Legal and site links">
-    <a href="/tos.html">Terms of Service</a>
-    <a href="/privacy.html">Privacy Policy</a>
-    <a href="https://zyphor.cc/" rel="noopener noreferrer">Zyphor home</a>
-  </nav>
-</footer>
 
 </main>
 </div>
@@ -1984,7 +1225,7 @@ Only submit a report when you have a legitimate concern. Optional screenshots ca
 <div class="modalOverlay" id="aboutModal">
 <div class="modal">
 <div class="modalHeader">
-<div><h2>About this profile</h2><p>A simple place to view profile details and achievements on Zyphor.</p></div>
+<div><h2>Profile Nexus</h2><p>A high-density identity and achievement interface for Zyphor.</p></div>
 <button class="closeBtn" onclick="closeModal('aboutModal')">×</button>
 </div>
 <div class="modalBody">
@@ -2183,7 +1424,6 @@ if(p.support)r.push('<span class="role support">🧰 Support</span>')
 if(p.admin)r.push('<span class="role admin">💎 Admin</span>')
 if(p.moderator)r.push('<span class="role mod">🛡 Mod</span>')
 if(p.vip)r.push('<span class="role vip">👑 VIP</span>')
-if(p.betaTester===true||p.betaTester===1||String(p.betaTester).toLowerCase()==="true")r.push('<span class="role beta-tester" title="Zyphor Beta Tester" aria-label="Zyphor Beta Tester"><span class="betaTesterIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1.8 14.5 8.2 21.3 8.7 16 13.1 17.8 19.7 12 15.9 6.2 19.7 8 13.1 2.7 8.7 9.5 8.2 12 1.8Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="m12 6.3 1.6 4.2 4.4.3-3.4 2.8 1.1 4.2-3.7-2.4-3.7 2.4 1.1-4.2-3.4-2.8 4.4-.3L12 6.3Z" fill="currentColor" fill-opacity=".2"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg></span><span class="betaTesterText">Beta Tester</span><span class="betaTesterSigil" aria-hidden="true">✦</span></span>')
 return r.join("")
 }
 
@@ -2295,8 +1535,7 @@ document.getElementById("savedTitle").textContent=on?"Saved locally":"Not saved 
 }
 function fillTimeline(data){
 const items=[]
-if(data.permissions?.betaTester===true||data.permissions?.betaTester===1||String(data.permissions?.betaTester).toLowerCase()==="true")items.push({icon:"✦",title:"Beta Tester",text:"This account is recognized as part of the Zyphor Beta Tester group.",time:"Current role"})
-if(data.created)items.push({icon:"◉",title:"Account created",text:"This Zyphor account was created.",time:formatDate(data.created)})
+if(data.created)items.push({icon:"◉",title:"Account created",text:"This public Zyphor identity was created.",time:formatDate(data.created)})
 if(data.linked)items.push({icon:"◌",title:"Discord linked",text:"A Discord identity is publicly connected.",time:"Linked identity"})
 if(data.roblox)items.push({icon:"▣",title:"Roblox linked",text:"A Roblox identity is publicly connected.",time:"Linked identity"})
 if(Number(data.questsCompleted||0)>0)items.push({icon:"🎯",title:"Quest milestones",text:`${Number(data.questsCompleted).toLocaleString()} quests completed on the public record.`,time:"Achievement history"})
@@ -2315,7 +1554,6 @@ ${i<items.length-1?"<div class='timelineRail'></div>":""}
 }
 function fillIntelligence(data){
 const out=[]
-if(data.permissions?.betaTester===true||data.permissions?.betaTester===1||String(data.permissions?.betaTester).toLowerCase()==="true")out.push({icon:"✦",title:"Beta Tester role",text:"This account has Beta Tester recognition from Zyphor permissions.",time:"Verified profile role"})
 const sub=subscriptionInfo(data.subscription)
 if(sub.active)out.push({icon:"◈",title:"Subscription detected",text:`${sub.name}${sub.lifetime?" is lifetime.":" is currently active."}`,time:"Current state"})
 if(data.linked)out.push({icon:"◌",title:"Discord identity available",text:"A public Discord identity is present on the profile.",time:"Current state"})
@@ -2337,20 +1575,9 @@ document.getElementById("intelligenceList").innerHTML=out.map(x=>`
 function fillProfile(data){
 profileData=data
 const username=data.username||"Unknown"
-const permissions=data.permissions||{}
-const isBetaTester=permissions.betaTester===true||permissions.betaTester===1||String(permissions.betaTester).toLowerCase()==="true"
-const hero=document.getElementById("profileHero")
-const stage=document.querySelector(".avatarStage")
-const ring=document.getElementById("avatarRing")
-const betaPanel=document.getElementById("betaAccessPanel")
-hero.classList.toggle("beta-tester-hero",isBetaTester)
-stage.classList.toggle("beta-tester-stage",isBetaTester)
-ring.classList.toggle("beta-tester-ring",isBetaTester)
-betaPanel.classList.toggle("is-visible",isBetaTester)
-betaPanel.setAttribute("aria-hidden",isBetaTester?"false":"true")
 document.title=username+" • Zyphor Profile"
 document.getElementById("profileUsername").textContent=username
-document.getElementById("profileRoles").innerHTML=roleHtml(permissions)
+document.getElementById("profileRoles").innerHTML=roleHtml(data.permissions||{})
 document.getElementById("sideName").textContent=me?.username||"Signed in"
 document.getElementById("accountId").textContent=data.id||"Unavailable"
 document.getElementById("heroId").textContent=data.id||"—"
@@ -2414,7 +1641,7 @@ async function refreshProfile(){
 try{
 toast("Refreshing","Loading the latest public profile record.","info")
 await loadProfile()
-toast("Profile refreshed","The Profile is up to date.","success")
+toast("Profile refreshed","The Profile Nexus is synchronized.","success")
 }catch{toast("Refresh failed","The profile could not be refreshed.","error")}
 }
 function copyText(text,title){
@@ -2612,8 +1839,6 @@ status.textContent="Could not connect to the server."
 }finally{button.disabled=false}
 }
 
-document.getElementById("copyrightYear").textContent=String(new Date().getFullYear())
-
 async function init(){
 try{
 backend=await getBackend()
@@ -2629,7 +1854,7 @@ return
 await trackPage(location.pathname.split("/").pop()+location.search)
 await loadProfile()
 }catch(e){
-toast("Profile error","The profile could not connect to Zyphor. ","error")
+toast("Profile error","The Profile Nexus could not connect to the Zyphor backend.","error")
 }
 }
 init()
