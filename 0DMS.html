@@ -1960,6 +1960,7 @@ let inboxTab="friends"
 let olderMessageCursor=null
 let hasOlderMessages=false
 let loadingOlderMessages=false
+let suppressOlderAutoloadUntil=0
 let refreshTimer=null
 let draftSaveTimer=null
 let typingTimer=null
@@ -2666,6 +2667,7 @@ function renderActiveChat(chat,forceBottom=false){
     const wasNearBottom=chatMessages.scrollHeight-chatMessages.scrollTop-chatMessages.clientHeight<180
     const messages=Array.isArray(chat.messages)?chat.messages:[]
 
+    suppressOlderAutoloadUntil=Date.now()+350
     chatMessages.innerHTML=""
     if(hasOlderMessages){
         const older=document.createElement("button")
@@ -3436,6 +3438,7 @@ function jumpToLatest(){
 chatMessages.addEventListener("scroll",()=>{
     lastKnownScrollTop=chatMessages.scrollTop
     updateJumpButton()
+    if(Date.now()<suppressOlderAutoloadUntil) return
     if(chatMessages.scrollTop<55&&hasOlderMessages) loadOlderMessages()
 })
 
