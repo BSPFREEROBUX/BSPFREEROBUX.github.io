@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#03050b">
 <meta name="color-scheme" content="dark">
-<title>Zyphor Profile</title>
+<title>Zyphor · Profile</title>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zyphor">
 <meta property="og:title" content="Zyphor Profile">
-<meta property="og:description" content="View Zyphor profiles, badges, and account details.">
+<meta property="og:description" content="View a Zyphor account profile, achievements, and connected identities.">
 <meta property="og:image" content="https://zyphor.cc/Logo1.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="https://zyphor.cc/Logo1.png">
@@ -768,61 +768,224 @@ animation:scaleIn .18s ease;
 .toastIcon{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.035);font-size:10px}.toastTitle{font-size:8px;font-weight:900}.toastText{margin-top:3px;font-size:7px;line-height:1.45;color:#68768d}
 .toast.success .toastIcon{color:#82efb9;background:rgba(103,239,176,.06)}.toast.error .toastIcon{color:#ff91a2;background:rgba(255,95,122,.06)}.toast.info .toastIcon{color:#85e9ff;background:rgba(0,229,255,.06)}
 
-.mobileBar{display:none}
-@media(max-width:1240px){
-.contentGrid{grid-template-columns:1fr}
-.rightColumn{display:grid;grid-template-columns:1fr 1fr}
-.statStrip{grid-template-columns:repeat(5,1fr)}
-.heroLayout{grid-template-columns:auto minmax(0,1fr)}
-.heroActions{grid-column:2}
-}
-@media(max-width:980px){
-.layout{grid-template-columns:1fr}
-.sidebar{
-position:relative;
-height:auto;
-padding:9px 10px;
-border-right:0;
-border-bottom:1px solid var(--line);
-}
-.logo{padding:2px 5px 8px}
-.logoMark{width:35px;height:35px}.logoMark img{width:27px;height:27px}
-.logoTitle{font-size:13px}.logoSub{font-size:5px}
-.navLabel,.sidebarFooter{display:none}
-.nav{flex-direction:row;overflow-x:auto;padding:7px 2px 1px;scrollbar-width:none}
-.nav::-webkit-scrollbar{display:none}
-.nav a,.nav button{min-width:max-content}
-.navText{font-size:8px}
-.main{padding:13px}
-}
-@media(max-width:760px){
-.topbar{margin-bottom:9px}.pageIcon{display:none}.topSub{display:none}.topBtn{width:32px;padding:0;justify-content:center}.topBtn span{display:none}
-.heroLayout{grid-template-columns:1fr}
-.avatarStage{margin:0 auto}
-.heroIdentity{text-align:center}
-.identityKicker,.usernameRow,.metaRow{justify-content:center}.roleRow{justify-content:center}
-.profileDescription{margin-left:auto;margin-right:auto}
-.heroActions{grid-column:auto;min-width:0}
-.statStrip{grid-template-columns:repeat(2,1fr)}
-.stat:last-child{grid-column:1/-1}
-.rightColumn{display:flex}
-.identityGrid{grid-template-columns:1fr}
-.socialGrid{grid-template-columns:1fr}
-.completeGrid{grid-template-columns:repeat(2,1fr)}
-.badgeDetails{position:fixed;left:50%;top:auto;bottom:15px;width:min(340px,calc(100vw - 28px));transform:translate(-50%,10px) scale(.97)}
-.badgeCard:hover .badgeDetails{opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,10px) scale(.97)}
-.badgeCard.open .badgeDetails{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0) scale(1)}
-.mobileBar{position:fixed;display:flex;left:9px;right:9px;bottom:7px;z-index:80;gap:6px;padding:6px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(5,9,15,.94);backdrop-filter:blur(18px)}
-.mobileBar button{flex:1;height:34px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:transparent;color:#728099;font-size:7px;font-weight:900}
-.mobileBar button.active{color:#fff;background:linear-gradient(90deg,rgba(0,229,255,.07),rgba(159,77,255,.07));border-color:rgba(0,229,255,.13)}
-body{padding-bottom:53px}
-}
-@media(max-width:500px){
-.main{padding:10px}.hero{padding:17px;border-radius:21px}.username{font-size:30px}.heroActions{grid-template-columns:1fr}.statValue{font-size:18px}.heroMeta{font-size:6px}.reportCategories{grid-template-columns:1fr}.toastContainer{left:9px;right:9px;bottom:50px}.toast{min-width:0;max-width:none}
-}
 @media(prefers-reduced-motion:reduce){
 *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}
 }
+
+
+/* Zyphor dashboard-aligned finishing system */
+:root{
+ --panel:rgba(8,13,23,.94);
+ --panel2:rgba(13,20,34,.96);
+ --line:rgba(150,174,210,.12);
+ --line2:rgba(150,174,210,.19);
+ --muted:#9aa8bd;
+ --muted2:#718098;
+ --shadow:0 18px 52px rgba(0,0,0,.28);
+ --radius:18px;
+}
+html{min-width:1200px}
+body{min-width:1200px;background-color:#03050b}
+.layout{min-width:1200px}
+.sidebar{background:rgba(5,8,15,.94);border-right-color:rgba(150,174,210,.13)}
+.logoTitle{font-size:16px;letter-spacing:2px}
+.logoSub{font-size:8px;letter-spacing:1.5px}
+.navLabel{font-size:9px;letter-spacing:1.4px;color:#74839a}
+.nav a,.nav button{min-height:42px}
+.navIcon{font-size:14px}
+.navText{font-size:11px}
+.main{padding:22px 26px 22px}
+.topbar{margin-bottom:16px}
+.pageIcon{width:38px;height:38px}
+.pageName{font-size:16px}
+.pageSub{font-size:10px;color:#8796ad}
+.topBtn{height:35px;padding:0 12px;font-size:10px}
+.hero{padding:28px;border-radius:22px;border-color:rgba(150,174,210,.14);background:radial-gradient(circle at 87% 15%,rgba(0,229,255,.075),transparent 25%),radial-gradient(circle at 98% 95%,rgba(159,77,255,.075),transparent 27%),linear-gradient(145deg,rgba(17,25,41,.97),rgba(7,11,19,.97))}
+.hero::after{opacity:.55;animation-duration:15s}
+.heroScan{opacity:.42;animation-duration:12s}
+.avatarStage{width:140px;height:140px}
+.avatarRing{width:122px;height:122px}
+.identityKicker{font-size:9px;letter-spacing:1.3px}
+.username{font-size:clamp(34px,2.8vw,45px);letter-spacing:-1.2px}
+.role{height:27px;padding:0 9px;font-size:10px;border-radius:8px;gap:6px}
+.profileDescription{font-size:12px;line-height:1.7;color:#a0aec1}
+.meta{font-size:9px;padding:7px 10px}
+.heroBtn{min-height:38px;font-size:10px;padding:0 12px}
+.statStrip{gap:10px;margin-top:12px}
+.stat{padding:14px;border-radius:14px}
+.statLabel{font-size:9px;letter-spacing:.9px}
+.statIcon{width:30px;height:30px;font-size:13px}
+.statValue{font-size:23px;margin-top:11px}
+.statHint{font-size:9px;line-height:1.4;color:#718098}
+.contentGrid{gap:12px;margin-top:12px}
+.column{gap:12px}
+.card{border-radius:17px;border-color:rgba(150,174,210,.12);background:linear-gradient(145deg,rgba(12,18,30,.96),rgba(7,11,19,.97));box-shadow:0 12px 35px rgba(0,0,0,.18)}
+.cardHeader{padding:18px 18px 13px}
+.cardHeader h2{font-size:15px;letter-spacing:-.25px}
+.cardHeader p{font-size:10px;line-height:1.55;color:#8796ad}
+.cardPill{font-size:9px;height:26px;padding:0 10px;letter-spacing:.6px}
+.cardBody{padding:0 18px 18px}
+.completeness{padding:15px;border-radius:12px}
+.completeTitle{font-size:11px}
+.completePercent{font-size:20px}
+.completeSub{font-size:10px;line-height:1.5}
+.completeChip{font-size:8px;padding:8px}
+.identityGrid{gap:8px}
+.identityCell{padding:13px;border-radius:11px}
+.identityLabel{font-size:8px;letter-spacing:.9px}
+.identityValue{font-size:11px;line-height:1.5}
+.identityValue.mono{font-size:10px}
+.mini{height:28px;padding:0 10px;font-size:9px}
+.subscriptionBox{padding:16px;border-radius:13px}
+.subName{font-size:12px}
+.subDescription{font-size:10px;line-height:1.5}
+.subBadge{height:26px;padding:0 10px;font-size:8px}
+.subFact{padding:10px}
+.subFact small{font-size:7px}
+.subFact b{font-size:10px}
+.badgeToolbar{margin:0 18px 12px}
+.badgeSearch input{height:36px;font-size:10px;padding-left:30px}
+.badgeSearch span{font-size:12px}
+.badgeSelect{height:36px;font-size:10px;padding:0 10px}
+.badges{gap:12px;padding:0 18px 18px}
+.badgeCard{width:92px;min-height:116px}
+.medal{width:78px;height:78px}
+.badgeVisual{width:51px;height:51px}
+.badgeEmoji{font-size:26px}
+.badgeName{font-size:9px;margin-top:8px}
+.badgeTiny{font-size:8px}
+.badgeDetailsTitle{font-size:12px}
+.badgeDetailsText{font-size:10px;line-height:1.5}
+.badgeRow{font-size:9px}
+.badgeEmpty{font-size:11px;padding:28px}
+.socialGrid{gap:8px;padding:0 18px 18px}
+.socialCard{padding:13px}
+.socialIcon{width:32px;height:32px;font-size:14px}
+.socialTitle{font-size:10px}
+.socialSub{font-size:9px}
+.socialValue{font-size:10px;line-height:1.5}
+.toolGrid{gap:8px;padding:0 18px 18px}
+.tool{min-height:65px;padding:12px;border-radius:11px}
+.toolIcon{width:34px;height:34px;font-size:14px}
+.toolTitle{font-size:10px;display:block}
+.toolSub{font-size:9px;display:block;line-height:1.5}
+.localSaved{padding:12px;margin:0 18px 18px}
+.savedTitle{font-size:10px}
+.savedText{font-size:9px}
+.timeline{padding:0 18px 18px}
+.timelineItem{gap:11px;padding-bottom:14px}
+.timelineRail{left:14px;top:27px}
+.timelineIcon{width:29px;height:29px;font-size:12px}
+.timelineTitle{font-size:10px}
+.timelineText{font-size:10px;line-height:1.55}
+.timelineTime{font-size:9px;margin-top:5px}
+.quickLink{padding:0 18px 18px}
+.linkBox{padding:12px}
+.linkIcon{width:34px;height:34px;font-size:13px}
+.linkTitle{font-size:10px}
+.linkValue{font-size:9px}
+.modalHeader{padding:19px}
+.modalHeader h2{font-size:17px}
+.modalHeader p{font-size:10px;line-height:1.5}
+.modalBody{padding:18px}
+.formLabel{font-size:10px}
+.formInput,.formSelect,.formArea{font-size:11px}
+.formInput,.formSelect{height:40px}
+.searchResult{padding:11px}
+.resultAvatar{width:34px;height:34px;font-size:11px}
+.resultName{font-size:10px}
+.resultId{font-size:9px}
+.detailCell{padding:12px}
+.detailLabel{font-size:8px}
+.detailValue{font-size:11px}
+.reportCategory{font-size:10px;padding:9px}
+.reportUpload strong{font-size:10px}
+.reportUpload small{font-size:9px}
+.reportFileName{font-size:10px}
+.reportFileSize{font-size:9px}
+.reportStatus{font-size:10px}
+.toast{min-width:285px;padding:12px}
+.toastIcon{width:31px;height:31px;font-size:12px}
+.toastTitle{font-size:10px}
+.toastText{font-size:9px;line-height:1.5}
+
+/* Beta Tester: a reserved identity treatment, enabled only by the API permission. */
+.role.beta{
+ position:relative;color:#e7dcff;border-color:rgba(174,132,255,.42);
+ background:linear-gradient(120deg,rgba(112,73,197,.18),rgba(39,182,208,.10));
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 0 18px rgba(139,103,255,.08);
+ overflow:hidden;
+}
+.role.beta::after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(110deg,transparent 15%,rgba(255,255,255,.13) 45%,transparent 70%);
+ transform:translateX(-120%);animation:betaBadgeSweep 6s ease-in-out infinite;
+}
+.betaMark{position:relative;z-index:1;width:16px;height:16px;display:inline-grid;place-items:center;flex:0 0 auto;border-radius:5px;background:linear-gradient(145deg,#d6c1ff,#73efff);box-shadow:0 0 12px rgba(163,129,255,.28)}
+.betaMark svg{width:11px;height:11px;fill:#141228;display:block}
+.hero.beta-tester{
+ border-color:rgba(166,130,255,.40);
+ background:radial-gradient(ellipse at 10% 0%,rgba(153,103,255,.14),transparent 38%),radial-gradient(ellipse at 85% 8%,rgba(67,222,244,.11),transparent 30%),linear-gradient(145deg,rgba(19,20,40,.98),rgba(7,11,20,.98));
+ box-shadow:0 18px 54px rgba(0,0,0,.3),0 0 0 1px rgba(148,113,255,.06),0 0 38px rgba(133,101,255,.07);
+}
+.hero.beta-tester::before{background:linear-gradient(130deg,rgba(206,186,255,.05),transparent 35%),radial-gradient(circle at 15% 92%,rgba(72,224,242,.07),transparent 28%)}
+.hero.beta-tester .heroScan{background:linear-gradient(90deg,transparent,#b69aff,#d8faff,#8eeefa,#c5a2ff,transparent);box-shadow:0 0 11px rgba(163,129,255,.75);opacity:.75}
+.avatarRing.beta-tester{background:conic-gradient(from 0deg,#7a5ce0,#8eeefa,#f2dcff,#8c73ff,#7deaf1,#7a5ce0);box-shadow:0 0 0 1px rgba(177,151,255,.35),0 0 32px rgba(144,111,255,.28),0 0 54px rgba(67,222,244,.08);animation:betaFrameSpin 10s linear infinite}
+.avatarRing.beta-tester .avatar{border-color:rgba(214,202,255,.45)}
+.hero.beta-tester .avatarOuter{background:conic-gradient(from 0deg,rgba(174,139,255,.92),rgba(107,239,255,.74),rgba(255,255,255,.45),rgba(152,115,255,.94));filter:blur(4px);opacity:.72;animation:betaFrameSpin 15s linear infinite}
+.hero.beta-tester .avatarOuter::before{border-color:rgba(210,196,255,.33)}
+.betaTesterPanel{
+ position:relative;display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:15px;
+ margin-top:12px;padding:16px 19px;border:1px solid rgba(164,132,255,.23);border-radius:16px;
+ background:radial-gradient(ellipse at 0 50%,rgba(146,104,255,.12),transparent 43%),linear-gradient(120deg,rgba(17,18,35,.97),rgba(8,14,23,.97));
+ box-shadow:0 12px 35px rgba(0,0,0,.16);overflow:hidden;
+}
+.betaTesterPanel[hidden]{display:none}
+.betaTesterPanel::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(168,145,255,.055) 50%,transparent 70%);animation:betaPanelSweep 12s ease-in-out infinite}
+.betaPanelGlyph{position:relative;z-index:1;width:52px;height:52px;display:grid;place-items:center;border:1px solid rgba(188,163,255,.38);border-radius:15px;background:linear-gradient(145deg,rgba(146,106,255,.22),rgba(74,222,239,.1));box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 0 26px rgba(139,103,255,.10)}
+.betaPanelGlyph svg{width:29px;height:29px;fill:none;stroke:#d9d0ff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.betaPanelKicker{position:relative;z-index:1;color:#b5a2ff;font-size:9px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}
+.betaPanelTitle{position:relative;z-index:1;margin-top:3px;font-family:"Space Grotesk",Inter,sans-serif;font-size:15px;font-weight:700;color:#f4efff}
+.betaPanelText{position:relative;z-index:1;margin-top:5px;font-size:10px;line-height:1.55;color:#929db5;max-width:720px}
+.betaPanelActions{position:relative;z-index:1;display:flex;gap:7px}
+.betaPanelTag{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 8px;border-radius:7px;border:1px solid rgba(153,126,255,.2);background:rgba(130,96,221,.07);font-size:8px;font-weight:800;color:#c5b6ff;letter-spacing:.3px}
+.betaPanelTag::before{content:"";width:5px;height:5px;border-radius:50%;background:#a88aff;box-shadow:0 0 9px #a88aff}
+.badgeCard.beta-badge .medal{background:conic-gradient(from -90deg,#ab8cff,#74eaf5,#eadcff,#8c7bff,#ab8cff);box-shadow:0 12px 28px rgba(0,0,0,.26),0 0 20px rgba(146,111,255,.16)}
+.badgeCard.beta-badge .medal::before{background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.18),transparent 26%),linear-gradient(145deg,#201b38,#090d19);border-color:rgba(195,173,255,.32)}
+.badgeCard.beta-badge .badgeName{color:#d8ceff}
+@keyframes betaBadgeSweep{0%,68%{transform:translateX(-120%)}86%,100%{transform:translateX(120%)}}
+@keyframes betaFrameSpin{to{transform:rotate(360deg)}}
+@keyframes betaPanelSweep{0%,76%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+.siteFooter{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:20px;padding:17px 5px 3px;border-top:1px solid rgba(150,174,210,.12);color:#718098}
+.footerBrand{display:flex;align-items:center;gap:10px;min-width:0}
+.footerMark{width:29px;height:29px;display:grid;place-items:center;border-radius:9px;border:1px solid rgba(0,229,255,.12);background:linear-gradient(145deg,rgba(0,229,255,.08),rgba(159,77,255,.1))}
+.footerMark img{width:21px;height:21px;object-fit:contain}
+.footerCopy{font-size:10px;line-height:1.6}
+.footerCopy strong{color:#c5cfdd;font-weight:700}
+.footerMade{margin-top:2px;font-size:9px;color:#6c7a91}
+.footerMade a{color:#a8b9d2;text-decoration:none}
+.footerMade a:hover{color:#d9caff}
+.footerLinks{display:flex;align-items:center;gap:7px;white-space:nowrap}
+.footerLinks a,.footerLinks button{display:inline-flex;align-items:center;min-height:31px;padding:0 10px;border:1px solid rgba(150,174,210,.12);border-radius:8px;background:rgba(255,255,255,.018);color:#8492a9;text-decoration:none;font-size:9px;font-weight:700;transition:background .18s,border-color .18s,color .18s}
+.footerLinks a:hover,.footerLinks button:hover{color:#eaf2ff;border-color:rgba(0,229,255,.24);background:rgba(0,229,255,.045)}
+.footerDot{width:3px;height:3px;border-radius:50%;background:#46536a}
+
+@media print{
+ body{min-width:0;background:#fff;color:#111}
+ body::before,body::after,.sidebar,.topActions,.heroActions,.miniActions,.toolGrid,.localSaved,.quickLink,.siteFooter,.modalOverlay,.toastContainer,.ownerReveal,.heroScan{display:none!important}
+ .layout{display:block;min-width:0}
+ .main{padding:0}
+ .hero,.card,.stat{background:#fff!important;border:1px solid #ddd!important;box-shadow:none!important;color:#111;break-inside:avoid}
+ .contentGrid{display:block}
+ .column{display:block}
+ .card{margin-top:12px}
+ .username,.cardHeader h2,.statValue,.identityValue,.timelineTitle{color:#111!important}
+ .profileDescription,.cardHeader p,.timelineText,.timelineTime,.statHint{color:#444!important}
+ .statStrip{grid-template-columns:repeat(5,1fr)}
+ a{color:#111!important;text-decoration:none}
+}
+
 </style>
 </head>
 <body>
@@ -846,7 +1009,7 @@ body{padding-bottom:53px}
 <aside class="sidebar">
 <div class="logo">
 <div class="logoMark"><img src="https://zyphor.cc/Logo1.png"></div>
-<div><div class="logoTitle">ZYPHOR</div><div class="logoSub">PROFILE NEXUS</div></div>
+<div><div class="logoTitle">ZYPHOR</div><div class="logoSub">ACCOUNT CENTRE</div></div>
 <div class="logoLive"></div>
 </div>
 
@@ -883,7 +1046,7 @@ body{padding-bottom:53px}
 <div class="topbar">
 <div class="topLeft">
 <div class="pageIcon">◉</div>
-<div><div class="pageName">Profile Nexus</div><div class="pageSub">Identity · achievements · connected accounts · public data</div></div>
+<div><div class="pageName">Profile</div><div class="pageSub">Account details, achievements, and connected identities</div></div>
 </div>
 <div class="topActions">
 <button class="topBtn" onclick="openSearch()">⌕ <span>Find</span></button>
@@ -908,7 +1071,7 @@ body{padding-bottom:53px}
 </div>
 
 <div class="heroIdentity">
-<div class="identityKicker"><span class="identityDot"></span><span>Public Zyphor Identity</span><span id="heroVisibility">LIVE RECORD</span></div>
+<div class="identityKicker"><span class="identityDot"></span><span>ZYPhOR ACCOUNT</span><span id="heroVisibility">PUBLIC PROFILE</span></div>
 <div class="usernameRow">
 <h1 class="username" id="profileUsername">Loading...</h1>
 <div class="roleRow" id="profileRoles"></div>
@@ -931,6 +1094,17 @@ body{padding-bottom:53px}
 </div>
 
 </div>
+</section>
+
+<section class="betaTesterPanel" id="betaTesterPanel" hidden aria-label="Beta Tester recognition">
+<div class="betaPanelGlyph" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3.5 19.7 11l8.2 1.2-5.9 5.8 1.4 8.1-7.4-3.9-7.4 3.9 1.4-8.1-5.9-5.8 8.2-1.2L16 3.5Z"/><path d="m11.8 16 2.8 2.8 5.7-6"/></svg></div>
+<div>
+<div class="betaPanelKicker">ZYPhOR · RECOGNIZED CONTRIBUTOR</div>
+<div class="betaPanelTitle">Beta Tester</div>
+<div class="betaPanelText">This account is included in Zyphor’s beta testing programme. Its exclusive profile frame and insignia identify the tester status. </div>
+<div class="betaPanelTag">BETA COHORT · VERIFIED BY ACCOUNT PERMISSION</div>
+</div>
+<div class="betaPanelActions"><a class="heroBtn secondary" href="Support.html" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">Send Feedback ↗</a></div>
 </section>
 
 <section class="statStrip">
@@ -967,13 +1141,13 @@ body{padding-bottom:53px}
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Profile Completeness</h2><p>Public data currently available for this identity.</p></div>
+<div><h2>Profile Overview</h2><p>Public information currently available for this account.</p></div>
 <div class="cardPill" id="completenessPill">0%</div>
 </div>
 <div class="cardBody">
 <div class="completeness">
 <div class="completeTop">
-<div><div class="completeTitle">Identity Coverage</div><div class="completeSub" id="completeText">Analyzing profile fields...</div></div>
+<div><div class="completeTitle">Profile detail coverage</div><div class="completeSub" id="completeText">Analyzing profile fields...</div></div>
 <div class="completePercent" id="completePercent">0%</div>
 </div>
 <div class="completeBar"><div class="completeFill" id="completeFill"></div></div>
@@ -989,8 +1163,8 @@ body{padding-bottom:53px}
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Identity Matrix</h2><p>Account information and linked public identities.</p></div>
-<div class="cardPill">LIVE</div>
+<div><h2>Account Details</h2><p>Account information and linked public identities.</p></div>
+<div class="cardPill">IDENTITY</div>
 </div>
 <div class="cardBody">
 <div class="identityGrid">
@@ -1038,7 +1212,7 @@ body{padding-bottom:53px}
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Subscription Core</h2><p>Current subscription and lifetime state.</p></div>
+<div><h2>Subscription</h2><p>Current subscription and lifetime state.</p></div>
 <div class="cardPill" id="subscriptionHeaderPill">ACCOUNT</div>
 </div>
 <div class="subscriptionBox">
@@ -1057,7 +1231,7 @@ body{padding-bottom:53px}
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Achievement Vault</h2><p>Inspect badge progression, completion and tier details.</p></div>
+<div><h2>Achievements</h2><p>View progress and completion details for each badge.</p></div>
 <div class="cardPill"><span id="badgeCountHeader">0</span>&nbsp; BADGES</div>
 </div>
 <div class="badgeToolbar">
@@ -1069,7 +1243,7 @@ body{padding-bottom:53px}
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Profile Timeline</h2><p>Public milestones derived from the available account record.</p></div>
+<div><h2>Account Timeline</h2><p>Public milestones derived from the available account record.</p></div>
 <div class="cardPill">TIMELINE</div>
 </div>
 <div class="timeline" id="timelineList"></div>
@@ -1100,7 +1274,7 @@ body{padding-bottom:53px}
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Identity Tools</h2><p>Fast actions for this public profile.</p></div>
+<div><h2>Profile Tools</h2><p>Common actions for this public profile.</p></div>
 </div>
 <div class="toolGrid">
 <button class="tool" onclick="copyAccountId()"><span class="toolIcon">◈</span><span><span class="toolTitle">Copy Account ID</span><span class="toolSub">Public identifier</span></span></button>
@@ -1109,6 +1283,8 @@ body{padding-bottom:53px}
 <button class="tool" onclick="shareProfile()"><span class="toolIcon">↗</span><span><span class="toolTitle">Share Profile</span><span class="toolSub">Copy or share URL</span></span></button>
 <button class="tool" onclick="openQR()"><span class="toolIcon">▦</span><span><span class="toolTitle">Profile QR</span><span class="toolSub">Generate QR code</span></span></button>
 <button class="tool" onclick="showAccountId()"><span class="toolIcon">⌘</span><span><span class="toolTitle">Identity Inspect</span><span class="toolSub">View record details</span></span></button>
+<button class="tool" onclick="exportProfile()"><span class="toolIcon">⇩</span><span><span class="toolTitle">Export Profile</span><span class="toolSub">Download public JSON</span></span></button>
+<button class="tool" onclick="printProfile()"><span class="toolIcon">▤</span><span><span class="toolTitle">Print Profile</span><span class="toolSub">Open print-ready view</span></span></button>
 </div>
 <div class="localSaved">
 <div class="savedState"><span id="savedDot" class="savedDot"></span><div><div class="savedTitle" id="savedTitle">Not saved locally</div><div class="savedText">Saved profiles are stored on this device.</div></div></div>
@@ -1132,7 +1308,7 @@ body{padding-bottom:53px}
 
 <section class="card">
 <div class="cardHeader">
-<div><h2>Profile Intelligence</h2><p>Useful signals generated from the public record.</p></div>
+<div><h2>Profile Summary</h2><p>Highlights based on the public account record.</p></div>
 <div class="cardPill">AUTO</div>
 </div>
 <div class="timeline" id="intelligenceList"></div>
@@ -1154,13 +1330,24 @@ Only submit a report when you have a legitimate concern. Optional screenshots ca
 </div>
 </div>
 
-</main>
+<footer class="siteFooter">
+<div class="footerBrand">
+<div class="footerMark"><img src="https://zyphor.cc/Logo1.png" alt="Zyphor"></div>
+<div>
+<div class="footerCopy"><strong>© 2026 Zyphor.</strong> All rights reserved.</div>
+<div class="footerMade">Made by <a href="profile.html?username=Somin">Somin</a> · Built for the Zyphor community</div>
 </div>
+</div>
+<nav class="footerLinks" aria-label="Legal and profile links">
+<a href="tos.html">Terms of Service</a>
+<span class="footerDot" aria-hidden="true"></span>
+<a href="privacy.html">Privacy Policy</a>
+<span class="footerDot" aria-hidden="true"></span>
+<button type="button" onclick="copyProfileLink()">Copy Profile Link</button>
+</nav>
+</footer>
 
-<div class="mobileBar">
-<button id="mobileTop" class="active" onclick="mobileTop()">Profile</button>
-<button onclick="document.getElementById('badgeSearch').focus();scrollToBadges()">Badges</button>
-<button onclick="shareProfile()">Share</button>
+</main>
 </div>
 
 <div class="modalOverlay" id="searchModal">
@@ -1225,7 +1412,7 @@ Only submit a report when you have a legitimate concern. Optional screenshots ca
 <div class="modalOverlay" id="aboutModal">
 <div class="modal">
 <div class="modalHeader">
-<div><h2>Profile Nexus</h2><p>A high-density identity and achievement interface for Zyphor.</p></div>
+<div><h2>Zyphor Profile</h2><p>A high-density identity and achievement interface for Zyphor.</p></div>
 <button class="closeBtn" onclick="closeModal('aboutModal')">×</button>
 </div>
 <div class="modalBody">
@@ -1424,6 +1611,7 @@ if(p.support)r.push('<span class="role support">🧰 Support</span>')
 if(p.admin)r.push('<span class="role admin">💎 Admin</span>')
 if(p.moderator)r.push('<span class="role mod">🛡 Mod</span>')
 if(p.vip)r.push('<span class="role vip">👑 VIP</span>')
+if(p.betaTester===true)r.push('<span class="role beta" title="Recognized Zyphor Beta Tester"><span class="betaMark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 14.7 8l6.2.9-4.5 4.4 1.1 6.2-5.5-2.9-5.5 2.9 1.1-6.2-4.5-4.4L9.3 8 12 2.4Z"/></svg></span>Beta Tester</span>')
 return r.join("")
 }
 
@@ -1462,10 +1650,11 @@ const filter=document.getElementById("badgeFilter").value
 if(q&&!String(name).toLowerCase().includes(q))return""
 if(filter==="complete"&&!complete)return""
 if(filter==="progress"&&complete)return""
-const visual=badgeVisual(name,index,t)
+const isBetaBadge=String(name).trim().toLowerCase()==="beta tester"
+const visual=isBetaBadge?{emoji:"✦"}:badgeVisual(name,index,t)
 const visualHtml=visual.image?`<img src="${visual.image}" alt="${escapeHTML(name)}">`:`<span class="badgeEmoji">${visual.emoji}</span>`
 return`
-<div class="badgeCard ${complete?"complete":""}" tabindex="0" onclick="toggleBadge(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBadge(this)}">
+<div class="badgeCard ${complete?"complete":""} ${isBetaBadge?"beta-badge":""}" tabindex="0" onclick="toggleBadge(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBadge(this)}">
 <div class="medal" style="--progress:${percent.toFixed(2)};--tier:${t.color};--glow:${t.glow}">
 <div class="badgeVisual">${visualHtml}</div>
 </div>
@@ -1540,7 +1729,7 @@ if(data.linked)items.push({icon:"◌",title:"Discord linked",text:"A Discord ide
 if(data.roblox)items.push({icon:"▣",title:"Roblox linked",text:"A Roblox identity is publicly connected.",time:"Linked identity"})
 if(Number(data.questsCompleted||0)>0)items.push({icon:"🎯",title:"Quest milestones",text:`${Number(data.questsCompleted).toLocaleString()} quests completed on the public record.`,time:"Achievement history"})
 if(Object.keys(data.badges||{}).length)items.push({icon:"🏅",title:"Achievement vault",text:`${Object.keys(data.badges||{}).length.toLocaleString()} badge records are available.`,time:"Achievement history"})
-items.push({icon:"✦",title:"Profile loaded",text:"The Profile Nexus loaded this public profile record.",time:"Now"})
+items.push({icon:"✦",title:"Profile loaded",text:"The Zyphor Profile loaded this public profile record.",time:"Now"})
 document.getElementById("timelineList").innerHTML=items.map((x,i)=>`
 <div class="timelineItem">
 ${i<items.length-1?"<div class='timelineRail'></div>":""}
@@ -1559,7 +1748,7 @@ if(sub.active)out.push({icon:"◈",title:"Subscription detected",text:`${sub.nam
 if(data.linked)out.push({icon:"◌",title:"Discord identity available",text:"A public Discord identity is present on the profile.",time:"Current state"})
 if(data.roblox)out.push({icon:"▣",title:"Roblox identity available",text:"A public Roblox identity is present on the profile.",time:"Current state"})
 if(Number(data.questsCompleted||0)>0)out.push({icon:"🎯",title:"Quest activity",text:`${Number(data.questsCompleted).toLocaleString()} completed quests recorded.`,time:"Achievement record"})
-if(Object.keys(data.badges||{}).length)out.push({icon:"🏅",title:"Badge data available",text:"Badge progression is available in the Achievement Vault.",time:"Achievement record"})
+if(Object.keys(data.badges||{}).length)out.push({icon:"🏅",title:"Badge data available",text:"Badge progression is available in the Achievements.",time:"Achievement record"})
 out.push({icon:"⌁",title:"Public profile link",text:"This identity can be shared through its public profile URL.",time:"Shareable"})
 document.getElementById("intelligenceList").innerHTML=out.map(x=>`
 <div class="timelineItem">
@@ -1575,6 +1764,12 @@ document.getElementById("intelligenceList").innerHTML=out.map(x=>`
 function fillProfile(data){
 profileData=data
 const username=data.username||"Unknown"
+const isBetaTester=data.permissions?.betaTester===true
+const profileHero=document.getElementById("profileHero")
+const avatarRing=document.getElementById("avatarRing")
+profileHero.classList.toggle("beta-tester",isBetaTester)
+avatarRing.classList.toggle("beta-tester",isBetaTester)
+document.getElementById("betaTesterPanel").hidden=!isBetaTester
 document.title=username+" • Zyphor Profile"
 document.getElementById("profileUsername").textContent=username
 document.getElementById("profileRoles").innerHTML=roleHtml(data.permissions||{})
@@ -1623,7 +1818,7 @@ document.getElementById("profileDescription").textContent="Use Find Profile to l
 document.getElementById("badgesList").innerHTML='<div class="badgeEmpty">No profile selected.</div>'
 return
 }
-document.getElementById("heroVisibility").textContent="LIVE RECORD"
+document.getElementById("heroVisibility").textContent="PUBLIC PROFILE"
 const r=await fetch(backend+"/profile?username="+encodeURIComponent(username),{cache:"no-store"})
 const data=await safeJson(r)
 if(!data||data.error){
@@ -1641,12 +1836,29 @@ async function refreshProfile(){
 try{
 toast("Refreshing","Loading the latest public profile record.","info")
 await loadProfile()
-toast("Profile refreshed","The Profile Nexus is synchronized.","success")
+toast("Profile refreshed","The Zyphor Profile is synchronized.","success")
 }catch{toast("Refresh failed","The profile could not be refreshed.","error")}
 }
-function copyText(text,title){
-if(!text)return
-navigator.clipboard?.writeText(String(text)).then(()=>toast(title||"Copied","The value was copied to your clipboard.","success")).catch(()=>toast("Copy failed","Your browser blocked clipboard access.","error"))
+async function copyText(text,title){
+if(text===undefined||text===null||text==="")return
+const value=String(text)
+try{
+if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(value)}
+else{
+const field=document.createElement("textarea")
+field.value=value
+field.setAttribute("readonly","")
+field.style.position="fixed"
+field.style.opacity="0"
+field.style.pointerEvents="none"
+document.body.appendChild(field)
+field.select()
+const copied=document.execCommand("copy")
+field.remove()
+if(!copied)throw new Error("clipboard_unavailable")
+}
+toast(title||"Copied","The value was copied to your clipboard.","success")
+}catch{toast("Copy failed","Your browser blocked clipboard access.","error")}
 }
 function copyAccountId(){copyText(profileData?.id,"Account ID copied")}
 function copyProfileLink(){copyText(profileData?profileUrl(profileData.username):location.href,"Profile link copied")}
@@ -1661,6 +1873,37 @@ if(value)copyText(value,"Roblox ID copied")
 else toast("Not linked","This profile has no public Roblox identity.","info")
 }
 function showAccountId(){openModal("idModal")}
+function exportProfile(){
+if(!profileData?.username){toast("No profile loaded","Load a public profile before exporting it.","error");return}
+const snapshot={
+ exportedAt:new Date().toISOString(),
+ source:"Zyphor public profile",
+ username:profileData.username,
+ accountId:profileData.id||null,
+ created:profileData.created||null,
+ bio:profileData.bio||profileData.description||"",
+ questsCompleted:Number(profileData.questsCompleted||0),
+ permissions:profileData.permissions||{},
+ subscription:profileData.subscription||null,
+ discord:profileData.linked||null,
+ roblox:profileData.roblox||null,
+ badges:profileData.badges||{}
+}
+const blob=new Blob([JSON.stringify(snapshot,null,2)],{type:"application/json;charset=utf-8"})
+const url=URL.createObjectURL(blob)
+const a=document.createElement("a")
+a.href=url
+a.download=(String(profileData.username).replace(/[^a-z0-9_-]/gi,"_")||"zyphor")+"-profile.json"
+document.body.appendChild(a)
+a.click()
+a.remove()
+setTimeout(()=>URL.revokeObjectURL(url),1000)
+toast("Profile exported","A JSON snapshot of the visible profile data was downloaded.","success")
+}
+function printProfile(){
+if(!profileData?.username){toast("No profile loaded","Load a public profile before printing it.","error");return}
+window.print()
+}
 function saveProfile(){
 if(!profileData?.username)return
 savedProfiles=savedProfiles.filter(x=>x.username!==profileData.username)
@@ -1729,7 +1972,6 @@ document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key==
 document.getElementById("badgeSearch").addEventListener("input",()=>renderBadges(badgeData))
 document.getElementById("badgeFilter").addEventListener("change",()=>renderBadges(badgeData))
 function scrollToBadges(){document.getElementById("badgesList").scrollIntoView({behavior:"smooth",block:"center"})}
-function mobileTop(){window.scrollTo({top:0,behavior:"smooth"})}
 
 function openQR(){
 const target=profileData?profileUrl(profileData.username):location.href
@@ -1854,7 +2096,7 @@ return
 await trackPage(location.pathname.split("/").pop()+location.search)
 await loadProfile()
 }catch(e){
-toast("Profile error","The Profile Nexus could not connect to the Zyphor backend.","error")
+toast("Profile error","The Zyphor Profile could not connect to the Zyphor backend.","error")
 }
 }
 init()
