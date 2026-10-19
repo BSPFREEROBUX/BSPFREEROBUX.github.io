@@ -28,6 +28,49 @@ button,input,textarea{font:inherit}
 .messages{flex:1;overflow:auto;padding:16px 12px 24px}.row{display:flex;margin-bottom:10px}.me{justify-content:flex-end}.bubble{max-width:min(82%,620px);padding:11px 13px;border-radius:18px;background:#202737;line-height:1.45;font-size:14px;word-break:break-word;box-shadow:0 4px 18px rgba(0,0,0,.12)}.me .bubble{background:linear-gradient(135deg,#5263f4,#7958e8)}.bubble img{width:100%;border-radius:12px;margin-top:9px;display:block}.time{margin-top:5px;font-size:10px;opacity:.58}.receipt{font-size:10px;opacity:.65;margin-top:4px}
 .composer{display:flex;align-items:flex-end;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(14,18,28,.9);border-top:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px)}.circle{width:46px;height:46px;flex:0 0 46px;border:0;border-radius:15px;background:rgba(255,255,255,.07);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center}.send{background:linear-gradient(135deg,#00bfe9,#6954f4)}.composer textarea{flex:1;min-height:46px;max-height:130px;border:1px solid rgba(255,255,255,.07);outline:none;resize:none;background:rgba(255,255,255,.06);border-radius:17px;color:#fff;padding:13px 14px;font-size:16px}
 @media(min-width:600px){.header{padding-left:22px;padding-right:22px}.friendList{padding:18px 22px}.friend{padding:14px}.chat{border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06)}}
+
+:root{--bg:#080a12;--panel:#11141e;--line:rgba(178,190,255,.12);--muted:#929bb0;--purple:#9b6cff;--cyan:#52d9ff}
+html,body{background:#080a12;color:#f4f5fb;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{max-width:980px;background:#0b0d15;box-shadow:0 20px 80px rgba(0,0,0,.3);border-left:1px solid rgba(178,190,255,.08);border-right:1px solid rgba(178,190,255,.08)}
+.header{background:#0f121c;border-bottom-color:rgba(178,190,255,.11);backdrop-filter:blur(18px)}
+.title,.chatName{letter-spacing:-.6px;font-weight:750}
+.home,.back{border:1px solid var(--line);border-radius:11px;background:#171a26;color:#dce1ee}
+.search input{border:1px solid var(--line);border-radius:11px;background:#080a11;font-size:14px}
+.search button{border:1px solid rgba(155,108,255,.28);border-radius:11px;background:linear-gradient(120deg,#815be8,#4e8fe9);font-size:20px}
+.requests{border-radius:11px;background:#121520;border-color:var(--line)}
+.friendList{padding:10px 12px 6px;min-height:0}
+.sectionLabel{padding:12px 5px 8px;color:#9a8cc8;font-size:9px;letter-spacing:1.6px}
+.friend{padding:11px;margin-bottom:7px;border-radius:12px;border-color:rgba(178,190,255,.07);background:#11141e;transition:border-color .16s,background .16s}
+.friend:hover{border-color:rgba(155,108,255,.28);background:#141725}
+.friend.pinned{border-color:rgba(155,108,255,.25);background:linear-gradient(110deg,rgba(155,108,255,.09),rgba(82,217,255,.035)),#11141e}
+.avatar{width:44px;height:44px;flex-basis:44px;background:linear-gradient(145deg,#283146,#171b28);box-shadow:none;border:1px solid rgba(255,255,255,.08);font-size:16px}
+.online{width:10px;height:10px;border-width:2px;border-color:#11141e}
+.name{font-size:13px;font-weight:700;color:#f4f5fb}
+.preview{font-size:11px;color:#858fa5}
+.pinBtn{width:33px;height:33px;border:1px solid rgba(178,190,255,.1);border-radius:9px;background:#171a26;color:#969db0}
+.pinBtn.pinned{color:#c4b0ff;background:rgba(155,108,255,.11);border-color:rgba(155,108,255,.24)}
+.chat{background:#0c0f18;border-color:rgba(178,190,255,.1)}
+.chatHeader{background:#10131d;border-bottom-color:rgba(178,190,255,.1)}
+.messages{padding:16px 12px 22px;scroll-behavior:auto;overscroll-behavior:contain}
+.row{margin-bottom:8px}
+.bubble{border:1px solid rgba(178,190,255,.09);background:#191d29;border-radius:14px 14px 14px 5px;box-shadow:none;font-size:13px}
+.me .bubble{border-color:rgba(82,217,255,.16);background:linear-gradient(120deg,rgba(111,86,223,.95),rgba(65,113,211,.95));border-radius:14px 14px 5px 14px}
+.time,.receipt{color:#abb3c6}
+.composer{background:#10131d;border-top-color:rgba(178,190,255,.1)}
+.circle{border:1px solid rgba(178,190,255,.1);border-radius:12px;background:#191d29}
+.send{background:linear-gradient(120deg,#815be8,#4e8fe9);border-color:rgba(155,108,255,.3)}
+.composer textarea{border:1px solid rgba(178,190,255,.1);border-radius:12px;background:#080a11;font-size:15px}
+.betaBadge{display:inline-flex;align-items:center;padding:3px 6px;border:1px solid rgba(155,108,255,.27);border-radius:6px;background:rgba(155,108,255,.09);color:#d1c1ff;font-size:8px;font-weight:800;line-height:1.1;white-space:nowrap;vertical-align:middle}
+.staffBadge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 5px;border:1px solid rgba(82,217,255,.28);border-radius:7px;background:rgba(82,217,255,.09);color:#72e4ff;font-size:10px;font-weight:900;line-height:1;vertical-align:middle;flex:0 0 auto}
+.avatar{overflow:hidden;isolation:isolate}.avatarInitial{position:relative;z-index:0;display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:inherit}.avatarImage{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}.online{z-index:2}.chatAvatar{width:39px;height:39px;flex:0 0 39px;font-size:14px}.chatIdentity{flex:1;min-width:0}.chatNameLine{display:flex;align-items:center;gap:7px;min-width:0}.chatNameLine .chatName{flex:0 1 auto;max-width:52vw}.messageAvatar{position:relative;width:28px;height:28px;flex:0 0 28px;align-self:flex-end;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:50%;background:#171b28;font-size:10px}.messageAvatar .avatarImage{pointer-events:none}.row{align-items:flex-end;gap:7px}.bubble{min-width:0}.bubbleStaff{display:inline-flex;align-items:center;justify-content:center;margin-left:5px;width:15px;height:15px;border:1px solid rgba(82,217,255,.25);border-radius:5px;background:rgba(82,217,255,.08);color:#72e4ff;font-size:9px;font-weight:900;vertical-align:middle}
+.nameLine{display:flex;align-items:center;gap:7px;min-width:0}
+.olderMessagesButton{display:block;align-self:center;margin:0 auto 13px;padding:9px 12px;border:1px solid rgba(155,108,255,.25);border-radius:9px;background:rgba(155,108,255,.075);color:#d0c2ff;font-size:11px;font-weight:700}
+.olderMessagesButton:disabled{opacity:.55}
+.appFooter{display:flex;align-items:center;justify-content:center;gap:7px 12px;flex-wrap:wrap;flex:0 0 auto;padding:10px 12px max(10px,env(safe-area-inset-bottom));border-top:1px solid rgba(178,190,255,.07);background:#0b0d15;color:#68738a;text-align:center;font-size:9px;line-height:1.5}
+.appFooter a{color:#a99ad8;text-decoration:none}.appFooter a:hover{color:#d2c5ff;text-decoration:underline}.appFooter strong{color:#9ba5ba;font-weight:700}
+@media(min-width:600px){.friendList{padding:14px 18px 7px}.friend{padding:12px}.chat{border-color:rgba(178,190,255,.1)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
 </style>
 </head>
 <body>
@@ -39,10 +82,11 @@ button,input,textarea{font:inherit}
 <div id="requestList"></div>
 </div>
 <div class="friendList" id="friendList"></div>
+<footer class="appFooter"><span>© <span id="copyrightYear"></span> Zyphor.cc</span><span>·</span><a href="tos.html">Terms of Service</a><a href="pp.html">Privacy Policy</a><span>·</span><span>Made by <strong>Team Vaprix</strong></span></footer>
 </div>
 
 <div class="chat" id="chat">
-<div class="chatHeader"><button class="back" id="backButton">←</button><div class="chatName" id="chatTitle" style="flex:1">Select a friend</div><button class="back" onclick="location.href='dashboard.html'">⌂</button></div>
+<div class="chatHeader"><button class="back" id="backButton">←</button><div class="avatar chatAvatar" id="chatAvatar"><span class="avatarInitial" id="chatAvatarInitial">?</span><img class="avatarImage" id="chatAvatarImage" alt="" hidden></div><div class="chatIdentity"><div class="chatNameLine"><div class="chatName" id="chatTitle">Select a friend</div><span class="staffBadge" id="chatStaffBadge" title="Zyphor staff member" aria-label="Zyphor staff member" hidden>✦</span><span class="betaBadge" id="chatBadge" hidden>Beta Tester</span></div></div><button class="back" onclick="location.href='dashboard.html'">⌂</button></div>
 <div class="messages" id="messages"></div>
 <div class="composer">
 <input type="file" id="imagePicker" accept="image/*" multiple hidden>
@@ -53,34 +97,154 @@ button,input,textarea{font:inherit}
 </div>
 
 <script>
-let backend=null,token=null,myName="",state={friends:[],chats:[],incomingRequests:[]},activeFriend="",lastChatJSON=""
-const friendList=document.getElementById("friendList"),requestList=document.getElementById("requestList"),requestCount=document.getElementById("requestCount"),chat=document.getElementById("chat"),chatTitle=document.getElementById("chatTitle"),messages=document.getElementById("messages"),messageBox=document.getElementById("messageBox"),imagePicker=document.getElementById("imagePicker"),sendBtn=document.getElementById("sendBtn"),searchUser=document.getElementById("searchUser"),addFriendBtn=document.getElementById("addFriendBtn"),backButton=document.getElementById("backButton")
-function getPinned(){try{return JSON.parse(localStorage.getItem("zyphorPinnedDMs")||"[]")}catch{return[]}}
-function setPinned(list){localStorage.setItem("zyphorPinnedDMs",JSON.stringify([...new Set(list)]))}
+let backend=null,token=null,myName="",state={friends:[],chats:[],incomingRequests:[],friendBadges:{},pinnedDms:[]},activeFriend="",lastChatJSON="",pinnedFriends=[],loadedMessages=[],chatPageCursor=null,chatHasMore=false,loadingOlder=false
+const friendList=document.getElementById("friendList"),requestList=document.getElementById("requestList"),requestCount=document.getElementById("requestCount"),chat=document.getElementById("chat"),chatTitle=document.getElementById("chatTitle"),chatBadge=document.getElementById("chatBadge"),chatStaffBadge=document.getElementById("chatStaffBadge"),chatAvatarImage=document.getElementById("chatAvatarImage"),chatAvatarInitial=document.getElementById("chatAvatarInitial"),messages=document.getElementById("messages"),messageBox=document.getElementById("messageBox"),imagePicker=document.getElementById("imagePicker"),sendBtn=document.getElementById("sendBtn"),searchUser=document.getElementById("searchUser"),addFriendBtn=document.getElementById("addFriendBtn"),backButton=document.getElementById("backButton")
+document.getElementById("copyrightYear").textContent=String(new Date().getFullYear())
+function getPinned(){return pinnedFriends}
+function setPinned(list){pinnedFriends=[...new Set(Array.isArray(list)?list:[])];try{localStorage.setItem("zyphorPinnedDMs",JSON.stringify(pinnedFriends))}catch{}}
 function isPinned(friend){return getPinned().includes(friend)}
-function togglePin(friend,event){event.stopPropagation();let pins=getPinned();pins=pins.includes(friend)?pins.filter(x=>x!==friend):[...pins,friend];setPinned(pins);renderFriends()}
+function profilePictureUrl(name){const base=String(backend||"").replace(/\/+$/g,"");return base&&name?base+"/account/pfp/"+encodeURIComponent(String(name))+"?v=1":""}
+function avatarMarkup(name,online=false){const src=profilePictureUrl(name);return `<div class="avatar"><span class="avatarInitial">${escapeHTML(String(name||"?").charAt(0).toUpperCase())}</span>${src?`<img class="avatarImage" src="${escapeHTML(src)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`:""}${online?'<div class="online"></div>':""}</div>`}
+function makeMessageAvatar(name){const el=document.createElement("div");el.className="messageAvatar";el.innerHTML=avatarMarkup(name).replace(/^<div class="avatar">/,'').replace(/<\/div>$/,'');return el}
+function setChatAvatar(name){chatAvatarInitial.textContent=String(name||"?").charAt(0).toUpperCase();chatAvatarImage.hidden=true;chatAvatarImage.removeAttribute("src");const src=profilePictureUrl(name);if(src){chatAvatarImage.onload=()=>{chatAvatarImage.hidden=false};chatAvatarImage.onerror=()=>{chatAvatarImage.hidden=true};chatAvatarImage.src=src;chatAvatarImage.hidden=false}}
+function badgeMarkup(b){if(b?.name==="Staff")return `<span class="staffBadge" title="Zyphor staff member" aria-label="Zyphor staff member">✦</span>`;return `<span class="betaBadge" title="${escapeHTML(b?.name||"Badge")}">${escapeHTML(b?.name||"Badge")}</span>`}
+async function syncPinned(){try{const r=await api("/dms/pinned",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pinnedDms:pinnedFriends})});const data=await safeJson(r);if(!data?.success)throw new Error(data?.error||"sync_failed");setPinned(data.pinnedDms||[]);renderFriends()}catch{alert("Pinned conversations could not be synced with the server.")}}
+function togglePin(friend,event){event.stopPropagation();let pins=getPinned();pins=pins.includes(friend)?pins.filter(x=>x!==friend):[friend,...pins];setPinned(pins);renderFriends();syncPinned()}
 async function getBackend(){const r=await fetch("server.txt");return(await r.text()).trim()}
 async function safeJson(r){const t=await r.text();try{return JSON.parse(t)}catch{return null}}
 async function api(path,options={}){const headers=new Headers(options.headers||{});headers.set("Authorization",localStorage.getItem("Token"));return fetch(backend+path,{...options,headers})}
 async function trackPage(page){if(!localStorage.getItem("Token"))return;await fetch(backend+"/track/page",{method:"POST",headers:{"Content-Type":"application/json",Authorization:localStorage.getItem("Token")},body:JSON.stringify({page})})}
-async function refreshState(){const r=await api("/dms/state"),data=await safeJson(r);if(!data)return;state=data;state.friends||=[];state.chats||=[];state.incomingRequests||=[];renderRequests();renderFriends();if(activeFriend)await openChat(activeFriend,false)}
-function renderRequests(){requestCount.textContent=state.incomingRequests.length;requestList.innerHTML="";if(!state.incomingRequests.length){requestList.style.display="none";return}requestList.style.display="block";state.incomingRequests.forEach(r=>{const d=document.createElement("div");d.className="friend";d.innerHTML=`<div class="avatar">${escapeHTML(r.from.charAt(0).toUpperCase())}</div><div class="info"><div class="name">${escapeHTML(r.from)}</div><div class="preview">Friend request</div></div><div class="requestActions"><button class="mini accept">✓</button><button class="mini decline">✕</button></div>`;d.querySelector(".accept").onclick=e=>{e.stopPropagation();acceptRequest(r.id,r.from)};d.querySelector(".decline").onclick=e=>{e.stopPropagation();declineRequest(r.id)};requestList.appendChild(d)})}
-function renderFriends(){friendList.innerHTML="";if(!state.friends.length){friendList.innerHTML=`<div class="empty"><strong>No friends yet</strong>Search for a username above to start messaging.</div>`;return}const pins=getPinned();const sorted=[...state.friends].sort((a,b)=>{const ap=pins.includes(a),bp=pins.includes(b);if(ap!==bp)return ap?-1:1;const aa=state.chats.find(c=>c.with===a)||{},bb=state.chats.find(c=>c.with===b)||{};return(bb.unread||0)-(aa.unread||0)});let shownPinned=false,shownOthers=false;sorted.forEach(friend=>{const pinned=pins.includes(friend);if(pinned&&!shownPinned){friendList.insertAdjacentHTML("beforeend",`<div class="sectionLabel">Pinned</div>`);shownPinned=true}if(!pinned&&!shownOthers){friendList.insertAdjacentHTML("beforeend",`<div class="sectionLabel">${shownPinned?"Messages":"Messages"}</div>`);shownOthers=true}const c=state.chats.find(x=>x.with===friend)||{},d=document.createElement("div");d.className="friend"+(pinned?" pinned":"");d.innerHTML=`<div class="avatar">${escapeHTML(friend.charAt(0).toUpperCase())}<div class="online"></div></div><div class="info"><div class="name">${escapeHTML(friend)}</div><div class="preview">${c.lastAuthor?escapeHTML(c.lastAuthor+": "+(c.lastMessage||"")):"No messages yet"}</div></div>${c.unread?`<div class="unread">${c.unread}</div>`:""}<button class="pinBtn ${pinned?"pinned":""}" title="Pin">${pinned?"📌":"⌖"}</button>`;d.onclick=()=>openChat(friend);d.querySelector(".pinBtn").onclick=e=>togglePin(friend,e);friendList.appendChild(d)})}
-async function openChat(friend,markSeen=true){activeFriend=friend;const r=await api("/dms/chat?with="+encodeURIComponent(friend)),data=await safeJson(r);if(!data||data.error){if(data?.error)alert(data.error);return}chat.style.display="flex";chatTitle.textContent=friend;const j=JSON.stringify(data.chat);if(j!==lastChatJSON){lastChatJSON=j;renderMessages(data.chat)}if(markSeen)await api("/dms/seen",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chatId:friend})})}
+async function refreshState(){const r=await api("/dms/state"),data=await safeJson(r);if(!data)return;state=data;state.friends||=[];state.chats||=[];state.incomingRequests||=[];state.friendBadges||={};setPinned(Array.isArray(data.pinnedDms)?data.pinnedDms:(pinnedFriends.length?pinnedFriends:[]));renderRequests();renderFriends();if(activeFriend)await openChat(activeFriend,false)}
+function renderRequests(){requestCount.textContent=state.incomingRequests.length;requestList.innerHTML="";if(!state.incomingRequests.length){requestList.style.display="none";return}requestList.style.display="block";state.incomingRequests.forEach(r=>{const d=document.createElement("div");d.className="friend";d.innerHTML=`${avatarMarkup(r.from)}<div class="info"><div class="name">${escapeHTML(r.from)}</div><div class="preview">Friend request</div></div><div class="requestActions"><button class="mini accept">✓</button><button class="mini decline">✕</button></div>`;d.querySelector(".accept").onclick=e=>{e.stopPropagation();acceptRequest(r.id,r.from)};d.querySelector(".decline").onclick=e=>{e.stopPropagation();declineRequest(r.id)};requestList.appendChild(d)})}
+function renderFriends(){
+    friendList.innerHTML=""
+    if(!state.friends.length){friendList.innerHTML=`<div class="empty"><strong>No friends yet</strong>Search for a username above to start messaging.</div>`;return}
+    const pins=getPinned()
+    const sorted=[...state.friends].sort((a,b)=>{
+        const ap=pins.includes(a),bp=pins.includes(b)
+        if(ap!==bp)return ap?-1:1
+        const aa=state.chats.find(c=>c.with===a)||{},bb=state.chats.find(c=>c.with===b)||{}
+        const time= new Date(bb.lastTime||0)-new Date(aa.lastTime||0)
+        return time || (Number(bb.unread||0)-Number(aa.unread||0)) || a.localeCompare(b)
+    })
+    let shownPinned=false,shownOthers=false
+    sorted.forEach(friend=>{
+        const pinned=pins.includes(friend)
+        if(pinned&&!shownPinned){friendList.insertAdjacentHTML("beforeend",`<div class="sectionLabel">Pinned</div>`);shownPinned=true}
+        if(!pinned&&!shownOthers){friendList.insertAdjacentHTML("beforeend",`<div class="sectionLabel">Messages</div>`);shownOthers=true}
+        const c=state.chats.find(x=>x.with===friend)||{}
+        const d=document.createElement("div")
+        d.className="friend"+(pinned?" pinned":"")
+        const badges=Array.isArray(state.friendBadges?.[friend])?state.friendBadges[friend]:[]
+        const badgesMarkup=badges.map(b=>badgeMarkup(b)).join("")
+        d.innerHTML=`${avatarMarkup(friend,true)}<div class="info"><div class="nameLine"><div class="name">${escapeHTML(friend)}</div>${badgesMarkup}</div><div class="preview">${c.lastAuthor?escapeHTML(c.lastAuthor+": "+(c.lastMessage||"")):"No messages yet"}</div></div>${c.unread?`<div class="unread">${c.unread>99?"99+":c.unread}</div>`:""}<button class="pinBtn ${pinned?"pinned":""}" title="${pinned?"Unpin conversation":"Pin conversation"}" aria-label="${pinned?"Unpin":"Pin"}">${pinned?"★":"☆"}</button>`
+        d.onclick=()=>openChat(friend)
+        d.querySelector(".pinBtn").onclick=e=>togglePin(friend,e)
+        friendList.appendChild(d)
+    })
+}
+async function openChat(friend,markSeen=true){
+    const sameConversation=activeFriend===friend
+    const previousMessages=sameConversation?loadedMessages.slice():[]
+    const previousCursor=chatPageCursor
+    const previouslyHadOlder=chatHasMore
+    const r=await api("/dms/chat?with="+encodeURIComponent(friend)+"&limit=50")
+    const data=await safeJson(r)
+    if(!data||data.error){if(data?.error)alert(data.error);return}
+    activeFriend=friend
+    chat.style.display="flex"
+    chatTitle.textContent=friend
+    const activeBadges=state.friendBadges?.[friend]||[]
+    chatBadge.hidden=!activeBadges.some(b=>b.name==="Beta Tester")
+    chatStaffBadge.hidden=!activeBadges.some(b=>b.name==="Staff")
+    setChatAvatar(friend)
+    const pageMessages=Array.isArray(data.chat.messages)?data.chat.messages:[]
+    if(sameConversation&&previousMessages.length){
+        const merged=new Map()
+        for(const m of [...pageMessages,...previousMessages])merged.set(m.messageId||`${m.time}|${m.author}|${m.text}`,m)
+        loadedMessages=[...merged.values()].sort((a,b)=>new Date(a.time||0)-new Date(b.time||0))
+        chatHasMore=previouslyHadOlder?true:!!data.chat.hasMore
+        chatPageCursor=previouslyHadOlder?previousCursor:(data.chat.nextBefore||null)
+    }else{
+        loadedMessages=pageMessages
+        chatHasMore=!!data.chat.hasMore
+        chatPageCursor=data.chat.nextBefore||null
+    }
+    data.chat.messages=loadedMessages
+    data.chat.hasMore=chatHasMore
+    data.chat.nextBefore=chatPageCursor
+    data.chat.totalMessages=Number(data.chat.totalMessages??data.chat.messageCount??loadedMessages.length)
+    const j=JSON.stringify(data.chat)
+    if(j!==lastChatJSON){lastChatJSON=j;renderMessages(data.chat)}
+    if(markSeen)await api("/dms/seen",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chatId:friend})})
+}
 function escapeHTML(t){return String(t??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function formatTime(t){try{return new Date(t).toLocaleString()}catch{return""}}
-function renderMessages(data){const wasNearBottom=messages.scrollHeight-messages.scrollTop-messages.clientHeight<120;messages.innerHTML="";if(!data.messages.length){messages.innerHTML=`<div class="empty"><strong>No messages yet</strong>Say hello.</div>`;return}data.messages.forEach(m=>{const me=m.author===myName,row=document.createElement("div");row.className="row "+(me?"me":"them");const other=data.users.find(u=>u!==myName),read=data.lastRead?.[other],receipt=me?`<div class="receipt">${read&&new Date(read)>=new Date(m.time)?"✓ Read":"✓ Sent"}</div>`:"";row.innerHTML=`<div class="bubble">${!me?`<div style="font-size:11px;opacity:.7;margin-bottom:4px">${escapeHTML(m.author)}</div>`:""}<div>${escapeHTML(m.text)}</div>${(m.images||[]).map(i=>`<img src="${backend}${i.url}" onclick="window.open('${backend}${i.url}','_blank')">`).join("")}<div class="time">${formatTime(m.time)}</div>${receipt}</div>`;messages.appendChild(row)});requestAnimationFrame(()=>{if(wasNearBottom)messages.scrollTop=messages.scrollHeight})}
+function renderMessages(data){
+    const previousTop=messages.scrollTop
+    const previousHeight=messages.scrollHeight
+    const wasNearBottom=messages.scrollHeight-messages.scrollTop-messages.clientHeight<120
+    messages.innerHTML=""
+    if(data.hasMore){
+        const older=document.createElement("button")
+        older.className="olderMessagesButton"
+        older.textContent=loadingOlder?"Loading older messages…":"↑ Load older messages"
+        older.disabled=loadingOlder
+        older.onclick=loadOlderMessages
+        messages.appendChild(older)
+    }
+    if(!data.messages.length){
+        const empty=document.createElement("div");empty.className="empty";empty.innerHTML="<strong>No messages yet</strong>Say hello.";messages.appendChild(empty);return
+    }
+    data.messages.forEach(m=>{
+        const me=m.author===myName,row=document.createElement("div")
+        row.className="row "+(me?"me":"them")
+        const authorName=m.author||"Unknown"
+        const avatar=document.createElement("div");avatar.className="messageAvatar"
+        avatar.innerHTML=`<span class="avatarInitial">${escapeHTML(authorName.charAt(0).toUpperCase())}</span>${profilePictureUrl(authorName)?`<img class="avatarImage" src="${escapeHTML(profilePictureUrl(authorName))}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`:""}`
+        const bubble=document.createElement("div");bubble.className="bubble"
+        if(!me){const author=document.createElement("div");author.style.cssText="font-size:11px;opacity:.78;margin-bottom:4px";author.textContent=authorName;if((state.friendBadges?.[authorName]||[]).some(b=>b.name==="Staff")){const staff=document.createElement("span");staff.className="bubbleStaff";staff.title="Zyphor staff member";staff.textContent="✦";author.appendChild(staff)}bubble.appendChild(author)}
+        if(m.text){const text=document.createElement("div");text.textContent=m.text;bubble.appendChild(text)}
+        for(const imgData of (m.images||[])){const img=document.createElement("img");img.src=backend+imgData.url;img.loading="lazy";img.alt=imgData.originalName||"Image attachment";img.onclick=()=>window.open(backend+imgData.url,"_blank","noopener");bubble.appendChild(img)}
+        const time=document.createElement("div");time.className="time";time.textContent=formatTime(m.time);bubble.appendChild(time)
+        if(me){const receipt=document.createElement("div");receipt.className="receipt";const other=data.users?.find(u=>u!==myName);receipt.textContent=data.lastRead?.[other]&&new Date(data.lastRead[other])>=new Date(m.time)?"✓ Read":"✓ Sent";bubble.appendChild(receipt)}
+        if(me){row.append(bubble,avatar)}else{row.append(avatar,bubble)}messages.appendChild(row)
+    })
+    requestAnimationFrame(()=>{if(wasNearBottom)messages.scrollTop=messages.scrollHeight;else if(previousHeight>0)messages.scrollTop=previousTop+Math.max(0,messages.scrollHeight-previousHeight)})
+}
+async function loadOlderMessages(){
+    if(!activeFriend||!chatHasMore||!chatPageCursor||loadingOlder)return
+    loadingOlder=true
+    const friend=activeFriend,before=chatPageCursor,oldHeight=messages.scrollHeight,oldTop=messages.scrollTop
+    try{
+        const r=await api(`/dms/chat?with=${encodeURIComponent(friend)}&limit=50&before=${encodeURIComponent(before)}`)
+        const data=await safeJson(r)
+        if(!data?.chat||data.error||activeFriend!==friend)return
+        const combined=new Map()
+        for(const m of [...(data.chat.messages||[]),...loadedMessages])combined.set(m.messageId||`${m.time}|${m.author}|${m.text}`,m)
+        loadedMessages=[...combined.values()].sort((a,b)=>new Date(a.time||0)-new Date(b.time||0))
+        chatHasMore=!!data.chat.hasMore
+        chatPageCursor=data.chat.nextBefore||null
+        data.chat.messages=loadedMessages;data.chat.hasMore=chatHasMore;data.chat.nextBefore=chatPageCursor;data.chat.totalMessages=Number(data.chat.totalMessages??loadedMessages.length)
+        lastChatJSON=JSON.stringify(data.chat)
+        loadingOlder=false
+        renderMessages(data.chat)
+        requestAnimationFrame(()=>{messages.scrollTop=Math.max(0,messages.scrollHeight-oldHeight+oldTop)})
+    }catch{}
+    finally{loadingOlder=false}
+}
+messages.addEventListener("scroll",()=>{if(messages.scrollTop<45&&chatHasMore)loadOlderMessages()})
 async function sendMessage(){if(!activeFriend)return;const text=messageBox.value.trim();if(!text&&!imagePicker.files.length)return;const form=new FormData();form.append("chatId",activeFriend);form.append("message",text);for(const f of imagePicker.files)form.append("images",f);const r=await api("/dms/send",{method:"POST",body:form}),data=await safeJson(r);if(!data)return;if(data.error){alert(data.error);return}messageBox.value="";imagePicker.value="";await openChat(activeFriend,false);await refreshState()}
 sendBtn.onclick=sendMessage
 messageBox.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage()}})
-backButton.onclick=()=>{chat.style.display="none";activeFriend="";lastChatJSON=""}
+backButton.onclick=()=>{chat.style.display="none";activeFriend="";lastChatJSON="";loadedMessages=[];chatPageCursor=null;chatHasMore=false;loadingOlder=false}
 addFriendBtn.onclick=addFriend
 searchUser.addEventListener("keydown",e=>{if(e.key==="Enter")addFriend()})
 async function addFriend(){const username=searchUser.value.trim();if(!username)return;const r=await api("/friends/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username})}),data=await safeJson(r);if(!data)return;if(data.success){searchUser.value="";refreshState();return}alert(data.error)}
 async function acceptRequest(requestId,from){const r=await api("/friends/accept",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requestId})}),data=await safeJson(r);if(!data)return;await refreshState();openChat(from)}
 async function declineRequest(requestId){await api("/friends/decline",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requestId})});refreshState()}
 setInterval(async()=>{await refreshState();if(activeFriend)await api("/dms/seen",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chatId:activeFriend})})},2500)
-async function init(){backend=await getBackend();token=localStorage.getItem("Token");await trackPage("1dms.html");if(!token){location.href="login.html";return}const r=await api("/me"),me=await safeJson(r);if(!me){location.href="login.html";return}myName=me.username;await refreshState();const f=decodeURIComponent(location.hash.substring(1)).trim();if(f){const found=state.friends.find(x=>x.toLowerCase()===f.toLowerCase());if(found)openChat(found,true)}}
+async function init(){try{pinnedFriends=JSON.parse(localStorage.getItem("zyphorPinnedDMs")||"[]")}catch{pinnedFriends=[]}backend=await getBackend();token=localStorage.getItem("Token");await trackPage("1dms.html");if(!token){location.href="login.html";return}const r=await api("/me"),me=await safeJson(r);if(!me){location.href="login.html";return}myName=me.username;await refreshState();const f=decodeURIComponent(location.hash.substring(1)).trim();if(f){const found=state.friends.find(x=>x.toLowerCase()===f.toLowerCase());if(found)openChat(found,true)}}
 init()
 </script>
 </body>
