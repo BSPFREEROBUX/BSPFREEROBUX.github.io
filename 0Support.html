@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#03050a">
+<meta name="theme-color" content="#080811">
+<meta name="description" content="Contact Zyphor support, track requests, and manage support conversations in one place.">
+<link rel="icon" type="image/png" href="https://zyphor.cc/Logo1.png">
 <title>Zyphor Support Nexus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -719,6 +721,118 @@ body.mobile-chat .chatPanel{display:flex}
 .categoryGrid{grid-template-columns:1fr}
 .toastContainer{left:10px;right:10px;bottom:58px}.toast{min-width:0;max-width:none}
 }
+
+
+:root{
+--bg:#080811;--bg2:#0d0f19;--panel:rgba(16,18,29,.96);--panel2:rgba(19,21,34,.98);--panel3:rgba(24,26,41,.98);
+--line:rgba(190,194,255,.11);--line2:rgba(190,194,255,.18);--text:#f5f6fb;--muted:#9ba4b8;--muted2:#737d92;
+--cyan:#52d9ff;--cyan2:#7774ff;--purple:#9b6cff;--purple2:#7774ff;--green:#4be0a6;--red:#ff6f8c;--yellow:#ffd06c;--pink:#e0a0ff;
+--shadow:0 14px 42px rgba(0,0,0,.22);--radius:16px
+}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 8% 0%,rgba(155,108,255,.09),transparent 30%),radial-gradient(ellipse at 100% 8%,rgba(82,217,255,.065),transparent 27%),linear-gradient(180deg,#090a12 0%,#070810 100%)}
+body:before{opacity:.36;background-size:52px 52px;mask-image:linear-gradient(to bottom,black,transparent 75%)}
+body:after{animation:none;opacity:.45;filter:blur(85px)}
+.logoMark{border-radius:12px;background:linear-gradient(145deg,rgba(155,108,255,.12),rgba(82,217,255,.08));box-shadow:none}
+.logoMark:after,.ticketOrb:after{animation:none;opacity:.45}
+.logoTitle{font-size:15px;letter-spacing:1.6px;font-weight:800}
+.sidebar{background:rgba(8,9,17,.96);box-shadow:none;border-right-color:var(--line);backdrop-filter:blur(18px)}
+.sidebarSectionLabel{color:#7e879b;letter-spacing:1.3px}
+.nav a{min-height:42px;border-radius:10px;color:#aab2c5;transition:background .16s,border-color .16s,color .16s}
+.nav a:after{background:linear-gradient(90deg,rgba(155,108,255,.06),rgba(82,217,255,.025))}
+.nav a:hover,.nav a.active{transform:translateX(2px);border-color:rgba(155,108,255,.16);background:rgba(155,108,255,.045);color:#fff}
+.nav a.active:before{background:linear-gradient(180deg,var(--purple),var(--cyan));box-shadow:none}
+.navIcon{width:29px;height:29px;border-radius:9px;background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.065);box-shadow:none;transition:background .16s,border-color .16s}
+.nav a:nth-child(1) .navIcon{color:#76d9ff;background:rgba(82,217,255,.09);border-color:rgba(82,217,255,.16)}
+.nav a:nth-child(2) .navIcon{color:#b9a0ff;background:rgba(155,108,255,.09);border-color:rgba(155,108,255,.16)}
+.nav a:nth-child(3) .navIcon{color:#f0a1ff;background:rgba(224,160,255,.075);border-color:rgba(224,160,255,.15)}
+.nav a:nth-child(4) .navIcon{color:#6fe2b2;background:rgba(75,224,166,.075);border-color:rgba(75,224,166,.14)}
+.nav a:nth-child(5) .navIcon{color:#80bfff;background:rgba(103,157,255,.08);border-color:rgba(103,157,255,.15)}
+.nav a:nth-child(6) .navIcon{color:#ffd18a;background:rgba(255,209,138,.075);border-color:rgba(255,209,138,.14)}
+.nav a:nth-child(7) .navIcon{color:#ff98ad;background:rgba(255,111,140,.075);border-color:rgba(255,111,140,.15)}
+.nav a:nth-child(8) .navIcon{color:#a9b4c8;background:rgba(169,180,200,.065);border-color:rgba(169,180,200,.12)}
+.sidebar nav.nav:nth-of-type(2) a:nth-child(1) .navIcon{color:#d6b1ff;background:rgba(214,177,255,.075);border-color:rgba(214,177,255,.14)}
+.sidebar nav.nav:nth-of-type(2) a:nth-child(2) .navIcon{color:#7ddfda;background:rgba(125,223,218,.075);border-color:rgba(125,223,218,.14)}
+.bottom .navIcon{color:#ff98ad;background:rgba(255,111,140,.07);border-color:rgba(255,111,140,.13)}
+.topbar{background:rgba(8,9,17,.82);border-bottom-color:var(--line)}
+.pageGlyph{border-radius:11px;background:rgba(155,108,255,.07);border-color:rgba(155,108,255,.13);color:#bca8ff}
+.topTitle{font-size:14px;font-weight:750;letter-spacing:-.25px}
+.topSub{color:#929bb0}
+.liveChip,.topProfile,.iconTopBtn{border-radius:10px;border-color:var(--line);background:rgba(255,255,255,.022)}
+.liveChip{color:#9ba4b8;letter-spacing:.7px}
+.iconTopBtn{color:#aeb7c8;transition:background .16s,border-color .16s}
+.iconTopBtn:hover{background:rgba(155,108,255,.07);border-color:rgba(155,108,255,.22);color:#fff}
+.workspace{gap:13px;padding:13px}
+.panel{border-radius:16px;background:linear-gradient(180deg,rgba(17,19,31,.98),rgba(12,14,23,.98));border-color:var(--line);box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.panelHead{background:rgba(255,255,255,.012)}
+.headTitle{font-weight:750;letter-spacing:-.15px}
+.headSub{color:#9aa3b7;line-height:1.55}
+.primaryBtn{background:linear-gradient(105deg,#805ce8,#6c73ec);border-color:rgba(155,108,255,.3);box-shadow:0 5px 16px rgba(108,92,231,.15)}
+.primaryBtn:hover{filter:brightness(1.04);transform:translateY(-1px)}
+.secondaryBtn,.ghostBtn{border-color:var(--line);background:rgba(255,255,255,.025);color:#c2cada}
+.ticketTools{border-bottom-color:var(--line)}
+.searchBox input,.filterSelect{background:rgba(4,6,12,.44);border-color:var(--line);color:#eef0f7}
+.searchBox input:focus,.filterSelect:focus{border-color:rgba(155,108,255,.48);box-shadow:0 0 0 3px rgba(155,108,255,.08)}
+.queuePill{border-radius:10px;background:rgba(255,255,255,.022);border-color:var(--line)}
+.queuePill span{color:#949db2;letter-spacing:.7px}
+.ticketItem{border-radius:11px;background:rgba(255,255,255,.014)}
+.ticketItem:hover{transform:translateX(1px);border-color:var(--line2);background:rgba(255,255,255,.03)}
+.ticketItem.active{background:linear-gradient(110deg,rgba(155,108,255,.085),rgba(82,217,255,.025));border-color:rgba(155,108,255,.23);box-shadow:none}
+.ticketItem.active:before{background:var(--purple);box-shadow:none}
+.ticketIcon{border-radius:9px;background:rgba(255,255,255,.03);border-color:var(--line)}
+.ticketIcon:empty{display:none}
+.chatHeader{background:rgba(255,255,255,.012);border-bottom-color:var(--line)}
+.ticketOrb{border-radius:11px;background:rgba(155,108,255,.075);border-color:rgba(155,108,255,.14)}
+.headerIconBtn{border-radius:8px;border-color:var(--line);background:rgba(255,255,255,.025);color:#aab3c6;transition:background .16s,border-color .16s}
+.headerIconBtn:hover{background:rgba(155,108,255,.07);border-color:rgba(155,108,255,.25)}
+.statusPill{border-radius:9px;background:rgba(255,255,255,.02);border-color:var(--line);letter-spacing:.35px}
+.chatArea{scrollbar-gutter:stable;overscroll-behavior:contain}
+.emptyChatCard{border-color:var(--line);border-radius:17px;background:rgba(255,255,255,.012)}
+.emptyChatIcon{border-radius:14px;background:rgba(155,108,255,.07);border-color:rgba(155,108,255,.13)}
+.dateDivider span{border-color:var(--line);background:rgba(255,255,255,.015)}
+.messageBubble{border-radius:13px 13px 13px 5px;background:rgba(255,255,255,.032);border-color:var(--line);box-shadow:none}
+.messageBubble.me{border-radius:13px 13px 5px 13px;background:linear-gradient(140deg,rgba(127,95,227,.15),rgba(82,217,255,.07));border-color:rgba(155,108,255,.2)}
+.messageText{color:#e0e5ef;line-height:1.7}
+.messageText a{color:#85dfff}
+.composer{background:rgba(8,10,17,.84);border-top-color:var(--line)}
+.composerMain{border-radius:12px;background:rgba(4,6,12,.45);border-color:var(--line)}
+.composerMain:focus-within{border-color:rgba(155,108,255,.35);box-shadow:0 0 0 3px rgba(155,108,255,.06)}
+.composerTool{border-radius:7px;color:#939db2}
+.composerTool:hover,.composerTool.active{color:#d8caff;background:rgba(155,108,255,.08)}
+#messageBox{font-size:12px;line-height:1.6}
+#messageBox::placeholder{color:#7d879d}
+.sendButton{border-radius:11px;background:linear-gradient(145deg,#805ce8,#6c73ec);border-color:rgba(155,108,255,.25);box-shadow:0 6px 16px rgba(108,92,231,.15)}
+.sendButton:hover{transform:translateY(-1px);filter:brightness(1.04)}
+.staffDrawer{border-color:var(--line);border-radius:14px;background:rgba(12,14,23,.98);box-shadow:0 18px 55px rgba(0,0,0,.38)}
+.drawerAction{border-color:var(--line);border-radius:9px;background:rgba(255,255,255,.022);transition:background .16s,border-color .16s}
+.drawerAction:hover{background:rgba(155,108,255,.065);border-color:rgba(155,108,255,.22)}
+.drawerAction small{line-height:1.45}
+.overlayModal{background:rgba(4,5,10,.72)}
+.modalCard{border-color:var(--line2);border-radius:17px;background:linear-gradient(155deg,#151725,#0c0e18);box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.modalHead,.modalBody{border-color:var(--line)}
+.formInput,.formSelect,.formArea{border-color:var(--line);border-radius:9px;background:rgba(4,6,12,.45)}
+.formInput:focus,.formSelect:focus,.formArea:focus{border-color:rgba(155,108,255,.45);box-shadow:0 0 0 3px rgba(155,108,255,.07)}
+.categoryBtn{border-radius:9px;border-color:var(--line);background:rgba(255,255,255,.018)}
+.categoryBtn:hover,.categoryBtn.selected{border-color:rgba(155,108,255,.25);background:rgba(155,108,255,.06);color:#f0eaff}
+.toast{border-color:var(--line2);border-radius:12px;background:rgba(13,15,25,.97);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.toastIcon{border-radius:8px}
+.appFooter{flex:0 0 auto;min-height:34px;display:flex;align-items:center;justify-content:space-between;gap:10px 18px;padding:7px 19px;border-top:1px solid var(--line);background:rgba(7,9,15,.66);color:#7f899e;font-size:8px;line-height:1.5}
+.footerIdentity,.footerCredits{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.footerIdentity img{width:17px;height:17px;object-fit:contain;opacity:.8}
+.footerSite{color:#ccd2e0;font-weight:800;letter-spacing:.35px}
+.footerDivider{color:#47516a}
+.footerCredits{justify-content:flex-end;gap:12px}
+.footerCredits a{color:#a9b3c7;text-decoration:none}
+.footerCredits a:hover{color:#d3c7ff;text-decoration:underline;text-underline-offset:3px}
+.footerMade strong{color:#c9b8ff;font-weight:750}
+[data-staff-only][hidden], [hidden]{display:none!important}
+.staffActions{align-items:center}
+.headerIconBtn[data-staff-only]{font-size:9px;width:auto;padding:0 9px}
+@media(max-width:920px){.sidebar{background:rgba(8,9,17,.98);box-shadow:none}.appFooter{padding:6px 13px}.footerCredits{gap:9px}}
+@media(max-width:760px){body{height:auto;min-height:100svh;overflow:auto}.layout{height:auto;min-height:100svh}.main{height:auto;min-height:calc(100svh - 89px);overflow:visible}.workspace{display:block;flex:1;min-height:0;padding:9px 9px 12px}.leftPanel,.chatPanel{height:min(680px,calc(100svh - 250px));min-height:320px}.appFooter{min-height:42px;flex-wrap:wrap;justify-content:center;padding:7px 8px 13px;text-align:center;gap:5px}.footerIdentity,.footerCredits{justify-content:center;width:100%;gap:8px}.footerIdentity img{width:15px;height:15px}body.mobile-chat .appFooter{display:none}.staffDrawer{top:56px;right:8px;width:min(280px,calc(100vw - 28px))}}
+@media(max-width:540px){.appFooter{font-size:7px}.footerCredits{gap:8px}.topProfileSub{font-size:7px}.leftPanel,.chatPanel{height:min(620px,calc(100svh - 235px));min-height:290px}.composer{padding-bottom:13px}body.mobile-chat .composer{padding-bottom:65px}}
+@media(prefers-reduced-motion:reduce){body:after,.logoMark:after,.ticketOrb:after{animation:none!important}*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
 </style>
 </head>
 <body>
@@ -726,7 +840,7 @@ body.mobile-chat .chatPanel{display:flex}
 
 <aside class="sidebar">
 <div class="logo">
-<div class="logoMark"><img src="https://zyphor.cc/Logo1.png"></div>
+<div class="logoMark"><img src="https://zyphor.cc/Logo1.png" alt="Zyphor"></div>
 <div>
 <div class="logoTitle">ZYPHOR</div>
 <div class="logoSub">SUPPORT NEXUS</div>
@@ -770,12 +884,12 @@ body.mobile-chat .chatPanel{display:flex}
 
 <div class="topbarRight">
 <div class="liveChip"><i></i> LIVE SYSTEM</div>
-<button class="iconTopBtn" onclick="refreshEverything()" title="Refresh">↻</button>
+<button class="iconTopBtn" onclick="refreshEverything()" title="Refresh tickets" aria-label="Refresh tickets">↻</button>
 <div class="topProfile">
 <div class="topAvatar"><img id="avatarImage" style="display:none"><span id="avatarFallback">Z</span></div>
 <div>
 <div class="topProfileName" id="profileName">Loading...</div>
-<div class="topProfileSub">Support account</div>
+<div class="topProfileSub" id="profileRole">Support account</div>
 </div>
 </div>
 </div>
@@ -830,7 +944,7 @@ body.mobile-chat .chatPanel{display:flex}
 </div>
 <div class="chatControls">
 <div class="statusPill" id="statusPill" style="display:none"><i></i><span id="statusPillText">Open</span></div>
-<div class="staffActions">
+<div class="staffActions" data-staff-only hidden aria-label="Staff ticket controls">
 <button class="headerIconBtn" id="drawerBtn" style="display:none" onclick="toggleStaffDrawer()">Controls</button>
 <button class="headerIconBtn" id="closeBtn" style="display:none" onclick="closeTicket()">Close</button>
 <button class="headerIconBtn" id="lockBtn" style="display:none" onclick="lockTicket()">Lock</button>
@@ -838,7 +952,7 @@ body.mobile-chat .chatPanel{display:flex}
 </div>
 </div>
 
-<div class="staffDrawer" id="staffDrawer">
+<div class="staffDrawer" id="staffDrawer" data-staff-only hidden aria-label="Staff ticket controls">
 <div class="drawerTitle">Ticket Controls</div>
 <div class="drawerSub">Staff and administrator actions for the active case.</div>
 <div class="drawerGrid">
@@ -846,6 +960,8 @@ body.mobile-chat .chatPanel{display:flex}
 <button class="drawerAction" onclick="lockTicket();toggleStaffDrawer()"><span>Lock ticket</span><small>Restrict further changes</small></button>
 <button class="drawerAction" onclick="unlockTicket();toggleStaffDrawer()"><span>Unlock ticket</span><small>Re-enable changes</small></button>
 <button class="drawerAction" onclick="openTicketDetails();toggleStaffDrawer()"><span>View details</span><small>Metadata and status</small></button>
+<button class="drawerAction" onclick="exportTicketTranscript()"><span>Export transcript</span><small>Download this conversation</small></button>
+<button class="drawerAction" onclick="copyTicketId()"><span>Copy ticket ID</span><small>Copy the case reference</small></button>
 </div>
 </div>
 </div>
@@ -903,6 +1019,11 @@ body.mobile-chat .chatPanel{display:flex}
 </section>
 
 </div>
+
+<footer class="appFooter">
+<div class="footerIdentity"><img src="https://zyphor.cc/Logo1.png" alt="" onerror="this.style.display='none'"><span class="footerSite">zyphor.cc</span><span class="footerDivider">/</span><span>Support Center</span></div>
+<div class="footerCredits"><span>© <span id="copyrightYear"></span> Zyphor.cc. All rights reserved.</span><span class="footerMade">Made by <strong>Team Vaprix</strong></span><a href="tos.html">Terms</a><a href="pp.html">Privacy</a></div>
+</footer>
 
 <div class="mobileNav">
 <button id="mobileTickets" class="active" onclick="mobileView('tickets')">Tickets</button>
@@ -1168,6 +1289,17 @@ return !!(user&&(user.permissions?.support||user.permissions?.admin))
 function hasAdmin(){
 return !!(user&&user.permissions?.admin)
 }
+function applyStaffVisibility(){
+const staff=hasSupport()
+document.querySelectorAll("[data-staff-only]").forEach(el=>{
+el.hidden=!staff
+if(!staff)el.classList.remove("show")
+})
+const role=document.getElementById("profileRole")
+if(role)role.textContent=hasAdmin()?"Administrator":staff?"Support staff":"Support account"
+document.body.classList.toggle("support-staff",staff)
+if(!staff)staffDrawerOpen=false
+}
 function goProfile(){
 const username=user?.username||localStorage.getItem("username")
 if(username)location.href="profile.html?username="+encodeURIComponent(username)
@@ -1197,6 +1329,7 @@ location.href="login.html"
 return false
 }
 user=data
+applyStaffVisibility()
 localStorage.setItem("username",data.username||"")
 document.getElementById("profileName").textContent=data.username||"Account"
 document.getElementById("avatarFallback").textContent=(data.username||"Z").slice(0,1).toUpperCase()
@@ -1349,10 +1482,11 @@ document.getElementById("infoCreated").textContent=formatDate(ticket.createdAt)
 document.getElementById("infoMessages").textContent=String(ticket.messages?.length||0)
 document.getElementById("infoOwner").textContent=ticket.username||ticket.owner||user?.username||"—"
 const canStaff=hasSupport()
-document.getElementById("drawerBtn").style.display=canStaff?"block":"none"
-document.getElementById("closeBtn").style.display=canStaff&&ticket.status==="open"?"block":"none"
-document.getElementById("lockBtn").style.display=canSupportControl(ticket)?"block":"none"
-document.getElementById("unlockBtn").style.display=canSupportControl(ticket)&&ticket.locked?"block":"none"
+applyStaffVisibility()
+document.getElementById("drawerBtn").style.display=canStaff?"inline-flex":"none"
+document.getElementById("closeBtn").style.display=canStaff&&ticket.status==="open"?"inline-flex":"none"
+document.getElementById("lockBtn").style.display=canSupportControl(ticket)?"inline-flex":"none"
+document.getElementById("unlockBtn").style.display=canSupportControl(ticket)&&ticket.locked?"inline-flex":"none"
 messageBox.disabled=!!ticket.locked
 sendBtn.disabled=!!ticket.locked
 }
@@ -1694,6 +1828,10 @@ sendBtn.disabled=!currentTicketAllowsMessage()
 }
 
 async function ticketAction(path,successText){
+if(!hasSupport()){
+showToast("Staff access required","Only authorized support staff can manage tickets.","error")
+return
+}
 if(!activeTicket)return
 try{
 const r=await api(path,{method:"POST",body:JSON.stringify({ticketId:activeTicket.id})})
@@ -1822,6 +1960,10 @@ showToast("Copy failed","Your browser blocked clipboard access.","error")
 }
 }
 function openTicketDetails(){
+if(!hasSupport()){
+showToast("Staff access required","Ticket details are available to authorized staff only.","error")
+return
+}
 if(!activeTicket)return
 const box=document.getElementById("detailBox")
 box.innerHTML=`
@@ -1837,8 +1979,71 @@ ${activeTicket.username?`<div class="detailLine"><span>User</span><strong>${esca
 `
 openModal("detailModal")
 }
+function exportTicketTranscript(){
+if(!hasSupport()){
+showToast("Staff access required","Only authorized support staff can export ticket transcripts.","error")
+return
+}
+if(!activeTicket){
+showToast("No ticket selected","Select a ticket before exporting a transcript.","error")
+return
+}
+const lines=[
+"Zyphor Support Transcript",
+"Ticket ID: "+(activeTicket.id||"Unknown"),
+"Title: "+(activeTicket.title||"Untitled ticket"),
+"Owner: "+(activeTicket.username||activeTicket.owner||"Unknown"),
+"Category: "+normalizeTicketCategory(activeTicket),
+"Status: "+(activeTicket.status||"Unknown"),
+"Created: "+formatDate(activeTicket.createdAt),
+"Updated: "+formatDate(activeTicket.updatedAt),
+"Exported: "+new Date().toLocaleString(),
+"",
+"Conversation",
+"=".repeat(48),
+...(Array.isArray(activeTicket.messages)?activeTicket.messages:[]).map(message=>{
+const author=message.author||"Unknown"
+const time=formatDate(message.time)
+const text=message.text||"[Attachment or empty message]"
+const attachment=message.attachment?.path||message.file?.path
+return `[${time}] ${author}: ${text}${attachment?"\nAttachment: "+attachment:""}`
+})
+]
+const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"})
+const url=URL.createObjectURL(blob)
+const anchor=document.createElement("a")
+const safeId=String(activeTicket.id||"ticket").replace(/[^a-zA-Z0-9_-]/g,"_")
+anchor.href=url
+anchor.download=`zyphor-ticket-${safeId}.txt`
+document.body.appendChild(anchor)
+anchor.click()
+anchor.remove()
+setTimeout(()=>URL.revokeObjectURL(url),1000)
+showToast("Transcript exported","The selected conversation was downloaded as a text file.","success")
+}
+async function copyTicketId(){
+if(!hasSupport()){
+showToast("Staff access required","Only authorized support staff can use this action.","error")
+return
+}
+if(!activeTicket?.id){
+showToast("No ticket selected","Select a ticket first.","error")
+return
+}
+try{
+await navigator.clipboard.writeText(String(activeTicket.id))
+showToast("Ticket ID copied",String(activeTicket.id),"success")
+}catch{
+showToast("Copy failed","Your browser blocked clipboard access.","error")
+}
+}
+
 function toggleStaffDrawer(){
-if(!hasSupport())return
+if(!hasSupport()){
+showToast("Staff access required","These controls are only available to authorized support staff.","error")
+return
+}
+if(!activeTicket)return
 staffDrawerOpen=!staffDrawerOpen
 document.getElementById("staffDrawer").classList.toggle("show",staffDrawerOpen)
 }
@@ -1893,6 +2098,8 @@ if(ticket)openTicket(ticket)
 
 async function init(){
 try{
+const year=document.getElementById("copyrightYear")
+if(year)year.textContent=String(new Date().getFullYear())
 backend=await getBackend()
 token=tokenValue()
 if(!token){
