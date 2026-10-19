@@ -472,3 +472,601 @@
 .bt-reducedMotion *{animation-duration:.001ms!important;transition-duration:.001ms!important}
 @media (min-width:1500px){.bt-header{grid-template-columns:minmax(0,1fr) 320px;padding:32px 34px}.bt-titleRow h2{font-size:32px}.bt-contentGrid{grid-template-columns:minmax(0,1.28fr) minmax(390px,.82fr);gap:20px}.bt-card{padding:24px}.bt-checkItem{min-height:88px;padding:15px}}
 @media(prefers-reduced-motion:reduce){.betaWorkspace *, .betaWorkspace *::before, .betaWorkspace *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* ================================================================
+   ZYPHOR BETA STATUS — PROFILE FRAME, INSIGNIA AND FULL EXPERIENCE
+   Purpose-built visual system; all animation respects reduced motion.
+   ================================================================ */
+:root{
+  --bt-platinum:#eaffff;
+  --bt-ice:#79efff;
+  --bt-prism:#9a7cff;
+  --bt-deep:#070b15;
+  --bt-panel-raised:rgba(19,25,40,.91);
+  --bt-border-highlight:rgba(105,231,255,.24);
+}
+body.beta-tester-experience{
+  --cyan:#57e8ff;
+  --cyan2:#4f9dff;
+  --purple:#9872ff;
+  --panel:rgba(13,19,32,.84);
+  --panel2:rgba(18,25,42,.91);
+  background:
+    radial-gradient(ellipse at 7% 1%,rgba(0,213,255,.105),transparent 28%),
+    radial-gradient(ellipse at 96% 3%,rgba(141,77,255,.12),transparent 29%),
+    radial-gradient(ellipse at 52% 90%,rgba(56,119,255,.045),transparent 33%),
+    linear-gradient(180deg,#080c15 0%,#05070d 53%,#03050a 100%);
+}
+body.beta-tester-experience::before{
+  opacity:.78;
+  background-image:
+    linear-gradient(rgba(123,214,255,.024) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(123,214,255,.024) 1px,transparent 1px),
+    radial-gradient(circle,rgba(178,226,255,.19) .7px,transparent .9px);
+  background-size:42px 42px,42px 42px,173px 173px;
+  mask-image:linear-gradient(to bottom,black,transparent 95%);
+}
+body.beta-tester-experience::after{
+  inset:-20%;
+  background:conic-gradient(from 10deg at 53% 42%,transparent 0deg,rgba(0,213,255,.035) 40deg,transparent 95deg,rgba(141,77,255,.045) 175deg,transparent 242deg,rgba(79,157,255,.027) 308deg,transparent 360deg);
+  filter:blur(75px);
+  animation:btAmbientDrift 36s linear infinite;
+}
+@keyframes btAmbientDrift{to{transform:rotate(360deg)}}
+
+/* The dashboard chrome receives a coherent early-access finish. */
+body.beta-tester-experience .sidebar{
+  background:linear-gradient(180deg,rgba(7,12,21,.93),rgba(5,8,15,.88));
+  border-right-color:rgba(91,209,255,.13);
+  box-shadow:20px 0 80px rgba(0,0,0,.22),inset -1px 0 0 rgba(255,255,255,.015);
+}
+body.beta-tester-experience .logoMark{
+  border-color:rgba(93,227,255,.28);
+  background:linear-gradient(145deg,rgba(0,213,255,.20),rgba(141,77,255,.19) 72%,rgba(255,255,255,.035));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 26px rgba(0,213,255,.095),0 12px 30px rgba(0,0,0,.26);
+}
+body.beta-tester-experience .logoMark::after{
+  inset:-11px;
+  border-color:rgba(110,229,255,.33);
+  border-style:dashed;
+  animation:btSealOrbit 14s linear infinite;
+}
+@keyframes btSealOrbit{to{transform:rotate(360deg)}}
+body.beta-tester-experience .logoTitle{color:#f4fbff;text-shadow:0 0 21px rgba(87,232,255,.11)}
+body.beta-tester-experience .logoSub{color:#89a1bd}
+body.beta-tester-experience .logoLive{background:#70f5c3;box-shadow:0 0 0 4px rgba(112,245,195,.055),0 0 17px rgba(112,245,195,.65)}
+body.beta-tester-experience .navLabel{color:#748aa7;letter-spacing:2px}
+body.beta-tester-experience .nav a,
+body.beta-tester-experience .nav button{border-radius:14px;transition:transform .22s cubic-bezier(.2,.8,.2,1),background .22s,border-color .22s,color .22s,box-shadow .22s}
+body.beta-tester-experience .nav a:hover,
+body.beta-tester-experience .nav button:hover,
+body.beta-tester-experience .nav a.active{
+  border-color:rgba(94,220,255,.14);
+  background:linear-gradient(100deg,rgba(0,213,255,.065),rgba(141,77,255,.055));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 24px rgba(0,0,0,.10);
+}
+body.beta-tester-experience .nav a.active::before{
+  width:3px;
+  background:linear-gradient(180deg,#7cf1ff,#8d72ff 74%,#d6c4ff);
+  box-shadow:0 0 18px rgba(87,232,255,.55);
+}
+body.beta-tester-experience .navIcon{
+  border-color:rgba(135,203,255,.105);
+  background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.016));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+body.beta-tester-experience .nav a.active .navIcon,
+body.beta-tester-experience .nav button:hover .navIcon{
+  border-color:rgba(87,232,255,.19);
+  color:#91f1ff;
+  background:linear-gradient(145deg,rgba(0,213,255,.12),rgba(141,77,255,.075));
+}
+body.beta-tester-experience .sideUser{
+  border-color:rgba(93,209,255,.13);
+  background:linear-gradient(140deg,rgba(0,213,255,.04),rgba(141,77,255,.035)),rgba(255,255,255,.015);
+}
+body.beta-tester-experience .pageIcon{
+  border-color:rgba(87,232,255,.18);
+  background:linear-gradient(145deg,rgba(0,213,255,.16),rgba(141,77,255,.13));
+  color:#b8f6ff;
+  box-shadow:0 8px 24px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.06);
+}
+body.beta-tester-experience .pageName{letter-spacing:-.45px}
+body.beta-tester-experience .topBtn{
+  border-color:rgba(142,176,222,.12);
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+  box-shadow:0 5px 16px rgba(0,0,0,.08);
+}
+body.beta-tester-experience .topBtn:hover{
+  border-color:rgba(87,232,255,.25);
+  background:linear-gradient(110deg,rgba(0,213,255,.09),rgba(141,77,255,.07));
+}
+body.beta-tester-experience .profilePageNav button{
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(135,181,224,.12);
+  background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.013));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+body.beta-tester-experience .profilePageNav button:hover{
+  border-color:rgba(87,232,255,.28);
+  box-shadow:0 8px 22px rgba(0,0,0,.14),0 0 19px rgba(0,213,255,.035);
+}
+
+/* Custom Beta profile banner: layered glass, prismatic edge and scan sweep. */
+body.beta-tester-experience .hero{
+  isolation:isolate;
+  border:1px solid rgba(107,207,255,.19);
+  background:
+    radial-gradient(ellipse at 8% 50%,rgba(0,213,255,.105),transparent 36%),
+    radial-gradient(ellipse at 88% 13%,rgba(141,77,255,.15),transparent 32%),
+    radial-gradient(ellipse at 76% 115%,rgba(69,124,255,.09),transparent 35%),
+    linear-gradient(125deg,rgba(17,27,43,.96),rgba(9,14,25,.95) 54%,rgba(17,15,34,.95));
+  box-shadow:0 25px 85px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.055),inset 0 0 0 1px rgba(255,255,255,.012);
+}
+body.beta-tester-experience .hero::before{
+  opacity:.9;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.055),transparent 26%),
+    linear-gradient(90deg,transparent 0%,rgba(87,232,255,.018) 49%,transparent 50%),
+    radial-gradient(circle at 11% 89%,rgba(87,232,255,.06),transparent 24%);
+}
+body.beta-tester-experience .hero::after{
+  width:32%;
+  left:-38%;
+  background:linear-gradient(100deg,transparent,rgba(141,222,255,.075),rgba(225,220,255,.045),transparent);
+  animation:btHeroPrism 10s ease-in-out infinite;
+}
+@keyframes btHeroPrism{0%,55%{transform:translateX(-8%) skewX(-18deg);opacity:0}70%{opacity:1}100%{transform:translateX(440%) skewX(-18deg);opacity:0}}
+body.beta-tester-experience .heroScan{
+  height:2px;
+  opacity:.9;
+  background:linear-gradient(90deg,transparent,#5ceaff 18%,#e5fcff 50%,#ad8cff 82%,transparent);
+  box-shadow:0 0 10px rgba(87,232,255,.6),0 0 25px rgba(141,77,255,.26);
+}
+body.beta-tester-experience .identityKicker{color:#8a9db8;letter-spacing:2px}
+body.beta-tester-experience .identityDot{width:6px;height:6px;background:#75efff;box-shadow:0 0 13px rgba(87,232,255,.9)}
+body.beta-tester-experience .username{
+  color:#f6fbff;
+  text-shadow:0 0 34px rgba(87,232,255,.08);
+}
+body.beta-tester-experience .profileDescription{color:#a4b2c8}
+body.beta-tester-experience .meta{
+  border-color:rgba(142,176,222,.12);
+  background:rgba(2,7,15,.25);
+  color:#8d9db6;
+}
+body.beta-tester-experience .meta b{color:#e4f0ff}
+body.beta-tester-experience .heroBtn{
+  border-radius:11px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+  transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s,border-color .2s,box-shadow .2s;
+}
+body.beta-tester-experience .heroBtn.primary{
+  border-color:rgba(105,230,255,.28);
+  background:linear-gradient(115deg,#08b8db 0%,#407eff 53%,#8159f4 100%);
+  box-shadow:0 10px 28px rgba(20,135,238,.18),inset 0 1px 0 rgba(255,255,255,.20);
+}
+body.beta-tester-experience .heroBtn.secondary{
+  border-color:rgba(142,176,222,.13);
+  background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.018));
+  color:#d3deef;
+}
+body.beta-tester-experience .heroBtn.secondary:hover{
+  border-color:rgba(87,232,255,.25);
+  box-shadow:0 8px 22px rgba(0,0,0,.16);
+}
+body.beta-tester-experience .heroBtn.primary:hover{box-shadow:0 13px 32px rgba(20,135,238,.24),inset 0 1px 0 rgba(255,255,255,.22)}
+
+/* The high-tier frame is attached to the actual profile subject only. */
+body.beta-profile-subject .avatarStage{isolation:isolate;transform:translateZ(0)}
+body.beta-profile-subject .avatarStage::before,
+body.beta-profile-subject .avatarStage::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  border-radius:50%;
+}
+body.beta-profile-subject .avatarStage::before{
+  inset:-15px;
+  z-index:0;
+  background:conic-gradient(from 0deg,transparent 0 8%,rgba(87,232,255,.85) 10%,transparent 14% 35%,rgba(160,126,255,.8) 39%,transparent 43% 68%,rgba(226,252,255,.65) 71%,transparent 76% 100%);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 calc(100% - .5px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 calc(100% - .5px));
+  filter:drop-shadow(0 0 6px rgba(87,232,255,.45));
+  animation:btProfileArc 9s linear infinite;
+}
+body.beta-profile-subject .avatarStage::after{
+  inset:-7px;
+  z-index:1;
+  border:1px solid rgba(136,218,255,.25);
+  box-shadow:0 0 0 5px rgba(87,232,255,.025),0 0 26px rgba(0,213,255,.105),inset 0 0 18px rgba(141,77,255,.075);
+  animation:btFrameBreath 3.8s ease-in-out infinite;
+}
+@keyframes btProfileArc{to{transform:rotate(360deg)}}
+@keyframes btFrameBreath{0%,100%{opacity:.65;box-shadow:0 0 0 5px rgba(87,232,255,.02),0 0 23px rgba(0,213,255,.08),inset 0 0 18px rgba(141,77,255,.06)}50%{opacity:1;box-shadow:0 0 0 7px rgba(87,232,255,.04),0 0 37px rgba(0,213,255,.19),inset 0 0 22px rgba(141,77,255,.12)}}
+body.beta-profile-subject .avatarOuter{
+  inset:-9px;
+  z-index:1;
+  background:conic-gradient(from 0deg,rgba(87,232,255,.22),rgba(141,77,255,.43),rgba(97,150,255,.18),rgba(223,246,255,.55),rgba(87,232,255,.22));
+  filter:blur(3px);
+  animation:btGlowOrbit 7s linear infinite;
+}
+@keyframes btGlowOrbit{to{transform:rotate(360deg)}}
+body.beta-profile-subject .avatarOuter::before{
+  inset:9px;
+  border:1px dashed rgba(191,235,255,.27);
+}
+body.beta-profile-subject .avatarRing,
+body.beta-profile-subject .avatarRing.ascended,
+body.beta-profile-subject .avatarRing.infinity,
+body.beta-profile-subject .avatarRing.endless{
+  z-index:2;
+  padding:4px;
+  box-shadow:0 0 0 1px rgba(171,231,255,.22),0 13px 36px rgba(0,0,0,.40),0 0 22px rgba(0,213,255,.11);
+}
+body.beta-profile-subject .avatarRing:not(.ascended):not(.infinity):not(.endless){
+  background:conic-gradient(from 40deg,#79edff,#18243b 18%,#9d80ff 32%,#11182b 49%,#ddfaff 61%,#32295f 77%,#79edff);
+  animation:btSealOrbit 11s linear infinite;
+}
+body.beta-profile-subject .avatarRing.ascended{box-shadow:0 0 0 1px rgba(255,46,73,.2),0 0 35px rgba(255,46,73,.22),0 0 0 5px rgba(87,232,255,.07)}
+body.beta-profile-subject .avatarRing.infinity{box-shadow:0 0 0 1px rgba(0,229,255,.23),0 0 38px rgba(0,205,255,.25),0 0 0 5px rgba(87,232,255,.07)}
+body.beta-profile-subject .avatarRing.endless{box-shadow:0 0 0 1px rgba(159,77,255,.23),0 0 40px rgba(159,77,255,.26),0 0 0 5px rgba(87,232,255,.07)}
+body.beta-profile-subject .avatar{
+  border:2px solid rgba(9,15,27,.96);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.045);
+}
+body.beta-profile-subject .avatarStatus{
+  z-index:5;
+  right:3px;
+  bottom:8px;
+  width:18px;
+  height:18px;
+  border-color:#07101a;
+  box-shadow:0 0 0 1px rgba(99,244,196,.62),0 0 17px rgba(99,244,196,.75),0 0 0 5px rgba(99,244,196,.07);
+}
+.betaProfileFrame{
+  position:absolute;
+  display:none;
+  pointer-events:none;
+  inset:-28px;
+  z-index:3;
+  overflow:visible;
+}
+body.beta-profile-subject .betaProfileFrame:not([hidden]){display:block}
+.betaFrameOrbit{
+  position:absolute;
+  inset:1px;
+  border-radius:50%;
+  border:1px solid transparent;
+  -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+}
+.betaFrameOrbitOne{
+  border-width:2px;
+  border-style:solid;
+  border-color:transparent;
+  background:conic-gradient(from 18deg,transparent 0 7%,#6eeeff 10%,transparent 13% 27%,#9b80ff 31%,transparent 35% 53%,#e1fcff 57%,transparent 60% 79%,#7cb5ff 84%,transparent 88% 100%) border-box;
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));
+  filter:drop-shadow(0 0 5px rgba(87,232,255,.6));
+  animation:btProfileArc 7.5s linear infinite;
+}
+.betaFrameOrbitTwo{
+  inset:9px;
+  border:1px dashed rgba(180,218,255,.34);
+  box-shadow:0 0 18px rgba(141,77,255,.10);
+  animation:btProfileArc 22s linear infinite reverse;
+}
+.betaFrameTick{
+  position:absolute;
+  width:13px;
+  height:13px;
+  border:1px solid rgba(203,250,255,.92);
+  background:linear-gradient(135deg,rgba(87,232,255,.55),rgba(141,77,255,.4));
+  box-shadow:0 0 12px rgba(87,232,255,.38),inset 0 1px 0 rgba(255,255,255,.55);
+  transform:rotate(45deg);
+}
+.betaFrameTickTop{top:4px;left:50%;margin-left:-6px}
+.betaFrameTickRight{right:4px;top:50%;margin-top:-6px}
+.betaFrameTickBottom{bottom:4px;left:50%;margin-left:-6px}
+.betaFrameTickLeft{left:4px;top:50%;margin-top:-6px}
+.betaFrameStar{position:absolute;color:#bdf7ff;text-shadow:0 0 13px rgba(87,232,255,.85),0 0 24px rgba(141,77,255,.42);font-size:15px;line-height:1;animation:btStarGlint 2.8s ease-in-out infinite}
+.betaFrameStarOne{top:10px;right:22px}
+.betaFrameStarTwo{left:9px;bottom:21px;color:#c7b3ff;animation-delay:-.9s}
+.betaFrameStarThree{right:8px;bottom:27px;font-size:10px;animation-delay:-1.8s}
+@keyframes btStarGlint{0%,100%{opacity:.42;transform:scale(.76) rotate(0deg)}50%{opacity:1;transform:scale(1.15) rotate(22deg)}}
+body.beta-profile-subject .betaFrameOrbitTwo{border-color:rgba(180,218,255,.25)}
+
+/* The Beta Tester role is a custom insignia, not a generic pill. */
+body.beta-profile-subject .role.beta,
+body.beta-tester-experience .role.beta{
+  position:relative;
+  isolation:isolate;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  height:31px;
+  padding:0 11px 0 7px;
+  overflow:hidden;
+  border:1px solid rgba(104,232,255,.43);
+  border-radius:10px;
+  color:#e8fcff;
+  background:linear-gradient(120deg,rgba(0,213,255,.17),rgba(83,129,255,.12) 52%,rgba(141,77,255,.20));
+  box-shadow:0 0 0 1px rgba(87,232,255,.07),0 4px 17px rgba(0,213,255,.10),inset 0 1px 0 rgba(255,255,255,.12);
+  font-size:10px;
+  letter-spacing:.1px;
+  white-space:nowrap;
+}
+body.beta-profile-subject .role.beta::before,
+body.beta-tester-experience .role.beta::before{
+  content:"";
+  position:absolute;
+  top:-40%;bottom:-40%;left:-45%;width:32%;
+  z-index:-1;
+  background:linear-gradient(90deg,transparent,rgba(239,255,255,.25),transparent);
+  transform:skewX(-22deg);
+  animation:btBadgeSweep 4.3s ease-in-out infinite;
+}
+body.beta-profile-subject .role.beta::after,
+body.beta-tester-experience .role.beta::after{
+  content:"";
+  position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(87,232,255,.055),rgba(141,77,255,.10),transparent);
+  opacity:.9;
+}
+@keyframes btBadgeSweep{0%,55%{left:-45%;opacity:0}68%{opacity:1}100%{left:130%;opacity:0}}
+.betaBadgeSigil{
+  position:relative;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  width:22px;height:22px;
+  border-radius:7px;
+  border:1px solid rgba(190,248,255,.36);
+  background:linear-gradient(145deg,rgba(0,213,255,.24),rgba(141,77,255,.25));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 0 11px rgba(0,213,255,.18);
+}
+.betaBadgeSigil svg{width:16px;height:16px;overflow:visible;fill:none;stroke:#e5fdff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 3px rgba(87,232,255,.38))}
+.betaBadgeSigil svg path:first-of-type{fill:url(#betaBadgeGradient);stroke:#c4f9ff;stroke-width:1}
+.betaBadgeText{font-weight:900;letter-spacing:.15px}
+.betaBadgeTier{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:17px;padding:0 6px;margin-left:1px;
+  border:1px solid rgba(202,245,255,.18);border-radius:5px;
+  background:rgba(4,10,20,.30);color:#a9eefa;
+  font-size:7px;letter-spacing:1px;font-weight:900;
+}
+
+/* Bespoke achievement medal: animated foil, orbit, and raised seal. */
+.betaAchievementSigil{position:relative;z-index:3;width:52px;height:52px;overflow:visible;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5)) drop-shadow(0 0 9px rgba(87,232,255,.38));}
+.betaSealOuter{fill:#101b2d;stroke:url(#betaSealMetal);stroke-width:2.4;stroke-linejoin:round}
+.betaSealInner{fill:rgba(0,213,255,.09);stroke:rgba(219,253,255,.7);stroke-width:1.2;stroke-linejoin:round}
+.betaSealCore{fill:none;stroke:rgba(111,231,255,.4);stroke-width:1;stroke-dasharray:8 4 2 5;transform-origin:50px 50px;animation:btSealOrbit 11s linear infinite}
+.betaSealCheck{fill:none;stroke:#efffff;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 3px #66eaff)}
+body.beta-profile-subject .badgeCard.beta-achievement,
+body.beta-tester-experience .badgeCard.beta-achievement{
+  position:relative;
+  isolation:isolate;
+  z-index:1;
+  padding:5px 4px 8px;
+  border-radius:15px;
+  background:linear-gradient(180deg,rgba(0,213,255,.045),rgba(141,77,255,.018) 55%,transparent);
+  transition:transform .24s ease,background .24s ease,filter .24s ease;
+}
+body.beta-profile-subject .badgeCard.beta-achievement::before,
+body.beta-tester-experience .badgeCard.beta-achievement::before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;z-index:-1;pointer-events:none;
+  border:1px solid rgba(87,232,255,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 0 22px rgba(0,213,255,.035);
+  opacity:.85;
+}
+body.beta-profile-subject .badgeCard.beta-achievement:hover,
+body.beta-tester-experience .badgeCard.beta-achievement:hover{transform:translateY(-5px);background:linear-gradient(180deg,rgba(0,213,255,.085),rgba(141,77,255,.04) 70%,transparent)}
+body.beta-profile-subject .badgeCard.beta-achievement .medal,
+body.beta-tester-experience .badgeCard.beta-achievement .medal{
+  background:conic-gradient(from -90deg,#62eaff 0 20%,#9b82ff 30%,#efffff 40%,#4dafff 54%,#8c67ff 68%,#e9fdff 82%,#62eaff 100%);
+  box-shadow:0 0 0 1px rgba(194,246,255,.4),0 0 0 5px rgba(87,232,255,.045),0 10px 27px rgba(0,0,0,.27),0 0 24px rgba(0,213,255,.14);
+  animation:btMedalTurn 18s linear infinite;
+}
+@keyframes btMedalTurn{0%,100%{filter:brightness(1) saturate(1)}50%{filter:brightness(1.16) saturate(1.12)}}
+body.beta-profile-subject .badgeCard.beta-achievement .medal::before,
+body.beta-tester-experience .badgeCard.beta-achievement .medal::before{
+  inset:5px;
+  background:radial-gradient(circle at 29% 20%,rgba(255,255,255,.19),transparent 31%),linear-gradient(145deg,#1d2c44,#08101d 72%);
+  border:1px solid rgba(221,250,255,.3);
+  box-shadow:inset 0 0 0 2px rgba(0,213,255,.06);
+}
+body.beta-profile-subject .badgeCard.beta-achievement .medal::after,
+body.beta-tester-experience .badgeCard.beta-achievement .medal::after{
+  inset:9px;border-color:rgba(193,245,255,.24);border-style:dashed;
+  animation:btSealOrbit 24s linear infinite reverse;
+}
+body.beta-profile-subject .badgeCard.beta-achievement .badgeVisual,
+body.beta-tester-experience .badgeCard.beta-achievement .badgeVisual{width:56px;height:56px}
+body.beta-profile-subject .badgeCard.beta-achievement .badgeName,
+body.beta-tester-experience .badgeCard.beta-achievement .badgeName{color:#e2faff;font-weight:900}
+body.beta-profile-subject .badgeCard.beta-achievement .badgeTiny,
+body.beta-tester-experience .badgeCard.beta-achievement .badgeTiny{color:#83dff5}
+body.beta-profile-subject .badgeCard.beta-achievement.complete .medal,
+body.beta-tester-experience .badgeCard.beta-achievement.complete .medal{animation:btMedalHalo 3.8s ease-in-out infinite}
+@keyframes btMedalHalo{0%,100%{box-shadow:0 0 0 1px rgba(194,246,255,.35),0 0 0 5px rgba(87,232,255,.035),0 10px 27px rgba(0,0,0,.26),0 0 19px rgba(0,213,255,.13)}50%{box-shadow:0 0 0 1px rgba(231,253,255,.72),0 0 0 8px rgba(87,232,255,.065),0 10px 30px rgba(0,0,0,.26),0 0 32px rgba(0,213,255,.28)}}
+body.beta-profile-subject .badgeCard.beta-achievement .badgeDetails,
+body.beta-tester-experience .badgeCard.beta-achievement .badgeDetails{border-color:rgba(87,232,255,.25);box-shadow:0 25px 64px rgba(0,0,0,.62),0 0 30px rgba(0,213,255,.075)}
+
+/* Signature treatment across profile cards, stats, timeline and identity data. */
+body.beta-tester-experience .stat,
+body.beta-tester-experience .card{
+  border-color:rgba(130,165,212,.12);
+  background:linear-gradient(145deg,rgba(255,255,255,.043),rgba(255,255,255,.012)),rgba(11,17,29,.84);
+  box-shadow:0 18px 55px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.025);
+}
+body.beta-tester-experience .stat{position:relative;isolation:isolate;overflow:hidden}
+body.beta-tester-experience .stat::after{
+  content:"";position:absolute;top:-65px;right:-55px;width:150px;height:150px;border-radius:50%;z-index:-1;
+  border:1px solid rgba(87,232,255,.11);box-shadow:0 0 0 16px rgba(87,232,255,.018),0 0 0 34px rgba(141,77,255,.012);
+  transition:transform .35s ease,border-color .35s ease;
+}
+body.beta-tester-experience .stat:hover::after{transform:scale(1.12);border-color:rgba(87,232,255,.24)}
+body.beta-tester-experience .statIcon{border-color:rgba(87,232,255,.12);background:linear-gradient(145deg,rgba(0,213,255,.085),rgba(141,77,255,.055));color:#a8f3ff}
+body.beta-tester-experience .statValue{color:#f2fbff;text-shadow:0 0 22px rgba(87,232,255,.055);font-variant-numeric:tabular-nums}
+body.beta-tester-experience .card::before{background:linear-gradient(135deg,rgba(255,255,255,.037),transparent 25%),radial-gradient(circle at top right,rgba(0,213,255,.05),transparent 24%)}
+body.beta-tester-experience .cardHeader h2{color:#eff6ff}
+body.beta-tester-experience .cardPill{border-color:rgba(132,188,235,.14);background:rgba(3,9,17,.27);color:#93a9c5}
+body.beta-tester-experience .completeness{border-color:rgba(87,232,255,.15);background:radial-gradient(circle at 90% 0,rgba(0,213,255,.085),transparent 31%),linear-gradient(135deg,rgba(255,255,255,.025),transparent)}
+body.beta-tester-experience .completePercent{color:#b9f7ff;text-shadow:0 0 22px rgba(87,232,255,.15)}
+body.beta-tester-experience .completeFill{background:linear-gradient(90deg,#39dafa,#488eff,#9b71ff);box-shadow:0 0 17px rgba(87,232,255,.3)}
+body.beta-tester-experience .identityCell,
+body.beta-tester-experience .socialCard,
+body.beta-tester-experience .tool,
+body.beta-tester-experience .timelineIcon,
+body.beta-tester-experience .linkBox{
+  border-color:rgba(134,174,222,.105);
+  background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.012));
+}
+body.beta-tester-experience .identityCell:hover,
+body.beta-tester-experience .socialCard:hover{border-color:rgba(87,232,255,.18);background:linear-gradient(145deg,rgba(0,213,255,.035),rgba(141,77,255,.025))}
+body.beta-tester-experience .identityLabel{color:#7185a2}
+body.beta-tester-experience .identityValue{color:#e2edfc}
+body.beta-tester-experience .mini{border-color:rgba(135,187,236,.12);background:rgba(255,255,255,.035)}
+body.beta-tester-experience .mini.primary{border-color:rgba(87,232,255,.22);background:rgba(0,213,255,.075);color:#9eeeff}
+body.beta-tester-experience .subscriptionBox{border-color:rgba(141,77,255,.16);background:radial-gradient(circle at 95% 0,rgba(141,77,255,.14),transparent 30%),linear-gradient(145deg,rgba(255,255,255,.03),transparent)}
+body.beta-tester-experience .subFact{border-color:rgba(132,174,222,.09);background:rgba(1,5,13,.24)}
+body.beta-tester-experience .socialIcon,
+body.beta-tester-experience .toolIcon,
+body.beta-tester-experience .linkIcon{border-color:rgba(87,232,255,.14);background:linear-gradient(145deg,rgba(0,213,255,.085),rgba(141,77,255,.045));color:#a8f0ff}
+body.beta-tester-experience .timelineRail{background:linear-gradient(180deg,rgba(87,232,255,.32),rgba(141,77,255,.17),transparent)}
+body.beta-tester-experience .timelineIcon{box-shadow:0 0 18px rgba(0,213,255,.035)}
+body.beta-tester-experience .timelineTitle{color:#e4efff}
+body.beta-tester-experience .timelineText{color:#91a1ba}
+body.beta-tester-experience .quickLink .linkBox{border-color:rgba(87,232,255,.14);background:radial-gradient(circle at 12% 50%,rgba(0,213,255,.085),transparent 36%),rgba(255,255,255,.018)}
+body.beta-tester-experience .profileNote{border-color:rgba(134,174,222,.13);background:rgba(4,8,16,.76);box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}
+body.beta-tester-experience .profileNote:focus{border-color:rgba(87,232,255,.38);box-shadow:0 0 0 4px rgba(87,232,255,.055),0 0 22px rgba(0,213,255,.045)}
+body.beta-tester-experience .siteFooter{border-top-color:rgba(115,190,255,.14)}
+body.beta-tester-experience .footerMark{border-color:rgba(87,232,255,.22);background:linear-gradient(145deg,rgba(0,213,255,.13),rgba(141,77,255,.15));box-shadow:0 0 22px rgba(0,213,255,.055)}
+body.beta-tester-experience .footerCopy strong{color:#e0f3ff}
+body.beta-tester-experience .footerMade strong{color:#aeeaff}
+body.beta-tester-experience .footerLinks a:hover,
+body.beta-tester-experience .footerLinks button:hover{border-color:rgba(87,232,255,.25);background:linear-gradient(110deg,rgba(0,213,255,.07),rgba(141,77,255,.06))}
+
+/* The QA/control-room UI has a consistent custom component language too. */
+body.beta-tester-experience .betaWorkspace{margin-top:23px;border-color:rgba(105,191,255,.14);border-radius:25px}
+body.beta-tester-experience .bt-header{
+  border-color:rgba(105,191,255,.18);
+  background:radial-gradient(ellipse at 9% 5%,rgba(0,213,255,.12),transparent 33%),radial-gradient(ellipse at 94% 90%,rgba(141,77,255,.15),transparent 33%),linear-gradient(145deg,rgba(18,28,45,.97),rgba(8,13,23,.96));
+  box-shadow:0 24px 80px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.045);
+}
+body.beta-tester-experience .bt-header::after{background:linear-gradient(130deg,rgba(255,255,255,.055),transparent 30%,transparent 68%,rgba(142,128,255,.025))}
+body.beta-tester-experience .bt-titleRow h2{letter-spacing:-1.15px;text-shadow:0 0 26px rgba(87,232,255,.07)}
+body.beta-tester-experience .bt-accessPill{box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 20px rgba(0,213,255,.045)}
+body.beta-tester-experience .bt-sessionBlock{border-color:rgba(117,185,233,.13);background:linear-gradient(145deg,rgba(2,7,15,.72),rgba(12,17,29,.58));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 14px 35px rgba(0,0,0,.1)}
+body.beta-tester-experience .bt-sessionTime{color:#effbff;text-shadow:0 0 25px rgba(87,232,255,.10)}
+body.beta-tester-experience .bt-metric{
+  border-color:rgba(116,169,222,.14);
+  background:linear-gradient(145deg,rgba(255,255,255,.047),rgba(255,255,255,.014)),rgba(11,17,29,.88);
+  box-shadow:0 16px 42px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.025);
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+body.beta-tester-experience .bt-metric:hover{transform:translateY(-3px);border-color:rgba(87,232,255,.2);box-shadow:0 20px 50px rgba(0,0,0,.25),0 0 26px rgba(0,213,255,.035)}
+body.beta-tester-experience .bt-metricIcon{border-color:rgba(87,232,255,.17);background:linear-gradient(145deg,rgba(0,213,255,.12),rgba(141,77,255,.09));color:#abf4ff;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+body.beta-tester-experience .bt-metricValue{color:#f3f9ff;text-shadow:0 0 20px rgba(87,232,255,.06)}
+body.beta-tester-experience .bt-metricTrack{background:rgba(255,255,255,.07)}
+body.beta-tester-experience .bt-metricTrack span{background:linear-gradient(90deg,#4de6ff,#4e8fff,#9e77ff);box-shadow:0 0 16px rgba(87,232,255,.3)}
+body.beta-tester-experience .bt-anchorNav{padding:7px;border:1px solid rgba(130,175,225,.09);border-radius:14px;background:rgba(4,8,15,.25)}
+body.beta-tester-experience .bt-anchorNav button{border-color:rgba(132,173,220,.08);background:rgba(255,255,255,.022);color:#9caec6}
+body.beta-tester-experience .bt-anchorNav button:hover{border-color:rgba(87,232,255,.24);background:linear-gradient(100deg,rgba(0,213,255,.07),rgba(141,77,255,.06));color:#effbff}
+body.beta-tester-experience .bt-card{border-color:rgba(132,174,222,.13);background:linear-gradient(145deg,rgba(255,255,255,.036),rgba(255,255,255,.01)),rgba(10,15,26,.88);box-shadow:0 18px 52px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.025)}
+body.beta-tester-experience .bt-card:hover{border-color:rgba(87,232,255,.19);box-shadow:0 22px 60px rgba(0,0,0,.25),0 0 28px rgba(0,213,255,.025)}
+body.beta-tester-experience .bt-cardHeader h3{letter-spacing:-.35px}
+body.beta-tester-experience .bt-sectionEyebrow{color:#65e8ff;letter-spacing:1.8px}
+body.beta-tester-experience .bt-progressSummary{border-color:rgba(132,174,222,.10);background:linear-gradient(110deg,rgba(0,213,255,.04),rgba(141,77,255,.025)),rgba(255,255,255,.015)}
+body.beta-tester-experience .bt-progressRail{background:rgba(255,255,255,.065)}
+body.beta-tester-experience .bt-progressRail span{background:linear-gradient(90deg,#5deaff,#4a93ff,#a07bff);box-shadow:0 0 14px rgba(87,232,255,.25)}
+body.beta-tester-experience .bt-checkItem{border-color:rgba(132,174,222,.105);background:linear-gradient(145deg,rgba(255,255,255,.027),rgba(255,255,255,.01));min-height:80px;transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease}
+body.beta-tester-experience .bt-checkItem:hover{transform:translateY(-2px);border-color:rgba(87,232,255,.22);background:linear-gradient(135deg,rgba(0,213,255,.04),rgba(141,77,255,.025));box-shadow:0 12px 30px rgba(0,0,0,.13)}
+body.beta-tester-experience .bt-checkItem input:checked~.bt-checkMark{border-color:rgba(87,232,255,.5);background:linear-gradient(135deg,#16badc,#597eff);color:#fff;box-shadow:0 0 16px rgba(87,232,255,.13)}
+body.beta-tester-experience .bt-checkItem em{color:#7189a8;background:rgba(255,255,255,.025);border-color:rgba(132,174,222,.08)}
+body.beta-tester-experience .bt-field input,
+body.beta-tester-experience .bt-field select,
+body.beta-tester-experience .bt-field textarea,
+body.beta-tester-experience .bt-searchBox,
+body.beta-tester-experience .bt-smallSelect,
+body.beta-tester-experience .bt-prefRow select,
+body.beta-tester-experience .bt-scratchpad{
+  border-color:rgba(132,174,222,.13);
+  background:linear-gradient(180deg,rgba(4,9,17,.92),rgba(7,12,21,.91));
+  color:#e9f2ff;
+}
+body.beta-tester-experience .bt-field input:focus,
+body.beta-tester-experience .bt-field select:focus,
+body.beta-tester-experience .bt-field textarea:focus,
+body.beta-tester-experience .bt-searchBox:focus-within,
+body.beta-tester-experience .bt-smallSelect:focus,
+body.beta-tester-experience .bt-prefRow select:focus,
+body.beta-tester-experience .bt-scratchpad:focus{border-color:rgba(87,232,255,.36);box-shadow:0 0 0 3px rgba(87,232,255,.045),0 0 21px rgba(0,213,255,.035)}
+body.beta-tester-experience .bt-button{border-color:rgba(132,174,222,.15);background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.02));color:#dfeaff;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+body.beta-tester-experience .bt-buttonPrimary{border-color:rgba(87,232,255,.23);background:linear-gradient(112deg,rgba(0,213,255,.17),rgba(77,124,255,.15) 53%,rgba(141,77,255,.17));color:#f3fbff}
+body.beta-tester-experience .bt-buttonPrimary:hover{background:linear-gradient(112deg,rgba(0,213,255,.24),rgba(77,124,255,.21) 53%,rgba(141,77,255,.23));box-shadow:0 10px 25px rgba(0,0,0,.16),0 0 20px rgba(0,213,255,.035)}
+body.beta-tester-experience .bt-textButton{color:#70eaff}
+body.beta-tester-experience .bt-textButton:hover{color:#d8fbff;text-shadow:0 0 15px rgba(87,232,255,.15)}
+body.beta-tester-experience .bt-countPill{border-color:rgba(132,174,222,.13);background:rgba(255,255,255,.023);color:#9aacc4}
+body.beta-tester-experience .bt-record{border-color:rgba(132,174,222,.105);background:linear-gradient(145deg,rgba(255,255,255,.028),rgba(255,255,255,.009))}
+body.beta-tester-experience .bt-record:hover{border-color:rgba(87,232,255,.19);background:linear-gradient(145deg,rgba(0,213,255,.035),rgba(141,77,255,.02))}
+body.beta-tester-experience .bt-priority{border-color:rgba(87,232,255,.15);background:rgba(0,213,255,.055);color:#a1efff}
+body.beta-tester-experience .bt-diagnostic{border-color:rgba(132,174,222,.1);background:linear-gradient(145deg,rgba(255,255,255,.028),rgba(255,255,255,.01))}
+body.beta-tester-experience .bt-diagnostic strong{color:#dbe8fb}
+body.beta-tester-experience .bt-routeGrid a{border-color:rgba(132,174,222,.11);background:linear-gradient(145deg,rgba(255,255,255,.028),rgba(255,255,255,.012))}
+body.beta-tester-experience .bt-routeGrid a:hover{border-color:rgba(87,232,255,.23);background:linear-gradient(110deg,rgba(0,213,255,.06),rgba(141,77,255,.045));box-shadow:0 10px 26px rgba(0,0,0,.14)}
+body.beta-tester-experience .bt-routeGrid a>span{border-color:rgba(87,232,255,.17);background:linear-gradient(145deg,rgba(0,213,255,.12),rgba(141,77,255,.09));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+body.beta-tester-experience .bt-notice{border-color:rgba(87,232,255,.15);background:linear-gradient(120deg,rgba(0,213,255,.055),rgba(141,77,255,.045)),rgba(10,15,25,.76)}
+body.beta-tester-experience .bt-noticeIcon{border-color:rgba(87,232,255,.22);background:rgba(0,213,255,.045);box-shadow:0 0 16px rgba(0,213,255,.04)}
+
+/* Tooltips and focus states feel like one carefully built application. */
+body.beta-tester-experience button:focus-visible,
+body.beta-tester-experience a:focus-visible,
+body.beta-tester-experience input:focus-visible,
+body.beta-tester-experience select:focus-visible,
+body.beta-tester-experience textarea:focus-visible{outline:2px solid rgba(103,232,255,.86);outline-offset:3px}
+body.beta-tester-experience ::selection{background:rgba(87,232,255,.27);color:#fff}
+body.beta-tester-experience ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(87,232,255,.29),rgba(141,77,255,.26));border:2px solid rgba(5,8,15,.65)}
+body.beta-tester-experience ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,rgba(87,232,255,.5),rgba(141,77,255,.45))}
+body.beta-tester-experience .modal{border-color:rgba(116,207,255,.17);background:radial-gradient(circle at top right,rgba(0,213,255,.09),transparent 31%),radial-gradient(circle at bottom left,rgba(141,77,255,.07),transparent 30%),linear-gradient(145deg,rgba(17,26,42,.99),rgba(5,9,17,.995));box-shadow:0 38px 125px rgba(0,0,0,.72),0 0 45px rgba(0,213,255,.025)}
+body.beta-tester-experience .toast{border-color:rgba(132,191,236,.16);background:rgba(7,13,23,.97);box-shadow:0 22px 72px rgba(0,0,0,.55),0 0 25px rgba(0,213,255,.025)}
+body.beta-tester-experience .toastIcon{border:1px solid rgba(87,232,255,.12);background:linear-gradient(145deg,rgba(0,213,255,.09),rgba(141,77,255,.06))}
+
+/* A profile of a beta member gets the full frame even to non-testers.
+   Browser-level reduced-motion preferences always win. */
+body.beta-profile-subject .hero{border-color:rgba(114,220,255,.25);box-shadow:0 28px 95px rgba(0,0,0,.34),0 0 34px rgba(0,213,255,.04),inset 0 1px 0 rgba(255,255,255,.055)}
+body.beta-profile-subject .hero::before{background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 28%),radial-gradient(ellipse at 48% 110%,rgba(0,213,255,.07),transparent 42%)}
+body.beta-profile-subject .username{color:#f4fcff;text-shadow:0 0 27px rgba(87,232,255,.105)}
+body.beta-profile-subject .identityKicker::after{content:"EARLY ACCESS MEMBER";display:inline-flex;align-items:center;min-height:18px;padding:0 6px;border:1px solid rgba(87,232,255,.15);border-radius:5px;background:rgba(0,213,255,.045);color:#82eaff;font-size:7px;letter-spacing:1px}
+body.beta-profile-subject .identityDot{animation:btSoftPulse 2.3s ease-in-out infinite}
+@keyframes btSoftPulse{0%,100%{opacity:.65}50%{opacity:1}}
+body.beta-profile-subject .metaRow .meta:first-child{border-color:rgba(87,232,255,.15)}
+body.beta-profile-subject .metaRow .meta:first-child::before{content:"◇";color:#83eaff;font-size:10px}
+body.beta-profile-subject .statStrip .stat:nth-child(2){border-color:rgba(87,232,255,.15)}
+body.beta-profile-subject .statStrip .stat:nth-child(2) .statIcon{background:linear-gradient(145deg,rgba(0,213,255,.14),rgba(141,77,255,.09));border-color:rgba(87,232,255,.2)}
+body.beta-profile-subject .snapshotCard{border-color:rgba(87,232,255,.15)}
+body.beta-profile-subject .snapshotCard .snapshotMetric:first-child{border-color:rgba(87,232,255,.17);background:linear-gradient(145deg,rgba(0,213,255,.05),rgba(141,77,255,.025))}
+body.beta-profile-subject .siteFooter{border-top-color:rgba(87,232,255,.15)}
+
+/* When a tester switches off motion in Preview Lab, the entire custom layer pauses. */
+body.bt-motion-off.beta-tester-experience::after,
+body.bt-motion-off.beta-tester-experience .hero::after,
+body.bt-motion-off.beta-tester-experience .heroScan,
+body.bt-motion-off.beta-tester-experience .avatarStage::before,
+body.bt-motion-off.beta-tester-experience .avatarStage::after,
+body.bt-motion-off.beta-tester-experience .avatarOuter,
+body.bt-motion-off.beta-tester-experience .avatarRing,
+body.bt-motion-off.beta-tester-experience .betaProfileFrame *,
+body.bt-motion-off.beta-tester-experience .role.beta::before,
+body.bt-motion-off.beta-tester-experience .badgeCard.beta-achievement .medal,
+body.bt-motion-off.beta-tester-experience .betaAchievementSigil,
+body.bt-motion-off.beta-tester-experience .betaFrameStar{animation:none!important;transition:none!important}
+body.bt-motion-off.beta-tester-experience .avatarStage::before{opacity:.75}
+@media(prefers-reduced-motion:reduce){
+  body.beta-tester-experience *,body.beta-tester-experience *::before,body.beta-tester-experience *::after{
+    animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important
+  }
+}
