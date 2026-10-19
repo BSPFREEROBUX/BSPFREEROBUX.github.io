@@ -832,13 +832,17 @@ a{
 
 .msgWrap{
     display:flex;
-    flex-direction:column;
-    max-width:min(76%,680px);
+    flex-direction:row;
+    align-items:flex-end;
+    gap:8px;
+    min-width:0;
+    max-width:min(86%,760px);
     align-self:flex-start;
 }
 
 .msgWrap.me{
     align-self:flex-end;
+    flex-direction:row-reverse;
 }
 
 .msg{
@@ -1696,6 +1700,35 @@ a{
 ::-webkit-scrollbar-thumb:hover{
     background:rgba(0,213,255,.34);
 }
+
+
+.betaBadge{display:inline-flex;align-items:center;gap:4px;flex:0 0 auto;padding:3px 6px;border:1px solid rgba(167,139,250,.27);border-radius:6px;background:rgba(167,139,250,.09);color:#d1c1ff;font-size:8px;font-weight:800;line-height:1.1;letter-spacing:.1px;white-space:nowrap}
+.staffBadge{display:inline-flex;align-items:center;justify-content:center;gap:4px;flex:0 0 auto;min-width:18px;height:18px;padding:0 5px;border:1px solid rgba(82,217,255,.28);border-radius:6px;background:rgba(82,217,255,.09);color:#72e4ff;font-size:10px;font-weight:900;line-height:1;white-space:nowrap;vertical-align:middle}
+.avatarInitial{position:relative;z-index:0;display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:inherit}
+.avatarInner{position:relative}
+.avatarInner img{position:absolute;inset:0;border-radius:inherit}
+.msgAuthorAvatar{width:29px;height:29px;flex:0 0 29px;margin-bottom:2px;border-radius:50%;overflow:hidden;border:1px solid rgba(178,190,255,.12);background:#171b28}
+.msgAuthorAvatar .avatarInner{width:100%;height:100%;font-size:10px}
+.msgStack{display:flex;flex-direction:column;min-width:0;max-width:calc(100% - 37px)}
+.dmsFooter{display:grid;gap:6px;margin:10px 5px 0;padding:12px 5px 2px;border-top:1px solid rgba(255,255,255,.055);color:#616d83;font-size:8px;line-height:1.45}
+.dmsFooter strong{color:#9aa7bb;font-weight:700}
+.dmsFooterLinks{display:flex;gap:12px}
+.dmsFooter a{color:#9a8cc8;text-decoration:none}
+.dmsFooter a:hover{color:#c8bbff;text-decoration:underline}
+.olderMessagesButton{display:block;align-self:center;max-width:100%;margin:0 auto 14px;padding:9px 13px;border:1px solid rgba(155,108,255,.25);border-radius:10px;background:rgba(155,108,255,.075);color:#cbbcff;font-size:10px;font-weight:750;cursor:pointer}
+.olderMessagesButton:hover{background:rgba(155,108,255,.13);border-color:rgba(155,108,255,.42)}
+.olderMessagesButton:disabled{opacity:.55;cursor:wait}
+.navEmoji{box-shadow:none;transition:filter .18s,border-color .18s}
+.sidebarNav .navItem:nth-child(1) .navEmoji{color:#9db8ff;background:rgba(93,133,255,.09);border-color:rgba(93,133,255,.2)}
+.sidebarNav .navItem:nth-child(2) .navEmoji{color:#c6a5ff;background:rgba(163,105,255,.09);border-color:rgba(163,105,255,.2)}
+.sidebarNav .navItem:nth-child(3) .navEmoji{color:#62e0ff;background:rgba(0,213,255,.085);border-color:rgba(0,213,255,.2)}
+.sidebarNav .navItem:nth-child(4) .navEmoji{color:#84e6bd;background:rgba(44,224,161,.08);border-color:rgba(44,224,161,.18)}
+.sidebarNav .navItem:nth-child(5) .navEmoji{color:#6ed9d1;background:rgba(53,202,191,.08);border-color:rgba(53,202,191,.18)}
+.sidebarNav .navItem:nth-child(6) .navEmoji{color:#ffc47f;background:rgba(255,182,88,.08);border-color:rgba(255,182,88,.18)}
+.sidebarNav .navItem:nth-child(7) .navEmoji{color:#ff9db0;background:rgba(255,95,120,.08);border-color:rgba(255,95,120,.18)}
+.sidebarNav .navItem:nth-child(8) .navEmoji{color:#b3becf;background:rgba(163,179,202,.07);border-color:rgba(163,179,202,.15)}
+@media(max-width:920px){.dmsFooter{display:none}}
+
 </style>
 </head>
 <body>
@@ -1750,6 +1783,11 @@ a{
                 <span class="navEmoji">↪</span>
                 <span class="navLabel">Logout</span>
             </a>
+            <div class="dmsFooter">
+                <div>© <span id="dmsCopyrightYear"></span> Zyphor.cc</div>
+                <div class="dmsFooterLinks"><a href="tos.html">Terms of Service</a><a href="pp.html">Privacy Policy</a></div>
+                <div>Made by <strong>Team Vaprix</strong></div>
+            </div>
         </div>
     </aside>
 
@@ -1919,6 +1957,9 @@ let firstStateLoad=true
 let draftValues={}
 let pinnedFriends=[]
 let inboxTab="friends"
+let olderMessageCursor=null
+let hasOlderMessages=false
+let loadingOlderMessages=false
 let refreshTimer=null
 let draftSaveTimer=null
 let typingTimer=null
@@ -1969,6 +2010,7 @@ const notificationSound=new Audio("Sounds/Notification.mp3")
 
 notificationSound.preload="auto"
 notificationSound.volume=.9
+document.getElementById("dmsCopyrightYear").textContent=String(new Date().getFullYear())
 
 function escapeHTML(value){
     return String(value??"").replace(/[&<>"']/g,m=>({
@@ -2025,6 +2067,39 @@ function formatRelative(time){
 
 function getInitial(name){
     return String(name||"?").charAt(0).toUpperCase()
+}
+
+function profilePictureUrl(name){
+    const base=String(backend||"").replace(/\/+$/g,"")
+    return base&&name?base+"/account/pfp/"+encodeURIComponent(String(name))+"?v=1":""
+}
+
+function fillAvatarInner(inner,name){
+    inner.replaceChildren()
+    const initial=document.createElement("span")
+    initial.className="avatarInitial"
+    initial.textContent=getInitial(name)
+    inner.appendChild(initial)
+    const src=profilePictureUrl(name)
+    if(src){
+        const image=document.createElement("img")
+        image.alt=""
+        image.loading="lazy"
+        image.decoding="async"
+        image.src=src
+        image.onerror=()=>image.remove()
+        inner.appendChild(image)
+    }
+}
+
+function makeBadgeElement(badge,active=false){
+    const element=document.createElement("span")
+    const isStaff=badge?.name==="Staff"
+    element.className=(isStaff?"staffBadge":"betaBadge")+(active?" activeFriendBadge":"")
+    element.title=isStaff?"Zyphor staff member":String(badge?.name||"Badge")
+    element.setAttribute("aria-label",element.title)
+    element.textContent=isStaff?"✦":String(badge?.name||"Badge")
+    return element
 }
 
 function showToast(title,text,icon="✦"){
@@ -2233,21 +2308,33 @@ function isPinned(friend){
 }
 
 function savePinnedFriends(){
+    try{localStorage.setItem(pinStorageKey,JSON.stringify(pinnedFriends))}catch{}
+}
+
+async function syncPinnedFriends(){
     try{
-        localStorage.setItem(pinStorageKey,JSON.stringify(pinnedFriends))
-    }catch{}
+        const response=await api("/dms/pinned",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pinnedDms:pinnedFriends})})
+        const data=await safeJson(response)
+        if(!data||data.error||!data.success) throw new Error(data?.error||"sync_failed")
+        pinnedFriends=Array.isArray(data.pinnedDms)?data.pinnedDms:[]
+        savePinnedFriends()
+        renderInbox()
+    }catch{
+        showToast("Favorites not synced","The server could not save your pinned conversations.","!")
+    }
 }
 
 function togglePin(friend){
     if(isPinned(friend)){
         pinnedFriends=pinnedFriends.filter(name=>name!==friend)
-        showToast("Unpinned",friend,"📌")
+        showToast("Unpinned",friend,"☆")
     }else{
         pinnedFriends=[friend,...pinnedFriends]
-        showToast("Pinned",friend,"📌")
+        showToast("Pinned",friend,"★")
     }
     savePinnedFriends()
     renderInbox()
+    syncPinnedFriends()
 }
 
 function setInboxTab(tab){
@@ -2270,7 +2357,7 @@ function makeAvatar(name,subscription=null,large=false){
 
     const inner=document.createElement("div")
     inner.className="avatarInner"
-    inner.textContent=getInitial(name)
+    fillAvatarInner(inner,name)
 
     shell.appendChild(inner)
     return shell
@@ -2390,8 +2477,11 @@ function renderInbox(){
         const name=document.createElement("div")
         name.className="friendName"
         name.textContent=friend
-
         nameLine.appendChild(name)
+        const badges=Array.isArray(state.friendBadges?.[friend])?state.friendBadges[friend]:[]
+        for(const badge of badges){
+            nameLine.appendChild(makeBadgeElement(badge))
+        }
 
         const preview=document.createElement("div")
         preview.className="friendPreview"
@@ -2510,7 +2600,7 @@ document.addEventListener("keydown",event=>{
 
 function setChatAvatar(name){
     chatAvatar.className="avatar"
-    chatAvatarInner.textContent=getInitial(name)
+    fillAvatarInner(chatAvatarInner,name)
 }
 
 function enableChatControls(enabled){
@@ -2531,10 +2621,13 @@ function clearTyping(){
 
 function renderActiveChat(chat,forceBottom=false){
     activeChatData=chat
+    hasOlderMessages=!!chat?.hasMore
+    olderMessageCursor=chat?.nextBefore||null
 
     if(!chat){
         activeFriend=""
         chatTitle.textContent="Select a friend"
+        chatTitle.parentElement.querySelectorAll(".activeFriendBadge").forEach(element=>element.remove())
         chatSub.textContent="Private messages"
         setChatAvatar("?")
         enableChatControls(false)
@@ -2558,7 +2651,12 @@ function renderActiveChat(chat,forceBottom=false){
     }
 
     chatTitle.textContent=chat.with
-    chatSub.textContent=(chat.messages?.length||0)+" messages"
+    chatTitle.parentElement.querySelectorAll(".activeFriendBadge").forEach(element=>element.remove())
+    const activeBadges=Array.isArray(state.friendBadges?.[chat.with])?state.friendBadges[chat.with]:[]
+    for(const badge of activeBadges){
+        chatTitle.parentElement.appendChild(makeBadgeElement(badge,true))
+    }
+    chatSub.textContent=Number(chat.totalMessages??chat.messageCount??chat.messages?.length??0)+" messages"
 
     setChatAvatar(chat.with)
     enableChatControls(true)
@@ -2569,6 +2667,14 @@ function renderActiveChat(chat,forceBottom=false){
     const messages=Array.isArray(chat.messages)?chat.messages:[]
 
     chatMessages.innerHTML=""
+    if(hasOlderMessages){
+        const older=document.createElement("button")
+        older.className="olderMessagesButton"
+        older.textContent=loadingOlderMessages?"Loading older messages…":"↑ Load older messages"
+        older.disabled=loadingOlderMessages
+        older.onclick=loadOlderMessages
+        chatMessages.appendChild(older)
+    }
 
     if(!messages.length){
         chatMessages.innerHTML='<div class="emptyState">No messages yet.<br>Send the first message.</div>'
@@ -2665,7 +2771,13 @@ function renderActiveChat(chat,forceBottom=false){
 
             actions.append(copy,timeButton)
 
-            wrap.append(msg,actions)
+            const authorAvatar=makeAvatar(message.author||"Unknown",null,true)
+            authorAvatar.classList.add("msgAuthorAvatar")
+            authorAvatar.setAttribute("aria-label",(message.author||"Unknown")+" profile picture")
+            const stack=document.createElement("div")
+            stack.className="msgStack"
+            stack.append(msg,actions)
+            wrap.append(authorAvatar,stack)
 
             wrap.addEventListener("contextmenu",event=>{
                 event.preventDefault()
@@ -2947,6 +3059,9 @@ async function openChat(friend){
         saveActiveChat()
         location.hash=encodeURIComponent(friend)
         activeChatData=data.chat||null
+        hasOlderMessages=!!data.chat?.hasMore
+        olderMessageCursor=data.chat?.nextBefore||null
+        loadingOlderMessages=false
 
         await api("/dms/activity",{
             method:"POST",
@@ -3013,6 +3128,16 @@ async function refreshActiveChat(markSeenNow=true){
 
         if(data.error) return
 
+        if(activeChatData&&activeChatData.with===activeFriend&&Array.isArray(activeChatData.messages)&&activeChatData.messages.length){
+            const pageMessages=Array.isArray(data.chat.messages)?data.chat.messages:[]
+            const freshKeys=new Set(pageMessages.map(message=>message.messageId||`${message.time}|${message.author}|${message.text}`))
+            const merged=new Map()
+            for(const message of activeChatData.messages){const key=message.messageId||`${message.time}|${message.author}|${message.text}`;merged.set(key,message)}
+            for(const message of pageMessages){const key=message.messageId||`${message.time}|${message.author}|${message.text}`;merged.set(key,message)}
+            data.chat.messages=[...merged.values()].sort((a,b)=>new Date(a.time||0)-new Date(b.time||0))
+            if(hasOlderMessages){data.chat.hasMore=true;data.chat.nextBefore=olderMessageCursor}
+        }
+
         const draft=messageBox.value
         const selectionStart=messageBox.selectionStart
         const selectionEnd=messageBox.selectionEnd
@@ -3035,6 +3160,32 @@ async function refreshActiveChat(markSeenNow=true){
             })
         }
     }catch{}
+}
+
+async function loadOlderMessages(){
+    if(!activeFriend||!hasOlderMessages||!olderMessageCursor||loadingOlderMessages) return
+    loadingOlderMessages=true
+    const friend=activeFriend
+    const before=olderMessageCursor
+    const previousHeight=chatMessages.scrollHeight
+    const previousTop=chatMessages.scrollTop
+    try{
+        const response=await api(`/dms/chat?with=${encodeURIComponent(friend)}&limit=50&before=${encodeURIComponent(before)}`)
+        const data=await safeJson(response)
+        if(!data||data.error||!data.chat||activeFriend!==friend) return
+        const previous=Array.isArray(activeChatData?.messages)?activeChatData.messages:[]
+        const combined=new Map()
+        for(const message of [...(data.chat.messages||[]),...previous]) combined.set(message.messageId||`${message.time}|${message.author}|${message.text}`,message)
+        data.chat.messages=[...combined.values()].sort((a,b)=>new Date(a.time||0)-new Date(b.time||0))
+        data.chat.hasMore=!!data.chat.hasMore
+        data.chat.nextBefore=data.chat.nextBefore||null
+        hasOlderMessages=data.chat.hasMore
+        olderMessageCursor=data.chat.nextBefore
+        loadingOlderMessages=false
+        renderActiveChat(data.chat,false)
+        requestAnimationFrame(()=>{chatMessages.scrollTop=Math.max(0,chatMessages.scrollHeight-previousHeight+previousTop)})
+    }catch{}
+    finally{loadingOlderMessages=false}
 }
 
 async function refreshState(force=false){
@@ -3062,7 +3213,13 @@ async function refreshState(force=false){
             friends:Array.isArray(data.friends)?data.friends:[],
             incomingRequests:Array.isArray(data.incomingRequests)?data.incomingRequests:[],
             outgoingRequests:Array.isArray(data.outgoingRequests)?data.outgoingRequests:[],
-            chats:Array.isArray(data.chats)?data.chats:[]
+            chats:Array.isArray(data.chats)?data.chats:[],
+            friendBadges:data.friendBadges&&typeof data.friendBadges==="object"?data.friendBadges:{},
+            pinnedDms:Array.isArray(data.pinnedDms)?data.pinnedDms:[]
+        }
+        if(Array.isArray(data.pinnedDms)){
+            pinnedFriends=data.pinnedDms
+            savePinnedFriends()
         }
 
         if(myName){
@@ -3240,6 +3397,9 @@ async function unfriendActive(){
                 saveDrafts()
                 activeFriend=""
                 activeChatData=null
+                hasOlderMessages=false
+                olderMessageCursor=null
+                loadingOlderMessages=false
                 location.hash=""
                 renderActiveChat(null)
                 appShell.classList.remove("chatOpen")
@@ -3276,6 +3436,7 @@ function jumpToLatest(){
 chatMessages.addEventListener("scroll",()=>{
     lastKnownScrollTop=chatMessages.scrollTop
     updateJumpButton()
+    if(chatMessages.scrollTop<55&&hasOlderMessages) loadOlderMessages()
 })
 
 messageBox.addEventListener("input",()=>{
