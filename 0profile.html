@@ -1210,8 +1210,8 @@ body::after{background:radial-gradient(circle at 25% 30%,rgba(0,213,255,.06),tra
   <div class="bt-headerCopy">
     <div class="bt-eyebrow"><span class="bt-liveDot"></span> ZYPHOR / EARLY ACCESS WORKSPACE</div>
     <div class="bt-titleRow"><h2>Beta Tester Control Room</h2><span class="bt-accessPill">ACCESS ENABLED</span></div>
-    <p class="bt-lead">A dedicated testing workspace for validating releases, recording issues, drafting feature proposals and personalising the local preview experience.</p>
-    <div class="bt-headerMeta"><span>Local workspace</span><span>·</span><span id="btLastSaved">Changes stay on this device</span><span>·</span><span id="btAccessSince">Tester tools available</span></div>
+    <p class="bt-lead">A shared testing workspace for validating releases, recording issues, drafting feature proposals and reviewing results across devices.</p>
+    <div class="bt-headerMeta"><span>SERVER WORKSPACE</span><span>·</span><span id="btLastSaved">Connecting to server…</span><span>·</span><span id="btAccessSince">Tester tools available</span></div>
   </div>
   <div class="bt-sessionBlock">
     <div class="bt-sessionLabel">CURRENT TEST SESSION</div>
@@ -1222,15 +1222,15 @@ body::after{background:radial-gradient(circle at 25% 30%,rgba(0,213,255,.06),tra
 </header>
 <div class="bt-metricGrid">
   <article class="bt-metric"><div class="bt-metricTop"><span>QA CHECKLIST</span><span class="bt-metricIcon">✓</span></div><div class="bt-metricValue" id="btQaMetric">0%</div><div class="bt-metricTrack"><span id="btQaMetricBar"></span></div><div class="bt-metricMeta" id="btQaMetricMeta">0 of 12 checks complete</div></article>
-  <article class="bt-metric"><div class="bt-metricTop"><span>ISSUE LOG</span><span class="bt-metricIcon">⌁</span></div><div class="bt-metricValue" id="btIssueMetric">0</div><div class="bt-metricMeta">Local observations and bugs</div></article>
-  <article class="bt-metric"><div class="bt-metricTop"><span>IDEA BOARD</span><span class="bt-metricIcon">✦</span></div><div class="bt-metricValue" id="btIdeaMetric">0</div><div class="bt-metricMeta">Feature proposals drafted</div></article>
-  <article class="bt-metric"><div class="bt-metricTop"><span>TEST TIME</span><span class="bt-metricIcon">◷</span></div><div class="bt-metricValue" id="btTimeMetric">0m</div><div class="bt-metricMeta">Tracked in this browser</div></article>
+  <article class="bt-metric"><div class="bt-metricTop"><span>ISSUE LOG</span><span class="bt-metricIcon">⌁</span></div><div class="bt-metricValue" id="btIssueMetric">0</div><div class="bt-metricMeta">Server-saved observations and bugs</div></article>
+  <article class="bt-metric"><div class="bt-metricTop"><span>IDEA BOARD</span><span class="bt-metricIcon">✦</span></div><div class="bt-metricValue" id="btIdeaMetric">0</div><div class="bt-metricMeta">Server-saved feature proposals</div></article>
+  <article class="bt-metric"><div class="bt-metricTop"><span>TEST TIME</span><span class="bt-metricIcon">◷</span></div><div class="bt-metricValue" id="btTimeMetric">0m</div><div class="bt-metricMeta">Accumulated test time</div></article>
 </div>
 <nav class="bt-anchorNav" aria-label="Beta workspace sections"><button type="button" onclick="scrollToSection('btQaCard')">QA checklist</button><button type="button" onclick="scrollToSection('btIssueCard')">Issue log</button><button type="button" onclick="scrollToSection('btIdeaCard')">Feature ideas</button><button type="button" onclick="scrollToSection('btPreferencesCard')">Preview preferences</button><button type="button" onclick="scrollToSection('btDiagnosticsCard')">Diagnostics</button></nav>
 <div class="bt-contentGrid">
   <div class="bt-column">
     <section class="bt-card" id="btQaCard">
-      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">01 / VALIDATION</div><h3>Release readiness checklist</h3><p>Mark each test after you have personally checked it. Progress is saved locally for your account.</p></div><button type="button" class="bt-textButton" onclick="resetBetaChecklist()">Reset checklist</button></div>
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">01 / VALIDATION</div><h3>Release readiness checklist</h3><p>Mark each test after you have personally checked it. Progress syncs to the server for administrator review.</p></div><button type="button" class="bt-textButton" onclick="resetBetaChecklist()">Reset checklist</button></div>
       <div class="bt-progressSummary"><div><strong id="btQaProgressText">0 / 12</strong><span>checks complete</span></div><div class="bt-progressRail"><span id="btQaProgressBar"></span></div></div>
       <div class="bt-checkGrid">
         <label class="bt-checkItem"><input type="checkbox" data-beta-check="login"><span class="bt-checkMark">✓</span><span><strong>Sign-in and session</strong><small>Login, logout and expired-session handling</small></span><em>ACCOUNT</em></label>
@@ -1249,7 +1249,7 @@ body::after{background:radial-gradient(circle at 25% 30%,rgba(0,213,255,.06),tra
       <div class="bt-cardFooter"><span id="btQaStatus">No checks recorded yet.</span><button type="button" class="bt-button" onclick="downloadBetaReport()">Export test report ↓</button></div>
     </section>
     <section class="bt-card" id="btIssueCard">
-      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">02 / OBSERVATIONS</div><h3>Issue and bug notebook</h3><p>Capture reproducible problems while testing. Draft entries remain in this browser until you export or share them.</p></div><span class="bt-countPill" id="btIssueCount">0 entries</span></div>
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">02 / OBSERVATIONS</div><h3>Issue and bug notebook</h3><p>Capture reproducible problems while testing. Every issue is saved to the server and visible to administrators.</p></div><span class="bt-countPill" id="btIssueCount">0 entries</span></div>
       <form id="btIssueForm" class="bt-form" onsubmit="addBetaIssue(event)">
         <div class="bt-formRow"><label class="bt-field"><span>Issue title</span><input id="btIssueTitle" maxlength="100" required placeholder="e.g. Profile badge filter resets"></label><label class="bt-field"><span>Area</span><select id="btIssueArea"><option>Profile</option><option>Authentication</option><option>Messages</option><option>Notifications</option><option>Wallet</option><option>Cloud</option><option>Quests</option><option>Badges</option><option>Support</option><option>Other</option></select></label></div>
         <div class="bt-formRow"><label class="bt-field"><span>Severity</span><select id="btIssueSeverity"><option value="Low">Low — cosmetic</option><option value="Medium" selected>Medium — workflow issue</option><option value="High">High — major feature broken</option><option value="Critical">Critical — blocker</option></select></label><label class="bt-field"><span>Reproducibility</span><select id="btIssueRepro"><option>Every time</option><option>Intermittent</option><option>Once</option><option>Not confirmed</option></select></label></div>
@@ -1259,7 +1259,7 @@ Expected: …
 Actual: …"></textarea></label>
         <div class="bt-formActions"><span id="btIssueFormHint">Add the shortest reliable reproduction you can.</span><button class="bt-button bt-buttonPrimary" type="submit">Save issue draft +</button></div>
       </form>
-      <div class="bt-listToolbar"><div class="bt-searchBox"><span>⌕</span><input id="btIssueSearch" type="search" placeholder="Filter issue drafts…" oninput="renderBetaIssues()"></div><select id="btIssueFilter" class="bt-smallSelect" onchange="renderBetaIssues()"><option value="all">All statuses</option><option value="Open">Open</option><option value="Re-test">Re-test</option><option value="Resolved locally">Resolved locally</option></select><button type="button" class="bt-textButton" onclick="exportBetaIssues()">Export JSON</button></div>
+      <div class="bt-listToolbar"><div class="bt-searchBox"><span>⌕</span><input id="btIssueSearch" type="search" placeholder="Filter issue drafts…" oninput="renderBetaIssues()"></div><select id="btIssueFilter" class="bt-smallSelect" onchange="renderBetaIssues()"><option value="all">All statuses</option><option value="Open">Open</option><option value="Re-test">Re-test</option><option value="Resolved locally">Resolved locally</option><option value="In Review">In Review</option><option value="Closed">Closed</option><option value="Won't Fix">Won't Fix</option></select><button type="button" class="bt-textButton" onclick="exportBetaIssues()">Export JSON</button></div>
       <div id="btIssueList" class="bt-recordList"><div class="bt-empty">No issue drafts yet. Add an observation above.</div></div>
     </section>
     <section class="bt-card" id="btIdeaCard">
@@ -1277,7 +1277,7 @@ Expected benefit: …"></textarea></label>
   </div>
   <div class="bt-column">
     <section class="bt-card" id="btPreferencesCard">
-      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">04 / PREVIEW LAB</div><h3>Local interface preferences</h3><p>Experiment with the beta workspace styling. These settings affect this browser only, not other users or the server.</p></div><span class="bt-countPill">LOCAL</span></div>
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">04 / PREVIEW LAB</div><h3>Local interface preferences</h3><p>Experiment with the beta workspace styling. These settings personalize your tester workspace and are saved with your account.</p></div><span class="bt-countPill">LOCAL</span></div>
       <div class="bt-preferenceList">
         <label class="bt-prefRow"><span><strong>Accent palette</strong><small>Apply a visual accent to the tester workspace.</small></span><select id="btAccentSelect" onchange="applyBetaPreferences(true)"><option value="cyan">Cyan / Violet</option><option value="ocean">Ocean Blue</option><option value="violet">Violet / Indigo</option><option value="emerald">Emerald</option><option value="amber">Amber</option><option value="rose">Rose</option></select></label>
         <label class="bt-prefRow"><span><strong>Information density</strong><small>Change the spacing of tester cards.</small></span><select id="btDensitySelect" onchange="applyBetaPreferences(true)"><option value="comfortable">Comfortable</option><option value="compact">Compact</option><option value="spacious">Spacious</option></select></label>
@@ -1301,13 +1301,13 @@ Expected benefit: …"></textarea></label>
       <div class="bt-privacyHint">Review diagnostics before sharing. The report omits Zyphor authentication tokens and passwords.</div>
     </section>
     <section class="bt-card" id="btScratchpadCard">
-      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">06 / TEST NOTES</div><h3>Session scratchpad</h3><p>Write temporary observations, release questions or steps to revisit.</p></div><span class="bt-countPill">AUTOSAVE</span></div>
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">06 / TEST NOTES</div><h3>Session scratchpad</h3><p>Write temporary observations, release questions or steps to revisit. Notes sync to your server-side tester workspace.</p></div><span class="bt-countPill">SERVER AUTOSAVE</span></div>
       <textarea id="btScratchpad" class="bt-scratchpad" maxlength="8000" rows="9" placeholder="Session notes…
 
 What did you test?
 What worked?
 What should be checked again?"></textarea>
-      <div class="bt-scratchMeta"><span id="btScratchCount">0 / 8000</span><span id="btScratchSaved">Saved in this browser</span></div>
+      <div class="bt-scratchMeta"><span id="btScratchCount">0 / 8000</span><span id="btScratchSaved">Waiting for server sync</span></div>
       <div class="bt-buttonRow"><button type="button" class="bt-button bt-buttonPrimary" onclick="downloadBetaScratchpad()">Export notes</button><button type="button" class="bt-button" onclick="clearBetaScratchpad()">Clear notes</button></div>
     </section>
     <section class="bt-card bt-quickLinksCard">
@@ -1321,7 +1321,7 @@ What should be checked again?"></textarea>
         <a href="Support.html"><span>?</span><strong>Support</strong><small>Share a considered report</small><b>↗</b></a>
       </div>
     </section>
-    <section class="bt-notice"><span class="bt-noticeIcon">i</span><div><strong>How this workspace works</strong><p>Checklist state, issue drafts, proposals, preferences, session totals and scratchpad are stored in this browser using local storage. They are not submitted automatically and may be lost if browser storage is cleared. Use Support to contact the team; export a draft first if you need to keep a record.</p></div></section>
+    <section class="bt-notice"><span class="bt-noticeIcon">i</span><div><strong>Server-synced testing workspace</strong><p>Checklist progress, issues, feature proposals, current test session and session history, client diagnostics, preview preferences and scratchpad are saved to your Zyphor account on the server. Administrators can review submissions at admin-BetaTester.html. A local cache is retained to help recover from temporary connection failures.</p></div></section>
   </div>
 </div>
 </section>
@@ -2440,9 +2440,90 @@ status.textContent="Could not connect to the server."
 }
 
 const BETA_CHECK_IDS=["login","profile","messages","notifications","wallet","cloud","quests","badges","integrations","support","errors","accessibility"]
+const BETA_SERVER_FIELDS=["checks","issues","ideas","session","preferences","scratchpad","diagnostics"]
+let betaServerLoaded=false
+let betaWorkspaceInitializing=false
+let betaServerSaveTimer=null
+let betaServerPendingFields={}
+let betaServerSaveChain=Promise.resolve()
+let betaServerLastSavedAt=null
 function betaKey(name){return "zyphorBetaWorkspaceV3:"+String(me?.username||"tester").trim().toLowerCase()+":"+name}
 function betaRead(name,fallback){try{const value=localStorage.getItem(betaKey(name));return value===null?fallback:JSON.parse(value)}catch{return fallback}}
-function betaWrite(name,value){try{localStorage.setItem(betaKey(name),JSON.stringify(value));const label=document.getElementById("btLastSaved");if(label)label.textContent="Last saved "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});return true}catch{return false}}
+function betaWrite(name,value){
+ try{localStorage.setItem(betaKey(name),JSON.stringify(value))}catch{}
+ if(BETA_SERVER_FIELDS.includes(name)){
+  betaServerPendingFields[name]=value
+  try{localStorage.setItem(betaKey("pendingServerFields"),JSON.stringify(betaServerPendingFields))}catch{}
+  if(betaServerLoaded){
+   const label=document.getElementById("btLastSaved");if(label)label.textContent="Saving changes to server…"
+   if(betaServerSaveTimer)clearTimeout(betaServerSaveTimer)
+   betaServerSaveTimer=setTimeout(flushBetaServerWrites,350)
+  }
+ }
+ return true
+}
+function betaAuthHeaders(){return {Authorization:token(),"Content-Type":"application/json"}}
+async function betaServerRequest(method,body){
+ const response=await fetch(backend+"/beta-tester/workspace",{method,headers:betaAuthHeaders(),body:body===undefined?undefined:JSON.stringify(body),cache:"no-store"})
+ const data=await safeJson(response)
+ if(!response.ok||!data?.success)throw new Error(data?.message||data?.error||("Server sync failed ("+response.status+")"))
+ return data
+}
+function betaSetLocalWorkspace(workspace){
+ for(const field of BETA_SERVER_FIELDS){
+  const fallback=field==="checks"?{}:field==="issues"||field==="ideas"?[]:field==="session"?{runningSince:null,accumulatedMs:0,history:[]}:field==="preferences"?{accent:"cyan",density:"comfortable",motion:true,glow:true}:field==="scratchpad"?"":{}
+  const value=Object.prototype.hasOwnProperty.call(workspace||{},field)?workspace[field]:fallback
+  try{localStorage.setItem(betaKey(field),JSON.stringify(value))}catch{}
+ }
+ betaServerLastSavedAt=workspace?.updatedAt||new Date().toISOString()
+}
+async function flushBetaServerWrites(){
+ if(!betaServerLoaded||!Object.keys(betaServerPendingFields).length)return
+ const fields=betaServerPendingFields;betaServerPendingFields={};betaServerSaveTimer=null
+ betaServerSaveChain=betaServerSaveChain.then(async()=>{
+  try{
+   const data=await betaServerRequest("PATCH",{fields})
+   betaServerLastSavedAt=data.workspace?.updatedAt||new Date().toISOString()
+   try{if(Object.keys(betaServerPendingFields).length)localStorage.setItem(betaKey("pendingServerFields"),JSON.stringify(betaServerPendingFields));else localStorage.removeItem(betaKey("pendingServerFields"))}catch{}
+   const label=document.getElementById("btLastSaved");if(label)label.textContent="Saved to server · "+new Date(betaServerLastSavedAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
+   updateBetaScratchpadMeta()
+  }catch(error){
+   betaServerPendingFields={...fields,...betaServerPendingFields}
+   try{localStorage.setItem(betaKey("pendingServerFields"),JSON.stringify(betaServerPendingFields))}catch{}
+   const label=document.getElementById("btLastSaved");if(label)label.textContent="Server sync failed · changes kept in this browser"
+   updateBetaScratchpadMeta()
+  }
+ })
+ await betaServerSaveChain
+ if(Object.keys(betaServerPendingFields).length&&!betaServerSaveTimer)betaServerSaveTimer=setTimeout(flushBetaServerWrites,900)
+}
+async function loadBetaServerWorkspace(){
+ const localWorkspace={
+  checks:betaRead("checks",{}),
+  issues:betaRead("issues",[]),
+  ideas:betaRead("ideas",[]),
+  session:betaRead("session",{runningSince:null,accumulatedMs:0,history:[]}),
+  preferences:betaRead("preferences",{accent:"cyan",density:"comfortable",motion:true,glow:true}),
+  scratchpad:betaRead("scratchpad",""),
+  diagnostics:betaRead("diagnostics",betaEnvironment())
+ }
+ const pending=betaRead("pendingServerFields",{})||{}
+ const result=await betaServerRequest("GET")
+ let workspace=result.workspace||{}
+ if(!result.hasServerData){
+  const migrated=await betaServerRequest("PUT",{workspace:localWorkspace})
+  workspace=migrated.workspace||localWorkspace
+  try{localStorage.removeItem(betaKey("pendingServerFields"))}catch{}
+ }else if(pending&&Object.keys(pending).length){
+  const recovered=await betaServerRequest("PATCH",{fields:pending})
+  workspace=recovered.workspace||workspace
+  try{localStorage.removeItem(betaKey("pendingServerFields"))}catch{}
+ }
+ betaSetLocalWorkspace(workspace)
+ betaServerLoaded=true
+ const label=document.getElementById("btLastSaved");if(label)label.textContent="Server synced · "+new Date(betaServerLastSavedAt||Date.now()).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
+ return workspace
+}
 async function resolveViewerBetaTester(){
  if(me?.permissions?.betaTester===true)return true
  if(!me?.username)return false
@@ -2483,7 +2564,7 @@ function updateBetaChecklist(){
  const meta=document.getElementById("btQaMetricMeta");if(meta)meta.textContent=complete+" of "+BETA_CHECK_IDS.length+" checks complete"
  const status=document.getElementById("btQaStatus");if(status)status.textContent=complete===BETA_CHECK_IDS.length?"All checks marked complete. Re-run any checks affected by recent changes.":complete===0?"No checks recorded yet.":(BETA_CHECK_IDS.length-complete)+" checks still need validation."
 }
-function resetBetaChecklist(){if(!confirm("Reset all checklist progress stored for this tester?"))return;betaWrite("checks",{});updateBetaChecklist();toast("Checklist reset","Local QA progress has been cleared.","success")}
+function resetBetaChecklist(){if(!confirm("Reset all checklist progress for this tester workspace?"))return;betaWrite("checks",{});updateBetaChecklist();toast("Checklist reset","Server-backed QA progress has been cleared.","success")}
 function betaFormatDuration(ms){const seconds=Math.max(0,Math.floor(ms/1000));const h=Math.floor(seconds/3600);const m=Math.floor(seconds%3600/60);const s=seconds%60;return [h,m,s].map(v=>String(v).padStart(2,"0")).join(":")}
 function betaTotalSessionMs(){return Math.max(0,Number(betaSessionState.accumulatedMs)||0)+(betaSessionState.runningSince?Math.max(0,Date.now()-Number(betaSessionState.runningSince)):0)}
 function updateBetaSessionUI(){
@@ -2494,17 +2575,34 @@ function updateBetaSessionUI(){
  if(start)start.disabled=!!betaSessionState.runningSince
  if(stop)stop.disabled=!betaSessionState.runningSince
 }
-function startBetaSession(){if(!betaTesterEnabled)return;if(!betaSessionState.runningSince)betaSessionState.runningSince=Date.now();betaWrite("session",betaSessionState);updateBetaSessionUI();toast("Test session started","Timer is tracked locally in this browser.","success")}
-function stopBetaSession(){if(!betaSessionState.runningSince)return;betaSessionState.accumulatedMs=betaTotalSessionMs();betaSessionState.runningSince=null;betaWrite("session",betaSessionState);updateBetaSessionUI();toast("Test session finished","Elapsed time was added to your local testing total.","success")}
+function startBetaSession(){
+ if(!betaTesterEnabled||betaSessionState.runningSince)return
+ const now=Date.now()
+ betaSessionState.runningSince=now
+ betaSessionState.startedAt=new Date(now).toISOString()
+ betaSessionState.sessionId=betaIssueId()
+ betaWrite("session",betaSessionState);updateBetaSessionUI();toast("Test session started","The session timer is syncing to your server workspace.","success")
+}
+function stopBetaSession(){
+ if(!betaSessionState.runningSince)return
+ const endedAt=Date.now(),startedAt=Number(betaSessionState.runningSince)||endedAt,durationMs=Math.max(0,endedAt-startedAt)
+ betaSessionState.accumulatedMs=betaTotalSessionMs();betaSessionState.runningSince=null
+ if(!Array.isArray(betaSessionState.history))betaSessionState.history=[]
+ betaSessionState.history.unshift({id:betaSessionState.sessionId||betaIssueId(),startedAt:betaSessionState.startedAt||new Date(startedAt).toISOString(),endedAt:new Date(endedAt).toISOString(),durationMs})
+ betaSessionState.history=betaSessionState.history.slice(0,100)
+ betaSessionState.sessionId=null;betaSessionState.startedAt=null
+ betaWrite("session",betaSessionState);updateBetaSessionUI();toast("Test session finished","Elapsed time and session history are saved to the server.","success")
+}
 function betaSetMetric(id,value){const el=document.getElementById(id);if(el)el.textContent=value}
 function betaIssueId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function addBetaIssue(event){
  event.preventDefault();if(!betaTesterEnabled)return
  const title=document.getElementById("btIssueTitle").value.trim(),notes=document.getElementById("btIssueNotes").value.trim();if(!title||!notes)return
  betaIssues.unshift({id:betaIssueId(),title,notes,area:document.getElementById("btIssueArea").value,severity:document.getElementById("btIssueSeverity").value,repro:document.getElementById("btIssueRepro").value,status:"Open",createdAt:new Date().toISOString()})
- betaWrite("issues",betaIssues);event.target.reset();document.getElementById("btIssueSeverity").value="Medium";renderBetaIssues();toast("Issue draft saved","The draft is stored locally. Export it or share it through Support when ready.","success")
+ betaWrite("issues",betaIssues);event.target.reset();document.getElementById("btIssueSeverity").value="Medium";renderBetaIssues();toast("Issue saved","Your issue has been saved to the server for administrator review.","success")
 }
 function setBetaIssueStatus(id,status){const item=betaIssues.find(x=>x.id===id);if(!item)return;item.status=status;betaWrite("issues",betaIssues);renderBetaIssues()}
+
 function deleteBetaIssue(id){betaIssues=betaIssues.filter(x=>x.id!==id);betaWrite("issues",betaIssues);renderBetaIssues()}
 function renderBetaIssues(){
  const box=document.getElementById("btIssueList");if(!box)return
@@ -2512,26 +2610,27 @@ function renderBetaIssues(){
  const filtered=betaIssues.filter(x=>(filter==="all"||x.status===filter)&&[x.title,x.notes,x.area,x.severity].some(v=>String(v||"").toLowerCase().includes(query)))
  betaSetMetric("btIssueMetric",betaIssues.length);betaSetMetric("btIssueCount",betaIssues.length+" entr"+(betaIssues.length===1?"y":"ies"))
  if(!filtered.length){box.innerHTML='<div class="bt-empty">'+(betaIssues.length?'No drafts match these filters.':'No issue drafts yet. Add an observation above.')+'</div>';return}
- box.innerHTML=filtered.map(x=>`<article class="bt-record"><div class="bt-recordMain"><div class="bt-recordMeta"><span class="bt-severity bt-severity${escapeHTML(x.severity)}">${escapeHTML(x.severity)}</span><span>${escapeHTML(x.area)}</span><span>${escapeHTML(new Date(x.createdAt).toLocaleString())}</span></div><h4>${escapeHTML(x.title)}</h4><p>${escapeHTML(x.notes)}</p><div class="bt-recordFoot"><label>Status <select onchange="setBetaIssueStatus('${x.id}',this.value)">${["Open","Re-test","Resolved locally"].map(s=>`<option ${x.status===s?'selected':''}>${s}</option>`).join("")}</select></label><button type="button" class="bt-textButton bt-dangerText" onclick="deleteBetaIssue('${x.id}')">Delete</button></div></div></article>`).join("")
+ box.innerHTML=filtered.map(x=>`<article class="bt-record"><div class="bt-recordMain"><div class="bt-recordMeta"><span class="bt-severity bt-severity${escapeHTML(x.severity)}">${escapeHTML(x.severity)}</span><span>${escapeHTML(x.area)}</span><span>${escapeHTML(new Date(x.createdAt).toLocaleString())}</span></div><h4>${escapeHTML(x.title)}</h4><p>${escapeHTML(x.notes)}</p><div class="bt-recordFoot"><label>Status <select onchange="setBetaIssueStatus('${x.id}',this.value)">${["Open","In Review","Re-test","Resolved locally","Closed","Won't Fix"].map(s=>`<option ${x.status===s?'selected':''}>${s}</option>`).join("")}</select></label><button type="button" class="bt-textButton bt-dangerText" onclick="deleteBetaIssue('${x.id}')">Delete</button></div></div></article>`).join("")
 }
 function addBetaIdea(event){
  event.preventDefault();if(!betaTesterEnabled)return
  const title=document.getElementById("btIdeaTitle").value.trim(),description=document.getElementById("btIdeaDescription").value.trim();if(!title||!description)return
  betaIdeas.unshift({id:betaIssueId(),title,description,priority:document.getElementById("btIdeaPriority").value,area:document.getElementById("btIdeaArea").value,status:"Draft",createdAt:new Date().toISOString()})
- betaWrite("ideas",betaIdeas);event.target.reset();document.getElementById("btIdeaPriority").value="Useful";renderBetaIdeas();toast("Proposal saved","Your feature proposal is stored locally.","success")
+ betaWrite("ideas",betaIdeas);event.target.reset();document.getElementById("btIdeaPriority").value="Useful";renderBetaIdeas();toast("Proposal saved","Your feature proposal has been saved to the server.","success")
 }
 function deleteBetaIdea(id){betaIdeas=betaIdeas.filter(x=>x.id!==id);betaWrite("ideas",betaIdeas);renderBetaIdeas()}
+function setBetaIdeaStatus(id,status){const item=betaIdeas.find(x=>x.id===id);if(!item)return;item.status=status;betaWrite("ideas",betaIdeas);renderBetaIdeas()}
 function renderBetaIdeas(){
  const box=document.getElementById("btIdeaList");if(!box)return
  betaSetMetric("btIdeaMetric",betaIdeas.length);betaSetMetric("btIdeaCount",betaIdeas.length+" proposal"+(betaIdeas.length===1?"":"s"))
  if(!betaIdeas.length){box.innerHTML='<div class="bt-empty">No proposals saved yet.</div>';return}
- box.innerHTML=betaIdeas.map(x=>`<article class="bt-record bt-ideaRecord"><div class="bt-recordMain"><div class="bt-recordMeta"><span class="bt-priority">${escapeHTML(x.priority)}</span><span>${escapeHTML(x.area)}</span><span>${escapeHTML(new Date(x.createdAt).toLocaleDateString())}</span></div><h4>${escapeHTML(x.title)}</h4><p>${escapeHTML(x.description)}</p><div class="bt-recordFoot"><span class="bt-localTag">LOCAL DRAFT</span><button type="button" class="bt-textButton bt-dangerText" onclick="deleteBetaIdea('${x.id}')">Delete</button></div></div></article>`).join("")
+ box.innerHTML=betaIdeas.map(x=>`<article class="bt-record bt-ideaRecord"><div class="bt-recordMain"><div class="bt-recordMeta"><span class="bt-priority">${escapeHTML(x.priority)}</span><span>${escapeHTML(x.area)}</span><span>${escapeHTML(new Date(x.createdAt).toLocaleDateString())}</span></div><h4>${escapeHTML(x.title)}</h4><p>${escapeHTML(x.description)}</p><div class="bt-recordFoot"><label>Status <select onchange="setBetaIdeaStatus('${x.id}',this.value)">${["Draft","Under Review","Accepted","Planned","In Progress","Completed","Declined"].map(s=>`<option ${x.status===s?'selected':''}>${s}</option>`).join("")}</select></label><button type="button" class="bt-textButton bt-dangerText" onclick="deleteBetaIdea('${x.id}')">Delete</button></div></div></article>`).join("")
 }
 function downloadBetaJson(filename,data){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function downloadBetaReport(){const checks=betaChecks();downloadBetaJson("zyphor-beta-test-report.json",{createdAt:new Date().toISOString(),tester:me?.username||null,checks:BETA_CHECK_IDS.map(id=>({id,complete:checks[id]===true})),issues:betaIssues,ideas:betaIdeas,session:{...betaSessionState,totalMs:betaTotalSessionMs()},environment:betaEnvironment()});toast("Report exported","Your checklist, drafts and basic environment context were exported.","success")}
 function exportBetaIssues(){downloadBetaJson("zyphor-beta-issues.json",{createdAt:new Date().toISOString(),issues:betaIssues});toast("Issues exported","Issue drafts downloaded as JSON.","success")}
 function betaEnvironment(){return {capturedAt:new Date().toISOString(),browser:navigator.userAgent,platform:navigator.platform||"Unknown",language:navigator.language||"Unknown",languages:navigator.languages||[],timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||"Unknown",viewport:{width:innerWidth,height:innerHeight},screen:{width:screen.width,height:screen.height},devicePixelRatio:devicePixelRatio||1,online:navigator.onLine,colorScheme:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light",reducedMotion:matchMedia("(prefers-reduced-motion: reduce)").matches,hardwareConcurrency:navigator.hardwareConcurrency||null}}
-function paintBetaDiagnostics(){const d=betaEnvironment();betaSetMetric("btDiagBrowser",(navigator.userAgentData?.brands?.map(x=>x.brand+" "+x.version).join(", ")||navigator.userAgent).slice(0,100));betaSetMetric("btDiagViewport",d.viewport.width+" × "+d.viewport.height);betaSetMetric("btDiagScreen",d.screen.width+" × "+d.screen.height);betaSetMetric("btDiagLocale",d.language);betaSetMetric("btDiagTimezone",d.timezone);betaSetMetric("btDiagScale",d.devicePixelRatio+"×");betaSetMetric("btOnlinePill",d.online?"ONLINE":"OFFLINE");const el=document.getElementById("btOnlinePill");if(el)el.classList.toggle("isOffline",!d.online)}
+function paintBetaDiagnostics(){const d=betaEnvironment();betaSetMetric("btDiagBrowser",(navigator.userAgentData?.brands?.map(x=>x.brand+" "+x.version).join(", ")||navigator.userAgent).slice(0,100));betaSetMetric("btDiagViewport",d.viewport.width+" × "+d.viewport.height);betaSetMetric("btDiagScreen",d.screen.width+" × "+d.screen.height);betaSetMetric("btDiagLocale",d.language);betaSetMetric("btDiagTimezone",d.timezone);betaSetMetric("btDiagScale",d.devicePixelRatio+"×");betaSetMetric("btOnlinePill",d.online?"ONLINE":"OFFLINE");const el=document.getElementById("btOnlinePill");if(el)el.classList.toggle("isOffline",!d.online);if(betaTesterEnabled)betaWrite("diagnostics",d)}
 function copyBetaDiagnostics(){const d=betaEnvironment();const text=["Zyphor Beta Client Diagnostics","Captured: "+d.capturedAt,"Browser: "+d.browser,"Platform: "+d.platform,"Viewport: "+d.viewport.width+"x"+d.viewport.height,"Screen: "+d.screen.width+"x"+d.screen.height,"DPR: "+d.devicePixelRatio,"Language: "+d.language,"Timezone: "+d.timezone,"Online: "+d.online,"Color scheme: "+d.colorScheme,"Reduced motion: "+d.reducedMotion,"Hardware threads: "+(d.hardwareConcurrency??"Not reported")].join("\n");copyText(text,"Diagnostics copied")}
 function downloadBetaDiagnostics(){downloadBetaJson("zyphor-beta-diagnostics.json",betaEnvironment());toast("Diagnostics exported","Basic client diagnostics downloaded.","success")}
 function betaPreferenceKey(){return betaKey("preferences")}
@@ -2542,26 +2641,30 @@ function applyBetaPreferences(save=true){
  const palette=palettes[accent]||palettes.cyan;const root=document.documentElement
  root.style.setProperty("--bt-accent",palette[0]);root.style.setProperty("--bt-accent-alt",palette[1]);root.style.setProperty("--bt-card-gap",density==="compact"?"10px":density==="spacious"?"22px":"15px");root.style.setProperty("--bt-card-pad",density==="compact"?"15px":density==="spacious"?"24px":"19px")
  document.body.classList.toggle("bt-motion-off",!motion);document.body.classList.toggle("bt-glow-off",!glow)
- if(save){betaWrite("preferences",betaPreferenceState);betaSetMetric("btPreferenceStatus","Preview preferences saved locally.");toast("Preview updated","Only the Beta Tester workspace appearance has changed.","success")}
+ if(save){betaWrite("preferences",betaPreferenceState);betaSetMetric("btPreferenceStatus","Preview preferences saved to your server workspace.");toast("Preview updated","Workspace appearance preferences have been saved.","success")}
 }
 function resetBetaPreferences(){betaPreferenceState={accent:"cyan",density:"comfortable",motion:true,glow:true};betaWrite("preferences",betaPreferenceState);syncBetaPreferenceControls();applyBetaPreferences(false);betaSetMetric("btPreferenceStatus","Default preview restored.")}
 function syncBetaPreferenceControls(){const s=document.getElementById("btAccentSelect"),d=document.getElementById("btDensitySelect"),m=document.getElementById("btMotionToggle"),g=document.getElementById("btGlowToggle");if(s)s.value=betaPreferenceState.accent;if(d)d.value=betaPreferenceState.density;if(m)m.checked=betaPreferenceState.motion;if(g)g.checked=betaPreferenceState.glow}
 function downloadBetaScratchpad(){const value=document.getElementById("btScratchpad")?.value||"";if(!value.trim()){toast("No notes yet","Write a note before exporting.","info");return}const blob=new Blob([value],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="zyphor-beta-session-notes.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast("Notes exported","Scratchpad saved as a text file.","success")}
-function clearBetaScratchpad(){if(!confirm("Clear the locally saved beta scratchpad?"))return;const input=document.getElementById("btScratchpad");if(input)input.value="";betaWrite("scratchpad","");updateBetaScratchpadMeta();toast("Scratchpad cleared","Local session notes removed.","success")}
-function updateBetaScratchpadMeta(){const input=document.getElementById("btScratchpad"),count=document.getElementById("btScratchCount"),saved=document.getElementById("btScratchSaved");if(count&&input)count.textContent=input.value.length+" / 8000";if(saved)saved.textContent="Autosaved locally · "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
-function initializeBetaWorkspace(){
- if(!betaTesterEnabled)return
+function clearBetaScratchpad(){if(!confirm("Clear the server-synced beta scratchpad?"))return;const input=document.getElementById("btScratchpad");if(input)input.value="";betaWrite("scratchpad","");updateBetaScratchpadMeta();toast("Scratchpad cleared","Server-synced session notes removed.","success")}
+function updateBetaScratchpadMeta(){const input=document.getElementById("btScratchpad"),count=document.getElementById("btScratchCount"),saved=document.getElementById("btScratchSaved");if(count&&input)count.textContent=input.value.length+" / 8000";if(saved)saved.textContent=betaServerLoaded?(betaServerLastSavedAt?"Server-backed · "+new Date(betaServerLastSavedAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}):"Server autosave enabled"):"Browser cache · waiting for server sync"}
+async function initializeBetaWorkspace(){
+ if(!betaTesterEnabled||betaWorkspaceInitializing)return
+ betaWorkspaceInitializing=true
+ const status=document.getElementById("btLastSaved");if(status)status.textContent="Loading server workspace…"
+ try{await loadBetaServerWorkspace()}catch(error){betaServerLoaded=false;const label=document.getElementById("btLastSaved");if(label)label.textContent="Server sync unavailable · using local cache"}
  betaIssues=betaRead("issues",[]);if(!Array.isArray(betaIssues))betaIssues=[]
  betaIdeas=betaRead("ideas",[]);if(!Array.isArray(betaIdeas))betaIdeas=[]
- betaSessionState=betaRead("session",{runningSince:null,accumulatedMs:0})||{runningSince:null,accumulatedMs:0}
+ betaSessionState=betaRead("session",{runningSince:null,accumulatedMs:0,history:[]})||{runningSince:null,accumulatedMs:0,history:[]}
  betaPreferenceState={...betaPreferenceState,...(betaRead("preferences",{})||{})}
  updateBetaChecklist();document.querySelectorAll("[data-beta-check]").forEach(input=>{input.onchange=()=>{const c=betaChecks();c[input.dataset.betaCheck]=input.checked;betaWrite("checks",c);updateBetaChecklist()}})
  renderBetaIssues();renderBetaIdeas();syncBetaPreferenceControls();applyBetaPreferences(false);paintBetaDiagnostics()
  const scratch=document.getElementById("btScratchpad");if(scratch){scratch.value=betaRead("scratchpad","")||"";updateBetaScratchpadMeta();scratch.oninput=()=>{betaWrite("scratchpad",scratch.value);updateBetaScratchpadMeta()}}
  updateBetaSessionUI();if(betaSessionTimer)clearInterval(betaSessionTimer);betaSessionTimer=setInterval(updateBetaSessionUI,1000)
  const access=document.getElementById("btAccessSince");if(access)access.textContent="Signed in as "+(me?.username||"Beta Tester")
+ betaWorkspaceInitializing=false
 }
-window.addEventListener("online",paintBetaDiagnostics);window.addEventListener("offline",paintBetaDiagnostics);window.addEventListener("resize",paintBetaDiagnostics)
+window.addEventListener("online",paintBetaDiagnostics);window.addEventListener("online",()=>{if(betaTesterEnabled&&!betaServerLoaded)initializeBetaWorkspace()});window.addEventListener("offline",paintBetaDiagnostics);window.addEventListener("resize",paintBetaDiagnostics)
 
 async function init(){
 try{
