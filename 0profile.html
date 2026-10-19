@@ -1230,8 +1230,9 @@ body::after{background:radial-gradient(circle at 25% 30%,rgba(0,213,255,.06),tra
 <div class="bt-contentGrid">
   <div class="bt-column">
     <section class="bt-card" id="btQaCard">
-      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">01 / VALIDATION</div><h3>Release readiness checklist</h3><p>Mark each test after you have personally checked it. Progress syncs to the server for administrator review.</p></div><button type="button" class="bt-textButton" onclick="resetBetaChecklist()">Reset checklist</button></div>
+      <div class="bt-cardHeader"><div><div class="bt-sectionEyebrow">01 / VALIDATION</div><h3>Release readiness checklist</h3><p>Mark each test after you have personally checked it. Changes autosave to the server for administrator review. Use Sync now to verify the saved server copy.</p></div><button type="button" class="bt-textButton" onclick="resetBetaChecklist()">Reset checklist</button></div>
       <div class="bt-progressSummary"><div><strong id="btQaProgressText">0 / 12</strong><span>checks complete</span></div><div class="bt-progressRail"><span id="btQaProgressBar"></span></div></div>
+      <div class="bt-statusLine" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:10px 0;padding:10px 12px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.025)"><span id="btQaSaveStatusText" role="status" aria-live="polite" style="color:#8b99b0;flex:1;min-width:180px">Connecting to server…</span><span style="display:flex;gap:7px"><button type="button" id="btQaSyncNow" class="bt-button" onclick="syncBetaWorkspaceNow()">Sync now</button><button type="button" id="btQaRetrySave" class="bt-button" onclick="retryBetaServerSync()" hidden>Retry sync</button></span></div>
       <div class="bt-checkGrid">
         <label class="bt-checkItem"><input type="checkbox" data-beta-check="login"><span class="bt-checkMark">✓</span><span><strong>Sign-in and session</strong><small>Login, logout and expired-session handling</small></span><em>ACCOUNT</em></label>
         <label class="bt-checkItem"><input type="checkbox" data-beta-check="profile"><span class="bt-checkMark">✓</span><span><strong>Profile and roles</strong><small>Names, badges, permissions and public details</small></span><em>IDENTITY</em></label>
@@ -2449,15 +2450,27 @@ let betaServerSaveChain=Promise.resolve()
 let betaServerLastSavedAt=null
 function betaKey(name){return "zyphorBetaWorkspaceV3:"+String(me?.username||"tester").trim().toLowerCase()+":"+name}
 function betaRead(name,fallback){try{const value=localStorage.getItem(betaKey(name));return value===null?fallback:JSON.parse(value)}catch{return fallback}}
+function betaSetServerStatus(message,state="info"){
+ const header=document.getElementById("btLastSaved")
+ const status=document.getElementById("btQaSaveStatusText")
+ const retry=document.getElementById("btQaRetrySave")
+ const sync=document.getElementById("btQaSyncNow")
+ if(header)header.textContent=message
+ if(status){status.textContent=message;status.style.color=state==="success"?"#67efb0":state==="saving"?"#49cfff":state==="error"?"#ff8196":"#8b99b0"}
+ if(retry){retry.hidden=state!=="error";retry.disabled=state==="saving"}
+ if(sync)sync.disabled=state==="saving"
+}
 function betaWrite(name,value){
  try{localStorage.setItem(betaKey(name),JSON.stringify(value))}catch{}
  if(BETA_SERVER_FIELDS.includes(name)){
   betaServerPendingFields[name]=value
   try{localStorage.setItem(betaKey("pendingServerFields"),JSON.stringify(betaServerPendingFields))}catch{}
   if(betaServerLoaded){
-   const label=document.getElementById("btLastSaved");if(label)label.textContent="Saving changes to server…"
+   betaSetServerStatus("Saving changes to server…","saving")
    if(betaServerSaveTimer)clearTimeout(betaServerSaveTimer)
    betaServerSaveTimer=setTimeout(flushBetaServerWrites,350)
+  }else{
+   betaSetServerStatus("Not synced · changes kept in this browser","error")
   }
  }
  return true
@@ -2485,12 +2498,12 @@ async function flushBetaServerWrites(){
    const data=await betaServerRequest("PATCH",{fields})
    betaServerLastSavedAt=data.workspace?.updatedAt||new Date().toISOString()
    try{if(Object.keys(betaServerPendingFields).length)localStorage.setItem(betaKey("pendingServerFields"),JSON.stringify(betaServerPendingFields));else localStorage.removeItem(betaKey("pendingServerFields"))}catch{}
-   const label=document.getElementById("btLastSaved");if(label)label.textContent="Saved to server · "+new Date(betaServerLastSavedAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
+   betaSetServerStatus("Saved to server · "+new Date(betaServerLastSavedAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}),"success")
    updateBetaScratchpadMeta()
   }catch(error){
    betaServerPendingFields={...fields,...betaServerPendingFields}
    try{localStorage.setItem(betaKey("pendingServerFields"),JSON.stringify(betaServerPendingFields))}catch{}
-   const label=document.getElementById("btLastSaved");if(label)label.textContent="Server sync failed · changes kept in this browser"
+   betaSetServerStatus("Server sync failed · changes kept in this browser","error")
    updateBetaScratchpadMeta()
   }
  })
@@ -2521,7 +2534,7 @@ async function loadBetaServerWorkspace(){
  }
  betaSetLocalWorkspace(workspace)
  betaServerLoaded=true
- const label=document.getElementById("btLastSaved");if(label)label.textContent="Server synced · "+new Date(betaServerLastSavedAt||Date.now()).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
+ betaSetServerStatus("Saved to server · "+new Date(betaServerLastSavedAt||Date.now()).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}),"success")
  return workspace
 }
 async function resolveViewerBetaTester(){
@@ -2595,11 +2608,11 @@ function stopBetaSession(){
 }
 function betaSetMetric(id,value){const el=document.getElementById(id);if(el)el.textContent=value}
 function betaIssueId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
-function addBetaIssue(event){
+async function addBetaIssue(event){
  event.preventDefault();if(!betaTesterEnabled)return
  const title=document.getElementById("btIssueTitle").value.trim(),notes=document.getElementById("btIssueNotes").value.trim();if(!title||!notes)return
  betaIssues.unshift({id:betaIssueId(),title,notes,area:document.getElementById("btIssueArea").value,severity:document.getElementById("btIssueSeverity").value,repro:document.getElementById("btIssueRepro").value,status:"Open",createdAt:new Date().toISOString()})
- betaWrite("issues",betaIssues);event.target.reset();document.getElementById("btIssueSeverity").value="Medium";renderBetaIssues();toast("Issue saved","Your issue has been saved to the server for administrator review.","success")
+ betaWrite("issues",betaIssues);event.target.reset();document.getElementById("btIssueSeverity").value="Medium";renderBetaIssues();await syncBetaWorkspaceNow()
 }
 function setBetaIssueStatus(id,status){const item=betaIssues.find(x=>x.id===id);if(!item)return;item.status=status;betaWrite("issues",betaIssues);renderBetaIssues()}
 
@@ -2612,11 +2625,11 @@ function renderBetaIssues(){
  if(!filtered.length){box.innerHTML='<div class="bt-empty">'+(betaIssues.length?'No drafts match these filters.':'No issue drafts yet. Add an observation above.')+'</div>';return}
  box.innerHTML=filtered.map(x=>`<article class="bt-record"><div class="bt-recordMain"><div class="bt-recordMeta"><span class="bt-severity bt-severity${escapeHTML(x.severity)}">${escapeHTML(x.severity)}</span><span>${escapeHTML(x.area)}</span><span>${escapeHTML(new Date(x.createdAt).toLocaleString())}</span></div><h4>${escapeHTML(x.title)}</h4><p>${escapeHTML(x.notes)}</p><div class="bt-recordFoot"><label>Status <select onchange="setBetaIssueStatus('${x.id}',this.value)">${["Open","In Review","Re-test","Resolved locally","Closed","Won't Fix"].map(s=>`<option ${x.status===s?'selected':''}>${s}</option>`).join("")}</select></label><button type="button" class="bt-textButton bt-dangerText" onclick="deleteBetaIssue('${x.id}')">Delete</button></div></div></article>`).join("")
 }
-function addBetaIdea(event){
+async function addBetaIdea(event){
  event.preventDefault();if(!betaTesterEnabled)return
  const title=document.getElementById("btIdeaTitle").value.trim(),description=document.getElementById("btIdeaDescription").value.trim();if(!title||!description)return
  betaIdeas.unshift({id:betaIssueId(),title,description,priority:document.getElementById("btIdeaPriority").value,area:document.getElementById("btIdeaArea").value,status:"Draft",createdAt:new Date().toISOString()})
- betaWrite("ideas",betaIdeas);event.target.reset();document.getElementById("btIdeaPriority").value="Useful";renderBetaIdeas();toast("Proposal saved","Your feature proposal has been saved to the server.","success")
+ betaWrite("ideas",betaIdeas);event.target.reset();document.getElementById("btIdeaPriority").value="Useful";renderBetaIdeas();await syncBetaWorkspaceNow()
 }
 function deleteBetaIdea(id){betaIdeas=betaIdeas.filter(x=>x.id!==id);betaWrite("ideas",betaIdeas);renderBetaIdeas()}
 function setBetaIdeaStatus(id,status){const item=betaIdeas.find(x=>x.id===id);if(!item)return;item.status=status;betaWrite("ideas",betaIdeas);renderBetaIdeas()}
@@ -2648,11 +2661,42 @@ function syncBetaPreferenceControls(){const s=document.getElementById("btAccentS
 function downloadBetaScratchpad(){const value=document.getElementById("btScratchpad")?.value||"";if(!value.trim()){toast("No notes yet","Write a note before exporting.","info");return}const blob=new Blob([value],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="zyphor-beta-session-notes.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast("Notes exported","Scratchpad saved as a text file.","success")}
 function clearBetaScratchpad(){if(!confirm("Clear the server-synced beta scratchpad?"))return;const input=document.getElementById("btScratchpad");if(input)input.value="";betaWrite("scratchpad","");updateBetaScratchpadMeta();toast("Scratchpad cleared","Server-synced session notes removed.","success")}
 function updateBetaScratchpadMeta(){const input=document.getElementById("btScratchpad"),count=document.getElementById("btScratchCount"),saved=document.getElementById("btScratchSaved");if(count&&input)count.textContent=input.value.length+" / 8000";if(saved)saved.textContent=betaServerLoaded?(betaServerLastSavedAt?"Server-backed · "+new Date(betaServerLastSavedAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}):"Server autosave enabled"):"Browser cache · waiting for server sync"}
+async function syncBetaWorkspaceNow(){
+ betaSetServerStatus("Syncing workspace and verifying the server copy…","saving")
+ try{
+  if(betaServerSaveTimer){clearTimeout(betaServerSaveTimer);betaServerSaveTimer=null}
+  if(!betaServerLoaded)await initializeBetaWorkspace()
+  if(!betaServerLoaded)throw new Error("The workspace could not connect to the server. Check the server URL and backend deployment.")
+  if(Object.keys(betaServerPendingFields).length)await flushBetaServerWrites()
+  if(Object.keys(betaServerPendingFields).length)throw new Error("Some changes are still waiting to sync. Use Retry sync or check the backend logs.")
+  const result=await betaServerRequest("GET")
+  if(!result.hasServerData)throw new Error("The server did not confirm a saved workspace.")
+  betaSetLocalWorkspace(result.workspace||{})
+  betaSetServerStatus("Verified: workspace is saved on the server · "+new Date(result.workspace?.updatedAt||Date.now()).toLocaleTimeString(),"success")
+  toast("Server sync verified","The server returned your saved beta workspace.","success")
+ }catch(error){
+  betaSetServerStatus("Server sync failed · "+(error.message||"Unknown error"),"error")
+  toast("Server sync failed",error.message||"The workspace was not confirmed on the server.","error")
+ }
+}
+async function retryBetaServerSync(){
+ const retry=document.getElementById("btQaRetrySave")
+ if(retry)retry.disabled=true
+ betaSetServerStatus("Retrying server sync…","saving")
+ try{
+  if(betaServerSaveTimer){clearTimeout(betaServerSaveTimer);betaServerSaveTimer=null}
+  if(!betaServerLoaded)await initializeBetaWorkspace()
+  if(betaServerLoaded&&Object.keys(betaServerPendingFields).length)await flushBetaServerWrites()
+  if(!betaServerLoaded||Object.keys(betaServerPendingFields).length)throw new Error("Server sync could not be confirmed")
+  betaSetServerStatus("Saved to server · "+new Date(betaServerLastSavedAt||Date.now()).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}),"success")
+ }catch(error){betaSetServerStatus("Server sync failed · changes kept in this browser","error")}
+ finally{if(retry)retry.disabled=false}
+}
 async function initializeBetaWorkspace(){
  if(!betaTesterEnabled||betaWorkspaceInitializing)return
  betaWorkspaceInitializing=true
- const status=document.getElementById("btLastSaved");if(status)status.textContent="Loading server workspace…"
- try{await loadBetaServerWorkspace()}catch(error){betaServerLoaded=false;const label=document.getElementById("btLastSaved");if(label)label.textContent="Server sync unavailable · using local cache"}
+ betaSetServerStatus("Loading server workspace…","info")
+ try{await loadBetaServerWorkspace()}catch(error){betaServerLoaded=false;betaSetServerStatus("Server sync unavailable · changes stay in this browser","error")}
  betaIssues=betaRead("issues",[]);if(!Array.isArray(betaIssues))betaIssues=[]
  betaIdeas=betaRead("ideas",[]);if(!Array.isArray(betaIdeas))betaIdeas=[]
  betaSessionState=betaRead("session",{runningSince:null,accumulatedMs:0,history:[]})||{runningSince:null,accumulatedMs:0,history:[]}
