@@ -2320,6 +2320,23 @@ body::after{background:linear-gradient(180deg,transparent 65%,rgba(0,0,0,.16));f
 @media(prefers-reduced-motion:reduce){.commandOverlay,.commandPanel,.commandResult,.dashboardUxToast{transition:none!important}}
 </style>
 
+
+<style id="zyphor-stat-card-fix">
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:12px}
+.stat{display:grid!important;grid-template-rows:auto minmax(30px,1fr) auto;align-items:stretch;gap:13px;min-width:0;min-height:136px!important;height:100%;padding:17px!important;border-radius:16px!important;overflow:hidden}
+.stat .statHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;min-height:30px}
+.stat .statHeader h3{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;line-height:1.4;letter-spacing:.65px}
+.stat .statIcon{width:30px;height:30px;flex:0 0 30px;border-radius:9px;background:rgba(155,108,255,.055);border-color:var(--line)}
+.stat h1{align-self:center;min-width:0;max-width:100%;margin:0!important;font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(18px,1.75vw,25px)!important;font-weight:600;line-height:1.18;letter-spacing:-.55px;white-space:nowrap;word-break:normal;overflow-wrap:normal;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.stat .statMeta{min-width:0;min-height:13px;margin:0!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;line-height:1.45;color:#7c859b}
+#walletBalance{font-size:clamp(20px,1.8vw,26px)!important;letter-spacing:-.65px;color:#f7f8fb}
+#messageCount{font-size:clamp(24px,2vw,29px)!important}
+.stat #discordStatValue,.stat #robloxStatValue{font-size:clamp(16px,1.55vw,23px)!important;letter-spacing:-.45px}
+@media(max-width:1280px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{min-height:124px!important;padding:14px!important;gap:11px}.stat .statHeader h3{font-size:8px;letter-spacing:.4px}.stat h1{font-size:clamp(17px,4.5vw,23px)!important;letter-spacing:-.45px}#walletBalance{font-size:clamp(18px,4.8vw,24px)!important}.stat #discordStatValue,.stat #robloxStatValue{font-size:clamp(15px,4vw,20px)!important}.stat .statMeta{font-size:8px}}
+@media(max-width:390px){.stats{gap:8px}.stat{min-height:116px!important;padding:11px!important;gap:9px}.stat .statHeader h3{font-size:7px;letter-spacing:.25px}.stat .statIcon{width:27px;height:27px;flex-basis:27px}.stat h1{font-size:17px!important}#walletBalance{font-size:18px!important}.stat #discordStatValue,.stat #robloxStatValue{font-size:14px!important}.stat .statMeta{font-size:7px}}
+</style>
+
 </head>
 <body>
 <div id="banScreen" class="ban-screen" style="display:none">
@@ -3817,6 +3834,21 @@ function logout(){
     location.href="login.html"
 }
 
+function formatCompactZyphium(value){
+    const suffixes=["","K","M","B","T","QA","QI","SX","SP","OC","NO","DC","UD","DD","TD","QAD","QID","SXD","SPD","OCD","NOD","VG","UVG","DVG","TVG","QAVG","QIVG","SXVG","SPVG","OCVG","NOVG","TG","UTG","DTG","TTG","QATG","QITG","SXTG","SPTG","OCTG","NOTG","QAG","QIG","SXG","SPG","OCG","NOG"];
+    const amount=Number(value??0);
+    if(!Number.isFinite(amount))return String(value??0);
+    const absolute=Math.abs(amount);
+    if(absolute<1000)return amount.toLocaleString(undefined,{maximumFractionDigits:2});
+    let tier=Math.floor(Math.log10(absolute)/3);
+    let scaled=absolute/Math.pow(1000,tier);
+    if(scaled>=999.5&&tier<suffixes.length-1){tier+=1;scaled=absolute/Math.pow(1000,tier);}
+    if(tier>=suffixes.length)return amount.toExponential(2).replace("e+","E").replace("e","E");
+    const decimals=scaled>=100?0:scaled>=10?1:2;
+    const short=Number(scaled.toFixed(decimals)).toString();
+    return `${amount<0?"-":""}${short}${suffixes[tier]}`;
+}
+
 async function loadWallet(){
 
     const token=localStorage.getItem("Token")
@@ -3837,8 +3869,12 @@ async function loadWallet(){
             throw new Error(d.error||"wallet")
         }
 
-        document.getElementById("walletBalance").textContent=
-            "Z "+Number(d.balance||0).toLocaleString(undefined,{maximumFractionDigits:2})
+        const walletBalance=document.getElementById("walletBalance")
+        const rawBalance=d.balance??0
+        const numericBalance=Number(rawBalance)
+        walletBalance.textContent="Z "+formatCompactZyphium(rawBalance)
+        walletBalance.title="Exact balance: Z "+(Number.isFinite(numericBalance)?numericBalance.toLocaleString(undefined,{maximumFractionDigits:2}):String(rawBalance))
+        walletBalance.setAttribute("aria-label",walletBalance.title)
 
     }catch{
 
