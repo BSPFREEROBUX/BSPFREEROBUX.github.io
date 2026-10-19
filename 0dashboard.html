@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="/Logo1.png">
 <meta name="theme-color" content="#05070c">
 <meta name="description" content="Your Zyphor account dashboard for messages, wallet, cloud storage, integrations and account settings.">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
     --bg:#05070c;
@@ -2140,6 +2140,186 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 @media(hover:none){.card:hover,.quickAction:hover,.feature:hover{transform:none}.card:hover{box-shadow:0 20px 65px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.025)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
+
+<style id="zyphorLoginThemeAlignment">
+:root{
+    --bg:#05060a;
+    --bg-soft:#090b13;
+    --panel:rgba(13,15,25,.94);
+    --panel-strong:rgba(17,20,32,.96);
+    --line:rgba(178,190,255,.12);
+    --line-bright:rgba(188,198,255,.2);
+    --text:#f7f8fb;
+    --muted:#a4acc0;
+    --muted-2:#7c859b;
+    --cyan:#52d9ff;
+    --blue:#7774ff;
+    --purple:#9b6cff;
+    --green:#4be0a6;
+    --red:#ff6f8c;
+    --shadow:0 24px 70px rgba(0,0,0,.27);
+    color-scheme:dark;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+html{scroll-behavior:smooth;scroll-padding-top:22px}
+body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background-color:#05060a;background-image:radial-gradient(ellipse at 12% 7%,rgba(127,82,255,.10),transparent 34%),radial-gradient(ellipse at 88% 80%,rgba(50,164,255,.07),transparent 36%),linear-gradient(135deg,#04050a,#090b13 50%,#05060a);}
+body::before{opacity:.28;background-size:48px 48px;mask-image:linear-gradient(to bottom,#000 0%,transparent 92%);}
+body::after{background:linear-gradient(180deg,transparent 65%,rgba(0,0,0,.16));filter:none}
+.layout,body.theme-ready .layout{grid-template-columns:258px minmax(0,1fr)}
+.sidebar,body.theme-ready .sidebar{background:rgba(7,8,14,.93);border-right-color:var(--line);box-shadow:8px 0 35px rgba(0,0,0,.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.logo{gap:11px;padding:8px 8px 21px}
+.logo img{width:43px;height:43px;filter:none}
+.logo h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:19px;letter-spacing:1.4px;font-weight:700}
+.logoBadge{width:7px;height:7px;box-shadow:none}
+.nav{gap:5px}
+.item{min-height:44px;padding:8px 11px;border-radius:12px;color:#a4acc0;font-size:12px;font-weight:600;transition:background .16s ease,border-color .16s ease,color .16s ease}
+.item::after{background:linear-gradient(90deg,rgba(155,108,255,.08),rgba(82,217,255,.035))}
+.item:hover,.item.active{transform:none;color:#f7f8fb;border-color:rgba(178,190,255,.11);background:rgba(255,255,255,.025)}
+.item.active{box-shadow:inset 0 0 0 1px rgba(155,108,255,.04)}
+.item.active::before{top:9px;bottom:9px;width:2px;background:var(--purple);box-shadow:none}
+.zy-emoji{width:29px;height:29px;border-radius:9px;border-color:rgba(255,255,255,.07);background:rgba(255,255,255,.025);box-shadow:none;font-size:14px}
+.zy-emoji.cyan{border-color:rgba(82,217,255,.13);background:rgba(82,217,255,.055)}
+.zy-emoji.purple{border-color:rgba(155,108,255,.15);background:rgba(155,108,255,.06)}
+.zy-emoji.red{border-color:rgba(255,111,140,.13);background:rgba(255,111,140,.05)}
+.zy-emoji.green{border-color:rgba(75,224,166,.13);background:rgba(75,224,166,.05)}
+.main{min-width:0;max-width:1800px;width:100%;margin:0 auto;padding:clamp(22px,2.6vw,38px)}
+.top{align-items:center;gap:24px;margin-bottom:25px}
+.welcome h1{font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(30px,3vw,39px);font-weight:700;letter-spacing:-1.5px;line-height:1.05}
+.welcome p{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.65}
+.dashboard-meta{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:13px;color:#8993a8;font-size:10px;line-height:1.5}
+.dashboard-date{display:inline-flex;align-items:center;gap:7px}
+.dashboard-meta-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.dashboard-meta-divider{width:1px;height:13px;background:var(--line-bright)}
+.dashboard-shortcut-hint{display:inline-flex;align-items:center;gap:6px}
+.dashboard-meta kbd,.commandLauncher kbd{display:inline-flex;align-items:center;justify-content:center;min-width:29px;padding:3px 6px;border:1px solid var(--line-bright);border-radius:6px;background:rgba(255,255,255,.035);color:#c0c6d5;font:600 9px Inter, sans-serif;white-space:nowrap}
+.topActions{max-width:68%;gap:9px;align-items:center}
+.profile{gap:12px;padding:8px 11px 8px 8px;border-radius:15px;background:rgba(13,15,25,.88);border-color:var(--line);box-shadow:0 8px 28px rgba(0,0,0,.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.avatar-shell{width:48px;height:48px;padding:2px;box-shadow:none}
+.avatar-shell::before{display:none}
+.avatar-shell.subscription-infinity,.avatar-shell.subscription-endless{animation:none;box-shadow:none}
+.avatar-shell.subscription-ascended{box-shadow:0 0 0 1px rgba(255,111,140,.17)}
+.avatar-shell.subscription-ascended::before,.avatar-shell.subscription-infinity::before,.avatar-shell.subscription-endless::before{display:none}
+.profileMeta b{font-size:12px;letter-spacing:0;font-weight:700}
+.profileStatus{color:#8791a5;font-size:10px}
+.subscriptionPill{margin-top:6px;padding:4px 7px;border-radius:7px;background:rgba(255,255,255,.025);font-size:9px;letter-spacing:0}
+.settingsLauncher,.commandLauncher{min-height:41px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 12px;border:1px solid var(--line-bright);border-radius:11px;background:rgba(13,15,25,.86);color:#dfe3ed;box-shadow:none;font-size:10px;font-weight:700;white-space:nowrap;transition:background .16s ease,border-color .16s ease,color .16s ease}
+.settingsLauncher{border-color:rgba(155,108,255,.19);background:rgba(155,108,255,.055)}
+.settingsLauncher:hover,.commandLauncher:hover{transform:none;box-shadow:none;border-color:rgba(155,108,255,.38);background:rgba(155,108,255,.09)}
+.commandLauncherIcon{font-size:18px;color:#bda7ff;line-height:1}
+.commandLauncherText{font-size:10px}
+.grid{gap:18px}
+.card,body.theme-ready .card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.01)),rgba(13,15,25,.92);box-shadow:0 12px 38px rgba(0,0,0,.17);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .18s ease,background .18s ease,box-shadow .18s ease}
+.card::before{background:linear-gradient(135deg,rgba(255,255,255,.025),transparent 36%)}
+.card:hover,body.theme-ready .card:hover{transform:none!important;border-color:var(--line-bright);box-shadow:0 14px 42px rgba(0,0,0,.21)}
+.hero,body.theme-ready .hero{min-height:235px;border-radius:18px;background:radial-gradient(ellipse at 88% 0%,rgba(155,108,255,.11),transparent 37%),radial-gradient(ellipse at 100% 88%,rgba(82,217,255,.055),transparent 33%),rgba(13,15,25,.94)}
+.heroBrand{padding:7px 10px;border-radius:8px;background:rgba(155,108,255,.055);border-color:rgba(155,108,255,.13);color:#b8aacd;font-size:9px;letter-spacing:1.1px}
+.heroBrand .heroDot{background:var(--purple);box-shadow:none}
+.hero h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(32px,3.5vw,43px);font-weight:700;letter-spacing:-1.7px;background:linear-gradient(105deg,#f7f8fb 0%,#c0a4ff 62%,#7ddfff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:none!important}
+.hero p{max-width:590px;color:#a4acc0;font-size:12px;line-height:1.8}
+.heroSubscription{margin-top:15px;padding:7px 10px;border-radius:8px;background:rgba(255,255,255,.025);font-size:9px;letter-spacing:.3px}
+.squirtleDashCard,body.theme-ready .squirtleDashCard{margin-top:17px;padding:16px 18px;border-radius:16px;border-color:rgba(82,217,255,.14);background:linear-gradient(105deg,rgba(155,108,255,.055),rgba(82,217,255,.025)),rgba(13,15,25,.92);box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.squirtleDashCard::after{display:none}
+.squirtleDashCard:hover{transform:none;border-color:rgba(82,217,255,.27);box-shadow:0 12px 34px rgba(0,0,0,.18)}
+.squirtleDashIcon{width:47px;height:47px;border-radius:13px;border-color:rgba(82,217,255,.15);background:rgba(82,217,255,.06);box-shadow:none;font-size:24px}
+.squirtleDashEyebrow{color:#9c8aff;font-size:9px;letter-spacing:1.2px}
+.squirtleDashCard h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:20px;letter-spacing:-.5px}
+.squirtleDashCard p{color:var(--muted);font-size:11px}
+.squirtleDashArrow{color:var(--cyan)}
+.stats{gap:12px;margin-top:17px}
+.stat{min-height:130px;padding:18px!important;border-radius:16px}
+.stat h3{color:#929bb0;font-size:9px;letter-spacing:.8px}
+.statIcon{width:31px;height:31px;border-radius:9px;background:rgba(155,108,255,.055);border-color:rgba(155,108,255,.09);font-size:13px}
+.stat h1{font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(23px,2vw,31px);font-weight:600;letter-spacing:-.7px;overflow-wrap:anywhere}
+.statMeta{color:#7c859b;font-size:9px}
+.integrationGrid{gap:14px;margin-top:17px}
+.sectionHeader,.notificationsHeader{margin-bottom:16px}
+.sectionHeader h2,.notificationsHeader h2,.cardHeader h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:18px;letter-spacing:-.4px;font-weight:600}
+.sectionSubtitle{color:#818ba1;font-size:10px;line-height:1.55}
+.titleIcon{width:34px;height:34px;border-radius:10px;background:rgba(155,108,255,.055);border-color:rgba(155,108,255,.11);font-size:15px}
+.linkCodeBox,.robloxBox{border-radius:14px;border-color:rgba(178,190,255,.1);background:rgba(255,255,255,.012);box-shadow:none}
+.discordIcon,.robloxIcon{border-radius:13px;box-shadow:none}
+.discordName,.robloxName{font-family:"Space Grotesk",Inter,sans-serif;font-size:18px;font-weight:600}
+.linkCode{color:var(--cyan);text-shadow:none;font-family:"Space Grotesk",Inter,sans-serif}
+.list{gap:7px}
+.row{border-color:rgba(178,190,255,.09);border-radius:12px;background:rgba(255,255,255,.018);font-size:11px}
+.row:hover{transform:none;background:rgba(255,255,255,.03);border-color:rgba(188,198,255,.18)}
+.rowIcon{border-radius:9px;background:rgba(155,108,255,.05);border-color:rgba(155,108,255,.09)}
+.notificationReadAll,.navButton,.copyCodeButton,.integrationButton{border-radius:9px;background:rgba(255,255,255,.025);border-color:var(--line-bright);font-size:10px;transition:background .16s ease,border-color .16s ease,color .16s ease}
+.notificationReadAll:hover,.navButton:hover,.copyCodeButton:hover,.integrationButton:hover{transform:none;background:rgba(155,108,255,.08);border-color:rgba(155,108,255,.24)}
+.notificationBadge{box-shadow:none}
+.changeContent{border-radius:12px;background:rgba(255,255,255,.018);border-color:rgba(178,190,255,.08)}
+.changeTop h3{font-size:12px;font-weight:700}
+.changeText{color:#a4acc0;font-size:10px;line-height:1.7}
+.dot{background:var(--purple);box-shadow:none}
+.tag.new,.versionButton{background:rgba(155,108,255,.07);border-color:rgba(155,108,255,.15);color:#c1afff}
+.quickAction{min-height:52px;border-radius:12px;border-color:rgba(178,190,255,.08);background:rgba(255,255,255,.015)}
+.quickAction:hover{transform:none;border-color:rgba(155,108,255,.23);background:rgba(155,108,255,.045)}
+.quickActionTitle{font-size:11px}
+.quickActionDescription{font-size:9px}
+.themeDrawer{background:rgba(9,11,19,.98);border-left-color:var(--line);box-shadow:-20px 0 70px rgba(0,0,0,.4);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.themeDrawerTitle h2,.themeDrawerTitleIcon{font-family:"Space Grotesk",Inter,sans-serif}
+.themeDrawerTitleIcon{background:rgba(155,108,255,.08);border-color:rgba(155,108,255,.14);box-shadow:none}
+.themeSection{border-radius:14px;background:rgba(255,255,255,.015);border-color:rgba(178,190,255,.09)}
+.themeField input,.themeField select,.themeField textarea{border-radius:9px;background:#0a0c14;border-color:rgba(178,190,255,.14)}
+.themeAction{border-radius:9px;box-shadow:none}
+.themeAction:hover{transform:none}
+.settingsLauncher{box-shadow:none}
+.zyphor-footer{margin-top:25px;padding:19px 20px 15px;border-radius:17px;background:rgba(13,15,25,.88);border-color:var(--line);box-shadow:none}
+.zyphor-footer::before,.zyphor-footer::after{display:none}
+.zyphor-footer-brand img{filter:none}
+.zyphor-footer-brand strong{font-family:"Space Grotesk",Inter,sans-serif;font-size:14px;letter-spacing:.4px}
+.zyphor-footer-brand .zyphor-footer-dot{color:#b7a0ff}
+.zyphor-footer-links a{border-radius:9px;background:rgba(255,255,255,.015);font-weight:600}
+.zyphor-footer-links a:hover{transform:none;background:rgba(155,108,255,.06);border-color:rgba(155,108,255,.2)}
+.zyphor-footer-legal a{color:#b6a0ff}
+#adminCenter{--bg:#05060a;--panel:#0d0f19;--panel2:#111420;--line:rgba(178,190,255,.12);--text:#f7f8fb;--muted:#a4acc0;--cyan:#52d9ff;--purple:#9b6cff;--green:#4be0a6;--red:#ff6f8c;--yellow:#ffc857;font-family:Inter,system-ui,sans-serif}
+#adminCenter .admin-topbar,#adminCenter .admin-tabs,#adminCenter .admin-card{border-color:var(--line);border-radius:15px;background:rgba(13,15,25,.94);box-shadow:0 12px 35px rgba(0,0,0,.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#adminCenter .admin-btn,#adminCenter .admin-input,#adminCenter .admin-select,#adminCenter .admin-textarea{border-radius:9px;border-color:var(--line);background:#0a0c14;color:#f7f8fb}
+#adminCenter .admin-btn.cyan,#adminCenter .admin-btn.purple{background:rgba(155,108,255,.08);border-color:rgba(155,108,255,.2)}
+#adminCenter .admin-btn:hover{filter:none;border-color:var(--line-bright)}
+#adminCenter .admin-tab.active,#adminCenter .admin-tab:hover{background:rgba(155,108,255,.07);border-color:rgba(155,108,255,.18)}
+#adminCenter .admin-targetbar{border-color:rgba(155,108,255,.18);background:rgba(155,108,255,.055);box-shadow:none}
+#adminCenter .admin-notice{background:rgba(155,108,255,.045);border-color:rgba(155,108,255,.15);color:#c7bbff}
+#adminCenter .admin-pre{background:#080a12;border-color:var(--line)}
+#adminCenter .admin-kpi,#adminCenter .admin-feature,#adminCenter .admin-msg{background:rgba(255,255,255,.018);border-color:var(--line)}
+#adminCenter .admin-selected{outline:2px solid rgba(155,108,255,.28)}
+.commandOverlay{position:fixed;inset:0;z-index:100001;display:flex;align-items:flex-start;justify-content:center;padding:12vh 18px 24px;background:rgba(3,4,10,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .16s ease,visibility .16s ease}
+.commandOverlay.open{opacity:1;visibility:visible;pointer-events:auto}
+.commandPanel{width:min(620px,100%);max-height:min(690px,76vh);display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(188,198,255,.19);border-radius:17px;background:#0b0d16;box-shadow:0 32px 100px rgba(0,0,0,.55);transform:translateY(7px) scale(.99);transition:transform .16s ease}
+.commandOverlay.open .commandPanel{transform:translateY(0) scale(1)}
+.commandHeader{display:flex;align-items:center;gap:12px;padding:18px 19px 15px;border-bottom:1px solid var(--line)}
+.commandHeaderIcon{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border:1px solid rgba(155,108,255,.18);border-radius:11px;background:rgba(155,108,255,.07);color:#c5b2ff;font-size:20px}
+.commandHeaderText{flex:1;min-width:0}
+.commandHeader h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:16px;font-weight:600;letter-spacing:-.3px}
+.commandHeader p{margin-top:4px;color:#858fa5;font-size:10px;line-height:1.5}
+.commandClose{width:32px;height:32px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025);color:#a4acc0;font-size:18px;cursor:pointer}
+.commandSearchWrap{display:flex;align-items:center;gap:10px;margin:14px 15px 10px;padding:0 12px;min-height:47px;border:1px solid rgba(155,108,255,.24);border-radius:11px;background:rgba(255,255,255,.025)}
+.commandSearchIcon{color:#b7a0ff;font-size:18px}
+.commandSearchWrap input{width:100%;min-width:0;height:45px;border:0;outline:0;background:transparent;color:var(--text);font:500 12px Inter,sans-serif}
+.commandSearchWrap input::placeholder{color:#727c91}
+.commandSearchWrap kbd{padding:3px 5px;border:1px solid var(--line-bright);border-radius:5px;color:#8993a8;font:600 9px Inter,sans-serif}
+.commandSectionLabel{padding:7px 19px;color:#727d93;font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
+.commandResults{overflow:auto;overscroll-behavior:contain;padding:0 8px 8px}
+.commandResult{width:100%;display:flex;align-items:center;gap:11px;padding:11px 10px;border:1px solid transparent;border-radius:10px;background:transparent;color:#e7eaf2;text-align:left;cursor:pointer}
+.commandResult:hover,.commandResult.selected{border-color:rgba(155,108,255,.18);background:rgba(155,108,255,.07)}
+.commandResultIcon{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border:1px solid rgba(178,190,255,.09);border-radius:9px;background:rgba(255,255,255,.025);color:#c6b4ff;font-size:15px}
+.commandResultText{flex:1;min-width:0}
+.commandResultTitle{display:block;font-size:11px;font-weight:700;line-height:1.4}
+.commandResultDescription{display:block;margin-top:3px;color:#828da3;font-size:9px;line-height:1.5}
+.commandResultCategory{color:#7e899f;font-size:9px;white-space:nowrap}
+.commandEmpty{padding:28px 14px;color:#818ba0;text-align:center;font-size:11px;line-height:1.7}
+.commandFooter{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 17px;border-top:1px solid var(--line);color:#7e899f;font-size:9px}
+.commandFooter span{display:inline-flex;align-items:center;gap:5px}
+.commandFooter kbd{display:inline-flex;min-width:18px;justify-content:center;padding:3px 5px;border:1px solid var(--line-bright);border-radius:5px;color:#a4acc0;font-size:8px}
+.dashboardUxToast{position:fixed;right:18px;bottom:18px;z-index:100002;max-width:min(360px,calc(100vw - 36px));padding:12px 15px;border:1px solid rgba(188,198,255,.18);border-radius:11px;background:#11131e;color:#f7f8fb;box-shadow:0 15px 45px rgba(0,0,0,.3);font-size:11px;line-height:1.5;opacity:0;transform:translateY(5px);pointer-events:none;transition:opacity .18s ease,transform .18s ease}
+.dashboardUxToast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1180px){.topActions{max-width:none;flex-wrap:wrap;justify-content:flex-end}.commandLauncher,.settingsLauncher{min-height:39px}.profile{max-width:100%}}
+@media(max-width:980px){.layout,body.theme-ready .layout{grid-template-columns:minmax(0,1fr)}.main{padding:23px clamp(14px,3vw,28px)}.top{align-items:flex-start}.topActions{max-width:none;width:auto}.sidebar,body.theme-ready .sidebar{background:rgba(7,8,14,.96)}.bottom{display:flex}}
+@media(max-width:700px){.main{padding:17px 13px 22px}.top{gap:13px}.welcome h1{font-size:clamp(28px,7vw,35px)}.dashboard-meta{gap:8px;margin-top:10px}.topActions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;width:100%}.commandLauncher,.settingsLauncher{width:100%;min-width:0;justify-content:center;padding:0 8px}.commandLauncherText{overflow:hidden;text-overflow:ellipsis}.commandLauncher kbd{display:none}.profile{grid-column:1/-1;width:100%}.profileMeta b{max-width:none}.themeDrawer{width:min(100%,460px)}.commandOverlay{padding:7vh 10px 12px}.commandPanel{max-height:86vh}.commandHeader{padding:15px}.commandFooter{justify-content:flex-start}.commandResultCategory{display:none}}
+@media(max-width:390px){.main{padding-left:10px;padding-right:10px}.topActions{grid-template-columns:1fr}.commandLauncher,.settingsLauncher{min-height:43px}.profile{grid-column:auto}.dashboard-meta-divider,.dashboard-shortcut-hint{display:none}.commandHeader p{font-size:9px}.commandResult{gap:8px;padding:10px 8px}.commandResultIcon{width:30px;height:30px;flex-basis:30px}}
+@media(prefers-reduced-motion:reduce){.commandOverlay,.commandPanel,.commandResult,.dashboardUxToast{transition:none!important}}
+</style>
+
 </head>
 <body>
 <div id="banScreen" class="ban-screen" style="display:none">
@@ -2227,12 +2407,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
     <div class="top">
         <div class="welcome">
-            <h1>Welcome Back</h1>
+            <h1 id="dashboardGreeting">Welcome back.</h1>
             <p>Your central hub for everything Zyphor.</p>
+            <div class="dashboard-meta"><span class="dashboard-date"><span class="dashboard-meta-dot"></span><span id="dashboardDate">Loading date…</span></span><span class="dashboard-meta-divider"></span><span class="dashboard-shortcut-hint">Quick access <kbd>Ctrl K</kbd></span></div>
         </div>
 
         <div class="topActions">
-            <button class="settingsLauncher" type="button" onclick="toggleThemeDrawer()">✦ Customize Appearance</button>
+            <button class="commandLauncher" id="commandLauncher" type="button" onclick="openCommandPalette()" aria-haspopup="dialog" aria-controls="commandOverlay"><span class="commandLauncherIcon" aria-hidden="true">⌕</span><span class="commandLauncherText">Search anything</span><kbd>Ctrl K</kbd></button>
+            <button class="settingsLauncher" type="button" onclick="toggleThemeDrawer()"><span aria-hidden="true">◐</span> Customize</button>
             <div class="profile">
             <div class="avatar-shell" id="avatarShell">
                 <div class="avatar" id="avatar" onclick="selectPfp()" title="Click to change profile picture">
@@ -2515,7 +2697,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
                     <label>Preset</label>
                     <select id="themePreset">
                         <option value="custom">Custom</option>
-                        <option value="midnight">Midnight Cyan</option>
+                        <option value="midnight">Midnight Violet</option>
                         <option value="aurora">Aurora Purple</option>
                         <option value="crimson">Crimson Night</option>
                         <option value="frost">Frosted Glass</option>
@@ -2530,23 +2712,23 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
             <div class="themeGrid">
                 <div class="themeField">
                     <label>Primary</label>
-                    <input id="themeAccent" type="color" value="#00d5ff">
+                    <input id="themeAccent" type="color" value="#9b6cff">
                 </div>
                 <div class="themeField">
                     <label>Secondary</label>
-                    <input id="themeAccent2" type="color" value="#8d4dff">
+                    <input id="themeAccent2" type="color" value="#52d9ff">
                 </div>
                 <div class="themeField">
                     <label>Page background</label>
-                    <input id="themeBg" type="color" value="#05070c">
+                    <input id="themeBg" type="color" value="#05060a">
                 </div>
                 <div class="themeField">
                     <label>Background top</label>
-                    <input id="themeBg2" type="color" value="#080b12">
+                    <input id="themeBg2" type="color" value="#090b13">
                 </div>
                 <div class="themeField full">
                     <label>Panel opacity</label>
-                    <input id="themePanelOpacity" type="range" min="0.3" max="1" step="0.01" value="0.72">
+                    <input id="themePanelOpacity" type="range" min="0.3" max="1" step="0.01" value="0.9">
                 </div>
             </div>
         </div>
@@ -2556,15 +2738,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
             <div class="themeGrid">
                 <div class="themeField">
                     <label>Card radius</label>
-                    <input id="themeRadius" type="range" min="8" max="40" step="1" value="24">
+                    <input id="themeRadius" type="range" min="8" max="40" step="1" value="18">
                 </div>
                 <div class="themeField">
                     <label>Glass blur</label>
-                    <input id="themeBlur" type="range" min="0" max="40" step="1" value="24">
+                    <input id="themeBlur" type="range" min="0" max="40" step="1" value="12">
                 </div>
                 <div class="themeField">
                     <label>Sidebar width</label>
-                    <input id="themeSidebar" type="range" min="210" max="360" step="1" value="270">
+                    <input id="themeSidebar" type="range" min="210" max="360" step="1" value="258">
                 </div>
                 <div class="themeField">
                     <label>UI density</label>
@@ -3046,30 +3228,30 @@ function escapeHtml(value){
 const THEME_STORAGE_KEY="zyphorDashboardTheme"
 const defaultTheme={
     preset:"midnight",
-    accent:"#00d5ff",
-    accent2:"#8d4dff",
-    bg:"#05070c",
-    bg2:"#080b12",
-    panelOpacity:0.72,
-    radius:24,
-    blur:24,
-    sidebar:270,
+    accent:"#9b6cff",
+    accent2:"#52d9ff",
+    bg:"#05060a",
+    bg2:"#090b13",
+    panelOpacity:0.9,
+    radius:18,
+    blur:12,
+    sidebar:258,
     density:1,
     glass:true,
     animations:true,
-    grid:true,
-    hover:true,
+    grid:false,
+    hover:false,
     bgImage:"",
     bgSize:"cover",
     customCss:""
 }
 
 const themePresets={
-    midnight:{...defaultTheme,preset:"midnight",accent:"#00d5ff",accent2:"#8d4dff",bg:"#05070c",bg2:"#080b12",panelOpacity:.72,radius:24,blur:24},
-    aurora:{...defaultTheme,preset:"aurora",accent:"#66f7ff",accent2:"#a45bff",bg:"#060914",bg2:"#10132a",panelOpacity:.68,radius:28,blur:30},
-    crimson:{...defaultTheme,preset:"crimson",accent:"#ff5268",accent2:"#ff9a3d",bg:"#0b0508",bg2:"#16090d",panelOpacity:.76,radius:22,blur:22},
-    frost:{...defaultTheme,preset:"frost",accent:"#b5f7ff",accent2:"#7f9cff",bg:"#071019",bg2:"#122130",panelOpacity:.56,radius:30,blur:34},
-    mono:{...defaultTheme,preset:"mono",accent:"#ffffff",accent2:"#8e9aac",bg:"#050505",bg2:"#111111",panelOpacity:.74,radius:18,blur:18}
+    midnight:{...defaultTheme,preset:"midnight",accent:"#9b6cff",accent2:"#52d9ff",bg:"#05060a",bg2:"#090b13",panelOpacity:.9,radius:18,blur:12,grid:false,hover:false},
+    aurora:{...defaultTheme,preset:"aurora",accent:"#7774ff",accent2:"#52d9ff",bg:"#070813",bg2:"#101125",panelOpacity:.88,radius:20,blur:14,grid:false,hover:false},
+    crimson:{...defaultTheme,preset:"crimson",accent:"#ff6f8c",accent2:"#9b6cff",bg:"#0b050a",bg2:"#160911",panelOpacity:.9,radius:18,blur:12,grid:false,hover:false},
+    frost:{...defaultTheme,preset:"frost",accent:"#52d9ff",accent2:"#7774ff",bg:"#071019",bg2:"#111a2b",panelOpacity:.86,radius:20,blur:14,grid:false,hover:false},
+    mono:{...defaultTheme,preset:"mono",accent:"#ffffff",accent2:"#9ba4bb",bg:"#050505",bg2:"#111111",panelOpacity:.92,radius:16,blur:10,grid:false,hover:false}
 }
 
 let activeTheme={...defaultTheme}
@@ -3156,7 +3338,7 @@ function applyTheme(theme,save=false){
         body.theme-ready .card:hover{transform:${t.hover?"translateY(-3px)":"none"} !important;}
         body.theme-ready .card{padding:${22*t.density}px !important;}
         body.theme-ready .stat{min-height:${145*t.density}px !important;}
-        body.theme-ready .hero h2{filter:drop-shadow(0 0 14px color-mix(in srgb, ${t.accent} 20%, transparent));}
+        body.theme-ready .hero h2{filter:none;}
         body.theme-ready{background-image:${
             t.bgImage
             ? `linear-gradient(rgba(2,4,10,.48),rgba(2,4,10,.72)),url("${t.bgImage.replace(/"/g,'\\"')}")`
@@ -3192,7 +3374,14 @@ function loadStoredTheme(){
     try{
         const raw=localStorage.getItem(THEME_STORAGE_KEY)
         if(raw){
-            applyTheme(mergeTheme(JSON.parse(raw)),false)
+            const saved=JSON.parse(raw)
+            const isOldDefault=saved?.preset==="midnight"&&saved?.accent==="#00d5ff"&&saved?.accent2==="#8d4dff"&&saved?.bg==="#05070c"&&saved?.bg2==="#080b12"&&Number(saved?.radius)===24&&Number(saved?.blur)===24&&Number(saved?.panelOpacity)===0.72
+            if(isOldDefault){
+                const migrated={...saved,...themePresets.midnight,bgImage:saved.bgImage||"",customCss:saved.customCss||"",density:saved.density??1}
+                applyTheme(migrated,true)
+            }else{
+                applyTheme(mergeTheme(saved),false)
+            }
         }else{
             applyTheme(themePresets.midnight,false)
         }
@@ -4359,6 +4548,168 @@ async function zyphorBanFlow(key){
     await act('ban',{reason:cleanReason,banMessage:String(message).trim()||cleanReason,durationMs:durations[key]??null});
 }
 </script>
+
+<div class="commandOverlay" id="commandOverlay" aria-hidden="true">
+    <section class="commandPanel" role="dialog" aria-modal="true" aria-labelledby="commandTitle" aria-describedby="commandDescription">
+        <div class="commandHeader">
+            <div class="commandHeaderIcon" aria-hidden="true">⌕</div>
+            <div class="commandHeaderText">
+                <h2 id="commandTitle">Jump to anything</h2>
+                <p id="commandDescription">Search pages, account tools and dashboard actions.</p>
+            </div>
+            <button class="commandClose" type="button" id="commandClose" aria-label="Close command palette">×</button>
+        </div>
+        <label class="commandSearchWrap" for="commandSearch">
+            <span class="commandSearchIcon" aria-hidden="true">⌕</span>
+            <input id="commandSearch" type="search" placeholder="Search dashboard features…" autocomplete="off" spellcheck="false">
+            <kbd>ESC</kbd>
+        </label>
+        <div class="commandSectionLabel" id="commandSectionLabel">Available actions</div>
+        <div class="commandResults" id="commandResults" role="listbox" aria-label="Dashboard commands"></div>
+        <div class="commandFooter"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span><span><kbd>Ctrl K</kbd> Search anywhere</span></div>
+    </section>
+</div>
+<div class="dashboardUxToast" id="dashboardUxToast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+    const overlay=document.getElementById('commandOverlay');
+    const search=document.getElementById('commandSearch');
+    const results=document.getElementById('commandResults');
+    const sectionLabel=document.getElementById('commandSectionLabel');
+    const closeButton=document.getElementById('commandClose');
+    const toast=document.getElementById('dashboardUxToast');
+    if(!overlay||!search||!results)return;
+    let selection=0;
+    let activeResults=[];
+    let previousOverflow='';
+    let toastTimer=null;
+
+    const commands=[
+        {title:'Dashboard overview',description:'Return to the main account overview.',keywords:'home main overview start',icon:'⌂',category:'Navigation',action:()=>{openDashboardHome();window.scrollTo({top:0,behavior:scrollBehavior()});}},
+        {title:'Profile',description:'Open your public Zyphor profile.',keywords:'account user avatar profile',icon:'◉',category:'Account',action:()=>goProfile()},
+        {title:'Messages',description:'Open direct messages and conversations.',keywords:'dm chat inbox direct messages',icon:'✦',category:'Navigation',action:()=>location.href='dms.html'},
+        {title:'Wallet',description:'Manage your Zyphium balance and transactions.',keywords:'money balance zyphium coins transactions',icon:'◈',category:'Navigation',action:()=>location.href='Wallet.html'},
+        {title:'Cloud storage',description:'Open your Zyphor Cloud files.',keywords:'cloud files photos images storage',icon:'☁',category:'Navigation',action:()=>location.href='Cloud.html'},
+        {title:'Squirtle Event',description:'Open the global boss event page.',keywords:'squirtle boss event damage badge',icon:'🐢',category:'Event',action:()=>location.href='SquirtleEvent.html'},
+        {title:'App Center',description:'Browse Zyphor apps and downloads.',keywords:'apps downloads windows android',icon:'↓',category:'Navigation',action:()=>location.href='download.html'},
+        {title:'Account settings',description:'Manage your account preferences and security.',keywords:'settings password security account',icon:'⚙',category:'Account',action:()=>location.href='Settings.html'},
+        {title:'Notifications',description:'Jump to recent account activity.',keywords:'alerts updates unread activity',icon:'✧',category:'Dashboard',action:()=>jumpTo(document.querySelector('.notificationsHeader'))},
+        {title:'Discord integration',description:'View your Discord connection or link code.',keywords:'discord integration code connected link',icon:'◌',category:'Dashboard',action:()=>jumpTo(document.querySelector('.discordCard'))},
+        {title:'Roblox integration',description:'View the Roblox account connected to Zyphor.',keywords:'roblox integration linked account',icon:'▣',category:'Dashboard',action:()=>jumpTo(document.querySelector('.integrationGrid .card:nth-child(2)'))},
+        {title:'Latest changelog',description:'Read the latest Zyphor release notes.',keywords:'release notes version update changelog',icon:'↗',category:'Dashboard',action:()=>jumpTo(document.querySelector('.changelog'))},
+        {title:'Customize appearance',description:'Adjust colors, density, and dashboard effects.',keywords:'theme colors design appearance customize',icon:'◐',category:'Preferences',action:()=>toggleThemeDrawer()},
+        {title:'Contact support',description:'Open support options for your account.',keywords:'help ticket support email',icon:'?',category:'Help',action:()=>openSupport()},
+        {title:'Read all notifications',description:'Mark your account notifications as read.',keywords:'clear unread read all alerts',icon:'✓',category:'Dashboard',action:()=>readAllNotifications()},
+        {title:'Copy username',description:'Copy your current Zyphor username.',keywords:'copy clipboard profile account username',icon:'⧉',category:'Utility',action:async()=>{const username=localStorage.getItem('username')||document.getElementById('profileName')?.textContent?.trim();if(!username||username==='Loading...')throw new Error('Your username is not available yet.');await copyToClipboard(username);showToast('Username copied to clipboard.');}},
+        {title:'Refresh dashboard',description:'Reload account details and dashboard data.',keywords:'reload refresh update data',icon:'↻',category:'Utility',action:()=>location.reload()},
+        {title:'Log out',description:'End your current Zyphor session.',keywords:'sign out logout leave account',icon:'↪',category:'Account',action:()=>logout()},
+        {title:'Admin Center',description:'Open administrator tools.',keywords:'admin management control panel',icon:'◆',category:'Admin',admin:true,action:()=>{openAdminCenter();window.scrollTo({top:0,behavior:scrollBehavior()});}}
+    ];
+
+    function scrollBehavior(){return window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}
+    function showToast(message){
+        toast.textContent=message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer=setTimeout(()=>toast.classList.remove('show'),2600);
+    }
+    async function copyToClipboard(value){
+        if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value);return;}
+        const input=document.createElement('textarea');
+        input.value=value;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';
+        document.body.appendChild(input);input.select();
+        const copied=document.execCommand('copy');input.remove();
+        if(!copied)throw new Error('Clipboard access is unavailable in this browser.');
+    }
+    function jumpTo(element){
+        if(!element){showToast('That dashboard section is not available right now.');return;}
+        if(document.getElementById('adminCenter')?.style.display==='block')openDashboardHome();
+        setTimeout(()=>element.scrollIntoView({behavior:scrollBehavior(),block:'start'}),20);
+    }
+    function getRecent(){
+        try{return JSON.parse(localStorage.getItem('zyphorDashboardRecentCommands')||'[]').filter(x=>typeof x==='string');}catch{return [];}
+    }
+    function render(){
+        const query=search.value.trim().toLowerCase();
+        const recent=getRecent();
+        activeResults=commands.filter(command=>(!command.admin||window.zyphorIsAdmin===true)&&`${command.title} ${command.description} ${command.keywords} ${command.category}`.toLowerCase().includes(query));
+        if(!query){activeResults.sort((a,b)=>{const ai=recent.indexOf(a.title),bi=recent.indexOf(b.title);return (ai<0?999:ai)-(bi<0?999:bi)});}
+        selection=Math.max(0,Math.min(selection,activeResults.length-1));
+        sectionLabel.textContent=query?'Search results':(recent.length?'Recent and available actions':'Available actions');
+        if(!activeResults.length){results.innerHTML='<div class="commandEmpty">No matching dashboard actions.<br>Try “wallet”, “messages”, “support” or “appearance”.</div>';return;}
+        results.innerHTML=activeResults.map((command,index)=>`<button type="button" class="commandResult${index===selection?' selected':''}" role="option" aria-selected="${index===selection?'true':'false'}" data-command-index="${index}"><span class="commandResultIcon" aria-hidden="true">${escapeHtml(command.icon)}</span><span class="commandResultText"><span class="commandResultTitle">${escapeHtml(command.title)}</span><span class="commandResultDescription">${escapeHtml(command.description)}</span></span><span class="commandResultCategory">${escapeHtml(command.category)}</span></button>`).join('');
+        const selected=results.querySelector('.commandResult.selected');
+        if(selected)selected.scrollIntoView({block:'nearest'});
+    }
+    function open(){
+        previousOverflow=document.body.style.overflow;
+        overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');
+        search.value='';selection=0;render();
+        document.body.style.overflow='hidden';
+        setTimeout(()=>search.focus(),30);
+    }
+    function close(){
+        overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');
+        document.body.style.overflow=previousOverflow;
+    }
+    async function execute(command){
+        if(!command)return;
+        try{
+            const recent=[command.title,...getRecent().filter(title=>title!==command.title)].slice(0,6);
+            localStorage.setItem('zyphorDashboardRecentCommands',JSON.stringify(recent));
+        }catch{}
+        close();
+        try{await command.action();}
+        catch(error){showToast(error?.message||'That action could not be completed.');}
+    }
+
+    window.openCommandPalette=open;
+    document.getElementById('commandLauncher')?.addEventListener('click',open);
+    closeButton?.addEventListener('click',close);
+    overlay.addEventListener('click',event=>{if(event.target===overlay)close();});
+    search.addEventListener('input',()=>{selection=0;render();});
+    results.addEventListener('mousemove',event=>{
+        const item=event.target.closest('[data-command-index]');
+        if(!item)return;
+        const next=Number(item.dataset.commandIndex);
+        if(next===selection)return;
+        selection=next;
+        results.querySelectorAll('.commandResult').forEach((result,index)=>{
+            const active=index===selection;
+            result.classList.toggle('selected',active);
+            result.setAttribute('aria-selected',active?'true':'false');
+        });
+    });
+    results.addEventListener('click',event=>{
+        const item=event.target.closest('[data-command-index]');
+        if(item)execute(activeResults[Number(item.dataset.commandIndex)]);
+    });
+    document.addEventListener('keydown',event=>{
+        const typing=event.target instanceof HTMLElement&&(event.target.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(event.target.tagName));
+        if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){
+            event.preventDefault();overlay.classList.contains('open')?close():open();return;
+        }
+        if(!typing&&event.key==='/'&&!overlay.classList.contains('open')){event.preventDefault();open();return;}
+        if(!overlay.classList.contains('open'))return;
+        if(event.key==='Escape'){event.preventDefault();close();return;}
+        if(event.key==='ArrowDown'){event.preventDefault();selection=Math.min(selection+1,activeResults.length-1);render();return;}
+        if(event.key==='ArrowUp'){event.preventDefault();selection=Math.max(selection-1,0);render();return;}
+        if(event.key==='Enter'){event.preventDefault();execute(activeResults[selection]);}
+    });
+
+    const greeting=document.getElementById('dashboardGreeting');
+    const date=document.getElementById('dashboardDate');
+    function updateHeaderDate(){
+        const now=new Date();
+        if(greeting){const hour=now.getHours();greeting.textContent=hour<12?'Good morning.':hour<18?'Good afternoon.':'Good evening.';}
+        if(date)date.textContent=new Intl.DateTimeFormat(undefined,{weekday:'long',month:'short',day:'numeric'}).format(now);
+    }
+    updateHeaderDate();
+    setInterval(updateHeaderDate,60000);
+    document.addEventListener('DOMContentLoaded',()=>{if(date&&!date.textContent.trim())updateHeaderDate();});
+})();
+</script>
+
 </body>
 </html>
 
