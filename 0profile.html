@@ -290,6 +290,8 @@ align-items:center;
 gap:20px;
 }
 .avatarStage{position:relative;width:132px;height:132px;display:grid;place-items:center}
+.betaProfileFrame{display:none}
+.betaProfileFrame[hidden]{display:none!important}
 .avatarOuter{
 position:absolute;
 inset:-5px;
@@ -911,7 +913,7 @@ body{min-width:1200px;background-color:#03050b}
 .toastTitle{font-size:10px}
 .toastText{font-size:9px;line-height:1.5}
 
-/* Beta Tester is a standard account role; no exclusive avatar frame or emblem. */
+/* Neutral fallback styling; beta-tester.css supplies the dedicated insignia when a real tester profile is active. */
 .role.beta{color:#8ce9ff;border-color:rgba(0,213,255,.19);background:rgba(0,213,255,.055);box-shadow:none;overflow:visible}
 /* The workspace is a vertical section. Grid layout belongs to its child components. */
 .betaTesterPanel{position:relative;display:block;min-width:0;width:100%;margin-top:22px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
@@ -1155,7 +1157,18 @@ body::after{background:radial-gradient(circle at 25% 30%,rgba(0,213,255,.06),tra
 <div class="heroScan"></div>
 <div class="heroLayout">
 
-<div class="avatarStage">
+<div class="avatarStage" id="avatarStage">
+<div class="betaProfileFrame" id="betaProfileFrame" aria-hidden="true">
+  <span class="betaFrameOrbit betaFrameOrbitOne"></span>
+  <span class="betaFrameOrbit betaFrameOrbitTwo"></span>
+  <span class="betaFrameTick betaFrameTickTop"></span>
+  <span class="betaFrameTick betaFrameTickRight"></span>
+  <span class="betaFrameTick betaFrameTickBottom"></span>
+  <span class="betaFrameTick betaFrameTickLeft"></span>
+  <span class="betaFrameStar betaFrameStarOne">✦</span>
+  <span class="betaFrameStar betaFrameStarTwo">✧</span>
+  <span class="betaFrameStar betaFrameStarThree">✦</span>
+</div>
 <div class="avatarOuter"></div>
 <div class="avatarRing" id="avatarRing">
 <div class="avatar">
@@ -1728,6 +1741,7 @@ let savedProfiles=loadSavedProfiles()
 let reportTargetUsername=null
 let profileNoteSavedValue=""
 let betaTesterEnabled=false
+let betaProfileSubject=false
 let betaSessionTimer=null
 let betaSessionState={runningSince:null,accumulatedMs:0}
 let betaIssues=[]
@@ -1867,7 +1881,7 @@ if(p.support)r.push('<span class="role support">🧰 Support</span>')
 if(p.admin)r.push('<span class="role admin">💎 Admin</span>')
 if(p.moderator)r.push('<span class="role mod">🛡 Mod</span>')
 if(p.vip)r.push('<span class="role vip">👑 VIP</span>')
-if(p.betaTester===true)r.push('<span class="role beta" title="Zyphor Beta Tester">Beta Tester</span>')
+if(p.betaTester===true)r.push('<span class="role beta" title="Zyphor Beta Tester — highest-tier early access status" aria-label="Zyphor Beta Tester"><span class="betaBadgeSigil" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><defs><linearGradient id="betaBadgeGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3ffff"/><stop offset=".52" stop-color="#53e5ff"/><stop offset="1" stop-color="#9a78ff"/></linearGradient></defs><path d="M12 1.8 15.1 7l5.9.9-4.25 4.2 1 5.95L12 15.2l-5.75 2.85 1.1-5.95L3.1 7.9 9 7z"/><path d="m9.2 11.8 1.75 1.8 3.95-4.15"/></svg></span><span class="betaBadgeText">Beta Tester</span><span class="betaBadgeTier">TOP TIER</span></span>')
 return r.join("")
 }
 
@@ -1886,6 +1900,7 @@ return{name:"Bronze",color:"#9a6b45",glow:"rgba(154,107,69,.27)"}
 }
 function badgeVisual(name,index,t){
 const n=String(name||"").toLowerCase()
+if(n==="beta tester")return{beta:true}
 const maps={
 messenger:{Bronze:"/Images/Badges/Icons/MessengerBronze.png",Silver:"/Images/Badges/Icons/MessengerSilver.png",Gold:"/Images/Badges/Icons/MessengerGold.png",Diamond:"/Images/Badges/Icons/MessengerDiamond.png",Platinum:"/Images/Badges/Icons/MessengerPlatinum.png"},
 superstar:{Bronze:"/Images/Badges/Icons/SuperstarBronze.png",Silver:"/Images/Badges/Icons/SuperstarSilver.png",Gold:"/Images/Badges/Icons/SuperstarGold.png",Diamond:"/Images/Badges/Icons/SuperstarDiamond.png",Platinum:"/Images/Badges/Icons/SuperstarPlatinum.png"}
@@ -1895,21 +1910,24 @@ const em=["💬","⭐","🔥","⚡","🏆","🎯","💎","👑","🛡️","🚀"
 return{emoji:em[index%em.length]}
 }
 function badgeHtml(name,badge,index){
-const percent=badgeProgress(badge)
-const t=tier(percent)
-const complete=percent>=100||badge?.earned===true
+const isBetaBadge=String(name||"").toLowerCase()==="beta tester"
+const betaAwarded=isBetaBadge&&betaProfileSubject
+const percent=betaAwarded?100:badgeProgress(badge)
+const t=betaAwarded?{name:"Platinum",color:"#e5e7eb",glow:"rgba(87,232,255,.45)"}:tier(percent)
+const complete=betaAwarded||percent>=100||badge?.earned===true
 const req=Number(badge?.required)
 const cur=Number(badge?.current)
-const progText=Number.isFinite(req)&&req>0&&Number.isFinite(cur)?`${Math.max(0,cur)}/${req}`:complete?"Completed":"Not completed"
+const progText=betaAwarded?"Awarded":Number.isFinite(req)&&req>0&&Number.isFinite(cur)?`${Math.max(0,cur)}/${req}`:complete?"Completed":"Not completed"
 const q=document.getElementById("badgeSearch").value.trim().toLowerCase()
 const filter=document.getElementById("badgeFilter").value
 if(q&&!String(name).toLowerCase().includes(q))return""
 if(filter==="complete"&&!complete)return""
 if(filter==="progress"&&complete)return""
 const visual=badgeVisual(name,index,t)
-const visualHtml=visual.image?`<img src="${visual.image}" alt="${escapeHTML(name)}">`:`<span class="badgeEmoji">${visual.emoji}</span>`
+const visualHtml=visual.beta&&isBetaBadge&&betaProfileSubject?`<svg class="betaAchievementSigil" viewBox="0 0 100 100" role="img" aria-label="Beta Tester insignia"><defs><linearGradient id="betaSealMetal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9ffff"/><stop offset=".34" stop-color="#54e8ff"/><stop offset=".7" stop-color="#9c76ff"/><stop offset="1" stop-color="#f8ffff"/></linearGradient></defs><path class="betaSealOuter" d="M50 4 61 13 76 11 82 25 94 34 88 49 94 64 81 74 76 89 61 87 50 96 39 87 24 89 18 74 6 64 12 49 6 34 19 25 24 11 39 13Z"/><path class="betaSealInner" d="M50 16 59 24 71 22 76 34 85 41 80 51 85 61 75 68 71 80 59 78 50 86 41 78 29 80 25 68 15 61 20 51 15 41 25 34 29 22 41 24Z"/><path class="betaSealCheck" d="m34 50 10 10 23-24"/><circle class="betaSealCore" cx="50" cy="50" r="34"/></svg>`:visual.beta?`<span class="badgeEmoji" aria-hidden="true">🎖️</span>`:visual.image?`<img src="${visual.image}" alt="${escapeHTML(name)}">`:`<span class="badgeEmoji">${visual.emoji}</span>`
+const badgeKey=isBetaBadge&&betaProfileSubject?" beta-achievement":""
 return`
-<div class="badgeCard ${complete?"complete":""}" tabindex="0" onclick="toggleBadge(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBadge(this)}">
+<div class="badgeCard ${complete?"complete":""}${badgeKey}" data-badge-key="${String(name||"").toLowerCase()==="beta tester"?"beta-tester":"standard"}" tabindex="0" onclick="toggleBadge(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBadge(this)}">
 <div class="medal" style="--progress:${percent.toFixed(2)};--tier:${t.color};--glow:${t.glow}">
 <div class="badgeVisual">${visualHtml}</div>
 </div>
@@ -2036,6 +2054,8 @@ document.getElementById("snapshotUpdatedAt").textContent="UPDATED "+new Date().t
 
 function fillProfile(data){
 profileData=data
+betaProfileSubject=data?.permissions?.betaTester===true
+updateBetaTesterAppearance()
 const username=data.username||"Unknown"
 
 document.title=username+" • Zyphor Profile"
@@ -2082,6 +2102,8 @@ img.src=url
 
 async function loadProfile(){
 const username=getUsername()
+betaProfileSubject=false
+updateBetaTesterAppearance()
 if(!username){
 document.getElementById("profileUsername").textContent="Search for a user"
 document.getElementById("profileDescription").textContent="Use Find Profile to locate a Zyphor account."
@@ -2430,11 +2452,21 @@ async function resolveViewerBetaTester(){
   return data?.permissions?.betaTester===true
  }catch{return false}
 }
+function updateBetaTesterAppearance(){
+ const active=betaTesterEnabled||betaProfileSubject
+ document.body.classList.toggle("beta-tester-experience",active)
+ document.body.classList.toggle("beta-profile-subject",betaProfileSubject)
+ const sheet=document.getElementById("betaTesterStylesheet")
+ if(sheet)sheet.disabled=!active
+ const frame=document.getElementById("betaProfileFrame")
+ if(frame)frame.hidden=!betaProfileSubject
+ const stage=document.getElementById("avatarStage")
+ if(stage)stage.classList.toggle("has-beta-frame",betaProfileSubject)
+}
 function updateBetaTesterVisibility(){
  const panel=document.getElementById("betaTesterPanel")
- const sheet=document.getElementById("betaTesterStylesheet")
  if(panel)panel.hidden=!betaTesterEnabled
- if(sheet)sheet.disabled=!betaTesterEnabled
+ updateBetaTesterAppearance()
  if(betaTesterEnabled)initializeBetaWorkspace()
 }
 function betaChecks(){return betaRead("checks",{})||{}}
