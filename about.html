@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d1117">
+<meta name="description" content="Learn about Zyphor, an evolving software platform for communication, community, cloud tools, applications, events and digital utilities.">
+<title>About Zyphor · Project Overview</title>
+<link rel="icon" type="image/png" href="/Logo1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--canvas:#0d1117;--canvas2:#010409;--surface:#161b22;--surface2:#0d1117;--line:#30363d;--line-soft:#21262d;--text:#e6edf3;--muted:#9198a1;--subtle:#6e7681;--blue:#2f81f7;--blue-soft:#1f6feb22;--purple:#a371f7;--green:#3fb950;--orange:#d29922;--shadow:0 18px 55px #0005}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--canvas);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 10% -10%,#1f6feb1c,transparent 34%),radial-gradient(ellipse at 100% 10%,#a371f70d,transparent 28%)}
+a{color:#58a6ff;text-decoration:none}a:hover{text-decoration:underline}
+button{font:inherit}
+:focus-visible{outline:2px solid #58a6ff;outline-offset:3px}
+.topbar{height:66px;position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);background:#0d1117eF;backdrop-filter:blur(18px)}
+.topbar-inner{max-width:1240px;height:100%;margin:auto;padding:0 25px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;color:var(--text);font-weight:750;letter-spacing:-.3px;white-space:nowrap}
+.brand:hover{text-decoration:none}.brand-mark{display:grid;place-items:center;width:35px;height:35px;border-radius:10px;background:linear-gradient(140deg,#2f81f7,#a371f7);box-shadow:0 6px 22px #2f81f72e;color:#fff;font-weight:800;font-size:19px}
+.brand-name{font-size:17px}.brand-name span{color:#8b949e;font-weight:500}
+.nav{display:flex;align-items:center;gap:7px}.nav a,.nav button{padding:8px 11px;border:1px solid transparent;background:transparent;color:#c9d1d9;border-radius:7px;font-size:13px;cursor:pointer;white-space:nowrap}.nav a:hover,.nav button:hover{background:#ffffff0b;border-color:var(--line);text-decoration:none}
+.nav .nav-cta{border-color:#3d444d;background:#21262d;color:#f0f6fc;font-weight:600}
+.mobile-menu{display:none}
+.page{max-width:1240px;margin:auto;padding:30px 25px 70px}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin:5px 0 19px;color:var(--muted);font-size:12px}
+.breadcrumb a{color:var(--muted)}.breadcrumb .slash{color:#484f58}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:28px;align-items:start}
+.document{min-width:0}
+.doc-header{padding:25px 28px 23px;border:1px solid var(--line);border-radius:12px 12px 0 0;background:linear-gradient(120deg,#161b22 0%,#111821 62%,#17132a 100%);position:relative;overflow:hidden}
+.doc-header:after{content:"";position:absolute;right:-55px;top:-130px;width:330px;height:330px;border-radius:50%;border:1px solid #ffffff0b;box-shadow:0 0 0 32px #ffffff04,0 0 0 66px #ffffff03;pointer-events:none}
+.doc-kicker{display:flex;align-items:center;gap:8px;color:#8b949e;text-transform:uppercase;letter-spacing:1.6px;font-size:10px;font-weight:700}
+.live-dot{height:7px;width:7px;border-radius:50%;background:var(--green);box-shadow:0 0 11px #3fb9506e}
+h1{position:relative;z-index:1;margin:13px 0 8px;font-size:clamp(34px,5vw,54px);line-height:1.08;letter-spacing:-2px;font-weight:800}
+.gradient{background:linear-gradient(95deg,#79c0ff,#d2a8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{position:relative;z-index:1;max-width:720px;color:#b1bac4;font-size:15px;line-height:1.8;margin:0}
+.doc-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:22px}
+.pill{display:inline-flex;gap:7px;align-items:center;padding:4px 10px;border-radius:99px;border:1px solid #3d444d;background:#0d1117aa;color:#c9d1d9;font-size:11px}.pill-blue{border-color:#1f6feb66;color:#79c0ff;background:#1f6feb16}.pill-green{border-color:#23863666;color:#7ee787;background:#23863616}
+.document-body{border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;background:#0d1117c9;box-shadow:var(--shadow)}
+.doc-section{padding:27px 30px;border-bottom:1px solid var(--line-soft);scroll-margin-top:85px}.doc-section:last-child{border-bottom:0}
+.section-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:15px}
+.section-index{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:#1f6feb19;border:1px solid #1f6feb45;color:#79c0ff;font:600 11px "JetBrains Mono",monospace}
+h2{font-size:21px;line-height:1.3;letter-spacing:-.6px;margin:2px 0 0}h3{font-size:15px;margin:0 0 7px;letter-spacing:-.2px}
+p{margin:0 0 13px;color:#b1bac4;font-size:14px}p:last-child{margin-bottom:0}
+.lead{font-size:15px;color:#d0d7de;line-height:1.85}
+.keyline{height:1px;background:linear-gradient(90deg,#2f81f7,transparent);margin:20px 0}
+.callout{display:flex;gap:12px;padding:15px 16px;margin-top:16px;border:1px solid #1f6feb4a;border-left:3px solid var(--blue);border-radius:8px;background:#1f6feb0d;color:#b1bac4;font-size:13px;line-height:1.7}
+.callout strong{color:#dbeafe}
+.feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:17px}
+.feature{min-width:0;padding:16px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(145deg,#161b22,#0d1117);transition:transform .2s,border-color .2s,background .2s}
+.feature:hover{transform:translateY(-2px);border-color:#484f58;background:#161b22}
+.feature-top{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.feature-icon{width:37px;height:37px;flex:none;display:grid;place-items:center;border-radius:10px;background:#21262d;border:1px solid #30363d;font-size:17px}
+.feature h3{margin:0;font-size:14px}.feature p{font-size:12px;line-height:1.7;margin:0;color:#9198a1}
+.feature a{display:inline-block;margin-top:10px;font-size:12px;font-weight:600}
+.timeline{position:relative;margin-top:14px;padding-left:20px}.timeline:before{content:"";position:absolute;top:8px;bottom:10px;left:5px;width:1px;background:var(--line)}
+.timeline-item{position:relative;padding:0 0 21px 14px}.timeline-item:last-child{padding-bottom:0}.timeline-item:before{content:"";position:absolute;width:9px;height:9px;left:-19px;top:7px;border-radius:50%;background:#0d1117;border:2px solid #58a6ff}
+.timeline-item h3{font-size:14px}.timeline-item p{font-size:13px;margin:0}
+.values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.value{padding:14px 13px;border:1px solid var(--line);border-radius:9px;background:#161b22}.value strong{display:block;margin-bottom:5px;font-size:12px}.value span{display:block;font-size:11px;color:var(--muted);line-height:1.6}
+.repo-box{padding:18px;border:1px solid var(--line);border-radius:10px;background:#0104095e;margin-top:15px}
+.repo-head{display:flex;align-items:center;gap:11px}.repo-glyph{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:#21262d;font-size:19px}.repo-head strong{display:block;font-size:13px}.repo-head small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.repo-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}.repo-tags span{padding:4px 8px;border:1px solid var(--line);border-radius:6px;color:#9198a1;font-size:10px}
+.doc-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 25px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+.doc-footer a{color:var(--muted)}.doc-footer a:hover{color:#58a6ff}
+.toc{position:sticky;top:88px;border:1px solid var(--line);border-radius:11px;background:#0d1117d9;overflow:hidden}
+.toc-title{padding:14px 15px;border-bottom:1px solid var(--line);font-size:12px;font-weight:700;color:#e6edf3}
+.toc-list{padding:8px;display:flex;flex-direction:column;gap:2px}.toc-list a{padding:8px 10px;color:#9198a1;border-left:2px solid transparent;border-radius:0 6px 6px 0;font-size:11px;transition:.15s}.toc-list a:hover,.toc-list a.active{color:#e6edf3;text-decoration:none;background:#ffffff08;border-left-color:#2f81f7}
+.toc-note{border-top:1px solid var(--line);padding:13px 14px;font-size:10px;color:#6e7681;line-height:1.7}
+.side-card{margin-top:14px;border:1px solid var(--line);border-radius:10px;background:#0d1117d9;overflow:hidden}
+.side-card-title{padding:12px 14px;border-bottom:1px solid var(--line);font-size:12px;font-weight:700}
+.side-links{padding:7px;display:flex;flex-direction:column}.side-links a{padding:8px;color:#9198a1;border-radius:6px;font-size:11px}.side-links a:hover{background:#ffffff08;color:#58a6ff;text-decoration:none}
+.bottom-cta{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:20px;border:1px solid #1f6feb57;border-radius:11px;background:linear-gradient(110deg,#1f6feb12,#a371f70c);margin-top:19px}
+.bottom-cta h3{font-size:15px;margin-bottom:4px}.bottom-cta p{font-size:12px;margin:0}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 13px;border:1px solid #3d444d;border-radius:7px;background:#21262d;color:#e6edf3;font-size:12px;font-weight:600;white-space:nowrap;transition:.15s}
+.button:hover{background:#30363d;text-decoration:none}.button.primary{background:#238636;border-color:#2ea043;color:white}.button.primary:hover{background:#2ea043}
+.site-footer{margin-top:31px;padding:18px 4px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;color:#6e7681;font-size:11px}.footer-links{display:flex;gap:15px;flex-wrap:wrap}.footer-links a{color:#8b949e}
+@media(max-width:900px){.layout{grid-template-columns:minmax(0,1fr) 210px;gap:17px}.page{padding-left:17px;padding-right:17px}.doc-section{padding:24px 22px}.values{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr}.topbar-inner{padding:0 17px}.nav{gap:2px}.nav a,.nav button{padding:7px 8px}}
+@media(max-width:680px){.topbar{height:60px}.topbar-inner{padding:0 13px}.brand-mark{width:32px;height:32px}.brand-name{font-size:15px}.nav a:not(.nav-cta),.nav button{display:none}.nav .nav-cta{font-size:11px;padding:7px 9px}.page{padding:20px 11px 45px}.breadcrumb{margin:1px 2px 14px}.layout{display:flex;flex-direction:column}.toc{position:static;order:-1;width:100%}.toc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.toc-note{display:none}.side-card{display:none}.doc-header{padding:22px 19px 20px}h1{font-size:39px;letter-spacing:-1.7px}.subtitle{font-size:13px}.doc-meta{margin-top:16px}.doc-section{padding:22px 17px}.section-head{gap:10px}.section-index{width:29px;height:29px}h2{font-size:19px}.lead{font-size:14px}.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.feature{padding:12px}.feature-top{align-items:flex-start;flex-direction:column;gap:7px}.feature p{font-size:11px}.feature h3{font-size:12px}.feature a{font-size:11px}.bottom-cta{align-items:flex-start;flex-direction:column}.doc-footer{padding:16px;align-items:flex-start;flex-direction:column}}
+@media(max-width:390px){.feature-grid{grid-template-columns:1fr}.feature-top{flex-direction:row;align-items:center}.doc-meta{gap:5px}.pill{font-size:10px}.toc-list{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="/" aria-label="Zyphor home"><span class="brand-mark">Z</span><span class="brand-name">Zyphor <span>/ About</span></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/download.html">Downloads</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/support.html">Support</a>
+      <a class="nav-cta" href="/signup.html">Get started ↗</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <div class="breadcrumb"><a href="/">Home</a><span class="slash">/</span><span>Documentation</span><span class="slash">/</span><strong>About Zyphor</strong></div>
+  <div class="layout">
+    <article class="document">
+      <header class="doc-header">
+        <div class="doc-kicker"><span class="live-dot"></span> Project documentation · Overview</div>
+        <h1>About <span class="gradient">Zyphor.</span></h1>
+        <p class="subtitle">A living software project bringing together communication, community, digital utilities and connected experiences — built iteratively, with new ideas and improvements continuing to shape the platform.</p>
+        <div class="doc-meta"><span class="pill pill-blue">⌘ Software platform</span><span class="pill">Web · Desktop · Mobile</span><span class="pill pill-green">● Ongoing development</span></div>
+      </header>
+      <div class="document-body">
+        <section class="doc-section" id="overview">
+          <div class="section-head"><span class="section-index">01</span><div><h2>Project overview</h2></div></div>
+          <p class="lead">Zyphor is an evolving online platform and software project. Its website combines account-based features with tools for communication, profiles, digital services, community activity and application downloads.</p>
+          <p>The project is developed as a collection of interconnected experiences rather than a single-purpose page. The repository includes public-facing pages, account areas, feature-specific interfaces and supporting assets. The exact capabilities available to a visitor depend on the current release and the services connected to the website.</p>
+          <div class="callout"><span>ⓘ</span><div><strong>Project status</strong><br>Zyphor is maintained and continues to evolve. Features, layouts and applications may change as the project is updated.</div></div>
+        </section>
+
+        <section class="doc-section" id="platform">
+          <div class="section-head"><span class="section-index">02</span><div><h2>What the platform includes</h2></div></div>
+          <p>Across the repository, Zyphor brings together several areas of functionality. Use the links below to explore the relevant page where it is available.</p>
+          <div class="feature-grid">
+            <article class="feature"><div class="feature-top"><span class="feature-icon">💬</span><h3>Direct messages & friends</h3></div><p>Account profiles, friend connections and direct-messaging interfaces for interacting with other users.</p><a href="/0DMS.html">Messaging area ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">👤</span><h3>Profiles & account access</h3></div><p>Login, sign-up, profile and settings pages, with account-related options and authentication flows.</p><a href="/login.html">Account login ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">☁️</span><h3>Zyphor Cloud</h3></div><p>A cloud-oriented tool interface with file browsing, search, uploads and storage-related controls.</p><a href="/cloud.html">Explore Cloud ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">💳</span><h3>Wallet & transactions</h3></div><p>Wallet and balance interfaces, transaction history, payout history and subscription-related pages.</p><a href="/Wallet.html">View wallet ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">🏅</span><h3>Badges & achievements</h3></div><p>The repository includes badge artwork and achievement-style assets associated with platform identity and activity.</p><a href="/0profile.html">Explore profiles ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">🎮</span><h3>Events & tournaments</h3></div><p>Interactive experiences include a Squirtle event page and a tournament bracket interface.</p><a href="/SquirtleEvent.html">View event page ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">📥</span><h3>Downloads & applications</h3></div><p>A dedicated download page and related application assets help visitors find available software releases.</p><a href="/download.html">Visit downloads ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">🛟</span><h3>Support & administration</h3></div><p>Support interfaces, staff guidance and administrative pages support platform operations and issue handling.</p><a href="/Support.html">Support resources ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">🔐</span><h3>Security & privacy pages</h3></div><p>The project includes privacy and terms pages, alongside account-related security interfaces such as two-factor authentication.</p><a href="/PP.html">Privacy policy ↗</a></article>
+            <article class="feature"><div class="feature-top"><span class="feature-icon">🧰</span><h3>Digital utilities</h3></div><p>Additional tools in the codebase include ZyPass, encrypted-content interfaces, value calculators and other utility pages.</p><a href="/ZyPass.html">Explore ZyPass ↗</a></article>
+          </div>
+        </section>
+
+        <section class="doc-section" id="development">
+          <div class="section-head"><span class="section-index">03</span><div><h2>Built as an evolving project</h2></div></div>
+          <p>Zyphor's repository reflects an iterative approach to development: individual experiences have their own pages and interfaces, while shared styling, media assets and account-related screens support a broader platform.</p>
+          <div class="timeline">
+            <div class="timeline-item"><h3>Platform foundations</h3><p>Public landing pages, account entry points, profile interfaces and essential navigation form the foundation of the website.</p></div>
+            <div class="timeline-item"><h3>Connected experiences</h3><p>Messaging, friends, wallet-related screens, support resources and cloud tools extend the platform beyond its public homepage.</p></div>
+            <div class="timeline-item"><h3>Community and customization</h3><p>Events, tournaments, badges, downloads and dedicated tools add more ways to interact with the project.</p></div>
+            <div class="timeline-item"><h3>Ongoing maintenance</h3><p>Interfaces and features remain subject to iteration, fixes and future additions. This overview describes repository areas, not a guarantee that every function is currently active.</p></div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="principles">
+          <div class="section-head"><span class="section-index">04</span><div><h2>Principles behind the experience</h2></div></div>
+          <p>The project’s organization suggests a few practical priorities for the platform’s experience and continued development.</p>
+          <div class="values">
+            <div class="value"><strong>Connected features</strong><span>Keep related account, communication and utility experiences easy to navigate.</span></div>
+            <div class="value"><strong>Continuous improvement</strong><span>Refine existing interfaces and add capabilities as the project develops.</span></div>
+            <div class="value"><strong>Clear access</strong><span>Provide dedicated pages for key tasks, downloads, help and service policies.</span></div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="repository">
+          <div class="section-head"><span class="section-index">05</span><div><h2>Source repository</h2></div></div>
+          <p>The website code and supporting assets are organized in a GitHub repository. The codebase includes HTML pages, CSS and JavaScript files, JSON data files, images, video, audio and application-related assets.</p>
+          <div class="repo-box">
+            <div class="repo-head"><span class="repo-glyph">⌘</span><div><strong>q7vx / BSPFREEROBUX.github.io</strong><small>Website source and static assets</small></div></div>
+            <div class="repo-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>JSON</span><span>Media assets</span></div>
+            <p style="margin-top:13px;font-size:12px">Browse the repository to review the source files and follow changes to the project.</p>
+            <a class="button" href="https://github.com/q7vx/BSPFREEROBUX.github.io" target="_blank" rel="noopener noreferrer">Open repository ↗</a>
+          </div>
+        </section>
+
+        <section class="doc-section" id="getting-started">
+          <div class="section-head"><span class="section-index">06</span><div><h2>Explore Zyphor</h2></div></div>
+          <p>Start with the dashboard or browse the available pages to learn what the current version offers. Before using account features or downloading software, review the relevant policies and release information.</p>
+          <div class="bottom-cta"><div><h3>Continue exploring</h3><p>Open the platform, browse downloads or find help.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="button primary" href="/dashboard.html">Open dashboard ↗</a><a class="button" href="/download.html">Downloads</a></div></div>
+        </section>
+        <footer class="doc-footer"><span>About Zyphor · Project overview</span><span><a href="/PP.html">Privacy</a> &nbsp;·&nbsp; <a href="/TOS.html">Terms of Service</a> &nbsp;·&nbsp; <a href="/Support.html">Support</a></span></footer>
+      </div>
+    </article>
+
+    <aside>
+      <nav class="toc" aria-label="On this page">
+        <div class="toc-title">On this page</div>
+        <div class="toc-list">
+          <a href="#overview" class="active">Project overview</a>
+          <a href="#platform">Platform features</a>
+          <a href="#development">Development</a>
+          <a href="#principles">Principles</a>
+          <a href="#repository">Repository</a>
+          <a href="#getting-started">Get started</a>
+        </div>
+        <div class="toc-note">A structured overview of the project and its documented areas.</div>
+      </nav>
+      <div class="side-card"><div class="side-card-title">Quick links</div><div class="side-links"><a href="/">↗ Homepage</a><a href="/dashboard.html">↗ Dashboard</a><a href="/download.html">↗ Downloads</a><a href="/cloud.html">↗ Zyphor Cloud</a><a href="/Support.html">↗ Support</a><a href="/PP.html">↗ Privacy policy</a><a href="/TOS.html">↗ Terms of service</a></div></div>
+    </aside>
+  </div>
+
+  <footer class="site-footer"><span>© <span id="year"></span> Zyphor. All rights reserved.</span><div class="footer-links"><a href="/about.html">About</a><a href="/Support.html">Support</a><a href="/PP.html">Privacy</a><a href="/TOS.html">Terms</a><a href="https://github.com/q7vx/BSPFREEROBUX.github.io" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></footer>
+</main>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+const tocLinks = [...document.querySelectorAll(".toc-list a")];
+const sections = tocLinks.map(link => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(entry => entry.isIntersecting).sort((a,b) => b.intersectionRatio-a.intersectionRatio)[0];
+    if (!visible) return;
+    tocLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === "#" + visible.target.id));
+  }, {rootMargin:"-18% 0px -65% 0px",threshold:[0,.15,.4,.7]});
+  sections.forEach(section => observer.observe(section));
+}
+</script>
+</body>
+</html>
