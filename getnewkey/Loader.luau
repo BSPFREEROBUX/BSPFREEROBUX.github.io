@@ -573,70 +573,51 @@ local _footNote = make("TextLabel", {
     ZIndex = 3
 }, content)
 
-local keyDetails = make("Frame", {
-    Name = "KeyDetails",
-    Position = UDim2.fromOffset(0, 452),
-    Size = UDim2.new(1, 0, 0, 64),
-    BackgroundColor3 = Color3.fromRGB(15, 37, 34),
-    BorderSizePixel = 0,
+local accountGui = make("Frame", {
+    Name = "AccountTab",
+    Position = UDim2.fromOffset(22, 78),
+    Size = UDim2.new(1, -44, 1, -98),
+    BackgroundTransparency = 1,
     Visible = false,
-    ZIndex = 4
-}, content)
-make("UICorner", { CornerRadius = UDim.new(0, 11) }, keyDetails)
-make("UIStroke", { Color = Color3.fromRGB(51, 125, 96), Transparency = 0.18, Thickness = 1 }, keyDetails)
-make("TextLabel", {
-    Name = "HwidLabel",
-    Position = UDim2.fromOffset(11, 7),
-    Size = UDim2.new(0.65, -14, 0, 14),
-    BackgroundTransparency = 1,
-    Font = Enum.Font.GothamBold,
-    Text = "BOUND HWID",
-    TextColor3 = Color3.fromRGB(125, 231, 181),
-    TextSize = 9,
-    TextXAlignment = Enum.TextXAlignment.Left,
-    ZIndex = 5
-}, keyDetails)
-local hwidValue = make("TextLabel", {
-    Name = "HwidValue",
-    Position = UDim2.fromOffset(11, 24),
-    Size = UDim2.new(0.65, -14, 0, 31),
-    BackgroundTransparency = 1,
-    Font = Enum.Font.Code,
-    Text = "—",
-    TextColor3 = Color3.fromRGB(222, 248, 236),
-    TextSize = 9,
-    TextWrapped = true,
-    TextXAlignment = Enum.TextXAlignment.Left,
-    TextYAlignment = Enum.TextYAlignment.Top,
-    ZIndex = 5
-}, keyDetails)
-make("TextLabel", {
-    Name = "TimeLabel",
-    Position = UDim2.new(0.67, 0, 0, 7),
-    Size = UDim2.new(0.33, -11, 0, 14),
-    BackgroundTransparency = 1,
-    Font = Enum.Font.GothamBold,
-    Text = "TIME LEFT",
-    TextColor3 = Color3.fromRGB(125, 231, 181),
-    TextSize = 9,
-    TextXAlignment = Enum.TextXAlignment.Left,
-    ZIndex = 5
-}, keyDetails)
-local timeValue = make("TextLabel", {
-    Name = "TimeValue",
-    Position = UDim2.new(0.67, 0, 0, 25),
-    Size = UDim2.new(0.33, -11, 0, 29),
-    BackgroundTransparency = 1,
-    Font = Enum.Font.GothamBold,
-    Text = "—",
-    TextColor3 = Color3.fromRGB(222, 248, 236),
-    TextSize = 12,
-    TextWrapped = true,
-    TextXAlignment = Enum.TextXAlignment.Left,
-    TextYAlignment = Enum.TextYAlignment.Top,
-    ZIndex = 5
-}, keyDetails)
+    ZIndex = 3
+}, frame)
 
+make("TextLabel", { Name = "AccountTitle", Position = UDim2.fromOffset(0, 0), Size = UDim2.new(1, 0, 0, 28), BackgroundTransparency = 1, Font = Enum.Font.GothamBlack, Text = "Your key account", TextColor3 = Color3.fromRGB(245, 246, 255), TextSize = 23, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 4 }, accountGui)
+make("TextLabel", { Name = "AccountDescription", Position = UDim2.fromOffset(1, 32), Size = UDim2.new(1, -2, 0, 30), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = "Key status, device binding, and latest account use.", TextColor3 = Color3.fromRGB(151, 161, 192), TextSize = 11, TextWrapped = true, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 4 }, accountGui)
+
+local accountTabs = make("Frame", { Name = "Tabs", Position = UDim2.fromOffset(0, 70), Size = UDim2.new(1, 0, 0, 36), BackgroundTransparency = 1, ZIndex = 4 }, accountGui)
+local accountTabButton = make("TextButton", { Name = "AccountTabButton", Size = UDim2.new(0.5, -5, 1, 0), BackgroundColor3 = Color3.fromRGB(117, 100, 255), BorderSizePixel = 0, Font = Enum.Font.GothamBold, Text = "KEY DETAILS", TextColor3 = Color3.new(1, 1, 1), TextSize = 10, AutoButtonColor = false, ZIndex = 4 }, accountTabs)
+make("UICorner", { CornerRadius = UDim.new(0, 9) }, accountTabButton)
+local accessTabButton = make("TextButton", { Name = "AccessTabButton", Position = UDim2.new(0.5, 5, 0, 0), Size = UDim2.new(0.5, -5, 1, 0), BackgroundColor3 = Color3.fromRGB(25, 30, 49), BorderSizePixel = 0, Font = Enum.Font.GothamBold, Text = "ACCESS", TextColor3 = Color3.fromRGB(170, 178, 213), TextSize = 10, AutoButtonColor = false, ZIndex = 4 }, accountTabs)
+make("UICorner", { CornerRadius = UDim.new(0, 9) }, accessTabButton)
+
+local accountPanel = make("Frame", { Name = "AccountPanel", Position = UDim2.fromOffset(0, 118), Size = UDim2.new(1, 0, 0, 246), BackgroundColor3 = Color3.fromRGB(18, 23, 39), BorderSizePixel = 0, ZIndex = 4 }, accountGui)
+make("UICorner", { CornerRadius = UDim.new(0, 14) }, accountPanel)
+make("UIStroke", { Color = Color3.fromRGB(46, 53, 79), Transparency = 0.2, Thickness = 1 }, accountPanel)
+
+local function accountField(name, label, y, height)
+    make("TextLabel", { Name = name .. "Label", Position = UDim2.fromOffset(15, y), Size = UDim2.new(1, -30, 0, 15), BackgroundTransparency = 1, Font = Enum.Font.GothamBold, Text = label, TextColor3 = Color3.fromRGB(150, 160, 192), TextSize = 9, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 5 }, accountPanel)
+    return make("TextLabel", { Name = name, Position = UDim2.fromOffset(15, y + 17), Size = UDim2.new(1, -30, 0, height), BackgroundTransparency = 1, Font = Enum.Font.GothamMedium, Text = "—", TextColor3 = Color3.fromRGB(232, 235, 255), TextSize = 12, TextWrapped = true, TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top, ZIndex = 5 }, accountPanel)
+end
+
+local expiryValue = accountField("ExpiryValue", "TIME LEFT", 14, 30)
+local accountValue = accountField("AccountValue", "LATEST ACCOUNT USED", 68, 24)
+local lastUsedValue = accountField("LastUsedValue", "LATEST USE", 122, 24)
+local resetValue = accountField("ResetValue", "HWID RESET AVAILABLE", 176, 24)
+
+local hwidCard = make("Frame", { Name = "HwidCard", Position = UDim2.fromOffset(0, 378), Size = UDim2.new(1, 0, 0, 78), BackgroundColor3 = Color3.fromRGB(15, 37, 34), BorderSizePixel = 0, ZIndex = 4 }, accountGui)
+make("UICorner", { CornerRadius = UDim.new(0, 12) }, hwidCard)
+make("UIStroke", { Color = Color3.fromRGB(51, 125, 96), Transparency = 0.18, Thickness = 1 }, hwidCard)
+make("TextLabel", { Name = "HwidLabel", Position = UDim2.fromOffset(13, 10), Size = UDim2.new(1, -26, 0, 15), BackgroundTransparency = 1, Font = Enum.Font.GothamBold, Text = "BOUND HWID · HOLD TO REVEAL", TextColor3 = Color3.fromRGB(125, 231, 181), TextSize = 9, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 5 }, hwidCard)
+local hwidValue = make("TextButton", { Name = "HwidValue", Position = UDim2.fromOffset(13, 31), Size = UDim2.new(1, -26, 0, 34), BackgroundTransparency = 1, BorderSizePixel = 0, Font = Enum.Font.Code, Text = "••••••••••••••••", TextColor3 = Color3.fromRGB(222, 248, 236), TextSize = 10, TextWrapped = true, TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top, AutoButtonColor = false, ZIndex = 5 }, hwidCard)
+
+local accountAccessPanel = make("Frame", { Name = "AccessPanel", Position = UDim2.fromOffset(0, 118), Size = UDim2.new(1, 0, 0, 180), BackgroundColor3 = Color3.fromRGB(18, 23, 39), BorderSizePixel = 0, Visible = false, ZIndex = 4 }, accountGui)
+make("UICorner", { CornerRadius = UDim.new(0, 14) }, accountAccessPanel)
+make("UIStroke", { Color = Color3.fromRGB(46, 53, 79), Transparency = 0.2, Thickness = 1 }, accountAccessPanel)
+make("TextLabel", { Position = UDim2.fromOffset(16, 16), Size = UDim2.new(1, -32, 0, 27), BackgroundTransparency = 1, Font = Enum.Font.GothamBold, Text = "Access verified", TextColor3 = Color3.fromRGB(113, 229, 180), TextSize = 16, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 5 }, accountAccessPanel)
+make("TextLabel", { Position = UDim2.fromOffset(16, 49), Size = UDim2.new(1, -32, 0, 53), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = "This key is valid for the bound device. Your license countdown updates automatically.", TextColor3 = Color3.fromRGB(151, 161, 192), TextSize = 11, TextWrapped = true, TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top, ZIndex = 5 }, accountAccessPanel)
+local accountBackButton = make("TextButton", { Name = "BackToLogin", Position = UDim2.fromOffset(0, 470), Size = UDim2.new(1, 0, 0, 38), BackgroundColor3 = Color3.fromRGB(25, 30, 49), BorderSizePixel = 0, Font = Enum.Font.GothamBold, Text = "BACK TO KEY LOGIN", TextColor3 = Color3.fromRGB(196, 199, 255), TextSize = 10, AutoButtonColor = false, ZIndex = 4 }, accountGui)
+make("UICorner", { CornerRadius = UDim.new(0, 10) }, accountBackButton)
 local minimized = false
 local expandedSize = UDim2.fromOffset(540, 650)
 local minimizedSize = UDim2.fromOffset(540, 82)
@@ -828,19 +809,62 @@ local function parseIsoTimestamp(value)
     return nil
 end
 
-local function closeAfterSuccess()
-    task.delay(2.4, function()
-        if gui and gui.Parent then
-            tween(frame, { BackgroundTransparency = 1 }, 0.2)
-            tween(shadow, { BackgroundTransparency = 1 }, 0.2)
-            task.delay(0.22, function()
-                if gui and gui.Parent then
-                    gui:Destroy()
-                end
-            end)
-        end
-    end)
+local function showAccountTab()
+    content.Visible = false
+    accountGui.Visible = true
+    frame.Size = expandedSize
+    shadow.Size = UDim2.fromOffset(552, 662)
+    minimize.Text = "−"
+    minimized = false
 end
+
+local function setAccountTab(tab)
+    local details = tab == "details"
+    accountPanel.Visible = details
+    hwidCard.Visible = details
+    accountAccessPanel.Visible = not details
+    accountTabButton.BackgroundColor3 = details and Color3.fromRGB(117, 100, 255) or Color3.fromRGB(25, 30, 49)
+    accountTabButton.TextColor3 = details and Color3.new(1, 1, 1) or Color3.fromRGB(170, 178, 213)
+    accessTabButton.BackgroundColor3 = details and Color3.fromRGB(25, 30, 49) or Color3.fromRGB(117, 100, 255)
+    accessTabButton.TextColor3 = details and Color3.fromRGB(170, 178, 213) or Color3.new(1, 1, 1)
+end
+
+accountTabButton.MouseButton1Click:Connect(function() setAccountTab("details") end)
+accessTabButton.MouseButton1Click:Connect(function() setAccountTab("access") end)
+accountBackButton.MouseButton1Click:Connect(function() accountGui.Visible = false content.Visible = true end)
+
+local boundHwid = ""
+local function maskHwid()
+    hwidValue.Text = boundHwid == "" and "Unavailable" or string.rep("•", math.clamp(#boundHwid, 8, 32))
+end
+local function revealHwid() if boundHwid ~= "" then hwidValue.Text = boundHwid end end
+hwidValue.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then revealHwid() end
+end)
+hwidValue.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then maskHwid() end
+end)
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then maskHwid() end
+end)
+
+local function updateAccountDetails()
+    if not KEY_INFO then return end
+    local remainingMs = KEY_INFO.remainingMs
+    local expirySeconds = KEY_INFO.expiresAt and parseIsoTimestamp(KEY_INFO.expiresAt) or nil
+    if expirySeconds then
+        remainingMs = math.max(0, (expirySeconds - os.time()) * 1000)
+    elseif remainingMs ~= nil then
+        remainingMs = math.max(0, remainingMs - 1000)
+        KEY_INFO.remainingMs = remainingMs
+    end
+    expiryValue.Text = formatDuration(remainingMs)
+    accountValue.Text = tostring(KEY_INFO.lastAccount or (LocalPlayer.Name .. " (" .. tostring(LocalPlayer.UserId) .. ")"))
+    lastUsedValue.Text = tostring(KEY_INFO.lastUsedAt or "Just now")
+    resetValue.Text = tostring(KEY_INFO.hwidResetAvailableAt or "Not provided by server")
+    expiryValue.TextColor3 = remainingMs ~= nil and remainingMs <= 0 and Color3.fromRGB(255, 131, 154) or Color3.fromRGB(113, 229, 180)
+end
+task.spawn(function() while gui and gui.Parent do updateAccountDetails() task.wait(1) end end)
 
 validateButton.MouseButton1Click:Connect(function()
     if KEY_VALID then
@@ -914,6 +938,7 @@ validateButton.MouseButton1Click:Connect(function()
                 remainingMs = remainingMs,
                 durationMinutes = result.durationMinutes,
                 lastUsedAt = result.lastUsedAt,
+                lastAccount = result.lastAccount or result.account or (LocalPlayer.Name .. " (" .. tostring(LocalPlayer.UserId) .. ")"),
                 hwidResetAvailableAt = result.hwidResetAvailableAt
             }
             _G.ZyphorKeyValid = true
@@ -931,15 +956,20 @@ validateButton.MouseButton1Click:Connect(function()
                     env.ZyphorKeyRemainingMs = KEY_INFO.remainingMs
                 end)
             end
-            hwidValue.Text = KEY_INFO.hwid or "Unavailable"
-            timeValue.Text = formatDuration(KEY_INFO.remainingMs)
-            keyDetails.Visible = true
+            boundHwid = tostring(KEY_INFO.hwid or "")
+            maskHwid()
+            updateAccountDetails()
             print("correct key")
             status.Text = "correct key"
             status.TextColor3 = Color3.fromRGB(113, 229, 180)
             validateButton.Text = "ACCESS GRANTED     ✓"
             tween(validateButton, { BackgroundColor3 = Color3.fromRGB(40, 157, 119) }, 0.2)
-            closeAfterSuccess()
+            task.delay(0.65, function()
+                if gui and gui.Parent then
+                    showAccountTab()
+                    setAccountTab("details")
+                end
+            end)
         else
             status.Text = tostring(result and (result.message or result.error) or "Invalid key.")
             status.TextColor3 = Color3.fromRGB(255, 131, 154)
