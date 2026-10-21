@@ -923,6 +923,24 @@ validateButton.MouseButton1Click:Connect(function()
             return
         end
         if result and result.valid == true then
+            local inspectOk, inspectResult = pcall(function()
+                local base = getServerUrl()
+                local response = requestFunction({
+                    Url = base .. "/key-system/inspect",
+                    Method = "POST",
+                    Headers = { ["Content-Type"] = "application/json" },
+                    Body = HttpService:JSONEncode({ key = key })
+                })
+                if type(response) ~= "table" then return nil end
+                local statusCode = tonumber(response.StatusCode or response.Status or 0) or 0
+                if statusCode < 200 or statusCode >= 300 then return nil end
+                return HttpService:JSONDecode(tostring(response.Body or ""))
+            end)
+            if inspectOk and type(inspectResult) == "table" then
+                for _, field in ipairs({ "keyId", "hwid", "createdAt", "expiresAt", "remainingMs", "durationMinutes", "lastUsedAt", "lastAccount", "account", "hwidResetAvailableAt", "hwidResetRemainingMs", "valid", "expired", "disabled" }) do
+                    if inspectResult[field] ~= nil then result[field] = inspectResult[field] end
+                end
+            end
             KEY_VALID = true
             local remainingMs = result.remainingMs
             if remainingMs == nil and result.expiresAt then
