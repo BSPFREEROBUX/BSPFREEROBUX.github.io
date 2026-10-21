@@ -1,515 +1,261 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-<script async src="https://pagead.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5179004241080538" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Zyphor Store</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b16">
+<title>Zyphor Beta Tester</title>
 <script src="https://checkout.komerza.com/embed/embed.iife.js" defer></script>
-
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    if (window.Komerza) Komerza.init();
+});
+</script>
 <style>
-
-*{
-box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-body{
-margin:0;
-font-family:Inter,Arial,sans-serif;
-background:#07090d;
-color:white;
-overflow:hidden;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+:root {
+    color-scheme: dark;
+    --bg: #080b16;
+    --panel: rgba(19, 25, 46, .88);
+    --accent: #8b5cf6;
+    --accent2: #38bdf8;
+    --text: #f8fafc;
+    --muted: #a1acc4;
 }
-
-.bg{
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at top left,#5865f240,transparent 30%),
-radial-gradient(circle at bottom right,#00b0ff25,transparent 35%),
-linear-gradient(180deg,#0b0f16,#07090d);
-overflow:hidden;
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 18px;
+    background: radial-gradient(ellipse at 50% 0%, #25205a 0%, transparent 55%), var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-
-.glow1{
-position:absolute;
-width:500px;
-height:500px;
-background:#5865f220;
-filter:blur(120px);
-border-radius:50%;
-top:-100px;
-left:-100px;
+.page {
+    width: 100%;
+    max-width: 560px;
 }
-
-.glow2{
-position:absolute;
-width:450px;
-height:450px;
-background:#00b0ff18;
-filter:blur(120px);
-border-radius:50%;
-bottom:-150px;
-right:-100px;
+.brand {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
 }
-
-.store{
-position:relative;
-z-index:5;
-width:460px;
-background:rgba(18,22,30,.95);
-border:1px solid rgba(255,255,255,.06);
-backdrop-filter:blur(20px);
-border-radius:30px;
-padding:34px;
-box-shadow:
-0 20px 80px rgba(0,0,0,.55),
-0 0 0 1px rgba(255,255,255,.03) inset;
+.brand span {
+    color: var(--accent2);
 }
-
-.top{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:28px;
+.card {
+    position: relative;
+    overflow: hidden;
+    padding: 38px 30px;
+    text-align: center;
+    background: var(--panel);
+    border: 1px solid rgba(139, 92, 246, .4);
+    border-radius: 26px;
+    box-shadow: 0 25px 100px rgba(0, 0, 0, .4), 0 0 50px rgba(139, 92, 246, .08);
+    backdrop-filter: blur(18px);
+    animation: appear .7s ease both;
 }
-
-.brand{
-display:flex;
-align-items:center;
-gap:14px;
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 70%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent2), var(--accent), transparent);
 }
-
-.logo{
-width:52px;
-height:52px;
-border-radius:16px;
-background:linear-gradient(135deg,#5865f2,#6d7dff);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:24px;
-font-weight:bold;
-box-shadow:0 10px 35px rgba(88,101,242,.35);
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    margin-bottom: 23px;
+    border: 1px solid rgba(56, 189, 248, .3);
+    border-radius: 100px;
+    background: rgba(56, 189, 248, .08);
+    color: #7dd3fc;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
 }
-
-.brand-text{
-display:flex;
-flex-direction:column;
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #38bdf8;
+    box-shadow: 0 0 12px #38bdf8;
 }
-
-.brand-name{
-font-size:24px;
-font-weight:800;
+h1 {
+    font-size: clamp(30px, 7vw, 43px);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: -1.5px;
 }
-
-.brand-sub{
-font-size:13px;
-opacity:.6;
-margin-top:2px;
+h1 span {
+    background: linear-gradient(100deg, #a78bfa, #38bdf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
-
-.card{
-background:linear-gradient(180deg,#161b24,#10141b);
-border:1px solid rgba(255,255,255,.05);
-border-radius:24px;
-padding:28px;
-position:relative;
-overflow:hidden;
+.description {
+    margin: 17px auto 26px;
+    max-width: 400px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.8;
 }
-
-.card::before{
-content:"";
-position:absolute;
-top:-120px;
-right:-120px;
-width:260px;
-height:260px;
-background:#5865f215;
-border-radius:50%;
-filter:blur(10px);
+.benefits {
+    display: grid;
+    gap: 12px;
+    margin: 28px 0;
+    text-align: left;
 }
-
-.rank{
-font-size:38px;
-font-weight:900;
-letter-spacing:.5px;
+.benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 15px;
+    border: 1px solid rgba(148, 163, 184, .12);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .025);
 }
-
-.desc{
-margin-top:12px;
-line-height:1.7;
-opacity:.78;
-font-size:15px;
+.check {
+    display: grid;
+    flex: 0 0 27px;
+    width: 27px;
+    height: 27px;
+    place-items: center;
+    border-radius: 9px;
+    background: rgba(139, 92, 246, .17);
+    color: #c4b5fd;
+    font-weight: 900;
 }
-
-.features{
-margin-top:24px;
-display:flex;
-flex-direction:column;
-gap:12px;
+.benefit strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
 }
-
-.feature{
-background:rgba(255,255,255,.03);
-border:1px solid rgba(255,255,255,.04);
-padding:14px;
-border-radius:14px;
-font-size:14px;
-display:flex;
-align-items:center;
-gap:10px;
+.benefit p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
 }
-
-.check{
-width:24px;
-height:24px;
-border-radius:50%;
-background:#5865f2;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:13px;
-font-weight:bold;
-flex-shrink:0;
+.purchase {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 25px;
 }
-
-.price-wrap{
-margin-top:30px;
-display:flex;
-align-items:flex-end;
-gap:8px;
+.purchase button {
+    width: 100%;
+    min-height: 55px;
+    border: 0;
+    border-radius: 14px;
+    background: linear-gradient(100deg, #7c3aed, #6366f1, #0284c7);
+    color: white;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 28px rgba(99, 102, 241, .25);
+    transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
 }
-
-.price{
-font-size:54px;
-font-weight:900;
-line-height:1;
+.purchase button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.12);
+    box-shadow: 0 12px 35px rgba(99, 102, 241, .4);
 }
-
-.currency{
-opacity:.65;
-font-size:18px;
-margin-bottom:6px;
+.purchase button:active {
+    transform: scale(.985);
 }
-
-.buy-btn{
-width:100%;
-margin-top:28px;
-padding:18px;
-border:none;
-border-radius:18px;
-background:linear-gradient(135deg,#5865f2,#7282ff);
-color:white;
-font-size:18px;
-font-weight:800;
-cursor:pointer;
-transition:.2s;
-box-shadow:0 15px 35px rgba(88,101,242,.35);
+.purchase button:focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 4px;
 }
-
-.buy-btn:hover{
-transform:translateY(-2px);
+.note {
+    margin-top: 16px;
+    color: #7f8ba5;
+    font-size: 11px;
+    line-height: 1.7;
 }
-
-.buy-btn:active{
-transform:scale(.98);
+.footer {
+    margin-top: 23px;
+    text-align: center;
+    color: #75809a;
+    font-size: 12px;
 }
-
-.buy-btn:disabled{
-opacity:.5;
-cursor:not-allowed;
-transform:none;
-box-shadow:none;
+.footer a {
+    color: #a5b4fc;
+    text-decoration: none;
 }
-
-.status{
-margin-top:18px;
-min-height:22px;
-text-align:center;
-font-size:14px;
-opacity:.78;
-word-break:break-word;
+.footer a:hover {
+    text-decoration: underline;
 }
-
-.footer{
-margin-top:24px;
-text-align:center;
-font-size:12px;
-opacity:.45;
+@keyframes appear {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
+@media (max-width: 420px) {
+    .card { padding: 30px 19px; border-radius: 21px; }
+    .brand { margin-bottom: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
 </style>
 </head>
 <body>
-
-<div class="bg">
-<div class="glow1"></div>
-<div class="glow2"></div>
-</div>
-
-<div class="store">
-
-<div class="top">
-
-<div class="brand">
-
-<div class="logo">
-Z
-</div>
-
-<div class="brand-text">
-
-<div class="brand-name">
-Zyphor
-</div>
-
-<div class="brand-sub">
-Official VIP Store
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="rank">
-VIP
-</div>
-
-<div class="desc">
-Unlock permanent VIP permissions directly linked to your Zyphor account with instant automated delivery.
-</div>
-
-<div class="features">
-
-<div class="feature">
-<div class="check">✓</div>
-<div>Permanent VIP permissions</div>
-</div>
-
-<div class="feature">
-<div class="check">✓</div>
-<div>Automatic instant delivery</div>
-</div>
-
-<div class="feature">
-<div class="check">✓</div>
-<div>One-time purchase only</div>
-</div>
-
-<div class="feature">
-<div class="check">✓</div>
-<div>Works directly with your account</div>
-</div>
-
-</div>
-
-<div class="price-wrap">
-<div class="price">$3</div>
-<div class="currency">USD</div>
-</div>
-
-<button
-id="buyBtn"
-class="buy-btn"
->
-Buy VIP
-</button>
-
-<div class="status" id="status">
-Loading...
-</div>
-
-</div>
-
-<div class="footer">
-Powered by Zyphor
-</div>
-
-</div>
-
-<script>
-
-let BACKEND=""
-
-function debug(msg){
-
-console.log(msg)
-
-document.getElementById("status").innerText=msg
-
-}
-
-async function loadBackend(){
-
-const txt=await fetch("/server.txt").then(r=>r.text())
-
-BACKEND=txt.trim()
-
-debug("Backend loaded")
-
-}
-
-async function trackPage(page){
-
-const token=localStorage.getItem("Token")
-
-if(!token) return
-
-try{
-
-await fetch(BACKEND+"/track/page",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
-body:JSON.stringify({page})
-})
-
-}catch(err){
-
-console.error(err)
-
-}
-
-}
-
-async function checkLogin(){
-
-const token=localStorage.getItem("Token")
-
-if(!token){
-
-location.href="/login.html"
-
-return null
-
-}
-
-const me=await fetch(
-BACKEND+"/me",
-{
-headers:{
-Authorization:token
-}
-}
-).then(r=>r.json())
-
-if(me.error){
-
-localStorage.removeItem("Token")
-
-location.href="/login.html"
-
-return null
-
-}
-
-return me
-
-}
-
-async function waitForKomerza(){
-
-let tries=0
-
-while(
-typeof window.Komerza === "undefined" &&
-tries < 100
-){
-
-tries++
-
-await new Promise(r=>setTimeout(r,100))
-
-}
-
-return typeof window.Komerza !== "undefined"
-
-}
-
-async function init(){
-
-await loadBackend()
-
-await trackPage("store")
-
-const me=await checkLogin()
-
-if(!me) return
-
-const buyBtn=document.getElementById("buyBtn")
-
-debug("Logged in as "+me.username)
-
-if(me.permissions?.vip){
-
-buyBtn.disabled=true
-buyBtn.innerText="Already VIP"
-
-debug("You already own VIP")
-
-return
-
-}
-
-const loaded=await waitForKomerza()
-
-if(!loaded){
-
-debug("Komerza failed to load")
-
-return
-
-}
-
-debug("Store ready")
-
-buyBtn.onclick=()=>{
-
-debug("Opening checkout...")
-
-try{
-
-window.Komerza.open({
-theme:"dark",
-items:[
-{
-productId:"e4ec9c04-e3a4-4bd5-be7d-41b4ce82c90c",
-variantId:"1ac7a839-ff08-4aed-8eb7-b6ff898d738b",
-quantity:1
-}
-],
-metadata:{
-username:me.username
-}
-})
-
-}catch(err){
-
-console.error(err)
-
-debug("Checkout failed")
-
-}
-
-}
-
-}
-
-window.addEventListener("DOMContentLoaded",init)
-
-</script>
-
+<main class="page">
+    <div class="brand">ZYPHOR<span>.</span></div>
+    <section class="card">
+        <div class="badge"><span class="dot"></span> Exclusive Membership</div>
+        <h1>Become a <span>Beta Tester</span></h1>
+        <p class="description">Get closer to the future of Zyphor. Join the beta tester community and experience new features before everyone else.</p>
+        <div class="benefits">
+            <div class="benefit">
+                <div class="check">✓</div>
+                <div>
+                    <strong>Early Access</strong>
+                    <p>Access eligible new Zyphor features up to one month before their public release.</p>
+                </div>
+            </div>
+            <div class="benefit">
+                <div class="check">✓</div>
+                <div>
+                    <strong>Be Among the First</strong>
+                    <p>Explore new additions and improvements before the wider community.</p>
+                </div>
+            </div>
+            <div class="benefit">
+                <div class="check">✓</div>
+                <div>
+                    <strong>Exclusive Beta Tester Status</strong>
+                    <p>Show that you're part of the Zyphor beta testing community.</p>
+                </div>
+            </div>
+        </div>
+        <div class="purchase">
+            <button
+                type="button"
+                data-kmrza-product-id="ead023ac-6758-459e-ae1a-4d7f451c2ed7"
+                data-kmrza-variant-id="8a4ccd2c-5f03-4be2-9de5-6f48a4c787f9"
+                data-kmrza-quantity="1"
+                data-kmrza-theme="auto"
+            >Become a Beta Tester →</button>
+        </div>
+        <p class="note">Early access applies to eligible features and may vary by release. Check the checkout for the current price and purchase terms.</p>
+    </section>
+    <footer class="footer">Powered by <a href="https://zyphor.cc">Zyphor</a> · <a href="https://zyphor.cc">Visit Zyphor</a></footer>
+</main>
 </body>
 </html>
