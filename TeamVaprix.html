@@ -41044,12 +41044,82 @@
 .vfx-preset-40998{--vfx-hue:303.31;--vfx-angle:30deg;--vfx-speed:16.1s;--vfx-glow:0.35;--vfx-sat:1.68;--vfx-blur:13px;}
 .vfx-preset-40999{--vfx-hue:80.82;--vfx-angle:72deg;--vfx-speed:16.8s;--vfx-glow:0.48;--vfx-sat:0.94;--vfx-blur:32px;}
 </style>
+<style id="public-team-sidebar-styles">
+.public-team-toggle{position:fixed;right:22px;bottom:22px;z-index:145;display:none;align-items:center;gap:10px;padding:12px 15px;border:1px solid rgba(105,232,255,.38);border-radius:16px;background:linear-gradient(125deg,rgba(16,31,53,.96),rgba(23,18,48,.96));box-shadow:0 14px 42px rgba(0,0,0,.4),0 0 28px rgba(105,232,255,.08);color:#ecfaff;font-size:11px;font-weight:800;cursor:pointer;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .22s,border-color .22s,box-shadow .22s}
+.public-team-toggle:hover{transform:translateY(-3px);border-color:rgba(105,232,255,.7);box-shadow:0 18px 48px rgba(0,0,0,.45),0 0 34px rgba(105,232,255,.13)}
+.public-team-toggle svg{width:17px;height:17px;color:#85edff}
+.public-team-count{display:grid;place-items:center;min-width:21px;height:21px;padding:0 5px;border-radius:7px;background:rgba(105,232,255,.12);border:1px solid rgba(105,232,255,.22);font:10px 'DM Mono',monospace;color:#a8f4ff}
+.public-team-backdrop{position:fixed;inset:0;z-index:158;background:rgba(1,3,10,.65);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.public-team-backdrop.open{opacity:1;visibility:visible}
+.public-team-sidebar{position:fixed;z-index:159;top:108px;right:24px;width:272px;max-height:calc(100vh - 132px);display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(139,178,255,.24);border-radius:22px;background:linear-gradient(155deg,rgba(15,22,42,.96),rgba(7,11,24,.97));box-shadow:0 28px 90px rgba(0,0,0,.43),inset 0 1px rgba(255,255,255,.06);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);color:var(--text)}
+.public-team-sidebar::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:radial-gradient(ellipse at 0 0,rgba(105,232,255,.1),transparent 48%),radial-gradient(ellipse at 100% 70%,rgba(177,138,255,.08),transparent 45%)}
+.public-team-head{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:19px 17px 15px;border-bottom:1px solid rgba(151,172,255,.13)}
+.public-team-heading{min-width:0}.public-team-kicker{display:flex;align-items:center;gap:7px;color:#8e9fbe;font:9px 'DM Mono',monospace;letter-spacing:.15em;text-transform:uppercase}.public-team-kicker::before{content:"";width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:#8dffd4;box-shadow:0 0 11px rgba(141,255,212,.7)}
+.public-team-head h2{font:700 21px/1.2 'Space Grotesk',sans-serif;letter-spacing:-.05em;margin:8px 0 0}.public-team-head p{font-size:10px;line-height:1.7;color:#8f9fbe;margin:7px 0 0}
+.public-team-close{display:none;flex:0 0 34px;width:34px;height:34px;place-items:center;border:1px solid rgba(151,172,255,.18);border-radius:11px;background:rgba(255,255,255,.035);cursor:pointer;color:#dce8ff}.public-team-close svg{width:16px;height:16px}
+.public-team-list{position:relative;overflow:auto;min-height:0;padding:12px;display:grid;gap:9px;scrollbar-width:thin;scrollbar-color:rgba(126,159,228,.35) transparent}
+.public-team-group-label{padding:3px 4px 0;color:#7485a8;font:9px 'DM Mono',monospace;letter-spacing:.15em;text-transform:uppercase}
+.public-team-person{position:relative;display:flex;align-items:center;gap:10px;min-width:0;padding:11px;border:1px solid rgba(143,165,231,.13);border-radius:14px;background:rgba(255,255,255,.025);transition:transform .2s,border-color .2s,background .2s}
+.public-team-person:hover{transform:translateY(-2px);border-color:rgba(105,232,255,.35);background:rgba(105,232,255,.045)}
+.public-team-person:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.public-team-avatar{display:grid;place-items:center;flex:0 0 37px;width:37px;height:37px;border-radius:12px;border:1px solid rgba(133,206,255,.24);background:linear-gradient(145deg,rgba(83,219,255,.16),rgba(127,105,255,.19));font:700 11px 'Space Grotesk',sans-serif;letter-spacing:-.03em;color:#dffaff}
+.public-team-person[data-role="owner"] .public-team-avatar{border-color:rgba(177,138,255,.43);background:linear-gradient(145deg,rgba(177,138,255,.22),rgba(105,232,255,.14));color:#eadfff}
+.public-team-person[data-role="admin"] .public-team-avatar{border-color:rgba(255,145,214,.27);background:linear-gradient(145deg,rgba(255,123,213,.12),rgba(125,95,255,.14))}
+.public-team-person-copy{display:block;flex:1;min-width:0}.public-team-person-name{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px;line-height:1.45;font-weight:800;color:#eef5ff;overflow-wrap:anywhere}.public-team-person-role{display:block;margin-top:3px;color:#94a2c2;font-size:9px;line-height:1.55;overflow-wrap:anywhere}
+.public-team-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 5px;border-radius:6px;border:1px solid rgba(105,232,255,.2);background:rgba(105,232,255,.07);color:#a7efff;font:8px 'DM Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
+.public-team-arrow{flex:0 0 13px;width:13px;height:13px;color:#7086ad;transition:transform .2s,color .2s}.public-team-person:hover .public-team-arrow{transform:translate(2px,-2px);color:#9eecff}
+.public-team-nested{margin:-3px 0 1px 19px;padding-left:12px;border-left:1px solid rgba(177,138,255,.28)}.public-team-nested .public-team-person{background:rgba(177,138,255,.035)}
+.public-team-official{position:relative;margin:0 12px 12px;padding:13px;border:1px solid rgba(105,232,255,.24);border-radius:14px;background:linear-gradient(125deg,rgba(52,157,190,.1),rgba(105,93,201,.1))}
+.public-team-official-head{display:flex;align-items:center;gap:7px;color:#b2f2ff;font:9px 'DM Mono',monospace;font-weight:500;letter-spacing:.11em;text-transform:uppercase}.public-team-official-head svg{width:14px;height:14px;flex-shrink:0}
+.public-team-official p{margin:7px 0 0;color:#a4b3d0;font-size:10px;line-height:1.75}.public-team-official strong{color:#e8faff;font-weight:800}
+@media(min-width:1840px){.public-team-sidebar{top:108px;right:max(22px,calc((100vw - 1790px)/2));width:260px;max-height:calc(100vh - 130px)}.public-team-toggle{display:none!important}.public-team-backdrop{display:none!important}}
+@media(max-width:1839px){.public-team-sidebar{top:0;right:0;bottom:0;width:min(360px,calc(100vw - 18px));max-height:none;border-radius:22px 0 0 22px;transform:translateX(105%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.75,.2,1),visibility .28s;z-index:160}.public-team-sidebar.open{transform:translateX(0);visibility:visible}.public-team-head{padding:22px 18px 17px}.public-team-close{display:grid}.public-team-list{padding:14px}.public-team-official{margin:0 14px 14px}.public-team-toggle{display:inline-flex}}
+@media(max-width:420px){.public-team-toggle{right:14px;bottom:14px;padding:11px 12px;border-radius:14px}.public-team-head h2{font-size:20px}.public-team-list{gap:8px}.public-team-person{padding:10px}}
+@media(prefers-reduced-motion:reduce){.public-team-toggle,.public-team-sidebar,.public-team-person,.public-team-arrow{transition:none!important}}
+</style>
 </head>
 <body>
 <div id="scrollProgress"></div>
 <div id="cursorGlow"></div>
 <div id="auroraLayer" aria-hidden="true"></div>
 <canvas id="starfield" aria-hidden="true"></canvas>
+<button class="public-team-toggle" id="publicTeamToggle" type="button" aria-controls="publicTeamSidebar" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 4.2a4 4 0 0 1 0 7.6M18 14.7a4 4 0 0 1 4 4V20"/></svg>
+  <span>Public team</span><span class="public-team-count">6</span>
+</button>
+<div class="public-team-backdrop" id="publicTeamBackdrop" aria-hidden="true"></div>
+<aside class="public-team-sidebar" id="publicTeamSidebar" aria-label="Public Team Vaprix staff directory">
+  <div class="public-team-head">
+    <div class="public-team-heading"><div class="public-team-kicker">Official directory</div><h2>Meet the team<span class="gradient-text">.</span></h2><p>Publicly listed Team Vaprix workers</p></div>
+    <button class="public-team-close" id="publicTeamClose" type="button" aria-label="Close team directory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="public-team-list" aria-label="Team member profiles">
+    <div class="public-team-group-label">Leadership</div>
+    <a class="public-team-person" data-role="owner" href="https://zyphor.cc/profile.html?username=Somin" target="_blank" rel="noopener noreferrer" aria-label="View Somin's Zyphor profile, Owner and Founder of Team Vaprix">
+      <span class="public-team-avatar" aria-hidden="true">S</span><span class="public-team-person-copy"><span class="public-team-person-name">Somin <span class="public-team-tag">Owner</span></span><span class="public-team-person-role">Owner &amp; Founder of Team Vaprix</span></span><svg class="public-team-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </a>
+    <div class="public-team-nested">
+      <a class="public-team-person" href="https://zyphor.cc/profile.html?username=sohaib" target="_blank" rel="noopener noreferrer" aria-label="View sohaib's Zyphor profile, Partner Manager and Beta Tester">
+        <span class="public-team-avatar" aria-hidden="true">so</span><span class="public-team-person-copy"><span class="public-team-person-name">sohaib</span><span class="public-team-person-role">Partner Manager · Beta Tester</span></span><svg class="public-team-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      </a>
+    </div>
+    <a class="public-team-person" href="https://zyphor.cc/profile.html?username=BossSquirtle" target="_blank" rel="noopener noreferrer" aria-label="View BossSquirtle's Zyphor profile, Head Developer">
+      <span class="public-team-avatar" aria-hidden="true">BS</span><span class="public-team-person-copy"><span class="public-team-person-name">BossSquirtle</span><span class="public-team-person-role">Head Developer</span></span><svg class="public-team-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </a>
+    <div class="public-team-group-label">Administration</div>
+    <a class="public-team-person" data-role="admin" href="https://zyphor.cc/profile.html?username=TRISH_PRO1" target="_blank" rel="noopener noreferrer" aria-label="View TRISH_PRO1's Zyphor profile, Administration Team">
+      <span class="public-team-avatar" aria-hidden="true">TP</span><span class="public-team-person-copy"><span class="public-team-person-name">TRISH_PRO1</span><span class="public-team-person-role">Administration Team</span></span><svg class="public-team-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </a>
+    <div class="public-team-group-label">Moderation &amp; Support</div>
+    <a class="public-team-person" href="https://zyphor.cc/profile.html?username=Janno1010" target="_blank" rel="noopener noreferrer" aria-label="View Janno1010's Zyphor profile, Head Moderator, Head Support and Beta Tester">
+      <span class="public-team-avatar" aria-hidden="true">J</span><span class="public-team-person-copy"><span class="public-team-person-name">Janno1010</span><span class="public-team-person-role">Head Mod &amp; Head Support</span><span class="public-team-tag" style="margin-top:6px">Beta Tester</span></span><svg class="public-team-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </a>
+    <a class="public-team-person" href="https://zyphor.cc/profile.html?username=Mstrboksy" target="_blank" rel="noopener noreferrer" aria-label="View Mstrboksy's Zyphor profile, Support">
+      <span class="public-team-avatar" aria-hidden="true">M</span><span class="public-team-person-copy"><span class="public-team-person-name">Mstrboksy</span><span class="public-team-person-role">Support</span></span><svg class="public-team-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </a>
+  </nav>
+  <div class="public-team-official"><div class="public-team-official-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.5 3.1 7.6 7.5 9.5 4.4-1.9 7.5-5 7.5-9.5V6L12 3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Official source</div><p><strong>This is the only official source</strong> for Team Vaprix’s publicly listed staff and team roles. Profile links open on Zyphor.</p></div>
+</aside>
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="#top" aria-label="Team Vaprix home">
@@ -42074,6 +42144,35 @@
   const menuToggle = document.getElementById('menuToggle');
   const navLinks = document.getElementById('navLinks');
   const toast = document.getElementById('toast');
+  const publicTeamSidebar = document.getElementById('publicTeamSidebar');
+  const publicTeamToggle = document.getElementById('publicTeamToggle');
+  const publicTeamClose = document.getElementById('publicTeamClose');
+  const publicTeamBackdrop = document.getElementById('publicTeamBackdrop');
+  const setPublicTeamOpen = open => {
+    if (!publicTeamSidebar || !publicTeamToggle || !publicTeamBackdrop) return;
+    const mobileDrawer = window.matchMedia('(max-width: 1839px)').matches;
+    publicTeamSidebar.classList.toggle('open', open && mobileDrawer);
+    publicTeamBackdrop.classList.toggle('open', open && mobileDrawer);
+    publicTeamToggle.setAttribute('aria-expanded', String(open && mobileDrawer));
+    publicTeamBackdrop.setAttribute('aria-hidden', String(!(open && mobileDrawer)));
+    document.body.style.overflow = open && mobileDrawer ? 'hidden' : '';
+  };
+  publicTeamToggle?.addEventListener('click', () => setPublicTeamOpen(!publicTeamSidebar.classList.contains('open')));
+  publicTeamClose?.addEventListener('click', () => setPublicTeamOpen(false));
+  publicTeamBackdrop?.addEventListener('click', () => setPublicTeamOpen(false));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && publicTeamSidebar?.classList.contains('open')) setPublicTeamOpen(false);
+  });
+  window.addEventListener('resize', () => {
+    if (!window.matchMedia('(max-width: 1839px)').matches) {
+      publicTeamSidebar?.classList.remove('open');
+      publicTeamBackdrop?.classList.remove('open');
+      publicTeamToggle?.setAttribute('aria-expanded', 'false');
+      if (publicTeamBackdrop) publicTeamBackdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  }, { passive: true });
+
   let toastTimer;
   const showToast = (message) => {
     toast.textContent = message;
