@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5179004241080538" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5179004241080538" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyphor.cc — Dashboard</title>
+<link rel="icon" type="image/png" href="/Logo1.png">
+<meta name="theme-color" content="#05070c">
+<meta name="description" content="Your Zyphor account dashboard for messages, wallet, cloud storage, integrations and account settings.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboardcss.css">
+
+</head>
+<body>
+<div id="banScreen" class="ban-screen" style="display:none">
+  <div class="ban-card">
+    <div class="ban-icon">!</div>
+    <h1>Account Banned</h1>
+    <p id="banMessageText">Your account has been blocked from using Zyphor.</p>
+    <div class="ban-meta"><b>Reason</b><span id="banReasonText">No reason provided</span><b style="margin-top:12px">Status</b><span id="banExpiryText">Permanent</span></div>
+    <div class="ban-actions"><button type="button" onclick="localStorage.removeItem('Token');location.href='login.html'">Sign out</button><button type="button" onclick="location.reload()">Check again</button></div>
+  </div>
+</div>
+
+<div class="layout">
+
+<aside class="sidebar">
+    <div class="logo">
+        <img src="https://Zyphor.cc/Logo1.png">
+        <h2>ZYPHOR</h2>
+        <div class="logoBadge"></div>
+    </div>
+
+    <nav class="nav">
+        <a class="item active" href="#">
+            <span class="zy-emoji cyan">⌂</span>
+            <span class="itemText">Dashboard</span>
+        </a>
+
+        <a class="item" href="SquirtleEvent.html">
+            <span class="zy-emoji">🐢</span>
+            <span class="itemText">Squirtle Event</span>
+        </a>
+
+        <a class="item" href="#" onclick="goProfile(); return false;">
+            <span class="zy-emoji purple">◉</span>
+            <span class="itemText">Profile</span>
+        </a>
+
+        <a class="item" href="dms.html">
+            <span class="zy-emoji">✦</span>
+            <span class="itemText">Messages</span>
+        </a>
+
+        <a class="item" href="Wallet.html">
+            <span class="zy-emoji green">◈</span>
+            <span class="itemText">Wallet</span>
+        </a>
+
+        <a class="item" href="Cloud.html">
+            <span class="zy-emoji cyan">☁</span>
+            <span class="itemText">Cloud</span>
+        </a>
+
+        <a class="item" href="download.html">
+            <span class="zy-emoji">↓</span>
+            <span class="itemText">App Center</span>
+        </a>
+
+        <a class="item" href="#" onclick="openSupport(); return false;">
+            <span class="zy-emoji purple">?</span>
+            <span class="itemText">Support</span>
+        </a>
+
+        <a class="item" href="Settings.html">
+            <span class="zy-emoji">⚙</span>
+            <span class="itemText">Settings</span>
+        </a>
+
+        <a id="adminNavItem" class="item" href="#" onclick="openAdminCenter(); return false;" style="display:none">
+            <span class="zy-emoji red">◆</span>
+            <span class="itemText">Admin Center</span>
+        </a>
+    </nav>
+
+    <div class="bottom">
+        <a class="item logoutItem" href="#" onclick="logout(); return false;">
+            <span class="zy-emoji red">↪</span>
+            <span class="itemText">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<main class="main">
+
+    <div id="globalSiteMessages"></div>
+
+    <div class="top">
+        <div class="welcome">
+            <h1 id="dashboardGreeting">Welcome back.</h1>
+            <p>Your central hub for everything Zyphor.</p>
+            <div class="dashboard-meta"><span class="dashboard-date"><span class="dashboard-meta-dot"></span><span id="dashboardDate">Loading date…</span></span><span class="dashboard-meta-divider"></span><span class="dashboard-shortcut-hint">Quick access <kbd>Ctrl K</kbd></span></div>
+        </div>
+
+        <div class="topActions">
+            <button class="commandLauncher" id="commandLauncher" type="button" onclick="openCommandPalette()" aria-haspopup="dialog" aria-controls="commandOverlay"><span class="commandLauncherIcon" aria-hidden="true">⌕</span><span class="commandLauncherText">Search anything</span><kbd>Ctrl K</kbd></button>
+            <button class="settingsLauncher" type="button" onclick="toggleThemeDrawer()"><span aria-hidden="true">◐</span> Customize</button>
+            <div class="profile">
+            <div class="avatar-shell" id="avatarShell">
+                <div class="avatar" id="avatar" onclick="selectPfp()" title="Click to change profile picture">
+                    <img id="avatarImage" style="display:none">
+                    <div id="avatarUploadText">+</div>
+                </div>
+            </div>
+
+            <input
+                type="file"
+                id="pfpInput"
+                accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif"
+                style="display:none"
+                onchange="uploadPfp(event)"
+            >
+
+            <div class="profileMeta">
+                <b id="profileName">Loading...</b>
+                <span class="profileStatus">Online</span>
+                <span class="subscriptionPill" id="subscriptionPill">
+                    <span class="dot"></span>
+                    <span id="subscriptionText">No Subscription</span>
+                </span>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+
+        <div class="leftcol">
+
+            <div class="card hero">
+                <div class="heroTop">
+                    <div class="heroBrand">
+                        <span class="heroDot"></span>
+                        ZYPHOR CONTROL CENTER
+                    </div>
+                </div>
+
+                <h2>Welcome to Zyphor.</h2>
+                <p>Manage your account, messages, cloud storage, wallet, events, applications and everything else from one place.</p>
+
+                <div class="heroSubscription" id="heroSubscription">
+                    <span class="subDot"></span>
+                    <span id="heroSubscriptionText">Account Active</span>
+                </div>
+            </div>
+
+            <a href="SquirtleEvent.html" class="squirtleDashCard">
+                <div class="squirtleDashIcon">🐢</div>
+
+                <div>
+                    <div class="squirtleDashEyebrow">LIVE GLOBAL EVENT</div>
+                    <h2>Squirtle Event</h2>
+                    <p>Team up with everyone and defeat the Squirtle Boss.</p>
+                </div>
+
+                <div class="squirtleDashArrow">→</div>
+            </a>
+
+            <div class="stats">
+
+                <div class="card stat">
+                    <div class="statHeader">
+                        <h3>Wallet / Zyphium</h3>
+                        <div class="statIcon">Z</div>
+                    </div>
+                    <h1 id="walletBalance">Z 0</h1>
+                    <div class="statMeta">Zyphium account</div>
+                </div>
+
+                <div class="card stat">
+                    <div class="statHeader">
+                        <h3>Messages</h3>
+                        <div class="statIcon">✦</div>
+                    </div>
+                    <h1 id="messageCount">0</h1>
+                    <div class="statMeta">Unread messages</div>
+                </div>
+
+                <div class="card stat">
+                    <div class="statHeader">
+                        <h3>Discord</h3>
+                        <div class="statIcon">◌</div>
+                    </div>
+                    <h1 id="discordStatValue" class="statUnlinked">Not linked</h1>
+                    <div class="statMeta" id="discordStatMeta">Zyphor Discord</div>
+                </div>
+
+                <div class="card stat">
+                    <div class="statHeader">
+                        <h3>Roblox</h3>
+                        <div class="statIcon">▣</div>
+                    </div>
+                    <h1 id="robloxStatValue" class="statUnlinked">Not linked</h1>
+                    <div class="statMeta" id="robloxStatMeta">Roblox account</div>
+                </div>
+
+            </div>
+
+            <div class="integrationGrid">
+
+                <div class="card discordCard">
+
+                    <div class="sectionHeader">
+                        <div class="iconTitle">
+                            <div class="titleIcon">◌</div>
+                            <div>
+                                <h2>Discord</h2>
+                                <div class="sectionSubtitle">Manage your Zyphor Discord connection</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="linkCodeBox" class="linkCodeBox">
+                        Loading...
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="sectionHeader">
+                        <div class="iconTitle">
+                            <div class="titleIcon">▣</div>
+                            <div>
+                                <h2>Roblox</h2>
+                                <div class="sectionSubtitle">View the Roblox account linked to your Zyphor profile</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="robloxBox" class="robloxBox">
+                        Loading...
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="rightcol">
+
+            <div class="card">
+
+                <div class="notificationsHeader">
+                    <div class="notificationTitle">
+                        <div class="titleIcon">✦</div>
+                        <div>
+                            <h2>Notifications</h2>
+                            <div class="sectionSubtitle">Recent activity on your account</div>
+                        </div>
+                    </div>
+
+                    <div class="notificationHeaderActions">
+                        <span class="notificationBadge" id="notificationBadge"></span>
+                        <button id="readAllNotificationsButton" class="notificationReadAll" type="button" onclick="readAllNotifications()">Read All Notifications</button>
+                    </div>
+                </div>
+
+                <div id="notificationList" class="list" style="margin-top:17px">
+                    <div class="row emptyState">Loading...</div>
+                </div>
+
+            </div>
+
+            <div class="card changelog">
+
+                <div class="cardHeader">
+                    <div>
+                        <div class="cardSubtitle">LATEST RELEASE</div>
+                        <h2 style="margin-top:4px">Changelog</h2>
+                    </div>
+
+                    <div id="clVersion" class="versionButton"></div>
+                </div>
+
+                <div id="cl_box" class="timeline"></div>
+
+                <div class="changeFooter">
+                    <button class="navButton" onclick="prevCL()">← Previous</button>
+                    <button class="navButton" onclick="nextCL()">Next →</button>
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="sectionHeader">
+                    <div class="iconTitle">
+                        <div class="titleIcon">✧</div>
+                        <div>
+                            <h2>Quick Actions</h2>
+                            <div class="sectionSubtitle">Jump into your most used areas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quickActions">
+
+                    <a class="quickAction" href="#" onclick="toggleThemeDrawer(); return false;">
+                        <span class="zy-emoji cyan">✦</span>
+                        <span class="quickActionText">
+                            <span class="quickActionTitle">Customize Appearance</span>
+                            <span class="quickActionDescription">Control your dashboard theme</span>
+                        </span>
+                        <span class="quickArrow">→</span>
+                    </a>
+
+                    <a class="quickAction" href="#" onclick="openSupport(); return false;">
+                        <span class="zy-emoji purple">?</span>
+                        <span class="quickActionText">
+                            <span class="quickActionTitle">Contact Support</span>
+                            <span class="quickActionDescription">Get help from Zyphor</span>
+                        </span>
+                        <span class="quickArrow">→</span>
+                    </a>
+
+                    <a class="quickAction" href="download.html">
+                        <span class="zy-emoji green">↓</span>
+                        <span class="quickActionText">
+                            <span class="quickActionTitle">App Center</span>
+                            <span class="quickActionDescription">View Zyphor apps</span>
+                        </span>
+                        <span class="quickArrow">→</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<footer class="zyphor-footer" aria-label="Zyphor site information">
+    <div class="zyphor-footer-main">
+        <a class="zyphor-footer-brand" href="https://zyphor.cc" aria-label="Zyphor home">
+            <img src="/Logo1.png" alt="Zyphor logo" loading="lazy">
+            <span><strong>ZYPHOR<span class="zyphor-footer-dot">.CC</span></strong><small>Your digital universe</small></span>
+        </a>
+        <nav class="zyphor-footer-links" aria-label="Footer navigation">
+            <a href="https://zyphor.cc">Home</a>
+            <a href="download.html">Downloads</a>
+            <a href="tos.html">Terms of Service</a>
+            <a href="pp.html">Privacy Policy</a>
+            <a href="#" onclick="openSupport();return false;">Support</a>
+        </nav>
+    </div>
+    <div class="zyphor-footer-bottom">
+        <span class="zyphor-footer-copy">© <span id="zyphorFooterYear">2026</span> Zyphor.cc. All rights reserved.</span>
+        <span class="zyphor-footer-credit">Made with care by <strong>Team Vaprix</strong></span>
+        <span class="zyphor-footer-legal">By using Zyphor, you agree to our <a href="tos.html">Terms of Service</a> and <a href="pp.html">Privacy Policy</a>.</span>
+    </div>
+</footer>
+
+<div id="themeOverlay" class="themeOverlay" onclick="closeThemeDrawer()"></div>
+
+<aside id="themeDrawer" class="themeDrawer" aria-hidden="true">
+    <div class="themeDrawerHeader">
+        <div class="themeDrawerTitle">
+            <div class="themeDrawerTitleIcon">✦</div>
+            <div>
+                <h2>Appearance Studio</h2>
+                <p>Everything here is saved locally in your browser.</p>
+            </div>
+        </div>
+        <button class="themeDrawerClose" type="button" onclick="closeThemeDrawer()">×</button>
+    </div>
+
+    <div class="themeDrawerBody">
+
+        <div class="themeSection">
+            <h3>Presets</h3>
+            <div class="themeGrid">
+                <div class="themeField full">
+                    <label>Preset</label>
+                    <select id="themePreset">
+                        <option value="custom">Custom</option>
+                        <option value="midnight">Midnight Violet</option>
+                        <option value="aurora">Aurora Purple</option>
+                        <option value="crimson">Crimson Night</option>
+                        <option value="frost">Frosted Glass</option>
+                        <option value="mono">Pure Monochrome</option>
+                        <option value="halloween">Halloween Haunt — Pumpkins, Zombies &amp; Skeletons</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="themeSection">
+            <h3>Colors</h3>
+            <div class="themeGrid">
+                <div class="themeField">
+                    <label>Primary</label>
+                    <input id="themeAccent" type="color" value="#9b6cff">
+                </div>
+                <div class="themeField">
+                    <label>Secondary</label>
+                    <input id="themeAccent2" type="color" value="#52d9ff">
+                </div>
+                <div class="themeField">
+                    <label>Page background</label>
+                    <input id="themeBg" type="color" value="#05060a">
+                </div>
+                <div class="themeField">
+                    <label>Background top</label>
+                    <input id="themeBg2" type="color" value="#090b13">
+                </div>
+                <div class="themeField full">
+                    <label>Panel opacity</label>
+                    <input id="themePanelOpacity" type="range" min="0.3" max="1" step="0.01" value="0.9">
+                </div>
+            </div>
+        </div>
+
+        <div class="themeSection">
+            <h3>Shape & spacing</h3>
+            <div class="themeGrid">
+                <div class="themeField">
+                    <label>Card radius</label>
+                    <input id="themeRadius" type="range" min="8" max="40" step="1" value="18">
+                </div>
+                <div class="themeField">
+                    <label>Glass blur</label>
+                    <input id="themeBlur" type="range" min="0" max="40" step="1" value="12">
+                </div>
+                <div class="themeField">
+                    <label>Sidebar width</label>
+                    <input id="themeSidebar" type="range" min="210" max="360" step="1" value="258">
+                </div>
+                <div class="themeField">
+                    <label>UI density</label>
+                    <select id="themeDensity">
+                        <option value="0.85">Compact</option>
+                        <option value="1" selected>Normal</option>
+                        <option value="1.12">Spacious</option>
+                        <option value="1.24">Huge</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="themeSection">
+            <h3>Effects</h3>
+            <div class="themeGrid">
+                <div class="themeCheck">
+                    <span>Glass effects</span>
+                    <input id="themeGlass" type="checkbox" checked>
+                </div>
+                <div class="themeCheck">
+                    <span>Animations</span>
+                    <input id="themeAnimations" type="checkbox" checked>
+                </div>
+                <div class="themeCheck">
+                    <span>Grid background</span>
+                    <input id="themeGrid" type="checkbox" checked>
+                </div>
+                <div class="themeCheck">
+                    <span>Card hover lift</span>
+                    <input id="themeHover" type="checkbox" checked>
+                </div>
+            </div>
+        </div>
+
+        <div class="themeSection">
+            <h3>Custom background</h3>
+            <div class="themeGrid">
+                <div class="themeField full">
+                    <label>Image URL</label>
+                    <input id="themeBgImage" type="text" placeholder="https://.../background.jpg">
+                </div>
+                <div class="themeField full">
+                    <label>Background position / size</label>
+                    <select id="themeBgSize">
+                        <option value="cover">Cover</option>
+                        <option value="contain">Contain</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="themeSection">
+            <h3>Advanced</h3>
+            <div class="themeGrid">
+                <div class="themeField full">
+                    <label>Custom CSS</label>
+                    <textarea id="themeCustomCss" placeholder=".card{...}"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="themePill">Theme key: zyphorDashboardTheme</div>
+
+    </div>
+
+    <div class="themeDrawerFooter">
+        <button class="themeAction primary" type="button" onclick="saveTheme(true)">Save Theme</button>
+        <button class="themeAction" type="button" onclick="resetTheme()">Reset</button>
+        <button class="themeAction" type="button" onclick="exportTheme()">Export JSON</button>
+        <button class="themeAction" type="button" onclick="document.getElementById('themeImportInput').click()">Import JSON</button>
+        <input id="themeImportInput" type="file" accept="application/json,.json" style="display:none" onchange="importTheme(event)">
+    </div>
+</aside>
+
+<div id="adminCenter" style="display:none">
+<div class="admin-wrap">
+<div class="admin-wrap">
+<div class="admin-topbar">
+<div class="admin-brand"><img src="https://zyphor.cc/Logo1.png"><div><h1>Zyphor Admin Center</h1><p id="admin-adminIdentity">Loading administrator session...</p></div></div>
+<div class="admin-actions"><button class="admin-btn cyan" onclick="refreshEverything()">Refresh Everything</button><button class="admin-btn" onclick="openDashboardHome()">Dashboard</button><button class="admin-btn red" onclick="logoutAdmin()">Logout</button></div>
+</div>
+<div class="admin-targetbar"><div class="admin-targetInfo"><div class="admin-targetLabel">Current Admin Target</div><div id="admin-selectedUserDisplay" class="admin-targetName admin-noTarget">No user selected</div><div id="admin-selectedUserMeta" class="admin-targetMeta">User-specific actions are waiting for a target.</div></div><div class="admin-targetControls"><div class="admin-targetWrap"><input id="admin-targetInput" class="admin-input admin-targetInput" placeholder="Search username to select"><div id="admin-targetMatches" class="admin-targetMatches"></div></div><button class="admin-btn cyan" onclick="searchAndSelectTarget()">Select User</button><button class="admin-btn" onclick="openUserSelector()">Browse Users</button><button class="admin-btn red" onclick="clearSelectedUser()">Clear</button></div></div>
+<div class="admin-layout">
+<aside class="admin-tabs">
+<button class="admin-tab active" data-tab="admin-overview">Overview</button>
+<button class="admin-tab" data-tab="admin-users">Users</button>
+<button class="admin-tab" data-tab="admin-social">Friends & DMs</button>
+<button class="admin-tab" data-tab="admin-tickets">Tickets</button>
+<button class="admin-tab" data-tab="admin-finance">Finance</button>
+<button class="admin-tab" data-tab="admin-security">Security</button>
+<button class="admin-tab" data-tab="admin-entitlements">Entitlements</button>
+<button class="admin-tab" data-tab="admin-communications">Communications</button>
+<button class="admin-tab" data-tab="admin-changelogs">Changelogs</button>
+<button class="admin-tab" data-tab="admin-bulk">Bulk Tools</button>
+<button class="admin-tab" data-tab="admin-search">Global Search</button>
+<button class="admin-tab" data-tab="admin-analytics">Analytics</button>
+<button class="admin-tab" data-tab="admin-system">System</button>
+<button class="admin-tab" data-tab="admin-power">Power Center</button>
+<button class="admin-tab" data-tab="admin-audit">Audit Log</button>
+</aside>
+<div class="admin-content">
+<section id="admin-overview" class="admin-section active">
+<div class="admin-grid" id="admin-metricGrid"></div>
+<div class="admin-card"><h2>Page Visits</h2><div class="admin-toolbar"><button class="admin-btn" onclick="visitPreset(1)">24h</button><button class="admin-btn" onclick="visitPreset(7)">7d</button><button class="admin-btn" onclick="visitPreset(30)">30d</button><button class="admin-btn" onclick="visitPreset(90)">90d</button><button class="admin-btn" onclick="visitPreset(365)">1y</button><select id="admin-visitBucket" class="admin-select"><option value="day">Day</option><option value="hour">Hour</option></select><input id="admin-visitFrom" type="datetime-local" class="admin-input"><input id="admin-visitTo" type="datetime-local" class="admin-input"><button class="admin-btn cyan" onclick="loadVisits()">Apply</button></div><div class="admin-chartWrap"><canvas id="admin-visitChart" width="1200" height="310"></canvas></div><div id="admin-visitStats" class="admin-muted"></div></div>
+<div class="admin-grid"><div class="admin-card admin-half"><h2>Top Pages</h2><div id="admin-topPages" class="admin-list"></div></div><div class="admin-card admin-half"><h2>Recent Activity</h2><div id="admin-recentActivity" class="admin-list"></div></div></div>
+</section>
+
+<section id="admin-users" class="admin-section">
+<div class="admin-grid">
+<div class="admin-card admin-third"><h2>User Search & Filters</h2><div class="admin-notice">Select a user here to make them the target across Finance, Security, Entitlements, Communications, Social, Tickets, Analytics and System.</div><div class="admin-stack" style="margin-top:10px"><input id="admin-userSearch" class="admin-input" placeholder="Username"><select id="admin-userStatus" class="admin-select"><option value="all">All</option><option value="online">Online</option><option value="banned">Banned</option><option value="disabled">Disabled</option><option value="frozen">Frozen</option><option value="admin">Administrators</option><option value="sub">Subscribed</option></select><button class="admin-btn cyan" onclick="loadUsers()">Search</button></div><div id="admin-userResults" class="admin-list" style="margin-top:10px"></div></div>
+<div class="admin-card" style="grid-column:span 8"><div id="admin-emptyUser" class="admin-notice">Select a user.</div><div id="admin-userPanel" style="display:none"><div class="admin-userHeader"><div><div id="admin-selUserName" class="admin-userName"></div><div id="admin-selUserMeta" class="admin-muted"></div></div><div class="admin-actions"><button class="admin-btn" onclick="refreshUser()">Reload User</button><button class="admin-btn cyan" onclick="exportUser()">Export Snapshot</button><button class="admin-btn red" onclick="act('delete',{},true)">Delete Account</button></div></div><div id="admin-userKpis" class="admin-kpis" style="margin-top:12px"></div>
+<div class="admin-grid" style="margin-top:12px"><div class="admin-card admin-half"><h2>Identity & Links</h2><div id="admin-identityBox" class="admin-pre"></div></div><div class="admin-card admin-half"><h2>Security State</h2><div id="admin-securityBox" class="admin-pre"></div></div>
+<div class="admin-card"><h2>Account Controls</h2><div class="admin-row"><div class="admin-half2"><div class="admin-switch"><span>Disabled</span><button class="admin-btn" onclick="toggle('disabled')">Toggle</button></div></div><div class="admin-half2"><div class="admin-switch"><span>Muted</span><button class="admin-btn" onclick="toggle('muted')">Toggle</button></div></div><div class="admin-half2"><div class="admin-switch"><span>Shadow Ban</span><button class="admin-btn" onclick="toggle('shadowBanned')">Toggle</button></div></div><div class="admin-half2"><div class="admin-switch"><span>Freeze</span><button class="admin-btn" onclick="toggle('frozen')">Toggle</button></div></div><div class="admin-half2"><div class="admin-switch"><span>VIP Flag</span><button class="admin-btn" onclick="toggle('vip')">Toggle</button></div></div><div class="admin-half2"><div class="admin-switch"><span>2FA</span><button class="admin-btn" onclick="toggle('twofa')">Toggle</button></div></div></div></div>
+<div class="admin-card"><h2>Rename & Email</h2><div class="admin-two"><input id="admin-renameInput" class="admin-input" placeholder="New username"><button class="admin-btn cyan" onclick="renameUser()">Apply Username</button><input id="admin-emailInput" class="admin-input" placeholder="Email"><button class="admin-btn cyan" onclick="setEmail()">Set Email</button></div></div>
+<div class="admin-card"><h2>Permissions</h2><div id="admin-permBox" class="admin-featureGrid"></div></div>
+<div class="admin-card"><h2>Moderation</h2><div class="admin-two"><input id="admin-banReason" class="admin-input" placeholder="Ban reason"><select id="admin-banDuration" class="admin-select"><option value="">Permanent</option><option value="3600000">1 hour</option><option value="86400000">1 day</option><option value="604800000">7 days</option><option value="2592000000">30 days</option></select></div><input id="admin-banMessage" class="admin-input" placeholder="Ban screen message" style="width:100%;margin-top:8px"><div class="admin-toolbar" style="margin-top:10px"><button class="admin-btn red" onclick="banSelected()">Ban</button><button class="admin-btn green" onclick="unbanSelected()">Unban</button><button class="admin-btn" onclick="logoutTarget()">Force Logout</button><button class="admin-btn" onclick="rotateSession()">Rotate Session</button><button class="admin-btn purple" onclick="reset2fa()">Reset 2FA</button></div></div>
+<div class="admin-card"><h2>Friends, DMs, Tickets</h2><div class="admin-toolbar"><button class="admin-btn cyan" onclick="loadSocial()">View Friends & DMs</button><button class="admin-btn cyan" onclick="loadTickets()">View Tickets</button></div><div id="admin-quickRelations" class="admin-pre"></div></div>
+<div class="admin-card"><h2>Badges & Quests</h2><div class="admin-toolbar"><input id="admin-badgeName" class="admin-input" placeholder="Badge name"><input id="admin-badgeCurrent" class="admin-input" placeholder="Progress"><button class="admin-btn cyan" onclick="setBadgeFromInputs(true)">Earn</button><button class="admin-btn" onclick="setBadgeFromInputs(false)">Mark Un-Earned</button><input id="admin-questId" class="admin-input" placeholder="Quest ID"><button class="admin-btn purple" onclick="completeQuest()">Complete Quest</button></div><div id="admin-badgeBox" class="admin-list"></div></div>
+</div></div></div>
+</div>
+</section>
+
+<section id="admin-social" class="admin-section">
+<div class="admin-grid"><div class="admin-card admin-third"><h2>Selected User <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-stack"><button class="admin-btn cyan" onclick="loadSocial()">Load Selected User</button><button class="admin-btn" onclick="openUserSelector()">Change Selected User</button><input id="admin-socialUser" class="admin-input" placeholder="Selected username" readonly><input id="admin-dmSearch" class="admin-input" placeholder="Search DM text"><button class="admin-btn" onclick="renderDms()">Filter DMs</button></div><div id="admin-friendsBox" class="admin-list" style="margin-top:10px"></div></div><div class="admin-card" style="grid-column:span 8"><h2>Direct Messages</h2><div id="admin-dmsBox" class="admin-pre">No user selected.</div></div><div class="admin-card"><h2>Force Relationship Actions</h2><div class="admin-three"><input id="admin-friendTarget" class="admin-input" placeholder="Target username"><button class="admin-btn green" onclick="forceFriend()">Force Add Friend</button><button class="admin-btn red" onclick="removeFriend()">Remove Friend</button><input id="admin-requestTarget" class="admin-input" placeholder="Requester/target"><button class="admin-btn cyan" onclick="forceRequest()">Force Friend Request</button><button class="admin-btn" onclick="clearFriendRequests()">Clear Requests</button></div><div class="admin-notice" style="margin-top:10px">DM viewing is read-only and administrator access is audited.</div></div></div>
+</section>
+
+<section id="admin-tickets" class="admin-section">
+<div class="admin-grid"><div class="admin-card admin-third"><h2>Tickets For <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-stack"><input id="admin-ticketUser" class="admin-input" placeholder="Selected username" readonly><button class="admin-btn" onclick="openUserSelector()">Change Selected User</button><input id="admin-ticketQuery" class="admin-input" placeholder="Search message/title"><select id="admin-ticketStatus" class="admin-select"><option value="all">All Statuses</option><option value="open">Open</option><option value="closed">Closed</option></select><button class="admin-btn cyan" onclick="loadTickets()">Load Tickets</button></div><div id="admin-ticketList" class="admin-list" style="margin-top:10px"></div></div><div class="admin-card" style="grid-column:span 8"><h2>Ticket Viewer</h2><div id="admin-ticketViewer" class="admin-pre">Select a ticket.</div></div><div class="admin-card"><h2>Ticket Management</h2><div class="admin-toolbar"><button class="admin-btn green" onclick="ticketAction('reopen')">Reopen</button><button class="admin-btn red" onclick="ticketAction('close')">Close</button><button class="admin-btn" onclick="ticketAction('lock')">Lock</button><button class="admin-btn" onclick="ticketAction('unlock')">Unlock</button><button class="admin-btn purple" onclick="ticketAction('escalate')">Escalate</button><button class="admin-btn" onclick="ticketAction('archive')">Archive</button><button class="admin-btn red" onclick="ticketAction('delete',true)">Delete Ticket</button></div><div class="admin-two"><input id="admin-ticketAssign" class="admin-input" placeholder="Assign to username"><button class="admin-btn cyan" onclick="ticketAction('assign')">Assign</button><input id="admin-ticketTag" class="admin-input" placeholder="Tag"><button class="admin-btn cyan" onclick="ticketAction('tag')">Add Tag</button></div></div></div>
+</section>
+
+<section id="admin-finance" class="admin-section"><div class="admin-grid"><div class="admin-card admin-half"><h2>Balance Controls <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-two"><input id="admin-moneyAmount" class="admin-input" type="number" step="0.01" placeholder="Amount"><input id="admin-moneyReason" class="admin-input" placeholder="Reason"></div><div class="admin-toolbar" style="margin-top:10px"><button class="admin-btn green" onclick="money('credit')">Credit</button><button class="admin-btn red" onclick="money('debit')">Debit</button><button class="admin-btn cyan" onclick="money('set_balance')">Set Exact Balance</button><label class="admin-switch"><span>Silent transaction</span><input id="admin-moneySilent" type="checkbox"></label></div></div><div class="admin-card admin-half"><h2>Subscriptions & Codes <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-two"><select id="admin-subPlan" class="admin-select"><option value="infinity">Zyphor Infinity</option><option value="endless">Zyphor Endless</option><option value="ascended">Zyphor Ascended</option></select><input id="admin-subDuration" class="admin-input" type="number" placeholder="Duration"></div><div class="admin-two" style="margin-top:8px"><select id="admin-subUnit" class="admin-select"><option value="days">Days</option><option value="hours">Hours</option><option value="minutes">Minutes</option></select><label class="admin-switch"><span>Lifetime</span><input id="admin-subLifetime" type="checkbox"></label></div><div class="admin-toolbar" style="margin-top:10px"><button class="admin-btn cyan" onclick="assignSub()">Assign Subscription</button><button class="admin-btn red" onclick="removeSub()">Remove Subscription</button></div></div><div class="admin-card"><h2>Generated Subscription Codes</h2><div class="admin-two"><select id="admin-codePlan" class="admin-select"><option value="infinity">Infinity</option><option value="endless">Endless</option><option value="ascended">Ascended</option></select><input id="admin-codeQuantity" class="admin-input" type="number" min="1" max="100" value="1" placeholder="Quantity"><input id="admin-codeDuration" class="admin-input" type="number" value="30" placeholder="Duration"><select id="admin-codeUnit" class="admin-select"><option value="days">Days</option><option value="hours">Hours</option><option value="minutes">Minutes</option></select></div><div class="admin-toolbar" style="margin-top:10px"><label class="admin-switch"><span>Lifetime</span><input id="admin-codeLifetime" type="checkbox"></label><button class="admin-btn purple" onclick="generateCodes()">Generate Codes</button><button class="admin-btn" onclick="loadCodes()">Refresh Codes</button></div><div id="admin-codesBox" class="admin-list"></div></div></div></section>
+
+<section id="admin-security" class="admin-section"><div class="admin-grid"><div class="admin-card admin-half"><h2>Account Security <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-featureGrid"><div class="admin-feature"><b>Password Reset</b><span>Generate secure reset link instead of exposing a password.</span><button class="admin-btn cyan" onclick="generateReset()">Generate</button></div><div class="admin-feature"><b>Revoke Resets</b><span>Invalidate active reset links.</span><button class="admin-btn red" onclick="revokeAllResets()">Revoke All</button></div><div class="admin-feature"><b>Rotate Session</b><span>Invalidate the current session token.</span><button class="admin-btn" onclick="rotateSession()">Rotate</button></div><div class="admin-feature"><b>Force Logout</b><span>Sign the user out immediately.</span><button class="admin-btn red" onclick="logoutTarget()">Logout</button></div><div class="admin-feature"><b>Reset 2FA</b><span>Require a fresh 2FA setup.</span><button class="admin-btn purple" onclick="reset2fa()">Reset</button></div><div class="admin-feature"><b>Reset Account Code</b><span>Replace the account code.</span><button class="admin-btn" onclick="newAccountCode()">Generate</button></div></div></div><div class="admin-card admin-half"><h2>Protected Security Data</h2><div class="admin-notice">Plaintext passwords, live session tokens, and live 2FA verification codes are intentionally not displayed. Administrative recovery uses reset, rotation, and invalidation controls.</div><div id="admin-resetBox" class="admin-list" style="margin-top:10px"></div></div><div class="admin-card"><h2>Login & Punishment History</h2><div class="admin-two"><div id="admin-loginHistory" class="admin-pre"></div><div id="admin-punishmentHistory" class="admin-pre"></div></div></div></div></section>
+
+<section id="admin-entitlements" class="admin-section"><div class="admin-grid"><div class="admin-card admin-half"><h2>PFP & Subscription <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-toolbar"><button class="admin-btn green" onclick="setPfp(true)">Grant PFP</button><button class="admin-btn red" onclick="setPfp(false)">Revoke PFP</button><button class="admin-btn red" onclick="removePfp()">Delete Current PFP</button></div><div id="admin-subscriptionBox" class="admin-pre"></div></div><div class="admin-card admin-half"><h2>Gifts & Notifications <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-two"><input id="admin-giftAmount" class="admin-input" type="number" step="0.01" placeholder="Zyphium"><input id="admin-giftMessage" class="admin-input" placeholder="Gift message"></div><div class="admin-toolbar" style="margin-top:10px"><button class="admin-btn cyan" onclick="sendGift()">Create Gift</button><button class="admin-btn red" onclick="revokeAllGifts()">Revoke Unclaimed Gifts</button></div><div id="admin-giftBox" class="admin-list"></div></div><div class="admin-card"><h2>Badges</h2><div id="admin-badgesLarge" class="admin-pre"></div></div></div></section>
+
+<section id="admin-communications" class="admin-section"><div class="admin-grid"><div class="admin-card admin-half"><h2>In-App Notification <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-two"><input id="admin-notifTitle" class="admin-input" placeholder="Title"><select id="admin-notifType" class="admin-select"><option value="system">System</option><option value="admin">Admin</option><option value="warning">Warning</option><option value="info">Info</option><option value="gift">Gift</option></select></div><textarea id="admin-notifMessage" class="admin-textarea" rows="5" placeholder="Message" style="width:100%;margin-top:8px"></textarea><div class="admin-toolbar" style="margin-top:8px"><button class="admin-btn cyan" onclick="sendNotification()">Send Notification</button><button class="admin-btn red" onclick="clearNotifications(true)">Clear All</button><button class="admin-btn" onclick="markNotificationsRead()">Mark All Read</button></div></div><div class="admin-card admin-half"><h2>Push Notification <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-two"><input id="admin-pushTitle" class="admin-input" placeholder="Title"><input id="admin-pushMessage" class="admin-input" placeholder="Message"></div><button class="admin-btn purple" style="margin-top:8px" onclick="sendPush()">Send Push to Registered Devices</button></div><div class="admin-card"><h2>Stored Notifications</h2><div id="admin-notificationsBox" class="admin-list"></div></div></div></section>
+
+<section id="admin-changelogs" class="admin-section"><div class="admin-grid"><div class="admin-card admin-third"><h2>Create Changelog</h2><div class="admin-stack"><input id="admin-clVersion" class="admin-input" placeholder="Version"><input id="admin-clTitle" class="admin-input" placeholder="Title"><textarea id="admin-clText" class="admin-textarea" rows="8" placeholder="Changelog text"></textarea><label class="admin-switch"><span>Published</span><input id="admin-clPublished" type="checkbox" checked></label><label class="admin-switch"><span>Pinned</span><input id="admin-clPinned" type="checkbox"></label><button class="admin-btn cyan" onclick="addChangelog()">Create Changelog</button></div></div><div class="admin-card" style="grid-column:span 8"><h2>Changelog Manager</h2><div class="admin-toolbar"><button class="admin-btn" onclick="adminLoadChangelogs()">Refresh</button><button class="admin-btn cyan" onclick="exportChangelogs()">Export</button></div><div id="admin-changelogBox" class="admin-list"></div></div><div class="admin-card"><h2>Selected Changelog Editor</h2><div class="admin-two"><input id="admin-editClVersion" class="admin-input" placeholder="Version"><input id="admin-editClTitle" class="admin-input" placeholder="Title"></div><textarea id="admin-editClText" class="admin-textarea" rows="6" placeholder="Text" style="width:100%;margin-top:8px"></textarea><div class="admin-toolbar" style="margin-top:8px"><button class="admin-btn cyan" onclick="editChangelog()">Save Edits</button><button class="admin-btn green" onclick="toggleChangelog('publish')">Publish</button><button class="admin-btn" onclick="toggleChangelog('unpublish')">Unpublish</button><button class="admin-btn purple" onclick="toggleChangelog('pin')">Pin</button><button class="admin-btn" onclick="toggleChangelog('unpin')">Unpin</button><button class="admin-btn red" onclick="deleteChangelog(true)">Delete</button><button class="admin-btn" onclick="duplicateChangelog()">Duplicate</button></div></div></div></section>
+
+<section id="admin-bulk" class="admin-section"><div class="admin-grid"><div class="admin-card admin-third"><h2>Bulk User Selection</h2><div class="admin-stack"><input id="admin-bulkQuery" class="admin-input" placeholder="Search users"><select id="admin-bulkStatus" class="admin-select"><option value="all">All</option><option value="online">Online</option><option value="banned">Banned</option><option value="disabled">Disabled</option><option value="frozen">Frozen</option><option value="sub">Subscribed</option></select><button class="admin-btn cyan" onclick="loadBulkUsers()">Load</button><button class="admin-btn" onclick="selectAllBulk()">Select All Visible</button><button class="admin-btn" onclick="clearBulkSelection()">Clear Selection</button></div><div id="admin-bulkUsers" class="admin-list" style="margin-top:10px"></div></div><div class="admin-card" style="grid-column:span 8"><h2>Bulk Actions</h2><div class="admin-featureGrid"><button class="admin-btn red" onclick="bulkAction('ban')">Ban Selected</button><button class="admin-btn green" onclick="bulkAction('unban')">Unban Selected</button><button class="admin-btn" onclick="bulkAction('logout')">Force Logout</button><button class="admin-btn" onclick="bulkAction('freeze')">Freeze</button><button class="admin-btn" onclick="bulkAction('unfreeze')">Unfreeze</button><button class="admin-btn purple" onclick="bulkAction('reset_2fa')">Reset 2FA</button><button class="admin-btn cyan" onclick="bulkAction('clear_notifications')">Clear Notifications</button><button class="admin-btn" onclick="bulkAction('mark_notifications_read')">Mark Read</button><button class="admin-btn" onclick="bulkAction('grant_vip')">Grant VIP</button><button class="admin-btn" onclick="bulkAction('revoke_vip')">Revoke VIP</button><button class="admin-btn" onclick="bulkAction('grant_pfp')">Grant PFP</button><button class="admin-btn" onclick="bulkAction('revoke_pfp')">Revoke PFP</button><button class="admin-btn" onclick="bulkAction('remove_subscription')">Remove Subscription</button><button class="admin-btn" onclick="bulkAction('no_tx_log')">Disable Tx Logging</button><button class="admin-btn" onclick="bulkAction('tx_log')">Enable Tx Logging</button></div><div id="admin-bulkResult" class="admin-pre" style="margin-top:12px"></div></div></div></section>
+
+<section id="admin-search" class="admin-section"><div class="admin-grid"><div class="admin-card admin-third"><h2>Global Search</h2><div class="admin-stack"><input id="admin-globalQuery" class="admin-input" placeholder="Username, ID, email, ticket, DM text, changelog"><button class="admin-btn cyan" onclick="globalSearch()">Search Everything</button></div><div class="admin-notice" style="margin-top:10px">Searches account metadata, tickets, direct-message text, notifications, and changelog content using administrator-only access.</div></div><div class="admin-card" style="grid-column:span 8"><div id="admin-globalResults" class="admin-pre">No results.</div></div></div></section>
+
+<section id="admin-analytics" class="admin-section"><div class="admin-grid"><div class="admin-card admin-half"><h2>User Page History <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-toolbar"><button class="admin-btn cyan" onclick="loadSelectedHistory()">Load Selected User</button><button class="admin-btn" onclick="exportHistory()">Export</button></div><div id="admin-pageHistoryBox" class="admin-pre"></div></div><div class="admin-card admin-half"><h2>Cloud Activity <span class="admin-sectionTarget" data-admin-target>None</span></h2><div class="admin-toolbar"><button class="admin-btn cyan" onclick="loadCloudLogs()">Load Selected User</button></div><div id="admin-cloudLogBox" class="admin-pre"></div></div><div class="admin-card"><h2>Visit Timeframe</h2><div class="admin-toolbar"><button class="admin-btn" onclick="visitPreset(1)">24h</button><button class="admin-btn" onclick="visitPreset(7)">7d</button><button class="admin-btn" onclick="visitPreset(30)">30d</button><button class="admin-btn" onclick="visitPreset(90)">90d</button><button class="admin-btn" onclick="visitPreset(365)">1y</button><input id="admin-analyticsFrom" type="datetime-local" class="admin-input"><input id="admin-analyticsTo" type="datetime-local" class="admin-input"><button class="admin-btn cyan" onclick="applyAnalyticsRange()">Apply Custom Range</button></div><div id="admin-analyticsSummary" class="admin-pre"></div></div></div></section>
+
+<section id="admin-system" class="admin-section"><div class="admin-grid"><div class="admin-card admin-half"><h2>System Metrics</h2><div id="admin-systemMetrics" class="admin-pre"></div></div><div class="admin-card admin-half"><h2>Admin Notes <span class="admin-sectionTarget" data-admin-target>None</span></h2><textarea id="admin-noteText" class="admin-textarea" rows="5" placeholder="Private admin note for selected user" style="width:100%"></textarea><button class="admin-btn cyan" style="margin-top:8px" onclick="addNote()">Add Note</button><div id="admin-notesBox" class="admin-list" style="margin-top:10px"></div></div><div class="admin-card"><h2>Account Storage Inventory <span class="admin-sectionTarget" data-admin-target>None</span></h2><div id="admin-storageBox" class="admin-pre"></div></div></div></section>
+
+<section id="admin-power" class="admin-section">
+<div class="admin-card">
+<h2>Admin Power Center</h2>
+<div class="admin-muted" style="margin-bottom:12px">100+ administrative operations, global announcements, system switches, user controls and recovery tools.</div>
+<div class="admin-power-toolbar"><input id="admin-powerSearch" class="admin-input" placeholder="Filter 100+ admin features" oninput="filterPowerFeatures()"><button class="admin-btn cyan" onclick="renderPowerFeatures()">Reset Feature Filter</button><button class="admin-btn" onclick="loadPowerMessages()">Refresh Global Messages</button></div>
+<div id="admin-powerGrid" class="admin-power-grid"></div>
+</div>
+<div class="admin-card">
+<h2>Global Website Messages</h2>
+<div class="admin-muted" style="margin-bottom:12px">Messages appear globally on the website and can be scheduled with a start and end time.</div>
+<div class="admin-two"><input id="admin-globalTitle" class="admin-input" placeholder="Title"><select id="admin-globalType" class="admin-select"><option value="info">Info</option><option value="success">Success</option><option value="warning">Warning</option><option value="danger">Danger</option></select></div>
+<textarea id="admin-globalMessage" class="admin-textarea" rows="4" style="width:100%;margin-top:8px" placeholder="Global message"></textarea>
+<div class="admin-three" style="margin-top:8px"><input id="admin-globalStart" class="admin-input" type="datetime-local"><input id="admin-globalEnd" class="admin-input" type="datetime-local"><button class="admin-btn green" onclick="createGlobalMessage()">Publish Message</button></div>
+<div class="admin-toolbar" style="margin-top:10px"><button class="admin-btn" onclick="expireAllGlobalMessages()">Expire All</button><button class="admin-btn red" onclick="clearAllGlobalMessages()">Delete All</button></div>
+<div id="admin-globalMessagesList" class="admin-global-list admin-list" style="margin-top:10px"></div>
+</div>
+</section>
+
+<section id="admin-audit" class="admin-section"><div class="admin-grid"><div class="admin-card"><h2>Administrator Audit Log</h2><div class="admin-toolbar"><button class="admin-btn" onclick="loadAudit()">Refresh</button><button class="admin-btn red" onclick="clearAudit(true)">Clear Audit Log</button></div><div id="admin-auditBox" class="admin-list"></div></div></div></section>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<div id="supportPopup" class="supportPopup">
+
+    <div class="supportCard">
+
+        <div class="supportHeader">
+            <div>
+                <h2>Support</h2>
+                <p>Select how you'd like to contact the Zyphor team.</p>
+            </div>
+
+            <div class="zy-emoji cyan">?</div>
+        </div>
+
+        <div class="supportButtons">
+
+            <button onclick="location.href='Support.html'">
+                🌐&nbsp;&nbsp; Website Tickets
+            </button>
+
+            <button onclick="emailSupport()">
+                ✉️&nbsp;&nbsp; Email Support
+            </button>
+
+        </div>
+
+        <button class="closeSupport" onclick="closeSupport()">
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+<div id="zyphorModalOverlay" class="zyphorModalOverlay" aria-hidden="true">
+    <div class="zyphorModal" role="dialog" aria-modal="true" aria-labelledby="zyphorModalTitle">
+        <div class="zyphorModalGlow"></div>
+        <div class="zyphorModalHeader">
+            <div id="zyphorModalIcon" class="zyphorModalIcon">✦</div>
+            <div class="zyphorModalTitle">
+                <h2 id="zyphorModalTitle">Zyphor</h2>
+                <p id="zyphorModalSubtitle">Zyphor administrative action</p>
+            </div>
+            <button class="zyphorModalClose" type="button" onclick="closeZyphorModal()">×</button>
+        </div>
+        <div id="zyphorModalBody" class="zyphorModalBody"></div>
+    </div>
+</div>
+
+<div class="commandOverlay" id="commandOverlay" aria-hidden="true">
+    <section class="commandPanel" role="dialog" aria-modal="true" aria-labelledby="commandTitle" aria-describedby="commandDescription">
+        <div class="commandHeader">
+            <div class="commandHeaderIcon" aria-hidden="true">⌕</div>
+            <div class="commandHeaderText">
+                <h2 id="commandTitle">Jump to anything</h2>
+                <p id="commandDescription">Search pages, account tools and dashboard actions.</p>
+            </div>
+            <button class="commandClose" type="button" id="commandClose" aria-label="Close command palette">×</button>
+        </div>
+        <label class="commandSearchWrap" for="commandSearch">
+            <span class="commandSearchIcon" aria-hidden="true">⌕</span>
+            <input id="commandSearch" type="search" placeholder="Search dashboard features…" autocomplete="off" spellcheck="false">
+            <kbd>ESC</kbd>
+        </label>
+        <div class="commandSectionLabel" id="commandSectionLabel">Available actions</div>
+        <div class="commandResults" id="commandResults" role="listbox" aria-label="Dashboard commands"></div>
+        <div class="commandFooter"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span><span><kbd>Ctrl K</kbd> Search anywhere</span></div>
+    </section>
+</div>
+<div class="dashboardUxToast" id="dashboardUxToast" role="status" aria-live="polite"></div>
+
+<script src="dashboardscript.js"></script>
+</body>
+</html>
+
